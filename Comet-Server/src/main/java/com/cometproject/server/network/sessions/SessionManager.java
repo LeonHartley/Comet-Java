@@ -156,7 +156,7 @@ public final class SessionManager implements ISessionManager {
     public void parseCommand(String[] message, ChannelHandlerContext ctx) {
         String password = message[0];
 
-        if (password.equals("cometServer9900")) {
+        if (password.equals("i3r9oaeksds980u298u9q2u4e92u489ua9ew8ur9aj23948hq39h2983h")) {
             String command = message[1];
 
             switch (command) {

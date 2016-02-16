@@ -2,9 +2,9 @@ package com.cometproject.server.network.clients;
 
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.outgoing.misc.PingMessageComposer;
-import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.network.sessions.SessionManager;
+import com.cometproject.server.protocol.messages.MessageEvent;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -14,15 +14,12 @@ import io.netty.handler.timeout.IdleStateEvent;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @ChannelHandler.Sharable
 public class ClientHandler extends SimpleChannelInboundHandler<MessageEvent> {
     private static Logger log = Logger.getLogger(ClientHandler.class.getName());
 
     private static ClientHandler clientHandlerInstance;
-
-    private AtomicInteger activeConnections = new AtomicInteger(0);
 
     public static ClientHandler getInstance() {
         if (clientHandlerInstance == null)
@@ -33,8 +30,6 @@ public class ClientHandler extends SimpleChannelInboundHandler<MessageEvent> {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        this.activeConnections.incrementAndGet();
-
         if (!NetworkManager.getInstance().getSessions().add(ctx)) {
             ctx.channel().disconnect();
         }
@@ -42,8 +37,6 @@ public class ClientHandler extends SimpleChannelInboundHandler<MessageEvent> {
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        this.activeConnections.decrementAndGet();
-
         try {
             Session session = ctx.attr(SessionManager.SESSION_ATTR).get();
             session.onDisconnect();
@@ -99,9 +92,5 @@ public class ClientHandler extends SimpleChannelInboundHandler<MessageEvent> {
     @Override
     public void channelReadComplete(ChannelHandlerContext context) {
         context.flush();
-    }
-
-    public AtomicInteger getActiveConnections() {
-        return activeConnections;
     }
 }

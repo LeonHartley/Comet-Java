@@ -5,12 +5,12 @@ import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
 
 
-public class ConfigureWallAndFloorMessageComposer extends MessageComposer {
+public class RoomVisualizationSettingsMessageComposer extends MessageComposer {
     private final boolean hideWall;
     private final int wallThick;
     private final int floorThick;
 
-    public ConfigureWallAndFloorMessageComposer(boolean hideWall, int wallThick, int floorThick) {
+    public RoomVisualizationSettingsMessageComposer(boolean hideWall, int wallThick, int floorThick) {
         this.hideWall = hideWall;
         this.wallThick = wallThick;
         this.floorThick = floorThick;

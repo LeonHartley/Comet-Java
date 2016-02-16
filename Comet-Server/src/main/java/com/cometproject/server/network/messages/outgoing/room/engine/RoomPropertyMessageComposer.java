@@ -5,11 +5,11 @@ import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
 
 
-public class PapersMessageComposer extends MessageComposer {
+public class RoomPropertyMessageComposer extends MessageComposer {
     private final String key;
     private final String value;
 
-    public PapersMessageComposer(final String key, final String value) {
+    public RoomPropertyMessageComposer(final String key, final String value) {
         this.key = key;
         this.value = value;
     }

@@ -150,3 +150,10 @@ CREATE TABLE IF NOT EXISTS `server_configuration` (
   `storage_item_queue_enabled` enum('true','false') NOT NULL DEFAULT 'true',
   `storage_player_queue_enabled` enum('true','false') NOT NULL DEFAULT 'true'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+ALTER TABLE `pet_data`
+ ADD COLUMN `saddled` ENUM('true','false') NULL DEFAULT 'false' AFTER `y`,
+ ADD COLUMN `any_rider` ENUM('true','false') NULL DEFAULT 'false' AFTER `saddled`,
+ ADD COLUMN `hair_style` INT NULL DEFAULT '0' AFTER `any_rider`,
+ ADD COLUMN `hair_colour` INT NULL DEFAULT '-1' AFTER `hair_style`,
+ ADD COLUMN `birthday` INT NULL DEFAULT '0' AFTER `hair_colour`;

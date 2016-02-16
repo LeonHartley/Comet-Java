@@ -16,8 +16,8 @@ import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.quests.types.QuestType;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.RoomQueue;
-import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.PlayerEntityAccess;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerPlayerSaysKeyword;
@@ -38,9 +38,15 @@ import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarsMess
 import com.cometproject.server.network.messages.outgoing.room.avatar.IdleStatusMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.LeaveRoomMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.MutedMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.engine.*;
+import com.cometproject.server.network.messages.outgoing.room.engine.HotelViewMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.engine.OpenConnectionMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.engine.RoomForwardMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.engine.RoomPropertyMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.events.RoomPromotionMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.permissions.*;
+import com.cometproject.server.network.messages.outgoing.room.permissions.FloodFilterMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.permissions.YouAreControllerMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.permissions.YouAreOwnerMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.permissions.YouAreSpectatorMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.queue.RoomQueueStatusMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.settings.RoomRatingMessageComposer;
 import com.cometproject.server.network.sessions.Session;
@@ -172,7 +178,6 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
         this.getPlayer().setRoomQueueId(0);
 
         if (isAuthFailed) {
-//            this.getPlayer().setEntity(null);
             return;
         }
 
@@ -193,7 +198,7 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
                 }
             }
 
-            session.send(new PapersMessageComposer(decoration.getKey(), decoration.getValue()));
+            session.send(new RoomPropertyMessageComposer(decoration.getKey(), decoration.getValue()));
         }
 
         int accessLevel = 0;
@@ -214,10 +219,6 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
         if (isSpectating) {
             session.send(new YouAreSpectatorMessageComposer());
             this.updateVisibility(false);
-        } else {
-            if (this.getRoom().getData().getOwnerId() == this.getPlayerId() || this.getPlayer().getPermissions().getRank().roomFullControl()) {
-                session.send(new YouAreOwnerMessageComposer());
-            }
         }
 
         session.send(new RoomRatingMessageComposer(this.getRoom().getData().getScore(), this.canRateRoom()));

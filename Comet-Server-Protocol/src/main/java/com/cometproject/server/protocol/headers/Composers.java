@@ -8,6 +8,15 @@ import java.util.Map;
 
 
 public class Composers {
+    public static final short SongInventoryMessageComposer = 2346;//d
+    public static final short SongIdMessageComposer = 1682;//d
+    public static final short SongDataMessageComposer = 366;//d
+    public static final short PlaylistMessageComposer = 671;//d
+    public static final short PlayMusicMessageComposer = 3796;//d
+    public static final short QuickPollMessageComposer = 3851;
+    public static final short QuickPollResultMessageComposer = 3703;
+    public static final short QuickPollResultsMessageComposer = 2498;
+
 //    public static final short UnknownGroupMessageComposer = 3440; //updated by: wesley66101
 //    public static final short QuestionParserMessageComposer = 3851; //updated by: wesley66101
     public static final short CatalogItemDiscountMessageComposer = 3737; //updated by: wesley66101
@@ -525,7 +534,7 @@ public class Composers {
     public static final short FlatControllerAddedMessageComposer = 1056;//2036
     public static final short ModeratorTicketChatlogMessageComposer = 766;//2246
     public static final short MessengerInitMessageComposer = 391;//3426*/
-    public static final short UpdateStackMapMessageComposer = 3251;
+    public static final short UpdateStackMapMessageComposer = 3973;
 
     private static Map<Short, String> composerPacketNames = new HashMap<>();
 

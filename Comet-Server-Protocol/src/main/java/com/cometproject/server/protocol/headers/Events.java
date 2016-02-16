@@ -8,10 +8,17 @@ import java.util.Map;
 
 
 public class Events {
-    /*public static final short SubmitPollAnswerMessageEvent = 3757;
-    public static final short GetPollMessageEvent = 2580;
-    public static final short StaffPickRoomMessageEvent = 510;
-    public static final short RemoveMyRightsMessageEvent = 879;
+    public static final short SongInventoryMessageEvent = 1594;//d
+    public static final short SongIdMessageEvent = 3796;//d
+    public static final short SongDataMessageEvent = 2524;//d
+    public static final short PlaylistMessageEvent = 555;//d
+    public static final short PlaylistAddMessageEvent = 1684;//d
+    public static final short PlaylistRemoveMessageEvent = 1169;//d
+
+    public static final short StaffPickRoomMessageEvent = 2172;
+    public static final short SubmitPollAnswerMessageEvent = 689;
+    public static final short GetPollMessageEvent = 1442;
+    /*public static final short RemoveMyRightsMessageEvent = 879;
     public static final short GiveHandItemMessageEvent = 3315;//514
     public static final short InitTradeMessageEvent = 3313;//2745
     public static final short ChatMessageEvent = 670;//1109

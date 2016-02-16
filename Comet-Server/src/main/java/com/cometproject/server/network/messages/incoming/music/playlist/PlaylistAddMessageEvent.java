@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.music.playlist;
 
+import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.items.music.SongItem;
 import com.cometproject.server.game.players.components.types.inventory.InventoryItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.SoundMachineFloorItem;
@@ -8,14 +9,14 @@ import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.music.playlist.PlaylistMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.RemoveObjectFromInventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.SongInventoryMessageComposer;
-import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 
 public class PlaylistAddMessageEvent implements Event {
     @Override
     public void handle(Session client, MessageEvent msg) throws Exception {
-        int inventoryItemId = msg.readInt();
+        Long inventoryItemId = ItemManager.getInstance().getItemIdByVirtualId(msg.readInt());
 
         if (client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null) {
             return;
@@ -45,7 +46,7 @@ public class PlaylistAddMessageEvent implements Event {
         client.getPlayer().getInventory().removeFloorItem(inventoryItem.getId());
 
         client.send(new SongInventoryMessageComposer(client.getPlayer().getInventory().getSongs()));
-        client.send(new RemoveObjectFromInventoryMessageComposer(inventoryItemId));
+        client.send(new RemoveObjectFromInventoryMessageComposer(inventoryItem.getVirtualId()));
         client.send(new PlaylistMessageComposer(soundMachineFloorItem.getSongs()));
     }
 }

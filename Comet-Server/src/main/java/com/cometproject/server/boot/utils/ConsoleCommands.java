@@ -8,7 +8,6 @@ import com.cometproject.server.game.moderation.BanManager;
 import com.cometproject.server.game.navigator.NavigatorManager;
 import com.cometproject.server.game.permissions.PermissionsManager;
 import com.cometproject.server.network.NetworkManager;
-import com.cometproject.server.network.clients.ClientHandler;
 import com.cometproject.server.storage.SqlHelper;
 import com.cometproject.server.utilities.CometStats;
 import org.apache.log4j.Logger;
@@ -50,9 +49,8 @@ public class ConsoleCommands {
                                     final CometStats stats = CometStats.get();
 
                                     log.info("This server is powered by Comet (" + Comet.getBuild() + ")");
-                                    log.info("    Active connections: " + ClientHandler.getInstance().getActiveConnections().get());
-                                    log.info("    Users online: " + stats.getPlayers());
-                                    log.info("    Rooms loaded: " + stats.getRooms());
+                                    log.info("    Players online: " + stats.getPlayers());
+                                    log.info("    Active rooms: " + stats.getRooms());
                                     log.info("    Uptime: " + stats.getUptime());
                                     log.info("    Process ID: " + stats.getProcessId());
                                     log.info("    Memory allocated: " + stats.getAllocatedMemory() + "MB");

@@ -12,24 +12,23 @@ import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.group.GroupBadgesMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.*;
-import com.cometproject.server.network.messages.outgoing.room.engine.RoomDataMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomEntryInfoMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.FloorItemsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.WallItemsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.permissions.FloodFilterMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.pets.horse.HorseFigureMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.polls.InitializePollMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.settings.ConfigureWallAndFloorMessageComposer;
-import com.cometproject.server.protocol.messages.MessageEvent;
+import com.cometproject.server.network.messages.outgoing.room.polls.QuickPollMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.polls.QuickPollResultsMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.settings.RoomVisualizationSettingsMessageComposer;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.protocol.messages.MessageEvent;
 
 import java.util.HashMap;
 import java.util.Map;
 
 
 public class AddUserToRoomMessageEvent implements Event {
-    public static AddUserToRoomMessageEvent addUserToRoomMessageEvent = new AddUserToRoomMessageEvent();
-
     public void handle(Session client, MessageEvent msg) {
         PlayerEntity avatar = client.getPlayer().getEntity();
 
@@ -71,9 +70,7 @@ public class AddUserToRoomMessageEvent implements Event {
         }
 
         client.sendQueue(new GroupBadgesMessageComposer(groupsInRoom));
-
         client.sendQueue(new RoomEntryInfoMessageComposer(room.getId(), room.getData().getOwnerId() == client.getPlayer().getId() || client.getPlayer().getPermissions().getRank().roomFullControl()));
-
         client.sendQueue(new AvatarsMessageComposer(room));
 
         if (room.getEntities().getAllEntities().size() > 0)
@@ -92,12 +89,20 @@ public class AddUserToRoomMessageEvent implements Event {
                 client.sendQueue(new HandItemMessageComposer(av.getId(), av.getHandItem()));
             }
 
-            if(av.isIdle()) {
+            if (av.isIdle()) {
                 client.sendQueue(new IdleStatusMessageComposer(av.getId(), true));
+            }
+
+            if (av.getAI() != null) {
+                if (av instanceof PetEntity && ((PetEntity) av).getData().getTypeId() == 15) {
+                    client.send(new HorseFigureMessageComposer(((PetEntity) av)));
+                }
+
+                av.getAI().onPlayerEnter(client.getPlayer().getEntity());
             }
         }
 
-        client.sendQueue(new ConfigureWallAndFloorMessageComposer(room.getData().getHideWalls(), room.getData().getWallThickness(), room.getData().getFloorThickness()));
+        client.sendQueue(new RoomVisualizationSettingsMessageComposer(room.getData().getHideWalls(), room.getData().getWallThickness(), room.getData().getFloorThickness()));
         client.getPlayer().getMessenger().sendStatus(true, true);
 
         client.sendQueue(new FloorItemsMessageComposer(room));
@@ -105,27 +110,23 @@ public class AddUserToRoomMessageEvent implements Event {
 
         WiredTriggerEnterRoom.executeTriggers(client.getPlayer().getEntity());
 
-        if(PollManager.getInstance().roomHasPoll(room.getId())) {
+        if (PollManager.getInstance().roomHasPoll(room.getId())) {
             Poll poll = PollManager.getInstance().getPollByRoomId(room.getId());
 
-            if(!poll.getPlayersAnswered().contains(client.getPlayer().getId())) {
+            if (!poll.getPlayersAnswered().contains(client.getPlayer().getId())) {
                 client.send(new InitializePollMessageComposer(poll.getPollId(), poll.getPollTitle(), poll.getThanksMessage()));
             }
         }
 
-        client.flush();
+        if (room.getQuestion() != null) {
+            client.send(new QuickPollMessageComposer(room.getQuestion()));
 
-        for (RoomEntity entity : room.getEntities().getAllEntities().values()) {
-            if (entity.getAI() != null) {
-                if(entity instanceof PetEntity && ((PetEntity) entity).getData().getTypeId() == 15) {
-                    client.send(new HorseFigureMessageComposer(((PetEntity) entity)));
-                }
-
-                entity.getAI().onPlayerEnter(client.getPlayer().getEntity());
+            if (room.getYesVotes().contains(client.getPlayer().getId()) || room.getNoVotes().contains(client.getPlayer().getId())) {
+                client.send(new QuickPollResultsMessageComposer(room.getYesVotes().size(), room.getNoVotes().size()));
             }
         }
 
-
+        client.flush();
         avatar.markNeedsUpdate();
     }
 }

@@ -11,9 +11,11 @@ import com.cometproject.server.game.rooms.models.types.DynamicRoomModel;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerAtGivenTime;
 import com.cometproject.server.game.rooms.types.components.*;
 import com.cometproject.server.game.rooms.types.mapping.RoomMapping;
-import com.cometproject.server.tasks.CometThreadManager;
+import com.cometproject.server.network.messages.outgoing.room.polls.QuickPollMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.polls.QuickPollResultsMessageComposer;
 import com.cometproject.server.utilities.JsonFactory;
 import com.cometproject.server.utilities.attributes.Attributable;
+import com.google.common.collect.Sets;
 import org.apache.log4j.Logger;
 
 import java.util.HashMap;
@@ -46,6 +48,10 @@ public class Room implements Attributable, IRoom {
 
     private Map<String, Object> attributes;
     private Set<Integer> ratings;
+
+    private String question;
+    private Set<Integer> yesVotes;
+    private Set<Integer> noVotes;
 
     private boolean isDisposed = false;
     private int idleTicks = 0;
@@ -155,6 +161,14 @@ public class Room implements Attributable, IRoom {
             RoomManager.getInstance().removeData(this.getId());
         }
 
+        if (this.yesVotes != null) {
+            this.yesVotes.clear();
+        }
+
+        if (this.noVotes != null) {
+            this.noVotes.clear();
+        }
+
         long timeTaken = System.currentTimeMillis() - currentTime;
 
         if(timeTaken >= 250) {
@@ -173,6 +187,28 @@ public class Room implements Attributable, IRoom {
 
         if (this.mapping != null) {
             this.mapping.tick();
+        }
+    }
+
+    public void startQuestion(String question) {
+        this.question = question;
+        this.yesVotes = Sets.newConcurrentHashSet();
+        this.noVotes = Sets.newConcurrentHashSet();
+
+        this.getEntities().broadcastMessage(new QuickPollMessageComposer(question));
+    }
+
+    public void endQuestion() {
+        this.question = null;
+
+        this.getEntities().broadcastMessage(new QuickPollResultsMessageComposer(this.yesVotes.size(), this.noVotes.size()));
+
+        if (this.yesVotes != null) {
+            this.yesVotes.clear();
+        }
+
+        if (this.noVotes != null) {
+            this.noVotes.clear();
         }
     }
 
@@ -288,5 +324,17 @@ public class Room implements Attributable, IRoom {
 
     public Set<Integer> getRatings() {
         return ratings;
+    }
+
+    public Set<Integer> getNoVotes() {
+        return noVotes;
+    }
+
+    public Set<Integer> getYesVotes() {
+        return yesVotes;
+    }
+
+    public String getQuestion() {
+        return question;
     }
 }

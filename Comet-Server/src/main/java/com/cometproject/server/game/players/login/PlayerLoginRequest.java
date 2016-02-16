@@ -14,6 +14,7 @@ import com.cometproject.server.network.messages.incoming.handshake.SSOTicketMess
 import com.cometproject.server.network.messages.outgoing.handshake.AuthenticationOKMessageComposer;
 import com.cometproject.server.network.messages.outgoing.handshake.HomeRoomMessageComposer;
 import com.cometproject.server.network.messages.outgoing.handshake.UniqueIDMessageComposer;
+import com.cometproject.server.network.messages.outgoing.moderation.CfhTopicsInitMessageComposer;
 import com.cometproject.server.network.messages.outgoing.moderation.ModToolMessageComposer;
 import com.cometproject.server.network.messages.outgoing.navigator.FavouriteRoomsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
@@ -126,6 +127,7 @@ public class PlayerLoginRequest implements CometTask {
 
         if (client.getPlayer().getPermissions().getRank().modTool()) {
             client.sendQueue(new ModToolMessageComposer());
+            client.sendQueue(new CfhTopicsInitMessageComposer());
         }
 
         if (CometSettings.motdEnabled) {

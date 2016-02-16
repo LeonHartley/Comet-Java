@@ -5,10 +5,10 @@ import com.cometproject.server.game.players.components.types.inventory.Inventory
 import com.cometproject.server.game.quests.types.QuestType;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.Event;
-import com.cometproject.server.network.messages.outgoing.room.engine.PapersMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.engine.RoomPropertyMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
-import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import org.apache.log4j.Logger;
 
@@ -60,7 +60,7 @@ public class ApplyDecorationMessageEvent implements Event {
 
             try {
                 room.getData().save();
-                room.getEntities().broadcastMessage(new PapersMessageComposer(type, data));
+                room.getEntities().broadcastMessage(new RoomPropertyMessageComposer(type, data));
             } catch (Exception e) {
                 Logger.getLogger(ApplyDecorationMessageEvent.class.getName()).error("Error while saving room data", e);
             }
