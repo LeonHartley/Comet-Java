@@ -216,6 +216,16 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
 
         boolean isSpectating = this.getPlayer().isSpectating(this.getRoom().getId());
 
+        if (!isSpectating) {
+            if (this.getRoom().getData().getRequiredBadge() != null) {
+                if (!this.getPlayer().getInventory().hasBadge(this.getRoom().getData().getRequiredBadge())) {
+                    isSpectating = true;
+                } else if (this.getPlayer().getInventory().getBadges().get(this.getRoom().getData().getRequiredBadge()) == 0) {
+                    isSpectating = true;
+                }
+            }
+        }
+
         if (isSpectating) {
             session.send(new YouAreSpectatorMessageComposer());
             this.updateVisibility(false);

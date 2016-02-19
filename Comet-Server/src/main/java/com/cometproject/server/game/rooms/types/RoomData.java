@@ -64,6 +64,8 @@ public class RoomData implements IRoomData {
 
     private long lastReferenced = Comet.getTime();
 
+    private String requiredBadge;
+
     public RoomData(ResultSet room) throws SQLException {
         this.id = room.getInt("id");
         this.type = RoomType.valueOf(room.getString("type"));
@@ -119,6 +121,7 @@ public class RoomData implements IRoomData {
 
         this.disabledCommands = Lists.newArrayList(room.getString("disabled_commands").split(","));
         this.groupId = room.getInt("group_id");
+        this.requiredBadge = room.getString("required_badge");
     }
 
     public void save() {
@@ -147,7 +150,7 @@ public class RoomData implements IRoomData {
         RoomDao.updateRoom(id, name, StringUtils.abbreviate(description, 255), ownerId, owner, category, maxUsers, access, password, score,
                 tagString, decorString.equals("") ? "" : decorString.substring(0, decorString.length() - 1),
                 model, hideWalls, thicknessWall, thicknessFloor, allowWalkthrough, allowPets, heightmap, tradeState,
-                muteState, kickState, banState, bubbleMode, bubbleType, bubbleScroll, chatDistance, antiFloodSettings, this.disabledCommands.isEmpty() ? "" : StringUtils.join(this.disabledCommands, ","), this.groupId
+                muteState, kickState, banState, bubbleMode, bubbleType, bubbleScroll, chatDistance, antiFloodSettings, this.disabledCommands.isEmpty() ? "" : StringUtils.join(this.disabledCommands, ","), this.groupId, this.requiredBadge
         );
     }
 
@@ -414,5 +417,9 @@ public class RoomData implements IRoomData {
 
     public void setGroupId(int groupId) {
         this.groupId = groupId;
+    }
+
+    public String getRequiredBadge() {
+        return this.requiredBadge;
     }
 }

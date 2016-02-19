@@ -7,7 +7,7 @@ import com.cometproject.server.protocol.headers.Composers;
 public class YouAreSpectatorMessageComposer extends MessageComposer {
     @Override
     public short getId() {
-        return 0;
+        return Composers.YouAreSpectatorMessageComposer;
     }
 
     @Override

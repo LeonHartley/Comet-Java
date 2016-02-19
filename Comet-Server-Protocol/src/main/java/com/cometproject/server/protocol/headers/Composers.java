@@ -274,12 +274,14 @@ public class Composers {
     public static final short FlatControllerAddedMessageComposer = 1297; //updated by: wesley66101
     public static final short ModeratorTicketChatlogMessageComposer = 2198; //updated by: wesley66101
     public static final short MessengerInitMessageComposer = 805; //updated by: wesley66101
-    
-    public static final short InitializePollMessageComposer = 522;
-    public static final short PollMessageComposer = 1307;
-    public static final short AvatarAspectUpdateMessageComposer = 3632;
+
+    public static final short InitializePollMessageComposer = 2147;
+    public static final short PollMessageComposer = 3834;
+    public static final short AvatarAspectUpdateMessageComposer = 1208;
+    public static final short YouAreSpectatorMessageComposer = 560;
     public static final short UnknownGroupMessageComposer = 1981;
     public static final short QuestionParserMessageComposer = 1719;
+
     /*public static final short CatalogItemDiscountMessageComposer = 3322;//3944
     public static final short HelperToolMessageComposer = 224;//1804
     public static final short RoomErrorNotifMessageComposer = 1864;//2527

@@ -6,6 +6,7 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.data.WiredActionItemData;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.data.WiredItemData;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerPeriodically;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.utilities.JsonFactory;
@@ -126,6 +127,8 @@ public abstract class WiredFloorItem extends RoomItemFloor implements WiredItemS
 
     @Override
     public void onTick() {
+        if (this instanceof WiredTriggerPeriodically) return;
+
         if (this.state && this.hasTicked) {
             this.state = false;
             this.hasTicked = false;

@@ -7,7 +7,6 @@ import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
-import com.cometproject.server.storage.queries.player.PlayerDao;
 
 
 public class PetInformationMessageComposer extends MessageComposer {
@@ -46,7 +45,7 @@ public class PetInformationMessageComposer extends MessageComposer {
             msg.writeInt(this.petEntity.getData().getScratches()); // SCRATCHES
             msg.writeInt(this.petEntity.getData().getOwnerId());
             msg.writeInt(0); // AGE
-            msg.writeString(PlayerManager.getInstance().getAvatarByPlayerId(this.petEntity.getData().getOwnerId(), PlayerAvatar.USERNAME_FIGURE));
+            msg.writeString(PlayerManager.getInstance().getAvatarByPlayerId(this.petEntity.getData().getOwnerId(), PlayerAvatar.USERNAME_FIGURE).getUsername());
             msg.writeInt(0);
             msg.writeBoolean(this.petEntity.getData().isSaddled()); // HAS_SADDLE
             msg.writeBoolean(this.petEntity.hasMount()); // HAS_RIDER

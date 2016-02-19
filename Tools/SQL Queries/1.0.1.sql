@@ -157,3 +157,6 @@ ALTER TABLE `pet_data`
  ADD COLUMN `hair_style` INT NULL DEFAULT '0' AFTER `any_rider`,
  ADD COLUMN `hair_colour` INT NULL DEFAULT '-1' AFTER `hair_style`,
  ADD COLUMN `birthday` INT NULL DEFAULT '0' AFTER `hair_colour`;
+
+ALTER TABLE `rooms`
+	CHANGE COLUMN `required_badge` `required_badge` VARCHAR(50) NULL DEFAULT NULL AFTER `disabled_commands`;
