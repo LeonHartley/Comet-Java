@@ -15,7 +15,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class PlayerDao {
@@ -30,7 +29,7 @@ public class PlayerDao {
             preparedStatement = SqlHelper.prepare("SELECT p.id as playerId, p.username AS playerData_username, p.figure AS playerData_figure, p.motto AS playerData_motto, p.credits AS playerData_credits, p.vip_points AS playerData_vipPoints, p.rank AS playerData_rank, p.last_ip AS playerData_lastIp, p.vip AS playerData_vip, p.gender AS playerData_gender, p.last_online AS playerData_lastOnline, p.reg_timestamp AS playerData_regTimestamp, p.reg_date AS playerData_regDate, p.favourite_group AS playerData_favouriteGroup, p.achievement_points AS playerData_achievementPoints, p.email AS playerData_email, p.activity_points AS playerData_activityPoints, p.quest_id AS playerData_questId, \n" +
                     "  pSettings.volume AS playerSettings_volume, pSettings.home_room AS playerSettings_homeRoom, pSettings.hide_online AS playerSettings_hideOnline, pSettings.hide_inroom AS playerSettings_hideInRoom, pSettings.ignore_invites AS playerSettings_ignoreInvites, \n" +
                     "   pSettings.allow_friend_requests AS playerSettings_allowFriendRequests, pSettings.allow_trade AS playerSettings_allowTrade, pSettings.wardrobe AS playerSettings_wardrobe, pSettings.playlist AS playerSettings_playlist, pSettings.chat_oldstyle AS playerSettings_useOldChat,\n" +
-                    "  pStats.achievement_score AS playerStats_achievementPoints, pStats.daily_respects AS playerStats_dailyRespects, pStats.total_respect_points AS playerStats_totalRespectPoints, pStats.help_tickets AS playerStats_helpTickets, pStats.help_tickets_abusive AS playerStats_helpTicketsAbusive, pStats.cautions AS playerStats_cautions, pStats.bans AS playerStats_bans\n" +
+                    "  pStats.achievement_score AS playerStats_achievementPoints, pStats.daily_respects AS playerStats_dailyRespects, pStats.total_respect_points AS playerStats_totalRespectPoints, pStats.help_tickets AS playerStats_helpTickets, pStats.help_tickets_abusive AS playerStats_helpTicketsAbusive, pStats.cautions AS playerStats_cautions, pStats.bans AS playerStats_bans, pStats.daily_scratches AS playerStats_scratches \n" +
                     "FROM players p\n" +
                     " JOIN player_settings pSettings ON pSettings.player_id = p.id \n" +
                     " JOIN player_stats pStats ON pStats.player_id = p.id\n" +
@@ -450,7 +449,7 @@ public class PlayerDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("UPDATE player_stats SET achievement_score = ?, total_respect_points = ?, daily_respects = ?, help_tickets = ?, help_tickets_abusive = ?, cautions = ?, bans = ? WHERE player_id = ?", sqlConnection);
+            preparedStatement = SqlHelper.prepare("UPDATE player_stats SET achievement_score = ?, total_respect_points = ?, daily_respects = ?, help_tickets = ?, help_tickets_abusive = ?, cautions = ?, bans = ?, daily_scratches = ? WHERE player_id = ?", sqlConnection);
             preparedStatement.setInt(1, playerStatistics.getAchievementPoints());
             preparedStatement.setInt(2, playerStatistics.getRespectPoints());
             preparedStatement.setInt(3, playerStatistics.getDailyRespects());
@@ -458,8 +457,9 @@ public class PlayerDao {
             preparedStatement.setInt(5, playerStatistics.getAbusiveHelpTickets());
             preparedStatement.setInt(6, playerStatistics.getCautions());
             preparedStatement.setInt(7, playerStatistics.getBans());
+            preparedStatement.setInt(8, playerStatistics.getScratches());
 
-            preparedStatement.setInt(8, playerStatistics.getPlayerId());
+            preparedStatement.setInt(9, playerStatistics.getPlayerId());
 
             return preparedStatement.execute();
         } catch (SQLException e) {
@@ -707,6 +707,23 @@ public class PlayerDao {
 
             preparedStatement.executeBatch();
             sqlConnection.commit();
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+    }
+
+    public static void dailyPlayerUpdate() {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("UPDATE player_stats SET daily_respects = 3, daily_scratches = 3, last_daily_update = UNIX_TIMESTAMP() WHERE last_daily_update < (UNIX_TIMESTAMP() - 86400);", sqlConnection);
+            preparedStatement.execute();
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);
         } finally {

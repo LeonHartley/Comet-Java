@@ -71,7 +71,7 @@ public class WiredActionChase extends WiredActionItem {
                 }
 
                 this.targetId = nearestEntity.getId();
-                List<Square> tilesToEntity = ItemPathfinder.getInstance().makePath(floorItem, nearestEntity.getPosition(), Pathfinder.DISABLE_DIAGONAL);
+                List<Square> tilesToEntity = ItemPathfinder.getInstance().makePath(floorItem, nearestEntity.getPosition(), Pathfinder.DISABLE_DIAGONAL, false);
 
                 if (tilesToEntity != null && tilesToEntity.size() != 0) {
                     Position positionTo = new Position(tilesToEntity.get(0).x, tilesToEntity.get(0).y);

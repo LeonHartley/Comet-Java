@@ -179,20 +179,20 @@ public class RoomMapping {
     public boolean isValidEntityStep(RoomEntity entity, Position currentPosition, Position toPosition, boolean isFinalMove) {
 
         if (entity != null)
-            return isValidStep(entity.getId(), currentPosition, toPosition, isFinalMove, false);
+            return isValidStep(entity.getId(), currentPosition, toPosition, isFinalMove, false, true);
         else
-            return isValidStep(0, currentPosition, toPosition, isFinalMove, true);
+            return isValidStep(0, currentPosition, toPosition, isFinalMove, true, true);
     }
 
     public boolean isValidStep(Position from, Position to, boolean lastStep) {
-        return isValidStep(null, from, to, lastStep, false);
+        return isValidStep(null, from, to, lastStep, false, false);
     }
 
     public boolean isValidStep(Position from, Position to, boolean lastStep, boolean isFloorItem) {
-        return isValidStep(null, from, to, lastStep, isFloorItem);
+        return isValidStep(null, from, to, lastStep, isFloorItem, false);
     }
 
-    public boolean isValidStep(Integer entity, Position from, Position to, boolean lastStep, boolean isFloorItem) {
+    public boolean isValidStep(Integer entity, Position from, Position to, boolean lastStep, boolean isFloorItem, boolean isRetry) {
         if (from.getX() == to.getX() && from.getY() == to.getY()) {
             return true;
         }
@@ -268,6 +268,10 @@ public class RoomMapping {
         final boolean positionHasUser = positionHasUser(entityId, to);
 
         if (positionHasUser) {
+            if (!isRetry) {
+                return false;
+            }
+
             if ((!room.getData().getAllowWalkthrough() || isFloorItem) && !isAtDoor) {
                 return false;
 
@@ -289,10 +293,8 @@ public class RoomMapping {
         final double fromHeight = this.getStepHeight(from);
         final double toHeight = this.getStepHeight(to);
 
-        if (fromHeight < toHeight && (toHeight - fromHeight) > 1.1)
-            return false;
+        return !(fromHeight < toHeight && (toHeight - fromHeight) > 1.1);
 
-        return true;
     }
 
     public double getStepHeight(Position position) {

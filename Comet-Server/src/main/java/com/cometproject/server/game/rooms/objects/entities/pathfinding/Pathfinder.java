@@ -16,13 +16,13 @@ public abstract class Pathfinder {
     public static final byte ALLOW_DIAGONAL = 1;
 
     public List<Square> makePath(RoomObject roomFloorObject, Position end) {
-        return this.makePath(roomFloorObject, end, ALLOW_DIAGONAL);
+        return this.makePath(roomFloorObject, end, ALLOW_DIAGONAL, false);
     }
 
-    public List<Square> makePath(RoomObject roomFloorObject, Position end, byte pathfinderMode) {
+    public List<Square> makePath(RoomObject roomFloorObject, Position end, byte pathfinderMode, boolean isRetry) {
         List<Square> squares = new CopyOnWriteArrayList<>();
 
-        PathfinderNode nodes = makePathReversed(roomFloorObject, end, pathfinderMode);
+        PathfinderNode nodes = makePathReversed(roomFloorObject, end, pathfinderMode, isRetry);
 
         if (nodes != null) {
             while (nodes.getNextNode() != null) {
@@ -34,7 +34,7 @@ public abstract class Pathfinder {
         return Lists.reverse(squares);
     }
 
-    private PathfinderNode makePathReversed(RoomObject roomFloorObject, Position end, byte pathfinderMode) {
+    private PathfinderNode makePathReversed(RoomObject roomFloorObject, Position end, byte pathfinderMode, boolean isRetry) {
         MinMaxPriorityQueue<PathfinderNode> openList = MinMaxPriorityQueue.maximumSize(256).create();
 
         PathfinderNode[][] map = new PathfinderNode[roomFloorObject.getRoom().getMapping().getModel().getSizeX()][roomFloorObject.getRoom().getMapping().getModel().getSizeY()];
@@ -60,7 +60,7 @@ public abstract class Pathfinder {
                 tmp = current.getPosition().add((pathfinderMode == ALLOW_DIAGONAL ? diagonalMovePoints() : movePoints())[i]);
                 final boolean isFinalMove = (tmp.getX() == end.getX() && tmp.getY() == end.getY());
 
-                if (this.isValidStep(roomFloorObject, new Position(current.getPosition().getX(), current.getPosition().getY(), current.getPosition().getZ()), tmp, isFinalMove)) {
+                if (this.isValidStep(roomFloorObject, new Position(current.getPosition().getX(), current.getPosition().getY(), current.getPosition().getZ()), tmp, isFinalMove, isRetry)) {
                     try {
                         if (map[tmp.getX()][tmp.getY()] == null) {
                             node = new PathfinderNode(tmp);
@@ -107,9 +107,9 @@ public abstract class Pathfinder {
         return null;
     }
 
-    public boolean isValidStep(RoomObject roomObject, Position from, Position to, boolean lastStep) {
+    public boolean isValidStep(RoomObject roomObject, Position from, Position to, boolean lastStep, boolean isRetry) {
         return (roomObject.getRoom().getMapping().isValidStep(roomObject instanceof RoomEntity ? ((RoomEntity) roomObject).getId() : 0,
-                from, to, lastStep, roomObject instanceof RoomItemFloor) ||
+                from, to, lastStep, roomObject instanceof RoomItemFloor, isRetry) ||
                 (roomObject instanceof RoomEntity && ((RoomEntity) roomObject).isOverriden()));
     }
 

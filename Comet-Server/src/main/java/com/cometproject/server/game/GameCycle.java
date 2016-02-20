@@ -7,6 +7,7 @@ import com.cometproject.server.game.achievements.types.AchievementType;
 import com.cometproject.server.game.moderation.BanManager;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.network.NetworkManager;
+import com.cometproject.server.network.messages.outgoing.user.details.UserObjectMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.system.StatisticsDao;
 import com.cometproject.server.tasks.CometTask;
@@ -14,17 +15,18 @@ import com.cometproject.server.tasks.CometThreadManager;
 import com.cometproject.server.utilities.Initializable;
 import org.apache.log4j.Logger;
 
+import java.util.Calendar;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 
-public class GameThread implements CometTask, Initializable {
+public class GameCycle implements CometTask, Initializable {
     private static final int interval = 1;
     private static final int PLAYER_REWARD_INTERVAL = 15; // minutes
 
-    private static GameThread gameThreadInstance;
+    private static GameCycle gameThreadInstance;
 
-    private static Logger log = Logger.getLogger(GameThread.class.getName());
+    private static Logger log = Logger.getLogger(GameCycle.class.getName());
 
     private ScheduledFuture gameFuture;
 
@@ -33,7 +35,7 @@ public class GameThread implements CometTask, Initializable {
     private int currentOnlineRecord = 0;
     private int onlineRecord = 0;
 
-    public GameThread() {
+    public GameCycle() {
 
     }
 
@@ -45,9 +47,9 @@ public class GameThread implements CometTask, Initializable {
         this.onlineRecord = StatisticsDao.getPlayerRecord();
     }
 
-    public static GameThread getInstance() {
+    public static GameCycle getInstance() {
         if (gameThreadInstance == null)
-            gameThreadInstance = new GameThread();
+            gameThreadInstance = new GameCycle();
 
         return gameThreadInstance;
     }
@@ -58,6 +60,7 @@ public class GameThread implements CometTask, Initializable {
             if (!this.active) {
                 return;
             }
+
 
             BanManager.getInstance().tick();
 
@@ -79,17 +82,37 @@ public class GameThread implements CometTask, Initializable {
                 StatisticsDao.saveStatistics(usersOnline, RoomManager.getInstance().getRoomInstances().size(), Comet.getBuild());
             else
                 StatisticsDao.saveStatistics(usersOnline, RoomManager.getInstance().getRoomInstances().size(), Comet.getBuild(), this.onlineRecord);
+
+
         } catch (Exception e) {
             log.error("Error during game thread", e);
         }
     }
 
     private void processSession() throws Exception {
+
+        final Calendar calendar = Calendar.getInstance();
+
+        final int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        final int minute = calendar.get(Calendar.MINUTE);
+
+        final boolean updateDaily = hour == 0 && minute == 0;
+
         if (CometSettings.onlineRewardEnabled) {
             for (ISession client : NetworkManager.getInstance().getSessions().getSessions().values()) {
                 try {
                     if (!(client instanceof Session) || client.getPlayer() == null || client.getPlayer().getData() == null) {
                         continue;
+                    }
+
+                    if (updateDaily) {
+                        //  TODO: put this in config.
+                        client.getPlayer().getStats().setDailyRespects(3);
+                        client.getPlayer().getStats().setScratches(3);
+
+                        client.getPlayer().getStats().save();
+
+                        client.send(new UserObjectMessageComposer(((Session) client).getPlayer()));
                     }
 
                     ((Session) client).getPlayer().getAchievements().progressAchievement(AchievementType.ONLINE_TIME, 1);

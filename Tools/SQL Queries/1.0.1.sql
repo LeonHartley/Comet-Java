@@ -160,3 +160,7 @@ ALTER TABLE `pet_data`
 
 ALTER TABLE `rooms`
 	CHANGE COLUMN `required_badge` `required_badge` VARCHAR(50) NULL DEFAULT NULL AFTER `disabled_commands`;
+
+ALTER TABLE `player_stats`
+	ADD COLUMN `daily_scratches` INT(3) NULL DEFAULT '3' AFTER `daily_respects`,
+	ADD COLUMN `last_daily_update` INT(11) NULL DEFAULT UNIX_TIMESTAMP() AFTER `daily_scratches`,

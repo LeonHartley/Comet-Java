@@ -40,4 +40,10 @@ public interface IPlayerStatistics {
     int getBans();
 
     void setBans(int bans);
+
+    void setDailyRespects(int points);
+
+    void setScratches(int scratches);
+
+    int getScratches();
 }

@@ -3,7 +3,7 @@ package com.cometproject.server.game.commands.user;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
-import com.cometproject.server.game.GameThread;
+import com.cometproject.server.game.GameCycle;
 import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.sessions.Session;
@@ -53,8 +53,8 @@ public class AboutCommand extends ChatCommand {
 
         if (aboutStats) {
             about.append("<br><br><b>Hotel Stats</b><br>");
-            about.append("Online record: " + GameThread.getInstance().getOnlineRecord() + "<br>");
-            about.append("Record since last reboot: " + GameThread.getInstance().getCurrentOnlineRecord() + " ");
+            about.append("Online record: " + GameCycle.getInstance().getOnlineRecord() + "<br>");
+            about.append("Record since last reboot: " + GameCycle.getInstance().getCurrentOnlineRecord() + " ");
         }
 
         client.send(new AdvancedAlertMessageComposer(

@@ -163,13 +163,17 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
         this.setWalkingGoal(x, y);
 
         // Create a walking path
-        List<Square> path = EntityPathfinder.getInstance().makePath(this, new Position(x, y), this.getRoom().hasAttribute("disableDiagonal") ? (byte) 0 : (byte) 1);
+        List<Square> path = EntityPathfinder.getInstance().makePath(this, new Position(x, y), this.getRoom().hasAttribute("disableDiagonal") ? (byte) 0 : (byte) 1, false);
 
         // Check returned path to see if it calculated one
         if (path == null || path.size() == 0) {
-            // Reset the goal and return as no path was found
-            this.setWalkingGoal(this.getPosition().getX(), this.getPosition().getY());
-            return;
+            path = EntityPathfinder.getInstance().makePath(this, new Position(x, y), this.getRoom().hasAttribute("disableDiagonal") ? (byte) 0 : (byte) 1, true);
+
+            if (path == null || path.size() == 0) {
+                // Reset the goal and return as no path was found
+                this.setWalkingGoal(this.getPosition().getX(), this.getPosition().getY());
+                return;
+            }
         }
 
         this.stepsToGoal = path.size();

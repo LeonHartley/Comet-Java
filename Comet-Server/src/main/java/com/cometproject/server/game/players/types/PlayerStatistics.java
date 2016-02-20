@@ -11,8 +11,11 @@ import java.sql.SQLException;
 public class PlayerStatistics implements IPlayerStatistics {
     private int playerId;
     private int achievementPoints;
+
     private int dailyRespects;
     private int respectPoints;
+
+    private int scratches;
 
     private int helpTickets;
     private int abusiveHelpTickets;
@@ -23,12 +26,13 @@ public class PlayerStatistics implements IPlayerStatistics {
         if (isLogin) {
             this.playerId = data.getInt("playerId");
             this.achievementPoints = data.getInt("playerStats_achievementPoints");
-            this.dailyRespects = data.getInt("playerStats_dailyRespects") > 3 ? 3 : data.getInt("playerStats_dailyRespects");
+            this.dailyRespects = data.getInt("playerStats_dailyRespects");
             this.respectPoints = data.getInt("playerStats_totalRespectPoints");
             this.helpTickets = data.getInt("playerStats_helpTickets");
             this.abusiveHelpTickets = data.getInt("playerStats_helpTicketsAbusive");
             this.cautions = data.getInt("playerStats_cautions");
             this.bans = data.getInt("playerStats_bans");
+            this.scratches = data.getInt("playerStats_scratches");
         } else {
             this.playerId = data.getInt("player_id");
             this.achievementPoints = data.getInt("achievement_score");
@@ -38,6 +42,7 @@ public class PlayerStatistics implements IPlayerStatistics {
             this.abusiveHelpTickets = data.getInt("help_tickets_abusive");
             this.cautions = data.getInt("cautions");
             this.bans = data.getInt("bans");
+            this.scratches = data.getInt("daily_scratches");
         }
     }
 
@@ -46,6 +51,7 @@ public class PlayerStatistics implements IPlayerStatistics {
         this.achievementPoints = 0;
         this.respectPoints = 0;
         this.dailyRespects = 3;
+        this.scratches = 3;
         this.helpTickets = 0;
         this.abusiveHelpTickets = 0;
         this.cautions = 0;
@@ -134,5 +140,20 @@ public class PlayerStatistics implements IPlayerStatistics {
 
     public void setBans(int bans) {
         this.bans = bans;
+    }
+
+    @Override
+    public void setDailyRespects(int points) {
+        this.dailyRespects = points;
+    }
+
+    @Override
+    public void setScratches(int scratches) {
+        this.scratches = scratches;
+    }
+
+    @Override
+    public int getScratches() {
+        return scratches;
     }
 }
