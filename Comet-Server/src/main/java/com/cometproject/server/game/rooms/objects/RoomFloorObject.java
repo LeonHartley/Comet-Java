@@ -7,7 +7,7 @@ import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 
 
-public abstract class RoomFloorObject extends RoomObject implements IRoomObject, Positionable {
+public abstract class RoomFloorObject extends RoomObject implements Positionable {
     /**
      * The unique identifier of this object
      */
