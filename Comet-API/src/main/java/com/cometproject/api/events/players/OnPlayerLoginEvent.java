@@ -1,17 +1,13 @@
 package com.cometproject.api.events.players;
 
 import com.cometproject.api.events.Event;
+import com.cometproject.api.events.players.args.OnPlayerLoginEventArgs;
 import com.cometproject.api.game.players.IPlayer;
 
-public class OnPlayerLoginEvent extends Event {
+import java.util.function.Consumer;
 
-    private IPlayer player;
-
-    public OnPlayerLoginEvent(IPlayer player) {
-        this.player = player;
-    }
-
-    public IPlayer getPlayer() {
-        return player;
+public class OnPlayerLoginEvent extends Event<OnPlayerLoginEventArgs> {
+    public OnPlayerLoginEvent(Consumer<OnPlayerLoginEventArgs> eventConsumer) {
+        super(eventConsumer);
     }
 }

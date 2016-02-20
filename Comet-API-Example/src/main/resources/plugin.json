@@ -2,5 +2,12 @@
     "name": "ExamplePlugin",
     "version": "1.0.0",
     "serverVersion": "1.x",
-    "entryPoint": "com.cometproject.example.ExamplePlugin"
+    "entryPoint": "com.cometproject.example.ExamplePlugin",
+
+    "commands": {
+        "!about": {
+            "description": "Displays information about the Comet API Example module",
+            "permission": "!about_command"
+        }
+    }
 }

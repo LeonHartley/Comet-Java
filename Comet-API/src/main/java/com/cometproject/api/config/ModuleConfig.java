@@ -1,9 +1,15 @@
 package com.cometproject.api.config;
 
+import com.cometproject.api.commands.CommandInfo;
+
+import java.util.Map;
+
 public class ModuleConfig {
-    private String name;
-    private String version;
-    private String entryPoint;
+    private final String name;
+    private final String version;
+    private final String entryPoint;
+
+    private Map<String, CommandInfo> commandInfo;
 
     public ModuleConfig(String name, String version, String entryPoint) {
         this.name = name;
@@ -15,23 +21,15 @@ public class ModuleConfig {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getVersion() {
         return version;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
     }
 
     public String getEntryPoint() {
         return entryPoint;
     }
 
-    public void setEntryPoint(String entryPoint) {
-        this.entryPoint = entryPoint;
+    public Map<String, CommandInfo> getCommandInfo() {
+        return commandInfo;
     }
 }

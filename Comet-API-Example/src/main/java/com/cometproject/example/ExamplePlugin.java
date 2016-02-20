@@ -1,34 +1,35 @@
 package com.cometproject.example;
 
 import com.cometproject.api.config.ModuleConfig;
-import com.cometproject.api.events.EventListener;
-import com.cometproject.api.events.modules.OnModuleLoadEvent;
-import com.cometproject.api.events.modules.OnModuleUnloadEvent;
 import com.cometproject.api.events.players.OnPlayerLoginEvent;
+import com.cometproject.api.events.players.args.OnPlayerLoginEventArgs;
+import com.cometproject.api.game.players.IPlayer;
 import com.cometproject.api.modules.CometModule;
+import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.api.server.IGameService;
 
 public class ExamplePlugin extends CometModule {
     public ExamplePlugin(ModuleConfig config, IGameService gameService) {
         super(config, gameService);
+
+        this.registerEvent(new OnPlayerLoginEvent(this::onPlayerLogin));
+
+        // register commands
+        this.registerChatCommand("!about", this::aboutCommand);
     }
 
-    @EventListener(event = OnModuleLoadEvent.class)
-    public void onModuleLoad(OnModuleLoadEvent event) {
-
+    public void aboutCommand(ISession session, String[] args) {
+        session.getPlayer().sendNotif("ExamplePlugin", "This is an example plugin.");
     }
 
-    @EventListener(event = OnModuleUnloadEvent.class)
-    public void onModuleUnload(OnModuleUnloadEvent event) {
+    public void onPlayerLogin(OnPlayerLoginEventArgs eventArgs) {
+        IPlayer player = eventArgs.getPlayer();
 
-    }
+        player.sendNotif("Welcome!", "Hey " + eventArgs.getPlayer().getData().getUsername() + ", you've received your login bonus!");
 
-    @EventListener(event = OnPlayerLoginEvent.class)
-    public void onPlayerLogin(OnPlayerLoginEvent event) {
-        event.getPlayer().getData().increaseCredits(100);
-        event.getPlayer().getData().save();
+        player.getData().increaseCredits(100);
+        player.getData().save();
 
-        event.getPlayer().sendBalance();
-        event.getPlayer().sendNotif("Welcome!", "Hey " + event.getPlayer().getData().getUsername() + ", you've received your login bonus!");
+        player.sendBalance();
     }
 }

@@ -1,6 +1,7 @@
 package com.cometproject.server.game.players.login;
 
 import com.cometproject.api.events.players.OnPlayerLoginEvent;
+import com.cometproject.api.events.players.args.OnPlayerLoginEventArgs;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.achievements.types.AchievementType;
@@ -161,7 +162,7 @@ public class PlayerLoginRequest implements CometTask {
             player.getData().save();
         }
 
-        ModuleManager.getInstance().getEventHandler().handleEvent(new OnPlayerLoginEvent(client.getPlayer()));
+        ModuleManager.getInstance().getEventHandler().handleEvent(OnPlayerLoginEvent.class, new OnPlayerLoginEventArgs(client.getPlayer()));
 
         if (!Comet.isDebugging) {
             PlayerDao.nullifyAuthTicket(player.getData().getId());

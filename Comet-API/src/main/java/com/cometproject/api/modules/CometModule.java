@@ -1,12 +1,15 @@
 package com.cometproject.api.modules;
 
+import com.cometproject.api.commands.CommandInfo;
 import com.cometproject.api.config.ModuleConfig;
+import com.cometproject.api.events.Event;
 import com.cometproject.api.events.EventListenerContainer;
-import com.cometproject.api.events.modules.OnModuleLoadEvent;
-import com.cometproject.api.events.modules.OnModuleUnloadEvent;
+import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.api.server.IGameService;
 
+import java.util.Map;
 import java.util.UUID;
+import java.util.function.BiConsumer;
 
 public abstract class CometModule implements EventListenerContainer {
 
@@ -31,26 +34,46 @@ public abstract class CometModule implements EventListenerContainer {
         this.moduleId = UUID.randomUUID();
         this.gameService = gameService;
         this.config = config;
+    }
 
-        this.gameService.getEventHandler().addListenerContainer(this);
+    /**
+     * Register event with the event handler service
+     *
+     * @param event The event that will be called
+     */
+    protected void registerEvent(Event event) {
+        this.getGameService().getEventHandler().registerEvent(event);
+    }
+
+    /**
+     * Registers a chat command with the event handler service
+     * @param commandExecutor The command name
+     * @param consumer The consumer of the command
+     */
+    protected void registerChatCommand(String commandExecutor, BiConsumer<ISession, String[]> consumer) {
+        this.getGameService().getEventHandler().registerChatCommand(commandExecutor, consumer);
     }
 
     /**
      * Load all the module resources and then fire the "onModuleLoad" event.
      */
     public void loadModule() {
-        this.gameService.getEventHandler().handleEvent(new OnModuleLoadEvent());
+        for(Map.Entry<String, CommandInfo> commandInfoEntries : this.getConfig().getCommandInfo().entrySet()) {
+            System.out.println("Loaded command: " + commandInfoEntries.getKey() + ", " + commandInfoEntries.getValue());
+            this.getGameService().getEventHandler().registerCommandInfo(commandInfoEntries.getKey(), commandInfoEntries.getValue());
+        }
     }
 
     /**
      * Unload all module resources and then fire the "onModuleUnload" event.
      */
     public void unloadModule() {
-        this.gameService.getEventHandler().handleEvent(new OnModuleUnloadEvent());
+
     }
 
     /**
      * The random Module ID
+     *
      * @return The random Module ID
      */
     public UUID getModuleId() {
@@ -59,6 +82,7 @@ public abstract class CometModule implements EventListenerContainer {
 
     /**
      * Get the main game service
+     *
      * @return Main game service
      */
     public IGameService getGameService() {
@@ -67,6 +91,7 @@ public abstract class CometModule implements EventListenerContainer {
 
     /**
      * Get the module configuration
+     *
      * @return Module configuration
      */
     public ModuleConfig getConfig() {
