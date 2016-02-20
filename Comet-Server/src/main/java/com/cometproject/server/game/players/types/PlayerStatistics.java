@@ -36,7 +36,7 @@ public class PlayerStatistics implements IPlayerStatistics {
         } else {
             this.playerId = data.getInt("player_id");
             this.achievementPoints = data.getInt("achievement_score");
-            this.dailyRespects = data.getInt("daily_respects") > 3 ? 3 : data.getInt("daily_respects");
+            this.dailyRespects = data.getInt("daily_respects");
             this.respectPoints = data.getInt("total_respect_points");
             this.helpTickets = data.getInt("help_tickets");
             this.abusiveHelpTickets = data.getInt("help_tickets_abusive");

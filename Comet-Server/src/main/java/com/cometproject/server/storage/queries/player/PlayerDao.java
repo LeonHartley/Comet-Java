@@ -715,14 +715,18 @@ public class PlayerDao {
         }
     }
 
-    public static void dailyPlayerUpdate() {
+    public static void dailyPlayerUpdate(int dailyRespects, int dailyScratches) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
 
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("UPDATE player_stats SET daily_respects = 3, daily_scratches = 3, last_daily_update = UNIX_TIMESTAMP() WHERE last_daily_update < (UNIX_TIMESTAMP() - 86400);", sqlConnection);
+            preparedStatement = SqlHelper.prepare("UPDATE player_stats SET daily_respects = ?, daily_scratches = ?;", sqlConnection);
+
+            preparedStatement.setInt(1, dailyRespects);
+            preparedStatement.setInt(2, dailyScratches);
+
             preparedStatement.execute();
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);

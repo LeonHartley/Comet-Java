@@ -9,6 +9,7 @@ import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.outgoing.user.details.UserObjectMessageComposer;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.storage.queries.system.StatisticsDao;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManager;
@@ -97,8 +98,10 @@ public class GameCycle implements CometTask, Initializable {
         final int minute = calendar.get(Calendar.MINUTE);
 
         final boolean updateDaily = hour == 0 && minute == 0;
+        final int dailyRespects = 3;
+        final int dailyScratches = 3;
 
-        if (CometSettings.onlineRewardEnabled) {
+        if (CometSettings.onlineRewardEnabled || updateDaily) {
             for (ISession client : NetworkManager.getInstance().getSessions().getSessions().values()) {
                 try {
                     if (!(client instanceof Session) || client.getPlayer() == null || client.getPlayer().getData() == null) {
@@ -107,10 +110,8 @@ public class GameCycle implements CometTask, Initializable {
 
                     if (updateDaily) {
                         //  TODO: put this in config.
-                        client.getPlayer().getStats().setDailyRespects(3);
-                        client.getPlayer().getStats().setScratches(3);
-
-                        client.getPlayer().getStats().save();
+                        client.getPlayer().getStats().setDailyRespects(dailyRespects);
+                        client.getPlayer().getStats().setScratches(dailyScratches);
 
                         client.send(new UserObjectMessageComposer(((Session) client).getPlayer()));
                     }
@@ -136,6 +137,10 @@ public class GameCycle implements CometTask, Initializable {
                 } catch (Exception e) {
                     log.error("Error while cycling rewards", e);
                 }
+            }
+
+            if(updateDaily) {
+                PlayerDao.dailyPlayerUpdate(dailyRespects, dailyScratches);
             }
         }
     }
