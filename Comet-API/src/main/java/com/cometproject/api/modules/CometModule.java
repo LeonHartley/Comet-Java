@@ -58,8 +58,7 @@ public abstract class CometModule implements EventListenerContainer {
      * Load all the module resources and then fire the "onModuleLoad" event.
      */
     public void loadModule() {
-        for(Map.Entry<String, CommandInfo> commandInfoEntries : this.getConfig().getCommandInfo().entrySet()) {
-            System.out.println("Loaded command: " + commandInfoEntries.getKey() + ", " + commandInfoEntries.getValue());
+        for(Map.Entry<String, CommandInfo> commandInfoEntries : this.getConfig().getCommands().entrySet()) {
             this.getGameService().getEventHandler().registerCommandInfo(commandInfoEntries.getKey(), commandInfoEntries.getValue());
         }
     }

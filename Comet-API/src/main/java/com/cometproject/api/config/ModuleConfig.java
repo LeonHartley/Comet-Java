@@ -9,12 +9,13 @@ public class ModuleConfig {
     private final String version;
     private final String entryPoint;
 
-    private Map<String, CommandInfo> commandInfo;
+    private final Map<String, CommandInfo> commands;
 
-    public ModuleConfig(String name, String version, String entryPoint) {
+    public ModuleConfig(String name, String version, String entryPoint, Map<String, CommandInfo> commands) {
         this.name = name;
         this.version = version;
         this.entryPoint = entryPoint;
+        this.commands = commands;
     }
 
     public String getName() {
@@ -29,7 +30,7 @@ public class ModuleConfig {
         return entryPoint;
     }
 
-    public Map<String, CommandInfo> getCommandInfo() {
-        return commandInfo;
+    public Map<String, CommandInfo> getCommands() {
+        return commands;
     }
 }

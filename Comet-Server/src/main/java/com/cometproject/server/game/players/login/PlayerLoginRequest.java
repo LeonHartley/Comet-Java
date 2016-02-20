@@ -168,7 +168,6 @@ public class PlayerLoginRequest implements CometTask {
             PlayerDao.nullifyAuthTicket(player.getData().getId());
         }
 
-
         if (SessionManager.isLocked) {
             client.send(new AlertMessageComposer("Hotel's closed, come back later!"));
 

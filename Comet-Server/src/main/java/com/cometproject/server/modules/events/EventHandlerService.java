@@ -34,14 +34,17 @@ public class EventHandlerService implements EventHandler {
         this.commandInfo = Maps.newConcurrentMap();
     }
 
+    @Override
     public void registerCommandInfo(String commandName, CommandInfo info) {
         this.commandInfo.put(commandName, info);
     }
 
+    @Override
     public void registerChatCommand(String commandExecutor, BiConsumer<ISession, String[]> consumer) {
         this.chatCommands.put(commandExecutor, consumer);
     }
 
+    @Override
     public void registerEvent(Event consumer) {
         if (this.listeners.containsKey(consumer.getClass())) {
             this.listeners.get(consumer.getClass()).add(consumer);
@@ -52,6 +55,7 @@ public class EventHandlerService implements EventHandler {
         log.debug(String.format("Registered event listener for %s", consumer.getClass().getSimpleName()));
     }
 
+    @Override
     public <T extends EventArgs> void handleEvent(Class<? extends Event> eventClass, T args) {
         if (this.listeners.containsKey(eventClass)) {
             this.invoke(eventClass, args);
@@ -60,6 +64,10 @@ public class EventHandlerService implements EventHandler {
         } else {
             log.debug(String.format("Unhandled event: %s\n", eventClass.getSimpleName()));
         }
+    }
+
+    public Map<String, CommandInfo> getCommands() {
+        return this.commandInfo;
     }
 
     private <T extends EventArgs> void invoke(Class<? extends Event> eventClass, T args) {

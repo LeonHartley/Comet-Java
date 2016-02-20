@@ -1,8 +1,10 @@
 package com.cometproject.server.game.commands.user;
 
+import com.cometproject.api.commands.CommandInfo;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.game.commands.CommandManager;
+import com.cometproject.server.modules.ModuleManager;
 import com.cometproject.server.network.messages.outgoing.notification.MotdNotificationComposer;
 import com.cometproject.server.network.sessions.Session;
 
@@ -14,19 +16,17 @@ public class CommandsCommand extends ChatCommand {
     public void execute(Session client, String[] params) {
         StringBuilder list = new StringBuilder();
 
+        for (Map.Entry<String, CommandInfo> commandInfoEntry : ModuleManager.getInstance().getEventHandler().getCommands().entrySet()) {
+            if (client.getPlayer().getPermissions().hasCommand(commandInfoEntry.getValue().getPermission())) {
+                list.append(commandInfoEntry.getKey() + " - " + commandInfoEntry.getValue().getDescription() + "\n");
+            }
+        }
+
         for (Map.Entry<String, ChatCommand> command : CommandManager.getInstance().getChatCommands().entrySet()) {
             if (command.getValue().isHidden()) continue;
 
             if (client.getPlayer().getPermissions().hasCommand(command.getValue().getPermission())) {
-//                if(command.getKey().contains(",")) {
-//                    final String[] keys = command.getKey().split(",");
-//
-//                    for(String key : keys) {
-//                        list.append(":" + key + " - " + command.getValue().getDescription() + "\n");
-//                    }
-//                } else {
                 list.append(":" + command.getKey().split(",")[0] + " - " + command.getValue().getDescription() + "\n");
-//                }
             }
         }
 
