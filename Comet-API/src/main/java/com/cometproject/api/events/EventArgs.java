@@ -1,6 +1,15 @@
 package com.cometproject.api.events;
 
-public interface EventArgs {
+public abstract class EventArgs {
 
+    private boolean cancelled = false;
+
+    public void setCancelled(boolean cancelled) {
+        this.cancelled = cancelled;
+    }
+
+    public boolean isCancelled() {
+        return false;
+    }
 
 }

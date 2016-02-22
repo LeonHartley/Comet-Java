@@ -57,14 +57,15 @@ public class EventHandlerService implements EventHandler {
     }
 
     @Override
-    public <T extends EventArgs> void handleEvent(Class<? extends Event> eventClass, T args) {
+    public <T extends EventArgs> boolean handleEvent(Class<? extends Event> eventClass, T args) {
         if (this.listeners.containsKey(eventClass)) {
             this.invoke(eventClass, args);
             log.debug(String.format("Event handled: %s\n", eventClass.getSimpleName()));
-
         } else {
             log.debug(String.format("Unhandled event: %s\n", eventClass.getSimpleName()));
         }
+
+        return args.isCancelled();
     }
 
     @Override

@@ -33,7 +33,7 @@ public class ExamplePlugin extends CometModule {
             session.getPlayer().getInventory().loadItems();
         }
 
-        StringBuilder inventoryStr = new StringBuilder("Inventory items:<br><br>");
+        StringBuilder inventoryStr = new StringBuilder("Inventory items:\n\n");
 
         Map<String, AtomicInteger> inventoryItemsAndQuantity = Maps.newHashMap();
 
@@ -52,10 +52,10 @@ public class ExamplePlugin extends CometModule {
         }
 
         for(Map.Entry<String, AtomicInteger> item : inventoryItemsAndQuantity.entrySet()) {
-            inventoryStr.append(item.getValue().get() + " x " + item.getKey() + "<br>");
+            inventoryStr.append(item.getValue().get() + " x " + item.getKey() + "\n");
         }
 
-        session.getPlayer().sendNotif("Inventory", inventoryStr.toString());
+        session.getPlayer().sendMotd(inventoryStr.toString());
     }
 
     public void onPlayerLogin(OnPlayerLoginEventArgs eventArgs) {
@@ -67,5 +67,7 @@ public class ExamplePlugin extends CometModule {
         player.getData().save();
 
         player.sendBalance();
+
+        eventArgs.setCancelled(true);
     }
 }

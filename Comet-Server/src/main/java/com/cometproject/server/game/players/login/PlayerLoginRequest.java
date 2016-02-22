@@ -162,10 +162,12 @@ public class PlayerLoginRequest implements CometTask {
             player.getData().save();
         }
 
-        ModuleManager.getInstance().getEventHandler().handleEvent(OnPlayerLoginEvent.class, new OnPlayerLoginEventArgs(client.getPlayer()));
-
         if (!Comet.isDebugging) {
             PlayerDao.nullifyAuthTicket(player.getData().getId());
+        }
+
+        if(ModuleManager.getInstance().getEventHandler().handleEvent(OnPlayerLoginEvent.class, new OnPlayerLoginEventArgs(client.getPlayer()))) {
+            client.disconnect();
         }
 
         if (SessionManager.isLocked) {

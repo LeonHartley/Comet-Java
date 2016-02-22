@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.function.BiConsumer;
 
 public interface EventHandler {
-   <T extends EventArgs> void handleEvent(Class<? extends Event> eventClass, T args);
+   <T extends EventArgs> boolean handleEvent(Class<? extends Event> eventClass, T args);
 
    void registerEvent(Event consumer);
 

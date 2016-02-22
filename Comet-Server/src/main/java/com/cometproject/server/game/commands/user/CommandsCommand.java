@@ -26,7 +26,7 @@ public class CommandsCommand extends ChatCommand {
             if (command.getValue().isHidden()) continue;
 
             if (client.getPlayer().getPermissions().hasCommand(command.getValue().getPermission())) {
-                list.append(":" + command.getKey().split(",")[0] + " - " + command.getValue().getDescription() + "\n");
+                list.append(command.getKey().split(",")[0] + " - " + command.getValue().getDescription() + "\n");
             }
         }
 
