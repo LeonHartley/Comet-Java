@@ -1,6 +1,7 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.groups;
 
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
+import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorItemMessageComposer;
@@ -35,5 +36,18 @@ public class GroupGateFloorItem extends GroupFloorItem {
         if (r != null) {
             r.getEntities().broadcastMessage(new UpdateFloorItemMessageComposer(this));
         }
+    }
+
+    @Override
+    public boolean isMovementCancelled(RoomEntity entity) {
+        if(!(entity instanceof PlayerEntity)) {
+            return true;
+        }
+
+        if (!((PlayerEntity) entity).getPlayer().getGroups().contains(this.getGroupId())) {
+            return true;
+        }
+
+        return true;
     }
 }

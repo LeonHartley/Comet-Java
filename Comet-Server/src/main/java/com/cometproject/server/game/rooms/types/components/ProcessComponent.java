@@ -271,7 +271,6 @@ public class ProcessComponent implements CometTask {
             entity.updateAndSetPosition(null);
             entity.setPosition(newPosition);
 
-
             // Step off
             for (RoomItemFloor item : itemsOnOldSq) {
                 if (!itemsOnSq.contains(item)) {
@@ -429,24 +428,12 @@ public class ProcessComponent implements CometTask {
                         }
                     }
 
-                    if (item instanceof GateFloorItem && !((GateFloorItem) item).isOpen()) {
+                    if(item.isMovementCancelled(entity)) {
                         isCancelled = true;
-                    } else if (item instanceof GroupGateFloorItem) {
-                        if (isPlayer) {
-                            if (((PlayerEntity) entity).getPlayer().getGroups().contains(((GroupGateFloorItem) item).getGroupId())) {
-                                item.onEntityPreStepOn(entity);
-                            } else {
-                                isCancelled = true;
-                            }
-                        } else {
-                            isCancelled = true;
-                        }
-                    } else if (item instanceof HorseJumpFloorItem) {
-                        if(entity.getMountedEntity() == null) {
-                            isCancelled = true;
-                        }
-                    } else {
-                        item.onEntityPreStepOn(entity);
+                    }
+
+                    if(!isCancelled) {
+                        item.onEntityStepOn(entity);
                     }
                 }
 

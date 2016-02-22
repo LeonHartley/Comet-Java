@@ -51,8 +51,12 @@ public class GateFloorItem extends RoomItemFloor {
         return true;
     }
 
+    @Override
+    public boolean isMovementCancelled(RoomEntity entity) {
+        return !this.isOpen();
+    }
+
     public boolean isOpen() {
         return !this.getExtraData().equals("0");
     }
-
 }

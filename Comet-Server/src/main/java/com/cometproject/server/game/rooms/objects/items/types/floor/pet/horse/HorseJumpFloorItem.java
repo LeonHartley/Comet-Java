@@ -24,4 +24,13 @@ public class HorseJumpFloorItem extends GenericFloorItem {
             entity.removeStatus(RoomEntityStatus.JUMP);
         }
     }
+
+    @Override
+    public boolean isMovementCancelled(RoomEntity entity) {
+        if(entity.getMountedEntity() == null) {
+            return true;
+        }
+
+        return false;
+    }
 }
