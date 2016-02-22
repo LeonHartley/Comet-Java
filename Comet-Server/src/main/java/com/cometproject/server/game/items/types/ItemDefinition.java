@@ -1,10 +1,12 @@
 package com.cometproject.server.game.items.types;
 
+import com.cometproject.api.game.furniture.types.IFurnitureDefinition;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
-public class ItemDefinition {
+public class ItemDefinition implements IFurnitureDefinition {
     private final int id;
     private final String publicName;
     private final String itemName;

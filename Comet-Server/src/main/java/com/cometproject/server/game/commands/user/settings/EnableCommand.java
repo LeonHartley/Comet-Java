@@ -19,6 +19,10 @@ public class EnableCommand extends ChatCommand {
             return;
         }
 
+        if(client.getPlayer().getEntity().getMountedEntity() != null) {
+            return;
+        }
+
         String disabledCommand = params[0];
 
         if (room.getData().getDisabledCommands().contains(disabledCommand)) {

@@ -17,4 +17,6 @@ public interface EventHandler {
    void registerCommandInfo(String commandName, CommandInfo info);
 
    Map<String, CommandInfo> getCommands();
+
+   boolean handleCommand(ISession session, String commandExectutor, String[] arguments);
 }

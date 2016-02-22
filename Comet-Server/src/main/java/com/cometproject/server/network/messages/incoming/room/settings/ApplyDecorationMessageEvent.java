@@ -1,7 +1,7 @@
 package com.cometproject.server.network.messages.incoming.room.settings;
 
 import com.cometproject.server.game.items.ItemManager;
-import com.cometproject.server.game.players.components.types.inventory.InventoryItem;
+import com.cometproject.api.game.players.data.components.inventory.IInventoryItem;
 import com.cometproject.server.game.quests.types.QuestType;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.Event;
@@ -20,7 +20,7 @@ public class ApplyDecorationMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) {
         long itemId = ItemManager.getInstance().getItemIdByVirtualId(msg.readInt());
 
-        InventoryItem item = client.getPlayer().getInventory().getWallItem(itemId);
+        IInventoryItem item = client.getPlayer().getInventory().getWallItem(itemId);
 
         if (item == null) {
             return;

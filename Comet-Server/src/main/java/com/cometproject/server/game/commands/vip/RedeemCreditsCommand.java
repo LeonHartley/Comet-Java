@@ -2,7 +2,7 @@ package com.cometproject.server.game.commands.vip;
 
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
-import com.cometproject.server.game.players.components.types.inventory.InventoryItem;
+import com.cometproject.api.game.players.data.components.inventory.IInventoryItem;
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
@@ -24,10 +24,10 @@ public class RedeemCreditsCommand extends ChatCommand {
             return;
         }
 
-        for (InventoryItem inventoryItem : client.getPlayer().getInventory().getFloorItems().values()) {
-            if (inventoryItem == null || inventoryItem.getDefinition() == null) continue;
+        for (IInventoryItem IInventoryItem : client.getPlayer().getInventory().getFloorItems().values()) {
+            if (IInventoryItem == null || IInventoryItem.getDefinition() == null) continue;
 
-            String itemName = inventoryItem.getDefinition().getItemName();
+            String itemName = IInventoryItem.getDefinition().getItemName();
 
             if (itemName.startsWith("CF_") || itemName.startsWith("CFC_")) {
                 try {
@@ -37,9 +37,9 @@ public class RedeemCreditsCommand extends ChatCommand {
                         coinsToGive += Integer.parseInt(itemName.split("_")[1]);
                     }
 
-                    itemsToRemove.add(inventoryItem.getId());
+                    itemsToRemove.add(IInventoryItem.getId());
 
-                    RoomItemDao.deleteItem(inventoryItem.getId());
+                    RoomItemDao.deleteItem(IInventoryItem.getId());
                 } catch (Exception ignored) {
 
                 }

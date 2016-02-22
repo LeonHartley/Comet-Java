@@ -37,6 +37,7 @@ import com.cometproject.server.game.commands.vip.*;
 import com.cometproject.server.game.permissions.PermissionsManager;
 import com.cometproject.server.logging.LogManager;
 import com.cometproject.server.logging.entries.CommandLogEntry;
+import com.cometproject.server.modules.ModuleManager;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.utilities.Initializable;
 import com.google.common.collect.Lists;
@@ -206,7 +207,7 @@ public class CommandManager implements Initializable {
 
         String executor = message.split(" ")[0].toLowerCase();
 
-        boolean isCommand = executor.equals(Locale.get("command.commands.name")) || commands.containsKey(executor);
+        boolean isCommand = executor.equals(Locale.get("command.commands.name")) || commands.containsKey(executor.substring(1)) || ModuleManager.getInstance().getEventHandler().getCommands().containsKey(executor);
 
         if (!isCommand) {
             for (String keys : this.commands.keySet()) {
@@ -229,7 +230,7 @@ public class CommandManager implements Initializable {
      * @throws Exception
      */
     public boolean parse(String message, Session client) throws Exception {
-        String executor = message.split(" ")[0].toLowerCase();
+        String executor = message.split(" ")[0].substring(1).toLowerCase();
 
         final ChatCommand chatCommand = this.get(executor);
 

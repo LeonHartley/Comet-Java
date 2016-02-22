@@ -163,4 +163,4 @@ ALTER TABLE `rooms`
 
 ALTER TABLE `player_stats`
 	ADD COLUMN `daily_scratches` INT(3) NULL DEFAULT '3' AFTER `daily_respects`,
-	ADD COLUMN `last_daily_update` INT(11) NULL DEFAULT UNIX_TIMESTAMP() AFTER `daily_scratches`,
+	ADD COLUMN `last_daily_update` INT(11) NULL DEFAULT UNIX_TIMESTAMP() AFTER `daily_scratches`;

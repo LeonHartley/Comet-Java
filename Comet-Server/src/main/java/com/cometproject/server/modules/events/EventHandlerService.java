@@ -9,6 +9,7 @@ import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.server.game.commands.ChatCommand;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import org.apache.hadoop.io.BinaryComparable;
 import org.apache.log4j.Logger;
 
 import java.util.List;
@@ -66,14 +67,44 @@ public class EventHandlerService implements EventHandler {
         }
     }
 
+    @Override
     public Map<String, CommandInfo> getCommands() {
         return this.commandInfo;
     }
 
-    private <T extends EventArgs> void invoke(Class<? extends Event> eventClass, T args) {
-        for (Event method : this.listeners.get(eventClass)) {
+    @Override
+    public boolean handleCommand(ISession session, String commandExectutor, String[] arguments) {
+        if(!this.chatCommands.containsKey(commandExectutor) || !this.commandInfo.containsKey(commandExectutor)) {
+            return false;
+        }
+
+        CommandInfo commandInfo = this.commandInfo.get(commandExectutor);
+
+        if(!session.getPlayer().getPermissions().hasCommand(commandInfo.getPermission())) {
+            return false;
+        }
+
+        BiConsumer<ISession, String[]> chatCommand = this.chatCommands.get(commandExectutor);
+
+        try {
+            chatCommand.accept(session, arguments);
+        } catch(Exception e) {
+            log.warn("Failed to execute module command: " + commandExectutor);
+        }
+
+        return true;
+    }
+
+    private  <T extends EventArgs> void invoke(Class<? extends Event> eventClass, T args) {
+        for (Event event : this.listeners.get(eventClass)) {
             try {
-                method.consume(args);
+                if(event.isAsync()) {
+                    this.asyncEventExecutor.submit(() -> {
+                       event.consume(args);
+                    });
+                } else {
+                    event.consume(args);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }

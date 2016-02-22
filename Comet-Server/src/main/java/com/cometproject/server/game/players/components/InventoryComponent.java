@@ -1,14 +1,15 @@
 package com.cometproject.server.game.players.components;
 
+import com.cometproject.api.game.players.data.components.IInventoryComponent;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.catalog.types.gifts.GiftData;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.items.music.SongItem;
 import com.cometproject.server.game.items.rares.LimitedEditionItem;
+import com.cometproject.api.game.players.data.components.inventory.IInventoryItem;
 import com.cometproject.server.game.players.components.types.inventory.InventoryItem;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.players.types.PlayerComponent;
-import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.network.messages.outgoing.catalog.UnseenItemsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.wired.WiredRewardMessageComposer;
@@ -23,7 +24,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 
-public class InventoryComponent implements PlayerComponent {
+public class InventoryComponent implements PlayerComponent, IInventoryComponent {
     private Player player;
 
     private Map<Long, InventoryItem> floorItems;
@@ -55,15 +56,15 @@ public class InventoryComponent implements PlayerComponent {
         }
 
         try {
-            Map<Long, InventoryItem> inventoryItems = InventoryDao.getInventoryByPlayerId(this.player.getId());
+            Map<Long, IInventoryItem> inventoryItems = InventoryDao.getInventoryByPlayerId(this.player.getId());
 
-            for (Map.Entry<Long, InventoryItem> item : inventoryItems.entrySet()) {
+            for (Map.Entry<Long, IInventoryItem> item : inventoryItems.entrySet()) {
                 if (item.getValue().getDefinition().getType().equals("s")) {
-                    this.getFloorItems().put(item.getKey(), item.getValue());
+                    this.getFloorItems().put(item.getKey(), (InventoryItem) item.getValue());
                 }
 
                 if (item.getValue().getDefinition().getType().equals("i")) {
-                    this.getWallItems().put(item.getKey(), item.getValue());
+                    this.getWallItems().put(item.getKey(), (InventoryItem) item.getValue());
                 }
             }
         } catch (Exception e) {
@@ -167,15 +168,15 @@ public class InventoryComponent implements PlayerComponent {
         return badges;
     }
 
-    public InventoryItem add(long id, int itemId, String extraData, GiftData giftData, LimitedEditionItem limitedEditionItem) {
-        InventoryItem item = new InventoryItem(id, itemId, extraData, giftData, limitedEditionItem);
+    public IInventoryItem add(long id, int itemId, String extraData, GiftData giftData, LimitedEditionItem limitedEditionItem) {
+        IInventoryItem item = new InventoryItem(id, itemId, extraData, giftData, limitedEditionItem);
 
         if (item.getDefinition().getType().equals("s")) {
-            this.getFloorItems().put(id, item);
+            this.getFloorItems().put(id, (InventoryItem) item);
         }
 
         if (item.getDefinition().getType().equals("i")) {
-            this.getWallItems().put(id, item);
+            this.getWallItems().put(id, (InventoryItem) item);
         }
 
         return item;
@@ -197,18 +198,18 @@ public class InventoryComponent implements PlayerComponent {
         add(id, itemId, extraData, null, limitedEditionItem);
     }
 
-    public void addItem(InventoryItem item) {
+    public void addItem(IInventoryItem item) {
         if ((this.floorItems.size() + this.wallItems.size()) >= 5000) {
             this.getPlayer().sendNotif("Notice", Locale.getOrDefault("game.inventory.limitExceeded", "You have over 5,000 items in your inventory. The next time you login, you will only see the first 5000 items."));
         }
 
         if (item.getDefinition().getType().equals("s"))
-            floorItems.put(item.getId(), item);
+            floorItems.put(item.getId(), (InventoryItem) item);
         else if (item.getDefinition().getType().equals("i"))
-            wallItems.put(item.getId(), item);
+            wallItems.put(item.getId(), (InventoryItem) item);
     }
 
-    public void removeItem(InventoryItem item) {
+    public void removeItem(IInventoryItem item) {
         if (item.getDefinition().getType().equals("s"))
             floorItems.remove(item.getId());
         else if (item.getDefinition().getType().equals("i"))
@@ -245,12 +246,12 @@ public class InventoryComponent implements PlayerComponent {
     }
 
     @Deprecated
-    public InventoryItem getWallItem(int id) {
+    public IInventoryItem getWallItem(int id) {
         return getWallItem(ItemManager.getInstance().getItemIdByVirtualId(id));
     }
 
     @Deprecated
-    public InventoryItem getFloorItem(int id) {
+    public IInventoryItem getFloorItem(int id) {
         return getFloorItem(ItemManager.getInstance().getItemIdByVirtualId(id));
     }
 
@@ -272,11 +273,11 @@ public class InventoryComponent implements PlayerComponent {
     }
 
     public void dispose() {
-        for(InventoryItem floorItem : this.floorItems.values()) {
+        for(IInventoryItem floorItem : this.floorItems.values()) {
             ItemManager.getInstance().disposeItemVirtualId(floorItem.getId());
         }
 
-        for(InventoryItem wallItem : this.wallItems.values()) {
+        for(IInventoryItem wallItem : this.wallItems.values()) {
             ItemManager.getInstance().disposeItemVirtualId(wallItem.getId());
         }
 

@@ -3,6 +3,7 @@ package com.cometproject.api.game.players;
 import com.cometproject.api.game.players.data.IPlayerData;
 import com.cometproject.api.game.players.data.IPlayerSettings;
 import com.cometproject.api.game.players.data.IPlayerStatistics;
+import com.cometproject.api.game.players.data.components.IInventoryComponent;
 import com.cometproject.api.game.players.data.components.IPermissionComponent;
 import com.cometproject.api.game.rooms.entities.IPlayerEntity;
 import com.cometproject.api.networking.messages.IMessageComposer;
@@ -51,7 +52,7 @@ public interface IPlayer {
 
 //    MessengerComponent getMessenger();
 //
-//    InventoryComponent getInventory();
+    IInventoryComponent getInventory();
 //
 //    SubscriptionComponent getSubscription();
 //

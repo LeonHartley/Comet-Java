@@ -3,6 +3,7 @@ package com.cometproject.server.network.messages.incoming.user.camera;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.achievements.types.AchievementType;
+import com.cometproject.api.game.players.data.components.inventory.IInventoryItem;
 import com.cometproject.server.game.players.components.types.inventory.InventoryItem;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.catalog.UnseenItemsMessageComposer;
@@ -11,7 +12,6 @@ import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateIn
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.items.ItemDao;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 public class TakePhotoMessageEvent implements Event {
@@ -21,14 +21,14 @@ public class TakePhotoMessageEvent implements Event {
         final String itemExtraData = "{\"t\":" + System.currentTimeMillis() + ",\"u\":\"" + code + "\",\"n\":\"" + client.getPlayer().getData().getUsername() + "\",\"m\":\"\",\"s\":" + client.getPlayer().getId() + ",\"w\":\"" + CometSettings.cameraPhotoUrl.replace("%photoId%", code) + "\"}";
 
         long itemId = ItemDao.createItem(client.getPlayer().getId(), CometSettings.cameraPhotoItemId, itemExtraData);
-        final InventoryItem inventoryItem = new InventoryItem(itemId, CometSettings.cameraPhotoItemId, itemExtraData);
+        final IInventoryItem IInventoryItem = new InventoryItem(itemId, CometSettings.cameraPhotoItemId, itemExtraData);
 
-        client.getPlayer().getInventory().addItem(inventoryItem);
+        client.getPlayer().getInventory().addItem(IInventoryItem);
 
         client.send(new NotificationMessageComposer("generic", Locale.getOrDefault("camera.photoTaken", "You successfully took a photo!")));
         client.send(new UpdateInventoryMessageComposer());
 
-        client.send(new UnseenItemsMessageComposer(Sets.newHashSet(inventoryItem)));
+        client.send(new UnseenItemsMessageComposer(Sets.newHashSet(IInventoryItem)));
 
         client.getPlayer().getAchievements().progressAchievement(AchievementType.CAMERA_PHOTO, 1);
     }

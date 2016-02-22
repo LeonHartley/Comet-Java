@@ -1,7 +1,7 @@
 package com.cometproject.server.network.messages.incoming.room.pets.horse;
 
 import com.cometproject.server.game.items.ItemManager;
-import com.cometproject.server.game.players.components.types.inventory.InventoryItem;
+import com.cometproject.api.game.players.data.components.inventory.IInventoryItem;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.Event;
@@ -11,7 +11,6 @@ import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateIn
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.storage.queries.items.ItemDao;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 public class RemoveHorseSaddleMessageEvent implements Event {
@@ -39,8 +38,8 @@ public class RemoveHorseSaddleMessageEvent implements Event {
 
             long itemId = ItemDao.createItem(client.getPlayer().getId(), ItemManager.getInstance().getSaddleId(), "");
 
-            InventoryItem inventoryItem = client.getPlayer().getInventory().add(itemId, ItemManager.getInstance().getSaddleId(), "", null, null);
-            client.send(new UnseenItemsMessageComposer(Sets.newHashSet(inventoryItem)));
+            IInventoryItem IInventoryItem = client.getPlayer().getInventory().add(itemId, ItemManager.getInstance().getSaddleId(), "", null, null);
+            client.send(new UnseenItemsMessageComposer(Sets.newHashSet(IInventoryItem)));
             client.send(new UpdateInventoryMessageComposer());
         }
     }

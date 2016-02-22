@@ -1,6 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.item.stickies;
 
-import com.cometproject.server.game.players.components.types.inventory.InventoryItem;
+import com.cometproject.api.game.players.data.components.inventory.IInventoryItem;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.protocol.messages.MessageEvent;
@@ -28,7 +28,7 @@ public class PlacePostitMessageEvent implements Event {
             return;
         }
 
-        InventoryItem item = client.getPlayer().getInventory().getWallItem(itemId);
+        IInventoryItem item = client.getPlayer().getInventory().getWallItem(itemId);
 
         if (item == null) {
             return;

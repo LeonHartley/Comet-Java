@@ -1,7 +1,7 @@
 package com.cometproject.server.network.messages.incoming.room.item;
 
 import com.cometproject.server.game.items.ItemManager;
-import com.cometproject.server.game.players.components.types.inventory.InventoryItem;
+import com.cometproject.api.game.players.data.components.inventory.IInventoryItem;
 import com.cometproject.server.game.quests.types.QuestType;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.misc.Position;
@@ -55,7 +55,7 @@ public class PlaceItemMessageEvent implements Event {
                     return;
                 }
 
-                InventoryItem item = client.getPlayer().getInventory().getWallItem(itemId);
+                IInventoryItem item = client.getPlayer().getInventory().getWallItem(itemId);
 
                 if (item == null) {
                     return;
@@ -73,7 +73,7 @@ public class PlaceItemMessageEvent implements Event {
                     return;
                 }
 
-                InventoryItem item = client.getPlayer().getInventory().getFloorItem(itemId);
+                IInventoryItem item = client.getPlayer().getInventory().getFloorItem(itemId);
 
                 if (item == null) {
                     return;

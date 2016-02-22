@@ -18,8 +18,8 @@ import com.cometproject.server.game.items.rares.LimitedEditionItem;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.pets.data.PetData;
 import com.cometproject.server.game.pets.data.StaticPetProperties;
+import com.cometproject.api.game.players.data.components.inventory.IInventoryItem;
 import com.cometproject.server.game.players.components.types.inventory.InventoryBot;
-import com.cometproject.server.game.players.components.types.inventory.InventoryItem;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.bundles.RoomBundleManager;
 import com.cometproject.server.game.rooms.bundles.types.RoomBundle;
@@ -108,7 +108,7 @@ public class OldCatalogPurchaseHandler {
             }
         }
 
-        Set<InventoryItem> unseenItems = Sets.newHashSet();
+        Set<IInventoryItem> unseenItems = Sets.newHashSet();
         CatalogPage page = CatalogManager.getInstance().getPage(pageId);
 
         try {
@@ -476,7 +476,7 @@ public class OldCatalogPurchaseHandler {
         Session client = NetworkManager.getInstance().getSessions().getByPlayerId(playerId);
 
         if (client != null) {
-            Set<InventoryItem> unseenItems = Sets.newHashSet();
+            Set<IInventoryItem> unseenItems = Sets.newHashSet();
 
             if (client.getPlayer() != null) {
                 if (client.getPlayer().getInventory() != null) {

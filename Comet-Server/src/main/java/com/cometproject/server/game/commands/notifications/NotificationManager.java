@@ -20,7 +20,7 @@ public class NotificationManager {
     }
 
     public boolean isNotificationExecutor(String text, int rank) {
-        return this.notifications.containsKey(text) && this.notifications.get(text).getMinRank() <= rank;
+        return this.notifications.containsKey(text.substring(1)) && this.notifications.get(text.substring(1)).getMinRank() <= rank;
     }
 
     public void execute(Player player, String command) {

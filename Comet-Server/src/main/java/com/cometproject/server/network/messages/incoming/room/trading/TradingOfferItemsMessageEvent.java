@@ -1,7 +1,7 @@
 package com.cometproject.server.network.messages.incoming.room.trading;
 
 import com.cometproject.server.game.items.ItemManager;
-import com.cometproject.server.game.players.components.types.inventory.InventoryItem;
+import com.cometproject.api.game.players.data.components.inventory.IInventoryItem;
 import com.cometproject.server.game.rooms.types.components.types.Trade;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.sessions.Session;
@@ -18,7 +18,7 @@ public class TradingOfferItemsMessageEvent implements Event {
 
         final long itemId = ItemManager.getInstance().getItemIdByVirtualId(msg.readInt());
 
-        InventoryItem item = client.getPlayer().getInventory().getFloorItem(itemId);
+        IInventoryItem item = client.getPlayer().getInventory().getFloorItem(itemId);
 
         if (item == null) {
             item = client.getPlayer().getInventory().getWallItem(itemId);
@@ -33,14 +33,14 @@ public class TradingOfferItemsMessageEvent implements Event {
 
         int i = 0;
 
-        for(InventoryItem inventoryItem : client.getPlayer().getInventory().getFloorItems().values()) {
+        for(IInventoryItem IInventoryItem : client.getPlayer().getInventory().getFloorItems().values()) {
             if(i >= amount)
                 break;
 
-            if (inventoryItem.getBaseId() == item.getBaseId() && !trade.isOffered(inventoryItem)) {
+            if (IInventoryItem.getBaseId() == item.getBaseId() && !trade.isOffered(IInventoryItem)) {
                 i++;
 
-                trade.addItem(trade.getUserNumber(client.getPlayer().getEntity()), inventoryItem, false);
+                trade.addItem(trade.getUserNumber(client.getPlayer().getEntity()), IInventoryItem, false);
             }
         }
 

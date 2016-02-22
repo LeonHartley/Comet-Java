@@ -96,6 +96,7 @@ public class RideHorseMessageEvent implements Event {
 
         client.getPlayer().getEntity().warpImmediately(warpPosition);
         client.getPlayer().getEntity().setMountedEntity(horse);
+        client.getPlayer().getEntity().setIsMoonwalking(false);
 
         horse.setMountedEntity(client.getPlayer().getEntity());
         horse.setHasMount(true);

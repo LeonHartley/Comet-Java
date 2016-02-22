@@ -1,6 +1,8 @@
 package com.cometproject.server.game.items.rares;
 
-public class LimitedEditionItem {
+import com.cometproject.api.game.furniture.types.ILimitedEditionItem;
+
+public class LimitedEditionItem implements ILimitedEditionItem {
     public static final LimitedEditionItem NONE = new LimitedEditionItem(0, 0, 0);
 
     private long itemId;

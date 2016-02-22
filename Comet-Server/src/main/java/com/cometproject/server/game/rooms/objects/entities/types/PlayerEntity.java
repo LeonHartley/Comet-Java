@@ -403,16 +403,12 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
             return false;
 
         try {
-            if (message.startsWith(":")) {
-                String cmd = message.substring(1);
-
-                if (CommandManager.getInstance().isCommand(cmd)) {
-                    if (CommandManager.getInstance().parse(cmd, this.getPlayer().getSession()))
+                if (CommandManager.getInstance().isCommand(message)) {
+                    if (CommandManager.getInstance().parse(message, this.getPlayer().getSession()))
                         return false;
-                } else if (CommandManager.getInstance().getNotifications().isNotificationExecutor(cmd, this.getPlayer().getData().getRank())) {
-                    CommandManager.getInstance().getNotifications().execute(this.player, cmd);
+                } else if (CommandManager.getInstance().getNotifications().isNotificationExecutor(message, this.getPlayer().getData().getRank())) {
+                    CommandManager.getInstance().getNotifications().execute(this.player, message.substring(1));
                 }
-            }
         } catch (Exception e) {
             log.error("Error while executing command", e);
             return false;

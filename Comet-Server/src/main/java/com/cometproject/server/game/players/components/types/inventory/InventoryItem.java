@@ -1,5 +1,6 @@
 package com.cometproject.server.game.players.components.types.inventory;
 
+import com.cometproject.api.game.players.data.components.inventory.IInventoryItem;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.catalog.types.gifts.GiftData;
 import com.cometproject.server.game.groups.GroupManager;
@@ -14,7 +15,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
-public class InventoryItem {
+public class InventoryItem implements IInventoryItem {
     private long id;
     private int baseId;
     private String extraData;
@@ -230,18 +231,22 @@ public class InventoryItem {
         }
     }
 
+    @Override
     public long getId() {
         return this.id;
     }
 
+    @Override
     public ItemDefinition getDefinition() {
         return ItemManager.getInstance().getDefinition(this.getBaseId());
     }
 
+    @Override
     public int getBaseId() {
         return this.baseId;
     }
 
+    @Override
     public String getExtraData() {
         return this.extraData;
     }
@@ -250,6 +255,7 @@ public class InventoryItem {
         return giftData;
     }
 
+    @Override
     public LimitedEditionItem getLimitedEditionItem() {
         return limitedEditionItem;
     }
@@ -258,6 +264,7 @@ public class InventoryItem {
         return new InventoryItemSnapshot(this.id, this.baseId, this.extraData);
     }
 
+    @Override
     public int getVirtualId() {
         return ItemManager.getInstance().getItemVirtualId(this.getId());
     }
