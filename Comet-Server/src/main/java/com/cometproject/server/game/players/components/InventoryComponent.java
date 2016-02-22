@@ -1,5 +1,8 @@
 package com.cometproject.server.game.players.components;
 
+import com.cometproject.api.game.furniture.types.IGiftData;
+import com.cometproject.api.game.furniture.types.ILimitedEditionItem;
+import com.cometproject.api.game.furniture.types.ISongItem;
 import com.cometproject.api.game.players.data.components.IInventoryComponent;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.catalog.types.gifts.GiftData;
@@ -8,6 +11,7 @@ import com.cometproject.server.game.items.music.SongItem;
 import com.cometproject.server.game.items.rares.LimitedEditionItem;
 import com.cometproject.api.game.players.data.components.inventory.IInventoryItem;
 import com.cometproject.server.game.players.components.types.inventory.InventoryItem;
+import com.cometproject.server.game.players.components.types.inventory.InventoryItemSnapshot;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.players.types.PlayerComponent;
 import com.cometproject.server.network.messages.outgoing.catalog.UnseenItemsMessageComposer;
@@ -27,8 +31,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public class InventoryComponent implements PlayerComponent, IInventoryComponent {
     private Player player;
 
-    private Map<Long, InventoryItem> floorItems;
-    private Map<Long, InventoryItem> wallItems;
+    private Map<Long, IInventoryItem> floorItems;
+    private Map<Long, IInventoryItem> wallItems;
     private Map<String, Integer> badges;
 
     private boolean itemsLoaded = false;
@@ -45,6 +49,7 @@ public class InventoryComponent implements PlayerComponent, IInventoryComponent 
         this.loadBadges();
     }
 
+    @Override
     public void loadItems() {
         this.itemsLoaded = true;
 
@@ -60,11 +65,11 @@ public class InventoryComponent implements PlayerComponent, IInventoryComponent 
 
             for (Map.Entry<Long, IInventoryItem> item : inventoryItems.entrySet()) {
                 if (item.getValue().getDefinition().getType().equals("s")) {
-                    this.getFloorItems().put(item.getKey(), (InventoryItem) item.getValue());
+                    this.getFloorItems().put(item.getKey(), item.getValue());
                 }
 
                 if (item.getValue().getDefinition().getType().equals("i")) {
-                    this.getWallItems().put(item.getKey(), (InventoryItem) item.getValue());
+                    this.getWallItems().put(item.getKey(), item.getValue());
                 }
             }
         } catch (Exception e) {
@@ -72,6 +77,7 @@ public class InventoryComponent implements PlayerComponent, IInventoryComponent 
         }
     }
 
+    @Override
     public void loadBadges() {
         try {
             // TODO: redo this so we can seperate achievement badges to other badges. Maybe a "badge type" or something.
@@ -81,10 +87,12 @@ public class InventoryComponent implements PlayerComponent, IInventoryComponent 
         }
     }
 
+    @Override
     public void addBadge(String code, boolean insert) {
         this.addBadge(code, insert, true);
     }
 
+    @Override
     public void addBadge(String code, boolean insert, boolean sendAlert) {
         if (!badges.containsKey(code)) {
             if (insert) {
@@ -105,18 +113,22 @@ public class InventoryComponent implements PlayerComponent, IInventoryComponent 
         }
     }
 
+    @Override
     public boolean hasBadge(String code) {
         return this.badges.containsKey(code);
     }
 
+    @Override
     public void removeBadge(String code, boolean delete) {
         this.removeBadge(code, delete, true, true);
     }
 
+    @Override
     public void removebadge(String code, boolean delete, boolean sendAlert) {
         this.removeBadge(code, delete, sendAlert, true);
     }
 
+    @Override
     public void removeBadge(String code, boolean delete, boolean sendAlert, boolean sendUpdate) {
         if (badges.containsKey(code)) {
             if (delete) {
@@ -133,6 +145,7 @@ public class InventoryComponent implements PlayerComponent, IInventoryComponent 
         }
     }
 
+    @Override
     public void achievementBadge(String achievement, int level) {
         final String oldBadge = achievement + (level - 1);
         final String newBadge = achievement + level;
@@ -149,6 +162,7 @@ public class InventoryComponent implements PlayerComponent, IInventoryComponent 
         this.addBadge(newBadge, !isUpdated, false);
     }
 
+    @Override
     public void resetBadgeSlots() {
         for (Map.Entry<String, Integer> badge : this.badges.entrySet()) {
             if (badge.getValue() != 0) {
@@ -157,6 +171,7 @@ public class InventoryComponent implements PlayerComponent, IInventoryComponent 
         }
     }
 
+    @Override
     public Map<String, Integer> equippedBadges() {
         Map<String, Integer> badges = new ConcurrentHashMap<>();
 
@@ -168,7 +183,8 @@ public class InventoryComponent implements PlayerComponent, IInventoryComponent 
         return badges;
     }
 
-    public IInventoryItem add(long id, int itemId, String extraData, GiftData giftData, LimitedEditionItem limitedEditionItem) {
+    @Override
+    public IInventoryItem add(long id, int itemId, String extraData, IGiftData giftData, ILimitedEditionItem limitedEditionItem) {
         IInventoryItem item = new InventoryItem(id, itemId, extraData, giftData, limitedEditionItem);
 
         if (item.getDefinition().getType().equals("s")) {
@@ -182,22 +198,25 @@ public class InventoryComponent implements PlayerComponent, IInventoryComponent 
         return item;
     }
 
-    public List<SongItem> getSongs() {
-        List<SongItem> songItems = Lists.newArrayList();
+    @Override
+    public List<ISongItem> getSongs() {
+        List<ISongItem> songItems = Lists.newArrayList();
 
-        for (InventoryItem inventoryItem : this.floorItems.values()) {
+        for (IInventoryItem inventoryItem : this.floorItems.values()) {
             if (inventoryItem.getDefinition().isSong()) {
-                songItems.add(new SongItem(inventoryItem.createSnapshot(), inventoryItem.getDefinition().getSongId()));
+                songItems.add(new SongItem((InventoryItemSnapshot) inventoryItem.createSnapshot(), inventoryItem.getDefinition().getSongId()));
             }
         }
 
         return songItems;
     }
 
-    public void add(long id, int itemId, String extraData, LimitedEditionItem limitedEditionItem) {
+    @Override
+    public void add(long id, int itemId, String extraData, ILimitedEditionItem limitedEditionItem) {
         add(id, itemId, extraData, null, limitedEditionItem);
     }
 
+    @Override
     public void addItem(IInventoryItem item) {
         if ((this.floorItems.size() + this.wallItems.size()) >= 5000) {
             this.getPlayer().sendNotif("Notice", Locale.getOrDefault("game.inventory.limitExceeded", "You have over 5,000 items in your inventory. The next time you login, you will only see the first 5000 items."));
@@ -209,6 +228,7 @@ public class InventoryComponent implements PlayerComponent, IInventoryComponent 
             wallItems.put(item.getId(), (InventoryItem) item);
     }
 
+    @Override
     public void removeItem(IInventoryItem item) {
         if (item.getDefinition().getType().equals("s"))
             floorItems.remove(item.getId());
@@ -216,6 +236,7 @@ public class InventoryComponent implements PlayerComponent, IInventoryComponent 
             wallItems.remove(item.getId());
     }
 
+    @Override
     public void removeFloorItem(long itemId) {
         if (this.getFloorItems() == null) {
             return;
@@ -225,45 +246,53 @@ public class InventoryComponent implements PlayerComponent, IInventoryComponent 
         this.getPlayer().getSession().send(new RemoveObjectFromInventoryMessageComposer(ItemManager.getInstance().getItemVirtualId(itemId)));
     }
 
+    @Override
     public void removeWallItem(long itemId) {
         this.getWallItems().remove(itemId);
         this.getPlayer().getSession().send(new RemoveObjectFromInventoryMessageComposer(ItemManager.getInstance().getItemVirtualId(itemId)));
     }
 
+    @Override
     public boolean hasFloorItem(long id) {
         return this.getFloorItems().containsKey(id);
     }
 
-    public InventoryItem getFloorItem(long id) {
+    @Override
+    public IInventoryItem getFloorItem(long id) {
         if (!this.hasFloorItem(id)) {
             return null;
         }
         return this.getFloorItems().get(id);
     }
 
+    @Override
     public boolean hasWallItem(long id) {
         return this.getWallItems().containsKey(id);
     }
 
+    @Override
     @Deprecated
     public IInventoryItem getWallItem(int id) {
         return getWallItem(ItemManager.getInstance().getItemIdByVirtualId(id));
     }
 
+    @Override
     @Deprecated
     public IInventoryItem getFloorItem(int id) {
         return getFloorItem(ItemManager.getInstance().getItemIdByVirtualId(id));
     }
 
-    public InventoryItem getWallItem(long id) {
+    @Override
+    public IInventoryItem getWallItem(long id) {
         if (!this.hasWallItem(id)) {
             return null;
         }
         return this.getWallItems().get(id);
     }
 
-    public InventoryItem getItem(long id) {
-        InventoryItem item = getFloorItem(id);
+    @Override
+    public IInventoryItem getItem(long id) {
+        IInventoryItem item = getFloorItem(id);
 
         if (item != null) {
             return item;
@@ -272,6 +301,7 @@ public class InventoryComponent implements PlayerComponent, IInventoryComponent 
         return getWallItem(id);
     }
 
+    @Override
     public void dispose() {
         for(IInventoryItem floorItem : this.floorItems.values()) {
             ItemManager.getInstance().disposeItemVirtualId(floorItem.getId());
@@ -291,26 +321,32 @@ public class InventoryComponent implements PlayerComponent, IInventoryComponent 
         this.badges = null;
     }
 
+    @Override
     public int getTotalSize() {
         return this.getWallItems().size() + this.getFloorItems().size();
     }
 
-    public Map<Long, InventoryItem> getWallItems() {
+    @Override
+    public Map<Long, IInventoryItem> getWallItems() {
         return this.wallItems;
     }
 
-    public Map<Long, InventoryItem> getFloorItems() {
+    @Override
+    public Map<Long, IInventoryItem> getFloorItems() {
         return this.floorItems;
     }
 
+    @Override
     public Map<String, Integer> getBadges() {
         return this.badges;
     }
 
+    @Override
     public Player getPlayer() {
         return this.player;
     }
 
+    @Override
     public boolean itemsLoaded() {
         return itemsLoaded;
     }

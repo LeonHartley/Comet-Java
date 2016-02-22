@@ -1,6 +1,7 @@
 package com.cometproject.server.game.players.types;
 
 import com.cometproject.api.game.players.IPlayer;
+import com.cometproject.api.game.players.data.components.IInventoryComponent;
 import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
@@ -43,7 +44,7 @@ public class Player implements IPlayer {
     private Session session;
 
     private final PermissionComponent permissions;
-    private final InventoryComponent inventory;
+    private final IInventoryComponent inventory;
     private final SubscriptionComponent subscription;
     private final MessengerComponent messenger;
     private final RelationshipComponent relationships;
@@ -327,7 +328,7 @@ public class Player implements IPlayer {
     }
 
     //    @Override
-    public InventoryComponent getInventory() {
+    public IInventoryComponent getInventory() {
         return this.inventory;
     }
 

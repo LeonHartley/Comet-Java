@@ -1,8 +1,8 @@
 package com.cometproject.server.network.messages.outgoing.user.inventory;
 
-import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.server.game.players.components.InventoryComponent;
 import com.cometproject.api.game.players.data.components.inventory.IInventoryItem;
+import com.cometproject.api.networking.messages.IComposer;
+import com.cometproject.api.game.players.data.components.IInventoryComponent;
 import com.cometproject.server.game.players.components.types.inventory.InventoryItem;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
@@ -11,9 +11,9 @@ import java.util.Map;
 
 
 public class InventoryMessageComposer extends MessageComposer {
-    private final InventoryComponent inventoryComponent;
+    private final IInventoryComponent inventoryComponent;
 
-    public InventoryMessageComposer(final InventoryComponent inventoryComponent) {
+    public InventoryMessageComposer(final IInventoryComponent inventoryComponent) {
         this.inventoryComponent = inventoryComponent;
     }
 
@@ -28,12 +28,12 @@ public class InventoryMessageComposer extends MessageComposer {
         msg.writeInt(1);
         msg.writeInt(inventoryComponent.getTotalSize());
 
-        for (Map.Entry<Long, InventoryItem>  inventoryItem : inventoryComponent.getFloorItems().entrySet()) {
+        for (Map.Entry<Long, IInventoryItem>  inventoryItem : inventoryComponent.getFloorItems().entrySet()) {
             inventoryItem.getValue().compose(msg);
         }
 
         // Wall items
-        for (Map.Entry<Long, InventoryItem> item : inventoryComponent.getWallItems().entrySet()) {
+        for (Map.Entry<Long, IInventoryItem> item : inventoryComponent.getWallItems().entrySet()) {
             msg.writeInt(item.getValue().getVirtualId());
             msg.writeString(item.getValue().getDefinition().getType().toUpperCase());
             msg.writeInt(item.getValue().getVirtualId());

@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.outgoing.user.inventory;
 
+import com.cometproject.api.game.furniture.types.ISongItem;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.items.music.SongItem;
@@ -10,9 +11,9 @@ import java.util.List;
 
 public class SongInventoryMessageComposer extends MessageComposer {
 
-    private List<SongItem> songItems;
+    private List<ISongItem> songItems;
 
-    public SongInventoryMessageComposer(List<SongItem> songItems) {
+    public SongInventoryMessageComposer(List<ISongItem> songItems) {
         this.songItems = songItems;
     }
 
@@ -25,7 +26,7 @@ public class SongInventoryMessageComposer extends MessageComposer {
     public void compose(IComposer msg) {
         msg.writeInt(this.songItems.size());
 
-        for (SongItem songItem : this.songItems) {
+        for (ISongItem songItem : this.songItems) {
             msg.writeInt(ItemManager.getInstance().getItemVirtualId(songItem.getItemSnapshot().getId()));
             msg.writeInt(songItem.getSongId());
         }

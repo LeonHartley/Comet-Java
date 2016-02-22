@@ -1,6 +1,8 @@
 package com.cometproject.server.game.players.components.types.inventory;
 
-public class InventoryItemSnapshot {
+import com.cometproject.api.game.players.data.components.inventory.IInventoryItemSnapshot;
+
+public class InventoryItemSnapshot implements IInventoryItemSnapshot {
     private long id;
     private int baseItemId;
     private String extraData;
@@ -15,23 +17,11 @@ public class InventoryItemSnapshot {
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
     public int getBaseItemId() {
         return baseItemId;
     }
 
-    public void setBaseItemId(int baseItemId) {
-        this.baseItemId = baseItemId;
-    }
-
     public String getExtraData() {
         return extraData;
-    }
-
-    public void setExtraData(String extraData) {
-        this.extraData = extraData;
     }
 }

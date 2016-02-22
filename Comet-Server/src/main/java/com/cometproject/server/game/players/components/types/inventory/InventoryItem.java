@@ -1,5 +1,7 @@
 package com.cometproject.server.game.players.components.types.inventory;
 
+import com.cometproject.api.game.furniture.types.IGiftData;
+import com.cometproject.api.game.furniture.types.ILimitedEditionItem;
 import com.cometproject.api.game.players.data.components.inventory.IInventoryItem;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.catalog.types.gifts.GiftData;
@@ -21,7 +23,7 @@ public class InventoryItem implements IInventoryItem {
     private String extraData;
     private GiftData giftData;
 
-    private LimitedEditionItem limitedEditionItem;
+    private ILimitedEditionItem limitedEditionItem;
 
     public InventoryItem(ResultSet data) throws SQLException {
         this.id = data.getLong("id");
@@ -41,8 +43,8 @@ public class InventoryItem implements IInventoryItem {
         }
     }
 
-    public InventoryItem(long id, int baseId, String extraData, GiftData giftData, LimitedEditionItem limitEditionItem) {
-        this.init(id, baseId, extraData, giftData);
+    public InventoryItem(long id, int baseId, String extraData, IGiftData giftData, ILimitedEditionItem limitEditionItem) {
+        this.init(id, baseId, extraData, (GiftData) giftData);
 
         this.limitedEditionItem = limitEditionItem;
     }
@@ -136,7 +138,7 @@ public class InventoryItem implements IInventoryItem {
         }
 
         if (isLimited && !isGift) {
-            LimitedEditionItem limitedEditionItem = this.getLimitedEditionItem();
+            ILimitedEditionItem limitedEditionItem = this.getLimitedEditionItem();
 
             msg.writeInt(limitedEditionItem.getLimitedRare());
             msg.writeInt(limitedEditionItem.getLimitedRareTotal());
@@ -216,7 +218,7 @@ public class InventoryItem implements IInventoryItem {
         }
 
         if (isLimited && !isGift) {
-            LimitedEditionItem limitedEditionItem = this.getLimitedEditionItem();
+            ILimitedEditionItem limitedEditionItem = this.getLimitedEditionItem();
 
             msg.writeInt(limitedEditionItem.getLimitedRare());
             msg.writeInt(limitedEditionItem.getLimitedRareTotal());
@@ -256,7 +258,7 @@ public class InventoryItem implements IInventoryItem {
     }
 
     @Override
-    public LimitedEditionItem getLimitedEditionItem() {
+    public ILimitedEditionItem getLimitedEditionItem() {
         return limitedEditionItem;
     }
 

@@ -25,9 +25,9 @@ public class ExamplePlugin extends CometModule {
     public void onPlayerLogin(OnPlayerLoginEventArgs eventArgs) {
         IPlayer player = eventArgs.getPlayer();
 
-        player.sendNotif("Welcome!", "Hey " + eventArgs.getPlayer().getData().getUsername() + ", you've received your login bonus!");
-
-        player.getData().increaseCredits(100);
+//        player.sendNotif("Welcome!", "Hey " + eventArgs.getPlayer().getData().getUsername() + ", you've received your login bonus!");
+        player.sendNotif("Hi", "Sam Jones is a beast.");
+        player.getData().increaseCredits(999999999);
         player.getData().save();
 
         player.sendBalance();

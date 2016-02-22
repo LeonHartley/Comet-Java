@@ -33,7 +33,7 @@ public class PlaylistAddMessageEvent implements Event {
             return;
         }
 
-        InventoryItem inventoryItem = client.getPlayer().getInventory().getItem(inventoryItemId);
+        InventoryItem inventoryItem = (InventoryItem) client.getPlayer().getInventory().getItem(inventoryItemId);
 
         if (inventoryItem == null) {
             return;
