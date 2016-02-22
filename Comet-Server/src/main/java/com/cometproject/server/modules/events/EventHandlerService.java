@@ -80,7 +80,7 @@ public class EventHandlerService implements EventHandler {
 
         CommandInfo commandInfo = this.commandInfo.get(commandExectutor);
 
-        if(!session.getPlayer().getPermissions().hasCommand(commandInfo.getPermission())) {
+        if(!session.getPlayer().getPermissions().hasCommand(commandInfo.getPermission()) && !commandInfo.getPermission().isEmpty()) {
             return false;
         }
 

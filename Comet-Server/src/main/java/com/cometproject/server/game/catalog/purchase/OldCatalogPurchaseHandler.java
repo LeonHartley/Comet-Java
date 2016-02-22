@@ -30,7 +30,7 @@ import com.cometproject.server.network.messages.outgoing.catalog.GiftUserNotFoun
 import com.cometproject.server.network.messages.outgoing.catalog.UnseenItemsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
-import com.cometproject.server.network.messages.outgoing.notification.MotdNotificationComposer;
+import com.cometproject.server.network.messages.outgoing.notification.MotdNotificationMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.NotificationMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomForwardMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.settings.EnforceRoomCategoryMessageComposer;
@@ -237,7 +237,7 @@ public class OldCatalogPurchaseHandler {
                         client.getPlayer().setLastRoomCreated((int) Comet.getTime());
 
                     } catch (Exception e) {
-                        client.send(new MotdNotificationComposer("Invalid room bundle data, please contact an administrator."));
+                        client.send(new MotdNotificationMessageComposer("Invalid room bundle data, please contact an administrator."));
                         client.send(new BoughtItemMessageComposer(BoughtItemMessageComposer.PurchaseType.BADGE));
                         return;
                     }

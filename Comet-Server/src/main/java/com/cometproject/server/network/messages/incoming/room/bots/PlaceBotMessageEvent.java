@@ -25,7 +25,7 @@ public class PlaceBotMessageEvent implements Event {
         int y = msg.readInt();
 
         Room room = client.getPlayer().getEntity().getRoom();
-        InventoryBot bot = client.getPlayer().getBots().getBot(botId);
+        InventoryBot bot = (InventoryBot) client.getPlayer().getBots().getBot(botId);
 
         if (room == null || bot == null || (!room.getRights().hasRights(client.getPlayer().getId()) && !client.getPlayer().getPermissions().getRank().roomFullControl())) {
             return;

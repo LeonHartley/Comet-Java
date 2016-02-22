@@ -19,7 +19,7 @@ import com.cometproject.server.network.messages.outgoing.moderation.CfhTopicsIni
 import com.cometproject.server.network.messages.outgoing.moderation.ModToolMessageComposer;
 import com.cometproject.server.network.messages.outgoing.navigator.FavouriteRoomsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
-import com.cometproject.server.network.messages.outgoing.notification.MotdNotificationComposer;
+import com.cometproject.server.network.messages.outgoing.notification.MotdNotificationMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.details.AvailabilityStatusMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.details.PlayerSettingsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.EffectsInventoryMessageComposer;
@@ -132,7 +132,7 @@ public class PlayerLoginRequest implements CometTask {
         }
 
         if (CometSettings.motdEnabled) {
-            client.sendQueue(new MotdNotificationComposer());
+            client.sendQueue(new MotdNotificationMessageComposer());
         }
 
         client.flush();

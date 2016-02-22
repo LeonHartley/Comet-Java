@@ -3,6 +3,7 @@ package com.cometproject.api.game.players;
 import com.cometproject.api.game.players.data.IPlayerData;
 import com.cometproject.api.game.players.data.IPlayerSettings;
 import com.cometproject.api.game.players.data.IPlayerStatistics;
+import com.cometproject.api.game.players.data.components.IInventoryBotComponent;
 import com.cometproject.api.game.players.data.components.IInventoryComponent;
 import com.cometproject.api.game.players.data.components.IPermissionComponent;
 import com.cometproject.api.game.rooms.entities.IPlayerEntity;
@@ -58,7 +59,7 @@ public interface IPlayer {
 //
 //    RelationshipComponent getRelationships();
 //
-//    InventoryBotComponent getBots();
+    IInventoryBotComponent getBots();
 //
 //    PetComponent getPets();
 //
@@ -67,6 +68,8 @@ public interface IPlayer {
     int getId();
 
     void sendNotif(String title, String message);
+
+    void sendMotd(String message);
 
     boolean isTeleporting();
 

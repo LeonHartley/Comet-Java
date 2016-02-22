@@ -59,7 +59,7 @@ public class PlayerLoginQueue implements CometTask {
 //        client.send(new AuthenticationOKMessageComposer());
 //        client.getPlayer().sendBalance();
 //        client.send(new FuserightsMessageComposer(client.getPlayer().getSubscription().exists(), client.getPlayer().getData().getRank()));
-//        client.send(new MotdNotificationComposer());
+//        client.send(new MotdNotificationMessageComposer());
 //
 //        if (player.getSettings().getHomeRoom() > 0) {
 //            client.send(new HomeRoomMessageComposer(player.getSettings().getHomeRoom()));

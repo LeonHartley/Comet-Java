@@ -6,14 +6,14 @@ import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
 
 
-public class MotdNotificationComposer extends MessageComposer {
+public class MotdNotificationMessageComposer extends MessageComposer {
     private final String message;
 
-    public MotdNotificationComposer(final String message) {
+    public MotdNotificationMessageComposer(final String message) {
         this.message = message;
     }
 
-    public MotdNotificationComposer() {
+    public MotdNotificationMessageComposer() {
         this(CometSettings.motdMessage);
     }
 

@@ -13,7 +13,6 @@ import com.cometproject.server.game.landing.LandingManager;
 import com.cometproject.server.game.moderation.BanManager;
 import com.cometproject.server.game.moderation.ModerationManager;
 import com.cometproject.server.game.navigator.NavigatorManager;
-import com.cometproject.server.game.navigator.types.search.NavigatorSearchService;
 import com.cometproject.server.game.permissions.PermissionsManager;
 import com.cometproject.server.game.pets.PetManager;
 import com.cometproject.server.game.pets.commands.PetCommandManager;
@@ -24,7 +23,7 @@ import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.outgoing.catalog.CatalogPublishMessageComposer;
 import com.cometproject.server.network.messages.outgoing.moderation.ModToolMessageComposer;
-import com.cometproject.server.network.messages.outgoing.notification.MotdNotificationComposer;
+import com.cometproject.server.network.messages.outgoing.notification.MotdNotificationMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.polls.InitializePollMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 
@@ -37,7 +36,7 @@ public class ReloadCommand extends ChatCommand {
 
         switch (command) {
             default:
-                client.send(new MotdNotificationComposer(
+                client.send(new MotdNotificationMessageComposer(
                         "Here's a list of what you can reload using the :reload <type> command!\n\n" +
                                 "- bans\n" +
                                 "- catalog\n" +

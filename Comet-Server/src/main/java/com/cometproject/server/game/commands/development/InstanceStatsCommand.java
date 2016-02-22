@@ -26,7 +26,7 @@ public class InstanceStatsCommand extends ChatCommand {
 //            queryStats.append("\n\nQuery: " + query.getKey()).append("\nCount: " + query.getValue().get());
 //        }
 //
-//        client.send(new MotdNotificationComposer(queryStats.toString()));
+//        client.send(new MotdNotificationMessageComposer(queryStats.toString()));
     }
 
     @Override

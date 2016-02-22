@@ -1,5 +1,7 @@
 package com.cometproject.server.game.players.components;
 
+import com.cometproject.api.game.players.data.components.IInventoryBotComponent;
+import com.cometproject.api.game.players.data.components.bots.IInventoryBot;
 import com.cometproject.server.game.players.components.types.inventory.InventoryBot;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.players.types.PlayerComponent;
@@ -8,9 +10,9 @@ import com.cometproject.server.storage.queries.bots.PlayerBotDao;
 import java.util.Map;
 
 
-public class InventoryBotComponent implements PlayerComponent {
+public class InventoryBotComponent implements PlayerComponent, IInventoryBotComponent {
     private Player player;
-    private Map<Integer, InventoryBot> bots;
+    private Map<Integer, IInventoryBot> bots;
 
     public InventoryBotComponent(Player player) {
         this.player = player;
@@ -28,7 +30,7 @@ public class InventoryBotComponent implements PlayerComponent {
         this.player = null;
     }
 
-    public InventoryBot getBot(int id) {
+    public IInventoryBot getBot(int id) {
         if (this.bots.containsKey(id)) {
             return this.bots.get(id);
         }
@@ -44,7 +46,7 @@ public class InventoryBotComponent implements PlayerComponent {
         return this.bots.containsKey(id);
     }
 
-    public Map<Integer, InventoryBot> getBots() {
+    public Map<Integer, IInventoryBot> getBots() {
         return this.bots;
     }
 

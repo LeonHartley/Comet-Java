@@ -1,10 +1,12 @@
 package com.cometproject.server.game.players.components.types.inventory;
 
+import com.cometproject.api.game.players.data.components.bots.IInventoryBot;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
-public class InventoryBot {
+public class InventoryBot implements IInventoryBot {
     private int id, ownerId;
     private String name, figure, gender, motto, ownerName, mode, type, data;
 
