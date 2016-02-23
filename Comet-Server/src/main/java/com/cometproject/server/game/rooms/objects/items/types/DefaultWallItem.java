@@ -6,8 +6,8 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
 import com.cometproject.server.game.rooms.types.Room;
 
 
-public final class GenericWallItem extends RoomItemWall {
-    public GenericWallItem(long id, int itemId, Room room, int owner, String position, String data) {
+public final class DefaultWallItem extends RoomItemWall {
+    public DefaultWallItem(long id, int itemId, Room room, int owner, String position, String data) {
         super(id, itemId, room, owner, position, data);
     }
 

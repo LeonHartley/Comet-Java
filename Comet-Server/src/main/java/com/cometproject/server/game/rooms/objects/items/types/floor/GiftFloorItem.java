@@ -27,6 +27,7 @@ public class GiftFloorItem extends RoomItemFloor {
     public boolean onInteract(RoomEntity entity, int state, boolean isWiredTrigger) {
         this.isOpened = true;
 
+        this.sendUpdate();
         this.getRoom().getEntities().broadcastMessage(new RemoveFloorItemMessageComposer(this.getVirtualId(), 1200));
 //        this.getRoom().getEntities().broadcastMessage(new SendFloorItemMessageComposer(this));
 

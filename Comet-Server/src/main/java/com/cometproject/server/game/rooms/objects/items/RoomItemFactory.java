@@ -3,8 +3,8 @@ package com.cometproject.server.game.rooms.objects.items;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.items.rares.LimitedEditionItem;
 import com.cometproject.server.game.items.types.ItemDefinition;
-import com.cometproject.server.game.rooms.objects.items.types.GenericFloorItem;
-import com.cometproject.server.game.rooms.objects.items.types.GenericWallItem;
+import com.cometproject.server.game.rooms.objects.items.types.DefaultFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.DefaultWallItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.banzai.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.boutique.MannequinFloorItem;
@@ -191,7 +191,7 @@ public class RoomItemFactory {
                 floorItem = new GiftFloorItem(id, baseId, room, ownerId, x, y, height, rot, data);
             } catch (Exception e) {
                 return null;
-//                floorItem = new GenericFloorItem(id, baseId, room, ownerId, x, y, height, rot, "");
+//                floorItem = new DefaultFloorItem(id, baseId, room, ownerId, x, y, height, rot, "");
             }
         } else {
             if (itemDefinitionMap.containsKey(def.getInteraction())) {
@@ -205,7 +205,7 @@ public class RoomItemFactory {
         }
 
         if (floorItem == null) {
-            floorItem = new GenericFloorItem(id, baseId, room, ownerId, x, y, height, rot, data);
+            floorItem = new DefaultFloorItem(id, baseId, room, ownerId, x, y, height, rot, data);
         }
 
         if (limitedEditionItem != null) {
@@ -237,7 +237,7 @@ public class RoomItemFactory {
                 break;
             }
             default: {
-                wallItem = new GenericWallItem(id, baseId, room, owner, position, data);
+                wallItem = new DefaultWallItem(id, baseId, room, owner, position, data);
                 break;
             }
         }
