@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.function.BiConsumer;
 
-public abstract class CometModule implements EventListenerContainer {
+public abstract class BaseModule implements EventListenerContainer {
 
     /**
      * Module configuration
@@ -30,7 +30,7 @@ public abstract class CometModule implements EventListenerContainer {
      */
     private final IGameService gameService;
 
-    public CometModule(ModuleConfig config, IGameService gameService) {
+    public BaseModule(ModuleConfig config, IGameService gameService) {
         this.moduleId = UUID.randomUUID();
         this.gameService = gameService;
         this.config = config;

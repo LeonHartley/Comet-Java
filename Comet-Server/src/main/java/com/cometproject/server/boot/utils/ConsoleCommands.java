@@ -7,6 +7,7 @@ import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.moderation.BanManager;
 import com.cometproject.server.game.navigator.NavigatorManager;
 import com.cometproject.server.game.permissions.PermissionsManager;
+import com.cometproject.server.modules.ModuleManager;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.storage.SqlHelper;
 import com.cometproject.server.utilities.CometStats;
@@ -43,6 +44,11 @@ public class ConsoleCommands {
                                 case "/help":
                                 case "/commands":
                                     log.info("Commands available: /about, /reload_messages, /gc, /reload_permissions, /changemotd, /reload_catalog, /reload_bans, /reload_locale, /reload_permissions, /queries, /queries");
+                                    break;
+
+                                case "/reload_modules":
+                                    ModuleManager.getInstance().initialize();
+                                    log.info("Modules reloaded successfully.");
                                     break;
 
                                 case "/about":

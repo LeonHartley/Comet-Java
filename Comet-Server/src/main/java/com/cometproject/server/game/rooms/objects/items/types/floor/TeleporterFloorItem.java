@@ -6,10 +6,14 @@ import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.objects.items.events.types.TeleportItemEvent;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomForwardMessageComposer;
+import com.cometproject.server.tasks.CometThreadManager;
+
+import java.util.concurrent.TimeUnit;
 
 
 public class TeleporterFloorItem extends RoomItemFloor {
@@ -35,31 +39,30 @@ public class TeleporterFloorItem extends RoomItemFloor {
     public boolean onInteract(RoomEntity entity, int requestData, boolean isWiredTrigger) {
         if (isWiredTrigger) return false;
 
-        Position posInFront = this.getPosition().squareInFront(this.getRotation());
+//        Position posInFront = this.getPosition().squareInFront(this.getRotation());
+//
+//        if (entity.isOverriden()) return false;
+//
+//        if (entity.getPosition().getX() != posInFront.getX() || entity.getPosition().getY() != posInFront.getY()) {
+//            entity.moveTo(posInFront.getX(), posInFront.getY());
+//
+//            RoomTile tile = this.getRoom().getMapping().getTile(posInFront.getX(), posInFront.getY());
+//
+//            if (tile != null) {
+//                tile.scheduleEvent(entity.getId(), (e) -> onInteract(e, requestData, false));
+//            }
+//            return false;
+//        }
+//
+////
+//        this.inUse = true;
+//        this.outgoingEntity = entity;
+//        this.outgoingEntity.setOverriden(true);
+//
+//        this.state = 0;
+//        this.setTicks(RoomItemFactory.getProcessTime(1));
 
-        if (entity.isOverriden()) return false;
-
-        if (entity.getPosition().getX() != posInFront.getX() || entity.getPosition().getY() != posInFront.getY()) {
-            entity.moveTo(posInFront.getX(), posInFront.getY());
-
-            RoomTile tile = this.getRoom().getMapping().getTile(posInFront.getX(), posInFront.getY());
-
-            if (tile != null) {
-                tile.scheduleEvent(entity.getId(), (e) -> onInteract(e, requestData, false));
-            }
-            return false;
-        }
-
-        if (this.inUse) {
-            return false;
-        }
-
-        this.inUse = true;
-        this.outgoingEntity = entity;
-        this.outgoingEntity.setOverriden(true);
-
-        this.state = 0;
-        this.setTicks(RoomItemFactory.getProcessTime(1));
+        CometThreadManager.getInstance().executeSchedule(new TeleportItemEvent(this, entity), 1, TimeUnit.SECONDS);
         return true;
     }
 

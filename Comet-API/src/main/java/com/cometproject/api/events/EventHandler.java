@@ -7,7 +7,9 @@ import com.cometproject.api.networking.sessions.ISession;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
-public interface EventHandler {
+public interface EventHandler  {
+   void initialize();
+
    <T extends EventArgs> boolean handleEvent(Class<? extends Event> eventClass, T args);
 
    void registerEvent(Event consumer);

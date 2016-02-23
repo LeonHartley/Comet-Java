@@ -2,7 +2,7 @@ package com.cometproject.server.modules;
 
 import com.cometproject.api.config.ModuleConfig;
 import com.cometproject.api.events.EventHandler;
-import com.cometproject.api.modules.CometModule;
+import com.cometproject.api.modules.BaseModule;
 import com.cometproject.api.server.IGameService;
 import com.cometproject.server.modules.events.EventHandlerService;
 import com.cometproject.server.utilities.Initializable;
@@ -16,9 +16,9 @@ import java.lang.reflect.Constructor;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ModuleManager implements Initializable {
     private static ModuleManager moduleManagerInstance;
@@ -27,7 +27,7 @@ public class ModuleManager implements Initializable {
     private EventHandler eventHandler;
     private CometGameService gameService;
 
-    private Map<String, CometModule> modules;
+    private Map<String, BaseModule> modules;
 
     public ModuleManager() {
         this.eventHandler = new EventHandlerService();
@@ -44,7 +44,13 @@ public class ModuleManager implements Initializable {
 
     @Override
     public void initialize() {
-        this.modules = new HashMap<>();
+        if (this.modules != null) {
+            this.modules.clear();
+        } else {
+            this.modules = new ConcurrentHashMap<>();
+        }
+
+        ModuleManager.getInstance().getEventHandler().initialize();
 
         for (String moduleName : this.findModules()) {
             try {
@@ -72,7 +78,7 @@ public class ModuleManager implements Initializable {
     }
 
     private void loadModule(String name) throws Exception {
-        ClassLoader loader = URLClassLoader.newInstance(
+        URLClassLoader loader = URLClassLoader.newInstance(
                 new URL[]{new URL("jar:file:modules/" + name + "!/")},
                 getClass().getClassLoader()
         );
@@ -84,7 +90,7 @@ public class ModuleManager implements Initializable {
         final ModuleConfig moduleConfig = JsonFactory.getInstance().fromJson(Resources.toString(configJsonLocation, Charsets.UTF_8), ModuleConfig.class);
 
         if (this.modules.containsKey(moduleConfig.getName())) {
-            if(!this.modules.get(moduleConfig.getName()).getConfig().getVersion().equals(moduleConfig.getVersion())) {
+            if (!this.modules.get(moduleConfig.getName()).getConfig().getVersion().equals(moduleConfig.getVersion())) {
                 log.warn("Modules with same name but different version was detected: " + moduleConfig.getName());
             }
 
@@ -94,15 +100,16 @@ public class ModuleManager implements Initializable {
         log.info("Loaded module: " + moduleConfig.getName());
 
         Class<?> clazz = Class.forName(moduleConfig.getEntryPoint(), true, loader);
-        Class<? extends CometModule> runClass = clazz.asSubclass(CometModule.class);
-        Constructor<? extends CometModule> ctor = runClass.getConstructor(ModuleConfig.class, IGameService.class);
+        Class<? extends BaseModule> runClass = clazz.asSubclass(BaseModule.class);
+        Constructor<? extends BaseModule> ctor = runClass.getConstructor(ModuleConfig.class, IGameService.class);
 
-        CometModule cometModule = ctor.newInstance(moduleConfig, this.gameService);
+        BaseModule cometModule = ctor.newInstance(moduleConfig, this.gameService);
 
-        // test load event
         cometModule.loadModule();
 
         this.modules.put(moduleConfig.getName(), cometModule);
+
+        loader.close();
     }
 
     public EventHandler getEventHandler() {

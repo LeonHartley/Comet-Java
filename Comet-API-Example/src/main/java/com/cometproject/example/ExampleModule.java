@@ -5,7 +5,7 @@ import com.cometproject.api.events.players.OnPlayerLoginEvent;
 import com.cometproject.api.events.players.args.OnPlayerLoginEventArgs;
 import com.cometproject.api.game.players.IPlayer;
 import com.cometproject.api.game.players.data.components.inventory.IInventoryItem;
-import com.cometproject.api.modules.CometModule;
+import com.cometproject.api.modules.BaseModule;
 import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.api.server.IGameService;
 import com.google.common.collect.Maps;
@@ -13,19 +13,24 @@ import com.google.common.collect.Maps;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class ExamplePlugin extends CometModule {
-    public ExamplePlugin(ModuleConfig config, IGameService gameService) {
+public class ExampleModule extends BaseModule {
+    public ExampleModule(ModuleConfig config, IGameService gameService) {
         super(config, gameService);
 
         this.registerEvent(new OnPlayerLoginEvent(this::onPlayerLogin));
 
-        // register commands
         this.registerChatCommand("!about", this::aboutCommand);
         this.registerChatCommand("!inventory", this::inventoryCommand);
+
+        this.registerChatCommand("!mathis", this::mathisCommand);
+    }
+
+    public void mathisCommand(ISession session, String[] args) {
+        session.getPlayer().sendMotd("Hi mathis, how are you????!!!!!");
     }
 
     public void aboutCommand(ISession session, String[] args) {
-        session.getPlayer().sendNotif("ExamplePlugin", "This is an example plugin.");
+        session.getPlayer().sendNotif("ExampleModule", "This is an example module.");
     }
 
     public void inventoryCommand(ISession session, String[] args) {
@@ -33,7 +38,7 @@ public class ExamplePlugin extends CometModule {
             session.getPlayer().getInventory().loadItems();
         }
 
-        StringBuilder inventoryStr = new StringBuilder("Inventory items:\n\n");
+        StringBuilder inventoryStr = new StringBuilder("Inventory:\n===================================================\n\n");
 
         Map<String, AtomicInteger> inventoryItemsAndQuantity = Maps.newHashMap();
 
@@ -67,7 +72,5 @@ public class ExamplePlugin extends CometModule {
         player.getData().save();
 
         player.sendBalance();
-
-        eventArgs.setCancelled(true);
     }
 }

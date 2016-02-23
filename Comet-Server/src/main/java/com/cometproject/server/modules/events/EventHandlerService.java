@@ -35,6 +35,20 @@ public class EventHandlerService implements EventHandler {
         this.commandInfo = Maps.newConcurrentMap();
     }
 
+    public void initialize() {
+        if(this.listeners != null) {
+            this.listeners.clear();
+        }
+
+        if(this.chatCommands != null) {
+            this.chatCommands.clear();
+        }
+
+        if(this.commandInfo != null) {
+            this.commandInfo.clear();
+        }
+    }
+
     @Override
     public void registerCommandInfo(String commandName, CommandInfo info) {
         this.commandInfo.put(commandName, info);
