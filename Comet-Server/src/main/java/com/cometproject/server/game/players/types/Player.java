@@ -45,7 +45,7 @@ public class Player implements IPlayer {
     private Session session;
 
     private final PermissionComponent permissions;
-    private final IInventoryComponent inventory;
+    private final InventoryComponent inventory;
     private final SubscriptionComponent subscription;
     private final MessengerComponent messenger;
     private final RelationshipComponent relationships;

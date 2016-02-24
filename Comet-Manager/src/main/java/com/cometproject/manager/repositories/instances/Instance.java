@@ -3,19 +3,19 @@ package com.cometproject.manager.repositories.instances;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.Id;
 
-import java.util.List;
+import java.util.Map;
 
 public class Instance {
     @Id
     private String id;
 
     private String name;
-    private List<InstanceConfigProperty> config;
+    private Map<String, String> config;
 
     @JsonIgnore
     private String authKey;
 
-    public Instance(String id, String name, List<InstanceConfigProperty> config, String authKey) {
+    public Instance(String id, String name, Map<String, String> config, String authKey) {
         this.id = id;
         this.name = name;
         this.config = config;
@@ -38,11 +38,11 @@ public class Instance {
         this.name = name;
     }
 
-    public List<InstanceConfigProperty> getConfig() {
+    public Map<String, String> getConfig() {
         return config;
     }
 
-    public void setConfig(List<InstanceConfigProperty> config) {
+    public void setConfig(Map<String, String> config) {
         this.config = config;
     }
 

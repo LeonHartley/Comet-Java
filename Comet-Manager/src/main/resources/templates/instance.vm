@@ -1,5 +1,30 @@
 #parse('/templates/base/header.vm')
 
+<style type="text/css">
+    .settings {
+        padding-top: 10px;
+    }
+
+</style>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#showPassword').click(function () {
+            var passwordField = $('#password');
+
+            if (passwordField.attr('type') === 'text') {
+                // hide the password
+                passwordField.attr('type', 'password');
+                $(this).html('Show');
+            } else {
+                passwordField.attr('type', 'text');
+                $(this).html('Hide');
+            }
+        });
+    });
+
+</script>
+
 <div class="row">
     <div class="col-md-4">
         <div class="panel panel-default">
@@ -12,11 +37,57 @@
     </div>
     <div class="col-md-8">
         <div class="panel panel-default">
-            <div class="panel-heading"><b>Events</b></div>
+            <div class="panel-heading"><b>MySQL Configuration</b></div>
             <div class="panel-body">
-                Here there will be an event log tied to this instance.
+                <form action="/instance/save/$instance.id" method="post">
+                    <div class="row settings">
+                        <div class="col-md-6">MySQL Host</div>
+                        <div class="col-md-6"><input type="text" name="db-host" class="form-control"
+                                                     value="$instance.config.get("dbHost")"/></div>
+                    </div>
+                    <div class="row settings">
+                        <div class="col-md-6">MySQL Username</div>
+                        <div class="col-md-6"><input type="text" name="db-username" class="form-control"
+                                                     value="$instance.config.get("dbUsername")"/></div>
+                    </div>
+
+                    <div class="row settings">
+                        <div class="col-md-6">MySQL Password</div>
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <input type="password" name="db-password" class="form-control" id="password"
+                                       value="$instance.config.get("dbPassword")"/>
+
+                                <div class="input-group-btn">
+                                    <button type="button" class="btn btn-default" tabindex="-1" id="showPassword">
+                                        Show
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row settings">
+                        <div class="col-md-6">MySQL Database</div>
+                        <div class="col-md-6"><input type="text" name="db-database" class="form-control"
+                                                     value="$instance.config.get("dbName")"/></div>
+                    </div>
+
+                    <div class="row settings">
+                        <div class="col-md-6">MySQL Pool</div>
+                        <div class="col-md-6"><input type="text" name="db-pool" class="form-control"
+                                                     value="$instance.config.get("dbPoolMax")"/></div>
+                    </div>
+
+                    <div class="row settings">
+                        <div class="col-md-6"></div>
+                        <div class="col-md-3"></div>
+                        <div class="col-md-3"><input type="submit" class="form-control btn btn-primary"
+                                                     value="Save Config"></input></div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-
+</div>
 #include('/templates/base/footer.vm')
