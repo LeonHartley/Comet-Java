@@ -12,14 +12,17 @@ public class Instance {
     private String name;
     private Map<String, String> config;
 
+    private String server;
+
     @JsonIgnore
     private String authKey;
 
-    public Instance(String id, String name, Map<String, String> config, String authKey) {
+    public Instance(String id, String name, Map<String, String> config, String authKey, String server) {
         this.id = id;
         this.name = name;
         this.config = config;
         this.authKey = authKey;
+        this.server = server;
     }
 
     public String getId() {
@@ -52,5 +55,13 @@ public class Instance {
 
     public void setAuthKey(String authKey) {
         this.authKey = authKey;
+    }
+
+    public String getServer() {
+        return this.server;
+    }
+
+    public void setServer(String server) {
+        this.server = server;
     }
 }

@@ -39,6 +39,11 @@
         <div class="panel panel-default">
             <div class="panel-heading"><b>MySQL Configuration</b></div>
             <div class="panel-body">
+
+                #if($saved)
+                    <div class="alert alert-success" role="alert">Instance config saved successfully!</div>
+                #end
+
                 <form action="/instance/save/$instance.id" method="post">
                     <div class="row settings">
                         <div class="col-md-6">MySQL Host</div>

@@ -41,30 +41,37 @@ public class InstanceController {
 
         ModelAndView modelAndView = new ModelAndView("instance");
         modelAndView.addObject("customer", customer);
+
+        if (request.getSession().getAttribute("saved") != null) {
+            modelAndView.addObject("saved", true);
+
+            request.getSession().setAttribute("saved", null);
+        }
+
         modelAndView.addObject("instance", instanceRepository.findOne(instanceId));
 
         return modelAndView;
     }
 
     @RequestMapping(value = "/instance/save/{id}", method = RequestMethod.POST)
-    public ModelAndView saveInstance(HttpServletRequest request, HttpServletResponse response,
-                                     @PathVariable("id") String instanceId, @RequestParam("db-host") String mysqlHost,
-                                     @RequestParam("db-username") String mysqlUsername, @RequestParam("db-password") String mysqlPassword,
-                                     @RequestParam("db-database") String mysqlDatabase, @RequestParam("db-pool") int dbPool) throws IOException {
+    public void saveInstance(HttpServletRequest request, HttpServletResponse response,
+                             @PathVariable("id") String instanceId, @RequestParam("db-host") String mysqlHost,
+                             @RequestParam("db-username") String mysqlUsername, @RequestParam("db-password") String mysqlPassword,
+                             @RequestParam("db-database") String mysqlDatabase, @RequestParam("db-pool") int dbPool) throws IOException {
         if (request.getSession() == null || request.getSession().getAttribute("customer") == null) {
             response.sendRedirect("/");
-            return null;
+            return;
         }
 
 
-        final Customer customer = customerRepository.findOne((String) request.getSession().getAttribute("customer"));
+        final Customer customer = this.customerRepository.findOne((String) request.getSession().getAttribute("customer"));
 
         if (!customer.getInstanceIds().contains(instanceId)) {
             response.sendRedirect("/");
-            return null;
+            return;
         }
 
-        final Instance instance = instanceRepository.findOne(instanceId);
+        final Instance instance = this.instanceRepository.findOne(instanceId);
 
         instance.getConfig().put("dbHost", mysqlHost);
         instance.getConfig().put("dbUsername", mysqlUsername);
@@ -74,12 +81,13 @@ public class InstanceController {
 
         this.instanceRepository.save(instance);
 
+        request.getSession().setAttribute("saved", true);
+
         ModelAndView modelAndView = new ModelAndView("instance");
         modelAndView.addObject("customer", customer);
-        modelAndView.addObject("saved", true);
         modelAndView.addObject("instance", instance);
 
-        return modelAndView;
+        response.sendRedirect("/instance/" + instanceId);
     }
 
 }

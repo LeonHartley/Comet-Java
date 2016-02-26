@@ -44,17 +44,14 @@ public class RoomItemDao {
                     limitedEditionItem = new LimitedEditionItem(resultSet.getLong("id"), resultSet.getInt("limited_id"), resultSet.getInt("limited_total"));
                 }
 
-                try {
-                    if (ItemManager.getInstance().getDefinition(resultSet.getInt("base_item")) != null) {
-                        if (ItemManager.getInstance().getDefinition(resultSet.getInt("base_item")).getType().equals("s"))
-                            floorItems.put(resultSet.getLong("id"), RoomItemFactory.createFloor(resultSet.getLong("id"), resultSet.getInt("base_item"), room, resultSet.getInt("user_id"), resultSet.getInt("x"), resultSet.getInt("y"), resultSet.getDouble("z"), resultSet.getInt("rot"), resultSet.getString("extra_data"), limitedEditionItem));
-                        else
-                            wallItems.put(resultSet.getLong("id"), RoomItemFactory.createWall(resultSet.getLong("id"), resultSet.getInt("base_item"), room, resultSet.getInt("user_id"), resultSet.getString("wall_pos"), resultSet.getString("extra_data"), limitedEditionItem));
+                if (ItemManager.getInstance().getDefinition(resultSet.getInt("base_item")) != null) {
+                    if (ItemManager.getInstance().getDefinition(resultSet.getInt("base_item")).getType().equals("s"))
+                        floorItems.put(resultSet.getLong("id"), RoomItemFactory.createFloor(resultSet.getLong("id"), resultSet.getInt("base_item"), room, resultSet.getInt("user_id"), resultSet.getInt("x"), resultSet.getInt("y"), resultSet.getDouble("z"), resultSet.getInt("rot"), resultSet.getString("extra_data"), limitedEditionItem));
+                    else
+                        wallItems.put(resultSet.getLong("id"), RoomItemFactory.createWall(resultSet.getLong("id"), resultSet.getInt("base_item"), room, resultSet.getInt("user_id"), resultSet.getString("wall_pos"), resultSet.getString("extra_data"), limitedEditionItem));
 
-                    } else {
-                        log.warn("Item (" + resultSet.getInt("id") + ") with invalid definition ID: " + resultSet.getInt("base_item"));
-                    }
-                } catch(Exception e) {
+                } else {
+                    log.warn("Item (" + resultSet.getInt("id") + ") with invalid definition ID: " + resultSet.getInt("base_item"));
                 }
             }
         } catch (SQLException e) {
@@ -289,7 +286,7 @@ public class RoomItemDao {
 
             preparedStatement = SqlHelper.prepare("UPDATE items SET x = ?, y = ?, z = ?, rot = ?, extra_data = ? WHERE id = ?", sqlConnection);
 
-            for(RoomItem floor : items) {
+            for (RoomItem floor : items) {
                 preparedStatement.setInt(1, floor.getPosition().getX());
                 preparedStatement.setInt(2, floor.getPosition().getY());
                 preparedStatement.setDouble(3, floor.getPosition().getZ());
@@ -363,7 +360,6 @@ public class RoomItemDao {
         Set<Integer> data = new ConcurrentHashSet<>();
 
         try {
-
             sqlConnection = SqlHelper.getConnection();
 
             preparedStatement = SqlHelper.prepare("SELECT player_id FROM items_wired_rewards WHERE item_id = ?;", sqlConnection);
@@ -372,7 +368,7 @@ public class RoomItemDao {
 
             resultSet = preparedStatement.executeQuery();
 
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 data.add(resultSet.getInt("player_id"));
             }
         } catch (SQLException e) {

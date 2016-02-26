@@ -58,7 +58,11 @@ var restart = function (instanceId) {
     var instance = instances[instanceId];
 
     var spawn = require('child_process').spawn;
+
+    // windows
     spawn("taskkill", ["/pid", instance.processId, '/f', '/t']);
+
+    // linux
     //process.kill(instance.processId, "SIGINT");
 
     console.log("Restarting instance: " + instanceId);
@@ -68,5 +72,10 @@ var restart = function (instanceId) {
     }, 5000);
 };
 
+var isRunning = function (instanceId ) {
+    return instances[instanceId] !== undefined;
+}
+
 exports.start = start;
 exports.restart = restart;
+exports.isRunning = isRunning;
