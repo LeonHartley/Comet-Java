@@ -2,7 +2,7 @@ package com.cometproject.server.network.messages.outgoing.catalog;
 
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.items.ItemManager;
-import com.cometproject.api.game.players.data.components.inventory.IInventoryItem;
+import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
 import com.google.common.collect.Lists;
@@ -21,14 +21,14 @@ public class UnseenItemsMessageComposer extends MessageComposer {
         this.newObjects = newObjects;
     }
 
-    public UnseenItemsMessageComposer(final Set<IInventoryItem> IInventoryItems) {
+    public UnseenItemsMessageComposer(final Set<PlayerItem> PlayerItems) {
         this.newObjects = new HashMap<>();
 
-        for (IInventoryItem IInventoryItem : IInventoryItems) {
+        for (PlayerItem PlayerItem : PlayerItems) {
             if (!this.newObjects.containsKey(1)) {
-                this.newObjects.put(1, Lists.newArrayList(ItemManager.getInstance().getItemVirtualId(IInventoryItem.getId())));
+                this.newObjects.put(1, Lists.newArrayList(ItemManager.getInstance().getItemVirtualId(PlayerItem.getId())));
             } else {
-                this.newObjects.get(1).add(ItemManager.getInstance().getItemVirtualId(IInventoryItem.getId()));
+                this.newObjects.get(1).add(ItemManager.getInstance().getItemVirtualId(PlayerItem.getId()));
             }
         }
     }

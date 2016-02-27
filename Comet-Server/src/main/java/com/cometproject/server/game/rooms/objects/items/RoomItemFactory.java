@@ -1,7 +1,7 @@
 package com.cometproject.server.game.rooms.objects.items;
 
 import com.cometproject.server.game.items.ItemManager;
-import com.cometproject.server.game.items.rares.LimitedEditionItem;
+import com.cometproject.server.game.items.rares.LimitedEditionItemData;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.rooms.objects.items.types.DefaultFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.DefaultWallItem;
@@ -170,7 +170,7 @@ public class RoomItemFactory {
         }};
     }
 
-    public static RoomItemFloor createFloor(long id, int baseId, Room room, int ownerId, int x, int y, double height, int rot, String data, LimitedEditionItem limitedEditionItem) {
+    public static RoomItemFloor createFloor(long id, int baseId, Room room, int ownerId, int x, int y, double height, int rot, String data, LimitedEditionItemData limitedEditionItemData) {
         ItemDefinition def = ItemManager.getInstance().getDefinition(baseId);
         RoomItemFloor floorItem = null;
 
@@ -208,14 +208,14 @@ public class RoomItemFactory {
             floorItem = new DefaultFloorItem(id, baseId, room, ownerId, x, y, height, rot, data);
         }
 
-        if (limitedEditionItem != null) {
-            floorItem.setLimitedEditionItem(limitedEditionItem);
+        if (limitedEditionItemData != null) {
+            floorItem.setLimitedEditionItemData(limitedEditionItemData);
         }
 
         return floorItem;
     }
 
-    public static RoomItemWall createWall(long id, int baseId, Room room, int owner, String position, String data, LimitedEditionItem limitedEditionItem) {
+    public static RoomItemWall createWall(long id, int baseId, Room room, int owner, String position, String data, LimitedEditionItemData limitedEditionItemData) {
         ItemDefinition def = ItemManager.getInstance().getDefinition(baseId);
         if (def == null) {
             return null;
@@ -242,8 +242,8 @@ public class RoomItemFactory {
             }
         }
 
-        if (limitedEditionItem != null) {
-            wallItem.setLimitedEditionItem(limitedEditionItem);
+        if (limitedEditionItemData != null) {
+            wallItem.setLimitedEditionItemData(limitedEditionItemData);
         }
 
         return wallItem;

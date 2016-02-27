@@ -1,8 +1,8 @@
 package com.cometproject.server.game.players.types;
 
-import com.cometproject.api.game.players.IPlayer;
-import com.cometproject.api.game.players.data.components.IInventoryComponent;
-import com.cometproject.api.networking.sessions.ISession;
+import com.cometproject.api.game.players.BasePlayer;
+import com.cometproject.api.game.players.data.components.PlayerInventory;
+import com.cometproject.api.networking.sessions.BaseSession;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.players.components.*;
@@ -33,7 +33,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Player implements IPlayer {
+public class Player implements BasePlayer {
 
     private int id;
 
@@ -45,7 +45,7 @@ public class Player implements IPlayer {
     private Session session;
 
     private final PermissionComponent permissions;
-    private final InventoryComponent inventory;
+    private final Inventory inventory;
     private final SubscriptionComponent subscription;
     private final MessengerComponent messenger;
     private final RelationshipComponent relationships;
@@ -118,7 +118,7 @@ public class Player implements IPlayer {
         this.data = new PlayerData(data);
 
         this.permissions = new PermissionComponent(this);
-        this.inventory = new InventoryComponent(this);
+        this.inventory = new Inventory(this);
         this.messenger = new MessengerComponent(this);
         this.subscription = new SubscriptionComponent(this);
         this.relationships = new RelationshipComponent(this);
@@ -196,14 +196,14 @@ public class Player implements IPlayer {
 
     @Override
     public MessageComposer composeCreditBalance() {
-        return new SendCreditsMessageComposer(CometSettings.playerInfiniteBalance ? Player.INFINITE_BALANCE : session.getPlayer().getData().getCredits());
+        return new SendCreditsMessageComposer(CometSettings.playerInfiniteBalance ? com.cometproject.server.game.players.types.Player.INFINITE_BALANCE : session.getPlayer().getData().getCredits());
     }
 
     @Override
     public MessageComposer composeCurrenciesBalance() {
         Map<Integer, Integer> currencies = new HashMap<>();
 
-        currencies.put(0, CometSettings.playerInfiniteBalance ? Player.INFINITE_BALANCE : getData().getActivityPoints());
+        currencies.put(0, CometSettings.playerInfiniteBalance ? com.cometproject.server.game.players.types.Player.INFINITE_BALANCE : getData().getActivityPoints());
         currencies.put(105, getData().getVipPoints());
         currencies.put(5, getData().getVipPoints());
 
@@ -294,7 +294,7 @@ public class Player implements IPlayer {
     }
 
     @Override
-    public void setSession(ISession client) {
+    public void setSession(BaseSession client) {
         this.session = ((Session) client);
     }
 
@@ -334,7 +334,7 @@ public class Player implements IPlayer {
     }
 
     //    @Override
-    public IInventoryComponent getInventory() {
+    public PlayerInventory getInventory() {
         return this.inventory;
     }
 

@@ -1,7 +1,7 @@
 package com.cometproject.server.game.rooms.types.components.types;
 
 import com.cometproject.server.config.Locale;
-import com.cometproject.api.game.players.data.components.inventory.IInventoryItem;
+import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.components.TradeComponent;
@@ -30,7 +30,7 @@ public class Trade {
     /**
      * The items which the entities are trading
      */
-    private Set<IInventoryItem> user1Items, user2Items;
+    private Set<PlayerItem> user1Items, user2Items;
 
     /**
      * Have the entities accepted the trade?
@@ -118,7 +118,7 @@ public class Trade {
      * @param user The user which is adding an item
      * @param item The chosen item
      */
-    public void addItem(int user, IInventoryItem item, boolean update) {
+    public void addItem(int user, PlayerItem item, boolean update) {
         if (user == 1) {
             if (!this.user1Items.contains(item)) {
 
@@ -148,7 +148,7 @@ public class Trade {
         }
     }
 
-    public boolean isOffered(IInventoryItem item) {
+    public boolean isOffered(PlayerItem item) {
         return this.user1Items.contains(item) || this.user2Items.contains(item);
     }
 
@@ -168,7 +168,7 @@ public class Trade {
      * @param user The user which is removing an item
      * @param item The chosen item
      */
-    public void removeItem(int user, IInventoryItem item) {
+    public void removeItem(int user, PlayerItem item) {
         if (user == 1) {
             if (this.user1Items.contains(item)) {
                 this.user1Items.remove(item);
@@ -256,28 +256,28 @@ public class Trade {
      */
     public void complete() {
         // confirm the items still exist before making any permanent changes.
-        for (IInventoryItem item : this.user1Items) {
+        for (PlayerItem item : this.user1Items) {
             if (user1.getPlayer().getInventory().getItem(item.getId()) == null) {
                 sendToUsers(new AlertMessageComposer(Locale.get("game.trade.error")));
                 return;
             }
         }
 
-        for (IInventoryItem item : this.user2Items) {
+        for (PlayerItem item : this.user2Items) {
             if (user2.getPlayer().getInventory().getItem(item.getId()) == null) {
                 sendToUsers(new AlertMessageComposer(Locale.get("game.trade.error")));
                 return;
             }
         }
 
-        for (IInventoryItem item : this.user1Items) {
+        for (PlayerItem item : this.user1Items) {
             user1.getPlayer().getInventory().removeItem(item);
             user2.getPlayer().getInventory().addItem(item);
 
             ItemStorageQueue.getInstance().changeItemOwner(item.getId(), user2.getPlayer().getId());
         }
 
-        for (IInventoryItem item : this.user2Items) {
+        for (PlayerItem item : this.user2Items) {
             user2.getPlayer().getInventory().removeItem(item);
             user1.getPlayer().getInventory().addItem(item);
 

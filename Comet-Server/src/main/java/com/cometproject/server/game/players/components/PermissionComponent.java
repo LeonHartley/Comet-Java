@@ -1,6 +1,6 @@
 package com.cometproject.server.game.players.components;
 
-import com.cometproject.api.game.players.data.components.IPermissionComponent;
+import com.cometproject.api.game.players.data.components.PlayerPermissions;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.permissions.PermissionsManager;
 import com.cometproject.server.game.permissions.types.CommandPermission;
@@ -8,7 +8,7 @@ import com.cometproject.server.game.permissions.types.Rank;
 import com.cometproject.server.game.players.types.Player;
 
 
-public class PermissionComponent implements IPermissionComponent {
+public class PermissionComponent implements PlayerPermissions {
     private Player player;
 
     public PermissionComponent(Player player) {

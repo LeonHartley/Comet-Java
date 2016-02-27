@@ -1,6 +1,6 @@
 package com.cometproject.api.game.players.data.components.bots;
 
-public interface IInventoryBot {
+public interface PlayerBot {
     int getId();
 
     int getOwnerId();

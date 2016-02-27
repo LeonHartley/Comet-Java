@@ -1,6 +1,6 @@
 package com.cometproject.api.game.players.data.components.permissions;
 
-public interface IRank {
+public interface PlayerRank {
     int getId();
 
     String getName();

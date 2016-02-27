@@ -219,15 +219,15 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
             msg.writeInt(0);
 
             ((HighscoreClassicFloorItem) this).composeHighscoreData(msg);
-        } else if (this.getLimitedEditionItem() != null) {
+        } else if (this.getLimitedEditionItemData() != null) {
             msg.writeInt(0);
             msg.writeString("");
             msg.writeBoolean(true);
             msg.writeBoolean(false);
             msg.writeString(this.getExtraData());
 
-            msg.writeInt(this.getLimitedEditionItem().getLimitedRare());
-            msg.writeInt(this.getLimitedEditionItem().getLimitedRareTotal());
+            msg.writeInt(this.getLimitedEditionItemData().getLimitedRare());
+            msg.writeInt(this.getLimitedEditionItemData().getLimitedRareTotal());
         } else {
             msg.writeInt(1);
             msg.writeInt(0);

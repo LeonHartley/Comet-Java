@@ -14,11 +14,11 @@ import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.items.music.MusicData;
-import com.cometproject.server.game.items.rares.LimitedEditionItem;
+import com.cometproject.server.game.items.rares.LimitedEditionItemData;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.pets.data.PetData;
 import com.cometproject.server.game.pets.data.StaticPetProperties;
-import com.cometproject.api.game.players.data.components.inventory.IInventoryItem;
+import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
 import com.cometproject.server.game.players.components.types.inventory.InventoryBot;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.bundles.RoomBundleManager;
@@ -108,7 +108,7 @@ public class OldCatalogPurchaseHandler {
             }
         }
 
-        Set<IInventoryItem> unseenItems = Sets.newHashSet();
+        Set<PlayerItem> unseenItems = Sets.newHashSet();
         CatalogPage page = CatalogManager.getInstance().getPage(pageId);
 
         try {
@@ -418,11 +418,11 @@ public class OldCatalogPurchaseHandler {
                         item.increaseLimitedSells(1);
                         CatalogDao.updateLimitSellsForItem(item.getId());
 
-                        LimitedEditionDao.save(new LimitedEditionItem(newItem, item.getLimitedSells(), item.getLimitedTotal()));
+                        LimitedEditionDao.save(new LimitedEditionItemData(newItem, item.getLimitedSells(), item.getLimitedTotal()));
                     }
 
                     if (giftData == null)
-                        unseenItems.add(client.getPlayer().getInventory().add(newItem, bundledItem.getItemId(), extraData, giftData, item.getLimitedTotal() > 0 ? new LimitedEditionItem(bundledItem.getItemId(), item.getLimitedSells(), item.getLimitedTotal()) : null));
+                        unseenItems.add(client.getPlayer().getInventory().add(newItem, bundledItem.getItemId(), extraData, giftData, item.getLimitedTotal() > 0 ? new LimitedEditionItemData(bundledItem.getItemId(), item.getLimitedSells(), item.getLimitedTotal()) : null));
 
                     if (isTeleport)
                         teleportIds[newItems.indexOf(newItem)] = newItem;
@@ -476,7 +476,7 @@ public class OldCatalogPurchaseHandler {
         Session client = NetworkManager.getInstance().getSessions().getByPlayerId(playerId);
 
         if (client != null) {
-            Set<IInventoryItem> unseenItems = Sets.newHashSet();
+            Set<PlayerItem> unseenItems = Sets.newHashSet();
 
             if (client.getPlayer() != null) {
                 if (client.getPlayer().getInventory() != null) {

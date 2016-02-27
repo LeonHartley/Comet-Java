@@ -1,7 +1,7 @@
 package com.cometproject.server.game.rooms.objects.items;
 
 import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.server.game.items.rares.LimitedEditionItem;
+import com.cometproject.server.game.items.rares.LimitedEditionItemData;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.items.types.LowPriorityItemProcessor;
 import com.cometproject.server.game.rooms.objects.BigRoomFloorObject;
@@ -25,7 +25,7 @@ public abstract class RoomItem extends BigRoomFloorObject implements Attributabl
 
     protected int ticksTimer;
 
-    private LimitedEditionItem limitedEditionItem;
+    private LimitedEditionItemData limitedEditionItemData;
     private Map<String, Object> attributes;
 
     public RoomItem(long id, Position position, Room room) {
@@ -33,8 +33,8 @@ public abstract class RoomItem extends BigRoomFloorObject implements Attributabl
         this.ticksTimer = -1;
     }
 
-    public void setLimitedEditionItem(LimitedEditionItem limitedEditionItem) {
-        this.limitedEditionItem = limitedEditionItem;
+    public void setLimitedEditionItemData(LimitedEditionItemData limitedEditionItemData) {
+        this.limitedEditionItemData = limitedEditionItemData;
     }
 
     public int getItemId() {
@@ -175,7 +175,7 @@ public abstract class RoomItem extends BigRoomFloorObject implements Attributabl
 
     }
 
-    public LimitedEditionItem getLimitedEditionItem() {
-        return limitedEditionItem;
+    public LimitedEditionItemData getLimitedEditionItemData() {
+        return limitedEditionItemData;
     }
 }

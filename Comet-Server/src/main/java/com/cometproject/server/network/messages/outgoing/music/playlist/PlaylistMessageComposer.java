@@ -1,7 +1,7 @@
 package com.cometproject.server.network.messages.outgoing.music.playlist;
 
 import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.server.game.items.music.SongItem;
+import com.cometproject.server.game.items.music.SongItemData;
 import com.cometproject.server.game.rooms.objects.items.types.floor.SoundMachineFloorItem;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
@@ -9,10 +9,10 @@ import com.cometproject.server.protocol.headers.Composers;
 import java.util.List;
 
 public class PlaylistMessageComposer extends MessageComposer {
-    private List<SongItem> songItems;
+    private List<SongItemData> songItemDatas;
 
-    public PlaylistMessageComposer(List<SongItem> songItems) {
-        this.songItems = songItems;
+    public PlaylistMessageComposer(List<SongItemData> songItemDatas) {
+        this.songItemDatas = songItemDatas;
     }
 
     @Override
@@ -23,11 +23,11 @@ public class PlaylistMessageComposer extends MessageComposer {
     @Override
     public void compose(IComposer msg) {
         msg.writeInt(SoundMachineFloorItem.MAX_CAPACITY);
-        msg.writeInt(songItems.size());
+        msg.writeInt(songItemDatas.size());
 
-        for (SongItem songItem : this.songItems) {
-            msg.writeInt(songItem.getItemSnapshot().getBaseItemId());
-            msg.writeInt(songItem.getSongId());
+        for (SongItemData songItemData : this.songItemDatas) {
+            msg.writeInt(songItemData.getItemSnapshot().getBaseItemId());
+            msg.writeInt(songItemData.getSongId());
         }
     }
 }

@@ -1,15 +1,15 @@
 package com.cometproject.server.game.items.music;
 
-import com.cometproject.api.game.furniture.types.ISongItem;
-import com.cometproject.api.game.players.data.components.inventory.IInventoryItemSnapshot;
+import com.cometproject.api.game.furniture.types.SongItem;
+import com.cometproject.api.game.players.data.components.inventory.PlayerItemSnapshot;
 import com.cometproject.server.game.players.components.types.inventory.InventoryItemSnapshot;
 
-public class SongItem implements ISongItem {
+public class SongItemData implements SongItem {
 
     private InventoryItemSnapshot itemSnapshot;
     private int songId;
 
-    public SongItem(InventoryItemSnapshot itemSnapshot, int songId) {
+    public SongItemData(InventoryItemSnapshot itemSnapshot, int songId) {
         this.itemSnapshot = itemSnapshot;
         this.songId = songId;
     }
@@ -22,7 +22,7 @@ public class SongItem implements ISongItem {
         this.songId = songId;
     }
 
-    public IInventoryItemSnapshot getItemSnapshot() {
+    public PlayerItemSnapshot getItemSnapshot() {
         return itemSnapshot;
     }
 }

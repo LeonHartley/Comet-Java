@@ -1,8 +1,7 @@
 package com.cometproject.server.network.messages.outgoing.user.inventory;
 
-import com.cometproject.api.game.players.data.components.bots.IInventoryBot;
+import com.cometproject.api.game.players.data.components.bots.PlayerBot;
 import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.server.game.players.components.types.inventory.InventoryBot;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
 
@@ -11,9 +10,9 @@ import java.util.Map;
 
 public class BotInventoryMessageComposer extends MessageComposer {
 
-    private final Map<Integer, IInventoryBot> bots;
+    private final Map<Integer, PlayerBot> bots;
 
-    public BotInventoryMessageComposer(final Map<Integer, IInventoryBot> bots) {
+    public BotInventoryMessageComposer(final Map<Integer, PlayerBot> bots) {
         this.bots = bots;
     }
 
@@ -35,7 +34,7 @@ public class BotInventoryMessageComposer extends MessageComposer {
 
         msg.writeInt(bots.size());
 
-        for (Map.Entry<Integer, IInventoryBot> bot : bots.entrySet()) {
+        for (Map.Entry<Integer, PlayerBot> bot : bots.entrySet()) {
             msg.writeInt(bot.getKey());
             msg.writeString(bot.getValue().getName());
             msg.writeString(bot.getValue().getMotto());

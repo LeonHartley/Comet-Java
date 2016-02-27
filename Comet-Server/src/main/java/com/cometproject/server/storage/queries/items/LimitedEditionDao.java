@@ -1,6 +1,6 @@
 package com.cometproject.server.storage.queries.items;
 
-import com.cometproject.server.game.items.rares.LimitedEditionItem;
+import com.cometproject.server.game.items.rares.LimitedEditionItemData;
 import com.cometproject.server.storage.SqlHelper;
 
 import java.sql.Connection;
@@ -10,7 +10,7 @@ import java.sql.SQLException;
 
 
 public class LimitedEditionDao {
-    public static void save(LimitedEditionItem item) {
+    public static void save(LimitedEditionItemData item) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
 
@@ -31,7 +31,7 @@ public class LimitedEditionDao {
         }
     }
 
-    public static LimitedEditionItem get(long itemId) {
+    public static LimitedEditionItemData get(long itemId) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -45,7 +45,7 @@ public class LimitedEditionDao {
             resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-                return new LimitedEditionItem(itemId, resultSet.getInt("limited_id"), resultSet.getInt("limited_total"));
+                return new LimitedEditionItemData(itemId, resultSet.getInt("limited_id"), resultSet.getInt("limited_total"));
             }
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);

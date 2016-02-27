@@ -1,7 +1,7 @@
 package com.cometproject.server.network.messages.incoming.music.playlist;
 
 import com.cometproject.server.game.items.ItemManager;
-import com.cometproject.server.game.items.music.SongItem;
+import com.cometproject.server.game.items.music.SongItemData;
 import com.cometproject.server.game.players.components.types.inventory.InventoryItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.SoundMachineFloorItem;
 import com.cometproject.server.game.rooms.types.Room;
@@ -39,7 +39,7 @@ public class PlaylistAddMessageEvent implements Event {
             return;
         }
 
-        soundMachineFloorItem.addSong(new SongItem(inventoryItem.createSnapshot(), inventoryItem.getDefinition().getSongId()));
+        soundMachineFloorItem.addSong(new SongItemData(inventoryItem.createSnapshot(), inventoryItem.getDefinition().getSongId()));
         soundMachineFloorItem.saveData();
 
         RoomItemDao.removeItemFromRoom(inventoryItemId, 0);

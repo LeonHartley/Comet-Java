@@ -1,8 +1,8 @@
 package com.cometproject.server.game.permissions.types;
 
-import com.cometproject.api.game.players.data.components.permissions.IRank;
+import com.cometproject.api.game.players.data.components.permissions.PlayerRank;
 
-public class Rank implements IRank {
+public class Rank implements PlayerRank {
     private final int id;
     private final String name;
 

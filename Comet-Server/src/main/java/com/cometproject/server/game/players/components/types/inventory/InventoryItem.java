@@ -1,14 +1,14 @@
 package com.cometproject.server.game.players.components.types.inventory;
 
-import com.cometproject.api.game.furniture.types.IGiftData;
-import com.cometproject.api.game.furniture.types.ILimitedEditionItem;
-import com.cometproject.api.game.players.data.components.inventory.IInventoryItem;
+import com.cometproject.api.game.furniture.types.GiftItemData;
+import com.cometproject.api.game.furniture.types.LimitedEditionItem;
+import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.catalog.types.gifts.GiftData;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.game.items.ItemManager;
-import com.cometproject.server.game.items.rares.LimitedEditionItem;
+import com.cometproject.server.game.items.rares.LimitedEditionItemData;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.utilities.JsonFactory;
 import org.apache.commons.lang.StringUtils;
@@ -17,13 +17,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
-public class InventoryItem implements IInventoryItem {
+public class InventoryItem implements PlayerItem {
     private long id;
     private int baseId;
     private String extraData;
     private GiftData giftData;
 
-    private ILimitedEditionItem limitedEditionItem;
+    private LimitedEditionItem limitedEditionItem;
 
     public InventoryItem(ResultSet data) throws SQLException {
         this.id = data.getLong("id");
@@ -39,11 +39,11 @@ public class InventoryItem implements IInventoryItem {
         }
 
         if (data.getInt("limited_id") != 0) {
-            this.limitedEditionItem = new LimitedEditionItem(this.id, data.getInt("limited_id"), data.getInt("limited_total"));
+            this.limitedEditionItem = new LimitedEditionItemData(this.id, data.getInt("limited_id"), data.getInt("limited_total"));
         }
     }
 
-    public InventoryItem(long id, int baseId, String extraData, IGiftData giftData, ILimitedEditionItem limitEditionItem) {
+    public InventoryItem(long id, int baseId, String extraData, GiftItemData giftData, LimitedEditionItem limitEditionItem) {
         this.init(id, baseId, extraData, (GiftData) giftData);
 
         this.limitedEditionItem = limitEditionItem;
@@ -138,7 +138,7 @@ public class InventoryItem implements IInventoryItem {
         }
 
         if (isLimited && !isGift) {
-            ILimitedEditionItem limitedEditionItem = this.getLimitedEditionItem();
+            LimitedEditionItem limitedEditionItem = this.getLimitedEditionItem();
 
             msg.writeInt(limitedEditionItem.getLimitedRare());
             msg.writeInt(limitedEditionItem.getLimitedRareTotal());
@@ -218,7 +218,7 @@ public class InventoryItem implements IInventoryItem {
         }
 
         if (isLimited && !isGift) {
-            ILimitedEditionItem limitedEditionItem = this.getLimitedEditionItem();
+            LimitedEditionItem limitedEditionItem = this.getLimitedEditionItem();
 
             msg.writeInt(limitedEditionItem.getLimitedRare());
             msg.writeInt(limitedEditionItem.getLimitedRareTotal());
@@ -258,7 +258,7 @@ public class InventoryItem implements IInventoryItem {
     }
 
     @Override
-    public ILimitedEditionItem getLimitedEditionItem() {
+    public LimitedEditionItem getLimitedEditionItem() {
         return limitedEditionItem;
     }
 

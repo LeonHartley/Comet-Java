@@ -3,7 +3,7 @@ package com.cometproject.server.game.rooms.objects.items.types.floor;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.items.music.MusicData;
-import com.cometproject.server.game.items.music.SongItem;
+import com.cometproject.server.game.items.music.SongItemData;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
@@ -25,7 +25,7 @@ public class SoundMachineFloorItem extends RoomItemFloor implements Stateable {
     private int currentPlayingIndex = -1;
     private long startTimestamp = 0;
 
-    private List<SongItem> songs;
+    private List<SongItemData> songs;
 
     private boolean pendingPlay = false;
 
@@ -33,16 +33,16 @@ public class SoundMachineFloorItem extends RoomItemFloor implements Stateable {
         super(id, itemId, room, owner, x, y, z, rotation, data);
 
         if (data.startsWith("##jukeboxOn[")) {
-            this.songs = JsonFactory.getInstance().fromJson(data.replace("##jukeboxOn", ""), new TypeToken<ArrayList<SongItem>>() {
+            this.songs = JsonFactory.getInstance().fromJson(data.replace("##jukeboxOn", ""), new TypeToken<ArrayList<SongItemData>>() {
             }.getType());
 
             this.pendingPlay = true;
             this.setTicks(RoomItemFactory.getProcessTime(1.5));
         } else if (data.startsWith("##jukeboxOff[")) {
-            this.songs = JsonFactory.getInstance().fromJson(data.replace("##jukeboxOff", ""), new TypeToken<ArrayList<SongItem>>() {
+            this.songs = JsonFactory.getInstance().fromJson(data.replace("##jukeboxOff", ""), new TypeToken<ArrayList<SongItemData>>() {
             }.getType());
         } else if (data.startsWith("[")) {
-            this.songs = JsonFactory.getInstance().fromJson(data, new TypeToken<ArrayList<SongItem>>() {
+            this.songs = JsonFactory.getInstance().fromJson(data, new TypeToken<ArrayList<SongItemData>>() {
             }.getType());
         } else {
             this.songs = new ArrayList<>();
@@ -93,10 +93,10 @@ public class SoundMachineFloorItem extends RoomItemFloor implements Stateable {
             }
 
             if (this.currentPlayingIndex != -1) {
-                SongItem songItem = this.getSongs().get(this.currentPlayingIndex);
+                SongItemData songItemData = this.getSongs().get(this.currentPlayingIndex);
 
-                if (songItem != null) {
-                    MusicData musicData = ItemManager.getInstance().getMusicData(songItem.getSongId());
+                if (songItemData != null) {
+                    MusicData musicData = ItemManager.getInstance().getMusicData(songItemData.getSongId());
 
                     if (musicData != null) {
                         if (this.timePlaying() >= (musicData.getLengthSeconds() + 1.0)) {
@@ -122,19 +122,19 @@ public class SoundMachineFloorItem extends RoomItemFloor implements Stateable {
         }
     }
 
-    public void addSong(SongItem songItem) {
-        this.songs.add(songItem);
+    public void addSong(SongItemData songItemData) {
+        this.songs.add(songItemData);
     }
 
-    public SongItem removeSong(int index) {
+    public SongItemData removeSong(int index) {
         if (index == this.currentPlayingIndex) {
             this.playNextSong();
         }
 
-        SongItem songItem = this.songs.get(index);
+        SongItemData songItemData = this.songs.get(index);
         this.songs.remove(index);
 
-        return songItem;
+        return songItemData;
     }
 
     public void play() {
@@ -187,13 +187,13 @@ public class SoundMachineFloorItem extends RoomItemFloor implements Stateable {
     public MessageComposer getComposer() {
         if (this.currentPlayingIndex == -1) return null;
 
-        SongItem songItem = this.songs.get(this.currentPlayingIndex);
+        SongItemData songItemData = this.songs.get(this.currentPlayingIndex);
 
-        if (songItem == null) {
+        if (songItemData == null) {
             return null;
         }
 
-        int songId = songItem.getSongId();
+        int songId = songItemData.getSongId();
         return new PlayMusicMessageComposer(songId, this.currentPlayingIndex, this.songTimeSync());
     }
 
@@ -206,10 +206,10 @@ public class SoundMachineFloorItem extends RoomItemFloor implements Stateable {
             return 0;
         }
 
-        SongItem songItem = this.getSongs().get(this.currentPlayingIndex);
+        SongItemData songItemData = this.getSongs().get(this.currentPlayingIndex);
 
-        if (songItem != null) {
-            MusicData musicData = ItemManager.getInstance().getMusicData(songItem.getSongId());
+        if (songItemData != null) {
+            MusicData musicData = ItemManager.getInstance().getMusicData(songItemData.getSongId());
 
             if (musicData != null) {
                 if (this.timePlaying() >= musicData.getLengthSeconds())
@@ -230,7 +230,7 @@ public class SoundMachineFloorItem extends RoomItemFloor implements Stateable {
         this.getSongs().clear();
     }
 
-    public List<SongItem> getSongs() {
+    public List<SongItemData> getSongs() {
         return this.songs;
     }
 

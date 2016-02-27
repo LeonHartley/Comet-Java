@@ -1,8 +1,8 @@
 package com.cometproject.server.game.players.components.types.inventory;
 
-import com.cometproject.api.game.players.data.components.inventory.IInventoryItemSnapshot;
+import com.cometproject.api.game.players.data.components.inventory.PlayerItemSnapshot;
 
-public class InventoryItemSnapshot implements IInventoryItemSnapshot {
+public class InventoryItemSnapshot implements PlayerItemSnapshot {
     private long id;
     private int baseItemId;
     private String extraData;

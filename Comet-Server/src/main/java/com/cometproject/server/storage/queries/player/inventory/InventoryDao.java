@@ -1,6 +1,6 @@
 package com.cometproject.server.storage.queries.player.inventory;
 
-import com.cometproject.api.game.players.data.components.inventory.IInventoryItem;
+import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
 import com.cometproject.server.game.players.components.types.inventory.InventoryItem;
 import com.cometproject.server.storage.SqlHelper;
 import org.apache.log4j.Logger;
@@ -19,12 +19,12 @@ public class InventoryDao {
     public static String ITEMS_USERID_INDEX = "";
     private static Logger log = Logger.getLogger(InventoryDao.class.getName());
 
-    public static Map<Long, IInventoryItem> getInventoryByPlayerId(int playerId) {
+    public static Map<Long, PlayerItem> getInventoryByPlayerId(int playerId) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        Map<Long, IInventoryItem> data = new HashMap<>();
+        Map<Long, PlayerItem> data = new HashMap<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();
@@ -38,12 +38,12 @@ public class InventoryDao {
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                IInventoryItem IInventoryItem = new InventoryItem(resultSet);
+                PlayerItem PlayerItem = new InventoryItem(resultSet);
 
-                if (IInventoryItem.getDefinition() != null) {
-                    data.put(resultSet.getLong("id"), IInventoryItem);
+                if (PlayerItem.getDefinition() != null) {
+                    data.put(resultSet.getLong("id"), PlayerItem);
                 } else {
-                    log.warn("InventoryItem: " + IInventoryItem.getId() + " with invalid definition ID: " + IInventoryItem.getBaseId());
+                    log.warn("InventoryItem: " + PlayerItem.getId() + " with invalid definition ID: " + PlayerItem.getBaseId());
                 }
             }
         } catch (SQLException e) {

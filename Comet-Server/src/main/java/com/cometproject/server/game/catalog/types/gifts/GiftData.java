@@ -1,9 +1,9 @@
 package com.cometproject.server.game.catalog.types.gifts;
 
-import com.cometproject.api.game.furniture.types.IGiftData;
+import com.cometproject.api.game.furniture.types.GiftItemData;
 import com.cometproject.server.utilities.JsonData;
 
-public class GiftData implements JsonData, IGiftData {
+public class GiftData implements JsonData, GiftItemData {
     /**
      * The page ID of the item
      */

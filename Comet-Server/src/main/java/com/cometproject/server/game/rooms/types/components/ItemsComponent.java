@@ -1,15 +1,14 @@
 package com.cometproject.server.game.rooms.types.components;
 
-import com.cometproject.api.game.furniture.types.IFurnitureDefinition;
-import com.cometproject.api.game.furniture.types.ILimitedEditionItem;
+import com.cometproject.api.game.furniture.types.FurnitureDefinition;
+import com.cometproject.api.game.furniture.types.LimitedEditionItem;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.items.ItemManager;
-import com.cometproject.server.game.items.rares.LimitedEditionItem;
-import com.cometproject.api.game.players.data.components.inventory.IInventoryItem;
+import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
+import com.cometproject.server.game.items.rares.LimitedEditionItemData;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.storage.queue.types.ItemStorageQueue;
-import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.AffectedTile;
 import com.cometproject.server.game.rooms.objects.items.RoomItem;
@@ -159,8 +158,8 @@ public class ItemsComponent {
         return (MoodlightWallItem) this.getWallItem(this.moodlightId);
     }
 
-    public RoomItemFloor addFloorItem(long id, int baseId, Room room, int ownerId, int x, int y, int rot, double height, String data, ILimitedEditionItem limitedEditionItem) {
-        RoomItemFloor floor = RoomItemFactory.createFloor(id, baseId, room, ownerId, x, y, height, rot, data, (LimitedEditionItem) limitedEditionItem);
+    public RoomItemFloor addFloorItem(long id, int baseId, Room room, int ownerId, int x, int y, int rot, double height, String data, LimitedEditionItem limitedEditionItem) {
+        RoomItemFloor floor = RoomItemFactory.createFloor(id, baseId, room, ownerId, x, y, height, rot, data, (LimitedEditionItemData) limitedEditionItem);
 
         if (floor == null) return null;
 
@@ -260,7 +259,7 @@ public class ItemsComponent {
         this.getWallItems().remove(item.getId());
 
         if (client != null && client.getPlayer() != null) {
-            client.getPlayer().getInventory().add(item.getId(), item.getItemId(), item.getExtraData(), item.getLimitedEditionItem());
+            client.getPlayer().getInventory().add(item.getId(), item.getItemId(), item.getExtraData(), item.getLimitedEditionItemData());
             client.send(new UpdateInventoryMessageComposer());
         }
     }
@@ -304,9 +303,9 @@ public class ItemsComponent {
         if (toInventory && client != null) {
             RoomItemDao.removeItemFromRoom(item.getId(), client.getPlayer().getId());
 
-            final IInventoryItem IInventoryItem = client.getPlayer().getInventory().add(item.getId(), item.getItemId(), item.getExtraData(), item instanceof GiftFloorItem ? ((GiftFloorItem) item).getGiftData() : null, item.getLimitedEditionItem());
+            final PlayerItem PlayerItem = client.getPlayer().getInventory().add(item.getId(), item.getItemId(), item.getExtraData(), item instanceof GiftFloorItem ? ((GiftFloorItem) item).getGiftData() : null, item.getLimitedEditionItemData());
             client.sendQueue(new UpdateInventoryMessageComposer());
-            client.sendQueue(new UnseenItemsMessageComposer(Sets.newHashSet(IInventoryItem)));
+            client.sendQueue(new UnseenItemsMessageComposer(Sets.newHashSet(PlayerItem)));
             client.flush();
         } else {
             if (delete)
@@ -331,7 +330,7 @@ public class ItemsComponent {
         if (toInventory) {
             RoomItemDao.removeItemFromRoom(item.getId(), client.getPlayer().getId());
 
-            client.getPlayer().getInventory().add(item.getId(), item.getItemId(), item.getExtraData(), item.getLimitedEditionItem());
+            client.getPlayer().getInventory().add(item.getId(), item.getItemId(), item.getExtraData(), item.getLimitedEditionItemData());
             client.send(new UpdateInventoryMessageComposer());
             client.send(new UnseenItemsMessageComposer(new HashMap<Integer, List<Integer>>() {{
                 put(1, Lists.newArrayList(item.getVirtualId()));
@@ -428,7 +427,7 @@ public class ItemsComponent {
         return true;
     }
 
-    private boolean verifyItemPosition(IFurnitureDefinition item, RoomTile tile, Position currentPosition) {
+    private boolean verifyItemPosition(FurnitureDefinition item, RoomTile tile, Position currentPosition) {
         if (tile != null) {
             if (currentPosition != null && currentPosition.getX() == tile.getPosition().getX() && currentPosition.getY() == tile.getPosition().getY())
                 return true;
@@ -476,7 +475,7 @@ public class ItemsComponent {
         return true;
     }
 
-    public void placeWallItem(IInventoryItem item, String position, Player player) {
+    public void placeWallItem(PlayerItem item, String position, Player player) {
         int roomId = this.room.getId();
 
         RoomItemDao.placeWallItem(roomId, position, item.getExtraData().trim().isEmpty() ? "0" : item.getExtraData(), item.getId());
@@ -503,7 +502,7 @@ public class ItemsComponent {
         return this.wallItems;
     }
 
-    public void placeFloorItem(IInventoryItem item, int x, int y, int rot, Player player) {
+    public void placeFloorItem(PlayerItem item, int x, int y, int rot, Player player) {
         RoomTile tile = room.getMapping().getTile(x, y);
 
         if (tile == null)

@@ -1,15 +1,13 @@
 package com.cometproject.server.game.players.components;
 
-import com.cometproject.api.game.furniture.types.IGiftData;
-import com.cometproject.api.game.furniture.types.ILimitedEditionItem;
-import com.cometproject.api.game.furniture.types.ISongItem;
-import com.cometproject.api.game.players.data.components.IInventoryComponent;
+import com.cometproject.api.game.furniture.types.GiftItemData;
+import com.cometproject.api.game.furniture.types.LimitedEditionItem;
+import com.cometproject.api.game.furniture.types.SongItem;
+import com.cometproject.api.game.players.data.components.PlayerInventory;
 import com.cometproject.server.config.Locale;
-import com.cometproject.server.game.catalog.types.gifts.GiftData;
 import com.cometproject.server.game.items.ItemManager;
-import com.cometproject.server.game.items.music.SongItem;
-import com.cometproject.server.game.items.rares.LimitedEditionItem;
-import com.cometproject.api.game.players.data.components.inventory.IInventoryItem;
+import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
+import com.cometproject.server.game.items.music.SongItemData;
 import com.cometproject.server.game.players.components.types.inventory.InventoryItem;
 import com.cometproject.server.game.players.components.types.inventory.InventoryItemSnapshot;
 import com.cometproject.server.game.players.types.Player;
@@ -28,18 +26,18 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 
-public class InventoryComponent implements PlayerComponent, IInventoryComponent {
+public class Inventory implements PlayerInventory {
     private Player player;
 
-    private Map<Long, IInventoryItem> floorItems;
-    private Map<Long, IInventoryItem> wallItems;
+    private Map<Long, PlayerItem> floorItems;
+    private Map<Long, PlayerItem> wallItems;
     private Map<String, Integer> badges;
 
     private boolean itemsLoaded = false;
 
-    private Logger log = Logger.getLogger(InventoryComponent.class.getName());
+    private Logger log = Logger.getLogger(Inventory.class.getName());
 
-    public InventoryComponent(Player player) {
+    public Inventory(Player player) {
         this.player = player;
 
         this.floorItems = new ConcurrentHashMap<>();
@@ -61,9 +59,9 @@ public class InventoryComponent implements PlayerComponent, IInventoryComponent 
         }
 
         try {
-            Map<Long, IInventoryItem> inventoryItems = InventoryDao.getInventoryByPlayerId(this.player.getId());
+            Map<Long, PlayerItem> inventoryItems = InventoryDao.getInventoryByPlayerId(this.player.getId());
 
-            for (Map.Entry<Long, IInventoryItem> item : inventoryItems.entrySet()) {
+            for (Map.Entry<Long, PlayerItem> item : inventoryItems.entrySet()) {
                 if (item.getValue().getDefinition().getType().equals("s")) {
                     this.getFloorItems().put(item.getKey(), item.getValue());
                 }
@@ -184,8 +182,8 @@ public class InventoryComponent implements PlayerComponent, IInventoryComponent 
     }
 
     @Override
-    public IInventoryItem add(long id, int itemId, String extraData, IGiftData giftData, ILimitedEditionItem limitedEditionItem) {
-        IInventoryItem item = new InventoryItem(id, itemId, extraData, giftData, limitedEditionItem);
+    public PlayerItem add(long id, int itemId, String extraData, GiftItemData giftData, LimitedEditionItem limitedEditionItem) {
+        PlayerItem item = new InventoryItem(id, itemId, extraData, giftData, limitedEditionItem);
 
         if (item.getDefinition().getType().equals("s")) {
             this.getFloorItems().put(id, (InventoryItem) item);
@@ -199,12 +197,12 @@ public class InventoryComponent implements PlayerComponent, IInventoryComponent 
     }
 
     @Override
-    public List<ISongItem> getSongs() {
-        List<ISongItem> songItems = Lists.newArrayList();
+    public List<SongItem> getSongs() {
+        List<SongItem> songItems = Lists.newArrayList();
 
-        for (IInventoryItem inventoryItem : this.floorItems.values()) {
+        for (PlayerItem inventoryItem : this.floorItems.values()) {
             if (inventoryItem.getDefinition().isSong()) {
-                songItems.add(new SongItem((InventoryItemSnapshot) inventoryItem.createSnapshot(), inventoryItem.getDefinition().getSongId()));
+                songItems.add(new SongItemData((InventoryItemSnapshot) inventoryItem.createSnapshot(), inventoryItem.getDefinition().getSongId()));
             }
         }
 
@@ -212,12 +210,12 @@ public class InventoryComponent implements PlayerComponent, IInventoryComponent 
     }
 
     @Override
-    public void add(long id, int itemId, String extraData, ILimitedEditionItem limitedEditionItem) {
+    public void add(long id, int itemId, String extraData, LimitedEditionItem limitedEditionItem) {
         add(id, itemId, extraData, null, limitedEditionItem);
     }
 
     @Override
-    public void addItem(IInventoryItem item) {
+    public void addItem(PlayerItem item) {
         if ((this.floorItems.size() + this.wallItems.size()) >= 5000) {
             this.getPlayer().sendNotif("Notice", Locale.getOrDefault("game.inventory.limitExceeded", "You have over 5,000 items in your inventory. The next time you login, you will only see the first 5000 items."));
         }
@@ -229,7 +227,7 @@ public class InventoryComponent implements PlayerComponent, IInventoryComponent 
     }
 
     @Override
-    public void removeItem(IInventoryItem item) {
+    public void removeItem(PlayerItem item) {
         if (item.getDefinition().getType().equals("s"))
             floorItems.remove(item.getId());
         else if (item.getDefinition().getType().equals("i"))
@@ -258,7 +256,7 @@ public class InventoryComponent implements PlayerComponent, IInventoryComponent 
     }
 
     @Override
-    public IInventoryItem getFloorItem(long id) {
+    public PlayerItem getFloorItem(long id) {
         if (!this.hasFloorItem(id)) {
             return null;
         }
@@ -272,18 +270,18 @@ public class InventoryComponent implements PlayerComponent, IInventoryComponent 
 
     @Override
     @Deprecated
-    public IInventoryItem getWallItem(int id) {
+    public PlayerItem getWallItem(int id) {
         return getWallItem(ItemManager.getInstance().getItemIdByVirtualId(id));
     }
 
     @Override
     @Deprecated
-    public IInventoryItem getFloorItem(int id) {
+    public PlayerItem getFloorItem(int id) {
         return getFloorItem(ItemManager.getInstance().getItemIdByVirtualId(id));
     }
 
     @Override
-    public IInventoryItem getWallItem(long id) {
+    public PlayerItem getWallItem(long id) {
         if (!this.hasWallItem(id)) {
             return null;
         }
@@ -291,8 +289,8 @@ public class InventoryComponent implements PlayerComponent, IInventoryComponent 
     }
 
     @Override
-    public IInventoryItem getItem(long id) {
-        IInventoryItem item = getFloorItem(id);
+    public PlayerItem getItem(long id) {
+        PlayerItem item = getFloorItem(id);
 
         if (item != null) {
             return item;
@@ -303,11 +301,11 @@ public class InventoryComponent implements PlayerComponent, IInventoryComponent 
 
     @Override
     public void dispose() {
-        for(IInventoryItem floorItem : this.floorItems.values()) {
+        for(PlayerItem floorItem : this.floorItems.values()) {
             ItemManager.getInstance().disposeItemVirtualId(floorItem.getId());
         }
 
-        for(IInventoryItem wallItem : this.wallItems.values()) {
+        for(PlayerItem wallItem : this.wallItems.values()) {
             ItemManager.getInstance().disposeItemVirtualId(wallItem.getId());
         }
 
@@ -327,12 +325,12 @@ public class InventoryComponent implements PlayerComponent, IInventoryComponent 
     }
 
     @Override
-    public Map<Long, IInventoryItem> getWallItems() {
+    public Map<Long, PlayerItem> getWallItems() {
         return this.wallItems;
     }
 
     @Override
-    public Map<Long, IInventoryItem> getFloorItems() {
+    public Map<Long, PlayerItem> getFloorItems() {
         return this.floorItems;
     }
 

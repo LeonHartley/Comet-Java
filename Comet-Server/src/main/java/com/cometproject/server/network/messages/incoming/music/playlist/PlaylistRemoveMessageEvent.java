@@ -1,6 +1,6 @@
 package com.cometproject.server.network.messages.incoming.music.playlist;
 
-import com.cometproject.server.game.items.music.SongItem;
+import com.cometproject.server.game.items.music.SongItemData;
 import com.cometproject.server.game.rooms.objects.items.types.floor.SoundMachineFloorItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.Event;
@@ -35,11 +35,11 @@ public class PlaylistRemoveMessageEvent implements Event {
             return;
         }
 
-        SongItem songItem = soundMachineFloorItem.removeSong(songIndex);
+        SongItemData songItemData = soundMachineFloorItem.removeSong(songIndex);
         soundMachineFloorItem.saveData();
 
-        RoomItemDao.removeItemFromRoom(songItem.getItemSnapshot().getId(), client.getPlayer().getId());
-        client.getPlayer().getInventory().add(songItem.getItemSnapshot().getId(), songItem.getItemSnapshot().getBaseItemId(), songItem.getItemSnapshot().getExtraData(), null);
+        RoomItemDao.removeItemFromRoom(songItemData.getItemSnapshot().getId(), client.getPlayer().getId());
+        client.getPlayer().getInventory().add(songItemData.getItemSnapshot().getId(), songItemData.getItemSnapshot().getBaseItemId(), songItemData.getItemSnapshot().getExtraData(), null);
 
         client.send(new UpdateInventoryMessageComposer());
 
