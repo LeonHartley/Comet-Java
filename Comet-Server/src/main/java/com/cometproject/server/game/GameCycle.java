@@ -1,6 +1,6 @@
 package com.cometproject.server.game;
 
-import com.cometproject.api.networking.sessions.ISession;
+import com.cometproject.api.networking.sessions.BaseSession;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.achievements.types.AchievementType;
@@ -102,7 +102,7 @@ public class GameCycle implements CometTask, Initializable {
         final int dailyScratches = 3;
 
         if (CometSettings.onlineRewardEnabled || updateDaily) {
-            for (ISession client : NetworkManager.getInstance().getSessions().getSessions().values()) {
+            for (BaseSession client : NetworkManager.getInstance().getSessions().getSessions().values()) {
                 try {
                     if (!(client instanceof Session) || client.getPlayer() == null || client.getPlayer().getData() == null) {
                         continue;

@@ -1,6 +1,6 @@
 package com.cometproject.server.api.routes;
 
-import com.cometproject.api.networking.sessions.ISession;
+import com.cometproject.api.networking.sessions.BaseSession;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.catalog.CatalogManager;
@@ -79,7 +79,7 @@ public class SystemRoutes {
             case "modpresets":
                 ModerationManager.getInstance().loadPresets();
 
-                for (ISession session : NetworkManager.getInstance().getSessions().getByPlayerPermission("mod_tool")) {
+                for (BaseSession session : NetworkManager.getInstance().getSessions().getByPlayerPermission("mod_tool")) {
                     session.send(new ModToolMessageComposer());
                 }
 

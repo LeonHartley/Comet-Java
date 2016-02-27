@@ -1,7 +1,7 @@
 package com.cometproject.server.network.sessions;
 
 import com.cometproject.api.networking.messages.IMessageComposer;
-import com.cometproject.api.networking.sessions.ISession;
+import com.cometproject.api.networking.sessions.BaseSession;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.moderation.ModerationManager;
 import com.cometproject.server.game.players.PlayerManager;
@@ -19,7 +19,7 @@ import java.net.InetSocketAddress;
 import java.util.UUID;
 
 
-public class Session implements ISession {
+public class Session implements BaseSession {
     private Logger logger = Logger.getLogger("Session");
     public static int CLIENT_VERSION = 0;
 

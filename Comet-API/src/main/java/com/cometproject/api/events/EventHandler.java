@@ -2,7 +2,7 @@ package com.cometproject.api.events;
 
 
 import com.cometproject.api.commands.CommandInfo;
-import com.cometproject.api.networking.sessions.ISession;
+import com.cometproject.api.networking.sessions.BaseSession;
 
 import java.util.Map;
 import java.util.function.BiConsumer;
@@ -14,11 +14,11 @@ public interface EventHandler  {
 
    void registerEvent(Event consumer);
 
-   void registerChatCommand(String commandExecutor, BiConsumer<ISession, String[]> consumer);
+   void registerChatCommand(String commandExecutor, BiConsumer<BaseSession, String[]> consumer);
 
    void registerCommandInfo(String commandName, CommandInfo info);
 
    Map<String, CommandInfo> getCommands();
 
-   boolean handleCommand(ISession session, String commandExectutor, String[] arguments);
+   boolean handleCommand(BaseSession session, String commandExectutor, String[] arguments);
 }

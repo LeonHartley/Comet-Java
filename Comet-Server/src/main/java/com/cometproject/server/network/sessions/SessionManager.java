@@ -1,7 +1,7 @@
 package com.cometproject.server.network.sessions;
 
 import com.cometproject.api.networking.messages.IMessageComposer;
-import com.cometproject.api.networking.sessions.ISession;
+import com.cometproject.api.networking.sessions.BaseSession;
 import com.cometproject.api.networking.sessions.ISessionManager;
 import com.cometproject.api.networking.sessions.SessionManagerAccessor;
 import com.cometproject.server.game.players.PlayerManager;
@@ -30,7 +30,7 @@ public final class SessionManager implements ISessionManager {
     public static final AttributeKey<Integer> CHANNEL_ID_ATTR = AttributeKey.valueOf("ChannelId.attr");
 
     private final AtomicInteger idGenerator = new AtomicInteger();
-    private final Map<Integer, ISession> sessions = new ConcurrentHashMap<>();
+    private final Map<Integer, BaseSession> sessions = new ConcurrentHashMap<>();
 
     private final ChannelGroup channelGroup = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
 
@@ -90,13 +90,13 @@ public final class SessionManager implements ISessionManager {
         return null;
     }
 
-    public Set<ISession> getByPlayerPermission(String permission) {
+    public Set<BaseSession> getByPlayerPermission(String permission) {
         // TODO: Optimize this
-        Set<ISession> sessions = new HashSet<>();
+        Set<BaseSession> sessions = new HashSet<>();
 
 //        int rank = PermissionsManager.getInstance().getPermissions().get(permission).getRank();
 //
-//        for (Map.Entry<Integer, ISession> session : this.sessions.entrySet()) {
+//        for (Map.Entry<Integer, BaseSession> session : this.sessions.entrySet()) {
 //            if (session.getValue().getPlayer() != null) {
 //                if (((Session) session.getValue()).getPlayer().getData().getRank() >= rank) {
 //                    sessions.add(session.getValue());
@@ -128,7 +128,7 @@ public final class SessionManager implements ISessionManager {
         return PlayerManager.getInstance().size();
     }
 
-    public Map<Integer, ISession> getSessions() {
+    public Map<Integer, BaseSession> getSessions() {
         return this.sessions;
     }
 
@@ -145,7 +145,7 @@ public final class SessionManager implements ISessionManager {
     }
 
     public void broadcastToModerators(IMessageComposer messageComposer) {
-        for (ISession session : this.sessions.values()) {
+        for (BaseSession session : this.sessions.values()) {
             if (session.getPlayer() != null && session.getPlayer().getPermissions() != null && session.getPlayer().getPermissions().getRank().modTool()) {
                 session.send(messageComposer);
             }

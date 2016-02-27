@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms.objects.entities.types;
 
-import com.cometproject.api.game.rooms.entities.IPlayerEntity;
+import com.cometproject.api.game.rooms.entities.PlayerRoomEntity;
 import com.cometproject.api.game.rooms.settings.RoomAccessType;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.boot.Comet;
@@ -58,7 +58,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attributable, IPlayerEntity {
+public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attributable, PlayerRoomEntity {
     private static final Logger log = Logger.getLogger(PlayerEntity.class.getName());
     private Player player;
     private PlayerData playerData;

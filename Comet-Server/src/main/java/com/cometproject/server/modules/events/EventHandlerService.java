@@ -1,15 +1,12 @@
 package com.cometproject.server.modules.events;
 
 import com.cometproject.api.commands.CommandInfo;
-import com.cometproject.api.commands.ModuleChatCommand;
 import com.cometproject.api.events.Event;
 import com.cometproject.api.events.EventArgs;
 import com.cometproject.api.events.EventHandler;
-import com.cometproject.api.networking.sessions.ISession;
-import com.cometproject.server.game.commands.ChatCommand;
+import com.cometproject.api.networking.sessions.BaseSession;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import org.apache.hadoop.io.BinaryComparable;
 import org.apache.log4j.Logger;
 
 import java.util.List;
@@ -24,7 +21,7 @@ public class EventHandlerService implements EventHandler {
 
     private final Map<Class<?>, List<Event>> listeners;
 
-    private final Map<String, BiConsumer<ISession, String[]>> chatCommands;
+    private final Map<String, BiConsumer<BaseSession, String[]>> chatCommands;
     private final Map<String, CommandInfo> commandInfo;
 
     public EventHandlerService() {
@@ -55,7 +52,7 @@ public class EventHandlerService implements EventHandler {
     }
 
     @Override
-    public void registerChatCommand(String commandExecutor, BiConsumer<ISession, String[]> consumer) {
+    public void registerChatCommand(String commandExecutor, BiConsumer<BaseSession, String[]> consumer) {
         this.chatCommands.put(commandExecutor, consumer);
     }
 
@@ -88,7 +85,7 @@ public class EventHandlerService implements EventHandler {
     }
 
     @Override
-    public boolean handleCommand(ISession session, String commandExectutor, String[] arguments) {
+    public boolean handleCommand(BaseSession session, String commandExectutor, String[] arguments) {
         if(!this.chatCommands.containsKey(commandExectutor) || !this.commandInfo.containsKey(commandExectutor)) {
             return false;
         }
@@ -99,7 +96,7 @@ public class EventHandlerService implements EventHandler {
             return false;
         }
 
-        BiConsumer<ISession, String[]> chatCommand = this.chatCommands.get(commandExectutor);
+        BiConsumer<BaseSession, String[]> chatCommand = this.chatCommands.get(commandExectutor);
 
         try {
             chatCommand.accept(session, arguments);
