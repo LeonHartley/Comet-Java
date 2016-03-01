@@ -24,11 +24,11 @@ public class UnseenItemsMessageComposer extends MessageComposer {
     public UnseenItemsMessageComposer(final Set<PlayerItem> PlayerItems) {
         this.newObjects = new HashMap<>();
 
-        for (PlayerItem PlayerItem : PlayerItems) {
+        for (PlayerItem playerItem : PlayerItems) {
             if (!this.newObjects.containsKey(1)) {
-                this.newObjects.put(1, Lists.newArrayList(ItemManager.getInstance().getItemVirtualId(PlayerItem.getId())));
+                this.newObjects.put(1, Lists.newArrayList(ItemManager.getInstance().getItemVirtualId(playerItem.getId())));
             } else {
-                this.newObjects.get(1).add(ItemManager.getInstance().getItemVirtualId(PlayerItem.getId()));
+                this.newObjects.get(1).add(ItemManager.getInstance().getItemVirtualId(playerItem.getId()));
             }
         }
     }

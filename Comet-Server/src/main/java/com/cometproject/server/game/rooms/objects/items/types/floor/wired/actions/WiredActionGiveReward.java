@@ -9,6 +9,7 @@ import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
 import com.cometproject.server.game.players.components.types.inventory.InventoryItem;
 import com.cometproject.server.game.players.data.PlayerData;
+import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
@@ -223,12 +224,12 @@ public class WiredActionGiveReward extends WiredActionItem {
                         if (itemDefinition != null) {
                             long newItem = ItemDao.createItem(playerEntity.getPlayerId(), itemId, extraData);
 
-                            PlayerItem PlayerItem = new InventoryItem(newItem, itemId, extraData);
+                            PlayerItem playerItem = new InventoryItem(newItem, itemId, extraData);
 
-                            playerEntity.getPlayer().getInventory().addItem(PlayerItem);
+                            playerEntity.getPlayer().getInventory().addItem(playerItem);
 
                             playerEntity.getPlayer().getSession().send(new UpdateInventoryMessageComposer());
-                            playerEntity.getPlayer().getSession().send(new UnseenItemsMessageComposer(Sets.newHashSet(PlayerItem)));
+                            playerEntity.getPlayer().getSession().send(new UnseenItemsMessageComposer(Sets.newHashSet(playerItem)));
 
                             playerEntity.getPlayer().getSession().send(new WiredRewardMessageComposer(6));
                         }

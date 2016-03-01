@@ -21,14 +21,14 @@ public class TakePhotoMessageEvent implements Event {
         final String itemExtraData = "{\"t\":" + System.currentTimeMillis() + ",\"u\":\"" + code + "\",\"n\":\"" + client.getPlayer().getData().getUsername() + "\",\"m\":\"\",\"s\":" + client.getPlayer().getId() + ",\"w\":\"" + CometSettings.cameraPhotoUrl.replace("%photoId%", code) + "\"}";
 
         long itemId = ItemDao.createItem(client.getPlayer().getId(), CometSettings.cameraPhotoItemId, itemExtraData);
-        final PlayerItem PlayerItem = new InventoryItem(itemId, CometSettings.cameraPhotoItemId, itemExtraData);
+        final PlayerItem playerItem = new InventoryItem(itemId, CometSettings.cameraPhotoItemId, itemExtraData);
 
-        client.getPlayer().getInventory().addItem(PlayerItem);
+        client.getPlayer().getInventory().addItem(playerItem);
 
         client.send(new NotificationMessageComposer("generic", Locale.getOrDefault("camera.photoTaken", "You successfully took a photo!")));
         client.send(new UpdateInventoryMessageComposer());
 
-        client.send(new UnseenItemsMessageComposer(Sets.newHashSet(PlayerItem)));
+        client.send(new UnseenItemsMessageComposer(Sets.newHashSet(playerItem)));
 
         client.getPlayer().getAchievements().progressAchievement(AchievementType.CAMERA_PHOTO, 1);
     }

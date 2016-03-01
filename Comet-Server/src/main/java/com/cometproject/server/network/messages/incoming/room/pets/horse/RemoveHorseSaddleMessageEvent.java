@@ -38,8 +38,8 @@ public class RemoveHorseSaddleMessageEvent implements Event {
 
             long itemId = ItemDao.createItem(client.getPlayer().getId(), ItemManager.getInstance().getSaddleId(), "");
 
-            PlayerItem PlayerItem = client.getPlayer().getInventory().add(itemId, ItemManager.getInstance().getSaddleId(), "", null, null);
-            client.send(new UnseenItemsMessageComposer(Sets.newHashSet(PlayerItem)));
+            PlayerItem playerItem = client.getPlayer().getInventory().add(itemId, ItemManager.getInstance().getSaddleId(), "", null, null);
+            client.send(new UnseenItemsMessageComposer(Sets.newHashSet(playerItem)));
             client.send(new UpdateInventoryMessageComposer());
         }
     }

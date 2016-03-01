@@ -56,8 +56,8 @@ public abstract class Pathfinder {
             current = openList.pollFirst();
             current.setInClosed(true);
 
-            for (int i = 0; i < (pathfinderMode == ALLOW_DIAGONAL ? diagonalMovePoints().length : movePoints().length); i++) {
-                tmp = current.getPosition().add((pathfinderMode == ALLOW_DIAGONAL ? diagonalMovePoints() : movePoints())[i]);
+            for (int i = 0; i < (pathfinderMode == ALLOW_DIAGONAL ? diagonalMovePoints.length : movePoints.length); i++) {
+                tmp = current.getPosition().add((pathfinderMode == ALLOW_DIAGONAL ? diagonalMovePoints : movePoints)[i]);
                 final boolean isFinalMove = (tmp.getX() == end.getX() && tmp.getY() == end.getY());
 
                 if (this.isValidStep(roomFloorObject, new Position(current.getPosition().getX(), current.getPosition().getY(), current.getPosition().getZ()), tmp, isFinalMove, isRetry)) {
@@ -113,25 +113,21 @@ public abstract class Pathfinder {
                 (roomObject instanceof RoomEntity && ((RoomEntity) roomObject).isOverriden()));
     }
 
-    private Position[] diagonalMovePoints() {
-        return new Position[]{
-                new Position(0, -1),
-                new Position(0, 1),
-                new Position(1, 0),
-                new Position(-1, 0),
-                new Position(1, -1),
-                new Position(-1, 1),
-                new Position(1, 1),
-                new Position(-1, -1)
-        };
-    }
+    private final Position[] diagonalMovePoints = new Position[]{
+            new Position(0, -1),
+            new Position(0, 1),
+            new Position(1, 0),
+            new Position(-1, 0),
+            new Position(1, -1),
+            new Position(-1, 1),
+            new Position(1, 1),
+            new Position(-1, -1)
+    };
 
-    private Position[] movePoints() {
-        return new Position[]{
-                new Position(0, -1),
-                new Position(1, 0),
-                new Position(0, 1),
-                new Position(-1, 0)
-        };
-    }
+    private final Position[] movePoints = new Position[]{
+            new Position(0, -1),
+            new Position(1, 0),
+            new Position(0, 1),
+            new Position(-1, 0)
+    };
 }

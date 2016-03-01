@@ -33,14 +33,14 @@ public class TradingOfferItemsMessageEvent implements Event {
 
         int i = 0;
 
-        for(PlayerItem PlayerItem : client.getPlayer().getInventory().getFloorItems().values()) {
+        for(PlayerItem playerItem : client.getPlayer().getInventory().getFloorItems().values()) {
             if(i >= amount)
                 break;
 
-            if (PlayerItem.getBaseId() == item.getBaseId() && !trade.isOffered(PlayerItem)) {
+            if (playerItem.getBaseId() == item.getBaseId() && !trade.isOffered(playerItem)) {
                 i++;
 
-                trade.addItem(trade.getUserNumber(client.getPlayer().getEntity()), PlayerItem, false);
+                trade.addItem(trade.getUserNumber(client.getPlayer().getEntity()), playerItem, false);
             }
         }
 

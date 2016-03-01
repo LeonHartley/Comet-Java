@@ -24,10 +24,10 @@ public class RedeemCreditsCommand extends ChatCommand {
             return;
         }
 
-        for (PlayerItem PlayerItem : client.getPlayer().getInventory().getFloorItems().values()) {
-            if (PlayerItem == null || PlayerItem.getDefinition() == null) continue;
+        for (PlayerItem playerItem : client.getPlayer().getInventory().getFloorItems().values()) {
+            if (playerItem == null || playerItem.getDefinition() == null) continue;
 
-            String itemName = PlayerItem.getDefinition().getItemName();
+            String itemName = playerItem.getDefinition().getItemName();
 
             if (itemName.startsWith("CF_") || itemName.startsWith("CFC_")) {
                 try {
@@ -37,9 +37,9 @@ public class RedeemCreditsCommand extends ChatCommand {
                         coinsToGive += Integer.parseInt(itemName.split("_")[1]);
                     }
 
-                    itemsToRemove.add(PlayerItem.getId());
+                    itemsToRemove.add(playerItem.getId());
 
-                    RoomItemDao.deleteItem(PlayerItem.getId());
+                    RoomItemDao.deleteItem(playerItem.getId());
                 } catch (Exception ignored) {
 
                 }

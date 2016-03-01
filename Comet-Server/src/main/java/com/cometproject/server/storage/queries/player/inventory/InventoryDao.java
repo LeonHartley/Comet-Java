@@ -38,12 +38,12 @@ public class InventoryDao {
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                PlayerItem PlayerItem = new InventoryItem(resultSet);
+                PlayerItem playerItem = new InventoryItem(resultSet);
 
-                if (PlayerItem.getDefinition() != null) {
-                    data.put(resultSet.getLong("id"), PlayerItem);
+                if (playerItem.getDefinition() != null) {
+                    data.put(resultSet.getLong("id"), playerItem);
                 } else {
-                    log.warn("InventoryItem: " + PlayerItem.getId() + " with invalid definition ID: " + PlayerItem.getBaseId());
+                    log.warn("InventoryItem: " + playerItem.getId() + " with invalid definition ID: " + playerItem.getBaseId());
                 }
             }
         } catch (SQLException e) {
