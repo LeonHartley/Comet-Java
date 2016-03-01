@@ -305,7 +305,7 @@ public class ItemsComponent {
 
             final PlayerItem playerItem = client.getPlayer().getInventory().add(item.getId(), item.getItemId(), item.getExtraData(), item instanceof GiftFloorItem ? ((GiftFloorItem) item).getGiftData() : null, item.getLimitedEditionItemData());
             client.sendQueue(new UpdateInventoryMessageComposer());
-            client.sendQueue(new UnseenItemsMessageComposer(Sets.newHashSet(PlayerItem)));
+            client.sendQueue(new UnseenItemsMessageComposer(Sets.newHashSet(playerItem)));
             client.flush();
         } else {
             if (delete)
