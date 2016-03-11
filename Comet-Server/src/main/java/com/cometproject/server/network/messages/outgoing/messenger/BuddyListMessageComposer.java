@@ -83,9 +83,9 @@ public class BuddyListMessageComposer extends MessageComposer {
         }
 
         if (hasStaffChat) {
-            msg.writeInt(-1);
+            msg.writeInt(Integer.MAX_VALUE);
             msg.writeString("Staff chat");
-            msg.writeInt(1);
+            msg.writeInt(77);
             msg.writeBoolean(true);
             msg.writeBoolean(false);
             msg.writeString("hr-831-45.fa-1206-91.sh-290-1331.ha-3129-100.hd-180-2.cc-3039-73.ch-3215-92.lg-270-73");
@@ -93,8 +93,7 @@ public class BuddyListMessageComposer extends MessageComposer {
             msg.writeString("");
             msg.writeString("");
             msg.writeString("");
-            msg.writeBoolean(true);
-            msg.writeBoolean(true);
+            msg.writeBoolean(false);
             msg.writeBoolean(false);
             msg.writeBoolean(false);
             msg.writeShort(0);

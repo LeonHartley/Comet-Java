@@ -33,6 +33,7 @@ public class StorageManager implements Initializable {
             config.setPassword(Comet.getServer().getConfig().get("comet.db.password"));
 
             config.setMaximumPoolSize(Integer.parseInt(Comet.getServer().getConfig().get("comet.db.pool.max")));
+
 //            config.setMaxConnectionsPerPartition(Integer.parseInt(Comet.getServer().getConfig().get("comet.db.pool.max")));
 //            config.setPartitionCount(Integer.parseInt(Comet.getServer().getConfig().get("comet.db.pool.count")));
 //

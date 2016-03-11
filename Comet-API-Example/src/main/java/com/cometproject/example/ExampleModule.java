@@ -3,7 +3,6 @@ package com.cometproject.example;
 import com.cometproject.api.config.ModuleConfig;
 import com.cometproject.api.events.players.OnPlayerLoginEvent;
 import com.cometproject.api.events.players.args.OnPlayerLoginEventArgs;
-import com.cometproject.api.game.players.Player;
 import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
 import com.cometproject.api.modules.BaseModule;
 import com.cometproject.api.networking.sessions.BaseSession;
@@ -34,7 +33,7 @@ public class ExampleModule extends BaseModule {
     }
 
     public void inventoryCommand(BaseSession session, String[] args) {
-        if(!session.getPlayer().getInventory().itemsLoaded()) {
+        if (!session.getPlayer().getInventory().itemsLoaded()) {
             session.getPlayer().getInventory().loadItems();
         }
 
@@ -42,21 +41,21 @@ public class ExampleModule extends BaseModule {
 
         Map<String, AtomicInteger> inventoryItemsAndQuantity = Maps.newHashMap();
 
-        for(PlayerItem item : session.getPlayer().getInventory().getFloorItems().values()) {
-            if(inventoryItemsAndQuantity.containsKey(item.getDefinition().getPublicName()))
+        for (PlayerItem item : session.getPlayer().getInventory().getFloorItems().values()) {
+            if (inventoryItemsAndQuantity.containsKey(item.getDefinition().getPublicName()))
                 inventoryItemsAndQuantity.get(item.getDefinition().getPublicName()).incrementAndGet();
             else
                 inventoryItemsAndQuantity.put(item.getDefinition().getPublicName(), new AtomicInteger(1));
         }
 
-        for(PlayerItem item : session.getPlayer().getInventory().getWallItems().values()) {
-            if(inventoryItemsAndQuantity.containsKey(item.getDefinition().getPublicName()))
+        for (PlayerItem item : session.getPlayer().getInventory().getWallItems().values()) {
+            if (inventoryItemsAndQuantity.containsKey(item.getDefinition().getPublicName()))
                 inventoryItemsAndQuantity.get(item.getDefinition().getPublicName()).incrementAndGet();
             else
                 inventoryItemsAndQuantity.put(item.getDefinition().getPublicName(), new AtomicInteger(1));
         }
 
-        for(Map.Entry<String, AtomicInteger> item : inventoryItemsAndQuantity.entrySet()) {
+        for (Map.Entry<String, AtomicInteger> item : inventoryItemsAndQuantity.entrySet()) {
             inventoryStr.append(item.getValue().get() + " x " + item.getKey() + "\n");
         }
 
@@ -64,13 +63,13 @@ public class ExampleModule extends BaseModule {
     }
 
     public void onPlayerLogin(OnPlayerLoginEventArgs eventArgs) {
-        Player player = eventArgs.getPlayer();
-
-        player.sendNotif("Welcome!", "Hey " + eventArgs.getPlayer().getData().getUsername() + ", you've received your login bonus!");
-
-        player.getData().increaseCredits(100);
-        player.getData().save();
-
-        player.sendBalance();
+//         player = eventArgs.getPlayer();
+//
+//        player.sendNotif("Welcome!", "Hey " + eventArgs.getPlayer().getData().getUsername() + ", you've received your login bonus!");
+//
+//        player.getData().increaseCredits(100);
+//        player.getData().save();
+//
+//        player.sendBalance();
     }
 }

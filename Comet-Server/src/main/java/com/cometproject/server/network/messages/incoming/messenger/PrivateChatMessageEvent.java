@@ -20,10 +20,10 @@ public class PrivateChatMessageEvent implements Event {
         int userId = msg.readInt();
         String message = msg.readString();
 
-        if (userId == -1 && client.getPlayer().getPermissions().getRank().messengerStaffChat()) {
+        if (userId == Integer.MAX_VALUE && client.getPlayer().getPermissions().getRank().messengerStaffChat()) {
             for (Session player : ModerationManager.getInstance().getModerators()) {
                 if (player == client) continue;
-                player.send(new InstantChatMessageComposer(client.getPlayer().getData().getUsername() + ": " + message, -1));
+                player.send(new InstantChatMessageComposer(client.getPlayer().getData().getUsername() + ": " + message, Integer.MAX_VALUE));
             }
             return;
         }
