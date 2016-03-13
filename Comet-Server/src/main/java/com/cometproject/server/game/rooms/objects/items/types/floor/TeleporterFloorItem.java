@@ -39,30 +39,30 @@ public class TeleporterFloorItem extends RoomItemFloor {
     public boolean onInteract(RoomEntity entity, int requestData, boolean isWiredTrigger) {
         if (isWiredTrigger) return false;
 
-//        Position posInFront = this.getPosition().squareInFront(this.getRotation());
-//
-//        if (entity.isOverriden()) return false;
-//
-//        if (entity.getPosition().getX() != posInFront.getX() || entity.getPosition().getY() != posInFront.getY()) {
-//            entity.moveTo(posInFront.getX(), posInFront.getY());
-//
-//            RoomTile tile = this.getRoom().getMapping().getTile(posInFront.getX(), posInFront.getY());
-//
-//            if (tile != null) {
-//                tile.scheduleEvent(entity.getId(), (e) -> onInteract(e, requestData, false));
-//            }
-//            return false;
-//        }
-//
-////
-//        this.inUse = true;
-//        this.outgoingEntity = entity;
-//        this.outgoingEntity.setOverriden(true);
-//
-//        this.state = 0;
-//        this.setTicks(RoomItemFactory.getProcessTime(1));
+        Position posInFront = this.getPosition().squareInFront(this.getRotation());
 
-        CometThreadManager.getInstance().executeSchedule(new TeleportItemEvent(this, entity), 1, TimeUnit.SECONDS);
+        if (entity.isOverriden()) return false;
+
+        if (entity.getPosition().getX() != posInFront.getX() || entity.getPosition().getY() != posInFront.getY()) {
+            entity.moveTo(posInFront.getX(), posInFront.getY());
+
+            RoomTile tile = this.getRoom().getMapping().getTile(posInFront.getX(), posInFront.getY());
+
+            if (tile != null) {
+                tile.scheduleEvent(entity.getId(), (e) -> onInteract(e, requestData, false));
+            }
+            return false;
+        }
+
+//
+        this.inUse = true;
+        this.outgoingEntity = entity;
+        this.outgoingEntity.setOverriden(true);
+
+        this.state = 0;
+        this.setTicks(RoomItemFactory.getProcessTime(1));
+
+//        CometThreadManager.getInstance().executeSchedule(new TeleportItemEvent(this, entity), 1, TimeUnit.SECONDS);
         return true;
     }
 

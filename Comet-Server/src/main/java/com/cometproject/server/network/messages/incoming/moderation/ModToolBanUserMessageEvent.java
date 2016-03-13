@@ -19,12 +19,10 @@ import com.cometproject.server.storage.queries.player.PlayerDao;
 
 public class ModToolBanUserMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) {
-        int userId = msg.readInt();
-        String message = msg.readString();
-        int length = msg.readInt();
-        String category = msg.readString();
-        String presetAction = msg.readString();
-
+        final int userId = msg.readInt();
+        final String message = msg.readString();
+        final int length = msg.readInt();
+        
         if (!client.getPlayer().getPermissions().getRank().modTool()) {
             client.disconnect();
             return;
