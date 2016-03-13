@@ -22,7 +22,7 @@ public class ModToolBanUserMessageEvent implements Event {
         final int userId = msg.readInt();
         final String message = msg.readString();
         final int length = msg.readInt();
-        
+
         if (!client.getPlayer().getPermissions().getRank().modTool()) {
             client.disconnect();
             return;

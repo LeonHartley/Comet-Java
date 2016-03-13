@@ -193,6 +193,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.GetModeratorTicketChatlogsMessageEvent, new ModToolTicketChatlogMessageEvent());
         this.getMessages().put(Events.CloseTicketMesageEvent, new ModToolCloseIssueMessageEvent());
         this.getMessages().put(Events.ReleaseTicketMessageEvent, new ModToolReleaseIssueMessageEvent());
+        this.getMessages().put(Events.ModerationMuteMessageEvent, new ModerationMuteUserMessageEvent());
     }
 
     public void registerHelpTool() {
