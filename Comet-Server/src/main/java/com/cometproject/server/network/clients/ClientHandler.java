@@ -45,6 +45,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<MessageEvent> {
         }
 
         NetworkManager.getInstance().getSessions().remove(ctx);
+        ctx.attr(SessionManager.SESSION_ATTR).remove();
     }
 
     @Override
