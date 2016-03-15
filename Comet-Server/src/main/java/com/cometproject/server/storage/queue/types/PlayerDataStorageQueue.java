@@ -67,6 +67,14 @@ public class PlayerDataStorageQueue implements Initializable, CometTask, Storage
         return this.playerData.containsKey(object.getId());
     }
 
+    public boolean isPlayerSaving(int playerId) {
+        return this.playerData.containsKey(playerId);
+    }
+
+    public PlayerData getPlayerData(int playerId) {
+        return this.playerData.get(playerId);
+    }
+
     @Override
     public void shutdown() {
         this.future.cancel(false);

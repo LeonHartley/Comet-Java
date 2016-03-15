@@ -141,7 +141,7 @@ public class RoomItemFactory {
             put("bb_blue_gate", BanzaiGateFloorItem.class);
             put("bb_green_gate", BanzaiGateFloorItem.class);
             put("bb_patch", BanzaiTileFloorItem.class);
-            put("bb_timer", BanzaiTimerFloorItem.class);
+//            put("bb_timer", BanzaiTimerFloorItem.class);
             put("bb_puck", BanzaiPuckFloorItem.class);
 
             put("group_item", GroupFloorItem.class);

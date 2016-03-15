@@ -115,7 +115,11 @@ public class Player implements BasePlayer {
             this.stats = new PlayerStatistics(data, true);
         }
 
-        this.data = new PlayerData(data);
+        if (PlayerDataStorageQueue.getInstance().isPlayerSaving(this.id)) {
+            this.data = PlayerDataStorageQueue.getInstance().getPlayerData(this.id);
+        } else {
+            this.data = new PlayerData(data);
+        }
 
         this.permissions = new PermissionComponent(this);
         this.inventory = new Inventory(this);
@@ -144,7 +148,7 @@ public class Player implements BasePlayer {
             }
         }
 
-        if(PlayerDataStorageQueue.getInstance().isQueued(this.getData())) {
+        if (PlayerDataStorageQueue.getInstance().isQueued(this.getData())) {
             this.data.saveNow();
             PlayerDataStorageQueue.getInstance().unqueue(this.getData());
         }
@@ -566,6 +570,7 @@ public class Player implements BasePlayer {
     private int roomQueueId = 0;
 
     private int spectatorRoomId = 0;
+
     public boolean hasQueued(int id) {
         if (roomQueueId == id) return true;
 
@@ -577,7 +582,7 @@ public class Player implements BasePlayer {
     }
 
     public boolean isSpectating(int id) {
-        if(this.spectatorRoomId == id) {
+        if (this.spectatorRoomId == id) {
             return true;
         }
 
