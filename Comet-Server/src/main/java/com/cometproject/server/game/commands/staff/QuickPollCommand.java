@@ -23,9 +23,9 @@ public class QuickPollCommand extends ChatCommand {
         String question = this.merge(params);
 
         if (params[0].equals("end")) {
-            client.getPlayer().getEntity().getRoom().endQuestion();
+            room.endQuestion();
         } else {
-            client.getPlayer().getEntity().getRoom().startQuestion(question);
+            room.startQuestion(question);
         }
     }
 
