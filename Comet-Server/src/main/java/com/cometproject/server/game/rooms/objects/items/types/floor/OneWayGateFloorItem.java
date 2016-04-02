@@ -41,15 +41,17 @@ public class OneWayGateFloorItem extends RoomItemFloor {
         this.sendUpdate();
 
         this.interactingEntity = entity;
-        this.setTicks(RoomItemFactory.getProcessTime(2.0));
-
+        this.setTicks(RoomItemFactory.getProcessTime(1.0));
 
         return true;
     }
 
     @Override
     public void onTickComplete() {
-        this.interactingEntity.setOverriden(false);
+        if(this.isInUse) {
+            this.interactingEntity.setOverriden(false);
+            this.setTicks(RoomItemFactory.getProcessTime(1.0));
+        }
 
         this.setExtraData("0");
         this.sendUpdate();
