@@ -7,13 +7,9 @@ import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityType;
 import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Square;
-import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
-import com.cometproject.server.game.rooms.objects.items.types.floor.GateFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.TeleportPadFloorItem;
-import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupGateFloorItem;
-import com.cometproject.server.game.rooms.objects.items.types.floor.pet.horse.HorseJumpFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerWalksOffFurni;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerWalksOnFurni;
 import com.cometproject.server.game.rooms.objects.misc.Position;
@@ -426,11 +422,11 @@ public class ProcessComponent implements CometTask {
                         }
                     }
 
-                    if(item.isMovementCancelled(entity)) {
+                    if (item.isMovementCancelled(entity)) {
                         isCancelled = true;
                     }
 
-                    if(!isCancelled) {
+                    if (!isCancelled) {
                         item.onEntityStepOn(entity);
                     }
                 }
