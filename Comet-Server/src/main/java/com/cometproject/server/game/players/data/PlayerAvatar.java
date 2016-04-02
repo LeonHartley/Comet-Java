@@ -4,17 +4,17 @@ public interface PlayerAvatar {
     public static final byte USERNAME_FIGURE = 0;
     public static final byte USERNAME_FIGURE_MOTTO = 1;
 
-    public int getId();
+    int getId();
 
-    public String getUsername();
+    String getUsername();
 
-    public void setUsername(String username);
+    void setUsername(String username);
 
-    public String getFigure();
+    String getFigure();
 
-    public void setFigure(String figure);
+    void setFigure(String figure);
 
-    public String getMotto();
+    String getMotto();
 
-    public void setMotto(String motto);
+    void setMotto(String motto);
 }

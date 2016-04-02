@@ -25,9 +25,7 @@ public class CometStressTest {
     private Map<Integer, AtomicInteger> rooms;
 
     private final EventLoopGroup clientLoopGroup = new NioEventLoopGroup(16);
-
     private final List<CometClientConnection> connections = new ArrayList<>();
-
     private final ScheduledExecutorService executorService = new ScheduledThreadPoolExecutor(8);
 
     public CometStressTest(String[] args) {

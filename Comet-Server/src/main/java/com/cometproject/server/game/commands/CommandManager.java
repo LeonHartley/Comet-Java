@@ -207,6 +207,10 @@ public class CommandManager implements Initializable {
 
         String executor = message.split(" ")[0].toLowerCase();
 
+        if(executor.startsWith(" ")) {
+            executor = executor.substring(1);
+        }
+
         boolean isCommand = executor.equals(Locale.get("command.commands.name")) || commands.containsKey(executor.substring(1)) || ModuleManager.getInstance().getEventHandler().getCommands().containsKey(executor);
 
         if (!isCommand) {
