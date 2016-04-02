@@ -409,8 +409,6 @@ public class ProcessComponent implements CometTask {
             if (nextSq != null && entity.getRoom().getMapping().isValidEntityStep(entity, entity.getPosition(), new Position(nextSq.x, nextSq.y, 0), isLastStep) || entity.isOverriden()) {
                 Position currentPos = entity.getPosition() != null ? entity.getPosition() : new Position(0, 0, 0);
                 Position nextPos = new Position(nextSq.x, nextSq.y);
-                entity.setBodyRotation(Position.calculateRotation(currentPos.getX(), currentPos.getY(), nextSq.x, nextSq.y, entity.isMoonwalking()));
-                entity.setHeadRotation(entity.getBodyRotation());
 
                 final double mountHeight = entity instanceof PlayerEntity && entity.getMountedEntity() != null ? 1.0 : 0;//(entity.getMountedEntity() != null) ? (((String) entity.getAttribute("transform")).startsWith("15 ") ? 1.0 : 0.5) : 0;
 
@@ -459,6 +457,9 @@ public class ProcessComponent implements CometTask {
                 }
 
                 if (!isCancelled) {
+                    entity.setBodyRotation(Position.calculateRotation(currentPos.getX(), currentPos.getY(), nextSq.x, nextSq.y, entity.isMoonwalking()));
+                    entity.setHeadRotation(entity.getBodyRotation());
+
                     entity.addStatus(RoomEntityStatus.MOVE, String.valueOf(nextSq.x).concat(",").concat(String.valueOf(nextSq.y)).concat(",").concat(String.valueOf(height)));
 
                     entity.removeStatus(RoomEntityStatus.SIT);
