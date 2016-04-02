@@ -16,6 +16,7 @@ public class Composers {
     public static final short QuickPollMessageComposer = 3851;
     public static final short QuickPollResultMessageComposer = 3703;
     public static final short QuickPollResultsMessageComposer = 2498;
+    public static final short WiredRewardMessageComposer = 1711;
 
 //    public static final short UnknownGroupMessageComposer = 3440; //updated by: wesley66101
 //    public static final short QuestionParserMessageComposer = 3851; //updated by: wesley66101
