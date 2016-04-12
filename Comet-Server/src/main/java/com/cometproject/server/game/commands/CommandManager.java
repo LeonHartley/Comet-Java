@@ -92,11 +92,11 @@ public class CommandManager implements Initializable {
 
         if (Comet.isDebugging) {
             this.addCommand("reloadmapping", new ReloadMappingCommand());
+            this.addCommand("instancestats", new InstanceStatsCommand());
+            this.addCommand("roomgrid", new RoomGridCommand());
+            this.addCommand("processtimes", new ProcessTimesCommand());
         }
 
-        this.addCommand("instancestats", new InstanceStatsCommand());
-        this.addCommand("roomgrid", new RoomGridCommand());
-        this.addCommand("processtimes", new ProcessTimesCommand());
         this.addCommand("itemid", new ItemVirtualIdCommand());
         this.addCommand("comet", new CometCommand());
     }

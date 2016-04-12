@@ -12,7 +12,7 @@ public class RoomGridCommand extends ChatCommand {
 
     @Override
     public String getPermission() {
-        return "dev";
+        return "debug";
     }
 
     @Override

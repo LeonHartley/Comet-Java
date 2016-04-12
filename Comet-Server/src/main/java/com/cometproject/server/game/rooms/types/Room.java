@@ -81,6 +81,9 @@ public class Room implements Attributable, IRoom {
             }
         }
 
+        // Cache the group.
+        this.group = GroupManager.getInstance().get(this.getData().getGroupId());
+
         this.attributes = new HashMap<>();
         this.ratings = new HashSet<>();
 
@@ -97,9 +100,6 @@ public class Room implements Attributable, IRoom {
         this.entities = new EntityComponent(this);
         this.bots = new RoomBotComponent(this);
         this.pets = new PetComponent(this);
-
-        // Cache the group.
-        this.group = GroupManager.getInstance().get(this.getData().getGroupId());
 
         this.setAttribute("loadTime", System.currentTimeMillis());
 

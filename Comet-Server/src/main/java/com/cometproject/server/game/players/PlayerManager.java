@@ -31,6 +31,8 @@ public class PlayerManager implements Initializable {
 
     private Map<String, List<Integer>> ipAddressToPlayerIds;
 
+    private Map<String, Integer> ssoTicketToPlayerId;
+
     private CacheManager cacheManager;
 
     private Cache playerAvatarCache;
@@ -46,6 +48,7 @@ public class PlayerManager implements Initializable {
         this.playerIdToSessionId = new ConcurrentHashMap<>();
         this.playerUsernameToPlayerId = new ConcurrentHashMap<>();
         this.ipAddressToPlayerIds = new ConcurrentHashMap<>();
+        this.ssoTicketToPlayerId = new ConcurrentHashMap<>();
 
         this.playerLoginService = Executors.newFixedThreadPool(2);// TODO: configure this.
 
@@ -226,5 +229,9 @@ public class PlayerManager implements Initializable {
 
     public int size() {
         return this.playerIdToSessionId.size();
+    }
+
+    public Map<String, Integer> getSsoTicketToPlayerId() {
+        return ssoTicketToPlayerId;
     }
 }

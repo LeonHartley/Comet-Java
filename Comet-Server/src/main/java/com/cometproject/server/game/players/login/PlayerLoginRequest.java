@@ -7,6 +7,7 @@ import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.achievements.types.AchievementType;
 import com.cometproject.server.game.moderation.BanManager;
 import com.cometproject.server.game.moderation.types.BanType;
+import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.modules.ModuleManager;
@@ -177,5 +178,8 @@ public class PlayerLoginRequest implements CometTask {
                 client.disconnect();
             }, 5, TimeUnit.SECONDS);
         }
+
+        player.setSsoTicket(this.ticket);
+        PlayerManager.getInstance().getSsoTicketToPlayerId().put(this.ticket, player.getId());
     }
 }

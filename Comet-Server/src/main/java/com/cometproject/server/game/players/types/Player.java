@@ -5,6 +5,7 @@ import com.cometproject.api.game.players.data.components.PlayerInventory;
 import com.cometproject.api.networking.sessions.BaseSession;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
+import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.components.*;
 import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.game.quests.QuestManager;
@@ -104,6 +105,8 @@ public class Player implements BasePlayer {
 
     private int lastTradeFlood = 0;
 
+    private String ssoTicket;
+
     public Player(ResultSet data, boolean isFallback) throws SQLException {
         this.id = data.getInt("playerId");
 
@@ -159,6 +162,8 @@ public class Player implements BasePlayer {
         this.getMessenger().dispose();
         this.getRelationships().dispose();
         this.getQuests().dispose();
+
+        PlayerManager.getInstance().getSsoTicketToPlayerId().remove(this.ssoTicket);
 
         this.session.getLogger().debug(this.getData().getUsername() + " logged out");
 
@@ -655,5 +660,13 @@ public class Player implements BasePlayer {
 
     public void setLastTradeFlood(int lastTradeFlood) {
         this.lastTradeFlood = lastTradeFlood;
+    }
+
+    public void setSsoTicket(final String ssoTicket) {
+        this.ssoTicket = ssoTicket;
+    }
+
+    public String getSsoTicket() {
+        return this.ssoTicket;
     }
 }

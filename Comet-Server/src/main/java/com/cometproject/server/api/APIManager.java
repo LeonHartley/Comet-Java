@@ -1,5 +1,6 @@
 package com.cometproject.server.api;
 
+import com.cometproject.server.api.routes.PhotoRoutes;
 import com.cometproject.server.api.routes.PlayerRoutes;
 import com.cometproject.server.api.routes.RoomRoutes;
 import com.cometproject.server.api.routes.SystemRoutes;
@@ -137,5 +138,6 @@ public class APIManager implements Initializable {
         Spark.get("/room/:id/:action", RoomRoutes::roomAction, jsonTransformer);
 
         Spark.get("/system/reload/:type", SystemRoutes::reload, jsonTransformer);
+        Spark.post("/camera/purchase", PhotoRoutes::purchase, jsonTransformer);
     }
 }

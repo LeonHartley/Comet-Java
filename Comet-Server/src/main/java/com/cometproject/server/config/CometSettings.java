@@ -55,7 +55,7 @@ public class CometSettings {
     public static boolean messengerLogMessages = false;
     public static int cameraPhotoItemId = 50001;
 
-    public static String cameraPhotoUrl = "";
+    public static String cameraPhotoUrl = "http://localhost/photos/photos/%photoId%.png";
     public static int roomWiredRewardMinimumRank = 7;
     public static boolean asyncCatalogPurchase = false;
 

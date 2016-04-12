@@ -10,10 +10,12 @@ import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorI
 public class GroupGateFloorItem extends GroupFloorItem {
     public GroupGateFloorItem(long id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, x, y, z, rotation, data);
+
+        this.setExtraData("0");
     }
 
     @Override
-    public void onEntityPreStepOn(RoomEntity entity) {
+    public void onEntityStepOn(RoomEntity entity) {
         this.setExtraData("1");
         this.sendUpdate();
     }
@@ -30,15 +32,6 @@ public class GroupGateFloorItem extends GroupFloorItem {
     }
 
     @Override
-    public void sendUpdate() {
-        Room r = this.getRoom();
-
-        if (r != null) {
-            r.getEntities().broadcastMessage(new UpdateFloorItemMessageComposer(this));
-        }
-    }
-
-    @Override
     public boolean isMovementCancelled(RoomEntity entity) {
         if(!(entity instanceof PlayerEntity)) {
             return true;
@@ -48,6 +41,6 @@ public class GroupGateFloorItem extends GroupFloorItem {
             return true;
         }
 
-        return true;
+        return false;
     }
 }
