@@ -81,6 +81,8 @@ import com.cometproject.server.network.messages.incoming.room.pets.horse.RideHor
 import com.cometproject.server.network.messages.incoming.room.settings.*;
 import com.cometproject.server.network.messages.incoming.room.trading.*;
 import com.cometproject.server.network.messages.incoming.user.achievements.AchievementsListMessageEvent;
+import com.cometproject.server.network.messages.incoming.user.camera.RenderRoomMessageEvent;
+import com.cometproject.server.network.messages.incoming.user.camera.TakePhotoMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.club.ClubStatusMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.details.*;
 import com.cometproject.server.network.messages.incoming.user.inventory.*;
@@ -159,7 +161,7 @@ public final class MessageHandler {
         this.registerPolls();
         this.registerMisc();
         this.registerMusic();
-//        this.registerCamera();
+        this.registerCamera();
 
         log.info("Loaded " + this.getMessages().size() + " message events");
     }
@@ -370,7 +372,8 @@ public final class MessageHandler {
         this.getMessages().put(Events.PurchaseRoomPromotionMessageEvent, new PromoteRoomMessageEvent());
         this.getMessages().put(Events.EditRoomPromotionMessageEvent, new PromotionUpdateMessageEvent());
     }
-//
+
+    //
     public void registerCatalog() {
         this.getMessages().put(Events.GetCatalogIndexMessageEvent, new GetCataIndexMessageEvent());
         this.getMessages().put(Events.GetCatalogPageMessageEvent, new GetCataPageMessageEvent());
@@ -384,12 +387,12 @@ public final class MessageHandler {
         this.getMessages().put(Events.GetGroupFurniConfigMessageEvent, new GroupFurnitureCatalogMessageEvent());
         this.getMessages().put(Events.GetCatalogOfferMessageEvent, new GetCatalogOfferMessageEvent());
     }
-
     public void registerLanding() {
         this.getMessages().put(Events.GetPromoArticlesMessageEvent, new RefreshPromoArticlesMessageEvent());
         this.getMessages().put(Events.RefreshCampaignMessageEvent, new LandingLoadWidgetMessageEvent());
     }
-//
+
+    //
     public void registerGroups() {
         this.getMessages().put(Events.GetGroupInfoMessageEvent, new GroupInformationMessageEvent());
         this.getMessages().put(Events.GetGroupMembersMessageEvent, new GroupMembersMessageEvent());
@@ -409,7 +412,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.RemoveGroupFavouriteMessageEvent, new ClearFavouriteGroupMessageEvent());
         this.getMessages().put(Events.DeleteGroupMessageEvent, new DeleteGroupMessageEvent());
     }
-//
+    //
     public void registerGroupForums() {
         this.getMessages().put(Events.GetForumStatsMessageEvent, new ForumDataMessageEvent());
         this.getMessages().put(Events.UpdateForumSettingsMessageEvent, new SaveForumSettingsMessageEvent());
@@ -420,13 +423,13 @@ public final class MessageHandler {
         this.getMessages().put(Events.GetForumsListDataMessageEvent, new GetForumsMessageEvent());
         this.getMessages().put(Events.DeleteGroupThreadMessageEvent, new HideMessageMessageEvent());
     }
-
     public void registerQuests() {
         this.getMessages().put(Events.GetQuestListMessageEvent, new OpenQuestsMessageEvent());
         this.getMessages().put(Events.StartQuestMessageEvent, new StartQuestMessageEvent());
         this.getMessages().put(Events.CancelQuestMessageEvent, new CancelQuestMessageEvent());
     }
-//
+
+    //
 //    public void registerCamera() {
 //        this.getMessages().put(Events.CameraTokenMessageEvent, new CameraTokenMessageEvent());
 //        this.getMessages().put(Events.RenderRoomMessageEvent, new RenderRoomMessageEvent());
@@ -442,8 +445,6 @@ public void registerMusic() {
     this.getMessages().put(Events.PlaylistRemoveMessageEvent, new PlaylistRemoveMessageEvent());
     this.getMessages().put(Events.PlaylistMessageEvent, new PlaylistMessageEvent());
 }
-//
-
     public void registerPolls() {
         this.getMessages().put(Events.GetPollMessageEvent, new GetPollMessageEvent());
         this.getMessages().put(Events.SubmitPollAnswerMessageEvent, new SubmitPollAnswerMessageEvent());
@@ -451,6 +452,10 @@ public void registerMusic() {
 
     public void registerAchievements() {
         this.getMessages().put(Events.GetAchievementsMessageEvent, new AchievementsListMessageEvent());
+    }
+
+    private void registerCamera() {
+        this.getMessages().put(Events.TakePhotoMessageEvent, new TakePhotoMessageEvent());
     }
 
     public void handle(MessageEvent message, Session client) {

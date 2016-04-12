@@ -97,7 +97,6 @@ public class CommandManager implements Initializable {
         this.addCommand("instancestats", new InstanceStatsCommand());
         this.addCommand("roomgrid", new RoomGridCommand());
         this.addCommand("processtimes", new ProcessTimesCommand());
-        this.addCommand("011039812438qwidjkasjo83", new FastProcessCommand());
         this.addCommand("itemid", new ItemVirtualIdCommand());
         this.addCommand("comet", new CometCommand());
     }
@@ -205,6 +204,13 @@ public class CommandManager implements Initializable {
     public boolean isCommand(String message) {
         if (message.length() <= 1) return false;
 
+        if(message.equals(" ")) {
+            return false;
+        }
+
+        if(message.startsWith(" ")) {
+            message = message.substring(1);
+        }
         String executor = message.split(" ")[0].toLowerCase();
 
         if(executor.startsWith(" ")) {

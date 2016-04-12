@@ -18,6 +18,10 @@ public class Events {
     public static final short StaffPickRoomMessageEvent = 2172;
     public static final short SubmitPollAnswerMessageEvent = 689;
     public static final short GetPollMessageEvent = 2166;
+
+    // This header is actually ChangeUsername, but we're using it for camera xo
+    public static final short TakePhotoMessageEvent = 1604;
+
     /*public static final short RemoveMyRightsMessageEvent = 879;
     public static final short GiveHandItemMessageEvent = 3315;//514
     public static final short InitTradeMessageEvent = 3313;//2745
@@ -432,7 +436,6 @@ public class Events {
     public static final short ChangeMottoMessageEvent = 2270; //updated by: wesley66101
     public static final short GetSelectedBadgesMessageEvent = 1435; //updated by: wesley66101
     public static final short AddStickyNoteMessageEvent = 1437; //updated by: wesley66101
-    public static final short ChangeNameMessageEvent = 1604; //updated by: wesley66101
     public static final short RideHorseMessageEvent = 376; //updated by: wesley66101
     public static final short GetCatalogIndexMessageEvent = 53; //updated by: wesley66101
     public static final short InitializeNewNavigatorMessageEvent = 1085; //updated by: wesley66101

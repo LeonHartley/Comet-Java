@@ -277,14 +277,14 @@ public class ProcessComponent implements CometTask {
 
             // Step-on
             RoomItemFloor oldItem = null;
-            int index0 = 0;
+            int index = 0;
 
             for (RoomItemFloor item : itemsOnSq) {
-                if (itemsOnOldSq.size() > index0) {
-                    oldItem = itemsOnOldSq.get(index0);
+                if (itemsOnOldSq.size() > index) {
+                    oldItem = itemsOnOldSq.get(index);
                 }
 
-                index0++;
+                index++;
 
                 if (entity instanceof PlayerEntity) {
                     PlayerEntity playerEntity = ((PlayerEntity) entity);

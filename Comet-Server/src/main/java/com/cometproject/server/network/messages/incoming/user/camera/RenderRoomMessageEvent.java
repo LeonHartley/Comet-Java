@@ -7,6 +7,8 @@ import com.cometproject.server.network.sessions.Session;
 public class RenderRoomMessageEvent implements Event {
     @Override
     public void handle(Session client, MessageEvent msg) throws Exception {
+        final String pngData = msg.readString();
 
+        System.out.println(pngData);
     }
 }

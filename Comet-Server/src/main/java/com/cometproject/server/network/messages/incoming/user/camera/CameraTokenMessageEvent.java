@@ -8,6 +8,7 @@ import com.cometproject.server.network.sessions.Session;
 public class CameraTokenMessageEvent implements Event {
     @Override
     public void handle(Session client, MessageEvent msg) throws Exception {
-//        client.send(new CameraTokenMessageComposer("Leon's Camera"));
+
+
     }
 }
