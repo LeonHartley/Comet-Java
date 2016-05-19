@@ -39,4 +39,9 @@ public class MuteCommand extends ChatCommand {
     public String getDescription() {
         return Locale.get("command.mute.description");
     }
+
+    @Override
+    public boolean bypassFilter() {
+        return true;
+    }
 }

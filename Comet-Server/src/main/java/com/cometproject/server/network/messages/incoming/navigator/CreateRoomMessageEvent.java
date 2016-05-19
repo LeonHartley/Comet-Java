@@ -1,6 +1,7 @@
 package com.cometproject.server.network.messages.incoming.navigator;
 
 import com.cometproject.server.boot.Comet;
+import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.navigator.CreateRoomMessageComposer;
@@ -23,6 +24,7 @@ public class CreateRoomMessageEvent implements Event {
         }
 
         if(((int) Comet.getTime()) - client.getPlayer().getLastRoomCreated() < 60) {
+            client.send(new MotdNotificationMessageComposer(Locale.getOrDefault("room.creation.time", "Due to abuse, can only create 1 room every 60 seconds!")));
             return;
         }
 

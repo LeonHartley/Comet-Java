@@ -38,18 +38,8 @@ public class WhisperMessageEvent implements Event {
         if (userTo == null || user.equals(client.getPlayer().getData().getUsername()))
             return;
 
+
         String filteredMessage = TalkMessageEvent.filterMessage(message);
-
-        if (!client.getPlayer().getPermissions().getRank().roomFilterBypass()) {
-            FilterResult filterResult = RoomManager.getInstance().getFilter().filter(message);
-
-            if (filterResult.isBlocked()) {
-                client.send(new AdvancedAlertMessageComposer(Locale.get("game.message.blocked").replace("%s", filterResult.getMessage())));
-                return;
-            } else if (filterResult.wasModified()) {
-                filteredMessage = filterResult.getMessage();
-            }
-        }
 
         if (!client.getPlayer().getEntity().onChat(filteredMessage))
             return;

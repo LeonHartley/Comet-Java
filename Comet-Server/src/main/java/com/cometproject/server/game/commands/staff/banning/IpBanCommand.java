@@ -68,4 +68,10 @@ public class IpBanCommand extends ChatCommand {
     public String getDescription() {
         return "command.ipban.description";
     }
+
+    @Override
+    public boolean bypassFilter() {
+        return true;
+    }
+
 }

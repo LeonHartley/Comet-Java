@@ -54,4 +54,9 @@ public class MachineBanCommand extends ChatCommand {
     public String getDescription() {
         return Locale.get("command.machineban.description");
     }
+
+    @Override
+    public boolean bypassFilter() {
+        return true;
+    }
 }

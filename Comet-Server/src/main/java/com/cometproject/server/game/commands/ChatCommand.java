@@ -59,6 +59,10 @@ public abstract class ChatCommand {
         return false;
     }
 
+    public boolean bypassFilter() {
+        return false;
+    }
+
     public static class Execution implements Runnable {
         private ChatCommand command;
         private String[] params;

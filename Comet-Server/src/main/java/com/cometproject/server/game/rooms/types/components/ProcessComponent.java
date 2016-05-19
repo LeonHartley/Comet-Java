@@ -471,6 +471,12 @@ public class ProcessComponent implements CometTask {
                         mountedEntity.moveTo(newPosition.getX(), newPosition.getY());
                     }
 
+                    List<RoomItemFloor> postItems = this.getRoom().getItems().getItemsOnSquare(nextSq.x, nextSq.y);
+
+                    for (RoomItemFloor item : postItems) {
+                        item.onEntityPostStepOn(entity);
+                    }
+
                     tile.getEntities().add(entity);
                 } else {
                     if (entity.getWalkingPath() != null) {

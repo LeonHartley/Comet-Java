@@ -53,7 +53,7 @@ public class BanManager implements Initializable {
         }
     }
 
-    public void tick() {
+    public void processBans() {
         List<Ban> bansToRemove = Lists.newArrayList();
 
         for (Ban ban : this.bans.values()) {

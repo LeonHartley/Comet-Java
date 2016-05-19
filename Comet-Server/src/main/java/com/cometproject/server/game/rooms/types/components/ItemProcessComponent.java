@@ -107,7 +107,7 @@ public class ItemProcessComponent implements CometTask {
 
         // Now lets process any queued events last
 //        try {
-//            this.eventQueue.tick();
+//            this.eventQueue.processBans();
 //        } catch (NullPointerException | IndexOutOfBoundsException e) {
 //            this.handleSupressedExceptions(e);
 //        }

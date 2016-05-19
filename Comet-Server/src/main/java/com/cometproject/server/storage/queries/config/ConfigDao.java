@@ -58,6 +58,8 @@ public class ConfigDao {
                 CometSettings.messengerLogMessages = config.getBoolean("messenger_log_messages");
                 CometSettings.storageItemQueueEnabled = config.getBoolean("storage_item_queue_enabled");
                 CometSettings.storagePlayerQueueEnabled = config.getBoolean("storage_player_queue_enabled");
+                CometSettings.cameraPhotoUrl = config.getString("camera_photo_url");
+                CometSettings.cameraPhotoItemId = config.getInt("camera_photo_itemid");
 
                 final String characters = config.getString("word_filter_strict_chars");
 

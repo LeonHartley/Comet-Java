@@ -129,11 +129,6 @@ public class RSA {
         return new String(bytes);
     }
 
-    /**
-     * @param src
-     * @param n
-     * @return
-     */
     private byte[] pkcs1unpad2(BigInteger src, int n) {
         byte[] bytes = src.toByteArray();
         byte[] out;

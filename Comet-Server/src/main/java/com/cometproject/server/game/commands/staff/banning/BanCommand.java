@@ -47,4 +47,9 @@ public class BanCommand extends ChatCommand {
     public String getDescription() {
         return Locale.get("command.ban.description");
     }
+
+    @Override
+    public boolean bypassFilter() {
+        return true;
+    }
 }

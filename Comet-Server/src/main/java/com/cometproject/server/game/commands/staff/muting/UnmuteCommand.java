@@ -47,4 +47,9 @@ public class UnmuteCommand extends ChatCommand {
     public String getDescription() {
         return Locale.get("command.unmute.name");
     }
+
+    @Override
+    public boolean bypassFilter() {
+        return true;
+    }
 }

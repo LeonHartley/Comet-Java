@@ -41,4 +41,9 @@ public class DisconnectCommand extends ChatCommand {
     public String getDescription() {
         return Locale.get("command.disconnect.description");
     }
+
+    @Override
+    public boolean bypassFilter() {
+        return true;
+    }
 }

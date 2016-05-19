@@ -39,7 +39,7 @@ public abstract class RollableFloorItem extends RoomItemFloor {
     }
 
     @Override
-    public void onEntityStepOn(RoomEntity entity) {
+    public void onEntityPostStepOn(RoomEntity entity) {
         if (this.isRolling) {
             return;
         }

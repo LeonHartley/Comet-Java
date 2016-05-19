@@ -270,6 +270,10 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
         // override me
     }
 
+    public void onEntityPostStepOn(RoomEntity entity) {
+        // override me
+    }
+
     public void onEntityStepOff(RoomEntity entity) {
         // override me
     }
