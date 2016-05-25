@@ -21,7 +21,6 @@ public class GroupFloorItem extends RoomItemFloor {
             this.groupId = Integer.parseInt(data);
     }
 
-
     public void onEntityStepOn(RoomEntity entity, boolean instantUpdate) {
         if (!this.getDefinition().canSit()) return;
 
@@ -35,6 +34,11 @@ public class GroupFloorItem extends RoomItemFloor {
             this.getRoom().getEntities().broadcastMessage(new AvatarUpdateMessageComposer(entity));
         else
             entity.markNeedsUpdate();
+    }
+
+    @Override
+    public String getDataObject() {
+        return this.groupId + "";
     }
 
     @Override
