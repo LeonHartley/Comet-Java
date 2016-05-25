@@ -22,8 +22,7 @@ public class ConfigDao {
 
             config = preparedStatement.executeQuery();
 
-            while(config.next()) {
-
+            while (config.next()) {
                 CometSettings.motdEnabled = config.getBoolean("motd_enabled");
                 CometSettings.motdMessage = config.getString("motd_message");
                 CometSettings.hotelName = config.getString("hotel_name");
