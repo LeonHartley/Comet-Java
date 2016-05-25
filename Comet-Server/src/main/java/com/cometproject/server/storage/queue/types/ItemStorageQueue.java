@@ -24,13 +24,13 @@ public class ItemStorageQueue implements Initializable, CometTask, StorageQueue<
     private ScheduledFuture future;
 
     private List<RoomItem> itemsToStoreData;
-    private Map<Integer, RoomItem> itemsToStore;
+    private Map<Long, RoomItem> itemsToStore;
 
     private Map<Long, Integer> itemsToChangeOwner;
 
     public ItemStorageQueue() {
         this.itemsToStoreData = new CopyOnWriteArrayList<>();
-        this.itemsToStore = new CopyOnWriteArrayList<>();
+        this.itemsToStore = new ConcurrentHashMap<>();
 
         this.itemsToChangeOwner = new ConcurrentHashMap<>();
     }
@@ -62,20 +62,20 @@ public class ItemStorageQueue implements Initializable, CometTask, StorageQueue<
 
         this.itemsToStoreData.add(roomItem);
     }
-i
+
     @Override
     public void queueSave(final RoomItem roomItem) {
-        if(this.itemsToStore.contains(roomItem)) {
-            this.itemsToStore.remove(roomItem);
+        if(this.itemsToStore.containsKey(roomItem.getId())) {
+            this.itemsToStore.remove(roomItem.getId());
         }
 
-        this.itemsToStore.add(roomItem);
+        this.itemsToStore.put(roomItem.getId(), roomItem);
     }
 
 
     @Override
     public boolean isQueued(RoomItem object) {
-        return this.itemsToStore.contains(object) || this.itemsToStoreData.contains(object);
+        return this.itemsToStore.containsKey(object.getId()) || this.itemsToStoreData.contains(object);
     }
 
     public void changeItemOwner(Long itemId, int newOwner) {
@@ -84,6 +84,10 @@ i
         }
 
         this.itemsToChangeOwner.put(itemId, newOwner);
+    }
+
+    public RoomItem getQueuedItem(Long id) {
+        return this.itemsToStore.get(id);
     }
 
     @Override
@@ -106,8 +110,8 @@ i
 
     @Override
     public void unqueue(RoomItem floorItem) {
-        if(this.itemsToStore.contains(floorItem)) {
-            this.itemsToStore.remove(floorItem);
+        if(this.itemsToStore.containsKey(floorItem.getId())) {
+            this.itemsToStore.remove(floorItem.getId());
         }
     }
 }

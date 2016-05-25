@@ -30,6 +30,7 @@ import com.cometproject.server.game.rooms.objects.items.types.wall.MoodlightWall
 import com.cometproject.server.game.rooms.objects.items.types.wall.PostItWallItem;
 import com.cometproject.server.game.rooms.objects.items.types.wall.WheelWallItem;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.storage.queue.types.ItemStorageQueue;
 import org.apache.log4j.Logger;
 
 import java.util.HashMap;
@@ -172,7 +173,11 @@ public class RoomItemFactory {
 
     public static RoomItemFloor createFloor(long id, int baseId, Room room, int ownerId, int x, int y, double height, int rot, String data, LimitedEditionItemData limitedEditionItemData) {
         ItemDefinition def = ItemManager.getInstance().getDefinition(baseId);
-        RoomItemFloor floorItem = null;
+        RoomItemFloor floorItem = (RoomItemFloor) ItemStorageQueue.getInstance().getQueuedItem(id);
+
+        if(floorItem != null) {
+            return floorItem;
+        }
 
         if (def == null) {
             return null;
