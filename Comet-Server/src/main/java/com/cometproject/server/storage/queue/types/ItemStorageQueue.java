@@ -24,7 +24,7 @@ public class ItemStorageQueue implements Initializable, CometTask, StorageQueue<
     private ScheduledFuture future;
 
     private List<RoomItem> itemsToStoreData;
-    private List<RoomItem> itemsToStore;
+    private Map<Integer, RoomItem> itemsToStore;
 
     private Map<Long, Integer> itemsToChangeOwner;
 
@@ -47,7 +47,7 @@ public class ItemStorageQueue implements Initializable, CometTask, StorageQueue<
         log.debug("Saving " + (this.itemsToStoreData.size() + this.itemsToStore.size() + this.itemsToChangeOwner.size()) + " items");
 
         RoomItemDao.processBatch(this.itemsToStoreData);
-        RoomItemDao.saveFloorItems(this.itemsToStore);
+        RoomItemDao.saveFloorItems(this.itemsToStore.values());
         TradeDao.updateTradeItems(this.itemsToChangeOwner);
 
         this.itemsToStoreData.clear();
@@ -62,7 +62,7 @@ public class ItemStorageQueue implements Initializable, CometTask, StorageQueue<
 
         this.itemsToStoreData.add(roomItem);
     }
-
+i
     @Override
     public void queueSave(final RoomItem roomItem) {
         if(this.itemsToStore.contains(roomItem)) {

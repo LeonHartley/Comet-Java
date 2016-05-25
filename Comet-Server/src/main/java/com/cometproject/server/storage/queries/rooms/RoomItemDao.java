@@ -276,7 +276,7 @@ public class RoomItemDao {
         }
     }
 
-    public static void saveFloorItems(List<RoomItem> items) {
+    public static void saveFloorItems(Collection<RoomItem> items) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
 
