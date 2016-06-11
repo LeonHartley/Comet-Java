@@ -1,8 +1,15 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions;
 
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
+import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
+import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
+import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
+import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredUtil;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
+import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
+
 
 public class WiredActionBotMove extends WiredActionItem {
     /**
@@ -23,9 +30,48 @@ public class WiredActionBotMove extends WiredActionItem {
     }
 
     @Override
-    public boolean requiresPlayer() {
-        return false;
+    public boolean evaluate(RoomEntity entity, Object data) {
+        if (this.getWiredData().getDelay() >= 1) {
+            this.setTicks(RoomItemFactory.getProcessTime(this.getWiredData().getDelay() / 2));
+        } else {
+            this.onTickComplete();
+        }
+
+        return true;
     }
+
+    @Override
+    public void onTickComplete() {
+        if (this.getWiredData() == null || this.getWiredData().getSelectedIds() == null || this.getWiredData().getSelectedIds().isEmpty()) {
+            return;
+        }
+
+        Long itemId = WiredUtil.getRandomElement(this.getWiredData().getSelectedIds());
+
+        if (itemId == null) {
+            this.entity = null;
+            return;
+        }
+
+        RoomItemFloor item = this.getRoom().getItems().getFloorItem(itemId);
+
+        if (item == null || item.isAtDoor() || item.getPosition() == null || item.getTile() == null) {
+            return;
+        }
+
+        Position position = new Position(item.getPosition().getX(), item.getPosition().getY());
+
+        final String entityName = this.getWiredData().getText();
+
+        final BotEntity botEntity = this.getRoom().getBots().getBotByName(entityName);
+
+        if(botEntity == null) {
+            return;
+        }
+
+        botEntity.moveTo(position);
+    }
+
 
     @Override
     public int getInterface() {
@@ -33,13 +79,7 @@ public class WiredActionBotMove extends WiredActionItem {
     }
 
     @Override
-    public boolean evaluate(RoomEntity entity, Object data) {
-        if (this.getWiredData().getSelectedIds().size() == 0) {
-            return false;
-        }
-
-
-
-        return false;
+    public boolean requiresPlayer() {
+        return true;
     }
 }
