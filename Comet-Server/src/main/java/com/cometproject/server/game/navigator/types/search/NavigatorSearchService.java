@@ -25,7 +25,7 @@ import java.util.concurrent.Executors;
 public class NavigatorSearchService implements CometTask {
     private static NavigatorSearchService searchServiceInstance;
 
-    private Executor searchExecutor = Executors.newFixedThreadPool(2);
+    private Executor searchExecutor = Executors.newFixedThreadPool(8);
 
     public NavigatorSearchService() {
 //        CometThreadManager.getInstance().executePeriodic(this, 0, 3000, TimeUnit.MILLISECONDS);

@@ -201,7 +201,7 @@ public class RoomDao {
 
         try {
             sqlConnection = SqlHelper.getConnection();
-            preparedStatement = SqlHelper.prepare("INSERT into rooms (`owner_id`, `owner`, `name`, `model`, `description`, `category`, `max_users`, `trade_state`) VALUES(?, ?, ?, ?, ?, ?, ?, ?);", sqlConnection, true);
+            preparedStatement = SqlHelper.prepare("INSERT into rooms (`owner_id`, `owner`, `name`, `model`, `description`, `category`, `max_users`, `trade_state`, `thickness_floor`, `thickness_wall`) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", sqlConnection, true);
 
             preparedStatement.setInt(1, userId);
             preparedStatement.setString(2, username);
@@ -211,6 +211,8 @@ public class RoomDao {
             preparedStatement.setInt(6, category);
             preparedStatement.setInt(7, maxVisitors);
             preparedStatement.setString(8, tradeState.toString());
+            preparedStatement.setInt(9, 0);
+            preparedStatement.setInt(10, 0);
 
             preparedStatement.execute();
 
