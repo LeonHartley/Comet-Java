@@ -145,7 +145,7 @@ public class PlayerFigureValidator {
         }
     }
 
-    public static boolean isValidFigureCode(final String figureCode, final String gender) {
+    public static boolean isValidFigureCode(final String figureCode, final String genderCode) {
         if (!CometSettings.playerFigureValidation) {
             return true;
         }
@@ -155,6 +155,8 @@ public class PlayerFigureValidator {
         }
 
         try {
+            final String gender = genderCode.toLowerCase();
+            
             if (!gender.equals("m") && !gender.equals("f")) {
                 return false;
             }
