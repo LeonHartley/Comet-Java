@@ -31,7 +31,7 @@ public class IgnoreUserMessageEvent implements Event {
                 return;
             }
 
-            if(rank.roomIgnorable()) {
+            if(!rank.roomIgnorable()) {
                 return;
             }
 

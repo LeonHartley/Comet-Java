@@ -208,9 +208,8 @@ public class CommandManager implements Initializable {
             return false;
         }
 
-        if(message.startsWith(" ")) {
-            message = message.substring(1);
-        }
+        if(message.startsWith(" ")) return false;
+
         String executor = message.split(" ")[0].toLowerCase();
 
         if(executor.startsWith(" ")) {
@@ -243,6 +242,9 @@ public class CommandManager implements Initializable {
         String executor = message.split(" ")[0].toLowerCase();
 
         final ChatCommand chatCommand = this.get(executor);
+
+        if(message.startsWith(" "))
+            return false;
 
         String commandName = chatCommand == null ? ModuleManager.getInstance().getEventHandler().getCommands().get(executor).getPermission() : chatCommand.getPermission();
 
