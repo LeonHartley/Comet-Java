@@ -27,6 +27,7 @@
         <module>Comet-Server</module>
         <module>Comet-Launcher</module>
         <module>Comet-Manager</module>
+        <module>Comet-ProcessManager</module>
         <module>Comet-StressTest</module>
     </modules>
 </project>

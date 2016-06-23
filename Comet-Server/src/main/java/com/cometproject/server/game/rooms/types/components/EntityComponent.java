@@ -23,7 +23,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
-public class EntityComponent {
+public class
+EntityComponent {
 
     private static Logger log = Logger.getLogger(EntityComponent.class.getName());
 
