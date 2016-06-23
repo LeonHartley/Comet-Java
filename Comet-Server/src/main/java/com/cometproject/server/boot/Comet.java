@@ -8,7 +8,9 @@ import org.apache.log4j.PropertyConfigurator;
 
 import java.io.FileInputStream;
 import java.lang.management.ManagementFactory;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -89,25 +91,41 @@ public class Comet {
         } else {
             Map<String, String> cometConfiguration = new HashMap<>();
 
+            // Parse args
+            List<String> arguments = new ArrayList<>();
+
             for (int i = 0; i < args.length; i++) {
-                System.out.println(args[i]);
-                if (args[i].equals("--debug-logging")) {
+                final String arg = args[i];
+
+                if(arg.contains(" ")) {
+                    final String[] splitString = arg.split(" ");
+
+                    for(int j = 0; j < splitString.length; j++) {
+                        arguments.add(splitString[j]);
+                    }
+                } else {
+                    arguments.add(arg);
+                }
+            }
+
+            for (String arg : arguments) {
+                if (arg.equals("--debug-logging")) {
                     logLevel = Level.DEBUG;
                 }
 
-                if(args[i].equals("--gui")) {
+                if(arg.equals("--gui")) {
                     // start GUI!
                     showGui = true;
                 }
 
-                if(args[i].equals("--daemon")) {
+                if(arg.equals("--daemon")) {
                     daemon = true;
                 }
 
-                if (!args[i].contains("="))
+                if (!arg.contains("="))
                     continue;
 
-                String[] splitArgs = args[i].split("=");
+                String[] splitArgs = arg.split("=");
 
                 cometConfiguration.put(splitArgs[0], splitArgs.length != 1 ? splitArgs[1] : "");
             }
