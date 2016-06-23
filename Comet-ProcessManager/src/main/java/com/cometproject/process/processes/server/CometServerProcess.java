@@ -9,16 +9,21 @@ public class CometServerProcess extends AbstractProcess {
     private final String applicationArguments;
     private final String serverVersion;
 
-    public CometServerProcess(final String instanceName, final String applicationArguments, final String serverVersion) {
+    private final String apiUrl;
+    private final String apiToken;
+
+    public CometServerProcess(final String instanceName, final String applicationArguments, final String serverVersion, final String apiUrl, final String apiToken) {
         super(instanceName);
 
         this.applicationArguments = applicationArguments;
         this.serverVersion = serverVersion;
+        this.apiUrl = apiUrl;
+        this.apiToken = apiToken;
     }
 
     @Override
-    public String executionCommand() {
-        return "java -jar Comet-Server-" + this.serverVersion + ".jar " + this.applicationArguments + " --instance-name=" + this.getProcessName();
+    public String[] executionCommand() {
+        return new String[]{"java", "-jar", System.getProperty("user.dir") + "/Versions/" + this.serverVersion + "/Comet-Server-" + this.serverVersion + ".jar", this.applicationArguments, "--instance-name=" + this.getProcessName(), "--daemon"};
     }
 
     @Override

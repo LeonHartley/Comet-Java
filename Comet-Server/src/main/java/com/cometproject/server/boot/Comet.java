@@ -1,8 +1,7 @@
 package com.cometproject.server.boot;
 
 import com.cometproject.server.boot.utils.ConsoleCommands;
-import com.cometproject.server.boot.utils.ShutdownHook;
-import com.cometproject.server.boot.utils.gui.CometGui;
+import com.cometproject.server.boot.utils.ShutdownProcess;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
@@ -43,6 +42,11 @@ public class Comet {
      * Whether or not we want to show the GUI
      */
     public static boolean showGui = false;
+
+    /**
+     * Whether we're running Comet in daemon mode or not
+      */
+    public static boolean daemon = false;
 
     /**
      * Start the server!
@@ -95,6 +99,10 @@ public class Comet {
                     showGui = true;
                 }
 
+                if(args[i].equals("--daemon")) {
+                    daemon = true;
+                }
+
                 if (!args[i].contains("="))
                     continue;
 
@@ -109,8 +117,11 @@ public class Comet {
         Logger.getRootLogger().setLevel(logLevel);
         server.init();
 
-        ConsoleCommands.init();
-        ShutdownHook.init();
+        if(!daemon) {
+            ConsoleCommands.init();
+        }
+
+        ShutdownProcess.init();
     }
 
     /**

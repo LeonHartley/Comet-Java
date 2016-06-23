@@ -29,7 +29,7 @@ public class ProcessRouteController extends AbstractRouteController {
                 final String applicationArguments = request.queryParams("applicationArguments");
                 final String serverVersion = request.queryParams("serverVersion");
 
-                process = new CometServerProcess(processName, applicationArguments, serverVersion);
+                process = new CometServerProcess(processName, applicationArguments, serverVersion, "", "");
                 break;
         }
 

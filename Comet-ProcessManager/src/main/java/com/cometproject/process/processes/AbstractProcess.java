@@ -3,22 +3,32 @@ package com.cometproject.process.processes;
 import com.google.gson.JsonObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.zeroturnaround.exec.ProcessExecutor;
+import org.zeroturnaround.exec.ProcessResult;
+import org.zeroturnaround.exec.stream.LogOutputStream;
+import org.zeroturnaround.exec.stream.slf4j.Slf4jStream;
 
-public abstract class AbstractProcess {
+import java.io.IOException;
+import java.util.concurrent.TimeoutException;
+
+public abstract class AbstractProcess extends Thread {
     private final String processName;
     private final Logger log;
 
     private ProcessStatus processStatus;
-    private long lastStatusCheck = System.currentTimeMillis();
+    private long lastStatusCheck = 0;
 
     public AbstractProcess(String processName) {
+        super(processName);
+
         this.processName = processName;
         this.processStatus = ProcessStatus.STARTING;
 
         this.log = LogManager.getLogger(this.getClass().getName() + "#" + processName);
     }
 
-    public abstract String executionCommand();
+    public abstract String[] executionCommand();
 
     public abstract void statusCheck();
 
@@ -38,11 +48,49 @@ public abstract class AbstractProcess {
 
             if(this.getProcessStatus() == ProcessStatus.STARTING) {
                 log.info("Starting instance");
+
+                // start the instance.
+                try {
+                    this.start();
+                } catch(Exception e) {
+                    log.warn("Failed to start process", e);
+                }
+            } else if(this.getProcessStatus() == ProcessStatus.RESTARTING) {
+                log.info("Restarting instance");
+
+                try {
+                    // First we send the shutdown request, if it fails then we'll interrupt.
+                    this.interrupt();
+                } catch(Exception e) {
+                    log.error(e);
+                }
             }
 
             this.statusCheck();
 
             this.lastStatusCheck = System.currentTimeMillis();
+        }
+    }
+
+    @Override
+    public void run() {
+        try {
+            final ProcessResult processResult = new ProcessExecutor().command(this.executionCommand())
+                    .redirectOutput(new LogOutputStream() {
+                        @Override
+                        protected void processLine(String line) {
+                            // Here we'll pipe the lines to the user via a websocket or something,
+                            // so (if they have permission), they can see the output of the server.
+                            log.info(line);
+                        }
+                    }).execute();
+
+            log.warn("Process exited with code: {}", processResult.getExitValue());
+        } catch(Exception e) {
+            if(e instanceof InterruptedException) {
+                // process was stopped.
+
+            }
         }
     }
 
