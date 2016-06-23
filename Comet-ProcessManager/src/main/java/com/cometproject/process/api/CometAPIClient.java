@@ -29,7 +29,8 @@ public class CometAPIClient {
 
     }
 
-    public String submitRequest(HttpMethod method, String accessToken, String url, Map<String, String> elements) throws Exception {
+    public String submitRequest(HttpMethod method, String accessToken, String url, Map<String, String> elements)
+            throws Exception {
         HttpClient httpclient = HttpClients.createDefault();
 
         HttpRequestBase httpRequest = null;

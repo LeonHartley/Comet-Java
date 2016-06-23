@@ -19,7 +19,8 @@ public class CometServerProcess extends AbstractProcess {
 
     private JsonObject statusObject = null;
 
-    public CometServerProcess(final String instanceName, final String applicationArguments, final String serverVersion, final String apiUrl, final String apiToken) {
+    public CometServerProcess(final String instanceName, final String applicationArguments, final String serverVersion,
+                              final String apiUrl, final String apiToken) {
         super(instanceName);
 
         this.applicationArguments = applicationArguments;
@@ -30,7 +31,14 @@ public class CometServerProcess extends AbstractProcess {
 
     @Override
     public String[] executionCommand() {
-        return new String[]{"java", "-jar", System.getProperty("user.dir") + "/Versions/" + this.serverVersion + "/Comet-Server-" + this.serverVersion + ".jar", this.applicationArguments, "--instance-name=" + this.getProcessName(), "--daemon"};
+        return new String[]{
+                "java",
+                "-jar",
+                System.getProperty("user.dir") + "/Versions/" + this.serverVersion +
+                        "/Comet-Server-" + this.serverVersion + ".jar", this.applicationArguments,
+
+                "--instance-name=" + this.getProcessName(),
+                "--daemon"};
     }
 
     @Override
@@ -40,10 +48,11 @@ public class CometServerProcess extends AbstractProcess {
 
     @Override
     public void statusCheck() {
-        if(this.getProcessStatus() == ProcessStatus.UP) {
+        if (this.getProcessStatus() == ProcessStatus.UP) {
             // Make a status request to the process' http API and grab status object
             try {
-                this.statusObject = gson.fromJson(CometAPIClient.getInstance().submitRequest(HttpMethod.GET, this.apiToken, this.apiUrl + "/system/status", null), JsonObject.class);
+                this.statusObject = gson.fromJson(CometAPIClient.getInstance().submitRequest(HttpMethod.GET,
+                        this.apiToken, this.apiUrl + "/system/status", null), JsonObject.class);
             } catch (Exception e) {
                 // Failed status check, WARNING!
                 this.setProcessStatus(ProcessStatus.WARNING);
