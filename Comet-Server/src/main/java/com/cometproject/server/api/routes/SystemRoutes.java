@@ -16,6 +16,7 @@ import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.outgoing.catalog.CatalogPublishMessageComposer;
 import com.cometproject.server.network.messages.outgoing.moderation.ModToolMessageComposer;
+import com.cometproject.server.utilities.CometStats;
 import spark.Request;
 import spark.Response;
 
@@ -23,6 +24,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SystemRoutes {
+    public static Object status(Request req, Response res) {
+        Map<String, Object> result = new HashMap<>();
+        res.type("application/json");
+
+        result.put("status", CometStats.get());
+
+        return result;
+    }
+
     public static Object shutdown(Request req, Response res) {
         Map<String, Object> result = new HashMap<>();
         res.type("application/json");

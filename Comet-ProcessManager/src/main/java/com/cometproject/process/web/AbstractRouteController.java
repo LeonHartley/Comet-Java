@@ -7,8 +7,6 @@ import spark.Route;
 import spark.Spark;
 
 public abstract class AbstractRouteController {
-    protected static final Gson gson = new Gson();
-
     private final CometProcessManager processManager;
 
     public AbstractRouteController(final CometProcessManager processManager) {

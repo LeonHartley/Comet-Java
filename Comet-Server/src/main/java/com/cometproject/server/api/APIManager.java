@@ -137,6 +137,8 @@ public class APIManager implements Initialisable {
         Spark.get("/rooms/active/all", RoomRoutes::getAllActiveRooms, jsonTransformer);
         Spark.get("/room/:id/:action", RoomRoutes::roomAction, jsonTransformer);
 
+        Spark.get("/system/status", SystemRoutes::status, jsonTransformer);
+        Spark.get("/system/shutdown", SystemRoutes::shutdown, jsonTransformer);
         Spark.get("/system/reload/:type", SystemRoutes::reload, jsonTransformer);
         Spark.post("/camera/purchase", PhotoRoutes::purchase, jsonTransformer);
     }

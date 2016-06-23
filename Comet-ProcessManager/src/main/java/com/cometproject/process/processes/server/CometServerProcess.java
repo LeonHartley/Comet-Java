@@ -1,16 +1,23 @@
 package com.cometproject.process.processes.server;
 
+import com.cometproject.process.api.CometAPIClient;
 import com.cometproject.process.processes.AbstractProcess;
 import com.cometproject.process.processes.ProcessStatus;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import org.eclipse.jetty.http.HttpMethod;
 
 public class CometServerProcess extends AbstractProcess {
+
+    private static final Gson gson = new Gson();
 
     private final String applicationArguments;
     private final String serverVersion;
 
     private final String apiUrl;
     private final String apiToken;
+
+    private JsonObject statusObject = null;
 
     public CometServerProcess(final String instanceName, final String applicationArguments, final String serverVersion, final String apiUrl, final String apiToken) {
         super(instanceName);
@@ -35,6 +42,12 @@ public class CometServerProcess extends AbstractProcess {
     public void statusCheck() {
         if(this.getProcessStatus() == ProcessStatus.UP) {
             // Make a status request to the process' http API and grab status object
+            try {
+                this.statusObject = gson.fromJson(CometAPIClient.getInstance().submitRequest(HttpMethod.GET, this.apiToken, this.apiUrl + "/system/status", null), JsonObject.class);
+            } catch (Exception e) {
+                // Failed status check, WARNING!
+                this.setProcessStatus(ProcessStatus.WARNING);
+            }
         }
 
         // Check for any issues with this specific instance.
@@ -46,6 +59,7 @@ public class CometServerProcess extends AbstractProcess {
         final JsonObject obj = super.buildStatusObject();
 
         obj.addProperty("serverVersion", this.serverVersion);
+        obj.add("serverStatus", this.statusObject);
 
         return obj;
     }

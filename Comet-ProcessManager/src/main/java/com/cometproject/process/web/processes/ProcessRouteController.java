@@ -28,8 +28,10 @@ public class ProcessRouteController extends AbstractRouteController {
                 // Create a CometServer instance.
                 final String applicationArguments = request.queryParams("applicationArguments");
                 final String serverVersion = request.queryParams("serverVersion");
+                final String apiUrl = request.queryParams("apiUrl");
+                final String apiToken = request.queryParams("apiToken");
 
-                process = new CometServerProcess(processName, applicationArguments, serverVersion, "", "");
+                process = new CometServerProcess(processName, applicationArguments, serverVersion, apiUrl, apiToken);
                 break;
         }
 
