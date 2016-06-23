@@ -1,13 +1,13 @@
 package com.cometproject.server.tasks;
 
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.utilities.Initializable;
+import com.cometproject.server.utilities.Initialisable;
 import org.apache.log4j.Logger;
 
 import java.util.concurrent.*;
 
 
-public class CometThreadManager implements Initializable {
+public class CometThreadManager implements Initialisable {
     private static CometThreadManager cometThreadManagerInstance;
 
     public static int POOL_SIZE = 0;
@@ -25,7 +25,7 @@ public class CometThreadManager implements Initializable {
     }
 
     @Override
-    public void initialize() {
+    public void initialise() {
         int poolSize = Integer.parseInt((String) Comet.getServer().getConfig().getOrDefault("comet.system.threads", "8"));
 
         this.scheduledExecutorService = Executors.newScheduledThreadPool(poolSize, r -> {

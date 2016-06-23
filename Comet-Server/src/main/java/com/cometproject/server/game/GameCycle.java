@@ -13,7 +13,7 @@ import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.storage.queries.system.StatisticsDao;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManager;
-import com.cometproject.server.utilities.Initializable;
+import com.cometproject.server.utilities.Initialisable;
 import org.apache.log4j.Logger;
 
 import java.util.Calendar;
@@ -21,7 +21,7 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 
-public class GameCycle implements CometTask, Initializable {
+public class GameCycle implements CometTask, Initialisable {
     private static final int interval = 1;
     private static final int PLAYER_REWARD_INTERVAL = 15; // minutes
 
@@ -41,7 +41,7 @@ public class GameCycle implements CometTask, Initializable {
     }
 
     @Override
-    public void initialize() {
+    public void initialise() {
         this.gameFuture = CometThreadManager.getInstance().executePeriodic(this, interval, interval, TimeUnit.MINUTES);
         this.active = true;
 

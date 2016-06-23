@@ -57,14 +57,14 @@ public class CometServer {
      * Initialize Comet Server
      */
     public void init() {
-        ModuleManager.getInstance().initialize();
-        APIManager.getInstance().initialize();
-//        WebSocketServer.getInstance().initialize();
+        ModuleManager.getInstance().initialise();
+        APIManager.getInstance().initialise();
+//        WebSocketServer.getInstance().initialise();
         PlayerFigureValidator.loadFigureData();
 
-        CometThreadManager.getInstance().initialize();
-        StorageManager.getInstance().initialize();
-        LogManager.getInstance().initialize();
+        CometThreadManager.getInstance().initialise();
+        StorageManager.getInstance().initialise();
+        LogManager.getInstance().initialise();
 
         // Locale & config
         CometSettings.initialize();
@@ -73,31 +73,31 @@ public class CometServer {
         // Initialize the game managers
         // TODO: Implement some sort of dependency injection so we don't need any of this crap!!
 
-        PermissionsManager.getInstance().initialize();
+        PermissionsManager.getInstance().initialise();
         RoomBundleManager.getInstance().initialize();
-        ItemManager.getInstance().initialize();
-        CatalogManager.getInstance().initialize();
-        RoomManager.getInstance().initialize();
-        NavigatorManager.getInstance().initialize();
-        CommandManager.getInstance().initialize();
-        BanManager.getInstance().initialize();
-        ModerationManager.getInstance().initialize();
-        PetManager.getInstance().initialize();
-        LandingManager.getInstance().initialize();
-        GroupManager.getInstance().initialize();
-        PlayerManager.getInstance().initialize();
-        QuestManager.getInstance().initialize();
-        AchievementManager.getInstance().initialize();
-        PollManager.getInstance().initialize();
+        ItemManager.getInstance().initialise();
+        CatalogManager.getInstance().initialise();
+        RoomManager.getInstance().initialise();
+        NavigatorManager.getInstance().initialise();
+        CommandManager.getInstance().initialise();
+        BanManager.getInstance().initialise();
+        ModerationManager.getInstance().initialise();
+        PetManager.getInstance().initialise();
+        LandingManager.getInstance().initialise();
+        GroupManager.getInstance().initialise();
+        PlayerManager.getInstance().initialise();
+        QuestManager.getInstance().initialise();
+        AchievementManager.getInstance().initialise();
+        PollManager.getInstance().initialise();
 
-        PlayerDataStorageQueue.getInstance().initialize();
-        ItemStorageQueue.getInstance().initialize();
+        PlayerDataStorageQueue.getInstance().initialise();
+        ItemStorageQueue.getInstance().initialise();
 
         String ipAddress = this.getConfig().get("comet.network.host"),
                 port = this.getConfig().get("comet.network.port");
 
         NetworkManager.getInstance().initialize(ipAddress, port);
-        GameCycle.getInstance().initialize();
+        GameCycle.getInstance().initialise();
 
         if(Comet.showGui) {
             CometGui gui = new CometGui();

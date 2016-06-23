@@ -2,20 +2,15 @@ package com.cometproject.server.game.polls;
 
 import com.cometproject.server.game.polls.types.Poll;
 import com.cometproject.server.game.polls.types.PollQuestion;
-import com.cometproject.server.game.polls.types.PollQuestionType;
 import com.cometproject.server.game.polls.types.questions.MultipleChoiceQuestion;
-import com.cometproject.server.game.polls.types.questions.WordedPollQuestion;
-import com.cometproject.server.logging.LogManager;
 import com.cometproject.server.storage.queries.polls.PollDao;
-import com.cometproject.server.utilities.Initializable;
-import com.google.common.collect.Lists;
-import com.sun.org.apache.xpath.internal.operations.Mult;
+import com.cometproject.server.utilities.Initialisable;
 import org.apache.log4j.Logger;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class PollManager implements Initializable {
+public class PollManager implements Initialisable {
     private static PollManager pollManagerInstance;
     private static Logger log = Logger.getLogger(PollManager.class.getName());
 
@@ -28,7 +23,7 @@ public class PollManager implements Initializable {
     }
 
     @Override
-    public void initialize() {
+    public void initialise() {
         if(this.polls != null) {
             for(Poll poll : this.polls.values()) {
                 for(PollQuestion pollQuestion : poll.getPollQuestions().values()) {

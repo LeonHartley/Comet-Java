@@ -3,7 +3,7 @@ package com.cometproject.server.game.pets;
 import com.cometproject.server.game.pets.data.PetSpeech;
 import com.cometproject.server.game.pets.races.PetRace;
 import com.cometproject.server.storage.queries.pets.PetDao;
-import com.cometproject.server.utilities.Initializable;
+import com.cometproject.server.utilities.Initialisable;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
-public class PetManager implements Initializable {
+public class PetManager implements Initialisable {
     private static PetManager petManagerInstance;
     private Logger log = Logger.getLogger(PetManager.class.getName());
 
@@ -27,7 +27,7 @@ public class PetManager implements Initializable {
     }
 
     @Override
-    public void initialize() {
+    public void initialise() {
         this.loadPetRaces();
         this.loadPetSpeech();
         this.loadTransformablePets();

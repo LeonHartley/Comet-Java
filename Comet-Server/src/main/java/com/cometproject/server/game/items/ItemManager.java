@@ -6,7 +6,7 @@ import com.cometproject.server.storage.queries.items.ItemDao;
 import com.cometproject.server.storage.queries.items.MusicDao;
 import com.cometproject.server.storage.queries.items.TeleporterDao;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
-import com.cometproject.server.utilities.Initializable;
+import com.cometproject.server.utilities.Initialisable;
 import org.apache.log4j.Logger;
 
 import java.util.HashMap;
@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
-public class ItemManager implements Initializable {
+public class ItemManager implements Initialisable {
     private static ItemManager itemManagerInstance;
 
     private Logger log = Logger.getLogger(ItemManager.class.getName());
@@ -36,7 +36,7 @@ public class ItemManager implements Initializable {
     }
 
     @Override
-    public void initialize() {
+    public void initialise() {
         this.itemDefinitions = new HashMap<>();
         this.musicData = new HashMap<>();
 

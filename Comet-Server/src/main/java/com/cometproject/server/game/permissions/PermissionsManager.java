@@ -4,14 +4,14 @@ import com.cometproject.server.game.permissions.types.CommandPermission;
 import com.cometproject.server.game.permissions.types.Perk;
 import com.cometproject.server.game.permissions.types.Rank;
 import com.cometproject.server.storage.queries.permissions.PermissionsDao;
-import com.cometproject.server.utilities.Initializable;
+import com.cometproject.server.utilities.Initialisable;
 import org.apache.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
 
 
-public class PermissionsManager implements Initializable {
+public class PermissionsManager implements Initialisable {
     private static PermissionsManager permissionsManagerInstance;
 
     private Map<Integer, Perk> perks;
@@ -25,7 +25,7 @@ public class PermissionsManager implements Initializable {
     }
 
     @Override
-    public void initialize() {
+    public void initialise() {
         this.perks = new HashMap<>();
         this.commands = new HashMap<>();
         this.ranks = new HashMap<>();

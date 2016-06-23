@@ -1,12 +1,11 @@
 package com.cometproject.server.storage.queue.types;
 
 import com.cometproject.server.game.players.data.PlayerData;
-import com.cometproject.server.game.rooms.objects.items.RoomItem;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.storage.queue.StorageQueue;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManager;
-import com.cometproject.server.utilities.Initializable;
+import com.cometproject.server.utilities.Initialisable;
 import org.apache.log4j.Logger;
 
 import java.util.Map;
@@ -14,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-public class PlayerDataStorageQueue implements Initializable, CometTask, StorageQueue<PlayerData> {
+public class PlayerDataStorageQueue implements Initialisable, CometTask, StorageQueue<PlayerData> {
     private static final Logger log = Logger.getLogger(PlayerDataStorageQueue.class.getName());
     private static PlayerDataStorageQueue instance;
 
@@ -27,7 +26,7 @@ public class PlayerDataStorageQueue implements Initializable, CometTask, Storage
     }
 
     @Override
-    public void initialize() {
+    public void initialise() {
         this.future = CometThreadManager.getInstance().executePeriodic(this, 0, 1500, TimeUnit.MILLISECONDS);
     }
 

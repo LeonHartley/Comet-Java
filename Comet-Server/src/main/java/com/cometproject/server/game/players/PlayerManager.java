@@ -7,7 +7,7 @@ import com.cometproject.server.game.players.login.PlayerLoginRequest;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.player.PlayerDao;
-import com.cometproject.server.utilities.Initializable;
+import com.cometproject.server.utilities.Initialisable;
 import com.google.common.collect.Lists;
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
@@ -22,7 +22,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 
-public class PlayerManager implements Initializable {
+public class PlayerManager implements Initialisable {
     private static PlayerManager playerManagerInstance;
     private static Logger log = Logger.getLogger(PlayerManager.class.getName());
 
@@ -44,7 +44,7 @@ public class PlayerManager implements Initializable {
     }
 
     @Override
-    public void initialize() {
+    public void initialise() {
         this.playerIdToSessionId = new ConcurrentHashMap<>();
         this.playerUsernameToPlayerId = new ConcurrentHashMap<>();
         this.ipAddressToPlayerIds = new ConcurrentHashMap<>();

@@ -5,7 +5,7 @@ import com.cometproject.server.game.catalog.types.CatalogItem;
 import com.cometproject.server.game.catalog.types.CatalogOffer;
 import com.cometproject.server.game.catalog.types.CatalogPage;
 import com.cometproject.server.storage.queries.catalog.CatalogDao;
-import com.cometproject.server.utilities.Initializable;
+import com.cometproject.server.utilities.Initialisable;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.commons.collections4.map.ListOrderedMap;
@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class CatalogManager implements Initializable {
+public class CatalogManager implements Initialisable {
     private static CatalogManager catalogManagerInstance;
 
     /**
@@ -68,7 +68,7 @@ public class CatalogManager implements Initializable {
     }
 
     @Override
-    public void initialize() {
+    public void initialise() {
         this.pages = new ListOrderedMap<>();
         this.items = new ListOrderedMap<>();
 

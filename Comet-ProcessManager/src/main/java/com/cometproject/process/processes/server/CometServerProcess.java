@@ -33,6 +33,10 @@ public class CometServerProcess extends AbstractProcess {
 
     @Override
     public void statusCheck() {
+        if(this.getProcessStatus() == ProcessStatus.UP) {
+            // Make a status request to the process' http API and grab status object
+        }
+
         // Check for any issues with this specific instance.
         this.setProcessStatus(ProcessStatus.UP);
     }

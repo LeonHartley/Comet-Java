@@ -4,12 +4,12 @@ import com.cometproject.server.network.websocket.listeners.AuthListener;
 import com.cometproject.server.network.websocket.listeners.DisconnectionListener;
 import com.cometproject.server.network.websocket.listeners.MessageListener;
 import com.cometproject.server.network.websocket.listeners.types.AuthenticationRequest;
-import com.cometproject.server.utilities.Initializable;
+import com.cometproject.server.utilities.Initialisable;
 import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketIOServer;
 import org.apache.log4j.Logger;
 
-public class WebSocketServer implements Initializable {
+public class WebSocketServer implements Initialisable {
     private static WebSocketServer instance;
 
     /**
@@ -37,7 +37,7 @@ public class WebSocketServer implements Initializable {
     /**
      * Initializes the server
      */
-    public void initialize() {
+    public void initialise() {
         this.configure();
         this.setupServer();
         this.setupListeners();

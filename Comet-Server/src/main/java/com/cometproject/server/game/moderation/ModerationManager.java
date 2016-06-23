@@ -9,7 +9,7 @@ import com.cometproject.server.network.messages.outgoing.moderation.tickets.Help
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.moderation.PresetDao;
 import com.cometproject.server.storage.queries.moderation.TicketDao;
-import com.cometproject.server.utilities.Initializable;
+import com.cometproject.server.utilities.Initialisable;
 import com.cometproject.server.utilities.collections.ConcurrentHashSet;
 import org.apache.log4j.Logger;
 
@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class ModerationManager implements Initializable {
+public class ModerationManager implements Initialisable {
     private static ModerationManager moderationManagerInstance;
 
     private List<String> userPresets;
@@ -37,7 +37,7 @@ public class ModerationManager implements Initializable {
     }
 
     @Override
-    public void initialize() {
+    public void initialise() {
         this.moderators = new ConcurrentHashSet<>();
 
         loadPresets();

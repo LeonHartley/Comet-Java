@@ -2,14 +2,13 @@ package com.cometproject.server.game.achievements;
 
 import com.cometproject.server.game.achievements.types.AchievementType;
 import com.cometproject.server.storage.queries.achievements.AchievementDao;
-import com.cometproject.server.utilities.Initializable;
+import com.cometproject.server.utilities.Initialisable;
 import org.apache.log4j.Logger;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class AchievementManager implements Initializable {
+public class AchievementManager implements Initialisable {
     private static AchievementManager achievementManager;
     private static final Logger log = Logger.getLogger(AchievementManager.class.getName());
 
@@ -20,7 +19,7 @@ public class AchievementManager implements Initializable {
     }
 
     @Override
-    public void initialize() {
+    public void initialise() {
         this.loadAchievements();
 
         log.info("AchievementManager initialized");

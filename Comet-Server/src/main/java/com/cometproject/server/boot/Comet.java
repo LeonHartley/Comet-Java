@@ -90,6 +90,7 @@ public class Comet {
             Map<String, String> cometConfiguration = new HashMap<>();
 
             for (int i = 0; i < args.length; i++) {
+                System.out.println(args[i]);
                 if (args[i].equals("--debug-logging")) {
                     logLevel = Level.DEBUG;
                 }

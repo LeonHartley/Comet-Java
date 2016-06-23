@@ -4,7 +4,7 @@ import com.cometproject.server.game.groups.items.GroupItemManager;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.storage.queries.groups.GroupDao;
-import com.cometproject.server.utilities.Initializable;
+import com.cometproject.server.utilities.Initialisable;
 import org.apache.log4j.Logger;
 import org.apache.solr.util.ConcurrentLRUCache;
 
@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 
-public class GroupManager implements Initializable {
+public class GroupManager implements Initialisable {
     /**
      * The global GroupManager instance
      */
@@ -77,7 +77,7 @@ public class GroupManager implements Initializable {
      * Initialize the group manager
      */
     @Override
-    public void initialize() {
+    public void initialise() {
         this.groupItems = new GroupItemManager();
 
         this.groupData = new ConcurrentLRUCache<>(DATA_LRU_MAX_ENTRIES, DATA_LRU_LOWER_WATERMARK);

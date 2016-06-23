@@ -39,7 +39,7 @@ import com.cometproject.server.logging.LogManager;
 import com.cometproject.server.logging.entries.CommandLogEntry;
 import com.cometproject.server.modules.ModuleManager;
 import com.cometproject.server.network.sessions.Session;
-import com.cometproject.server.utilities.Initializable;
+import com.cometproject.server.utilities.Initialisable;
 import com.google.common.collect.Lists;
 import org.apache.log4j.Logger;
 
@@ -50,7 +50,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 
-public class CommandManager implements Initializable {
+public class CommandManager implements Initialisable {
     private static CommandManager commandManagerInstance;
     private static Logger log = Logger.getLogger(CommandManager.class.getName());
 
@@ -66,7 +66,7 @@ public class CommandManager implements Initializable {
     }
 
     @Override
-    public void initialize() {
+    public void initialise() {
         this.commands = new HashMap<>();
 
         this.reloadAllCommands();

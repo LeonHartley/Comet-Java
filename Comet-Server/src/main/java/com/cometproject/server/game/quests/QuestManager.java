@@ -2,12 +2,12 @@ package com.cometproject.server.game.quests;
 
 import com.cometproject.server.game.quests.types.Quest;
 import com.cometproject.server.storage.queries.quests.QuestsDao;
-import com.cometproject.server.utilities.Initializable;
+import com.cometproject.server.utilities.Initialisable;
 import org.apache.log4j.Logger;
 
 import java.util.Map;
 
-public class QuestManager implements Initializable {
+public class QuestManager implements Initialisable {
     private static final Logger log = Logger.getLogger(QuestManager.class.getName());
 
     private static QuestManager questManagerInstance;
@@ -19,7 +19,7 @@ public class QuestManager implements Initializable {
     }
 
     @Override
-    public void initialize() {
+    public void initialise() {
         this.loadQuests();
     }
 

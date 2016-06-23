@@ -5,7 +5,7 @@ import com.cometproject.api.events.EventHandler;
 import com.cometproject.api.modules.BaseModule;
 import com.cometproject.api.server.IGameService;
 import com.cometproject.server.modules.events.EventHandlerService;
-import com.cometproject.server.utilities.Initializable;
+import com.cometproject.server.utilities.Initialisable;
 import com.cometproject.server.utilities.JsonFactory;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class ModuleManager implements Initializable {
+public class ModuleManager implements Initialisable {
     private static ModuleManager moduleManagerInstance;
     private static final Logger log = Logger.getLogger(ModuleManager.class.getName());
 
@@ -43,7 +43,7 @@ public class ModuleManager implements Initializable {
     }
 
     @Override
-    public void initialize() {
+    public void initialise() {
         if (this.modules != null) {
             this.modules.clear();
         } else {

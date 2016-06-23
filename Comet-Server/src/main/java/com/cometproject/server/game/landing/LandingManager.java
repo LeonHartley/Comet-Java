@@ -2,13 +2,13 @@ package com.cometproject.server.game.landing;
 
 import com.cometproject.server.game.landing.types.PromoArticle;
 import com.cometproject.server.storage.queries.landing.LandingDao;
-import com.cometproject.server.utilities.Initializable;
+import com.cometproject.server.utilities.Initialisable;
 import org.apache.log4j.Logger;
 
 import java.util.Map;
 
 
-public class LandingManager implements Initializable {
+public class LandingManager implements Initialisable {
     private static LandingManager landingManagerInstance;
     private static final Logger log = Logger.getLogger(LandingManager.class.getName());
 
@@ -18,7 +18,7 @@ public class LandingManager implements Initializable {
     }
 
     @Override
-    public void initialize() {
+    public void initialise() {
         this.loadArticles();
 
         log.info("LandingManager initialized");

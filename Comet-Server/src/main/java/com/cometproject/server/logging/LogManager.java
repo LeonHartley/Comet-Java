@@ -1,11 +1,11 @@
 package com.cometproject.server.logging;
 
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.utilities.Initializable;
+import com.cometproject.server.utilities.Initialisable;
 import org.apache.log4j.Logger;
 
 
-public class LogManager implements Initializable {
+public class LogManager implements Initialisable {
     private static LogManager logManagerInstance;
 
     private Logger log = Logger.getLogger(LogManager.class.getName());
@@ -18,7 +18,7 @@ public class LogManager implements Initializable {
     }
 
     @Override
-    public void initialize() {
+    public void initialise() {
         this.store = new LogStore();
     }
 

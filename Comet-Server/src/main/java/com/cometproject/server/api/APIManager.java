@@ -6,12 +6,12 @@ import com.cometproject.server.api.routes.RoomRoutes;
 import com.cometproject.server.api.routes.SystemRoutes;
 import com.cometproject.server.api.transformers.JsonTransformer;
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.utilities.Initializable;
+import com.cometproject.server.utilities.Initialisable;
 import org.apache.log4j.Logger;
 import spark.Spark;
 
 
-public class APIManager implements Initializable {
+public class APIManager implements Initialisable {
     /**
      * The global API Manager instance
      */
@@ -64,7 +64,7 @@ public class APIManager implements Initializable {
      * Initialize the API
      */
     @Override
-    public void initialize() {
+    public void initialise() {
         this.initializeConfiguration();
         this.initializeSpark();
         this.initializeRouting();

@@ -2,7 +2,7 @@
 //
 //import com.cometproject.server.boot.Comet;
 //import com.cometproject.server.storage.cache.config.CacheConfiguration;
-//import com.cometproject.server.utilities.Initializable;
+//import com.cometproject.server.utilities.Initialisable;
 //import com.cometproject.server.utilities.JsonFactory;
 //import org.apache.log4j.Logger;
 //import redis.clients.jedis.Jedis;
@@ -11,7 +11,7 @@
 //import java.io.FileReader;
 //import java.io.IOException;
 //
-//public class CacheManager implements Initializable {
+//public class CacheManager implements Initialisable {
 //    private static CacheManager cacheManager;
 //
 //    private boolean enabled;
@@ -25,7 +25,7 @@
 //    }
 //
 //    @Override
-//    public void initialize() {
+//    public void initialise() {
 //        if(!this.enabled)
 //            return;
 //
@@ -38,7 +38,7 @@
 //        }
 //
 //        if(!this.initializeJedis()) {
-//            log.error("Failed to initialize Redis cluster, disabling caching");
+//            log.error("Failed to initialise Redis cluster, disabling caching");
 //
 //            this.enabled = false;
 //            return;
