@@ -5,11 +5,16 @@ import com.cometproject.manager.repositories.InstanceRepository;
 import com.cometproject.manager.repositories.customers.Customer;
 import com.cometproject.manager.repositories.instances.Instance;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.RestOperations;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +29,8 @@ public class InstanceController {
 
     @Autowired
     private InstanceRepository instanceRepository;
+
+    private RestTemplate restTemplate = new RestTemplate();
 
     @RequestMapping(value = "/instance/{id}", method = RequestMethod.GET)
     public ModelAndView index(HttpServletRequest request, HttpServletResponse response, @PathVariable("id") String instanceId) throws IOException {
@@ -48,6 +55,16 @@ public class InstanceController {
             request.getSession().setAttribute("saved", null);
         }
 
+        //System.out.println(this.restTemplate.exchange("http://localhost:4567/"));
+
+       /* MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+
+        map.add("name", "xx");
+        map.add("password", "xx");*/
+
+        HttpEntity<String> result = this.restTemplate.getForEntity("http://localhost:4567/status", String.class);
+        System.out.println(result.getBody());
+
         modelAndView.addObject("instance", instanceRepository.findOne(instanceId));
 
         return modelAndView;
@@ -62,7 +79,6 @@ public class InstanceController {
             response.sendRedirect("/");
             return;
         }
-
 
         final Customer customer = this.customerRepository.findOne((String) request.getSession().getAttribute("customer"));
 

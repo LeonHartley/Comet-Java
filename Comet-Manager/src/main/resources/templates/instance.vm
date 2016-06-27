@@ -21,6 +21,19 @@
                 $(this).html('Hide');
             }
         });
+
+        $('#showToken').click(function () {
+            var passwordField = $('#token');
+
+            if (passwordField.attr('type') === 'text') {
+                // hide the password
+                passwordField.attr('type', 'password');
+                $(this).html('Show');
+            } else {
+                passwordField.attr('type', 'text');
+                $(this).html('Hide');
+            }
+        });
     });
 
 </script>
@@ -31,13 +44,13 @@
             <div class="panel-heading"><b>$instance.name</b></div>
 
             <ul class="list-group">
-                <li class="list-group-item">IP: $instance.config.</li>
+                <li class="list-group-item">Uptime: $instance.currentStatus.uptime</li>
             </ul>
         </div>
     </div>
     <div class="col-md-8">
         <div class="panel panel-default">
-            <div class="panel-heading"><b>MySQL Configuration</b></div>
+            <div class="panel-heading"><b>Configuration</b></div>
             <div class="panel-body">
 
                 #if($saved)
@@ -45,6 +58,51 @@
                 #end
 
                 <form action="/instance/save/$instance.id" method="post">
+                    <h4>Server Configuration</h4>
+
+                    <div class="row settings">
+                        <div class="col-md-6">Host</div>
+                        <div class="col-md-6">
+                            <input type="text" name="db-host" class="form-control"
+                                   value="$instance.config.get("serverHost")"/>
+                        </div>
+                    </div>
+                    <div class="row settings">
+                        <div class="col-md-6">Game Port</div>
+                        <div class="col-md-6">
+                            <input type="text" name="db-host" class="form-control"
+                                   value="$instance.config.get("gamePort")"/>
+                        </div>
+                    </div>
+                    <h4>API Configuration</h4>
+
+                    <div class="row settings">
+                        <div class="col-md-6">API Port</div>
+                        <div class="col-md-6">
+                            <input type="text" name="db-host" class="form-control"
+                                   value="$instance.config.get("apiPort")"/>
+                        </div>
+                    </div>
+
+
+                    <div class="row settings">
+                        <div class="col-md-6">API Token</div>
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <input type="password" name="api-token" class="form-control" id="token"
+                                       value="$instance.config.get("apiToken")"/>
+
+                                <div class="input-group-btn">
+                                    <button type="button" class="btn btn-default" tabindex="-1" id="showToken">
+                                        Show
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h4>MySQL Configuration</h4>
+
                     <div class="row settings">
                         <div class="col-md-6">MySQL Host</div>
                         <div class="col-md-6"><input type="text" name="db-host" class="form-control"

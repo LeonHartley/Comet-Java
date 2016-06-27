@@ -59,7 +59,7 @@ public abstract class AbstractProcess extends Thread {
                 log.info("Restarting instance");
 
                 try {
-                    // First we send the shutdown request, if it fails then we'll interrupt.
+                    // todo: First we need to send the shutdown request, if it fails then we'll interrupt.
                     this.interrupt();
                 } catch(Exception e) {
                     log.error(e);
@@ -89,9 +89,10 @@ public abstract class AbstractProcess extends Thread {
         } catch(Exception e) {
             if(e instanceof InterruptedException) {
                 // process was stopped.
-
             }
         }
+
+        log.info("Processed exited");
     }
 
     public int statusCheckInterval() {

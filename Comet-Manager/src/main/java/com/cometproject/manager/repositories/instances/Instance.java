@@ -17,6 +17,8 @@ public class Instance {
     @JsonIgnore
     private String authKey;
 
+    private long lastStatusUpdate = System.currentTimeMillis();
+
     public Instance(String id, String name, Map<String, String> config, String authKey, String server) {
         this.id = id;
         this.name = name;

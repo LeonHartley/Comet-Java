@@ -25,7 +25,12 @@ public abstract class AbstractRouteController {
         Spark.post(location, (req, res) -> {
             res.type("application/json");
 
-            return route.handle(req, res);
+            try {
+                return route.handle(req, res);
+            } catch(Exception e) {
+                e.printStackTrace();
+                return "";
+            }
         }, JsonRouteTransformer.getInstance());
     }
 
