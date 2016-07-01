@@ -11,6 +11,7 @@ public class CometThreadManager implements Initialisable {
     private static CometThreadManager cometThreadManagerInstance;
 
     public static int POOL_SIZE = 0;
+
     private ScheduledExecutorService scheduledExecutorService;
 
     public CometThreadManager() {

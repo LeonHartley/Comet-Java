@@ -1,8 +1,10 @@
 package com.cometproject.process.processes;
 
+import com.cometproject.process.api.CometAPIClient;
 import com.google.gson.JsonObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.eclipse.jetty.http.HttpMethod;
 import org.slf4j.LoggerFactory;
 import org.zeroturnaround.exec.ProcessExecutor;
 import org.zeroturnaround.exec.ProcessResult;
@@ -17,7 +19,9 @@ public abstract class AbstractProcess extends Thread {
     private final Logger log;
 
     private ProcessStatus processStatus;
+
     private long lastStatusCheck = 0;
+    private long shutdownRequested = 0;
 
     public AbstractProcess(String processName) {
         super(processName);
@@ -60,6 +64,9 @@ public abstract class AbstractProcess extends Thread {
 
                 try {
                     // todo: First we need to send the shutdown request, if it fails then we'll interrupt.
+
+
+
                     this.interrupt();
                 } catch(Exception e) {
                     log.error(e);
@@ -93,6 +100,12 @@ public abstract class AbstractProcess extends Thread {
         }
 
         log.info("Processed exited");
+    }
+
+    public void performShutdown() {
+        this.shutdownRequested = System.currentTimeMillis();
+
+        // Here's where we would handle anything we want to run before we shutdown.
     }
 
     public int statusCheckInterval() {
