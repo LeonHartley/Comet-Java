@@ -87,11 +87,13 @@ public class OrderedExecutor<K> {
             // Pick a task to run.
             Runnable runnable;
             lock.lock();
+
             try {
                 runnable = queue.peek();
             } finally {
                 lock.unlock();
             }
+
             try {
                 runnable.run();
             } catch (Exception ex) {
@@ -99,6 +101,7 @@ public class OrderedExecutor<K> {
             }
             // Check to see if there are queued task, if yes, submit for execution.
             lock.lock();
+
             try {
                 queue.poll();
                 if (!queue.isEmpty()) {

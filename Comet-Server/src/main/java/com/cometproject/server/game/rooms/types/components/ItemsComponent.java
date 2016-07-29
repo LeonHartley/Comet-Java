@@ -2,14 +2,13 @@ package com.cometproject.server.game.rooms.types.components;
 
 import com.cometproject.api.game.furniture.types.FurnitureDefinition;
 import com.cometproject.api.game.furniture.types.LimitedEditionItem;
+import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.items.ItemManager;
-import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
 import com.cometproject.server.game.items.rares.LimitedEditionItemData;
-import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
-import com.cometproject.server.storage.queue.types.ItemStorageQueue;
 import com.cometproject.server.game.players.types.Player;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.AffectedTile;
 import com.cometproject.server.game.rooms.objects.items.RoomItem;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
@@ -32,8 +31,11 @@ import com.cometproject.server.network.messages.outgoing.room.items.SendFloorIte
 import com.cometproject.server.network.messages.outgoing.room.items.SendWallItemMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.storage.cache.objects.items.FloorItemDataObject;
+import com.cometproject.server.storage.cache.objects.items.WallItemDataObject;
 import com.cometproject.server.storage.queries.items.LimitedEditionDao;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
+import com.cometproject.server.storage.queue.types.ItemStorageQueue;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -60,7 +62,34 @@ public class ItemsComponent {
         this.room = room;
         this.log = Logger.getLogger("Room Items Component [" + room.getData().getName() + "]");
 
-        RoomItemDao.getItems(this.room, this.floorItems, this.wallItems);
+        if (room.getCachedData() != null) {
+            for (FloorItemDataObject floorItemDataObject : room.getCachedData().getFloorItems()) {
+                this.floorItems.put(floorItemDataObject.getId(), RoomItemFactory.createFloor(
+                        floorItemDataObject.getId(),
+                        floorItemDataObject.getItemDefinitionId(),
+                        room,
+                        floorItemDataObject.getOwner(),
+                        floorItemDataObject.getPosition().getX(),
+                        floorItemDataObject.getPosition().getY(),
+                        floorItemDataObject.getPosition().getZ(),
+                        floorItemDataObject.getRotation(),
+                        floorItemDataObject.getData(),
+                        floorItemDataObject.getLimitedEditionItemData()));
+            }
+
+            for (WallItemDataObject wallItemDataObject : room.getCachedData().getWallItems()) {
+                this.wallItems.put(wallItemDataObject.getId(), RoomItemFactory.createWall(
+                        wallItemDataObject.getId(),
+                        wallItemDataObject.getItemDefinitionId(),
+                        room,
+                        wallItemDataObject.getOwner(),
+                        wallItemDataObject.getWallPosition(),
+                        wallItemDataObject.getData(),
+                        wallItemDataObject.getLimitedEditionItemData()));
+            }
+        } else {
+            RoomItemDao.getItems(this.room, this.floorItems, this.wallItems);
+        }
 
         for (RoomItemFloor floorItem : this.floorItems.values()) {
             if (floorItem instanceof SoundMachineFloorItem) {
@@ -99,7 +128,7 @@ public class ItemsComponent {
             itemIds.clear();
         }
 
-        for(Set<Long> itemInteractions : itemInteractionIndex.values()) {
+        for (Set<Long> itemInteractions : itemInteractionIndex.values()) {
             itemInteractions.clear();
         }
 
@@ -125,21 +154,21 @@ public class ItemsComponent {
     }
 
     public void commit() {
-        if(!CometSettings.storageItemQueueEnabled) {
+        if (!CometSettings.storageItemQueueEnabled) {
             return;
         }
 
         List<RoomItem> floorItems = new ArrayList<>();
 
-        for(RoomItemFloor floorItem : this.floorItems.values()) {
-            if(floorItem.hasQueuedSave()) {
+        for (RoomItemFloor floorItem : this.floorItems.values()) {
+            if (floorItem.hasQueuedSave()) {
                 floorItems.add(floorItem);
 
                 ItemStorageQueue.getInstance().unqueue(floorItem);
             }
         }
 
-        if(floorItems.size() != 0) {
+        if (floorItems.size() != 0) {
             RoomItemDao.saveFloorItems(floorItems);
         }
 
@@ -190,7 +219,7 @@ public class ItemsComponent {
     public RoomItemFloor getFloorItem(int id) {
         Long itemId = ItemManager.getInstance().getItemIdByVirtualId(id);
 
-        if(itemId == null) {
+        if (itemId == null) {
             return null;
         }
 
@@ -201,7 +230,7 @@ public class ItemsComponent {
     public RoomItemWall getWallItem(int id) {
         Long itemId = ItemManager.getInstance().getItemIdByVirtualId(id);
 
-        if(itemId == null) {
+        if (itemId == null) {
             return null;
         }
 

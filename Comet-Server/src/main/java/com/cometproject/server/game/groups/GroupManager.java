@@ -22,25 +22,25 @@ public class GroupManager implements Initialisable {
      * The amount of group instances allowed in the cache, when this
      * is reached, the group cache will remove the oldest entries
      */
-    private static final int INSTANCE_LRU_MAX_ENTRIES = 500;
+    private static final int INSTANCE_LRU_MAX_ENTRIES = 5000;
 
     /**
      * When the max entries is reached, the cache will remove old entries
      * until the count reaches this number
      */
-    private static final int INSTANCE_LRU_LOWER_WATERMARK = 100;
+    private static final int INSTANCE_LRU_LOWER_WATERMARK = 3000;
 
     /**
      * The amount of group data instances allowed in the cache, when this
      * is reached, the group data cache will remove the oldest entries
      */
-    private static final int DATA_LRU_MAX_ENTRIES = 650;
+    private static final int DATA_LRU_MAX_ENTRIES = 10000;
 
     /**
      * When the max entries is reached, the cache will remove old entries
      * until the count reaches this number
      */
-    private static final int DATA_LRU_LOWER_WATERMARK = 100;
+    private static final int DATA_LRU_LOWER_WATERMARK = 6000;
 
     /**
      * The manager of the group items (for badges and colours)

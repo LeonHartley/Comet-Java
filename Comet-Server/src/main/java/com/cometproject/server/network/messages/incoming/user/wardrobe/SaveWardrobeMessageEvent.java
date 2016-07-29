@@ -6,7 +6,7 @@ import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.player.PlayerDao;
-import com.cometproject.server.utilities.JsonFactory;
+import com.cometproject.server.utilities.JsonUtil;
 
 import java.util.List;
 
@@ -36,6 +36,6 @@ public class SaveWardrobeMessageEvent implements Event {
         }
 
         client.getPlayer().getSettings().setWardrobe(wardrobe);
-        PlayerDao.saveWardrobe(JsonFactory.getInstance().toJson(wardrobe), client.getPlayer().getId());
+        PlayerDao.saveWardrobe(JsonUtil.getInstance().toJson(wardrobe), client.getPlayer().getId());
     }
 }

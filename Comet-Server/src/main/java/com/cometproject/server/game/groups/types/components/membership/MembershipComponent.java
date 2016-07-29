@@ -53,11 +53,11 @@ public class MembershipComponent implements GroupComponent {
      * Load members of this group from the database
      */
     private void loadMemberships() {
-        for (GroupMember groupMember : GroupMemberDao.getAllByGroupId(this.group.getId())) {
+        for (GroupMember groupMember : this.group.getGroupDataObject() != null ? this.group.getGroupDataObject().getGroupMembers() : GroupMemberDao.getAllByGroupId(this.group.getId())) {
             this.createMembership(groupMember);
         }
 
-        for (Integer playerId : GroupMemberDao.getAllRequestsByGroupId(this.group.getId())) {
+        for (Integer playerId : this.group.getGroupDataObject() != null ? this.group.getGroupDataObject().getGroupRequests() : GroupMemberDao.getAllRequestsByGroupId(this.group.getId())) {
             this.groupMembershipRequests.add(playerId);
         }
     }

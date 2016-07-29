@@ -59,7 +59,7 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
     public void serialize(IComposer msg, boolean isNew) {
         //final boolean isGift = false;
 
-        /*if (this.giftData != null) {
+        /*if (this.giftData != n    ull) {
             isGift = true;
         }*/
 

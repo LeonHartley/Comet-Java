@@ -8,7 +8,7 @@ import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
-import com.cometproject.server.utilities.JsonFactory;
+import com.cometproject.server.utilities.JsonUtil;
 
 
 public class SaveFloorMessageEvent implements Event {
@@ -76,7 +76,7 @@ public class SaveFloorMessageEvent implements Event {
 
         final CustomFloorMapData floorMapData = new CustomFloorMapData(doorX, doorY, doorRotation, model.trim(), wallHeight);
 
-        room.getData().setHeightmap(JsonFactory.getInstance().toJson(floorMapData));
+        room.getData().setHeightmap(JsonUtil.getInstance().toJson(floorMapData));
         room.getData().save();
 
         client.send(new AdvancedAlertMessageComposer("Model Saved", Locale.get("command.floor.complete"), "Go", "event:navigator/goto/" + client.getPlayer().getEntity().getRoom().getId(), ""));

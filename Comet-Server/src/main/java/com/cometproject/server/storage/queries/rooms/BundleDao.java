@@ -5,9 +5,8 @@ import com.cometproject.server.game.rooms.bundles.types.RoomBundle;
 import com.cometproject.server.game.rooms.bundles.types.RoomBundleConfig;
 import com.cometproject.server.game.rooms.bundles.types.RoomBundleItem;
 import com.cometproject.server.game.rooms.models.CustomFloorMapData;
-import com.cometproject.server.game.rooms.models.types.DynamicRoomModelData;
 import com.cometproject.server.storage.SqlHelper;
-import com.cometproject.server.utilities.JsonFactory;
+import com.cometproject.server.utilities.JsonUtil;
 import com.google.gson.reflect.TypeToken;
 
 import java.sql.Connection;
@@ -36,14 +35,14 @@ public class BundleDao {
                 try {
                     final String alias = resultSet.getString("alias");
 
-                    final CustomFloorMapData roomModelData = JsonFactory.getInstance().fromJson(
+                    final CustomFloorMapData roomModelData = JsonUtil.getInstance().fromJson(
                             resultSet.getString("model_data"), CustomFloorMapData.class);
 
-                    final List<RoomBundleItem> bundleItems = JsonFactory.getInstance().fromJson(
+                    final List<RoomBundleItem> bundleItems = JsonUtil.getInstance().fromJson(
                             resultSet.getString("bundle_data"),
                             new TypeToken<ArrayList<RoomBundleItem>>() {}.getType());
 
-                    bundles.put(alias, new RoomBundle(bundleId, resultSet.getInt("room_id"), alias, roomModelData, bundleItems, resultSet.getInt("cost_credits"), resultSet.getInt("cost_seasonal"), resultSet.getInt("cost_vip"), JsonFactory.getInstance().fromJson(resultSet.getString("room_config"), RoomBundleConfig.class)));
+                    bundles.put(alias, new RoomBundle(bundleId, resultSet.getInt("room_id"), alias, roomModelData, bundleItems, resultSet.getInt("cost_credits"), resultSet.getInt("cost_seasonal"), resultSet.getInt("cost_vip"), JsonUtil.getInstance().fromJson(resultSet.getString("room_config"), RoomBundleConfig.class)));
                 } catch (Exception e) {
                     Comet.getServer().getLogger().warn("Failed to load room bundle with id: " + bundleId, e);
                 }
@@ -69,9 +68,9 @@ public class BundleDao {
 
             preparedStatement.setString(1, bundle.getAlias());
             preparedStatement.setInt(2, bundle.getRoomId());
-            preparedStatement.setString(3, JsonFactory.getInstance().toJson(bundle.getRoomModelData()));
-            preparedStatement.setString(4, JsonFactory.getInstance().toJson(bundle.getRoomBundleData()));
-            preparedStatement.setString(5, JsonFactory.getInstance().toJson(bundle.getConfig()));
+            preparedStatement.setString(3, JsonUtil.getInstance().toJson(bundle.getRoomModelData()));
+            preparedStatement.setString(4, JsonUtil.getInstance().toJson(bundle.getRoomBundleData()));
+            preparedStatement.setString(5, JsonUtil.getInstance().toJson(bundle.getConfig()));
 
             preparedStatement.execute();
             resultSet = preparedStatement.getGeneratedKeys();

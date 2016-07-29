@@ -6,7 +6,7 @@ import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.data.ScoreboardItemData;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.utilities.JsonFactory;
+import com.cometproject.server.utilities.JsonUtil;
 import com.google.common.collect.Lists;
 
 import java.util.List;
@@ -21,7 +21,7 @@ public class HighscoreClassicFloorItem extends RoomItemFloor {
 
         if(data.startsWith("1{") || data.startsWith("0{")) {
             this.state = data.startsWith("1");
-            this.itemData = JsonFactory.getInstance().fromJson(data.substring(1), ScoreboardItemData.class);
+            this.itemData = JsonUtil.getInstance().fromJson(data.substring(1), ScoreboardItemData.class);
         } else {
             this.state = false;
             this.itemData = new ScoreboardItemData(1, 0, Lists.newArrayList());
@@ -52,7 +52,7 @@ public class HighscoreClassicFloorItem extends RoomItemFloor {
 
     @Override
     public String getDataObject() {
-        return (this.state ? "1" : "0") + JsonFactory.getInstance().toJson(this.itemData);
+        return (this.state ? "1" : "0") + JsonUtil.getInstance().toJson(this.itemData);
     }
 
     public void addEntry(List<String> users, int score) {

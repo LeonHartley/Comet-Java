@@ -47,7 +47,7 @@ public class GroupDao {
         ResultSet resultSet = null;
 
         try {
-            sqlConnection = SqlHelper.getConnection();
+                sqlConnection = SqlHelper.getConnection();
 
             preparedStatement = SqlHelper.prepare("INSERT into groups (`name`, `description`, `badge`, `owner_id`, `room_id`, `created`, `type`, `colour1`, `colour2`, `members_deco`, `has_forum`) " +
                     "VALUES(? ,?, ?, ?, ?, ?, ?, ?, ?, ?, '0');", sqlConnection, true);

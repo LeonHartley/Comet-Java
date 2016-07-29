@@ -34,7 +34,18 @@ public class ForumThread {
         // Add the OP.
         this.replies.add(new ForumThreadReply(id, 0, message, this.id, authorId, authorTimestamp, 1));
     }
-    
+
+    public ForumThread(int id, String title, int authorId, int authorTimestamp, int state, boolean isLocked, boolean isPinned, List<ForumThreadReply> replies) {
+        this.id = id;
+        this.title = title;
+        this.authorId = authorId;
+        this.authorTimestamp = authorTimestamp;
+        this.state = state;
+        this.isLocked = isLocked;
+        this.isPinned = isPinned;
+        this.replies = replies;
+    }
+
     public void compose(IComposer msg) {
         msg.writeInt(this.getId());
 

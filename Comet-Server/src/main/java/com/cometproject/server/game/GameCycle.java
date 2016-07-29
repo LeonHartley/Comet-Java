@@ -62,7 +62,6 @@ public class GameCycle implements CometTask, Initialisable {
                 return;
             }
 
-
             BanManager.getInstance().processBans();
 
             final int usersOnline = NetworkManager.getInstance().getSessions().getUsersOnlineCount();

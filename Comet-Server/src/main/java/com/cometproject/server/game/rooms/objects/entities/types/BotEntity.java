@@ -15,7 +15,7 @@ import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.misc.ChatEmotion;
 import com.cometproject.server.network.messages.outgoing.room.avatar.LeaveRoomMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessageComposer;
-import com.cometproject.server.utilities.JsonFactory;
+import com.cometproject.server.utilities.JsonUtil;
 
 import java.util.LinkedList;
 import java.util.Map;
@@ -55,7 +55,7 @@ public class BotEntity extends RoomEntity {
                 if (this.data.getData() == null) {
                     this.dataObject = new SpyBotData(new LinkedList<>());
                 } else {
-                    this.dataObject = JsonFactory.getInstance().fromJson(this.data.getData(), SpyBotData.class);
+                    this.dataObject = JsonUtil.getInstance().fromJson(this.data.getData(), SpyBotData.class);
                 }
 
                 break;
@@ -102,7 +102,7 @@ public class BotEntity extends RoomEntity {
 
     public void saveDataObject() {
         if (this.dataObject != null) {
-            this.data.setData(JsonFactory.getInstance().toJson(this.dataObject));
+            this.data.setData(JsonUtil.getInstance().toJson(this.dataObject));
             this.data.save();
         }
     }

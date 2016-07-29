@@ -33,10 +33,9 @@ public class RoomBotComponent {
 
     public void load() {
         try {
-            List<BotData> botData = RoomBotDao.getBotsByRoomId(this.room.getId());
+            List<BotData> botData = this.room.getCachedData() != null ? this.room.getCachedData().getBots() : RoomBotDao.getBotsByRoomId(this.room.getId());
 
             for (BotData data : botData) {
-
                 if (this.botNameToId.containsKey(data.getUsername())) {
                     data.setUsername(this.getAvailableName(data.getUsername()));
                 }

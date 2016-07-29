@@ -62,6 +62,14 @@ public class GroupMember {
         this.dateJoined = (int) Comet.getTime();
     }
 
+    public GroupMember(int membershipId, int playerId, int groupId, GroupAccessLevel accessLevel, int dateJoined) {
+        this.membershipId = membershipId;
+        this.playerId = playerId;
+        this.groupId = groupId;
+        this.accessLevel = accessLevel;
+        this.dateJoined = dateJoined;
+    }
+
     /**
      * Get the ID of the membership
      *

@@ -4,7 +4,7 @@ import com.cometproject.server.game.moderation.types.tickets.HelpTicket;
 import com.cometproject.server.game.moderation.types.tickets.HelpTicketState;
 import com.cometproject.server.game.rooms.types.components.types.ChatMessage;
 import com.cometproject.server.storage.SqlHelper;
-import com.cometproject.server.utilities.JsonFactory;
+import com.cometproject.server.utilities.JsonUtil;
 import com.google.common.collect.Lists;
 import com.google.gson.reflect.TypeToken;
 
@@ -39,7 +39,7 @@ public class TicketDao {
                 if (chatMessageString == null || chatMessageString.isEmpty()) {
                     chatMessages = Lists.newArrayList();
                 } else {
-                    chatMessages = JsonFactory.getInstance().fromJson(chatMessageString, new TypeToken<ArrayList<ChatMessage>>() {
+                    chatMessages = JsonUtil.getInstance().fromJson(chatMessageString, new TypeToken<ArrayList<ChatMessage>>() {
                     }.getType());
                 }
 
@@ -73,7 +73,7 @@ public class TicketDao {
             preparedStatement.setInt(4, helpTicket.getModeratorId());
             preparedStatement.setInt(5, helpTicket.getCategoryId());
             preparedStatement.setString(6, helpTicket.getMessage());
-            preparedStatement.setString(7, JsonFactory.getInstance().toJson(helpTicket.getChatMessages()));
+            preparedStatement.setString(7, JsonUtil.getInstance().toJson(helpTicket.getChatMessages()));
             preparedStatement.setInt(8, helpTicket.getRoomId());
             preparedStatement.setInt(9, helpTicket.getDateSubmitted());
             preparedStatement.setInt(10, helpTicket.getDateClosed());
@@ -104,7 +104,7 @@ public class TicketDao {
             preparedStatement.setInt(3, reportedId);
             preparedStatement.setInt(4, category);
             preparedStatement.setString(5, message);
-            preparedStatement.setString(6, JsonFactory.getInstance().toJson(chatMessages));
+            preparedStatement.setString(6, JsonUtil.getInstance().toJson(chatMessages));
             preparedStatement.setInt(7, roomId);
             preparedStatement.setInt(8, timestamp);
 

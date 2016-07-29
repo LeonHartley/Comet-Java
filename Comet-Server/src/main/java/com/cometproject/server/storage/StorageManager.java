@@ -1,11 +1,11 @@
 package com.cometproject.server.storage;
 
 import com.cometproject.server.boot.Comet;
+import com.cometproject.server.storage.cache.CacheManager;
 import com.cometproject.server.utilities.Initialisable;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.apache.log4j.Logger;
-
 
 public class StorageManager implements Initialisable {
     private static StorageManager storageManagerInstance;
@@ -55,6 +55,7 @@ public class StorageManager implements Initialisable {
             }
         }
 
+        CacheManager.getInstance().initialise();
         SqlHelper.init(this);
     }
 

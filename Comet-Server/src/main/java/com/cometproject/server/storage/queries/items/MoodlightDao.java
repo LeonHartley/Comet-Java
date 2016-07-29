@@ -4,7 +4,7 @@ import com.cometproject.server.game.rooms.objects.items.data.MoodlightData;
 import com.cometproject.server.game.rooms.objects.items.data.MoodlightPresetData;
 import com.cometproject.server.game.rooms.objects.items.types.wall.MoodlightWallItem;
 import com.cometproject.server.storage.SqlHelper;
-import com.cometproject.server.utilities.JsonFactory;
+import com.cometproject.server.utilities.JsonUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -37,13 +37,13 @@ public class MoodlightDao {
                     String preset3 = resultSet.getString("preset_3");
 
                     if (!preset1.equals("")) {
-                        presets.add(JsonFactory.getInstance().fromJson(preset1, MoodlightPresetData.class));
+                        presets.add(JsonUtil.getInstance().fromJson(preset1, MoodlightPresetData.class));
                     }
                     if (!preset2.equals("")) {
-                        presets.add(JsonFactory.getInstance().fromJson(preset2, MoodlightPresetData.class));
+                        presets.add(JsonUtil.getInstance().fromJson(preset2, MoodlightPresetData.class));
                     }
                     if (!preset3.equals("")) {
-                        presets.add(JsonFactory.getInstance().fromJson(preset3, MoodlightPresetData.class));
+                        presets.add(JsonUtil.getInstance().fromJson(preset3, MoodlightPresetData.class));
                     }
 
                     data = new MoodlightData(resultSet.getString("enabled").equals("1"), resultSet.getInt("active_preset"), presets);
@@ -57,9 +57,9 @@ public class MoodlightDao {
                 preparedStatement.setLong(1, itemId);
                 preparedStatement.setString(2, "0");
                 preparedStatement.setString(3, "1");
-                preparedStatement.setString(4, JsonFactory.getInstance().toJson(presets.get(0)));
-                preparedStatement.setString(5, JsonFactory.getInstance().toJson(presets.get(1)));
-                preparedStatement.setString(6, JsonFactory.getInstance().toJson(presets.get(2)));
+                preparedStatement.setString(4, JsonUtil.getInstance().toJson(presets.get(0)));
+                preparedStatement.setString(5, JsonUtil.getInstance().toJson(presets.get(1)));
+                preparedStatement.setString(6, JsonUtil.getInstance().toJson(presets.get(2)));
 
                 preparedStatement.execute();
 
@@ -87,9 +87,9 @@ public class MoodlightDao {
             preparedStatement = SqlHelper.prepare("UPDATE items_moodlight SET enabled = ?, active_preset = ?, preset_1 = ?, preset_2 = ?, preset_3 = ? WHERE item_id = ?", sqlConnection);
             preparedStatement.setString(1, item.getMoodlightData().isEnabled() ? "1" : "0");
             preparedStatement.setInt(2, item.getMoodlightData().getActivePreset());
-            preparedStatement.setString(3, JsonFactory.getInstance().toJson(item.getMoodlightData().getPresets().get(0)));
-            preparedStatement.setString(4, JsonFactory.getInstance().toJson(item.getMoodlightData().getPresets().get(1)));
-            preparedStatement.setString(5, JsonFactory.getInstance().toJson(item.getMoodlightData().getPresets().get(2)));
+            preparedStatement.setString(3, JsonUtil.getInstance().toJson(item.getMoodlightData().getPresets().get(0)));
+            preparedStatement.setString(4, JsonUtil.getInstance().toJson(item.getMoodlightData().getPresets().get(1)));
+            preparedStatement.setString(5, JsonUtil.getInstance().toJson(item.getMoodlightData().getPresets().get(2)));
             preparedStatement.setLong(6, item.getId());
 
             preparedStatement.executeUpdate();

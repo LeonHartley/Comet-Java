@@ -26,6 +26,7 @@ import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.groups.GroupDao;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.storage.queue.types.PlayerDataStorageQueue;
+import com.google.common.collect.Lists;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -443,7 +444,7 @@ public class Player implements BasePlayer {
 
     @Override
     public List<Integer> getGroups() {
-        return groups;
+        return groups == null ? Lists.newArrayList() : groups;
     }
 
     @Override

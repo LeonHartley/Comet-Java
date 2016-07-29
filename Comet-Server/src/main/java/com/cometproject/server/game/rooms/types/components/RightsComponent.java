@@ -22,7 +22,11 @@ public class RightsComponent {
         this.room = room;
 
         try {
-            this.rights = RightsDao.getRightsByRoomId(room.getId());
+            if(room.getCachedData() != null) {
+                this.rights = room.getCachedData().getRights();
+            } else {
+                this.rights = RightsDao.getRightsByRoomId(room.getId());
+            }
         } catch (Exception e) {
             this.rights = new CopyOnWriteArrayList<>();
             this.room.log.error("Error while loading room rights", e);

@@ -7,7 +7,7 @@ import com.cometproject.api.game.players.data.types.IWardrobeItem;
 import com.cometproject.server.game.players.components.types.settings.PlaylistItem;
 import com.cometproject.server.game.players.components.types.settings.VolumeData;
 import com.cometproject.server.game.players.components.types.settings.WardrobeItem;
-import com.cometproject.server.utilities.JsonFactory;
+import com.cometproject.server.utilities.JsonUtil;
 import com.google.gson.reflect.TypeToken;
 
 import java.sql.ResultSet;
@@ -36,7 +36,7 @@ public class PlayerSettings implements IPlayerSettings {
             String volumeData = data.getString("playerSettings_volume");
 
             if (volumeData != null && volumeData.startsWith("{")) {
-                volumes = JsonFactory.getInstance().fromJson(volumeData, VolumeData.class);
+                volumes = JsonUtil.getInstance().fromJson(volumeData, VolumeData.class);
             } else {
                 volumes = new VolumeData(100, 100, 100);
             }
@@ -53,7 +53,7 @@ public class PlayerSettings implements IPlayerSettings {
             if (wardrobeText == null || wardrobeText.isEmpty()) {
                 wardrobe = new ArrayList<>();
             } else {
-                wardrobe = JsonFactory.getInstance().fromJson(wardrobeText, new TypeToken<ArrayList<WardrobeItem>>() {
+                wardrobe = JsonUtil.getInstance().fromJson(wardrobeText, new TypeToken<ArrayList<WardrobeItem>>() {
                 }.getType());
             }
 
@@ -62,7 +62,7 @@ public class PlayerSettings implements IPlayerSettings {
             if (playlistText == null || playlistText.isEmpty()) {
                 playlist = new ArrayList<>();
             } else {
-                playlist = JsonFactory.getInstance().fromJson(playlistText, new TypeToken<ArrayList<PlaylistItem>>() {
+                playlist = JsonUtil.getInstance().fromJson(playlistText, new TypeToken<ArrayList<PlaylistItem>>() {
                 }.getType());
             }
 
@@ -72,7 +72,7 @@ public class PlayerSettings implements IPlayerSettings {
             String volumeData = data.getString("volume");
 
             if (volumeData != null && volumeData.startsWith("{")) {
-                volumes = JsonFactory.getInstance().fromJson(volumeData, VolumeData.class);
+                volumes = JsonUtil.getInstance().fromJson(volumeData, VolumeData.class);
             } else {
                 volumes = new VolumeData(100, 100, 100);
             }
@@ -89,7 +89,7 @@ public class PlayerSettings implements IPlayerSettings {
             if (wardrobeText == null || wardrobeText.isEmpty()) {
                 wardrobe = new ArrayList<>();
             } else {
-                wardrobe = JsonFactory.getInstance().fromJson(wardrobeText, new TypeToken<ArrayList<WardrobeItem>>() {
+                wardrobe = JsonUtil.getInstance().fromJson(wardrobeText, new TypeToken<ArrayList<WardrobeItem>>() {
                 }.getType());
             }
 
@@ -98,7 +98,7 @@ public class PlayerSettings implements IPlayerSettings {
             if (playlistText == null || playlistText.isEmpty()) {
                 playlist = new ArrayList<>();
             } else {
-                playlist = JsonFactory.getInstance().fromJson(playlistText, new TypeToken<ArrayList<PlaylistItem>>() {
+                playlist = JsonUtil.getInstance().fromJson(playlistText, new TypeToken<ArrayList<PlaylistItem>>() {
                 }.getType());
             }
 

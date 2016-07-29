@@ -26,7 +26,7 @@ public class ForumComponent implements GroupComponent {
     public ForumComponent(Group group, ForumSettings forumSettings) {
         this.group = group;
         this.forumSettings = forumSettings;
-        this.forumThreads = GroupForumThreadDao.getAllMessagesForGroup(this.group.getId());
+        this.forumThreads = group.getGroupDataObject() != null ? group.getGroupDataObject().getForumThreads() : GroupForumThreadDao.getAllMessagesForGroup(this.group.getId());
         this.pinnedThreads = new ArrayList<>();
 
         for (ForumThread forumThread : forumThreads.values()) {

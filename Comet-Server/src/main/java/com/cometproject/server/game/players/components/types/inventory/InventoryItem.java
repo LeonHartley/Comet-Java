@@ -10,7 +10,7 @@ import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.items.rares.LimitedEditionItemData;
 import com.cometproject.server.game.items.types.ItemDefinition;
-import com.cometproject.server.utilities.JsonFactory;
+import com.cometproject.server.utilities.JsonUtil;
 import org.apache.commons.lang.StringUtils;
 
 import java.sql.ResultSet;
@@ -32,7 +32,7 @@ public class InventoryItem implements PlayerItem {
 
         try {
             if (this.getDefinition().getInteraction().equals("gift")) {
-                this.giftData = JsonFactory.getInstance().fromJson(this.extraData.split("GIFT::##")[1], GiftData.class);
+                this.giftData = JsonUtil.getInstance().fromJson(this.extraData.split("GIFT::##")[1], GiftData.class);
             }
         } catch (Exception e) {
             this.giftData = null;

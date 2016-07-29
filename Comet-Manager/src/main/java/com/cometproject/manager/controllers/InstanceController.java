@@ -62,9 +62,6 @@ public class InstanceController {
         map.add("name", "xx");
         map.add("password", "xx");*/
 
-        HttpEntity<String> result = this.restTemplate.getForEntity("http://localhost:4567/status", String.class);
-        System.out.println(result.getBody());
-
         modelAndView.addObject("instance", instanceRepository.findOne(instanceId));
 
         return modelAndView;

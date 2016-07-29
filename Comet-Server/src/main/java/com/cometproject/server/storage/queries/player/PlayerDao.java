@@ -9,6 +9,7 @@ import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.players.types.PlayerSettings;
 import com.cometproject.server.game.players.types.PlayerStatistics;
 import com.cometproject.server.storage.SqlHelper;
+import com.cometproject.server.storage.cache.CacheManager;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -328,7 +329,11 @@ public class PlayerDao {
     }
 
     public static String getUsernameByPlayerId(int playerId) {
-        // TODO: Cache, cache cache!
+        if(CacheManager.getInstance().isEnabled()) {
+            if(CacheManager.getInstance().exists("players.username." + playerId)) {
+                return CacheManager.getInstance().getString("players.username." + playerId);
+            }
+        }
 
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
@@ -343,6 +348,12 @@ public class PlayerDao {
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
+                final String username = resultSet.getString("username");
+
+                if(CacheManager.getInstance().isEnabled()) {
+                    CacheManager.getInstance().putString("players.username." + playerId, username);
+                }
+
                 return resultSet.getString("username");
             }
         } catch (SQLException e) {
@@ -685,8 +696,6 @@ public class PlayerDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            sqlConnection.setAutoCommit(false);
-
             preparedStatement = SqlHelper.prepare("UPDATE players SET username = ?, motto = ?, figure = ?, credits = ?, vip_points = ?, gender = ?, favourite_group = ?, activity_points = ?, quest_id = ?, achievement_points = ? WHERE id = ?", sqlConnection);
 
             for(PlayerData playerDataInstance : playerData.values()) {
@@ -706,7 +715,6 @@ public class PlayerDao {
             }
 
             preparedStatement.executeBatch();
-            sqlConnection.commit();
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);
         } finally {

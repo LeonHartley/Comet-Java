@@ -5,19 +5,14 @@ import com.cometproject.api.networking.sessions.BaseSession;
 import com.cometproject.api.networking.sessions.ISessionManager;
 import com.cometproject.api.networking.sessions.SessionManagerAccessor;
 import com.cometproject.server.game.players.PlayerManager;
-import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
-import com.cometproject.server.storage.SqlHelper;
 import com.cometproject.server.utilities.CometStats;
-import com.cometproject.server.utilities.JsonFactory;
+import com.cometproject.server.utilities.JsonUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.util.AttributeKey;
 import io.netty.util.concurrent.GlobalEventExecutor;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -166,7 +161,7 @@ public final class SessionManager implements ISessionManager {
                 }
 
                 case "stats": {
-                    ctx.channel().writeAndFlush("response||" + JsonFactory.getInstance().toJson(CometStats.get()));
+                    ctx.channel().writeAndFlush("response||" + JsonUtil.getInstance().toJson(CometStats.get()));
                     break;
                 }
 

@@ -7,7 +7,13 @@ import com.cometproject.server.game.groups.types.components.membership.Membershi
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.outgoing.group.GroupInformationMessageComposer;
+import com.cometproject.server.storage.cache.CacheManager;
+import com.cometproject.server.storage.cache.objects.GroupDataObject;
 import com.cometproject.server.storage.queries.groups.GroupForumDao;
+import com.google.common.collect.Lists;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Group {
@@ -15,6 +21,8 @@ public class Group {
      * The ID of the group
      */
     private int id;
+
+    private GroupDataObject groupDataObject;
 
     /**
      * The component which will handle everything member-related
@@ -26,6 +34,8 @@ public class Group {
      */
     private ForumComponent forumComponent;
 
+    private final GroupData groupData;
+
     /**
      * Initialize the group instance
      *
@@ -34,11 +44,35 @@ public class Group {
     public Group(int id) {
         this.id = id;
 
+        if(CacheManager.getInstance().isEnabled() && CacheManager.getInstance().exists("groups." + id)) {
+            groupDataObject = CacheManager.getInstance().get(GroupDataObject.class, "groups." + id);
+        }
+
+        if(groupDataObject != null) {
+            this.groupData = groupDataObject.getGroupData();
+        } else {
+            this.groupData = GroupManager.getInstance().getData(id);
+        }
+
         this.membershipComponent = new MembershipComponent(this);
 
         if (this.getData().hasForum()) {
             this.initializeForum();
         }
+    }
+
+    public GroupDataObject getCacheObject() {
+        final List<Integer> requests = new ArrayList<>();
+
+        for(Integer request : this.getMembershipComponent().getMembershipRequests()) {
+            requests.add(request);
+        }
+
+        return new GroupDataObject(this.id, this.getData(),
+                this.getMembershipComponent().getMembersAsList(),
+                requests,
+                this.forumComponent != null ? this.forumComponent.getForumSettings() : null,
+                this.forumComponent != null ? this.forumComponent.getForumThreads() : null);
     }
 
     /**
@@ -54,7 +88,11 @@ public class Group {
     }
 
     public void initializeForum() {
-        ForumSettings forumSettings = GroupForumDao.getSettings(this.id);
+        if(this.groupDataObject != null && this.groupDataObject.getForumThreads() == null) {
+            return;
+        }
+
+        ForumSettings forumSettings = this.getGroupDataObject() != null ? this.getGroupDataObject().getForumSettings() : GroupForumDao.getSettings(this.id);
 
         if (forumSettings == null) {
             forumSettings = GroupForumDao.createSettings(this.id);
@@ -64,6 +102,8 @@ public class Group {
     }
 
     public void dispose() {
+        CacheManager.getInstance().put("groups." + id, this.getCacheObject());
+
         if (this.membershipComponent != null) {
             this.membershipComponent.dispose();
         }
@@ -90,7 +130,7 @@ public class Group {
      * @return The data object
      */
     public GroupData getData() {
-        return GroupManager.getInstance().getData(this.id);
+        return this.groupData;
     }
 
     /**
@@ -109,5 +149,9 @@ public class Group {
      */
     public ForumComponent getForumComponent() {
         return forumComponent;
+    }
+
+    public GroupDataObject getGroupDataObject() {
+        return groupDataObject;
     }
 }

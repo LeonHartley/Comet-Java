@@ -2,6 +2,7 @@ package com.cometproject.server.game.groups.types;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.storage.queries.groups.GroupDao;
+import com.google.gson.Gson;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -89,6 +90,21 @@ public class GroupData {
         this.colourB = data.getInt("colour2");
         this.canMembersDecorate = data.getString("members_deco").equals("1");
         this.hasForum = data.getString("has_forum").equals("1");
+    }
+
+    public GroupData(int id, String title, String description, String badge, int ownerId, int roomId, int created, GroupType type, int colourA, int colourB, boolean canMembersDecorate, boolean hasForum) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.badge = badge;
+        this.ownerId = ownerId;
+        this.roomId = roomId;
+        this.created = created;
+        this.type = type;
+        this.colourA = colourA;
+        this.colourB = colourB;
+        this.canMembersDecorate = canMembersDecorate;
+        this.hasForum = hasForum;
     }
 
     /**

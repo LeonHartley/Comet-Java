@@ -9,7 +9,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.data.W
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerPeriodically;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.composers.MessageComposer;
-import com.cometproject.server.utilities.JsonFactory;
+import com.cometproject.server.utilities.JsonUtil;
 import com.cometproject.server.utilities.attributes.Stateable;
 import com.google.common.collect.Lists;
 
@@ -56,7 +56,7 @@ public abstract class WiredFloorItem extends RoomItemFloor implements WiredItemS
     public void save() {
         super.save();
 
-        this.setExtraData(JsonFactory.getInstance().toJson(wiredItemData));
+        this.setExtraData(JsonUtil.getInstance().toJson(wiredItemData));
         this.saveData();
     }
 
@@ -69,7 +69,7 @@ public abstract class WiredFloorItem extends RoomItemFloor implements WiredItemS
             return;
         }
 
-        this.wiredItemData = JsonFactory.getInstance().fromJson(this.getExtraData(), (this instanceof WiredActionItem) ? WiredActionItemData.class : WiredItemData.class);
+        this.wiredItemData = JsonUtil.getInstance().fromJson(this.getExtraData(), (this instanceof WiredActionItem) ? WiredActionItemData.class : WiredItemData.class);
         this.onDataRefresh();
     }
 

@@ -1,6 +1,6 @@
 package com.cometproject.server.api.transformers;
 
-import com.cometproject.server.utilities.JsonFactory;
+import com.cometproject.server.utilities.JsonUtil;
 import spark.ResponseTransformer;
 
 
@@ -15,7 +15,7 @@ public class JsonTransformer implements ResponseTransformer {
     @Override
     public String render(Object o) throws Exception {
         try {
-            String gsonString = JsonFactory.getInstance().toJson(o);
+            String gsonString = JsonUtil.getInstance().toJson(o);
 
             if (!gsonString.startsWith("{")) {
                 return "{\"response\":" + gsonString + "}";
@@ -23,7 +23,7 @@ public class JsonTransformer implements ResponseTransformer {
                 return gsonString;
             }
         } catch (Exception e) {
-            return JsonFactory.getInstance().toJson(e);
+            return JsonUtil.getInstance().toJson(e);
         } finally {
             // Dispose object..
         }

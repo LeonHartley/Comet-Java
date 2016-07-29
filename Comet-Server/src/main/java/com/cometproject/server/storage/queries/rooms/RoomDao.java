@@ -7,7 +7,7 @@ import com.cometproject.server.game.rooms.models.types.StaticRoomModel;
 import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.game.rooms.types.RoomPromotion;
 import com.cometproject.server.storage.SqlHelper;
-import com.cometproject.server.utilities.JsonFactory;
+import com.cometproject.server.utilities.JsonUtil;
 import com.google.common.collect.Lists;
 import org.apache.commons.collections4.map.ListOrderedMap;
 
@@ -166,7 +166,7 @@ public class RoomDao {
             preparedStatement.setInt(1, userId);
             preparedStatement.setString(2, username);
             preparedStatement.setString(3, name);
-            preparedStatement.setString(4, JsonFactory.getInstance().toJson(model));
+            preparedStatement.setString(4, JsonUtil.getInstance().toJson(model));
             preparedStatement.setString(5, description);
             preparedStatement.setInt(6, category);
             preparedStatement.setInt(7, maxVisitors);

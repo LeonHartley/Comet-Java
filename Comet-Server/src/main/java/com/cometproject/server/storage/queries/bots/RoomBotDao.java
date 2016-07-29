@@ -4,7 +4,7 @@ import com.cometproject.server.game.bots.BotData;
 import com.cometproject.server.game.rooms.objects.entities.types.data.PlayerBotData;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.storage.SqlHelper;
-import com.cometproject.server.utilities.JsonFactory;
+import com.cometproject.server.utilities.JsonUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -80,7 +80,7 @@ public class RoomBotDao {
             preparedStatement.setString(2, data.getGender());
             preparedStatement.setString(3, data.getMotto());
             preparedStatement.setString(4, data.getUsername());
-            preparedStatement.setString(5, JsonFactory.getInstance().toJson(data.getMessages()));
+            preparedStatement.setString(5, JsonUtil.getInstance().toJson(data.getMessages()));
             preparedStatement.setString(6, data.isAutomaticChat() ? "1" : "0");
             preparedStatement.setInt(7, data.getChatDelay());
             preparedStatement.setString(8, data.getMode());

@@ -1,8 +1,7 @@
 package com.cometproject.server.game.polls.types.questions;
 
 import com.cometproject.server.game.polls.types.PollQuestion;
-import com.cometproject.server.game.polls.types.PollQuestionType;
-import com.cometproject.server.utilities.JsonFactory;
+import com.cometproject.server.utilities.JsonUtil;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
@@ -14,7 +13,7 @@ public class MultipleChoiceQuestion extends PollQuestion {
     public MultipleChoiceQuestion(String question, String questionData) {
         super(question);
 
-        this.choices = JsonFactory.getInstance().fromJson(questionData, new TypeToken<ArrayList<String>>() {
+        this.choices = JsonUtil.getInstance().fromJson(questionData, new TypeToken<ArrayList<String>>() {
         }.getType());
     }
 

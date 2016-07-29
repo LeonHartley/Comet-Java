@@ -12,6 +12,8 @@ import com.cometproject.server.game.rooms.types.RoomPromotion;
 import com.cometproject.server.game.rooms.types.misc.ChatEmotionsManager;
 import com.cometproject.server.network.messages.outgoing.room.events.RoomPromotionMessageComposer;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.storage.cache.CacheManager;
+import com.cometproject.server.storage.cache.objects.RoomDataObject;
 import com.cometproject.server.storage.queries.rooms.RoomDao;
 import com.cometproject.server.utilities.Initialisable;
 import org.apache.log4j.Logger;
@@ -125,15 +127,27 @@ public class RoomManager implements Initialisable {
             return this.getRoomInstances().get(id);
         }
 
-        RoomData data = this.getRoomData(id);
+        Room room = null;
 
-        if (data == null) {
-            return null;
+        if (CacheManager.getInstance().isEnabled() && CacheManager.getInstance().exists("rooms." + id)) {
+            final RoomDataObject roomDataObject = CacheManager.getInstance().get(RoomDataObject.class, "rooms." + id);
+
+            if (roomDataObject != null) {
+                room = new Room(roomDataObject);
+            }
         }
 
-        Room room = new Room(data).load();
+        if (room == null) {
+            RoomData data = this.getRoomData(id);
 
-        if (room == null) return null;
+            if (data == null) {
+                return null;
+            }
+
+            room = new Room(data);
+        }
+
+        room.load();
 
         this.loadedRoomInstances.put(id, room);
 

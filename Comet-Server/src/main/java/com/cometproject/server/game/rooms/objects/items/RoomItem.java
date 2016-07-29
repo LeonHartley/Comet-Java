@@ -178,4 +178,8 @@ public abstract class RoomItem extends BigRoomFloorObject implements Attributabl
     public LimitedEditionItemData getLimitedEditionItemData() {
         return limitedEditionItemData;
     }
+
+    public String getOwnerName() {
+        return this.ownerName;
+    }
 }

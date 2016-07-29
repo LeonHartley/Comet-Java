@@ -6,7 +6,7 @@ import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.items.RemoveFloorItemMessageComposer;
-import com.cometproject.server.utilities.JsonFactory;
+import com.cometproject.server.utilities.JsonUtil;
 
 
 public class GiftFloorItem extends RoomItemFloor {
@@ -16,7 +16,7 @@ public class GiftFloorItem extends RoomItemFloor {
     public GiftFloorItem(long id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) throws Exception {
         super(id, itemId, room, owner, x, y, z, rotation, data);
 
-        this.giftData = JsonFactory.getInstance().fromJson(data.split("GIFT::##")[1], GiftData.class);
+        this.giftData = JsonUtil.getInstance().fromJson(data.split("GIFT::##")[1], GiftData.class);
 
         if(!CatalogManager.getInstance().getGiftBoxesNew().contains(giftData.getSpriteId()) && !CatalogManager.getInstance().getGiftBoxesOld().contains(giftData.getSpriteId())) {
             throw new Exception("some sad fucker used an exploit, bye bye gift.");

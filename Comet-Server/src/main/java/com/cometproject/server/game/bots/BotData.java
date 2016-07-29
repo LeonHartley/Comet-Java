@@ -1,8 +1,7 @@
 package com.cometproject.server.game.bots;
 
-import com.cometproject.server.game.rooms.objects.entities.types.data.BotDataObject;
 import com.cometproject.server.storage.queries.bots.RoomBotDao;
-import com.cometproject.server.utilities.JsonFactory;
+import com.cometproject.server.utilities.JsonUtil;
 import com.cometproject.server.utilities.RandomInteger;
 
 import java.util.Arrays;
@@ -91,7 +90,7 @@ public abstract class BotData implements BotInformation {
         this.botType = botType;
         this.mode = mode;
         this.data = data;
-        this.messages = (messages == null || messages.isEmpty()) ? new String[0] : JsonFactory.getInstance().fromJson(messages, String[].class);
+        this.messages = (messages == null || messages.isEmpty()) ? new String[0] : JsonUtil.getInstance().fromJson(messages, String[].class);
         this.chatDelay = chatDelay;
         this.isAutomaticChat = automaticChat;
     }

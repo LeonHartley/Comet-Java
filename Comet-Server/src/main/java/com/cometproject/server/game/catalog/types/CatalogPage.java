@@ -4,9 +4,8 @@ import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.rooms.bundles.RoomBundleManager;
 import com.cometproject.server.game.rooms.bundles.types.RoomBundle;
 import com.cometproject.server.game.rooms.bundles.types.RoomBundleItem;
-import com.cometproject.server.utilities.JsonFactory;
+import com.cometproject.server.utilities.JsonUtil;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
@@ -53,13 +52,13 @@ public class CatalogPage {
         if (data.getString("page_images") == null || data.getString("page_images").isEmpty()) {
             this.images = new ArrayList<>();
         } else {
-            this.images = JsonFactory.getInstance().fromJson(data.getString("page_images"), listType);
+            this.images = JsonUtil.getInstance().fromJson(data.getString("page_images"), listType);
         }
 
         if (data.getString("page_texts") == null || data.getString("page_texts").isEmpty()) {
             this.texts = new ArrayList<>();
         } else {
-            this.texts = JsonFactory.getInstance().fromJson(data.getString("page_texts"), listType);
+            this.texts = JsonUtil.getInstance().fromJson(data.getString("page_texts"), listType);
         }
 
         this.enabled = data.getString("enabled").equals("1");
