@@ -387,6 +387,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.GetGroupFurniConfigMessageEvent, new GroupFurnitureCatalogMessageEvent());
         this.getMessages().put(Events.GetCatalogOfferMessageEvent, new GetCatalogOfferMessageEvent());
     }
+
     public void registerLanding() {
         this.getMessages().put(Events.GetPromoArticlesMessageEvent, new RefreshPromoArticlesMessageEvent());
         this.getMessages().put(Events.RefreshCampaignMessageEvent, new LandingLoadWidgetMessageEvent());
@@ -412,6 +413,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.RemoveGroupFavouriteMessageEvent, new ClearFavouriteGroupMessageEvent());
         this.getMessages().put(Events.DeleteGroupMessageEvent, new DeleteGroupMessageEvent());
     }
+
     //
     public void registerGroupForums() {
         this.getMessages().put(Events.GetForumStatsMessageEvent, new ForumDataMessageEvent());
@@ -423,28 +425,23 @@ public final class MessageHandler {
         this.getMessages().put(Events.GetForumsListDataMessageEvent, new GetForumsMessageEvent());
         this.getMessages().put(Events.DeleteGroupThreadMessageEvent, new HideMessageMessageEvent());
     }
+
     public void registerQuests() {
         this.getMessages().put(Events.GetQuestListMessageEvent, new OpenQuestsMessageEvent());
         this.getMessages().put(Events.StartQuestMessageEvent, new StartQuestMessageEvent());
         this.getMessages().put(Events.CancelQuestMessageEvent, new CancelQuestMessageEvent());
     }
 
-    //
-//    public void registerCamera() {
-//        this.getMessages().put(Events.CameraTokenMessageEvent, new CameraTokenMessageEvent());
-//        this.getMessages().put(Events.RenderRoomMessageEvent, new RenderRoomMessageEvent());
-//
-//        this.getMessages().put(Events.TakePhotoMessageEvent, new TakePhotoMessageEvent());
-//    }
-//
-public void registerMusic() {
-    this.getMessages().put(Events.SongInventoryMessageEvent, new SongInventoryMessageEvent());
-    this.getMessages().put(Events.SongIdMessageEvent, new SongIdMessageEvent());
-    this.getMessages().put(Events.SongDataMessageEvent, new SongDataMessageEvent());
-    this.getMessages().put(Events.PlaylistAddMessageEvent, new PlaylistAddMessageEvent());
-    this.getMessages().put(Events.PlaylistRemoveMessageEvent, new PlaylistRemoveMessageEvent());
-    this.getMessages().put(Events.PlaylistMessageEvent, new PlaylistMessageEvent());
-}
+
+    public void registerMusic() {
+        this.getMessages().put(Events.SongInventoryMessageEvent, new SongInventoryMessageEvent());
+        this.getMessages().put(Events.SongIdMessageEvent, new SongIdMessageEvent());
+        this.getMessages().put(Events.SongDataMessageEvent, new SongDataMessageEvent());
+        this.getMessages().put(Events.PlaylistAddMessageEvent, new PlaylistAddMessageEvent());
+        this.getMessages().put(Events.PlaylistRemoveMessageEvent, new PlaylistRemoveMessageEvent());
+        this.getMessages().put(Events.PlaylistMessageEvent, new PlaylistMessageEvent());
+    }
+
     public void registerPolls() {
         this.getMessages().put(Events.GetPollMessageEvent, new GetPollMessageEvent());
         this.getMessages().put(Events.SubmitPollAnswerMessageEvent, new SubmitPollAnswerMessageEvent());
@@ -465,7 +462,7 @@ public void registerMusic() {
             log.debug(message.toString());
         }
 
-        if(!Comet.isRunning)
+        if (!Comet.isRunning)
             return;
 
         if (this.getMessages().containsKey(header)) {
