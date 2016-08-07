@@ -4,6 +4,7 @@ import com.cometproject.server.game.pets.PetManager;
 import com.cometproject.server.game.pets.races.PetRace;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.storage.queries.pets.PetDao;
+import com.google.gson.JsonObject;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -66,6 +67,37 @@ public class PetData {
         this.colour = colour;
         this.raceId = raceId;
         this.typeId = typeId;
+    }
+
+    public JsonObject toJsonObject() {
+        final JsonObject jsonObject = new JsonObject();
+
+        jsonObject.addProperty("id", this.id);
+        jsonObject.addProperty("name", this.name);
+        jsonObject.addProperty("scratches", this.scratches);
+        jsonObject.addProperty("level", this.level);
+        jsonObject.addProperty("happiness", this.happiness);
+        jsonObject.addProperty("experience", this.experience);
+        jsonObject.addProperty("energy", this.energy);
+        jsonObject.addProperty("ownerId", this.ownerId);
+        jsonObject.addProperty("colour", this.colour);
+        jsonObject.addProperty("raceId", this.raceId);
+        jsonObject.addProperty("typeId", this.typeId);
+        jsonObject.addProperty("hairDye", this.hairDye);
+        jsonObject.addProperty("hair", this.hair);
+        jsonObject.addProperty("anyRider", this.anyRider);
+        jsonObject.addProperty("saddled", this.saddled);
+        jsonObject.addProperty("birthday", this.birthday);
+
+        final JsonObject roomPosition = new JsonObject();
+
+        roomPosition.addProperty("x", this.roomPosition.getX());
+        roomPosition.addProperty("y", this.roomPosition.getY());
+        roomPosition.addProperty("z", this.roomPosition.getZ());
+
+        jsonObject.add("roomPosition", roomPosition);
+
+        return jsonObject;
     }
 
     public void saveStats() {

@@ -2,6 +2,7 @@ package com.cometproject.server.storage.cache.objects.items;
 
 import com.cometproject.server.game.items.rares.LimitedEditionItemData;
 import com.cometproject.server.storage.cache.CachableObject;
+import com.google.gson.JsonObject;
 
 public abstract class RoomItemDataObject extends CachableObject {
     private final long id;
@@ -21,6 +22,28 @@ public abstract class RoomItemDataObject extends CachableObject {
         this.ownerName = ownerName;
         this.data = data;
         this.limitedEditionItemData = limitedEditionItemData;
+    }
+
+    public JsonObject toJsonObject() {
+        final JsonObject jsonObject = new JsonObject();
+        final JsonObject limitedItemData = new JsonObject();
+
+        jsonObject.addProperty("id", this.id);
+        jsonObject.addProperty("itemDefinitionId", this.itemDefinitionId);
+        jsonObject.addProperty("roomId", this.roomId);
+        jsonObject.addProperty("owner", this.owner);
+        jsonObject.addProperty("ownerName", this.ownerName);
+        jsonObject.addProperty("data", this.data);
+
+        if(this.limitedEditionItemData != null) {
+            limitedItemData.addProperty("itemId", this.limitedEditionItemData.getItemId());
+            limitedItemData.addProperty("limitedRare", this.limitedEditionItemData.getLimitedRare());
+            limitedItemData.addProperty("limitedRareTotal", this.limitedEditionItemData.getLimitedRareTotal());
+        }
+
+        jsonObject.add("limitedEditionItemData", this.limitedEditionItemData == null ? null : limitedItemData);
+
+        return jsonObject;
     }
 
     public long getId() {

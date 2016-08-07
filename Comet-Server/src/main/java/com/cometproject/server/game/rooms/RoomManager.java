@@ -22,6 +22,7 @@ import org.apache.solr.util.ConcurrentLRUCache;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -70,7 +71,15 @@ public class RoomManager implements Initialisable {
         this.loadModels();
 
         this.globalCycle.start();
-        this.executorService = Executors.newFixedThreadPool(4);
+
+        this.executorService = Executors.newFixedThreadPool(4, r -> {
+            final Thread roomThread = new Thread(r, "Room-Worker-" + UUID.randomUUID());
+
+            roomThread.setUncaughtExceptionHandler((t, e) -> e.printStackTrace());
+
+            return roomThread;
+        });
+
 
         log.info("RoomManager initialized");
     }

@@ -3,6 +3,8 @@ package com.cometproject.server.game.bots;
 import com.cometproject.server.storage.queries.bots.RoomBotDao;
 import com.cometproject.server.utilities.JsonUtil;
 import com.cometproject.server.utilities.RandomInteger;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import java.util.Arrays;
 
@@ -93,6 +95,48 @@ public abstract class BotData implements BotInformation {
         this.messages = (messages == null || messages.isEmpty()) ? new String[0] : JsonUtil.getInstance().fromJson(messages, String[].class);
         this.chatDelay = chatDelay;
         this.isAutomaticChat = automaticChat;
+    }
+
+    public BotData(int id, String username, String motto, String figure, String gender, String ownerName, int ownerId, String[] messages, boolean automaticChat, int chatDelay, String botType, String mode, String data) {
+        this.id = id;
+        this.username = username;
+        this.motto = motto;
+        this.figure = figure;
+        this.gender = gender;
+        this.ownerId = ownerId;
+        this.ownerName = ownerName;
+        this.botType = botType;
+        this.mode = mode;
+        this.data = data;
+        this.messages = messages;
+        this.chatDelay = chatDelay;
+        this.isAutomaticChat = automaticChat;
+    }
+
+    public JsonObject toJsonObject() {
+        final JsonObject jsonObject = new JsonObject();
+        final JsonArray jsonArray = new JsonArray();
+
+        jsonObject.addProperty("id", this.id);
+        jsonObject.addProperty("username", this.username);
+        jsonObject.addProperty("motto", this.motto);
+        jsonObject.addProperty("figure", this.figure);
+        jsonObject.addProperty("gender", this.gender);
+        jsonObject.addProperty("ownerId", this.ownerId);
+        jsonObject.addProperty("ownerName", this.ownerName);
+        jsonObject.addProperty("botType", this.botType);
+        jsonObject.addProperty("mode", this.mode);
+        jsonObject.addProperty("data", this.data);
+        jsonObject.addProperty("chatDelay", this.chatDelay);
+        jsonObject.addProperty("isAutomaticChat", this.isAutomaticChat);
+
+        for(String message : this.messages) {
+            jsonArray.add(message);
+        }
+
+        jsonObject.add("messages", jsonArray);
+
+        return jsonObject;
     }
 
     /**

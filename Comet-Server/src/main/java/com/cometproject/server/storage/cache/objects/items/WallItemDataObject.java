@@ -1,6 +1,7 @@
 package com.cometproject.server.storage.cache.objects.items;
 
 import com.cometproject.server.game.items.rares.LimitedEditionItemData;
+import com.google.gson.JsonObject;
 
 public class WallItemDataObject extends RoomItemDataObject {
     private final String wallPosition;
@@ -9,6 +10,15 @@ public class WallItemDataObject extends RoomItemDataObject {
         super(id, itemDefinitionId, roomId, owner, ownerName, data, limitedEditionItemData);
 
         this.wallPosition = wallPosition;
+    }
+
+    @Override
+    public JsonObject toJsonObject() {
+        final JsonObject object = super.toJsonObject();
+
+        object.addProperty("wallPosition", this.wallPosition);
+
+        return object;
     }
 
     public String getWallPosition() {

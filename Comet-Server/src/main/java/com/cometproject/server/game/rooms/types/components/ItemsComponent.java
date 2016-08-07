@@ -158,7 +158,7 @@ public class ItemsComponent {
             return;
         }
 
-        List<RoomItem> floorItems = new ArrayList<>();
+        /*List<RoomItem> floorItems = new ArrayList<>();
 
         for (RoomItemFloor floorItem : this.floorItems.values()) {
             if (floorItem.hasQueuedSave()) {
@@ -172,7 +172,7 @@ public class ItemsComponent {
             RoomItemDao.saveFloorItems(floorItems);
         }
 
-        floorItems.clear();
+        floorItems.clear();*/
     }
 
     public boolean isMoodlightMatches(RoomItem item) {

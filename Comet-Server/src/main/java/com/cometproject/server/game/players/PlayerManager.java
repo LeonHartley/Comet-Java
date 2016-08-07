@@ -38,8 +38,8 @@ public class PlayerManager implements Initialisable {
     private CacheManager cacheManager;
 
     private Cache playerAvatarCache;
-    private Cache playerDataCache;
 
+    private Cache playerDataCache;
     private ExecutorService playerLoginService;
 
     public PlayerManager() {
@@ -240,5 +240,9 @@ public class PlayerManager implements Initialisable {
 
     public ExecutorService getPlayerLoadExecutionService() {
         return playerLoginService;
+    }
+
+    public CacheManager getCacheManager() {
+        return cacheManager;
     }
 }

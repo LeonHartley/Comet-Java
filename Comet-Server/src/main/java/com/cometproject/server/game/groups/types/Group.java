@@ -101,7 +101,14 @@ public class Group {
         this.forumComponent = new ForumComponent(this, forumSettings);
     }
 
+    private boolean disposed = false;
+
     public void dispose() {
+        if(this.disposed) {
+            return;
+        }
+
+        this.disposed = true;
         CacheManager.getInstance().put("groups." + id, this.getCacheObject());
 
         if (this.membershipComponent != null) {

@@ -88,12 +88,13 @@ public class CacheManager implements Initialisable {
     public void put(final String key, CachableObject object) {
         try {
             try (final Jedis jedis = this.jedis.getResource()) {
-                // Build the String from the object
-                final String objectData = JsonUtil.getInstance().toJson(object);
+                final long startTime = System.currentTimeMillis();
 
-                if (object != null) {
-                    jedis.set(this.getKey(key), objectData);
-                }
+                // Build the String from the object
+                final String objectData = object.toString();
+
+                jedis.set(this.getKey(key), objectData);
+                System.out.println("took " + (System.currentTimeMillis() - startTime) + "ms to process");
             } catch (Exception e) {
                 throw e;
             }

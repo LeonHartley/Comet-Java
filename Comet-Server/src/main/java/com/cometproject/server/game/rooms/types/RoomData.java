@@ -124,6 +124,50 @@ public class RoomData implements IRoomData {
         this.requiredBadge = room.getString("required_badge");
     }
 
+    public RoomData(int id, RoomType type, String name, String description, int ownerId, String owner, int category,
+                    int maxUsers, RoomAccessType access, String password, String originalPassword,
+                    RoomTradeState tradeState, int score, String[] tags, Map<String, String> decorations,
+                    String model, boolean hideWalls, int thicknessWall, int thicknessFloor, boolean allowWalkthrough,
+                    boolean allowPets, String heightmap, RoomMuteState muteState, RoomKickState kickState,
+                    RoomBanState banState, int bubbleMode, int bubbleType, int bubbleScroll, int chatDistance,
+                    int antiFloodSettings, List<String> disabledCommands, int groupId, long lastReferenced,
+                    String requiredBadge) {
+        this.id = id;
+        this.type = type;
+        this.name = name;
+        this.description = description;
+        this.ownerId = ownerId;
+        this.owner = owner;
+        this.category = category;
+        this.maxUsers = maxUsers;
+        this.access = access;
+        this.password = password;
+        this.originalPassword = originalPassword;
+        this.tradeState = tradeState;
+        this.score = score;
+        this.tags = tags;
+        this.decorations = decorations;
+        this.model = model;
+        this.hideWalls = hideWalls;
+        this.thicknessWall = thicknessWall;
+        this.thicknessFloor = thicknessFloor;
+        this.allowWalkthrough = allowWalkthrough;
+        this.allowPets = allowPets;
+        this.heightmap = heightmap;
+        this.muteState = muteState;
+        this.kickState = kickState;
+        this.banState = banState;
+        this.bubbleMode = bubbleMode;
+        this.bubbleType = bubbleType;
+        this.bubbleScroll = bubbleScroll;
+        this.chatDistance = chatDistance;
+        this.antiFloodSettings = antiFloodSettings;
+        this.disabledCommands = disabledCommands;
+        this.groupId = groupId;
+        this.lastReferenced = lastReferenced;
+        this.requiredBadge = requiredBadge;
+    }
+
     public void save() {
         String tagString = "";
 

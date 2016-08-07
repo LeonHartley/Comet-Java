@@ -84,8 +84,8 @@ public class CometServer {
         ModerationManager.getInstance().initialise();
         PetManager.getInstance().initialise();
         LandingManager.getInstance().initialise();
-        GroupManager.getInstance().initialise();
         PlayerManager.getInstance().initialise();
+        GroupManager.getInstance().initialise();
         QuestManager.getInstance().initialise();
         AchievementManager.getInstance().initialise();
         PollManager.getInstance().initialise();

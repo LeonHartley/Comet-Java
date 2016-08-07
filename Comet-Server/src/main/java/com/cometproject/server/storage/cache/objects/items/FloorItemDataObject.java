@@ -2,6 +2,7 @@ package com.cometproject.server.storage.cache.objects.items;
 
 import com.cometproject.server.game.items.rares.LimitedEditionItemData;
 import com.cometproject.server.game.rooms.objects.misc.Position;
+import com.google.gson.JsonObject;
 
 public class FloorItemDataObject extends RoomItemDataObject {
 
@@ -13,6 +14,21 @@ public class FloorItemDataObject extends RoomItemDataObject {
 
         this.position = position;
         this.rotation = rotation;
+    }
+
+    @Override
+    public JsonObject toJsonObject() {
+        final JsonObject object = super.toJsonObject();
+        final JsonObject positionObject = new JsonObject();
+
+        positionObject.addProperty("x", this.position.getX());
+        positionObject.addProperty("y", this.position.getY());
+        positionObject.addProperty("z", this.position.getZ());
+
+        object.add("position", positionObject);
+        object.addProperty("rotation", this.rotation);
+
+        return object;
     }
 
     public Position getPosition() {
