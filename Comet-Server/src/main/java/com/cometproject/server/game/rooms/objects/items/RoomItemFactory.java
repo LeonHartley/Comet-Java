@@ -1,8 +1,10 @@
 package com.cometproject.server.game.rooms.objects.items;
 
+import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.items.rares.LimitedEditionItemData;
 import com.cometproject.server.game.items.types.ItemDefinition;
+import com.cometproject.server.game.rooms.objects.RoomObject;
 import com.cometproject.server.game.rooms.objects.items.types.DefaultFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.DefaultWallItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.*;
@@ -173,11 +175,16 @@ public class RoomItemFactory {
 
     public static RoomItemFloor createFloor(long id, int baseId, Room room, int ownerId, int x, int y, double height, int rot, String data, LimitedEditionItemData limitedEditionItemData) {
         ItemDefinition def = ItemManager.getInstance().getDefinition(baseId);
-        RoomItemFloor floorItem = (RoomItemFloor) ItemStorageQueue.getInstance().getQueuedItem(id);
 
-        if(floorItem != null) {
-            return floorItem;
+        if(CometSettings.storageItemQueueEnabled) {
+            final RoomItem roomItem = ItemStorageQueue.getInstance().getQueuedItem(id);
+            
+            if(roomItem != null) {
+                return ((RoomItemFloor) roomItem);
+            }
         }
+
+        RoomItemFloor floorItem = null;
 
         if (def == null) {
             return null;

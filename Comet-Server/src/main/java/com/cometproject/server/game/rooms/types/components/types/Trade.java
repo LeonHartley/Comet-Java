@@ -10,7 +10,9 @@ import com.cometproject.server.network.messages.outgoing.catalog.UnseenItemsMess
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.trading.*;
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
+import com.cometproject.server.storage.queries.items.TradeDao;
 import com.cometproject.server.storage.queue.types.ItemStorageQueue;
+import com.cometproject.server.tasks.CometThreadManager;
 import com.cometproject.server.utilities.collections.ConcurrentHashSet;
 
 import java.util.*;
@@ -270,19 +272,27 @@ public class Trade {
             }
         }
 
+        final Map<Long, Integer> itemsToSave = new HashMap<>();
+
         for (PlayerItem item : this.user1Items) {
             user1.getPlayer().getInventory().removeItem(item);
             user2.getPlayer().getInventory().addItem(item);
 
-            ItemStorageQueue.getInstance().changeItemOwner(item.getId(), user2.getPlayer().getId());
+            itemsToSave.put(item.getId(), user2.getPlayer().getId());
         }
 
         for (PlayerItem item : this.user2Items) {
             user2.getPlayer().getInventory().removeItem(item);
             user1.getPlayer().getInventory().addItem(item);
 
-            ItemStorageQueue.getInstance().changeItemOwner(item.getId(), user1.getPlayer().getId());
+
+            itemsToSave.put(item.getId(), user1.getPlayer().getId());
         }
+
+        CometThreadManager.getInstance().executeOnce(() -> {
+            TradeDao.updateTradeItems(itemsToSave);
+            itemsToSave.clear();
+        });
 
         user1.getPlayer().getSession().send(new UnseenItemsMessageComposer(user2Items));
         user2.getPlayer().getSession().send(new UnseenItemsMessageComposer(user1Items));

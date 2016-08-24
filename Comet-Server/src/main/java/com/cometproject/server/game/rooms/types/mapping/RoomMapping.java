@@ -221,6 +221,12 @@ public class RoomMapping {
             entityId = entity;
         }
 
+        if(isFloorItem) {
+            if(this.getTile(to).hasGate()) {
+                return false;
+            }
+        }
+
         final int rotation = Position.calculateRotation(from, to);
 
         if (rotation == 1 || rotation == 3 || rotation == 5 || rotation == 7) {

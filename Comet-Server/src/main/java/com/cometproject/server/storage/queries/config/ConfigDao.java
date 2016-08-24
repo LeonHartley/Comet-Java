@@ -55,8 +55,8 @@ public class ConfigDao {
                 CometSettings.playerFigureValidation = config.getBoolean("player_figure_validation");
                 CometSettings.messengerMaxFriends = config.getInt("messenger_max_friends");
                 CometSettings.messengerLogMessages = config.getBoolean("messenger_log_messages");
-                CometSettings.storageItemQueueEnabled = config.getBoolean("storage_item_queue_enabled");
-                CometSettings.storagePlayerQueueEnabled = config.getBoolean("storage_player_queue_enabled");
+//                CometSettings.storageItemQueueEnabled = config.getBoolean("storage_item_queue_enabled");
+//                CometSettings.storagePlayerQueueEnabled = config.getBoolean("storage_player_queue_enabled");
                 CometSettings.cameraPhotoUrl = config.getString("camera_photo_url");
                 CometSettings.cameraPhotoItemId = config.getInt("camera_photo_itemid");
 

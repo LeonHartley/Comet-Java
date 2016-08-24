@@ -106,6 +106,8 @@ public class Player implements BasePlayer {
 
     private int lastTradeFlood = 0;
 
+    private long lastPhotoTaken = 0;
+
     private String ssoTicket;
 
     public Player(ResultSet data, boolean isFallback) throws SQLException {
@@ -669,5 +671,13 @@ public class Player implements BasePlayer {
 
     public String getSsoTicket() {
         return this.ssoTicket;
+    }
+
+    public long getLastPhotoTaken() {
+        return lastPhotoTaken;
+    }
+
+    public void setLastPhotoTaken(long lastPhotoTaken) {
+        this.lastPhotoTaken = lastPhotoTaken;
     }
 }

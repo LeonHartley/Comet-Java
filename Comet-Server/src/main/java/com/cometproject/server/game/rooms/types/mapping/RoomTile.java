@@ -7,6 +7,7 @@ import com.cometproject.server.game.rooms.objects.entities.pathfinding.Square;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.types.ItemPathfinder;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.*;
+import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupGateFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.snowboarding.SnowboardJumpFloorItem;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
@@ -44,6 +45,8 @@ public class RoomTile {
 
     private boolean hasAdjustableHeight = false;
 
+    private boolean hasGate = false;
+
     private List<RoomItemFloor> items;
     public Set<RoomEntity> entities;
 
@@ -71,6 +74,7 @@ public class RoomTile {
         this.originalTopItem = 0;
         this.stackHeight = 0d;
         this.hasAdjustableHeight = false;
+        this.hasGate = false;
 
         if (this.mappingInstance.getModel().getSquareState()[this.getPosition().getX()][this.getPosition().getY()] == null) {
             this.canPlaceItemHere = false;
@@ -115,6 +119,10 @@ public class RoomTile {
         for (RoomItemFloor item : new ArrayList<>(items)) {
             if (item.getDefinition() == null)
                 continue;
+
+            if(item instanceof GateFloorItem || item instanceof GroupGateFloorItem) {
+                this.hasGate = true;
+            }
 
             this.hasItems = true;
 
@@ -355,5 +363,9 @@ public class RoomTile {
 
     public RoomTileState getState() {
         return state;
+    }
+
+    public boolean hasGate() {
+        return this.hasGate;
     }
 }

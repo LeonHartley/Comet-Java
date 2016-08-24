@@ -42,6 +42,13 @@ public class PhotoRoutes {
             return result;
         }
 
+        final long currentTime = System.currentTimeMillis();
+
+        if(currentTime < (client.getPlayer().getLastPhotoTaken() + 10000)) {
+            result.put("error", "Taking photos too fast");
+            return result;
+        }
+
         final String itemExtraData = "{\"t\":" + System.currentTimeMillis() + ",\"u\":\"" + photoId + "\",\"n\":\"" + client.getPlayer().getData().getUsername() + "\",\"m\":\"\",\"s\":" + client.getPlayer().getId() + ",\"w\":\"" + CometSettings.cameraPhotoUrl.replace("%photoId%", photoId) + "\"}";
 
         long itemId = ItemDao.createItem(client.getPlayer().getId(), CometSettings.cameraPhotoItemId, itemExtraData);

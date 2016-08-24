@@ -24,7 +24,7 @@ public class BanzaiTileFloorItem extends RoomItemFloor {
     }
 
     @Override
-    public void onEntityStepOn(RoomEntity entity) {
+    public void onEntityPostStepOn(RoomEntity entity) {
         if (!(entity instanceof PlayerEntity) || ((PlayerEntity) entity).getGameTeam() == GameTeam.NONE || this.getRoom().getGame().getInstance() == null) {
             return;
         }
