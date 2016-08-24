@@ -427,7 +427,7 @@ public class ProcessComponent implements CometTask {
                     }
 
                     if (!isCancelled) {
-                        item.onEntityStepOn(entity);
+                        item.onEntityPreStepOn(entity);
                     }
                 }
 

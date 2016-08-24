@@ -120,11 +120,7 @@ public abstract class RollableFloorItem extends RoomItemFloor {
     private boolean isValidRoll(Position nextPosition) {
         List<Square> path = ItemPathfinder.getInstance().makePath(this, nextPosition);
 
-        if (ItemPathfinder.getInstance().makePath(this, nextPosition) == null || path.isEmpty()) {
-            return false;
-        }
-
-        return true;
+        return !(path == null || path.isEmpty());
     }
 
     private Position getNextPosition(Position nextPosition, boolean needsReverse) {
@@ -219,6 +215,7 @@ public abstract class RollableFloorItem extends RoomItemFloor {
     }
 
     private double getDelay(int i) {
+       // return 0.35;
         switch (i) {
             case 1:
                 return 0.075;
