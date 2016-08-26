@@ -1,6 +1,7 @@
 package com.cometproject.process;
 
 
+import com.cometproject.process.io.WebSocketServer;
 import com.cometproject.process.processes.AbstractProcess;
 import com.cometproject.process.tasks.ProcessWatchdog;
 import com.cometproject.process.web.core.CoreRouteController;
@@ -17,6 +18,8 @@ public class CometProcessManager {
 
     private final Map<String, AbstractProcess> processes;
 
+    private WebSocketServer webSocketServer;
+
     private CometProcessManager() {
         this.executorService = Executors.newScheduledThreadPool(4);
         this.processes = new ConcurrentHashMap<>();
@@ -27,6 +30,8 @@ public class CometProcessManager {
 
         new CoreRouteController(this).install();
         new ProcessRouteController(this).install();
+
+        this.webSocketServer = new WebSocketServer(this);
     }
 
     public static void main(String[] args) {

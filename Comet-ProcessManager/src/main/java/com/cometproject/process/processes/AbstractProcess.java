@@ -56,6 +56,7 @@ public abstract class AbstractProcess extends Thread {
                 // start the instance.
                 try {
                     this.start();
+
                 } catch(Exception e) {
                     log.warn("Failed to start process", e);
                 }
@@ -64,13 +65,20 @@ public abstract class AbstractProcess extends Thread {
 
                 try {
                     // todo: First we need to send the shutdown request, if it fails then we'll interrupt.
-
-
-
                     this.interrupt();
                 } catch(Exception e) {
                     log.error(e);
                 }
+            } else if(this.getProcessStatus() == ProcessStatus.STOPPING) {
+                log.info("Stopping service");
+
+                try {
+                    this.interrupt();
+                } catch (Exception e) {
+                    log.error(e);
+                }
+
+                this.setProcessStatus(ProcessStatus.DOWN);
             }
 
             this.statusCheck();
@@ -86,6 +94,9 @@ public abstract class AbstractProcess extends Thread {
                     .redirectOutput(new LogOutputStream() {
                         @Override
                         protected void processLine(String line) {
+                            if(getProcessStatus() == ProcessStatus.STARTING)
+                                setProcessStatus(ProcessStatus.UP);
+
                             // Here we'll pipe the lines to the user via a websocket or something,
                             // so (if they have permission), they can see the output of the server.
                             log.info(line);

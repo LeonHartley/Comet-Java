@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Comet Server: Live Event Monitoring</title>
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha256-7s5uDGW3AHqw6xtJmNNtr+OBRJUlgkNJEo78P4b0yRw= sha512-nNo+yCHEyn0smMxSswnf/OnX6/KwJuZTlNZBjauKhTK0c+zT+q5JOCx0UFhXQ6rJR9jg6Es8gPuD2uZcYDLqSw=="
+          crossorigin="anonymous">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800,300' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="assets/css/base.css" type="text/css"/>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="assets/js/socket.io.min.js"></script>
+
+    <script type="text/javascript">
+        var socket = io.connect('http://localhost:3000');
+
+        socket.on('log', function (obj) {
+            append("INFO",obj)
+
+            var consoleElement = document.getElementById("console");
+
+            consoleElement.scrollTop = consoleElement.scrollHeight;
+        });
+
+        function append(level, data) {
+            if(level === ">") {
+                $('#console').append("<li class='list-group-item'><font color='green'>" + data + "</font></li>");
+            } else {
+                $('#console').append("<li class='list-group-item'>[" + level + "][" +  new Date().toLocaleString() + "] " + data + "</li>");
+             }
+        }
+
+        socket.on('connect', function() {
+
+        });
+
+        $(document).ready(function() {
+            $("#consoleCommand").on("keypress", function(e) {
+                if (e.keyCode == 13) {
+                    socket.emit("Command", $(this).val())
+                    append(">", $(this).val())
+
+                    $(this).val("")
+                }
+            });
+        });
+    </script>
+</head>
+
+<body>
+<div class="container">
+    <h2>Comet Server
+        <small>Event Monitoring</small>
+    </h2>
+
+    <div class="panel panel-default" id="consoleContainer" >
+        <ul class="list-group" id="console" style="min-height: 800px; max-height: 800px;
+    overflow: auto; overflow-y: scroll;">
+        </ul>
+        <input id="consoleCommand" style="width: 100%; margin: 0; padding: 10px; border-bottom: none; border-left: none; border-right: none; border-top: 1px solid #ccc; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px;" placeholder="Command "/>
+    </div>
+</div>
+
+</body>
+
+</html>

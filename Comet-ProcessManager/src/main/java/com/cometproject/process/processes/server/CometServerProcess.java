@@ -60,7 +60,7 @@ public class CometServerProcess extends AbstractProcess {
         }
 
         // Check for any issues with this specific instance.
-        this.setProcessStatus(ProcessStatus.UP);
+        //this.setProcessStatus(ProcessStatus.UP);
     }
 
     @Override

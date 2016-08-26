@@ -5,5 +5,6 @@ public enum ProcessStatus {
     DOWN,
     WARNING,
     RESTARTING,
+    STOPPING,
     STARTING
 }

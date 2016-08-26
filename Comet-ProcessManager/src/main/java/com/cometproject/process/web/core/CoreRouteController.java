@@ -29,11 +29,15 @@ public class CoreRouteController extends AbstractRouteController {
     }
 
     public void install() {
-        this.get("/", ((request, response) -> {
+        this.get("/version", ((request, response) -> {
             final JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("version", "1.0");
 
             return jsonObject;
+        }));
+
+        this.get("/", ((request, response) -> {
+            return null;
         }));
         this.get("/status", this::status);
     }
