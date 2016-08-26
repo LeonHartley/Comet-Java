@@ -1,11 +1,12 @@
 body {
-    font-family: "Open Sans";
+    font-family:monospace;
+    font-size: 9;
     background: #f8fafb;
 }
 
 .container {
-    max-width: 900px;
     width: 80%;
+
     margin: auto;
 }
 
@@ -14,6 +15,10 @@ body {
     font-size: 28px;
     color: #222222;
     margin: 10px 0 10px 0;
+}
+
+#console {
+    padding: 10px;
 }
 
 ::-webkit-scrollbar {

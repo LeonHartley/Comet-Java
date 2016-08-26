@@ -65,7 +65,17 @@ public class WebSocketServer {
                     final String instance = data[2];
 
                     if(this.processManager.getProcesses().containsKey(instance)) {
-                        this.processManager.getProcesses().get(instance).setProcessStatus(ProcessStatus.STARTING);
+                        final CometServerProcess process = (CometServerProcess) this.processManager.getProcesses().get(instance);
+
+                        final CometServerProcess newProcess = new CometServerProcess(process.getProcessName(),
+                                process.getApplicationArguments(),
+                                process.getServerVersion(),
+                                process.getApiUrl(),
+                                process.getApiToken());
+
+                        newProcess.getListeners().addAll(process.getListeners());
+
+                        this.processManager.getProcesses().replace(instance, newProcess);
                         client.sendEvent("log", "Starting already-existing instance " + instance);
                         return;
                     }
@@ -99,6 +109,18 @@ public class WebSocketServer {
 
                     client.sendEvent("log", "This process is now stopping");
                     return;
+                }
+
+                case "listen": {
+                    final String instance = data[2];
+                    final AbstractProcess process = this.processManager.getProcesses().get(instance);
+
+                    if(process == null) {
+                        client.sendEvent("log", "There is no process with this name");
+                        return;
+                    }
+
+                    process.listen(client);
                 }
             }
         });

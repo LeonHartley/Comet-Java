@@ -72,4 +72,20 @@ public class CometServerProcess extends AbstractProcess {
 
         return obj;
     }
+
+    public String getApplicationArguments() {
+        return applicationArguments;
+    }
+
+    public String getServerVersion() {
+        return serverVersion;
+    }
+
+    public String getApiUrl() {
+        return apiUrl;
+    }
+
+    public String getApiToken() {
+        return apiToken;
+    }
 }

@@ -1,7 +1,9 @@
 package com.cometproject.process.processes;
 
 import com.cometproject.process.api.CometAPIClient;
+import com.corundumstudio.socketio.SocketIOClient;
 import com.google.gson.JsonObject;
+import org.apache.http.cookie.CookiePathComparator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.http.HttpMethod;
@@ -12,6 +14,8 @@ import org.zeroturnaround.exec.stream.LogOutputStream;
 import org.zeroturnaround.exec.stream.slf4j.Slf4jStream;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.TimeoutException;
 
 public abstract class AbstractProcess extends Thread {
@@ -22,6 +26,8 @@ public abstract class AbstractProcess extends Thread {
 
     private long lastStatusCheck = 0;
     private long shutdownRequested = 0;
+
+    private final List<SocketIOClient> listeners = new CopyOnWriteArrayList<>();
 
     public AbstractProcess(String processName) {
         super(processName);
@@ -97,6 +103,15 @@ public abstract class AbstractProcess extends Thread {
                             if(getProcessStatus() == ProcessStatus.STARTING)
                                 setProcessStatus(ProcessStatus.UP);
 
+                            if(listeners.isEmpty()) {
+                                return;
+                            }
+
+                            for(SocketIOClient client : listeners){
+                                if(client.isChannelOpen()) {
+                                    client.sendEvent("serverLog", line);
+                                }
+                            }
                             // Here we'll pipe the lines to the user via a websocket or something,
                             // so (if they have permission), they can see the output of the server.
                             log.info(line);
@@ -141,5 +156,13 @@ public abstract class AbstractProcess extends Thread {
 
     public long getLastStatusCheck() {
         return this.lastStatusCheck;
+    }
+
+    public void listen(SocketIOClient client) {
+        this.listeners.add(client);
+    }
+
+    public List<SocketIOClient> getListeners() {
+        return this.listeners;
     }
 }

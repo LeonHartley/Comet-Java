@@ -16,18 +16,22 @@
         var socket = io.connect('http://localhost:3000');
 
         socket.on('log', function (obj) {
-            append("INFO",obj)
+            append("INFO", obj)
 
             var consoleElement = document.getElementById("console");
 
             consoleElement.scrollTop = consoleElement.scrollHeight;
         });
 
+        socket.on('serverLog', function(obj) {
+            $('#console').append(obj + "<br />");
+        });
+
         function append(level, data) {
             if(level === ">") {
-                $('#console').append("<li class='list-group-item'><font color='green'>" + data + "</font></li>");
+                $('#console').append("<font color='green'>" + data + "</font><br />");
             } else {
-                $('#console').append("<li class='list-group-item'>[" + level + "][" +  new Date().toLocaleString() + "] " + data + "</li>");
+                $('#console').append("[" + level + "][" +  new Date().toLocaleString() + "] " + data + "<br />");
              }
         }
 
@@ -55,8 +59,7 @@
     </h2>
 
     <div class="panel panel-default" id="consoleContainer" >
-        <ul class="list-group" id="console" style="min-height: 800px; max-height: 800px;
-    overflow: auto; overflow-y: scroll;">
+        <ul class="list-group" id="console" style="height: 80vh; min-height: 800px; overflow: auto; overflow-y: scroll;">
         </ul>
         <input id="consoleCommand" style="width: 100%; margin: 0; padding: 10px; border-bottom: none; border-left: none; border-right: none; border-top: 1px solid #ccc; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px;" placeholder="Command "/>
     </div>
