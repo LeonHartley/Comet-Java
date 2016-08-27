@@ -11,8 +11,8 @@ public class CometServerProcess extends AbstractProcess {
 
     private static final Gson gson = new Gson();
 
-    private final String applicationArguments;
-    private final String serverVersion;
+    private String applicationArguments;
+    private String serverVersion;
 
     private final String apiUrl;
     private final String apiToken;
@@ -87,5 +87,17 @@ public class CometServerProcess extends AbstractProcess {
 
     public String getApiToken() {
         return apiToken;
+    }
+
+    public JsonObject getStatusObject() {
+        return statusObject;
+    }
+
+    public void setApplicationArguments(String applicationArguments) {
+        this.applicationArguments = applicationArguments;
+    }
+
+    public void setServerVersion(String serverVersion) {
+        this.serverVersion = serverVersion;
     }
 }

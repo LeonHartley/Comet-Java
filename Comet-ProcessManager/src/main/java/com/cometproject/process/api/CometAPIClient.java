@@ -61,7 +61,8 @@ public class CometAPIClient {
         if (entity != null) {
 
             try (InputStream inputStream = entity.getContent()) {
-                return IOUtils.toString(inputStream);
+                final String string = IOUtils.toString(inputStream);
+                return string;
             } catch (Exception e) {
                 e.printStackTrace();
             }
