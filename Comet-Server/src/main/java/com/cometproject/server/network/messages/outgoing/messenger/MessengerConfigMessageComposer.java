@@ -18,7 +18,7 @@ public class MessengerConfigMessageComposer extends MessageComposer {
         msg.writeInt(CometSettings.messengerMaxFriends);
         msg.writeInt(300);
         msg.writeInt(800);
-        msg.writeInt(CometSettings.messengerMaxFriends);
+       // msg.writeInt(CometSettings.messengerMaxFriends);
         msg.writeInt(0);
     }
 }

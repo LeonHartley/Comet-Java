@@ -9,9 +9,11 @@ import com.cometproject.server.protocol.headers.Composers;
 
 public class CatalogPageMessageComposer extends MessageComposer {
 
+    private final String catalogType;
     private final CatalogPage catalogPage;
 
-    public CatalogPageMessageComposer(final CatalogPage catalogPage) {
+    public CatalogPageMessageComposer(final String catalogType, final CatalogPage catalogPage) {
+        this.catalogType = catalogType;
         this.catalogPage = catalogPage;
     }
 
@@ -23,9 +25,7 @@ public class CatalogPageMessageComposer extends MessageComposer {
     @Override
     public void compose(IComposer msg) {
         msg.writeInt(this.catalogPage.getId());
-
-        msg.writeString("NORMAL"); // builders club or not
-
+        msg.writeString(this.catalogType); // builders club or not
         msg.writeString(this.catalogPage.getTemplate());
 
         msg.writeInt(this.catalogPage.getImages().size());
@@ -52,5 +52,9 @@ public class CatalogPageMessageComposer extends MessageComposer {
 
         msg.writeInt(0);
         msg.writeBoolean(false); // allow seasonal currency as credits
+
+        if(this.catalogPage.getTemplate().equals("frontpage4")) {
+            msg.writeInt(0);
+        }
     }
 }

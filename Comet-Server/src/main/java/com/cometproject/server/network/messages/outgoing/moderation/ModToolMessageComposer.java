@@ -34,7 +34,9 @@ public class ModToolMessageComposer extends MessageComposer {
             msg.writeString(preset);
         }
 
-        msg.writeInt(ModerationManager.getInstance().getActionCategories().size());
+        msg.writeInt(0);
+
+        /*msg.writeInt(ModerationManager.getInstance().getActionCategories().size());
 
         for (ActionCategory actionCategory : ModerationManager.getInstance().getActionCategories()) {
             msg.writeString(actionCategory.getCategoryName());
@@ -51,7 +53,7 @@ public class ModToolMessageComposer extends MessageComposer {
                 msg.writeString(preset.getDescription());
                 msg.writeBoolean(false); // show habbo way
             }
-        }
+        }*/
 
         // Fuses
         msg.writeBoolean(true); // tickets

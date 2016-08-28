@@ -168,7 +168,7 @@ public final class MessageHandler {
 
     private void registerMisc() {
         this.getMessages().put(Events.LatencyTestMessageEvent, new RequestLatencyTestMessageEvent());
-        this.getMessages().put(Events.EventTrackerMessageEvent, new EventLogMessageEvent());
+        this.getMessages().put(Events.EventLogMessageEvent, new EventLogMessageEvent());
     }
 
     public void registerHandshake() {
@@ -200,7 +200,7 @@ public final class MessageHandler {
 
     public void registerHelpTool() {
         this.getMessages().put(Events.OpenHelpToolMessageEvent, new InitHelpToolMessageEvent());
-        this.getMessages().put(Events.SubmitNewTicketMessageEvent, new HelpTicketMessageEvent());
+//        this.getMessages().put(Events.SubmitNewTicketMessageEvent, new HelpTicketMessageEvent());
     }
 
     public void registerMessenger() {
@@ -217,8 +217,8 @@ public final class MessageHandler {
 
     public void registerNavigator() {
         this.getMessages().put(Events.GetUserFlatCatsMessageEvent, new LoadCategoriesMessageEvent());
-        this.getMessages().put(Events.InitializeNewNavigatorMessageEvent, new InitializeNewNavigatorMessageEvent());
-        this.getMessages().put(Events.NewNavigatorSearchMessageEvent, new NewNavigatorSearchMessageEvent());
+        this.getMessages().put(Events.InitializeNavigatorMessageEvent, new InitializeNewNavigatorMessageEvent());
+        this.getMessages().put(Events.NavigatorSearchMessageEvent, new NewNavigatorSearchMessageEvent());
         this.getMessages().put(Events.CanCreateRoomMessageEvent, new CanCreateRoomMessageEvent());
         this.getMessages().put(Events.CreateFlatMessageEvent, new CreateRoomMessageEvent());
         this.getMessages().put(Events.GetEventCategoriesMessageEvent, new EventCategoriesMessageEvent());
@@ -227,7 +227,7 @@ public final class MessageHandler {
     }
 
     public void registerUser() {
-        this.getMessages().put(Events.OpenPlayerProfileMessageEvent, new GetProfileMessageEvent());
+        this.getMessages().put(Events.GetExtendedProfileMessageEvent, new GetProfileMessageEvent());
         this.getMessages().put(Events.GetForumUserProfileMessageEvent, new GetProfileByUsernameMessageEvent());
         this.getMessages().put(Events.ScrGetUserInfoMessageEvent, new ClubStatusMessageEvent());
         this.getMessages().put(Events.InfoRetrieveMessageEvent, new InfoRetrieveMessageEvent());
@@ -249,7 +249,7 @@ public final class MessageHandler {
     public void registerBots() {
         this.getMessages().put(Events.GetBotInventoryMessageEvent, new BotInventoryMessageEvent());
         this.getMessages().put(Events.PlaceBotMessageEvent, new PlaceBotMessageEvent());
-        this.getMessages().put(Events.SaveBotActionMessageEvent, new ModifyBotMessageEvent());
+        this.getMessages().put(Events.CommandBotMessageEvent, new ModifyBotMessageEvent());
         this.getMessages().put(Events.PickUpBotMessageEvent, new RemoveBotMessageEvent());
         this.getMessages().put(Events.OpenBotActionMessageEvent, new BotConfigMessageEvent());
     }
@@ -292,7 +292,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.ToggleMuteToolMessageEvent, new MuteRoomMessageEvent());
         this.getMessages().put(Events.GiveRoomScoreMessageEvent, new RateRoomMessageEvent());
         this.getMessages().put(Events.GiveHandItemMessageEvent, new GiveHandItemMessageEvent());
-        this.getMessages().put(Events.SaveFloorPlanModelMessageEvent, new SaveFloorMessageEvent());
+        this.getMessages().put(Events.UpdateFloorPropertiesMessageEvent, new SaveFloorMessageEvent());
         this.getMessages().put(Events.InitializeFloorPlanSessionMessageEvent, new GetTilesInUseMessageEvent());
         this.getMessages().put(Events.IgnoreUserMessageEvent, new IgnoreUserMessageEvent());
         this.getMessages().put(Events.UnIgnoreUserMessageEvent, new UnignoreUserMessageEvent());
@@ -352,12 +352,12 @@ public final class MessageHandler {
         this.getMessages().put(Events.SetMannequinNameMessageEvent, new SaveMannequinMessageEvent());
         this.getMessages().put(Events.SetMannequinFigureMessageEvent, new SaveMannequinFigureMessageEvent());
         this.getMessages().put(Events.SetTonerMessageEvent, new SaveTonerMessageEvent());
-        this.getMessages().put(Events.SaveBrandingItemMessageEvent, new SaveBrandingMessageEvent());
+//        this.getMessages().put(Events.Save, new SaveBrandingMessageEvent());
         this.getMessages().put(Events.OpenGiftMessageEvent, new OpenGiftMessageEvent());
         this.getMessages().put(Events.GetMoodlightConfigMessageEvent, new UseMoodlightMessageEvent());
         this.getMessages().put(Events.ToggleMoodlightMessageEvent, new ToggleMoodlightMessageEvent());
-        this.getMessages().put(Events.MoodlightUpdateMessageEvent, new UpdateMoodlightMessageEvent());
-        this.getMessages().put(Events.UpdateMagicTileMessageEvent, new SaveStackToolMessageEvent());
+        this.getMessages().put(Events.RoomDimmerSavePresetMessageEvent, new UpdateMoodlightMessageEvent());
+        this.getMessages().put(Events.SetCustomStackingHeightMessageEvent, new SaveStackToolMessageEvent());
         this.getMessages().put(Events.AddStickyNoteMessageEvent, new PlacePostitMessageEvent());
         this.getMessages().put(Events.GetStickyNoteMessageEvent, new OpenPostItMessageEvent());
         this.getMessages().put(Events.UpdateStickyNoteMessageEvent, new SavePostItMessageEvent());
@@ -382,7 +382,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.GetGroupCreationWindowMessageEvent, new BuyGroupDialogMessageEvent());
         this.getMessages().put(Events.PurchaseGroupMessageEvent, new BuyGroupMessageEvent());
         this.getMessages().put(Events.GetSellablePetBreedsMessageEvent, new PetRacesMessageEvent());
-        this.getMessages().put(Events.CheckPetNameMessageEvent, new ValidatePetNameMessageEvent());
+        this.getMessages().put(Events.ApproveNameMessageEvent, new ValidatePetNameMessageEvent());
         this.getMessages().put(Events.PurchaseFromCatalogAsGiftMessageEvent, new PurchaseGiftMessageEvent());
         this.getMessages().put(Events.GetGroupFurniConfigMessageEvent, new GroupFurnitureCatalogMessageEvent());
         this.getMessages().put(Events.GetCatalogOfferMessageEvent, new GetCatalogOfferMessageEvent());
@@ -452,7 +452,7 @@ public final class MessageHandler {
     }
 
     private void registerCamera() {
-        this.getMessages().put(Events.TakePhotoMessageEvent, new TakePhotoMessageEvent());
+//        this.getMessages().put(Events.TakePhotoMessageEvent, new TakePhotoMessageEvent());
     }
 
     public void handle(MessageEvent message, Session client) {

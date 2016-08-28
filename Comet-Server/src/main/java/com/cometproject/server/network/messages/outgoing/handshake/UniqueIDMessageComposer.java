@@ -14,7 +14,7 @@ public class UniqueIDMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.SetUniqueIdMessageComposer;
+        return Composers.UniqueMachineIDMessageComposer;
     }
 
     @Override

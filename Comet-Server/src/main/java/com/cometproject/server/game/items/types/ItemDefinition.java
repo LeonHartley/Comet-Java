@@ -58,7 +58,7 @@ public class ItemDefinition implements FurnitureDefinition {
         this.canMarket = false;
         this.canGift = data.getString("allow_gift").equals("1");
 
-        this.effectId = data.getInt("effectid");
+        this.effectId = data.getInt("effect_id");
         this.interaction = data.getString("interaction_type");
         this.interactionCycleCount = data.getInt("interaction_modes_count");
         this.vendingIds = data.getString("vending_ids").isEmpty() ? new String[0] : data.getString("vending_ids").split(",");

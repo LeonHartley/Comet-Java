@@ -17,7 +17,7 @@ public class SongDataMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.TraxSongInfoMessageComposer;
+        return Composers.SongDataMessageComposer;
     }
 
     @Override

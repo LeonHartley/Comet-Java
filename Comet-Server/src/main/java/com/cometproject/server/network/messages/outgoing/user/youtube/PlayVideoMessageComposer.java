@@ -18,7 +18,7 @@ public class PlayVideoMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.GetYouTubeVideoMessageComposer;
+        return Composers.YouTubeDisplayVideoMessageComposer;
     }
 
     @Override

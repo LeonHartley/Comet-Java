@@ -18,7 +18,7 @@ public class AllowancesMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.UserPerksMessageComposer;
+        return Composers.PerkAllowancesMessageComposer;
     }
 
     @Override

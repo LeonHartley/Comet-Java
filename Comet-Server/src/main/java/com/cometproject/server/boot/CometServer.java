@@ -38,7 +38,7 @@ import java.util.Map;
 public class CometServer {
     private final Logger log = Logger.getLogger(CometServer.class.getName());
 
-    public static final String CLIENT_VERSION = "PRODUCTION-201602082203-712976078";
+    public static final String CLIENT_VERSION = "PRODUCTION-201607262204-86871104 - Modified by trylix";
 
     /**
      * Comet's configuration

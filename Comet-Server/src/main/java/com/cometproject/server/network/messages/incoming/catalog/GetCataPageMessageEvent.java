@@ -17,7 +17,7 @@ public class GetCataPageMessageEvent implements Event {
         }
 
         if (CatalogManager.getInstance().pageExists(pageId) && CatalogManager.getInstance().getPage(pageId).isEnabled()) {
-            client.send(new CatalogPageMessageComposer(CatalogManager.getInstance().getPage(pageId)));
+            client.send(new CatalogPageMessageComposer("NORMAL", CatalogManager.getInstance().getPage(pageId)));
         }
     }
 }

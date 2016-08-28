@@ -253,6 +253,8 @@ public class CatalogItem {
 
         msg.writeInt(0); // club level
         msg.writeBoolean(!(this.getLimitedTotal() > 0) && this.allowOffer());
+        msg.writeBoolean(false);
+        msg.writeString("");
     }
 
     public int getId() {
