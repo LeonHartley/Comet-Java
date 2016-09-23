@@ -94,7 +94,6 @@ public class CacheManager implements Initialisable {
                 final String objectData = object.toString();
 
                 jedis.set(this.getKey(key), objectData);
-                System.out.println("took " + (System.currentTimeMillis() - startTime) + "ms to process");
             } catch (Exception e) {
                 throw e;
             }

@@ -147,7 +147,7 @@ public class RollerFloorItem extends RoomItemFloor {
                 continue;
             }
 
-            if (!floor.getDefinition().canStack()) {
+            if (!floor.getDefinition().canStack() && !(floor instanceof RollableFloorItem)) {
                 if(floor.getTile().getTopItem() != floor.getId())
                     continue;
             }

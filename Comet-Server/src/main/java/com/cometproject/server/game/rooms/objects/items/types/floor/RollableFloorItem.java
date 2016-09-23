@@ -40,8 +40,8 @@ public abstract class RollableFloorItem extends RoomItemFloor {
 
     @Override
     public void onEntityPostStepOn(RoomEntity entity) {
-        if (this.isRolling) {
-            return;
+        if(this.skipNext) {
+            this.skipNext = false;
         }
 
         if (entity instanceof PlayerEntity && this instanceof BanzaiPuckFloorItem) {

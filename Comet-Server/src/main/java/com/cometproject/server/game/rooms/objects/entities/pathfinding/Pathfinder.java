@@ -113,15 +113,15 @@ public abstract class Pathfinder {
                 (roomObject instanceof RoomEntity && ((RoomEntity) roomObject).isOverriden()));
     }
 
-    private final Position[] diagonalMovePoints = new Position[]{
+    private final Position[] diagonalMovePoints = {
+            new Position(-1, -1),
             new Position(0, -1),
-            new Position(0, 1),
-            new Position(1, 0),
-            new Position(-1, 0),
             new Position(1, -1),
-            new Position(-1, 1),
+            new Position(1, 0),
             new Position(1, 1),
-            new Position(-1, -1)
+            new Position(0, 1),
+            new Position(-1, 1),
+            new Position(-1, 0)
     };
 
     private final Position[] movePoints = new Position[]{
