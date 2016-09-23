@@ -93,7 +93,7 @@ public class BanzaiTileFloorItem extends RoomItemFloor {
     public void onItemAddedToStack(RoomItemFloor roomItemFloor) {
         if (roomItemFloor instanceof BanzaiPuckFloorItem) {
             if (((BanzaiPuckFloorItem) roomItemFloor).getPusher() != null) {
-                this.onEntityStepOn(((BanzaiPuckFloorItem) roomItemFloor).getPusher());
+                this.onEntityPostStepOn(((BanzaiPuckFloorItem) roomItemFloor).getPusher());
             }
         }
     }

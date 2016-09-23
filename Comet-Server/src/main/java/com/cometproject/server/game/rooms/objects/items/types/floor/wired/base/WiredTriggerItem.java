@@ -13,9 +13,13 @@ import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.wired.dialog.WiredTriggerMessageComposer;
 import com.cometproject.server.utilities.RandomInteger;
 import com.google.common.collect.Lists;
+import com.sun.jna.platform.unix.X11;
 import org.apache.log4j.Logger;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 
 public abstract class WiredTriggerItem extends WiredFloorItem {
@@ -78,11 +82,23 @@ public abstract class WiredTriggerItem extends WiredFloorItem {
                 unseenEffectItem.getSeenEffects().clear();
             }
 
+            final Map<Class<? extends WiredConditionItem>, AtomicBoolean> completedConditions = new HashMap<>();
+
             // loop through the conditions and check whether or not we can perform the action
             for (WiredConditionItem conditionItem : wiredConditions) {
                 conditionItem.flash();
 
-                if (!conditionItem.evaluate(entity, data)) {
+                if(!completedConditions.containsKey(conditionItem.getClass())) {
+                    completedConditions.put(conditionItem.getClass(), new AtomicBoolean(false));
+                }
+
+                if (conditionItem.evaluate(entity, data)) {
+                    completedConditions.get(conditionItem.getClass()).set(true);
+                }
+            }
+
+            for(AtomicBoolean conditionState: completedConditions.values()) {
+                if(!conditionState.get()) {
                     canExecute = false;
                 }
             }

@@ -15,6 +15,9 @@ import java.util.List;
 
 
 public class RollerFloorItem extends RoomItemFloor {
+    private boolean hasRollScheduled = false;
+    private long lastTick = 0;
+
     public RollerFloorItem(long id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, x, y, z, rotation, data);
     }
@@ -29,21 +32,39 @@ public class RollerFloorItem extends RoomItemFloor {
         if (entity.isWalking()) return;
 
         if (this.ticksTimer < 1) {
-            this.setTicks(this.getTickCount());
+            this.lastTick = System.currentTimeMillis();
+            //this.tickRequest = System.currentTimeMillis();
+            //this.hasRollScheduled = true;
+//            this.setTicks(this.getTickCount());
         }
     }
 
     @Override
     public void onItemAddedToStack(RoomItemFloor floorItem) {
         if (this.ticksTimer < 1) {
-            this.setTicks(this.getTickCount());
+            this.lastTick = System.currentTimeMillis();
+            //this.tickRequest = System.currentTimeMillis();
+            //this.hasRollScheduled = true;
+            //this.setTicks(this.getTickCount());
         }
     }
 
     @Override
-    public void onTickComplete() {
+    public void onTick() {
+        if((System.currentTimeMillis() - this.lastTick) <= 1000) {
+            return;
+        }
+
+
+        //if(this.hasRollScheduled) {
         this.handleItems();
         this.handleEntities();
+        //}
+
+        this.lastTick = System.currentTimeMillis();
+
+        //this.hasRollScheduled = false;
+        //this.tickRequest = 0;
     }
 
     private void handleEntities() {
