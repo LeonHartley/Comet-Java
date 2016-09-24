@@ -306,8 +306,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.TradingCancelMessageEvent, new CancelTradeMessageEvent());
         this.getMessages().put(Events.TradingModifyMessageEvent, new UnacceptTradeMessageEvent());
         this.getMessages().put(Events.TradingOfferItemMessageEvent, new SendOfferMessageEvent());
-        this.getMessages().put(Events.CancelOfferMessageEvent, new CancelOfferMessageEvent());
-        this.getMessages().put(Events.TradingRemoveItemMessageEvent, new RemoveItemMessageEvent());
+        this.getMessages().put(Events.TradingRemoveItemMessageEvent, new CancelOfferMessageEvent());
         this.getMessages().put(Events.TradingAcceptMessageEvent, new AcceptTradeMessageEvent());
         this.getMessages().put(Events.TradingConfirmMessageEvent, new ConfirmTradeMessageEvent());
         this.getMessages().put(Events.TradingOfferItemsMessageEvent, new TradingOfferItemsMessageEvent());
