@@ -121,6 +121,7 @@ public class Events {
     public static final short InitTradeMessageEvent = 3876;
     public static final short TradingRemoveItemMessageEvent = 2326;
     public static final short TradingConfirmCancelMessageEvent = 3308;
+    public static final short TradingModifyMessageEvent = 884;
     public static final short ChatMessageEvent = 520;
     public static final short SaveRoomSettingsMessageEvent = 1934;
     public static final short PurchaseFromCatalogAsGiftMessageEvent = 2626;
