@@ -215,7 +215,6 @@ public class ItemsComponent {
         return new ArrayList<>(tile.getItems());
     }
 
-    @Deprecated
     public RoomItemFloor getFloorItem(int id) {
         Long itemId = ItemManager.getInstance().getItemIdByVirtualId(id);
 
@@ -226,7 +225,6 @@ public class ItemsComponent {
         return this.floorItems.get(itemId);
     }
 
-    @Deprecated
     public RoomItemWall getWallItem(int id) {
         Long itemId = ItemManager.getInstance().getItemIdByVirtualId(id);
 

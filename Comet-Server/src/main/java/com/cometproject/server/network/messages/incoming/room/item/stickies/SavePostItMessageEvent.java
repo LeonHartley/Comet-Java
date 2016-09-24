@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.item.stickies;
 
+import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
 import com.cometproject.server.game.rooms.objects.items.types.wall.PostItWallItem;
 import com.cometproject.server.game.rooms.types.Room;
@@ -11,7 +12,9 @@ import com.cometproject.server.network.sessions.Session;
 public class SavePostItMessageEvent implements Event {
     @Override
     public void handle(Session client, MessageEvent msg) throws Exception {
-        int itemId = msg.readInt();
+        int virtualId = msg.readInt();
+
+        long itemId = ItemManager.getInstance().getItemIdByVirtualId(virtualId);
 
         if (client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null) {
             return;

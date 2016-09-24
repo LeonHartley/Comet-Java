@@ -24,6 +24,7 @@ public abstract class RollableFloorItem extends RoomItemFloor {
     private boolean isRolling = false;
     private PlayerEntity playerEntity;
     private boolean skipNext = false;
+    private boolean wasDribbling = false;
     private int rollStage = -1;
 
     public RollableFloorItem(long id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
@@ -40,8 +41,9 @@ public abstract class RollableFloorItem extends RoomItemFloor {
 
     @Override
     public void onEntityPostStepOn(RoomEntity entity) {
-        if(this.skipNext) {
+        if (this.skipNext && (this.playerEntity != null && entity.getId() == this.playerEntity.getId()) && !this.wasDribbling) {
             this.skipNext = false;
+            return;
         }
 
         if (entity instanceof PlayerEntity && this instanceof BanzaiPuckFloorItem) {
@@ -50,22 +52,17 @@ public abstract class RollableFloorItem extends RoomItemFloor {
         }
 
         if (entity.getWalkingGoal().getX() == this.getPosition().getX() && entity.getWalkingGoal().getY() == this.getPosition().getY()) {
-            if (this.skipNext) {
-                this.onInteract(entity, 0, false);
-
-                this.skipNext = false;
-                return;
-            }
-
             if (entity instanceof PlayerEntity) {
                 this.playerEntity = (PlayerEntity) entity;
             }
 
             this.rollStage = 0;
             this.rollBall(entity.getPosition(), entity.getBodyRotation());
-        } else {
             this.skipNext = true;
-            this.onInteract(entity, 0, false);
+        } else {
+            this.rollSingle(entity);
+//            this.skipNext = true;
+            this.wasDribbling = true;
         }
     }
 
@@ -73,6 +70,8 @@ public abstract class RollableFloorItem extends RoomItemFloor {
     public void onEntityStepOff(RoomEntity entity) {
         if (!this.skipNext) {
             this.rollBall(this.getPosition(), Direction.get(entity.getBodyRotation()).invert().num);
+        } else {
+            this.skipNext = false;
         }
     }
 
@@ -135,12 +134,9 @@ public abstract class RollableFloorItem extends RoomItemFloor {
         return newPosition;
     }
 
-    @Override
-    public boolean onInteract(RoomEntity entity, int requestData, boolean isWiredTriggered) {
-        if (isWiredTriggered) return false;
-
+    private void rollSingle(RoomEntity entity) {
         if (this.isRolling || !entity.getPosition().touching(this.getPosition())) {
-            return false;
+            return;
         }
 
         if (entity instanceof PlayerEntity) {
@@ -164,12 +160,20 @@ public abstract class RollableFloorItem extends RoomItemFloor {
             this.setRotation(Direction.get(this.getRotation()).invert().num);
         }
 
-        if(!this.isValidRoll(newPosition)) {
-            return false;
+        if (!this.isValidRoll(newPosition)) {
+            return;
         }
 
         this.moveTo(newPosition, entity.getBodyRotation());
         this.isRolling = false;
+    }
+
+    @Override
+    public boolean onInteract(RoomEntity entity, int requestData, boolean isWiredTriggered) {
+        if (isWiredTriggered) return false;
+
+        this.rollSingle(entity);
+        this.skipNext = true;
         return true;
     }
 
@@ -179,6 +183,7 @@ public abstract class RollableFloorItem extends RoomItemFloor {
         this.playerEntity = null;
         this.skipNext = false;
         this.rollStage = -1;
+        this.wasDribbling = false;
     }
 
     private void moveTo(Position pos, int rotation) {
@@ -215,7 +220,7 @@ public abstract class RollableFloorItem extends RoomItemFloor {
     }
 
     private double getDelay(int i) {
-       // return 0.35;
+        // return 0.35;
         switch (i) {
             case 1:
                 return 0.075;

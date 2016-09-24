@@ -1,6 +1,7 @@
 package com.cometproject.server.network.messages.incoming.user.youtube;
 
 import com.cometproject.api.game.players.data.types.IPlaylistItem;
+import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.players.types.PlayerSettings;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.network.messages.incoming.Event;
@@ -15,7 +16,9 @@ import com.cometproject.server.storage.queries.player.PlayerDao;
 public class NextVideoMessageEvent implements Event {
     @Override
     public void handle(Session client, MessageEvent msg) throws Exception {
-        int itemId = msg.readInt();
+        int virtualId = msg.readInt();
+
+        long itemId = ItemManager.getInstance().getItemIdByVirtualId(virtualId);
         int direction = msg.readInt(); // 0 = previous, 1 = next
 
         if (client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null)
@@ -56,10 +59,10 @@ public class NextVideoMessageEvent implements Event {
 
         IPlaylistItem playlistItem = playerSettings.getPlaylist().get(currentVideoIndex);
         if (playerSettings.getPlaylist() != null) {
-            client.send(new PlaylistMessageComposer(itemId, playerSettings.getPlaylist(), currentVideoIndex));
+            client.send(new PlaylistMessageComposer(virtualId, playerSettings.getPlaylist(), currentVideoIndex));
         }
 
-        client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new PlayVideoMessageComposer(itemId, playlistItem.getVideoId(), playlistItem.getDuration()));
+        client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new PlayVideoMessageComposer(virtualId, playlistItem.getVideoId(), playlistItem.getDuration()));
 
         item.setAttribute("video", playlistItem.getVideoId());
 

@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.item.mannequins;
 
+import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.boutique.MannequinFloorItem;
 import com.cometproject.server.game.rooms.types.Room;
@@ -14,13 +15,15 @@ public class SaveMannequinMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) throws Exception {
         int id = msg.readInt();
 
+        final long itemId = ItemManager.getInstance().getItemIdByVirtualId(id);
+
         Room room = client.getPlayer().getEntity().getRoom();
 
         if (room == null || !room.getRights().hasRights(client.getPlayer().getId()) && !client.getPlayer().getPermissions().getRank().roomFullControl()) {
             return;
         }
 
-        RoomItemFloor item = room.getItems().getFloorItem(id);
+        RoomItemFloor item = room.getItems().getFloorItem(itemId);
 
         if (item == null) {
             return;

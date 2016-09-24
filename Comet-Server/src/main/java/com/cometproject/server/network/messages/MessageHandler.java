@@ -21,7 +21,6 @@ import com.cometproject.server.network.messages.incoming.group.forum.settings.Sa
 import com.cometproject.server.network.messages.incoming.group.forum.threads.*;
 import com.cometproject.server.network.messages.incoming.group.settings.*;
 import com.cometproject.server.network.messages.incoming.handshake.*;
-import com.cometproject.server.network.messages.incoming.help.HelpTicketMessageEvent;
 import com.cometproject.server.network.messages.incoming.help.InitHelpToolMessageEvent;
 import com.cometproject.server.network.messages.incoming.landing.LandingLoadWidgetMessageEvent;
 import com.cometproject.server.network.messages.incoming.landing.RefreshPromoArticlesMessageEvent;
@@ -68,7 +67,7 @@ import com.cometproject.server.network.messages.incoming.room.item.mannequins.Sa
 import com.cometproject.server.network.messages.incoming.room.item.mannequins.SaveMannequinMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.item.stickies.DeletePostItMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.item.stickies.OpenPostItMessageEvent;
-import com.cometproject.server.network.messages.incoming.room.item.stickies.PlacePostitMessageEvent;
+import com.cometproject.server.network.messages.incoming.room.item.stickies.PlacePostItMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.item.stickies.SavePostItMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.item.wired.SaveWiredDataMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.item.wired.UpdateSnapshotsMessageEvent;
@@ -81,8 +80,6 @@ import com.cometproject.server.network.messages.incoming.room.pets.horse.RideHor
 import com.cometproject.server.network.messages.incoming.room.settings.*;
 import com.cometproject.server.network.messages.incoming.room.trading.*;
 import com.cometproject.server.network.messages.incoming.user.achievements.AchievementsListMessageEvent;
-import com.cometproject.server.network.messages.incoming.user.camera.RenderRoomMessageEvent;
-import com.cometproject.server.network.messages.incoming.user.camera.TakePhotoMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.club.ClubStatusMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.details.*;
 import com.cometproject.server.network.messages.incoming.user.inventory.*;
@@ -304,9 +301,9 @@ public final class MessageHandler {
     public void registerRoomTrade() {
         this.getMessages().put(Events.InitTradeMessageEvent, new BeginTradeMessageEvent());
         this.getMessages().put(Events.TradingCancelMessageEvent, new CancelTradeMessageEvent());
-        this.getMessages().put(Events.TradingModifyMessageEvent, new UnacceptTradeMessageEvent());
+//        this.getMessages().put(Events.TradingModifyMessageEvent, new UnacceptTradeMessageEvent());
         this.getMessages().put(Events.TradingOfferItemMessageEvent, new SendOfferMessageEvent());
-        this.getMessages().put(Events.TradingRemoveItemMessageEvent, new CancelOfferMessageEvent());
+//        this.getMessages().put(Events.TradingRemoveItemMessageEvent, new CancelOfferMessageEvent());
         this.getMessages().put(Events.TradingAcceptMessageEvent, new AcceptTradeMessageEvent());
         this.getMessages().put(Events.TradingConfirmMessageEvent, new ConfirmTradeMessageEvent());
         this.getMessages().put(Events.TradingOfferItemsMessageEvent, new TradingOfferItemsMessageEvent());
@@ -358,7 +355,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.ToggleMoodlightMessageEvent, new ToggleMoodlightMessageEvent());
         this.getMessages().put(Events.RoomDimmerSavePresetMessageEvent, new UpdateMoodlightMessageEvent());
         this.getMessages().put(Events.SetCustomStackingHeightMessageEvent, new SaveStackToolMessageEvent());
-        this.getMessages().put(Events.AddStickyNoteMessageEvent, new PlacePostitMessageEvent());
+        this.getMessages().put(Events.AddStickyNoteMessageEvent, new PlacePostItMessageEvent());
         this.getMessages().put(Events.GetStickyNoteMessageEvent, new OpenPostItMessageEvent());
         this.getMessages().put(Events.UpdateStickyNoteMessageEvent, new SavePostItMessageEvent());
         this.getMessages().put(Events.DeleteStickyNoteMessageEvent, new DeletePostItMessageEvent());
