@@ -14,12 +14,16 @@ public abstract class ChatCommand {
 
     public abstract String getDescription();
 
-    public static void sendAlert(String msg, Session session) {
-        session.send(new AdvancedAlertMessageComposer("generic", msg));
-    }
-
     public static void sendNotif(String msg, Session session) {
         session.send(new NotificationMessageComposer("generic", msg));
+    }
+
+    public static void sendAlert(String msg, Session session) {
+        session.send(new AlertMessageComposer(msg));
+    }
+
+    public static void sendWhisper(String msg, Session session) {
+        session.send(new WhisperMessageComposer(session.getPlayer().getId(), msg));
     }
 
     public final String merge(String[] params) {
