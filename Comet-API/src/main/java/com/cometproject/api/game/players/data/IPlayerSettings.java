@@ -21,6 +21,8 @@ public interface IPlayerSettings {
     boolean getAllowTrade();
     
     boolean getAllowFollow();
+    
+    boolean getAllowMimic();
 
     int getHomeRoom();
 
