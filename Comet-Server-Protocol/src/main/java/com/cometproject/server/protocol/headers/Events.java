@@ -71,13 +71,11 @@ public class Events {
     public static final short DeleteRoomMessageEvent = 1328; // PRODUCTION-201608171204-891546786
     public static final short StartQuestMessageEvent = 2931; // PRODUCTION-201608171204-891546786
     public static final short GetGiftWrappingConfigurationMessageEvent = 3283; // PRODUCTION-201608171204-891546786
-    public static final short TradingAcceptMessageEvent = 2320; // PRODUCTION-201608171204-891546786
     public static final short UpdateGroupIdentityMessageEvent = 1407; // PRODUCTION-201608171204-891546786
     public static final short RideHorseMessageEvent = 2408; // PRODUCTION-201608171204-891546786
     public static final short ApplySignMessageEvent = 3935; // PRODUCTION-201608171204-891546786
     public static final short FindRandomFriendingRoomMessageEvent = 2534; // PRODUCTION-201608171204-891546786
     public static final short GetModeratorUserChatlogMessageEvent = 2637; // PRODUCTION-201608171204-891546786
-    public static final short TradingOfferItemMessageEvent = 1293; // PRODUCTION-201608171204-891546786
     public static final short GetWardrobeMessageEvent = 3102; // PRODUCTION-201608171204-891546786
     public static final short MuteUserMessageEvent = 1841; // PRODUCTION-201608171204-891546786
     public static final short UpdateForumSettingsMessageEvent = 1493; // PRODUCTION-201608171204-891546786
@@ -95,8 +93,7 @@ public class Events {
     public static final short SetActivatedBadgesMessageEvent = 2859; // PRODUCTION-201608171204-891546786
     public static final short UpdateGroupSettingsMessageEvent = 2459; // PRODUCTION-201608171204-891546786
     public static final short ApproveNameMessageEvent = 1060; // PRODUCTION-201608171204-891546786
-    public static final short CancelOfferMessageEvent = 3832; // PRODUCTION-201608171204-891546786
-    public static final short TradingCancelMessageEvent = 1942; // PRODUCTION-201608171204-891546786
+
     public static final short DeleteGroupMessageEvent = 2123; // PRODUCTION-201608171204-891546786
     public static final short DeleteStickyNoteMessageEvent = 1104; // PRODUCTION-201608171204-891546786
     public static final short GetGroupInfoMessageEvent = 2443; // PRODUCTION-201608171204-891546786
@@ -118,7 +115,6 @@ public class Events {
     public static final short ToggleYouTubeVideoMessageEvent = 3330; // PRODUCTION-201608171204-891546786
     public static final short UpdateNavigatorSettingsMessageEvent = 2597; // PRODUCTION-201608171204-891546786
     public static final short ToggleMuteToolMessageEvent = 3112; // PRODUCTION-201608171204-891546786
-    public static final short InitTradeMessageEvent = 1235; // PRODUCTION-201608171204-891546786
     public static final short ChatMessageEvent = 2677; // PRODUCTION-201608171204-891546786
     public static final short SaveRoomSettingsMessageEvent = 2244; // PRODUCTION-201608171204-891546786
     public static final short PurchaseFromCatalogAsGiftMessageEvent = 2479; // PRODUCTION-201608171204-891546786
@@ -177,7 +173,6 @@ public class Events {
     public static final short MoveAvatarMessageEvent = 1887; // PRODUCTION-201608171204-891546786
     public static final short GetClientVersionMessageEvent = 4000; // PRODUCTION-201608171204-891546786
     public static final short InitializeNavigatorMessageEvent = 410; // PRODUCTION-201608171204-891546786
-    public static final short TradingOfferItemsMessageEvent = 3623; // PRODUCTION-201608171204-891546786
     public static final short GetRoomFilterListMessageEvent = 2291; // PRODUCTION-201608171204-891546786
     public static final short WhisperMessageEvent = 2617; // PRODUCTION-201608171204-891546786
     public static final short InitCryptoMessageEvent = 260; // PRODUCTION-201608171204-891546786
@@ -189,7 +184,8 @@ public class Events {
     public static final short SendMsgMessageEvent = 1224; // PRODUCTION-201608171204-891546786
     public static final short CancelTypingMessageEvent = 3678; // PRODUCTION-201608171204-891546786
     public static final short GetGroupFurniConfigMessageEvent = 3513; // PRODUCTION-201608171204-891546786
-    public static final short TradingConfirmMessageEvent = 3308; // PRODUCTION-201608171204-891546786
+
+
     public static final short RemoveGroupFavouriteMessageEvent = 3108; // PRODUCTION-201608171204-891546786
     public static final short PlacePetMessageEvent = 1740; // PRODUCTION-201608171204-891546786
     public static final short ModifyWhoCanRideHorseMessageEvent = 1917; // PRODUCTION-201608171204-891546786
@@ -223,6 +219,17 @@ public class Events {
     public static final short GetPollMessageEvent = 3182; // PRODUCTION-201608171204-891546786
     public static final short UpdateSnapshotsMessageEvent = 660; // PRODUCTION-201608171204-891546786
     public static final short MarkAsReadMessageEvent = 523; // PRODUCTION-201608171204-891546786
+
+    /* -> Trade: 100% */
+    public static final short InitTradeMessageEvent = 1235;
+    public static final short TradingOfferItemMessageEvent = 1293;
+    public static final short TradingOfferItemsMessageEvent = 3623;
+    public static final short TradingRemoveItemMessageEvent = 847;
+    public static final short TradingAcceptMessageEvent = 2320;
+    public static final short TradingCancelMessageEvent = 1942;
+    public static final short TradingModifyMessageEvent = 3113;
+    public static final short TradingConfirmMessageEvent = 3308;
+    public static final short TradingCancelConfirmMessageEvent = 2796;
 
     private static Map<Short, String> eventPacketNames = new HashMap<>();
 
