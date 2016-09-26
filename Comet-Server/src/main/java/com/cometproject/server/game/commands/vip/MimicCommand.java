@@ -11,16 +11,25 @@ public class MimicCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
         if (params.length < 1) {
+            sendNotif(Locale.getOrDefault("command.mimic.none", "Who do you want to steal?"), client);
             return;
         }
+
         String username = params[0];
 
         PlayerEntity entity = (PlayerEntity) client.getPlayer().getEntity().getRoom().getEntities().getEntityByName(username, RoomEntityType.PLAYER);
 
-        if (entity == null)
+        if (entity == null) {
+            sendNotif(Locale.getOrDefault("command.mimic.offline", "This user is offline!"), client);
             return;
+        }
 
         if (entity.getUsername().equals(client.getPlayer().getData().getUsername())) {
+            return;
+        }
+
+        if(!entity.getPlayer().getSettings().getAllowMimic()) {
+            sendNotif(Locale.getOrDefault("command.mimic.disabled", "You can't steal the look of this user."), client);
             return;
         }
 
