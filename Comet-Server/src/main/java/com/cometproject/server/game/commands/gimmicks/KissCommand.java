@@ -20,9 +20,8 @@ public class KissCommand extends ChatCommand {
 
         if (entity == null) return;
 
-        client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new WhisperMessageComposer(client.getPlayer().getEntity().getId(), "* " + client.getPlayer().getData().getUsername() + " snogs " + entity.getUsername() + " *", 34));
+        client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new WhisperMessageComposer(client.getPlayer().getEntity().getId(), "* " + client.getPlayer().getData().getUsername() + " " + Locale.getOrDefault("command.kiss.word", "snogs") + " " + entity.getUsername() + " *", 34));
         client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new ActionMessageComposer(client.getPlayer().getEntity().getId(), 2));
-
     }
 
     @Override
