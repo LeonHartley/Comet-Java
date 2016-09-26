@@ -20,7 +20,7 @@ public class MimicCommand extends ChatCommand {
         PlayerEntity entity = (PlayerEntity) client.getPlayer().getEntity().getRoom().getEntities().getEntityByName(username, RoomEntityType.PLAYER);
 
         if (entity == null) {
-            sendNotif(Locale.getOrDefault("command.mimic.offline", "This user is offline!"), client);
+            sendNotif(Locale.getOrDefault("command.user.offline", "This user is offline!"), client);
             return;
         }
 
