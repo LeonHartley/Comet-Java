@@ -19,11 +19,12 @@ public class SuperPullCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
         if (params.length == 0) {
-            sendNotif("Invalid username", client);
+            sendNotif(Locale.getOrDefault("command.user.invalid", "Invalid username!"), client);
             return;
         }
 
         if (client.getPlayer().getEntity().isRoomMuted() || client.getPlayer().getEntity().getRoom().getRights().hasMute(client.getPlayer().getId())) {
+            sendNotif(Locale.getOrDefault("command.user.muted", "You are muted."), client);
             return;
         }
 
@@ -31,10 +32,12 @@ public class SuperPullCommand extends ChatCommand {
         Session pulledSession = NetworkManager.getInstance().getSessions().getByPlayerUsername(username);
 
         if (pulledSession == null) {
+            sendNotif(Locale.getOrDefault("command.user.offline", "This user is offline!"), client);
             return;
         }
 
         if (pulledSession.getPlayer().getEntity() == null) {
+            sendNotif(Locale.getOrDefault("command.user.notinroom", "This user is not in a room."), client);
             return;
         }
 
