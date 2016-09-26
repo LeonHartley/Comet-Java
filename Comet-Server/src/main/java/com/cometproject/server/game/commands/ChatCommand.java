@@ -26,6 +26,10 @@ public abstract class ChatCommand {
         session.send(new WhisperMessageComposer(session.getPlayer().getId(), msg));
     }
 
+    public static void isExecuted(Session session) {
+        session.send(new NotificationMessageComposer("up", Locale.getOrDefault("command.executed", "Command is executed succesfully.")));
+    }
+    
     public final String merge(String[] params) {
         final StringBuilder stringBuilder = new StringBuilder();
 
