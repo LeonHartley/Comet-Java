@@ -42,4 +42,9 @@ public class CommandsCommand extends ChatCommand {
     public String getDescription() {
         return Locale.get("command.commands.description");
     }
+    
+    @Override
+    public boolean isHidden() {
+        return true;
+    }
 }
