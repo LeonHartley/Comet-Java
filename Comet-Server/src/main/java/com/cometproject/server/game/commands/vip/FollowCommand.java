@@ -23,6 +23,7 @@ public class FollowCommand extends ChatCommand {
                 return;
             }
 
+            isExecuted(client);
             client.send(new RoomForwardMessageComposer(leader.getPlayer().getEntity().getRoom().getId()));
         } else {
             if (leader == null || leader.getPlayer() == null)
