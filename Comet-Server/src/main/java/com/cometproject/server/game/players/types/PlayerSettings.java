@@ -27,6 +27,7 @@ public class PlayerSettings implements IPlayerSettings {
     private boolean allowFriendRequests;
     private boolean allowTrade;
     private boolean allowFollow;
+    private boolean allowMimic;
 
     private int homeRoom;
     private boolean useOldChat;
@@ -47,6 +48,7 @@ public class PlayerSettings implements IPlayerSettings {
             this.allowFriendRequests = data.getString("playerSettings_allowFriendRequests").equals("1");
             this.allowTrade = data.getString("playerSettings_allowTrade").equals("1");
             this.allowFollow = data.getString("playerSettings_allowFollow").equals("1");
+            this.allowMimic = data.getString("playerSettings_allowMimic").equals("1");
 
             this.homeRoom = data.getInt("playerSettings_homeRoom");
 
@@ -84,6 +86,7 @@ public class PlayerSettings implements IPlayerSettings {
             this.allowFriendRequests = data.getString("allow_friend_requests").equals("1");
             this.allowTrade = data.getString("allow_trade").equals("1");
             this.allowFollow = data.getString("allow_follow").equals("1");
+            this.allowFollow = data.getString("allow_mimic").equals("1");
 
             this.homeRoom = data.getInt("home_room");
 
@@ -118,6 +121,7 @@ public class PlayerSettings implements IPlayerSettings {
         this.allowFriendRequests = true;
         this.allowTrade = true;
         this.allowFollow = true;
+        this.allowMimic = true;
         this.wardrobe = new ArrayList<>();
         this.playlist = new ArrayList<>();
         this.useOldChat = false;
@@ -149,6 +153,10 @@ public class PlayerSettings implements IPlayerSettings {
     
     public boolean getAllowFollow() {
         return this.allowFollow;
+    }
+    
+    public boolean getAllowMimic() {
+        return this.allowMimic;
     }
 
     public int getHomeRoom() {
