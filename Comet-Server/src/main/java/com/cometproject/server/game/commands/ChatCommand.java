@@ -14,8 +14,8 @@ public abstract class ChatCommand {
 
     public abstract String getDescription();
 
-    public final IMessageComposer success(String msg) {
-        return new AdvancedAlertMessageComposer(Locale.get("command.successful"), msg);
+    public static void sendAlert(String msg, Session session) {
+        session.send(new AdvancedAlertMessageComposer("generic", msg));
     }
 
     public static void sendNotif(String msg, Session session) {
