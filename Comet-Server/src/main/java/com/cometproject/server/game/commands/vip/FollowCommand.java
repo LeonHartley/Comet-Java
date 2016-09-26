@@ -11,18 +11,16 @@ public class FollowCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
         if (params.length != 1) {
+            sendWhisper(Locale.getOrDefault("command.follow.none", "Who you want to follow?"), client);
             return;
         }
 
         Session leader = NetworkManager.getInstance().getSessions().getByPlayerUsername(params[0]);
 
         if (leader != null && leader.getPlayer() != null && leader.getPlayer().getEntity() != null) {
-            // TODO: Does leader allow follow??
-
-            if (leader.getPlayer().getPermissions().getRank().modTool()) {
-                if (!client.getPlayer().getPermissions().getRank().modTool()) {
-                    return;
-                }
+            if (!leader.getPlayer().getSettings().getAllowFollow() && !client.getPlayer().getPermissions().getRank().modTool()) {
+                sendNotif(Locale.getOrDefault("command.follow.disabled", "This user has follow disabled."), client);
+                return;
             }
 
             client.send(new RoomForwardMessageComposer(leader.getPlayer().getEntity().getRoom().getId()));
