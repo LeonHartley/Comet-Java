@@ -20,7 +20,7 @@ public class PunchCommand extends ChatCommand {
 
         if (entity == null) return;
 
-        client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new WhisperMessageComposer(client.getPlayer().getEntity().getId(), "* " + client.getPlayer().getData().getUsername() + " punched " + entity.getUsername() + " *", 34));
+        client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new WhisperMessageComposer(client.getPlayer().getEntity().getId(), "* " + client.getPlayer().getData().getUsername() + " " + Locale.getOrDefault("command.punch.word", "punched") + " " + entity.getUsername() + " *", 34));
     }
 
     @Override
