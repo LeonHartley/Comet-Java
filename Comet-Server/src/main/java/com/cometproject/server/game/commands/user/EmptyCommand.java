@@ -14,7 +14,7 @@ import com.cometproject.server.storage.queries.player.inventory.InventoryDao;
 public class EmptyCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
-if (params.length != 1) {
+        if (params.length != 1) {
             sendAlert(Locale.getOrDefault("command.empty.confirm", "<b>Warning!</b>\rAre you sure? You are going to delete your Furni, Bots & Pets.\r\rIf you are sure type  <b>:" + Locale.get("command.empty.name")  + " yes</b>"), client);
         } else {
             switch (params[0]) {
