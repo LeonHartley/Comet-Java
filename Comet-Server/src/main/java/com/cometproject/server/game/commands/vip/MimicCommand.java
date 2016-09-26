@@ -11,7 +11,7 @@ public class MimicCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
         if (params.length < 1) {
-            sendNotif(Locale.getOrDefault("command.mimic.none", "Who do you want to steal?"), client);
+            sendNotif(Locale.getOrDefault("command.user.invalid", "Invalid username!"), client);
             return;
         }
 
