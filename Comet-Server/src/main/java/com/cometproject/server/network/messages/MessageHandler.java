@@ -300,13 +300,14 @@ public final class MessageHandler {
 
     public void registerRoomTrade() {
         this.getMessages().put(Events.InitTradeMessageEvent, new BeginTradeMessageEvent());
-        this.getMessages().put(Events.TradingCancelMessageEvent, new CancelTradeMessageEvent());
-//        this.getMessages().put(Events.TradingModifyMessageEvent, new UnacceptTradeMessageEvent());
         this.getMessages().put(Events.TradingOfferItemMessageEvent, new SendOfferMessageEvent());
-//        this.getMessages().put(Events.TradingRemoveItemMessageEvent, new CancelOfferMessageEvent());
-        this.getMessages().put(Events.TradingAcceptMessageEvent, new AcceptTradeMessageEvent());
-        this.getMessages().put(Events.TradingConfirmMessageEvent, new ConfirmTradeMessageEvent());
         this.getMessages().put(Events.TradingOfferItemsMessageEvent, new TradingOfferItemsMessageEvent());
+        this.getMessages().put(Events.TradingRemoveItemMessageEvent, new CancelOfferMessageEvent());
+        this.getMessages().put(Events.TradingAcceptMessageEvent, new AcceptTradeMessageEvent());
+        this.getMessages().put(Events.TradingModifyMessageEvent, new UnacceptTradeMessageEvent());
+        this.getMessages().put(Events.TradingCancelMessageEvent, new CancelTradeMessageEvent());
+        this.getMessages().put(Events.TradingConfirmMessageEvent, new ConfirmTradeMessageEvent());
+        this.getMessages().put(Events.TradingCancelConfirmMessageEvent, new CancelConfirmTradeMessageEvent());
     }
 
     public void registerRoomModeration() {
