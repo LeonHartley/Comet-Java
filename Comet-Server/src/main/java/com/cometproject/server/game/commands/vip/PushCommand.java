@@ -17,7 +17,7 @@ public class PushCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
         if (params.length == 0) {
-            sendNotif(Locale.getOrDefault("command.push.invalidusername", "Invalid username!"), client);
+            sendNotif(Locale.getOrDefault("command.user.invalid", "Invalid username!"), client);
             return;
         }
 
