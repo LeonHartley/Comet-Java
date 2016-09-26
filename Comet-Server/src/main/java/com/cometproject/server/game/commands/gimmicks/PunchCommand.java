@@ -11,14 +11,19 @@ import com.cometproject.server.network.sessions.Session;
 public class PunchCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
-        if (params.length != 1) return;
+        if (params.length != 1) {
+            sendNotif(Locale.getOrDefault("command.user.invalid", "Invalid username!"), client);
+            return;
+        }
 
         String punchedPlayer = params[0];
-
-
+        
         RoomEntity entity = client.getPlayer().getEntity().getRoom().getEntities().getEntityByName(punchedPlayer, RoomEntityType.PLAYER);
 
-        if (entity == null) return;
+        if (entity == null) {
+            sendNotif(Locale.getOrDefault("command.user.offline", "This user is offline!"), client);
+            return;
+        }
 
         client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new WhisperMessageComposer(client.getPlayer().getEntity().getId(), "* " + client.getPlayer().getData().getUsername() + " " + Locale.getOrDefault("command.punch.word", "punched") + " " + entity.getUsername() + " *", 34));
     }
