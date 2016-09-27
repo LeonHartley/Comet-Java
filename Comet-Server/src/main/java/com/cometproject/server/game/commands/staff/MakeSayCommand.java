@@ -28,6 +28,11 @@ public class MakeSayCommand extends ChatCommand {
     public String getPermission() {
         return "makesay_command";
     }
+    
+    @Override
+    public String getParameter() {
+        return Locale.getOrDefault("command.parameter.username" + " " + "command.parameter.message", "%username% %message%");
+    }
 
     @Override
     public String getDescription() {
