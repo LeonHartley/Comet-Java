@@ -40,6 +40,11 @@ public class DucketsCommand extends ChatCommand {
     public String getPermission() {
         return "duckets_command";
     }
+    
+    @Override
+    public String getParameter() {
+        return Locale.getOrDefault("command.parameter.username" + " " + "command.parameter.amount", "%username% %amount%");
+    }
 
     @Override
     public String getDescription() {
