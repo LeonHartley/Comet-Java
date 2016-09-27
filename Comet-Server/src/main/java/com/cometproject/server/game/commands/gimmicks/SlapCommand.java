@@ -34,6 +34,11 @@ public class SlapCommand extends ChatCommand {
     public String getPermission() {
         return "slap_command";
     }
+    
+    @Override
+    public String getParameter() {
+        return Locale.getOrDefault("command.parameter.username", "%username%");
+    }
 
     @Override
     public String getDescription() {
