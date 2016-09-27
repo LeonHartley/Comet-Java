@@ -190,6 +190,11 @@ public class ReloadCommand extends ChatCommand {
     public String getPermission() {
         return "reload_command";
     }
+    
+    @Override
+    public String getParameter() {
+        return "";
+    }
 
     @Override
     public String getDescription() {
