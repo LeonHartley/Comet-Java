@@ -39,6 +39,11 @@ public class CommandsCommand extends ChatCommand {
     }
 
     @Override
+    public String getParameter() {
+        return "";
+    }
+
+    @Override
     public String getDescription() {
         return Locale.get("command.commands.description");
     }
