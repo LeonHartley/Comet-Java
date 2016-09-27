@@ -39,6 +39,11 @@ public class TransformCommand extends ChatCommand {
     public String getPermission() {
         return "transform_command";
     }
+    
+    @Override
+    public String getParameter() {
+        return "";
+    }
 
     @Override
     public String getDescription() {
