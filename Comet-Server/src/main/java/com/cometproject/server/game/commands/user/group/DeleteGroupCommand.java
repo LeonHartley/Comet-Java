@@ -99,6 +99,11 @@ public class DeleteGroupCommand extends ChatCommand {
     }
 
     @Override
+    public String getParameter() {
+        return "";
+    }
+    
+    @Override
     public String getDescription() {
         return Locale.get("command.deletegroup.description");
     }
