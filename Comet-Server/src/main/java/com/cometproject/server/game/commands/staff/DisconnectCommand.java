@@ -36,6 +36,11 @@ public class DisconnectCommand extends ChatCommand {
     public String getPermission() {
         return "disconnect_command";
     }
+    
+    @Override
+    public String getParameter() {
+        return Locale.getOrDefault("command.parameter.username", "%username%");
+    }
 
     @Override
     public String getDescription() {
