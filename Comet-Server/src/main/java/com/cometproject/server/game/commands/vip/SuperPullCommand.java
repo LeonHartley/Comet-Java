@@ -70,6 +70,11 @@ public class SuperPullCommand extends ChatCommand {
     public String getPermission() {
         return "superpull_command";
     }
+    
+    @Override
+    public String getParameter() {
+        return Locale.getOrDefault("command.username.parameter", "%username%");
+    }
 
     @Override
     public String getDescription() {
