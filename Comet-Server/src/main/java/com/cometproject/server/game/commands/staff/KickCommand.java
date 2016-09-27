@@ -13,6 +13,7 @@ public class KickCommand extends ChatCommand {
         if (params.length < 1) {
             return;
         }
+        
         String username = params[0];
 
         PlayerEntity entity = (PlayerEntity) client.getPlayer().getEntity().getRoom().getEntities().getEntityByName(username, RoomEntityType.PLAYER);
@@ -36,6 +37,11 @@ public class KickCommand extends ChatCommand {
     @Override
     public String getPermission() {
         return "kick_command";
+    }
+    
+    @Override
+    public String getParameter() {
+        return Locale.getOrDefault("command.username.parameter", "%username%");
     }
 
     @Override
