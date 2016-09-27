@@ -38,6 +38,11 @@ public class SetSpeedCommand extends ChatCommand {
     public String getPermission() {
         return "setspeed_command";
     }
+    
+    @Override
+    public String getParameter() {
+        return Locale.getOrDefault("command.number.parameter", "%number%");
+    }
 
     @Override
     public String getDescription() {
