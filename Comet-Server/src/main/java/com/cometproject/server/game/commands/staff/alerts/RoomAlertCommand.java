@@ -22,7 +22,7 @@ public class RoomAlertCommand extends ChatCommand {
     
     @Override
     public String getParameter() {
-        return Locale.getOrDefault("command.parameter.message");
+        return Locale.getOrDefault("command.parameter.message", "%message%");
     }
 
     @Override
