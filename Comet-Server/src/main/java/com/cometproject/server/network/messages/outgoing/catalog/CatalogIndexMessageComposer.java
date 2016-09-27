@@ -67,8 +67,25 @@ public class CatalogIndexMessageComposer extends MessageComposer {
                 msg.writeInt(child.isEnabled() ? child.getId() : -1);
                 msg.writeString(child.getLinkName().equals("undefined") ? child.getCaption().toLowerCase().replaceAll("[^A-Za-z0-9]", "").replace(" ", "_") : child.getLinkName());
                 msg.writeString(child.getCaption());
-                msg.writeInt(0);
+                msg.writeInt(child.getOfferSize());
+
+                for (CatalogItem item : child.getItems().values()) {
+                    if(item.getItemId().equals("-1")) continue;
+
+                    ItemDefinition itemDefinition = ItemManager.getInstance().getDefinition(item.getItems().get(0).getItemId());
+
+                    if (itemDefinition != null) {
+                        int offerId = itemDefinition.getOfferId();
+
+                        if (offerId != -1) {
+                            msg.writeInt(offerId);
+
+                        }
+                    }
+                }
+                
                 msg.writeInt(this.count(child.getId(), pagesTwo));
+                
                 for (final CatalogPage childTwo : subPages.stream().filter(x -> x.getParentId() == child.getId()).collect(Collectors.toList())) {
                     if (childTwo.getParentId() != child.getId()) {
                         continue;
@@ -78,7 +95,17 @@ public class CatalogIndexMessageComposer extends MessageComposer {
                     msg.writeInt(childTwo.isEnabled() ? childTwo.getId() : -1);
                     msg.writeString(childTwo.getLinkName().equals("undefined") ? childTwo.getCaption().toLowerCase().replaceAll("[^A-Za-z0-9]", "").replace(" ", "_") : childTwo.getLinkName());
                     msg.writeString(childTwo.getCaption());
-                    msg.writeInt(0);
+                    msg.writeInt(childTwo.getOfferSize());
+
+                    for (CatalogItem item : childTwo.getItems().values()) {
+                        if(item.getItemId().equals("-1")) continue;
+
+                        ItemDefinition itemDefinition = ItemManager.getInstance().getDefinition(item.getItems().get(0).getItemId());
+
+                        if (itemDefinition != null && itemDefinition.getOfferId() != -1 && itemDefinition.getOfferId() != 0) {
+                            msg.writeInt(itemDefinition.getOfferId());
+                        }
+                    }
                     msg.writeInt(0);
                 }
             }
