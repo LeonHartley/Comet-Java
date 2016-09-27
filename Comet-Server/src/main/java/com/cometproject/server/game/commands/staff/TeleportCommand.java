@@ -28,6 +28,11 @@ public class TeleportCommand extends ChatCommand {
     public String getPermission() {
         return "teleport_command";
     }
+    
+    @Override
+    public String getParameter() {
+        return "";
+    }
 
     @Override
     public String getDescription() {
