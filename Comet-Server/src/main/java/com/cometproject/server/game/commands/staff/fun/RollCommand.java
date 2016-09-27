@@ -29,7 +29,7 @@ public class RollCommand extends ChatCommand {
     
     @Override
     public String getParameter() {
-        return Locale.getOrDefault("command.number.amount", "%number%");
+        return Locale.getOrDefault("command.parameter.number", "%number%");
     }
 
     @Override
