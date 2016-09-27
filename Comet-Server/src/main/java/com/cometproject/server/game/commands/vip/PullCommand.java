@@ -84,6 +84,11 @@ public class PullCommand extends ChatCommand {
     public String getPermission() {
         return "pull_command";
     }
+    
+    @Override
+    public String getParameter() {
+        return Locale.getOrDefault("command.username.parameter", "%username%");
+    }
 
     @Override
     public String getDescription() {
