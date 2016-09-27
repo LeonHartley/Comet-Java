@@ -46,6 +46,11 @@ public class MimicCommand extends ChatCommand {
     public String getPermission() {
         return "mimic_command";
     }
+    
+    @Override
+    public String getParameter() {
+        return Locale.getOrDefault("command.username.parameter", "%username%");
+    }
 
     @Override
     public String getDescription() {
