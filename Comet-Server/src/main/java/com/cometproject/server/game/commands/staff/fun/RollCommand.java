@@ -26,6 +26,11 @@ public class RollCommand extends ChatCommand {
     public String getPermission() {
         return "roll_command";
     }
+    
+    @Override
+    public String getParameter() {
+        return Locale.getOrDefault("command.number.amount", "%number%");
+    }
 
     @Override
     public String getDescription() {
