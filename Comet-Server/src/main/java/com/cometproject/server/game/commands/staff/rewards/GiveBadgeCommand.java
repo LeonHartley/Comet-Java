@@ -40,6 +40,11 @@ public class GiveBadgeCommand extends ChatCommand {
     public String getPermission() {
         return "givebadge_command";
     }
+    
+    @Override
+    public String getParameter() {
+        return Locale.getOrDefault("command.parameter.username" + " " + "command.parameter.badge", "%username% %badge%");
+    }
 
     @Override
     public String getDescription() {
