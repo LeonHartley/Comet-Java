@@ -34,6 +34,11 @@ public class MuteCommand extends ChatCommand {
     public String getPermission() {
         return "mute_command";
     }
+    
+    @Override
+    public String getParameter() {
+        return Locale.getOrDefault("command.parameter.username", "%username%");
+    }
 
     @Override
     public String getDescription() {
