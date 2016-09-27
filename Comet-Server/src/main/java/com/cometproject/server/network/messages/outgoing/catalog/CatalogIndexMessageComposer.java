@@ -87,9 +87,8 @@ public class CatalogIndexMessageComposer extends MessageComposer {
                 msg.writeInt(this.count(child.getId(), pagesTwo));
                 
                 for (final CatalogPage childTwo : subPages.stream().filter(x -> x.getParentId() == child.getId()).collect(Collectors.toList())) {
-                    if (childTwo.getParentId() != child.getId()) {
-                        continue;
-                    }
+                    if (childTwo.getParentId() != child.getId()) continue;
+                    
                     msg.writeBoolean(true);
                     msg.writeInt(childTwo.getIcon());
                     msg.writeInt(childTwo.isEnabled() ? childTwo.getId() : -1);
@@ -106,6 +105,7 @@ public class CatalogIndexMessageComposer extends MessageComposer {
                             msg.writeInt(itemDefinition.getOfferId());
                         }
                     }
+                    
                     msg.writeInt(0);
                 }
             }
