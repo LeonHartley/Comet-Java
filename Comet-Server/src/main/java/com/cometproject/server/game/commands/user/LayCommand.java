@@ -27,7 +27,7 @@ public class LayCommand extends ChatCommand {
     
     @Override
     public String getParameter() {
-        return Locale.getOrDefault("command.username.parameter", "%username%");
+        return "";
     }
 
     @Override
