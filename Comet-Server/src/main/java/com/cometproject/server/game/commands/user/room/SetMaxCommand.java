@@ -45,6 +45,11 @@ public class SetMaxCommand extends ChatCommand {
     public String getPermission() {
         return "setmax_command";
     }
+    
+    @Override
+    public String getParameter() {
+        return Locale.getOrDefault("command.amount.parameter", "%amount%");
+    }
 
     @Override
     public String getDescription() {
