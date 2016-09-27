@@ -37,6 +37,11 @@ public class FollowCommand extends ChatCommand {
     public String getPermission() {
         return "follow_command";
     }
+    
+    @Override
+    public String getParameter() {
+        return Locale.getOrDefault("command.username.parameter", "%username%");
+    }
 
     @Override
     public String getDescription() {
