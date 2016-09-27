@@ -119,6 +119,11 @@ public class PushCommand extends ChatCommand {
     public String getPermission() {
         return "push_command";
     }
+    
+    @Override
+    public String getParameter() {
+        return Locale.getOrDefault("command.username.parameter", "%username%");
+    }
 
     @Override
     public String getDescription() {
