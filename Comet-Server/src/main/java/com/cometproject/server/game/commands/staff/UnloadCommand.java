@@ -18,6 +18,11 @@ public class UnloadCommand extends ChatCommand {
     public String getPermission() {
         return "unload_command";
     }
+    
+    @Override
+    public String getParameter() {
+        return "";
+    }
 
     @Override
     public String getDescription() {
