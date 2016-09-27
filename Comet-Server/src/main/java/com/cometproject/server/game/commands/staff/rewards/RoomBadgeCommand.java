@@ -23,6 +23,11 @@ public class RoomBadgeCommand extends ChatCommand {
     public String getPermission() {
         return "roombadge_command";
     }
+    
+    @Override
+    public String getParameter() {
+        return Locale.getOrDefault("command.parameter.badge", "%badge%");
+    }
 
     @Override
     public String getDescription() {
