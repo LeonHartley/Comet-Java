@@ -63,6 +63,11 @@ public class IpBanCommand extends ChatCommand {
     public String getPermission() {
         return "ipban_command";
     }
+    
+    @Override
+    public String getParameter() {
+        return Locale.getOrDefault("command.parameter.username" + " " + "command.parameter.time" + " " + "command.parameter.reason", "%username% %time% %reason%");
+    }
 
     @Override
     public String getDescription() {
