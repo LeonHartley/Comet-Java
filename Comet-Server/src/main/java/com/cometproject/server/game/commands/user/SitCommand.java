@@ -44,6 +44,11 @@ public class SitCommand extends ChatCommand {
     public String getPermission() {
         return "sit_command";
     }
+    
+    @Override
+    public String getParameter() {
+        return "";
+    }
 
     @Override
     public String getDescription() {
