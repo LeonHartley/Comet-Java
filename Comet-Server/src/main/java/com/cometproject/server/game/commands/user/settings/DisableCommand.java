@@ -36,6 +36,11 @@ public class DisableCommand extends ChatCommand {
     public String getPermission() {
         return "disablecommand_command";
     }
+    
+    @Override
+    public String getParameter() {
+        return "";
+    }
 
     @Override
     public String getDescription() {
