@@ -26,6 +26,11 @@ public class HotelAlertCommand extends ChatCommand {
     public String getPermission() {
         return "hotelalert_command";
     }
+    
+    @Override
+    public String getParameter() {
+        return Locale.getOrDefault("command.parameter.message", "%message%");
+    }
 
     @Override
     public String getDescription() {
