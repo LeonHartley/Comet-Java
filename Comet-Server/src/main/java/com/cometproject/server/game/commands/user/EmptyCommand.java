@@ -48,6 +48,11 @@ public class EmptyCommand extends ChatCommand {
     public String getPermission() {
         return "empty_command";
     }
+    
+    @Override
+    public String getParameter() {
+        return "";
+    }
 
     @Override
     public String getDescription() {
