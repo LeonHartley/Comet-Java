@@ -41,7 +41,7 @@ public class SetSpeedCommand extends ChatCommand {
     
     @Override
     public String getParameter() {
-        return Locale.getOrDefault("command.number.parameter", "%number%");
+        return Locale.getOrDefault("command.parameter.number", "%number%");
     }
 
     @Override
