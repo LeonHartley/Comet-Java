@@ -26,6 +26,11 @@ public class NotificationCommand extends ChatCommand {
     public String getPermission() {
         return "notification_command";
     }
+    
+    @Override
+    public String getParameter() {
+        return Locale.getOrDefault("command.parameter.message");
+    }
 
     @Override
     public String getDescription() {
