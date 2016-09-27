@@ -18,6 +18,11 @@ public class CometCommand extends ChatCommand {
     public String getPermission() {
         return "dev";
     }
+    
+    @Override
+    public String getParameter() {
+        return "";
+    }
 
     @Override
     public String getDescription() {
