@@ -45,6 +45,11 @@ public class EffectCommand extends ChatCommand {
     public String getPermission() {
         return "enable_command";
     }
+    
+    @Override
+    public String getParameter() {
+        return Locale.getOrDefault("command.number.parameter", "%number%");
+    }
 
     @Override
     public String getDescription() {
