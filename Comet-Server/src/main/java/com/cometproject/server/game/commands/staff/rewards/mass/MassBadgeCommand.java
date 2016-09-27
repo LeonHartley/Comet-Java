@@ -38,6 +38,11 @@ public class MassBadgeCommand extends ChatCommand {
     public String getPermission() {
         return "massbadge_command";
     }
+    
+    @Override
+    public String getParameter() {
+        return Locale.getOrDefault("command.parameter.badge");
+    }
 
     @Override
     public String getDescription() {
