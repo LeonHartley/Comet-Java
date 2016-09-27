@@ -51,6 +51,11 @@ public class PointsCommand extends ChatCommand {
     public String getPermission() {
         return "points_command";
     }
+    
+    @Override
+    public String getParameter() {
+        return Locale.getOrDefault("command.parameter.username" + " " + "command.parameter.amount", "%username% %amount%");
+    }
 
     @Override
     public String getDescription() {
