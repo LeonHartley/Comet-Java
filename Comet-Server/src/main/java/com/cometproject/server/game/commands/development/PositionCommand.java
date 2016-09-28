@@ -19,6 +19,11 @@ public class PositionCommand extends ChatCommand {
     public String getPermission() {
         return "position_command";
     }
+    
+    @Override
+    public String getParameter() {
+        return "";
+    }
 
     @Override
     public String getDescription() {
