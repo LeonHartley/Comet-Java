@@ -33,6 +33,11 @@ public class InstanceStatsCommand extends ChatCommand {
     public String getPermission() {
         return "debug";
     }
+    
+    @Override
+    public String getParameter() {
+        return "";
+    }
 
     @Override
     public String getDescription() {
