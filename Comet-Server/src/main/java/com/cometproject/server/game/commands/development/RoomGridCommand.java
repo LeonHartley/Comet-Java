@@ -14,6 +14,11 @@ public class RoomGridCommand extends ChatCommand {
     public String getPermission() {
         return "debug";
     }
+    
+    @Override
+    public String getParameter() {
+        return "";
+    }
 
     @Override
     public String getDescription() {
