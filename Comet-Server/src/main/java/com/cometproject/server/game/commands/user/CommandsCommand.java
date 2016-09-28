@@ -26,11 +26,11 @@ public class CommandsCommand extends ChatCommand {
             if (command.getValue().isHidden()) continue;
 
             if (client.getPlayer().getPermissions().hasCommand(command.getValue().getPermission())) {
-                list.append(command.getKey().split(",")[0] + " - " + command.getValue().getDescription() + "\n");
+                list.append(command.getKey().split(",")[0] + " " + command.getValue().getParameter() + " " + command.getValue().getDescription() + "\n");
             }
         }
 
-        client.send(new MotdNotificationMessageComposer(Locale.get("Comet Server - " + Comet.getBuild() + "\n================================================\n" + Locale.get("command.commands.title") + "\n================================================\n" + list.toString())));
+        client.send(new MotdNotificationMessageComposer(Locale.get("Comet Server - " + Comet.getBuild() + "\n================================================\n" + Locale.get("command.commands.title") + "\n================================================\n\n" + list.toString())));
     }
 
     @Override
