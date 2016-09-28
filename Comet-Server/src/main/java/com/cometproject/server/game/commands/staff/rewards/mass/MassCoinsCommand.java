@@ -10,6 +10,11 @@ public class MassCoinsCommand extends MassCurrencyCommand {
     }
 
     @Override
+    public String getParameter() { 
+        return "";
+    }
+    
+    @Override
     public String getDescription() {
         return Locale.get("command.masscoins.description");
     }
