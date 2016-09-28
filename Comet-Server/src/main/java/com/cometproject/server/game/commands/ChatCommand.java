@@ -11,6 +11,8 @@ public abstract class ChatCommand {
     public abstract void execute(Session client, String[] params);
 
     public abstract String getPermission();
+    
+    public abstract String getParameter();
 
     public abstract String getDescription();
 
