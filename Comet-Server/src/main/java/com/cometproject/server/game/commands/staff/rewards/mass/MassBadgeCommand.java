@@ -41,7 +41,7 @@ public class MassBadgeCommand extends ChatCommand {
     
     @Override
     public String getParameter() {
-        return Locale.getOrDefault("command.parameter.badge");
+        return Locale.getOrDefault("command.parameter.badge", "%badge%");
     }
 
     @Override
