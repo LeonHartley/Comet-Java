@@ -40,6 +40,7 @@ public class MimicCommand extends ChatCommand {
         playerEntity.getPlayer().getData().save();
 
         playerEntity.getPlayer().poof();
+        isExecuted(client);
     }
 
     @Override
