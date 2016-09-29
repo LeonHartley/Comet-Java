@@ -37,6 +37,7 @@ public class SitCommand extends ChatCommand {
             playerEntity.addStatus(RoomEntityStatus.SIT, String.valueOf(height));
             playerEntity.setBodyRotation(rotation);
             playerEntity.markNeedsUpdate();
+            isExecuted(client);
         }
     }
 
