@@ -11,7 +11,8 @@ import com.cometproject.server.network.sessions.Session;
 public class EffectCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
-        if (params.length == 0) {
+        if (params.length != 1) {
+            sendNotif(Locale.getOrDefault("command.enable.none", "To get a effect type :effect %number%"), client);
             return;
         }
 
