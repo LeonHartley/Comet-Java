@@ -11,7 +11,7 @@ import org.apache.commons.lang.StringUtils;
 public class SetMaxCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
-        if (params.length != 1 || !StringUtils.isNumeric(params[0])) {
+        if (params.length != 1) {
             sendNotif(Locale.get("command.setmax.invalid"), client);
             return;
         }
@@ -21,22 +21,21 @@ public class SetMaxCommand extends ChatCommand {
         final boolean isStaff = client.getPlayer().getPermissions().getRank().roomFullControl();
 
         if (hasRights || isStaff) {
-            final int maxPlayers = Integer.parseInt(params[0]);
-
-            if ((maxPlayers > CometSettings.roomMaxPlayers && !isStaff) || maxPlayers < 1) {
-                sendNotif(Locale.get("command.setmax.toomany").replace("%i", CometSettings.roomMaxPlayers + ""), client);
-                return;
-            }
-
-            room.getData().setMaxUsers(maxPlayers);
-
             try {
+                final int maxPlayers = Integer.parseInt(params[0]);
+
+                if ((maxPlayers > CometSettings.roomMaxPlayers && !isStaff) || maxPlayers < 1) {
+                    sendNotif(Locale.get("command.setmax.toomany").replace("%i", CometSettings.roomMaxPlayers + ""), client);
+                    return;
+                }
+
+                room.getData().setMaxUsers(maxPlayers);
                 room.getData().save();
 
                 sendNotif(Locale.get("command.setmax.done").replace("%i", maxPlayers + ""), client);
                 room.getEntities().broadcastMessage(new RoomDataMessageComposer(room));
             } catch (Exception e) {
-
+                sendNotif(Locale.get("command.setmax.invalid"), client);
             }
         }
     }
