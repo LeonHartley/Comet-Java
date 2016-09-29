@@ -17,6 +17,7 @@ public class HandItemCommand extends ChatCommand {
 
             if (handItem > 0) {
                 client.getPlayer().getEntity().carryItem(handItem, false);
+                isExecuted(client);
             }
         } catch (Exception e) {
             sendNotif(Locale.getOrDefault("command.handitem.invalid", "Please, use numbers only!"), client);
