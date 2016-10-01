@@ -21,7 +21,7 @@ public class TransformCommand extends ChatCommand {
         if (params[0].toLowerCase().equals("human")) {
             client.getPlayer().getEntity().removeAttribute("transformation");
         } else {
-            String data = PetManager.getInstance().getTransformationData(params[0].toLowerCase(););
+            String data = PetManager.getInstance().getTransformationData(params[0].toLowerCase());
 
             if(data == null || data.isEmpty()) {
                 sendWhisper(Locale.getOrDefault("command.transform.notexists", "Oops! This Pet name does not exists."), client);
