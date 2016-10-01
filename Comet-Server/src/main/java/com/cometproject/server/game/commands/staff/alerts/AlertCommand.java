@@ -10,13 +10,17 @@ import com.cometproject.server.network.sessions.Session;
 public class AlertCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
-        if (params.length < 2)
+        if (params.length < 2) {
+            sendNotif(Locale.getOrDefault("command.alert.none", "Who do you want to send a alert?"), client);
             return;
+        }
 
         Session user = NetworkManager.getInstance().getSessions().getByPlayerUsername(params[0]);
 
-        if (user == null)
+        if (user == null) {
+            sendNotif(Locale.getOrDefault("command.user.offline", "This user is offline!"), client);
             return;
+        }
 
         user.send(new AlertMessageComposer(this.merge(params, 1)));
     }
