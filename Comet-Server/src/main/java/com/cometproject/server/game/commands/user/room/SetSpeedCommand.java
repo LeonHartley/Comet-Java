@@ -14,8 +14,6 @@ public class SetSpeedCommand extends ChatCommand {
             return;
         }
 
-        if (!StringUtils.isNumeric(params[0]) || params[0].length() >= 10) return;
-
         if (client.getPlayer().getEntity() != null && client.getPlayer().getEntity().getRoom() != null) {
             if (!client.getPlayer().getEntity().getRoom().getRights().hasRights(client.getPlayer().getId()) && !client.getPlayer().getPermissions().getRank().roomFullControl()) {
                 sendNotif(Locale.getOrDefault("command.need.rights", "You need rights to use this command!"), client);
