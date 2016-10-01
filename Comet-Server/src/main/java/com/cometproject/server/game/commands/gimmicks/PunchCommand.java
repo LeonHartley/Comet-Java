@@ -20,6 +20,11 @@ public class PunchCommand extends ChatCommand {
         
         RoomEntity entity = client.getPlayer().getEntity().getRoom().getEntities().getEntityByName(punchedPlayer, RoomEntityType.PLAYER);
 
+        if (entity.getUsername() == client.getPlayer().getData().getUsername()) {
+            sendNotif(Locale.getOrDefault("command.punch.himself", "You can't punch yourself!"), client);
+            return;
+        }
+        
         if (entity == null) {
             sendNotif(Locale.getOrDefault("command.user.offline", "This user is offline!"), client);
             return;
