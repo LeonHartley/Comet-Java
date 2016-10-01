@@ -11,6 +11,7 @@ public class TeleportCommand extends ChatCommand {
     public void execute(Session client, String[] message) {
         if (client.getPlayer().getEntity() != null && client.getPlayer().getEntity().getRoom() != null) {
             if (!client.getPlayer().getEntity().getRoom().getRights().hasRights(client.getPlayer().getId()) && !client.getPlayer().getPermissions().getRank().roomFullControl()) {
+                sendNotif(Locale.getOrDefault("command.need.rights", "command.need.rights"), client);
                 return;
             }
 
