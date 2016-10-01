@@ -17,6 +17,7 @@ public class IpBanCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
         if (params.length < 2) {
+            sendNotif(Locale.getOrDefault("command.params.length", "Oops! You did something wrong!"), client);
             return;
         }
 
@@ -26,11 +27,12 @@ public class IpBanCommand extends ChatCommand {
         Session user = NetworkManager.getInstance().getSessions().getByPlayerUsername(username);
 
         if (user == null) {
-            // TODO: Use the "player_access" table to allow you to IP ban a user that's not online
+            sendNotif(Locale.getOrDefault("command.user.offline", "This user is offline!"), client);
             return;
         }
 
         if (user == client || !user.getPlayer().getPermissions().getRank().bannable()) {
+            sendNotif(Locale.getOrDefault("command.user.notbannable", "You're not able to ban this user!"), client);
             return;
         }
 
