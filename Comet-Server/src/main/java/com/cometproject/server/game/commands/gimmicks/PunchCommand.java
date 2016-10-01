@@ -12,7 +12,7 @@ public class PunchCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
         if (params.length != 1) {
-            sendNotif(Locale.getOrDefault("command.user.invalid", "Invalid username!"), client);
+            sendNotif(Locale.getOrDefault("command.punch.none", "Who do you want to punch?"), client);
             return;
         }
 
