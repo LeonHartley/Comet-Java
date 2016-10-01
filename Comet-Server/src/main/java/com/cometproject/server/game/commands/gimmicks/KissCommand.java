@@ -21,6 +21,11 @@ public class KissCommand extends ChatCommand {
 
         RoomEntity entity = client.getPlayer().getEntity().getRoom().getEntities().getEntityByName(kissedPlayer, RoomEntityType.PLAYER);
 
+        if (entity.getUsername() == client.getPlayer().getData().getUsername()) {
+            sendNotif(Locale.getOrDefault("command.kiss.himself", "You can't kiss yourself!"), client);
+            return;
+        }
+
         if (entity == null) {
             sendNotif(Locale.getOrDefault("command.user.offline", "This user is offline!"), client);
             return;
