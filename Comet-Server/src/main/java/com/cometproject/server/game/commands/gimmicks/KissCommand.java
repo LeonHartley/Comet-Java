@@ -13,7 +13,7 @@ public class KissCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
         if (params.length != 1) {
-            sendNotif(Locale.getOrDefault("command.user.invalid", "Username is invalid!"), client);
+            sendNotif(Locale.getOrDefault("command.kiss.none", "Who do you want to kiss?"), client);
             return;
         }
             
