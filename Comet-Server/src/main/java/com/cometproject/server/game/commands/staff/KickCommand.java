@@ -11,6 +11,7 @@ public class KickCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
         if (params.length < 1) {
+            sendNotif(Locale.getOrDefault("command.kick.none", "Who do you want to kick?"), client);
             return;
         }
         
@@ -18,20 +19,22 @@ public class KickCommand extends ChatCommand {
 
         PlayerEntity entity = (PlayerEntity) client.getPlayer().getEntity().getRoom().getEntities().getEntityByName(username, RoomEntityType.PLAYER);
 
-        if (entity == null)
+        if (entity == null) {
+            sendNotif(Locale.getOrDefault("command.user.offline", "This user is offline!"), client);
             return;
+        }
 
         if (entity.getUsername().equals(client.getPlayer().getData().getUsername())) {
             return;
         }
 
         if (!entity.getPlayer().getPermissions().getRank().roomKickable()) {
-
             sendNotif(Locale.get("command.kick.unkickable"), client);
             return;
         }
 
         entity.kick();
+        isExecuted(client);
     }
 
     @Override
