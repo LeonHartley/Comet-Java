@@ -22,6 +22,11 @@ public class SexCommand extends ChatCommand {
 
         RoomEntity entity = client.getPlayer().getEntity().getRoom().getEntities().getEntityByName(sexedPlayer, RoomEntityType.PLAYER);
 
+        if (entity.getUsername() == client.getPlayer().getData().getUsername()) {
+            sendNotif(Locale.getOrDefault("command.sex.himself", "You can't sex yourself!"), client);
+            return;
+        }
+        
         if (entity == null) {
             sendNotif(Locale.getOrDefault("command.user.notinroom", "This user is not in a room."), client);
             return;
