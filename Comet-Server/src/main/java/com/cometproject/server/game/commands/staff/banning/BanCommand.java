@@ -48,7 +48,7 @@ public class BanCommand extends ChatCommand {
     
     @Override
     public String getParameter() {
-        return Locale.getOrDefault("command.parameter.username" + " " + "command.parameter.time" + " " + "command.parameter.reason", "%username% %time% %reason%");
+        return Locale.getOrDefault("command.parameter.ban", "%username% %time% %reason%");
     }
 
     @Override
