@@ -9,13 +9,17 @@ import com.cometproject.server.network.sessions.Session;
 public class DisconnectCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
-        if (params.length != 1) return;
+        if (params.length != 1) {
+            sendNotif(Locale.getOrDefault("command.disconnect.none", "Who do you want to disconnect?"), client);
+            return;                     
+        }
 
         String username = params[0];
 
         Session session = NetworkManager.getInstance().getSessions().getByPlayerUsername(username);
 
         if (session == null) {
+            sendNotif(Locale.get("command.user.offline"), client);
             return;
         }
 
@@ -30,6 +34,7 @@ public class DisconnectCommand extends ChatCommand {
         }
 
         session.disconnect();
+        isExecuted(client);
     }
 
     @Override
