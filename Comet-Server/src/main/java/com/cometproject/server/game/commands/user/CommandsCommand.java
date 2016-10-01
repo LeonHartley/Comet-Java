@@ -1,5 +1,6 @@
 package com.cometproject.server.game.commands.user;
 
+import com.cometproject.server.boot.Comet;
 import com.cometproject.api.commands.CommandInfo;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
