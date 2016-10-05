@@ -13,6 +13,8 @@ import com.cometproject.server.game.commands.staff.alerts.*;
 import com.cometproject.server.game.commands.staff.banning.BanCommand;
 import com.cometproject.server.game.commands.staff.banning.IpBanCommand;
 import com.cometproject.server.game.commands.staff.banning.MachineBanCommand;
+import com.cometproject.server.game.commands.staff.banning.SoftBanCommand;
+import com.cometproject.server.game.commands.staff.banning.AdvBanCommand;
 import com.cometproject.server.game.commands.staff.bundles.BundleCommand;
 import com.cometproject.server.game.commands.staff.cache.ReloadCommand;
 import com.cometproject.server.game.commands.staff.cache.ReloadGroupCommand;
@@ -184,6 +186,10 @@ public class CommandManager implements Initialisable {
         this.addCommand(Locale.get("command.gotoroom.name"), new GotoRoomCommand());
         this.addCommand(Locale.get("command.notification.name"), new NotificationCommand());
         this.addCommand(Locale.get("command.quickpoll.name"), new QuickPollCommand());
+        
+        // New
+        this.addCommand(Locale.get("command.advban.name"), new AdvBanCommand());
+        this.addCommand(Locale.get("command.softban.name"), new SoftBanCommand());
 
         // Room bundles
         this.addCommand(Locale.get("command.bundle.name"), new BundleCommand());
