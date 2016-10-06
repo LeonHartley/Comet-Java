@@ -18,6 +18,7 @@ public class PickAllCommand extends ChatCommand {
         Room room = client.getPlayer().getEntity().getRoom();
 
         if (room == null || !room.getData().getOwner().equals(client.getPlayer().getData().getUsername())) {
+            sendNotif(Locale.getOrDefault("command.need.rights", "You have no rights to use this command in this room."), client);
             return;
         }
 
