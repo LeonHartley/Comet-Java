@@ -93,7 +93,7 @@ public class Events {
     public static final short SetActivatedBadgesMessageEvent = 2859; // PRODUCTION-201608171204-891546786
     public static final short UpdateGroupSettingsMessageEvent = 2459; // PRODUCTION-201608171204-891546786
     public static final short ApproveNameMessageEvent = 1060; // PRODUCTION-201608171204-891546786
-
+    public static final short SubmitNewTicketMessageEvent = 2642; // PRODUCTION-201608171204-891546786
     public static final short DeleteGroupMessageEvent = 2123; // PRODUCTION-201608171204-891546786
     public static final short DeleteStickyNoteMessageEvent = 1104; // PRODUCTION-201608171204-891546786
     public static final short GetGroupInfoMessageEvent = 2443; // PRODUCTION-201608171204-891546786
