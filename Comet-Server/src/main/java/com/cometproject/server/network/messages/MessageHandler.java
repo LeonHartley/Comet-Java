@@ -197,7 +197,7 @@ public final class MessageHandler {
 
     public void registerHelpTool() {
         this.getMessages().put(Events.OpenHelpToolMessageEvent, new InitHelpToolMessageEvent());
-//        this.getMessages().put(Events.SubmitNewTicketMessageEvent, new HelpTicketMessageEvent());
+        this.getMessages().put(Events.SubmitNewTicketMessageEvent, new HelpTicketMessageEvent());
     }
 
     public void registerMessenger() {
