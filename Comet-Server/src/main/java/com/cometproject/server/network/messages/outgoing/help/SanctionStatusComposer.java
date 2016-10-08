@@ -20,11 +20,11 @@ public class SanctionStatusComposer extends MessageComposer {
     public void compose(IComposer msg) {
         msg.writeBoolean(false);
         msg.writeBoolean(false);
-        msg.writeString("leetrocks");
+        msg.writeString("rocks");
         msg.writeInt(0);//Hours
         msg.writeInt(0);
         msg.writeString("cfh.reason.EMPTY"); // => No sanctions :-)
-        msg.writeString("leetrocks");
+        msg.writeString("rocks");
         msg.writeInt(0);
         msg.writeString("ALERT"); // => Next sanction = warning
         msg.writeInt(0);
