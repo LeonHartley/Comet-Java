@@ -141,7 +141,7 @@ public class Composers {
     public static final short BotInventoryMessageComposer = 2253; // PRODUCTION-201608171204-891546786
     public static final short PerkAllowancesMessageComposer = 441; // PRODUCTION-201608171204-891546786
     public static final short RoomEventMessageComposer = 1466; // PRODUCTION-201608171204-891546786
-    public static final short MuteAllInRoomMessageComposer = 1224; // PRODUCTION-201608171204-891546786
+    public static final short RoomMuteSettingsMessageComposer = 1224; // PRODUCTION-201608171204-891546786
     public static final short ModeratorSupportTicketResponseMessageComposer = 642; // PRODUCTION-201608171204-891546786
     public static final short YouTubeDisplayVideoMessageComposer = 2013; // PRODUCTION-201608171204-891546786
     public static final short RoomPropertyMessageComposer = 908; // PRODUCTION-201608171204-891546786
