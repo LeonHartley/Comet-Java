@@ -130,6 +130,7 @@ public class Composers {
     public static final short UnbanUserFromRoomMessageComposer = 2807; // PRODUCTION-201608171204-891546786
     public static final short WiredConditionConfigMessageComposer = 58; // PRODUCTION-201608171204-891546786
     public static final short StickyNoteMessageComposer = 3917; // PRODUCTION-201608171204-891546786
+    public static final short SanctionStatusMessageComposer = 3393; // PRODUCTION-201608171204-891546786
     public static final short ObjectsMessageComposer = 530; // PRODUCTION-201608171204-891546786
     public static final short RoomVisualizationSettingsMessageComposer = 1198; // PRODUCTION-201608171204-891546786
     public static final short PromoArticlesMessageComposer = 1106; // PRODUCTION-201608171204-891546786
