@@ -203,6 +203,7 @@ public class Events {
     public static final short UseFurnitureMessageEvent = 3023; // PRODUCTION-201608171204-891546786
     public static final short GoToFlatMessageEvent = 2324; // PRODUCTION-201608171204-891546786
     public static final short GetModeratorUserRoomVisitsMessageEvent = 2050; // PRODUCTION-201608171204-891546786
+    public static final short GetSanctionStatusMessageEvent = 3467; // PRODUCTION-201608171204-891546786
     public static final short SetChatPreferenceMessageEvent = 1938; // PRODUCTION-201608171204-891546786
     public static final short ResizeNavigatorMessageEvent = 2744; // PRODUCTION-201608171204-891546786
     public static final short CameraDataMessageEvent = 2690; // PRODUCTION-201608171204-891546786
