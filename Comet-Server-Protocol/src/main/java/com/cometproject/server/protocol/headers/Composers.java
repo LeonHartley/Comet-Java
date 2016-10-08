@@ -160,6 +160,7 @@ public class Composers {
     public static final short ModeratorRoomInfoMessageComposer = 3380; // PRODUCTION-201608171204-891546786
     public static final short CampaignMessageComposer = 3241; // PRODUCTION-201608171204-891546786
     public static final short LoveLockDialogueMessageComposer = 3789; // PRODUCTION-201608171204-891546786
+    public static final short PurchaseErrorMessageComposer = 1318; // PRODUCTION-201608171204-891546786
     public static final short PopularRoomTagsResultMessageComposer = 1103; // PRODUCTION-201608171204-891546786
     public static final short GiftWrappingErrorMessageComposer = 1124; // PRODUCTION-201608171204-891546786
     public static final short WhisperMessageComposer = 1984; // PRODUCTION-201608171204-891546786
