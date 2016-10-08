@@ -22,5 +22,6 @@ public class WiredRewardMessageComposer extends MessageComposer {
         // 1-5 = error
         // 6-7 = success (rewardMisc, rewardBadge)
         msg.writeInt(reason);
+        msg.writeInt(0);
     }
 }
