@@ -31,8 +31,8 @@ import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.incoming.room.engine.InitializeRoomMessageEvent;
 import com.cometproject.server.network.messages.outgoing.room.access.DoorbellRequestComposer;
 import com.cometproject.server.network.messages.outgoing.room.access.RoomReadyMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.alerts.CantConnectMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.alerts.DoorbellNoAnswerComposer;
-import com.cometproject.server.network.messages.outgoing.room.alerts.RoomConnectionErrorMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.alerts.RoomErrorMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.IdleStatusMessageComposer;
@@ -124,14 +124,14 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
                 return;
             }
 
-            this.getPlayer().getSession().send(new RoomConnectionErrorMessageComposer(1, ""));
+            this.getPlayer().getSession().send(new CantConnectMessageComposer(1));
             this.getPlayer().getSession().send(new HotelViewMessageComposer());
             isAuthFailed = true;
         }
 
         // Room bans
         if (!isAuthFailed && this.getRoom().getRights().hasBan(this.getPlayerId()) && this.getPlayer().getPermissions().getRank().roomKickable()) {
-            this.getPlayer().getSession().send(new RoomConnectionErrorMessageComposer(4, ""));
+            this.getPlayer().getSession().send(new CantConnectMessageComposer(4));
             isAuthFailed = true;
         }
 
