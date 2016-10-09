@@ -169,7 +169,7 @@ public class Composers {
     public static final short HabboGroupBadgesMessageComposer = 1101; // PRODUCTION-201608171204-891546786
     public static final short CanCreateRoomMessageComposer = 584; // PRODUCTION-201608171204-891546786
     public static final short ThreadDataMessageComposer = 3887; // PRODUCTION-201608171204-891546786
-    public static final short TradingFinishMessageComposer = 1084; // PRODUCTION-201608171204-891546786
+    public static final short TradingFinishMessageComposer = 1889; // PRODUCTION-201608171204-891546786
     public static final short DanceMessageComposer = 1226; // PRODUCTION-201608171204-891546786
     public static final short GenericErrorMessageComposer = 1298; // PRODUCTION-201608171204-891546786
     public static final short NavigatorPreferencesMessageComposer = 272; // PRODUCTION-201608171204-891546786
