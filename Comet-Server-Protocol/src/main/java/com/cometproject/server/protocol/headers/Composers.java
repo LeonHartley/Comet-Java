@@ -99,6 +99,7 @@ public class Composers {
     public static final short NewBuddyRequestMessageComposer = 3140; // PRODUCTION-201608171204-891546786
     public static final short DoorbellMessageComposer = 2610; // PRODUCTION-201608171204-891546786
     public static final short OpenGiftMessageComposer = 2280; // PRODUCTION-201608171204-891546786
+    public static final short CantConnectMessageComposer = 3095; // PRODUCTION-201608171204-891546786
     public static final short FloorHeightMapMessageComposer = 2389; // PRODUCTION-201608171204-891546786
     public static final short SellablePetBreedsMessageComposer = 164; // PRODUCTION-201608171204-891546786
     public static final short AchievementScoreMessageComposer = 2350; // PRODUCTION-201608171204-891546786
