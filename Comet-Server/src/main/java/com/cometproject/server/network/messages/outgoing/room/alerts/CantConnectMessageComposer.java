@@ -20,6 +20,5 @@ public class CantConnectMessageComposer extends MessageComposer {
     @Override
     public void compose(IComposer msg) {
         msg.writeInt(Error);
-
     }
 }
