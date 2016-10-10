@@ -22,7 +22,7 @@ public class GroupMemberDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("SELECT * FROM group_memberships WHERE group_id = ?", sqlConnection);
+            preparedStatement = SqlHelper.prepare("SELECT * FROM group_memberships WHERE group_id = ? ORDER BY access_level", sqlConnection);
             preparedStatement.setInt(1, groupId);
 
             resultSet = preparedStatement.executeQuery();
