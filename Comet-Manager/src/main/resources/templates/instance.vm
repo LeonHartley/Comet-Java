@@ -63,14 +63,14 @@
                     <div class="row settings">
                         <div class="col-md-6">Host</div>
                         <div class="col-md-6">
-                            <input type="text" name="db-host" class="form-control"
+                            <input type="text" name="game-host" class="form-control"
                                    value="$instance.config.get("serverHost")"/>
                         </div>
                     </div>
                     <div class="row settings">
                         <div class="col-md-6">Game Port</div>
                         <div class="col-md-6">
-                            <input type="text" name="db-host" class="form-control"
+                            <input type="text" name="game-port" class="form-control"
                                    value="$instance.config.get("gamePort")"/>
                         </div>
                     </div>
@@ -79,7 +79,7 @@
                     <div class="row settings">
                         <div class="col-md-6">API Port</div>
                         <div class="col-md-6">
-                            <input type="text" name="db-host" class="form-control"
+                            <input type="text" name="api-port" class="form-control"
                                    value="$instance.config.get("apiPort")"/>
                         </div>
                     </div>

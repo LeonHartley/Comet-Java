@@ -29,5 +29,6 @@
         <module>Comet-Manager</module>
         <module>Comet-ProcessManager</module>
         <module>Comet-StressTest</module>
+        <module>Comet-WebApp</module>
     </modules>
 </project>

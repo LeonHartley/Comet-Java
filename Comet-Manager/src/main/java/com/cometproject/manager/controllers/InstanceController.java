@@ -69,7 +69,9 @@ public class InstanceController {
 
     @RequestMapping(value = "/instance/save/{id}", method = RequestMethod.POST)
     public void saveInstance(HttpServletRequest request, HttpServletResponse response,
-                             @PathVariable("id") String instanceId, @RequestParam("db-host") String mysqlHost,
+                             @PathVariable("id") String instanceId, @RequestParam("game-host") String gameHost,
+                             @RequestParam("game-port") int gamePort, @RequestParam("api-port") int apiPort,
+                             @RequestParam("api-token") String apiToken, @RequestParam("db-host") String mysqlHost,
                              @RequestParam("db-username") String mysqlUsername, @RequestParam("db-password") String mysqlPassword,
                              @RequestParam("db-database") String mysqlDatabase, @RequestParam("db-pool") int dbPool) throws IOException {
         if (request.getSession() == null || request.getSession().getAttribute("customer") == null) {
@@ -85,6 +87,11 @@ public class InstanceController {
         }
 
         final Instance instance = this.instanceRepository.findOne(instanceId);
+
+        instance.getConfig().put("serverHost", gameHost);
+        instance.getConfig().put("gamePort", gamePort + "");
+        instance.getConfig().put("apiPort", apiPort+ "");
+        instance.getConfig().put("apiToken", apiToken);
 
         instance.getConfig().put("dbHost", mysqlHost);
         instance.getConfig().put("dbUsername", mysqlUsername);
