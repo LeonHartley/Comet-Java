@@ -11,20 +11,24 @@ public class FollowCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
         if (params.length != 1) {
+            sendWhisper(Locale.getOrDefault("command.follow.none", "Who you want to follow?"), client);
             return;
         }
 
         Session leader = NetworkManager.getInstance().getSessions().getByPlayerUsername(params[0]);
+        
+        if(leader == client) {
+            sendNotif(Locale.getOrDefault("command.follow.playerhimself", "You can't follow yourself!"), client);
+            return;
+        }
 
         if (leader != null && leader.getPlayer() != null && leader.getPlayer().getEntity() != null) {
-            // TODO: Does leader allow follow??
-
-            if (leader.getPlayer().getPermissions().getRank().modTool()) {
-                if (!client.getPlayer().getPermissions().getRank().modTool()) {
-                    return;
-                }
+            if (!leader.getPlayer().getSettings().getAllowFollow() && !client.getPlayer().getPermissions().getRank().modTool()) {
+                sendNotif(Locale.getOrDefault("command.follow.disabled", "This user has follow disabled."), client);
+                return;
             }
 
+            isExecuted(client);
             client.send(new RoomForwardMessageComposer(leader.getPlayer().getEntity().getRoom().getId()));
         } else {
             if (leader == null || leader.getPlayer() == null)
@@ -37,6 +41,11 @@ public class FollowCommand extends ChatCommand {
     @Override
     public String getPermission() {
         return "follow_command";
+    }
+    
+    @Override
+    public String getParameter() {
+        return Locale.getOrDefault("command.parameter.username", "%username%");
     }
 
     @Override

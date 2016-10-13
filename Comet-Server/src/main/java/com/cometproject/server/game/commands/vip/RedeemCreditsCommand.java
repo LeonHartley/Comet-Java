@@ -77,6 +77,11 @@ public class RedeemCreditsCommand extends ChatCommand {
     public String getPermission() {
         return "redeemcredits_command";
     }
+    
+    @Override
+    public String getParameter() {
+        return "";
+    }
 
     @Override
     public String getDescription() {

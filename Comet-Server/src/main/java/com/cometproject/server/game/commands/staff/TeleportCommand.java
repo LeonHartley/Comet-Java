@@ -9,18 +9,30 @@ public class TeleportCommand extends ChatCommand {
 
     @Override
     public void execute(Session client, String[] message) {
-        if (client.getPlayer().getEntity().hasAttribute("teleport")) {
-            client.getPlayer().getEntity().removeAttribute("teleport");
-            sendNotif(Locale.get("command.teleport.disabled"), client);
-        } else {
-            client.getPlayer().getEntity().setAttribute("teleport", true);
-            sendNotif(Locale.get("command.teleport.enabled"), client);
+        if (client.getPlayer().getEntity() != null && client.getPlayer().getEntity().getRoom() != null) {
+            if (!client.getPlayer().getEntity().getRoom().getRights().hasRights(client.getPlayer().getId()) && !client.getPlayer().getPermissions().getRank().roomFullControl()) {
+                sendNotif(Locale.getOrDefault("command.need.rights", "command.need.rights"), client);
+                return;
+            }
+
+            if (client.getPlayer().getEntity().hasAttribute("teleport")) {
+                client.getPlayer().getEntity().removeAttribute("teleport");
+                sendNotif(Locale.get("command.teleport.disabled"), client);
+            } else {
+                client.getPlayer().getEntity().setAttribute("teleport", true);
+                sendNotif(Locale.get("command.teleport.enabled"), client);
+            }
         }
     }
 
     @Override
     public String getPermission() {
         return "teleport_command";
+    }
+    
+    @Override
+    public String getParameter() {
+        return "";
     }
 
     @Override

@@ -25,6 +25,11 @@ public class InvisibleCommand extends ChatCommand {
     public String getPermission() {
         return "invisible_command";
     }
+    
+    @Override
+    public String getParameter() {
+        return "";
+    }
 
     @Override
     public String getDescription() {

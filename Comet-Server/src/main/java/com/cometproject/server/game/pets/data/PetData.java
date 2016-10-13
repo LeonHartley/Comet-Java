@@ -91,9 +91,11 @@ public class PetData {
 
         final JsonObject roomPosition = new JsonObject();
 
-        roomPosition.addProperty("x", this.roomPosition.getX());
-        roomPosition.addProperty("y", this.roomPosition.getY());
-        roomPosition.addProperty("z", this.roomPosition.getZ());
+        if(this.roomPosition != null) {
+            roomPosition.addProperty("x", this.roomPosition.getX());
+            roomPosition.addProperty("y", this.roomPosition.getY());
+            roomPosition.addProperty("z", this.roomPosition.getZ());
+        }
 
         jsonObject.add("roomPosition", roomPosition);
 

@@ -19,7 +19,9 @@ import com.cometproject.server.network.sessions.Session;
 public class SaveWiredDataMessageEvent implements Event {
     @Override
     public void handle(Session client, MessageEvent msg) throws Exception {
-        int itemId = msg.readInt();
+        int virtualId = msg.readInt();
+
+        long itemId = ItemManager.getInstance().getItemIdByVirtualId(virtualId);
 
         if (client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null) return;
 

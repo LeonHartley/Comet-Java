@@ -37,7 +37,7 @@ public class TradeUpdateMessageComposer extends MessageComposer {
             ((InventoryItem) item).serializeTrade(msg);
         }
 
-        msg.writeInt(0);
+        msg.writeInt(items1.size());
         msg.writeInt(0);
 
         msg.writeInt(user2);
@@ -47,7 +47,7 @@ public class TradeUpdateMessageComposer extends MessageComposer {
             ((InventoryItem) item).serializeTrade(msg);
         }
 
-        msg.writeInt(0);
+        msg.writeInt(items2.size());
         msg.writeInt(0);
     }
 }

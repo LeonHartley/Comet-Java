@@ -18,5 +18,6 @@ public class TicketSentMessageComposer extends MessageComposer {
     @Override
     public void compose(IComposer msg) {
         msg.writeInt(0);
+        msg.writeInt(0);
     }
 }

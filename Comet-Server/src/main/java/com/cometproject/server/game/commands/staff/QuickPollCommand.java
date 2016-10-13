@@ -33,6 +33,11 @@ public class QuickPollCommand extends ChatCommand {
     public String getPermission() {
         return "quickpoll_command";
     }
+    
+    @Override
+    public String getParameter() {
+        return Locale.getOrDefault("command.parameter.message", "%message%");
+    }
 
     @Override
     public String getDescription() {

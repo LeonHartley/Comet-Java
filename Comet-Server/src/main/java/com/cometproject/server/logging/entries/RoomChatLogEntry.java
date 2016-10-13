@@ -5,6 +5,7 @@ import com.cometproject.server.boot.Comet;
 import com.cometproject.server.logging.AbstractLogEntry;
 import com.cometproject.server.logging.LogEntryType;
 import com.cometproject.server.storage.queries.player.PlayerDao;
+import com.cometproject.server.utilities.TimeSpan;
 
 
 public class RoomChatLogEntry extends AbstractLogEntry {
@@ -28,7 +29,7 @@ public class RoomChatLogEntry extends AbstractLogEntry {
     }
 
     public void compose(IComposer msg) {
-        msg.writeInt((int) (Comet.getTime() - this.getTimestamp()) * 1000);
+        msg.writeString(TimeSpan.millisecondsToDate((int)(Comet.getTime() - getTimestamp()) * 1000));
 
         msg.writeInt(this.getPlayerId());
         msg.writeString(PlayerDao.getUsernameByPlayerId(this.getPlayerId()));

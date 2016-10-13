@@ -14,6 +14,7 @@ public class MuteCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
         if (params.length != 1) {
+            sendNotif(Locale.getOrDefault("command.mute.none", "Who do you want to mute?"), client);
             return;
         }
 
@@ -33,6 +34,11 @@ public class MuteCommand extends ChatCommand {
     @Override
     public String getPermission() {
         return "mute_command";
+    }
+    
+    @Override
+    public String getParameter() {
+        return Locale.getOrDefault("command.parameter.username", "%username%");
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.cometproject.server.network.messages.incoming.user.youtube;
 
 import com.cometproject.api.game.players.data.types.IPlaylistItem;
+import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.players.types.PlayerSettings;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.network.messages.incoming.Event;
@@ -17,7 +18,9 @@ public class PlayVideoMessageEvent implements Event {
 
     @Override
     public void handle(Session client, MessageEvent msg) throws Exception {
-        int itemId = msg.readInt();
+        int virtualId = msg.readInt();
+
+        long itemId = ItemManager.getInstance().getItemIdByVirtualId(virtualId);
 
         String videoIdStr = msg.readString();
         int videoId = videoIdStr.isEmpty() ? 0 : StringUtils.isNumeric(videoIdStr) ? Integer.parseInt(videoIdStr) : 0;
@@ -39,7 +42,7 @@ public class PlayVideoMessageEvent implements Event {
                         IPlaylistItem playlistItem = playerSettings.getPlaylist().get(i);
 
                         //client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new PlayVideoMessageComposer(itemId, playlistItem.getVideoId(), playlistItem.getDuration()));
-                        client.send(new PlayVideoMessageComposer(itemId, playlistItem.getVideoId(), playlistItem.getDuration()));
+                        client.send(new PlayVideoMessageComposer(virtualId, playlistItem.getVideoId(), playlistItem.getDuration()));
                     }
                 }
             }
@@ -48,10 +51,10 @@ public class PlayVideoMessageEvent implements Event {
         }
 
         IPlaylistItem playlistItem = playerSettings.getPlaylist().get(videoId);
-        client.send(new PlaylistMessageComposer(itemId, playerSettings.getPlaylist(), videoId));
+        client.send(new PlaylistMessageComposer(virtualId, playerSettings.getPlaylist(), videoId));
 
 
-        client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new PlayVideoMessageComposer(itemId, playlistItem.getVideoId(), playlistItem.getDuration()));
+        client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new PlayVideoMessageComposer(virtualId, playlistItem.getVideoId(), playlistItem.getDuration()));
 
         item.setAttribute("video", playlistItem.getVideoId());
 

@@ -24,6 +24,11 @@ public class RemoveBadgeCommand extends ChatCommand {
     }
 
     @Override
+    public String getParameter() {
+        return Locale.getOrDefault("command.parameter.username" + " " + "command.parameter.badge", "%username% %badge%");
+    }
+
+    @Override
     public String getDescription() {
         return Locale.get("command.removebadge.description");
     }

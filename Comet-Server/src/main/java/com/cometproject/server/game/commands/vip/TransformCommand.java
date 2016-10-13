@@ -13,18 +13,18 @@ import com.cometproject.server.network.sessions.Session;
 public class TransformCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
-        String type = "human";
-
-        if (params.length == 1) {
-            type = params[0].toLowerCase();
+        if (params.length != 1) {
+            sendWhisper(Locale.getOrDefault("command.transform.none", "Oops! Which pet do you want to be?"), client);
+            return;
         }
 
-        if (type.equals("human")) {
+        if (params[0].toLowerCase().equals("human")) {
             client.getPlayer().getEntity().removeAttribute("transformation");
         } else {
-            String data = PetManager.getInstance().getTransformationData(type);
+            String data = PetManager.getInstance().getTransformationData(params[0].toLowerCase());
 
             if(data == null || data.isEmpty()) {
+                sendWhisper(Locale.getOrDefault("command.transform.notexists", "Oops! This Pet name does not exists."), client);
                 return;
             }
 
@@ -33,11 +33,17 @@ public class TransformCommand extends ChatCommand {
 
         client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new LeaveRoomMessageComposer(client.getPlayer().getEntity().getId()));
         client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new AvatarsMessageComposer(client.getPlayer().getEntity()));
+        isExecuted(client);
     }
 
     @Override
     public String getPermission() {
         return "transform_command";
+    }
+    
+    @Override
+    public String getParameter() {
+        return "%petname%";
     }
 
     @Override

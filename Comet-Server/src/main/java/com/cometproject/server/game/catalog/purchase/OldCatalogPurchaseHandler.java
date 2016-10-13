@@ -26,6 +26,7 @@ import com.cometproject.server.game.rooms.bundles.types.RoomBundle;
 import com.cometproject.server.game.rooms.bundles.types.RoomBundleItem;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.outgoing.catalog.BoughtItemMessageComposer;
+import com.cometproject.server.network.messages.outgoing.notification.PurchaseErrorMessageComposer;
 import com.cometproject.server.network.messages.outgoing.catalog.GiftUserNotFoundMessageComposer;
 import com.cometproject.server.network.messages.outgoing.catalog.UnseenItemsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
@@ -161,6 +162,15 @@ public class OldCatalogPurchaseHandler {
                 client.getPlayer().setLastGift((int) Comet.getTime());
             }
 
+            if (item.isBadgeOnly()) {
+
+                if (item.hasBadge() && client.getPlayer().getInventory().hasBadge(item.getBadgeId())) {
+                    client.send(new PurchaseErrorMessageComposer(1));
+                    client.send(new BoughtItemMessageComposer(BoughtItemMessageComposer.PurchaseType.BADGE));
+                    return;
+                }
+            }
+            
             if (amount > 1 && !item.allowOffer()) {
                 client.send(new AlertMessageComposer(Locale.get("catalog.error.nooffer")));
 
@@ -246,7 +256,8 @@ public class OldCatalogPurchaseHandler {
             }
 
             if (item.isBadgeOnly()) {
-                if (item.hasBadge()) {
+
+                if (item.hasBadge() && !client.getPlayer().getInventory().hasBadge(item.getBadgeId())){
                     client.getPlayer().getInventory().addBadge(item.getBadgeId(), true);
                 }
 

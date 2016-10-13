@@ -17,6 +17,11 @@ public class HomeCommand extends ChatCommand {
     public String getPermission() {
         return "home_command";
     }
+    
+    @Override
+    public String getParameter() {
+        return "";
+    }
 
     @Override
     public String getDescription() {

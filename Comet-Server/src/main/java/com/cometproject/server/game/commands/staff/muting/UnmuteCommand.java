@@ -14,6 +14,7 @@ public class UnmuteCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
         if (params.length != 1) {
+            sendNotif(Locale.getOrDefault("command.unmute.none", "Who do you want to unmute?"), client);
             return;
         }
 
@@ -27,12 +28,15 @@ public class UnmuteCommand extends ChatCommand {
 
                 if (BanManager.getInstance().isMuted(playerId)) {
                     BanManager.getInstance().unmute(playerId);
+                    isExecuted(client);
                 } else {
                     PlayerEntity entity = session.getPlayer().getEntity();
 
                     if (entity != null && entity.isRoomMuted()) {
                         entity.setRoomMuted(false);
                     }
+                    
+                    isExecuted(client);
                 }
             }
         }
@@ -42,10 +46,15 @@ public class UnmuteCommand extends ChatCommand {
     public String getPermission() {
         return "unmute_command";
     }
+    
+    @Override
+    public String getParameter() {
+        return Locale.getOrDefault("command.parameter.username", "%username%");
+    }
 
     @Override
     public String getDescription() {
-        return Locale.get("command.unmute.name");
+        return Locale.get("command.unmute.description");
     }
 
     @Override

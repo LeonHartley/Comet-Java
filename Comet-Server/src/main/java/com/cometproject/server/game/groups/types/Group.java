@@ -10,6 +10,7 @@ import com.cometproject.server.network.messages.outgoing.group.GroupInformationM
 import com.cometproject.server.storage.cache.CacheManager;
 import com.cometproject.server.storage.cache.objects.GroupDataObject;
 import com.cometproject.server.storage.queries.groups.GroupForumDao;
+import com.google.common.cache.Cache;
 import com.google.common.collect.Lists;
 
 import java.util.ArrayList;
@@ -44,11 +45,11 @@ public class Group {
     public Group(int id) {
         this.id = id;
 
-        if(CacheManager.getInstance().isEnabled() && CacheManager.getInstance().exists("groups." + id)) {
+        if (CacheManager.getInstance().isEnabled() && CacheManager.getInstance().exists("groups." + id)) {
             groupDataObject = CacheManager.getInstance().get(GroupDataObject.class, "groups." + id);
         }
 
-        if(groupDataObject != null) {
+        if (groupDataObject != null) {
             this.groupData = groupDataObject.getGroupData();
         } else {
             this.groupData = GroupManager.getInstance().getData(id);
@@ -64,7 +65,7 @@ public class Group {
     public GroupDataObject getCacheObject() {
         final List<Integer> requests = new ArrayList<>();
 
-        for(Integer request : this.getMembershipComponent().getMembershipRequests()) {
+        for (Integer request : this.getMembershipComponent().getMembershipRequests()) {
             requests.add(request);
         }
 
@@ -88,7 +89,7 @@ public class Group {
     }
 
     public void initializeForum() {
-        if(this.groupDataObject != null && this.groupDataObject.getForumThreads() == null) {
+        if (this.groupDataObject != null && this.groupDataObject.getForumThreads() == null) {
             return;
         }
 
@@ -104,12 +105,15 @@ public class Group {
     private boolean disposed = false;
 
     public void dispose() {
-        if(this.disposed) {
+        if (this.disposed) {
             return;
         }
 
         this.disposed = true;
-        CacheManager.getInstance().put("groups." + id, this.getCacheObject());
+
+        if (CacheManager.getInstance().isEnabled()) {
+            CacheManager.getInstance().put("groups." + id, this.getCacheObject());
+        }
 
         if (this.membershipComponent != null) {
             this.membershipComponent.dispose();

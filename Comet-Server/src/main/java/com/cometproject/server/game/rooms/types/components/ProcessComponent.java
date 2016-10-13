@@ -516,7 +516,12 @@ public class ProcessComponent implements CometTask {
         if (entity.isWalkCancelled()) {
             entity.setWalkCancelled(false);
         }
-
+//
+//        if(entity.getPendingWalk() != null) {
+//            entity.moveTo(entity.getPendingWalk());
+//            entity.setPendingWalk(null);
+//        }
+//
         return false;
     }
 

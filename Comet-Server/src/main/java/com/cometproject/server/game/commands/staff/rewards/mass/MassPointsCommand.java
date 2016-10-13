@@ -8,6 +8,11 @@ public class MassPointsCommand extends MassCurrencyCommand {
     public String getPermission() {
         return "masspoints_command";
     }
+    
+    @Override
+    public String getParameter() { 
+        return "";
+    }
 
     @Override
     public String getDescription() {

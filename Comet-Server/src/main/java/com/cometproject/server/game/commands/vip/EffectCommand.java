@@ -11,15 +11,16 @@ import com.cometproject.server.network.sessions.Session;
 public class EffectCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
-        if (params.length == 0) {
+        if (params.length != 1) {
+            sendNotif(Locale.getOrDefault("command.enable.none", "To get a effect type :effect %number%"), client);
             return;
         }
 
         try {
             int effectId = Integer.parseInt(params[0]);
 
-            if (effectId == 102 && !client.getPlayer().getPermissions().getRank().modTool()) {
-                return;
+            if (effectId == 102 && effectId == 178 && effectId == 187 && !client.getPlayer().getPermissions().getRank().modTool()) {
+                effectId = 3;
             }
 
             PlayerEntity entity = client.getPlayer().getEntity();
@@ -44,6 +45,11 @@ public class EffectCommand extends ChatCommand {
     @Override
     public String getPermission() {
         return "enable_command";
+    }
+    
+    @Override
+    public String getParameter() {
+        return Locale.getOrDefault("command.parameter.number", "%number%");
     }
 
     @Override

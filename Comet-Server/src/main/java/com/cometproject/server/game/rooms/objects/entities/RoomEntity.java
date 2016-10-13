@@ -70,6 +70,7 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
     private long privateChatItemId = 0;
 
     private Map<RoomEntityStatus, String> statuses = new ConcurrentHashMap<>();
+    private Position pendingWalk;
 
     public RoomEntity(int identifier, Position startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
         super(identifier, startPosition, roomInstance);
@@ -658,5 +659,13 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
 
     public Set<RoomEntity> getFollowingEntities() {
         return followingEntities;
+    }
+
+    public Position getPendingWalk() {
+        return pendingWalk;
+    }
+
+    public void setPendingWalk(Position pendingWalk) {
+        this.pendingWalk = pendingWalk;
     }
 }

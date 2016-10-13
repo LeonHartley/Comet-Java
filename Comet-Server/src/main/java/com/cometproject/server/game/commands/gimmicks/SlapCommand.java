@@ -19,7 +19,10 @@ public class SlapCommand extends ChatCommand {
 
     @Override
     public void execute(Session client, String[] params) {
-        if (params.length != 1) return;
+        if (params.length != 1) {
+            sendNotif(Locale.getOrDefault("command.user.invalid", "Invalid username!"), client);
+            return;
+        }
 
         String slappedPlayer = params[0];
         String object = objects[RandomInteger.getRandom(0, objects.length - 1)].replace("%g", client.getPlayer().getData().getGender().toLowerCase().equals("m") ? "his" : "her");
@@ -30,6 +33,11 @@ public class SlapCommand extends ChatCommand {
     @Override
     public String getPermission() {
         return "slap_command";
+    }
+    
+    @Override
+    public String getParameter() {
+        return Locale.getOrDefault("command.parameter.username", "%username%");
     }
 
     @Override

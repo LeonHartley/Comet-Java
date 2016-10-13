@@ -118,6 +118,11 @@ public class RoomActionCommand extends ChatCommand {
     public String getPermission() {
         return "roomaction_command";
     }
+    
+    @Override
+    public String getParameter() {
+        return "";
+    }
 
     @Override
     public String getDescription() {

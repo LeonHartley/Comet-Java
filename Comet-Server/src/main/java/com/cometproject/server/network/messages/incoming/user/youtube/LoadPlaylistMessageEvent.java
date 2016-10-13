@@ -1,6 +1,7 @@
 package com.cometproject.server.network.messages.incoming.user.youtube;
 
 import com.cometproject.api.game.players.data.types.IPlaylistItem;
+import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.players.types.PlayerSettings;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.network.messages.incoming.Event;
@@ -18,7 +19,9 @@ public class LoadPlaylistMessageEvent implements Event {
 
     @Override
     public void handle(Session client, MessageEvent msg) throws Exception {
-        int itemId = msg.readInt();
+        int virtualId = msg.readInt();
+
+        long itemId = ItemManager.getInstance().getItemIdByVirtualId(virtualId);
 
         RoomItemFloor item = client.getPlayer().getEntity().getRoom().getItems().getFloorItem(itemId);
 
@@ -49,11 +52,11 @@ public class LoadPlaylistMessageEvent implements Event {
 
         List<IPlaylistItem> playlist = playerSettings.getPlaylist();
         if (playlist != null) {
-            client.send(new PlaylistMessageComposer(itemId, playlist, playingId));
+            client.send(new PlaylistMessageComposer(virtualId, playlist, playingId));
 
             if (playlist.size() > 0) {
                 IPlaylistItem video = playlist.get(playingId);
-                client.send(new PlayVideoMessageComposer(itemId, video.getVideoId(), video.getDuration()));
+                client.send(new PlayVideoMessageComposer(virtualId, video.getVideoId(), video.getDuration()));
 
                 item.setAttribute("video", video.getVideoId());
 
