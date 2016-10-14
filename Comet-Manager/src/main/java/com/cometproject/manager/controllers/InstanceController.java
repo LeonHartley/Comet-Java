@@ -1,7 +1,9 @@
 package com.cometproject.manager.controllers;
 
 import com.cometproject.manager.repositories.CustomerRepository;
+import com.cometproject.manager.repositories.HostRepository;
 import com.cometproject.manager.repositories.InstanceRepository;
+import com.cometproject.manager.repositories.VersionRepository;
 import com.cometproject.manager.repositories.customers.Customer;
 import com.cometproject.manager.repositories.instances.Instance;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,12 @@ public class InstanceController {
     @Autowired
     private InstanceRepository instanceRepository;
 
+    @Autowired
+    private VersionRepository versionRepository;
+
+    @Autowired
+    private HostRepository hostRepository;
+
     private RestTemplate restTemplate = new RestTemplate();
 
     @RequestMapping(value = "/instance/{id}", method = RequestMethod.GET)
@@ -46,7 +54,34 @@ public class InstanceController {
             return null;
         }
 
-        ModelAndView modelAndView = new ModelAndView("instance");
+        final Instance instance = instanceRepository.findOne(instanceId);
+
+        ModelAndView modelAndView = new ModelAndView("instance-dash");
+        modelAndView.addObject("customer", customer);
+        modelAndView.addObject("instance", instance);
+        modelAndView.addObject("version", versionRepository.findOneByVersion(instance.getVersion()));
+        modelAndView.addObject("versions", versionRepository.findAll());
+
+        modelAndView.addObject("pageName", "instance-dash");
+
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/instance/{id}/config", method = RequestMethod.GET)
+    public ModelAndView config(HttpServletRequest request, HttpServletResponse response, @PathVariable("id") String instanceId) throws IOException {
+        if (request.getSession() == null || request.getSession().getAttribute("customer") == null) {
+            response.sendRedirect("/");
+            return null;
+        }
+
+        final Customer customer = customerRepository.findOne((String) request.getSession().getAttribute("customer"));
+
+        if (!customer.getInstanceIds().contains(instanceId)) {
+            response.sendRedirect("/");
+            return null;
+        }
+
+        ModelAndView modelAndView = new ModelAndView("instance-config");
         modelAndView.addObject("customer", customer);
 
         if (request.getSession().getAttribute("saved") != null) {
@@ -55,13 +90,7 @@ public class InstanceController {
             request.getSession().setAttribute("saved", null);
         }
 
-        //System.out.println(this.restTemplate.exchange("http://localhost:4567/"));
-
-       /* MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
-
-        map.add("name", "xx");
-        map.add("password", "xx");*/
-
+        modelAndView.addObject("pageName", "instance-config");
         modelAndView.addObject("instance", instanceRepository.findOne(instanceId));
 
         return modelAndView;
@@ -88,9 +117,11 @@ public class InstanceController {
 
         final Instance instance = this.instanceRepository.findOne(instanceId);
 
-        instance.getConfig().put("serverHost", gameHost);
-        instance.getConfig().put("gamePort", gamePort + "");
-        instance.getConfig().put("apiPort", apiPort+ "");
+        // We don't want to set these here anymore, we can use the admin panel to do this. It'll stop issues arising such as users stealing other hotels' ports etc.
+
+        //instance.getConfig().put("serverHost", gameHost);
+        //instance.getConfig().put("gamePort", gamePort + "");
+        //instance.getConfig().put("apiPort", apiPort+ "");
         instance.getConfig().put("apiToken", apiToken);
 
         instance.getConfig().put("dbHost", mysqlHost);
@@ -107,7 +138,7 @@ public class InstanceController {
         modelAndView.addObject("customer", customer);
         modelAndView.addObject("instance", instance);
 
-        response.sendRedirect("/instance/" + instanceId);
+        response.sendRedirect("/instance/" + instanceId + "/config");
     }
 
 }

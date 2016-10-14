@@ -38,16 +38,18 @@
 
 </script>
 
-<div class="row">
-    <div class="col-md-4">
-        <div class="panel panel-default">
-            <div class="panel-heading"><b>$instance.name</b></div>
 
-            <ul class="list-group">
-                <li class="list-group-item">Uptime: $instance.currentStatus.uptime</li>
-            </ul>
-        </div>
-    </div>
+<ol class="breadcrumb">
+    <li><a href="/home">Home</a></li>
+    <li>Instance</li>
+    <li><a href="/instance/$instance.id">$instance.name</a></li>
+    <li class="active">Configuration</li>
+</ol>
+
+<div class="row">
+
+    #parse('/templates/components/instance-sidebar.vm')
+
     <div class="col-md-8">
         <div class="panel panel-default">
             <div class="panel-heading"><b>Configuration</b></div>
@@ -63,14 +65,14 @@
                     <div class="row settings">
                         <div class="col-md-6">Host</div>
                         <div class="col-md-6">
-                            <input type="text" name="game-host" class="form-control"
+                            <input type="text" disabled name="game-host" class="form-control"
                                    value="$instance.config.get("serverHost")"/>
                         </div>
                     </div>
                     <div class="row settings">
                         <div class="col-md-6">Game Port</div>
                         <div class="col-md-6">
-                            <input type="text" name="game-port" class="form-control"
+                            <input type="text" disabled name="game-port" class="form-control"
                                    value="$instance.config.get("gamePort")"/>
                         </div>
                     </div>
@@ -79,7 +81,7 @@
                     <div class="row settings">
                         <div class="col-md-6">API Port</div>
                         <div class="col-md-6">
-                            <input type="text" name="api-port" class="form-control"
+                            <input type="text" disabled name="api-port" class="form-control"
                                    value="$instance.config.get("apiPort")"/>
                         </div>
                     </div>
@@ -138,7 +140,7 @@
 
                     <div class="row settings">
                         <div class="col-md-6">MySQL Pool</div>
-                        <div class="col-md-6"><input type="text" name="db-pool" class="form-control"
+                        <div class="col-md-6"><input type="text" disabled name="db-pool" class="form-control"
                                                      value="$instance.config.get("dbPoolMax")"/></div>
                     </div>
 

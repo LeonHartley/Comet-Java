@@ -1,0 +1,38 @@
+#parse('/templates/base/header.vm')
+
+<style type="text/css">
+    .settings {
+        padding-top: 10px;
+    }
+
+    .update-instance {
+        text-align: right;
+    }
+
+
+
+</style>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+    });
+
+
+
+</script>
+
+<ol class="breadcrumb">
+    <li><a href="/home">Admin</a></li>
+    <li class="active">Dashboard</li>
+</ol>
+
+<div class="row">
+
+    #parse('/templates/admin/components/admin-sidebar.vm')
+
+    <div class="col-md-8">
+
+    </div>
+</div>
+#include('/templates/base/footer.vm')

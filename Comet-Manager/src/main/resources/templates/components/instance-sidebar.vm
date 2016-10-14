@@ -1,0 +1,15 @@
+<div class="col-md-4">
+    <div class="list-group">
+        <a href="/instance/$instance.id" class="list-group-item #if($pageName == 'instance-dash') active #end">Instance</a>
+        <a href="/instance/$instance.id/config" class="list-group-item #if($pageName == 'instance-config') active #end">Configuration</a>
+        <!--<a href="/instance/$instance.id/logging" class="list-group-item #if($pageName == 'instance-logging') active #end">Logging</a>-->
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading"><b>$instance.name</b></div>
+
+        <ul class="list-group">
+            <li class="list-group-item"><i>This service is currently offline</i></li>
+        </ul>
+    </div>
+</div>

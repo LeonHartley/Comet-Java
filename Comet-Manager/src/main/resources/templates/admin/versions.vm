@@ -1,0 +1,96 @@
+#parse('/templates/base/header.vm')
+
+
+<style type="text/css">
+    .settings {
+        padding-top: 10px;
+    }
+
+</style>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+    });
+
+</script>
+
+<ol class="breadcrumb">
+    <li><a href="/home">Admin</a></li>
+    <li class="active">Versions</li>
+</ol>
+
+<div class="row">
+
+    #parse('/templates/admin/components/admin-sidebar.vm')
+
+    <div class="col-md-8">
+
+        <div style="text-align: right;padding-bottom: 10px;">
+            <button class="btn btn-default btn-success">Create Version</button>
+        </div>
+
+        <!-- Table -->
+        <table class="table">
+            <tr>
+                <th>Version ID</th>
+                <th>Version Name</th>
+                <th>Type</th>
+                <th>Actions</th>
+            </tr>
+
+            #foreach($version in $versions)
+            <tr>
+                <td>$version.versionNumber</td>
+                <td>$version.version</td>
+                <td>$version.type</td>
+                <td>
+                    <button class="btn btn-default btn-primary" data-toggle="modal" data-target="#edit-modal-$instance.id">Edit</button>
+                    <button class="btn btn-default btn-warning">Remove</button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="edit-modal-$instance.id" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="myModalLabel">Edit Instance</h4>
+                                </div>
+                                <div class="modal-body">
+
+                                    <form action="/admin/instances/save/$instance.id" method="post">
+                                        <h4>Instance Configuration</h4>
+
+                                        <div class="row settings">
+                                            <div class="col-md-6">Name</div>
+                                            <div class="col-md-6">
+                                                <input type="text" name="instance-host" class="form-control"
+                                                       value="$instance.name"/>
+                                            </div>
+                                        </div>
+
+                                        <div class="row settings">
+                                            <div class="col-md-6">Configuration Data</div>
+                                            <div class="col-md-6">
+                                                <textarea class="form-control" rows="15" style="width: 100%;">$instance.configData</textarea>
+                                            </div>
+                                        </div>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </td>
+            </tr>
+
+            #end
+        </table>
+
+    </div>
+</div>
+#include('/templates/base/footer.vm')

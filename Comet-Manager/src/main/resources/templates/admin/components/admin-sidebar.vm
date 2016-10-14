@@ -1,0 +1,11 @@
+<div class="col-md-4">
+    <div class="list-group">
+        <a href="/admin" class="list-group-item #if($pageName == 'admin-dash') active #end">Dashboard</a>
+        <a href="/admin/hosts" class="list-group-item #if($pageName == 'admin-hosts') active #end">Hosts</a>
+        <a href="/admin/instances" class="list-group-item #if($pageName == 'admin-instances') active #end">Instances</a>
+        <a href="/admin/versions" class="list-group-item #if($pageName == 'admin-versions') active #end">Versions</a>
+        <a href="/admin/customers" class="list-group-item #if($pageName == 'admin-customers') active #end">Customers</a>
+        <a href="/admin/support" class="list-group-item #if($pageName == 'admin-support') active #end">Support</a>
+        <!--<a href="/instance/$instance.id/logging" class="list-group-item #if($pageName == 'instance-logging') active #end">Logging</a>-->
+    </div>
+</div>

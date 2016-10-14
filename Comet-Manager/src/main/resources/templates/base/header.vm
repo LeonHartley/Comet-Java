@@ -3,8 +3,8 @@
 <head>
     <title>Comet Manager</title>
 
-    <link rel='stylesheet' href='//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css' type='text/css' />
-    <link rel='stylesheet' href='/css/app.css' type='text/css' />
+    <link rel='stylesheet' href='//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css' type='text/css'/>
+    <link rel='stylesheet' href='/css/app.css' type='text/css'/>
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 </head>
@@ -17,6 +17,11 @@
             #if($customer)
                 <li><a href="/home">Home</a></li>
                 <li><a href="/support">Support</a></li>
+
+                #if($customer.hasRole('ADMINISTRATOR'))
+                    <li><a href="/admin">Admin</a></li>
+                #end
+
                 <li><a href="/logout">Logout</a></li>
             #end
         </ul>
