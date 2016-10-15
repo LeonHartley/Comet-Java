@@ -1,5 +1,6 @@
 package com.cometproject.manager.repositories.instances;
 
+import com.cometproject.manager.repositories.hosts.InstanceStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -22,6 +23,9 @@ public class Instance {
     private String authKey;
 
     private String version;
+
+    private InstanceStatus instanceStatus = null;
+    private Object apiUrl;
 
     public Instance(String id, String name, Map<String, String> config, String authKey, String server, String version) {
         this.id = id;
@@ -82,5 +86,17 @@ public class Instance {
 
     public void setVersion(String version) {
         this.version = version;
+    }
+
+    public InstanceStatus getInstanceStatus() {
+        return instanceStatus;
+    }
+
+    public void setInstanceStatus(InstanceStatus instanceStatus) {
+        this.instanceStatus = instanceStatus;
+    }
+
+    public Object getApiUrl() {
+        return apiUrl;
     }
 }

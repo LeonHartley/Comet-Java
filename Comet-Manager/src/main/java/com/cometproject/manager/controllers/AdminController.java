@@ -6,15 +6,23 @@ import com.cometproject.manager.repositories.InstanceRepository;
 import com.cometproject.manager.repositories.VersionRepository;
 import com.cometproject.manager.repositories.customers.Customer;
 import com.cometproject.manager.repositories.customers.roles.CustomerRole;
+import com.cometproject.manager.repositories.instances.Instance;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.Produces;
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.Map;
 
 @Controller
 public class AdminController {
@@ -48,8 +56,6 @@ public class AdminController {
         ModelAndView modelAndView = new ModelAndView("admin/dashboard");
 
         modelAndView.addObject("customer", customer);
-
-
         modelAndView.addObject("pageName", "admin-dash");
 
         return modelAndView;
@@ -81,7 +87,6 @@ public class AdminController {
         return modelAndView;
     }
 
-
     @RequestMapping(value = "/admin/instances", method = RequestMethod.GET)
     public ModelAndView instances(HttpServletRequest request, HttpServletResponse response) throws IOException {
         if (request.getSession() == null || request.getSession().getAttribute("customer") == null) {
@@ -101,10 +106,36 @@ public class AdminController {
         modelAndView.addObject("customer", customer);
 
         modelAndView.addObject("instances", instanceRepository.findAll());
+        modelAndView.addObject("hosts", hostRepository.findAll());
 
         modelAndView.addObject("pageName", "admin-instances");
 
         return modelAndView;
+    }
+
+
+    @RequestMapping(value = "/admin/instances/save/{id}", method = RequestMethod.POST)
+    public void saveInstance(HttpServletRequest request, HttpServletResponse response,
+                             @PathVariable("id") String instanceId,
+                             @RequestParam("instance-name") String instanceName, @RequestParam("instance-host") String instanceHost,
+                             @RequestParam("instance-config") String instanceConfig) throws IOException {
+        if (request.getSession() == null || request.getSession().getAttribute("customer") == null) {
+            response.sendRedirect("/");
+            return;
+        }
+
+        final Instance instance = instanceRepository.findOne(instanceId);
+        final Type type = new TypeToken<Map<String, String>>(){}.getType();
+        final Map<String, String> configuration = new Gson().fromJson(instanceConfig, type);
+
+        instance.setName(instanceName);
+        instance.setServer(instanceHost);
+        instance.setConfig(configuration);
+
+        instanceRepository.save(instance);
+
+        request.getSession().setAttribute("saved", true);
+        response.sendRedirect("/admin/instances");
     }
 
     @RequestMapping(value = "/admin/versions", method = RequestMethod.GET)

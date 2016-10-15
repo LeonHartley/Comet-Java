@@ -9,7 +9,18 @@
         <div class="panel-heading"><b>$instance.name</b></div>
 
         <ul class="list-group">
-            <li class="list-group-item"><i>This service is currently offline</i></li>
+            <li class="list-group-item">
+                #if($instanceStatus.status == "DOWN")
+                    <a href="/instance/start/$instance.id" class="btn btn-success">Start</a>
+                #elseif($instanceStatus.status == "STOPPING")
+                    <button class="btn btn-disabled">Stopping...</button>
+                #elseif($instanceStatus.status == "STARTING")
+                    <button class="btn btn-disabled">Starting...</button>
+                #else
+                    <button class="btn btn-info">Restart</button>
+                    <button class="btn btn-warning">Stop</button>
+                #end
+            </li>
         </ul>
     </div>
 </div>

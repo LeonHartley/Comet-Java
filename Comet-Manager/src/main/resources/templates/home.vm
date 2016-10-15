@@ -2,18 +2,7 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
-        var statusUrl = "http://status.cometserver.eu/";
 
-        var instances = [
-            #foreach( $instance in $instances ) #if($foreach.index>  0),#end "$instance.id" #end
-        ];
-
-        for (var i = 0; i < instances.length; i++) {
-            var instance = instances[i];
-
-            $('.instance-' + instance).addClass("label label-success");
-            $('.instance-' + instance).html("Online");
-        }
     });
 </script>
 
@@ -25,7 +14,7 @@
                 #foreach($instance in $instances)
                     <a href="/instance/$instance.id">
                         <li class="list-group-item">
-                            $instance.name &nbsp; &nbsp;<span class="instance-$instance.id"></span>
+                            $instance.name &nbsp; &nbsp; <span class="label $instance.instanceStatus.statusStyle">$instance.instanceStatus.status</span>
                         </li>
                     </a>
                 #end

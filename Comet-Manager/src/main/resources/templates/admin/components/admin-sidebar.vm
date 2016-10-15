@@ -1,4 +1,4 @@
-<div class="col-md-4">
+<div class="col-md-2">
     <div class="list-group">
         <a href="/admin" class="list-group-item #if($pageName == 'admin-dash') active #end">Dashboard</a>
         <a href="/admin/hosts" class="list-group-item #if($pageName == 'admin-hosts') active #end">Hosts</a>

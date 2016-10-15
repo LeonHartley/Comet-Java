@@ -23,7 +23,7 @@
 
     #parse('/templates/admin/components/admin-sidebar.vm')
 
-    <div class="col-md-8">
+    <div class="col-md-10">
 
         <div style="text-align: right;padding-bottom: 10px;">
             <button class="btn btn-default btn-success">Create Host</button>

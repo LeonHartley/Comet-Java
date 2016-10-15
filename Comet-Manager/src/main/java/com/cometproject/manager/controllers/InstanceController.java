@@ -5,6 +5,8 @@ import com.cometproject.manager.repositories.HostRepository;
 import com.cometproject.manager.repositories.InstanceRepository;
 import com.cometproject.manager.repositories.VersionRepository;
 import com.cometproject.manager.repositories.customers.Customer;
+import com.cometproject.manager.repositories.hosts.Host;
+import com.cometproject.manager.repositories.hosts.InstanceStatus;
 import com.cometproject.manager.repositories.instances.Instance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -55,10 +57,13 @@ public class InstanceController {
         }
 
         final Instance instance = instanceRepository.findOne(instanceId);
+        final Host host = hostRepository.findOneByHostName(instance.getServer());
+        final InstanceStatus instanceStatus = host.getInstanceStatus(this.restTemplate, instanceId);
 
         ModelAndView modelAndView = new ModelAndView("instance-dash");
         modelAndView.addObject("customer", customer);
         modelAndView.addObject("instance", instance);
+        modelAndView.addObject("instanceStatus", instanceStatus);
         modelAndView.addObject("version", versionRepository.findOneByVersion(instance.getVersion()));
         modelAndView.addObject("versions", versionRepository.findAll());
 
@@ -90,19 +95,23 @@ public class InstanceController {
             request.getSession().setAttribute("saved", null);
         }
 
+        final Instance instance = instanceRepository.findOne(instanceId);
+        final Host host = hostRepository.findOneByHostName(instance.getServer());
+        final InstanceStatus instanceStatus = host.getInstanceStatus(this.restTemplate, instanceId);
+
         modelAndView.addObject("pageName", "instance-config");
-        modelAndView.addObject("instance", instanceRepository.findOne(instanceId));
+        modelAndView.addObject("instance", instance);
+        modelAndView.addObject("instanceStatus", instanceStatus);
 
         return modelAndView;
     }
 
     @RequestMapping(value = "/instance/save/{id}", method = RequestMethod.POST)
     public void saveInstance(HttpServletRequest request, HttpServletResponse response,
-                             @PathVariable("id") String instanceId, @RequestParam("game-host") String gameHost,
-                             @RequestParam("game-port") int gamePort, @RequestParam("api-port") int apiPort,
+                             @PathVariable("id") String instanceId,
                              @RequestParam("api-token") String apiToken, @RequestParam("db-host") String mysqlHost,
                              @RequestParam("db-username") String mysqlUsername, @RequestParam("db-password") String mysqlPassword,
-                             @RequestParam("db-database") String mysqlDatabase, @RequestParam("db-pool") int dbPool) throws IOException {
+                             @RequestParam("db-database") String mysqlDatabase) throws IOException {
         if (request.getSession() == null || request.getSession().getAttribute("customer") == null) {
             response.sendRedirect("/");
             return;
@@ -128,17 +137,34 @@ public class InstanceController {
         instance.getConfig().put("dbUsername", mysqlUsername);
         instance.getConfig().put("dbPassword", mysqlPassword);
         instance.getConfig().put("dbName", mysqlDatabase);
-        instance.getConfig().put("dbPoolMax", "" + dbPool);
+//        instance.getConfig().put("dbPoolMax", "" + dbPool);
 
         this.instanceRepository.save(instance);
 
         request.getSession().setAttribute("saved", true);
-
-        ModelAndView modelAndView = new ModelAndView("instance");
-        modelAndView.addObject("customer", customer);
-        modelAndView.addObject("instance", instance);
-
         response.sendRedirect("/instance/" + instanceId + "/config");
     }
 
+    @RequestMapping(value = "/instance/start/{id}", method = RequestMethod.GET)
+    public void startInstance(HttpServletRequest request, HttpServletResponse response,
+                             @PathVariable("id") String instanceId) throws IOException {
+        if (request.getSession() == null || request.getSession().getAttribute("customer") == null) {
+            response.sendRedirect("/");
+            return;
+        }
+
+        final Customer customer = this.customerRepository.findOne((String) request.getSession().getAttribute("customer"));
+
+        if (!customer.getInstanceIds().contains(instanceId)) {
+            response.sendRedirect("/");
+            return;
+        }
+
+        final Instance instance = this.instanceRepository.findOne(instanceId);
+        final Host host = this.hostRepository.findOneByHostName(instance.getServer());
+
+        host.startInstance(restTemplate, instance);
+
+        response.sendRedirect("/instance/" + instanceId);
+    }
 }
