@@ -103,6 +103,8 @@ public abstract class AbstractProcess extends Thread {
                             if(getProcessStatus() == ProcessStatus.STARTING)
                                 setProcessStatus(ProcessStatus.UP);
 
+                            System.out.println(line);
+
                             if(listeners.isEmpty()) {
                                 return;
                             }

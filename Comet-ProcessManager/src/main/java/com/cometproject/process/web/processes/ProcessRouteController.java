@@ -64,9 +64,28 @@ public class ProcessRouteController extends AbstractRouteController {
         return result;
     }
 
+    public Map<String, Object> stop(Request request, Response response) {
+        final Map<String, Object> result = new HashMap<>();
+
+        final String processId = request.params("processId");
+
+        final AbstractProcess process = this.getProcessManager().getProcesses().get(processId);
+
+        if(process == null) {
+            result.put("status", ProcessStatus.DOWN);
+            return result;
+        }
+
+        process.setProcessStatus(ProcessStatus.STOPPING);
+        result.put("status", ProcessStatus.STOPPING);
+
+        return result;
+    }
+
     @Override
     public void install() {
         this.post("/process/start/:type", this::start);
+        this.get("/process/stop/:processId", this::stop);
         this.get("/process/status/:processId", this::status);
     }
 }

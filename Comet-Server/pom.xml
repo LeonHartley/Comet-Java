@@ -8,12 +8,12 @@
 
     <packaging>jar</packaging>
 
-    <version>1.7.2-ALPHA1</version>
+    <version>1.8.0-ALPHA1</version>
 
     <parent>
         <groupId>Comet</groupId>
         <artifactId>Comet-Parent</artifactId>
-        <version>1.7.2-ALPHA1</version>
+        <version>1.8.0-ALPHA1</version>
     </parent>
 
     <build>
@@ -187,7 +187,7 @@
         <dependency>
             <groupId>Comet</groupId>
             <artifactId>Comet-API</artifactId>
-            <version>1.7.2-ALPHA1</version>
+            <version>1.8.0-ALPHA1</version>
         </dependency>
 
         <dependency>
@@ -373,7 +373,7 @@
         <dependency>
             <groupId>Comet</groupId>
             <artifactId>Comet-Server-Protocol</artifactId>
-            <version>1.7.2-ALPHA1</version>
+            <version>1.8.0-ALPHA1</version>
         </dependency>
 
         <dependency>
@@ -382,6 +382,12 @@
             <version>2.8.1</version>
             <type>jar</type>
             <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>Coerce</groupId>
+            <artifactId>Coerce-Messaging-Client</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 </project>

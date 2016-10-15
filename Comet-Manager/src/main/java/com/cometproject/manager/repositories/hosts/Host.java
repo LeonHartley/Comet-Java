@@ -49,23 +49,11 @@ public class Host {
         return restTemplate.getForObject(this.endpoint + "process/status/" + instanceId, InstanceStatus.class);
     }
 
+    public InstanceStatus stopInstance(RestTemplate restTemplate, String instanceId) {
+        return restTemplate.getForObject(this.endpoint + "process/stop/" + instanceId, InstanceStatus.class);
+    }
+
     public void startInstance(RestTemplate restTemplate, Instance instance) {
-/*
-        final String processType = request.params("type");
-        final String processName = request.queryParams("name");
-
-        AbstractProcess process = null;
-
-        switch(processType) {
-            case "CometServer":
-                // Create a CometServer instance.
-                final String applicationArguments = request.queryParams("applicationArguments");
-                final String serverVersion = request.queryParams("serverVersion");
-                final String apiUrl = request.queryParams("apiUrl");
-                final String apiToken = request.queryParams("apiToken");
-
-                process = new CometServerProcess(processName, applicationArguments, serverVersion, apiUrl, apiToken);*/
-
         final StringBuilder applicationArguments = new StringBuilder();
 
         for (Map.Entry<String, String> configEntry : instance.getConfig().entrySet()) {
@@ -84,7 +72,7 @@ public class Host {
         postParameters.add("name", instance.getId());
         postParameters.add("applicationArguments", applicationArguments.toString());
         postParameters.add("serverVersion", instance.getVersion());
-        postParameters.add("apiUrl", "http://" + this.address + instance.getConfig().get("apiPort"));
+        postParameters.add("apiUrl", "http://" + this.address + ":" + instance.getConfig().get("apiPort"));
         postParameters.add("apiToken", instance.getConfig().get("apiToken"));
 
         HttpEntity<LinkedMultiValueMap<String, String>> request = new HttpEntity<LinkedMultiValueMap<String, String>>(postParameters, headers);

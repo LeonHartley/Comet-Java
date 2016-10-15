@@ -1,24 +1,39 @@
 <div class="col-md-4">
     <div class="list-group">
-        <a href="/instance/$instance.id" class="list-group-item #if($pageName == 'instance-dash') active #end">Instance</a>
+        <a href="/instance/$instance.id"
+           class="list-group-item #if($pageName == 'instance-dash') active #end">Instance</a>
         <a href="/instance/$instance.id/config" class="list-group-item #if($pageName == 'instance-config') active #end">Configuration</a>
         <!--<a href="/instance/$instance.id/logging" class="list-group-item #if($pageName == 'instance-logging') active #end">Logging</a>-->
     </div>
 
     <div class="panel panel-default">
         <div class="panel-heading"><b>$instance.name</b></div>
-
         <ul class="list-group">
             <li class="list-group-item">
+                This instance is currently: <span
+                    class="label $instanceStatus.statusStyle">$instanceStatus.status</span>
+                <br/><br/>
+
                 #if($instanceStatus.status == "DOWN")
-                    <a href="/instance/start/$instance.id" class="btn btn-success">Start</a>
+                <a href="/instance/start/$instance.id" class="btn btn-success">Start</a>
                 #elseif($instanceStatus.status == "STOPPING")
-                    <button class="btn btn-disabled">Stopping...</button>
+                <button class="btn btn-disabled">Stopping...</button>
+
+                <script type="application/javascript">
+                setTimeout(function(){
+                    window.location.reload(1);
+                }, 7000);
+                </script>
                 #elseif($instanceStatus.status == "STARTING")
-                    <button class="btn btn-disabled">Starting...</button>
+                <button class="btn btn-disabled">Starting...</button>
+
+                <script type="application/javascript">
+                setTimeout(function(){
+                    window.location.reload(1);
+                }, 7000);
+                </script>
                 #else
-                    <button class="btn btn-info">Restart</button>
-                    <button class="btn btn-warning">Stop</button>
+                <a href="/instance/stop/$instance.id" class="btn btn-warning">Stop</a>
                 #end
             </li>
         </ul>

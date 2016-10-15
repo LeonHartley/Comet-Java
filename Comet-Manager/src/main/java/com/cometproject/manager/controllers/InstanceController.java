@@ -167,4 +167,27 @@ public class InstanceController {
 
         response.sendRedirect("/instance/" + instanceId);
     }
+
+    @RequestMapping(value = "/instance/stop/{id}", method = RequestMethod.GET)
+    public void stopInstance(HttpServletRequest request, HttpServletResponse response,
+                              @PathVariable("id") String instanceId) throws IOException {
+        if (request.getSession() == null || request.getSession().getAttribute("customer") == null) {
+            response.sendRedirect("/");
+            return;
+        }
+
+        final Customer customer = this.customerRepository.findOne((String) request.getSession().getAttribute("customer"));
+
+        if (!customer.getInstanceIds().contains(instanceId)) {
+            response.sendRedirect("/");
+            return;
+        }
+
+        final Instance instance = this.instanceRepository.findOne(instanceId);
+        final Host host = this.hostRepository.findOneByHostName(instance.getServer());
+
+        host.stopInstance(restTemplate, instance.getId());
+
+        response.sendRedirect("/instance/" + instanceId);
+    }
 }
