@@ -21,12 +21,7 @@ public class FollowCommand extends ChatCommand {
             sendNotif(Locale.getOrDefault("command.follow.playerhimself", "You can't follow yourself!"), client);
             return;
         }
-        
-        if (leader.getPlayer().getEntity().getRoom().getId() == client.getPlayer().getEntity().getRoom().getId())
-        {
-            sendNotif(Locale.getOrDefault("command.follow.sameroom", "This user is in the same room!"), client);
-            return;
-        }
+       
 
         if (leader != null && leader.getPlayer() != null && leader.getPlayer().getEntity() != null) {
             if (!leader.getPlayer().getSettings().getAllowFollow() && !client.getPlayer().getPermissions().getRank().modTool()) {
