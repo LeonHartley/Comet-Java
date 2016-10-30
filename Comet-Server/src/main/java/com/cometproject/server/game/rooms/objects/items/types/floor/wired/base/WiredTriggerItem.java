@@ -45,6 +45,11 @@ public abstract class WiredTriggerItem extends WiredFloorItem {
     @Override
     public boolean evaluate(RoomEntity entity, Object data) {
         try {
+            // if the trigger relies on an entity being provided and there wasn't one, ignore.
+            if(this.suppliesPlayer() && entity == null) {
+                return false;
+            }
+
             // create empty list for all wired actions on the current tile
             List<WiredActionItem> wiredActions = Lists.newArrayList();
 
