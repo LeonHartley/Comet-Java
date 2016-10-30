@@ -32,7 +32,7 @@ public class RedeemVoucherMessageEvent implements Event {
             return;
         }
 
-        client.getPlayer().setVoucherRedeemAttempts(client.getPlayer().getLastVoucherRedeemAttempt() + 1);
+        client.getPlayer().setVoucherRedeemAttempts(client.getPlayer().getVoucherRedeemAttempts() + 1);
         client.getPlayer().setLastVoucherRedeemAttempt((int) System.currentTimeMillis() / 1000);
 
         final Voucher voucher = VoucherDao.findVoucherByCode(voucherCode);
