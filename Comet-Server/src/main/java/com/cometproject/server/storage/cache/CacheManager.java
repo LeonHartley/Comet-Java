@@ -86,6 +86,10 @@ public class CacheManager implements Initialisable {
     }
 
     public void put(final String key, CachableObject object) {
+        if(this.jedis == null) {
+            return;
+        }
+
         try {
             try (final Jedis jedis = this.jedis.getResource()) {
                 final long startTime = System.currentTimeMillis();
@@ -104,6 +108,10 @@ public class CacheManager implements Initialisable {
     }
 
     public void putString(final String key, final String value) {
+        if(this.jedis == null) {
+            return;
+        }
+
         try {
             try (final Jedis jedis = this.jedis.getResource()) {
                 jedis.set(this.getKey(key), value);

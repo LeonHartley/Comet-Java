@@ -93,8 +93,8 @@ public class GroupManager implements Initialisable {
 
         final int oneDay = 24 * 60 * 60;
 
-        this.groupDataCache = new Cache("groupDataCache", 75000, false, false, oneDay, oneDay);
-        this.groupInstanceCache = new Cache("groupInstanceCache", 3000, false, false, oneDay, oneDay);
+        this.groupDataCache = new Cache("groupDataCache", 15000, false, false, oneDay, oneDay);
+        this.groupInstanceCache = new Cache("groupInstanceCache", 15000, false, false, oneDay, oneDay);
 
         this.groupInstanceCache.getCacheEventNotificationService().registerListener(new GroupCacheEventListener());
 
