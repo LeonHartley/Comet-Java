@@ -1,6 +1,7 @@
 package com.cometproject.server.game.catalog;
 
 import com.cometproject.server.game.catalog.purchase.OldCatalogPurchaseHandler;
+import com.cometproject.server.game.catalog.types.CatalogFrontPageEntry;
 import com.cometproject.server.game.catalog.types.CatalogItem;
 import com.cometproject.server.game.catalog.types.CatalogOffer;
 import com.cometproject.server.game.catalog.types.CatalogPage;
@@ -49,6 +50,13 @@ public class CatalogManager implements Initialisable {
      * The old style of gift boxes
      */
     private final List<Integer> giftBoxesOld = Lists.newArrayList();
+
+    /**
+     * Featured catalog pages (they are displayed on the front page)
+     */
+    private final List<CatalogFrontPageEntry> frontPageEntries = new ArrayList<>();
+
+
 
     /**
      * The handler of everything catalog-purchase related
@@ -101,6 +109,10 @@ public class CatalogManager implements Initialisable {
             this.getPages().clear();
         }
 
+        if(this.frontPageEntries.size() >= 1) {
+            this.frontPageEntries.clear();
+        }
+
         if (getCatalogOffers().size() >= 1) {
             getCatalogOffers().clear();
         }
@@ -112,6 +124,7 @@ public class CatalogManager implements Initialisable {
         try {
             CatalogDao.getItems(this.items);
             CatalogDao.getPages(this.pages);
+            CatalogDao.getFeaturedPages(this.frontPageEntries);
         } catch (Exception e) {
             log.error("Error while loading catalog pages/items", e);
         }
@@ -264,5 +277,9 @@ public class CatalogManager implements Initialisable {
      */
     public List<Integer> getGiftBoxesOld() {
         return giftBoxesOld;
+    }
+
+    public List<CatalogFrontPageEntry> getFrontPageEntries() {
+        return this.frontPageEntries;
     }
 }

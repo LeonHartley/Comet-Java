@@ -7,8 +7,8 @@ import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
 import com.cometproject.api.modules.BaseModule;
 import com.cometproject.api.networking.sessions.BaseSession;
 import com.cometproject.api.server.IGameService;
-import com.google.common.collect.Maps;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -39,7 +39,7 @@ public class ExampleModule extends BaseModule {
 
         StringBuilder inventoryStr = new StringBuilder("Inventory:\n===================================================\n\n");
 
-        Map<String, AtomicInteger> inventoryItemsAndQuantity = Maps.newHashMap();
+        Map<String, AtomicInteger> inventoryItemsAndQuantity = new HashMap<>();
 
         for (PlayerItem item : session.getPlayer().getInventory().getFloorItems().values()) {
             if (inventoryItemsAndQuantity.containsKey(item.getDefinition().getPublicName()))

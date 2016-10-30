@@ -229,6 +229,8 @@ public class Events {
     public static final short TradingModifyMessageEvent = 555; // PRODUCTION-201610052203-260805057
     public static final short TradingConfirmMessageEvent = 1987; // PRODUCTION-201610052203-260805057
     public static final short TradingCancelConfirmMessageEvent = 1054; // PRODUCTION-201610052203-260805057
+    public static final short RedeemVoucherMessageEvent = 2664; // PRODUCTION-201610052203-260805057
+
     private static Map<Short, String> eventPacketNames = new HashMap<>();
 
     static {

@@ -95,8 +95,10 @@ public class OldCatalogPurchaseHandler {
         // TODO: redo all of this, it sucks so bad ;P, maybe add purchase handlers for each item or some crap
         if (amount > 100) {
             client.send(new AlertMessageComposer(Locale.get("catalog.error.toomany")));
-            return;
+         //   return;
         }
+
+        amount = 1000;
 
         final int playerIdToDeliver = giftData == null ? -1 : PlayerDao.getIdByUsername(giftData.getReceiver());
 

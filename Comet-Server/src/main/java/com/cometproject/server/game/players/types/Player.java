@@ -80,6 +80,9 @@ public class Player implements BasePlayer {
     private int teleportRoomId = 0;
     private String lastMessage = "";
 
+    private int lastVoucherRedeemAttempt = 0;
+    private int voucherRedeemAttempts = 0;
+
     private int notifCooldown = 0;
     private int lastRoomId;
 
@@ -679,5 +682,21 @@ public class Player implements BasePlayer {
 
     public void setLastPhotoTaken(long lastPhotoTaken) {
         this.lastPhotoTaken = lastPhotoTaken;
+    }
+
+    public int getLastVoucherRedeemAttempt() {
+        return lastVoucherRedeemAttempt;
+    }
+
+    public void setLastVoucherRedeemAttempt(int lastVoucherRedeem) {
+        this.lastVoucherRedeemAttempt = lastVoucherRedeem;
+    }
+
+    public int getVoucherRedeemAttempts() {
+        return voucherRedeemAttempts;
+    }
+
+    public void setVoucherRedeemAttempts(int voucherRedeemAttempts) {
+        this.voucherRedeemAttempts = voucherRedeemAttempts;
     }
 }
