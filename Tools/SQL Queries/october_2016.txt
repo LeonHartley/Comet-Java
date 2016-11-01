@@ -31,3 +31,6 @@ INSERT INTO `catalog_featured_pages` (`id`, `caption`, `image`, `page_link`, `pa
 	(2, 'Comet has updated!', 'catalogue/feature_cata_hort_hween16bun4.png', '', -1),
 	(3, 'Some awesome furniture to get!', 'catalogue/feature_cata_hort_newfurnihween16.png', '', -1),
 	(4, 'HC? Don\'t worry.. It\'s free!', 'catalogue/feature_cata_hort_HC_b.png', '', -1);
+
+ALTER TABLE `server_configuration`
+	ADD COLUMN `max_connections_per_ip` INT(11) NOT NULL DEFAULT '5';

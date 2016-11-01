@@ -107,6 +107,11 @@ public class PlayerLoginRequest implements CometTask {
             }
 
             client.getPlayer().getData().setIpAddress(ipAddress);
+
+            if(PlayerManager.getInstance().getPlayerCountByIpAddress(ipAddress) > CometSettings.maxConnectionsPerIpAddress) {
+                client.disconnect();
+                return;
+            }
         }
 
         if (CometSettings.saveLogins)

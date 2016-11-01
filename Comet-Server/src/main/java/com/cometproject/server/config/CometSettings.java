@@ -64,6 +64,8 @@ public class CometSettings {
 
     public static boolean adaptiveEntityProcessDelay = false;
 
+    public static int maxConnectionsPerIpAddress = 2;
+
     private static final Logger log = Logger.getLogger(CometSettings.class.getName());
 
     /**
