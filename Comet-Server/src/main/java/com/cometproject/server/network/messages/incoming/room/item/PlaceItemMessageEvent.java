@@ -5,6 +5,7 @@ import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
 import com.cometproject.server.game.quests.types.QuestType;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.misc.Position;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.notification.NotificationMessageComposer;
@@ -31,7 +32,7 @@ public class PlaceItemMessageEvent implements Event {
         String[] parts = data.split(" ");
         int id = Integer.parseInt(parts[0].replace("-", ""));
 
-        if (!client.getPlayer().getEntity().getRoom().getRights().hasRights(client.getPlayer().getId())
+        if (!client.getPlayer().getEntity().getRoom().getRights().canPlaceFurniture(client.getPlayer().getId())
                 && !client.getPlayer().getPermissions().getRank().roomFullControl()) {
             Map<String, String> notificationParams = Maps.newHashMap();
 

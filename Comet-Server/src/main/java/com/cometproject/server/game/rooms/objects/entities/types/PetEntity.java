@@ -138,7 +138,7 @@ public class PetEntity extends RoomEntity {
         msg.writeInt(this.data.getRaceId());
 
         msg.writeInt(this.data.getOwnerId());
-        msg.writeString("Leon"); // TODO: this :P
+        msg.writeString(this.data.getOwnerName());
         msg.writeInt(1);
         msg.writeBoolean(true); // has saddle
         msg.writeBoolean(this.hasMount()); // has rider?

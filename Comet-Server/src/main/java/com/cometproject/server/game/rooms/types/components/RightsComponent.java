@@ -57,6 +57,22 @@ public class RightsComponent {
         return this.room.getData().getOwnerId() == playerId || this.rights.contains(playerId);
     }
 
+    public boolean canPlaceFurniture(final int playerId) {
+        final Group group = this.getRoom().getGroup();
+
+        if (group != null && group.getData() != null && group.getMembershipComponent() != null && group.getMembershipComponent().getMembers() != null) {
+            if (group.getData().canMembersDecorate() && group.getMembershipComponent().getMembers().containsKey(playerId)) {
+                return true;
+            }
+
+            if (group.getMembershipComponent().getAdministrators().contains(playerId)) {
+                return true;
+            }
+        }
+
+        return this.room.getData().getOwnerId() == playerId;
+    }
+
     public void removeRights(int playerId) {
         if (this.rights.contains(playerId)) {
             this.rights.remove(rights.indexOf(playerId));

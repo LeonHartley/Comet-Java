@@ -23,7 +23,29 @@ public class RoomPetDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("SELECT * FROM pet_data WHERE room_id = ?", sqlConnection);
+            preparedStatement = SqlHelper.prepare("SELECT " +
+                    "pet.`id` AS id, " +
+                    "pet.`pet_name` AS pet_name, " +
+                    "pet.`level` AS `level`, " +
+                    "pet.`happiness` AS happiness, " +
+                    "pet.`experience` AS experience, " +
+                    "pet.`energy` AS energy, " +
+                    "pet.`owner_id` AS owner_id, " +
+                    "pet.`colour` AS colour, " +
+                    "pet.`race_id` AS race_id, " +
+                    "pet.`type` AS `type`, " +
+                    "pet.`saddled` AS saddled, " +
+                    "pet.`hair_style` AS hair_style, " +
+                    "pet.`hair_colour` AS hair_colour, " +
+                    "pet.`any_rider` AS any_rider, " +
+                    "pet.`birthday` AS birthday, " +
+                    "pet.`x` AS `x`,  " +
+                    "pet.`y` AS `y`, " +
+                    "player.username AS owner_name " +
+                    " FROM pet_data AS pet  " +
+                    " RIGHT JOIN `players` AS player ON player.id = pet.owner_id " +
+                    " WHERE pet.room_id = ?", sqlConnection);
+
             preparedStatement.setInt(1, roomId);
 
             resultSet = preparedStatement.executeQuery();
