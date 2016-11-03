@@ -353,7 +353,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.SetMannequinNameMessageEvent, new SaveMannequinMessageEvent());
         this.getMessages().put(Events.SetMannequinFigureMessageEvent, new SaveMannequinFigureMessageEvent());
         this.getMessages().put(Events.SetTonerMessageEvent, new SaveTonerMessageEvent());
-//        this.getMessages().put(Events.Save, new SaveBrandingMessageEvent());
+        this.getMessages().put(Events.SaveBrandingMessageEvent, new SaveBrandingMessageEvent());
         this.getMessages().put(Events.OpenGiftMessageEvent, new OpenGiftMessageEvent());
         this.getMessages().put(Events.GetMoodlightConfigMessageEvent, new UseMoodlightMessageEvent());
         this.getMessages().put(Events.ToggleMoodlightMessageEvent, new ToggleMoodlightMessageEvent());
