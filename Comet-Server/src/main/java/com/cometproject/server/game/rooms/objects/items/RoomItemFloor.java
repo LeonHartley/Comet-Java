@@ -100,7 +100,7 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
             msg.writeInt(0);
             msg.writeInt(1);
 
-            if (!extraData.equals("")) {
+            if (!extraData.equals("") && !extraData.equals("0")) {
                 String[] adsData = extraData.split(String.valueOf((char) 9));
                 int count = adsData.length;
 
