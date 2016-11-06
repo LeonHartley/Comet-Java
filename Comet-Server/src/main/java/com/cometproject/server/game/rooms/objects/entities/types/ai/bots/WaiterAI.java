@@ -37,6 +37,11 @@ public class WaiterAI extends AbstractBotAI {
 
         for (Drink drink : drinks) {
             if (triggerMessage.contains(Locale.get("drink." + drink.getTrigger()))) {
+                if (entity.getPlayer().getRoomFloodTime() >= 1) {
+                    this.getEntity().getRoom().getEntities().broadcastMessage(new FloodFilterMessageComposer(entity.getPlayer().getRoomFloodTime()));
+                    return false;
+                }
+                
                 if (entity.getPosition().distanceTo(this.getEntity()) >= 4) {
                     this.getEntity().getRoom().getEntities().broadcastMessage(new TalkMessageComposer(this.getEntity().getId(), Locale.get("bots.chat.tooFar").replace("%username%", entity.getUsername()), RoomManager.getInstance().getEmotions().getEmotion(":("), 2));
                     return false;
