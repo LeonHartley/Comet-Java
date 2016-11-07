@@ -6,6 +6,7 @@ import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.ai.AbstractBotAI;
 import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.permissions.FloodFilterMessageComposer;
 
 public class WaiterAI extends AbstractBotAI {
     private static final Drink[] drinks = {
