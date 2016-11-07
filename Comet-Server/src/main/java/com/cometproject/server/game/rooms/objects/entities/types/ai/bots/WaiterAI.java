@@ -39,7 +39,7 @@ public class WaiterAI extends AbstractBotAI {
         for (Drink drink : drinks) {
             if (triggerMessage.contains(Locale.get("drink." + drink.getTrigger()))) {
                 if (entity.getPlayer().getRoomFloodTime() >= 1) {
-                    this.getEntity().getRoom().getEntities().broadcastMessage(new FloodFilterMessageComposer(entity.getPlayer().getRoomFloodTime()));
+                    entity.getPlayer().getSession().send(new FloodFilterMessageComposer(entity.getPlayer().getRoomFloodTime()));
                     return false;
                 }
                 
