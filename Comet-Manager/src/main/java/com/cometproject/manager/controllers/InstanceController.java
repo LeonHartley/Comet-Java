@@ -106,6 +106,34 @@ public class InstanceController {
         return modelAndView;
     }
 
+    @RequestMapping(value = "/instance/{id}/console", method = RequestMethod.GET)
+    public ModelAndView console(HttpServletRequest request, HttpServletResponse response, @PathVariable("id") String instanceId) throws IOException {
+        if (request.getSession() == null || request.getSession().getAttribute("customer") == null) {
+            response.sendRedirect("/");
+            return null;
+        }
+
+        final Customer customer = customerRepository.findOne((String) request.getSession().getAttribute("customer"));
+
+        if (!customer.getInstanceIds().contains(instanceId)) {
+            response.sendRedirect("/");
+            return null;
+        }
+
+        ModelAndView modelAndView = new ModelAndView("instance-console");
+        modelAndView.addObject("customer", customer);
+
+        final Instance instance = instanceRepository.findOne(instanceId);
+        final Host host = hostRepository.findOneByHostName(instance.getServer());
+        final InstanceStatus instanceStatus = host.getInstanceStatus(this.restTemplate, instanceId);
+
+        modelAndView.addObject("pageName", "instance-console");
+        modelAndView.addObject("instance", instance);
+        modelAndView.addObject("instanceStatus", instanceStatus);
+
+        return modelAndView;
+    }
+
     @RequestMapping(value = "/instance/save/{id}", method = RequestMethod.POST)
     public void saveInstance(HttpServletRequest request, HttpServletResponse response,
                              @PathVariable("id") String instanceId,
@@ -138,6 +166,14 @@ public class InstanceController {
         instance.getConfig().put("dbPassword", mysqlPassword);
         instance.getConfig().put("dbName", mysqlDatabase);
 //        instance.getConfig().put("dbPoolMax", "" + dbPool);
+
+        if(instance.getConfig().containsKey("comet.cache.enabled")) {
+            instance.getConfig().put("cacheEnabled", instance.getConfig().get("comet.cache.enabled"));
+            instance.getConfig().put("cachePrefix", instance.getConfig().get("comet.cache.prefix"));
+
+            instance.getConfig().remove("comet.cache.enabled");
+            instance.getConfig().remove("comet.cache.prefix");
+        }
 
         this.instanceRepository.save(instance);
 

@@ -1,0 +1,61 @@
+#parse('/templates/base/header.vm')
+
+<style type="text/css">
+    .settings {
+        padding-top: 10px;
+    }
+
+</style>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#showPassword').click(function () {
+            var passwordField = $('#password');
+
+            if (passwordField.attr('type') === 'text') {
+                // hide the password
+                passwordField.attr('type', 'password');
+                $(this).html('Show');
+            } else {
+                passwordField.attr('type', 'text');
+                $(this).html('Hide');
+            }
+        });
+
+        $('#showToken').click(function () {
+            var passwordField = $('#token');
+
+            if (passwordField.attr('type') === 'text') {
+                // hide the password
+                passwordField.attr('type', 'password');
+                $(this).html('Show');
+            } else {
+                passwordField.attr('type', 'text');
+                $(this).html('Hide');
+            }
+        });
+    });
+
+</script>
+
+<ol class="breadcrumb">
+    <li><a href="/home">Home</a></li>
+    <li>Instance</li>
+    <li><a href="/instance/$instance.id">$instance.name</a></li>
+    <li class="active">Console</li>
+</ol>
+
+<div class="row">
+
+    #parse('/templates/components/instance-sidebar.vm')
+
+    <div class="col-md-8">
+        <div class="panel panel-default">
+            <div class="panel-heading"><b>Console</b></div>
+            <div class="panel-body">
+
+            </div>
+        </div>
+    </div>
+</div>
+#include('/templates/base/footer.vm')

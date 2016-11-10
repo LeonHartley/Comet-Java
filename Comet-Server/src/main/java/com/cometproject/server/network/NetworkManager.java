@@ -5,6 +5,8 @@ import com.cometproject.server.network.messages.MessageHandler;
 import com.cometproject.server.network.monitor.MonitorClient;
 import com.cometproject.server.network.sessions.SessionManager;
 import com.cometproject.server.protocol.security.exchange.RSA;
+import io.coerce.commons.config.CoerceConfiguration;
+import io.coerce.services.messaging.client.MessagingClient;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.ChannelOption;
@@ -21,6 +23,7 @@ import io.netty.util.internal.logging.Log4JLoggerFactory;
 import org.apache.log4j.Logger;
 
 import java.net.InetSocketAddress;
+import java.util.UUID;
 
 
 public class NetworkManager {
@@ -39,6 +42,8 @@ public class NetworkManager {
     private RSA rsa;
 
     private MonitorClient monitorClient;
+
+    private MessagingClient messagingClient;
 
     private static Logger log = Logger.getLogger(NetworkManager.class.getName());
 
@@ -59,7 +64,8 @@ public class NetworkManager {
         this.messageHandler = new MessageHandler();
 
         this.serverPort = Integer.parseInt(ports.split(",")[0]);
-        this.monitorClient = new MonitorClient(new NioEventLoopGroup());
+       // this.monitorClient = new MonitorClient(new NioEventLoopGroup());
+        //this.messagingClient = MessagingClient.create(UUID.randomUUID() + "-" + ip + ":" + ports, new CoerceConfiguration());
 
         this.rsa.init();
 

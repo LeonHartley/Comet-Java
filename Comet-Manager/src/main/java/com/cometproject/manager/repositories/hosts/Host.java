@@ -56,13 +56,17 @@ public class Host {
     public void startInstance(RestTemplate restTemplate, Instance instance) {
         final StringBuilder applicationArguments = new StringBuilder();
 
+        applicationArguments.append("comet.api.enabled=true ");
+
         for (Map.Entry<String, String> configEntry : instance.getConfig().entrySet()) {
             if (!cometConfigMappings.containsKey(configEntry.getKey())) {
                 applicationArguments.append(configEntry.getKey()).append("=").append(configEntry.getValue()).append(" ");
             } else {
-                applicationArguments.append(cometConfigMappings.get(configEntry.getKey())).append(configEntry.getValue());
+                applicationArguments.append(cometConfigMappings.get(configEntry.getKey())).append("=").append(configEntry.getValue()).append(" ");
             }
         }
+
+        System.out.println(applicationArguments.toString());
 
         final HttpHeaders headers = new HttpHeaders();
 

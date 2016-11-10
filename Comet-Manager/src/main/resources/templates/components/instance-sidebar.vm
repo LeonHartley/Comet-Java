@@ -3,6 +3,7 @@
         <a href="/instance/$instance.id"
            class="list-group-item #if($pageName == 'instance-dash') active #end">Instance</a>
         <a href="/instance/$instance.id/config" class="list-group-item #if($pageName == 'instance-config') active #end">Configuration</a>
+        <a href="/instance/$instance.id/console" class="list-group-item #if($pageName == 'instance-console') active #end">Console</a>
         <!--<a href="/instance/$instance.id/logging" class="list-group-item #if($pageName == 'instance-logging') active #end">Logging</a>-->
     </div>
 

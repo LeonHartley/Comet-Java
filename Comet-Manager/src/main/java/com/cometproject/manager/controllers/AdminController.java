@@ -110,9 +110,41 @@ public class AdminController {
 
         modelAndView.addObject("pageName", "admin-instances");
 
+        if (request.getSession().getAttribute("saved") != null) {
+            modelAndView.addObject("saved", true);
+
+            request.getSession().setAttribute("saved", null);
+        }
+
         return modelAndView;
     }
 
+    @RequestMapping(value = "/admin/instances/edit/{id}", method = RequestMethod.GET)
+    public ModelAndView editInstance(HttpServletRequest request, HttpServletResponse response, @PathVariable("id") String id) throws IOException {
+        if (request.getSession() == null || request.getSession().getAttribute("customer") == null) {
+            response.sendRedirect("/");
+            return null;
+        }
+
+        final Customer customer = customerRepository.findOne((String) request.getSession().getAttribute("customer"));
+
+        if(!customer.hasRole(CustomerRole.ADMINISTRATOR)) {
+            response.sendRedirect("/");
+            return null;
+        }
+
+        ModelAndView modelAndView = new ModelAndView("admin/instances");
+
+        modelAndView.addObject("customer", customer);
+        modelAndView.addObject("editingId", id);
+
+        modelAndView.addObject("instances", instanceRepository.findAll());
+        modelAndView.addObject("hosts", hostRepository.findAll());
+
+        modelAndView.addObject("pageName", "admin-instances");
+
+        return modelAndView;
+    }
 
     @RequestMapping(value = "/admin/instances/save/{id}", method = RequestMethod.POST)
     public void saveInstance(HttpServletRequest request, HttpServletResponse response,
