@@ -32,6 +32,7 @@ public class Session implements BaseSession {
     private final UUID uuid = UUID.randomUUID();
 
     private Player player;
+    private boolean disconnectCalled = false;
 
     private DiffieHellman diffieHellman;
 
@@ -55,19 +56,25 @@ public class Session implements BaseSession {
 
         PlayerManager.getInstance().put(player.getId(), channelId, username, this.getIpAddress());
 
-        if(player.getPermissions().getRank().modTool()) {
+        if (player.getPermissions().getRank().modTool()) {
             ModerationManager.getInstance().addModerator(player.getSession());
         }
     }
 
     public void onDisconnect() {
-        if (!isClone && player != null && player.getData() != null)
+        if (this.disconnectCalled) {
+            return;
+        }
+
+        this.disconnectCalled = true;
+
+        if (player != null && player.getData() != null)
             PlayerManager.getInstance().remove(player.getId(), player.getData().getUsername(), this.channel.attr(SessionManager.CHANNEL_ID_ATTR).get(), this.getIpAddress());
 
         this.eventHandler.dispose();
 
         if (this.player != null) {
-            if(this.getPlayer().getPermissions().getRank().modTool()) {
+            if (this.getPlayer().getPermissions().getRank().modTool()) {
                 ModerationManager.getInstance().removeModerator(this);
             }
 
@@ -77,8 +84,9 @@ public class Session implements BaseSession {
         this.setPlayer(null);
     }
 
-    public void disconnect(boolean isClone) {
-        this.isClone = isClone;
+    public void disconnect() {
+        this.onDisconnect();
+
         this.getChannel().disconnect();
     }
 
@@ -88,16 +96,12 @@ public class Session implements BaseSession {
         if (!CometSettings.useDatabaseIp) {
             return ((InetSocketAddress) this.getChannel().channel().remoteAddress()).getAddress().getHostAddress();
         } else {
-            if(this.getPlayer() != null) {
+            if (this.getPlayer() != null) {
                 ipAddress = PlayerDao.getIpAddress(this.getPlayer().getId());
             }
         }
 
         return ipAddress;
-    }
-
-    public void disconnect() {
-        this.disconnect(false);
     }
 
     public void disconnect(String reason) {
@@ -166,7 +170,7 @@ public class Session implements BaseSession {
     }
 
     public DiffieHellman getDiffieHellman() {
-        if(this.diffieHellman == null) {
+        if (this.diffieHellman == null) {
             this.diffieHellman = new DiffieHellman();
         }
 
