@@ -21,8 +21,8 @@ import com.cometproject.server.network.messages.incoming.group.forum.settings.Sa
 import com.cometproject.server.network.messages.incoming.group.forum.threads.*;
 import com.cometproject.server.network.messages.incoming.group.settings.*;
 import com.cometproject.server.network.messages.incoming.handshake.*;
-import com.cometproject.server.network.messages.incoming.help.HelpTicketMessageEvent;
 import com.cometproject.server.network.messages.incoming.help.GetSanctionStatusEvent;
+import com.cometproject.server.network.messages.incoming.help.HelpTicketMessageEvent;
 import com.cometproject.server.network.messages.incoming.help.InitHelpToolMessageEvent;
 import com.cometproject.server.network.messages.incoming.landing.LandingLoadWidgetMessageEvent;
 import com.cometproject.server.network.messages.incoming.landing.RefreshPromoArticlesMessageEvent;

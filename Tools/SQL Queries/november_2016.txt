@@ -1,0 +1,2 @@
+insert into permission_commands VALUES('ejectall_command', 1, '0');
+insert into server_locale values('command.ejectall.name', 'ejectall');
