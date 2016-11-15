@@ -38,27 +38,38 @@ public class WhisperMessageEvent implements Event {
         if (userTo == null || user.equals(client.getPlayer().getData().getUsername()))
             return;
 
-
         String filteredMessage = TalkMessageEvent.filterMessage(message);
 
-        if (!client.getPlayer().getEntity().onChat(filteredMessage))
-            return;
+        if (!client.getPlayer().getPermissions().getRank().roomFilterBypass()) {
+            FilterResult filterResult = RoomManager.getInstance().getFilter().filter(message);
 
-        try {
-            if (LogManager.ENABLED)
-                LogManager.getInstance().getStore().getLogEntryContainer().put(new RoomChatLogEntry(room.getId(), client.getPlayer().getId(), Locale.getOrDefault("game.logging.whisper", "<Whisper to %username%>").replace("%username%", user) + " " + message));
-        } catch (Exception ignored) {
+            if (filterResult.isBlocked()) {
+                client.send(new AdvancedAlertMessageComposer(Locale.get("game.message.blocked").replace("%s", filterResult.getMessage())));
+                client.getLogger().info("Filter detected a blacklisted word in message: \"" + message + "\"");
+                return;
+            } else if (filterResult.wasModified()) {
+                filteredMessage = filterResult.getMessage();
+            }
+        }
 
+
+        if (client.getPlayer().getEntity().onChat(filteredMessage)) {
+            try {
+                if (LogManager.ENABLED)
+                    LogManager.getInstance().getStore().getLogEntryContainer().put(new RoomChatLogEntry(room.getId(), client.getPlayer().getId(), Locale.getOrDefault("game.logging.whisper", "<Whisper to %username%>").replace("%username%", user) + " " + message));
+            } catch (Exception ignored) {
+
+            }
+
+            if (!((PlayerEntity) userTo).getPlayer().ignores(client.getPlayer().getId()))
+                ((PlayerEntity) userTo).getPlayer().getSession().send(new WhisperMessageComposer(client.getPlayer().getEntity().getId(), filteredMessage));
+
+            for (PlayerEntity entity : client.getPlayer().getEntity().getRoom().getEntities().getWhisperSeers()) {
+                if (entity.getPlayer().getId() != client.getPlayer().getId() && !user.equals(entity.getUsername()))
+                    entity.getPlayer().getSession().send(new WhisperMessageComposer(client.getPlayer().getEntity().getId(), "Fluistert naar " + user + ": " + filteredMessage));
+            }
         }
 
         client.send(new WhisperMessageComposer(client.getPlayer().getEntity().getId(), filteredMessage));
-
-        if (!((PlayerEntity) userTo).getPlayer().ignores(client.getPlayer().getId()))
-            ((PlayerEntity) userTo).getPlayer().getSession().send(new WhisperMessageComposer(client.getPlayer().getEntity().getId(), filteredMessage));
-
-        for (PlayerEntity entity : client.getPlayer().getEntity().getRoom().getEntities().getWhisperSeers()) {
-            if (entity.getPlayer().getId() != client.getPlayer().getId() && !user.equals(entity.getUsername()))
-                entity.getPlayer().getSession().send(new WhisperMessageComposer(client.getPlayer().getEntity().getId(), "Whisper to " + user + ": " + filteredMessage));
-        }
     }
 }
