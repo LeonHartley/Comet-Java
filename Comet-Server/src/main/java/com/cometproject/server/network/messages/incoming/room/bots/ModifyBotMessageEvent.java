@@ -41,6 +41,10 @@ public class ModifyBotMessageEvent implements Event {
 
         BotEntity botEntity = room.getEntities().getEntityByBotId(botId);
 
+        if(botEntity.getData() == null) {
+            return;
+        }
+
         switch (action) {
             case 1:
                 String figure = entity.getFigure();
