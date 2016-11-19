@@ -1,0 +1,51 @@
+package com.cometproject.server.game.rooms.objects.items.types;
+
+import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.objects.items.types.state.FloorItemEvent;
+import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.tasks.CometThreadManager;
+import com.cometproject.server.utilities.collections.ConcurrentHashSet;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+public abstract class AdvancedFloorItem<T extends FloorItemEvent> extends RoomItemFloor {
+    public static final int MAX_ITEM_EVENTS = 500;
+
+    private final Set<T> itemEvents = new ConcurrentHashSet<T>();
+
+    public AdvancedFloorItem(long id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
+        super(id, itemId, room, owner, x, y, z, rotation, data);
+    }
+
+    @Override
+    public void onTick() {
+        final Set<T> finishedEvents = new HashSet<T>();
+
+        for(T itemEvent : itemEvents) {
+            itemEvent.incrementTicks();
+
+            if(itemEvent.isFinished()) {
+                finishedEvents.add(itemEvent);
+            }
+        }
+
+        for(T finishedEvent : finishedEvents) {
+            this.itemEvents.remove(finishedEvent);
+            this.onEventComplete(finishedEvent);
+        }
+
+        finishedEvents.clear();
+    }
+
+    public void queueEvent(final T floorItemEvent) throws Exception {
+        if(this.itemEvents.size() >= MAX_ITEM_EVENTS) {
+            throw new Exception("AdvancedFloorItem max item events reached");
+        }
+
+        this.itemEvents.add(floorItemEvent);
+    }
+
+    protected abstract void onEventComplete(T event);
+}

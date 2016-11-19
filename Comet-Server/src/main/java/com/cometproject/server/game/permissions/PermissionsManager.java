@@ -18,6 +18,8 @@ public class PermissionsManager implements Initialisable {
     private Map<Integer, Rank> ranks;
     private Map<String, CommandPermission> commands;
 
+
+
     private static Logger log = Logger.getLogger(PermissionsManager.class.getName());
 
     public PermissionsManager() {
