@@ -163,6 +163,10 @@ public class TeleporterFloorItem extends AdvancedFloorItem<TeleporterFloorItem.T
                         this.toggleDoor(true);
 
                     if (event.incomingEntity != null) {
+                        event.incomingEntity.setBodyRotation(this.rotation);
+                        event.incomingEntity.setHeadRotation(this.rotation);
+                        event.incomingEntity.refresh();
+
                         event.incomingEntity.moveTo(this.getPosition().squareInFront(this.getRotation()).getX(), this.getPosition().squareInFront(this.getRotation()).getY());
                     }
 
