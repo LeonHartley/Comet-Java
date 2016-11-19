@@ -89,16 +89,14 @@ public class WiredActionMatchToSnapshot extends WiredActionItem {
             if (matchPosition || matchRotation) {
                 Position currentPosition = floorItem.getPosition().copy();
 
-                Position newPosition = new Position(itemSnapshot.getX(), itemSnapshot.getY());
+                Position newPosition = new Position(itemSnapshot.getX(), itemSnapshot.getY(), itemSnapshot.getZ());
 
                 int currentRotation = floorItem.getRotation();
 
-                if (this.getRoom().getItems().moveFloorItem(floorItem.getId(), !matchPosition ? currentPosition : newPosition, matchRotation ? itemSnapshot.getRotation() : floorItem.getRotation(), true)) {
+                if (this.getRoom().getItems().moveFloorItem(floorItem.getId(), !matchPosition ? currentPosition : newPosition, matchRotation ? itemSnapshot.getRotation() : floorItem.getRotation(), true, false)) {
                     if (currentRotation != floorItem.getRotation()) {
                         rotationChanged = true;
                     }
-
-                    newPosition.setZ(floorItem.getPosition().getZ());
 
                     if (!matchRotation || !rotationChanged && !matchState) {
                         this.getRoom().getEntities().broadcastMessage(new SlideObjectBundleMessageComposer(currentPosition, newPosition, 0, this.getVirtualId(), floorItem.getVirtualId()));

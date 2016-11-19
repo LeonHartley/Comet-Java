@@ -368,6 +368,10 @@ public class ItemsComponent {
     }
 
     public boolean moveFloorItem(long itemId, Position newPosition, int rotation, boolean save) {
+        return moveFloorItem(itemId, newPosition, rotation, save, true);
+    }
+
+    public boolean moveFloorItem(long itemId, Position newPosition, int rotation, boolean save, boolean obeyStack) {
         RoomItemFloor item = this.getFloorItem(itemId);
         if (item == null) return false;
 
@@ -377,7 +381,7 @@ public class ItemsComponent {
             return false;
         }
 
-        double height = tile.getStackHeight(item);
+        double height = obeyStack ? tile.getStackHeight(item) : newPosition.getZ();
 
         List<RoomItemFloor> floorItemsAt = this.getItemsOnSquare(newPosition.getX(), newPosition.getY());
 
