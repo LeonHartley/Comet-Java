@@ -516,6 +516,12 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
         this.isVisible = isVisible;
     }
 
+    public void refresh() {
+        this.updateVisibility(false);
+        this.updateVisibility(true);
+        this.markNeedsUpdate();
+    }
+
     public void cancelWalk() {
         this.setWalkCancelled(true);
         this.markNeedsUpdate();
