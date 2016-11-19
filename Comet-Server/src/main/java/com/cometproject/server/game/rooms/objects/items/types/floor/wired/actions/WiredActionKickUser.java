@@ -4,6 +4,7 @@ import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.events.WiredItemEvent;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.avatar.WhisperMessageComposer;
 
@@ -29,16 +30,6 @@ public class WiredActionKickUser extends WiredActionShowMessage {
     }
 
     @Override
-    public boolean requiresPlayer() {
-        return true;
-    }
-
-    @Override
-    public int getInterface() {
-        return 7;
-    }
-
-    @Override
     public boolean evaluate(RoomEntity entity, Object data) {
         if (!(entity instanceof PlayerEntity)) {
             return false;
@@ -54,10 +45,12 @@ public class WiredActionKickUser extends WiredActionShowMessage {
 
         if (kickException.isEmpty()) {
             if (super.evaluate(entity, data)) {
-                this.entity = entity;
+                final WiredItemEvent event = new WiredItemEvent();
+                event.entity = entity;
+                event.entity.applyEffect(new PlayerEffect(4, 5));
 
-                this.entity.applyEffect(new PlayerEffect(4, 5));
-                this.setTicks(RoomItemFactory.getProcessTime(0.9));
+                event.setTotalTicks(RoomItemFactory.getProcessTime(0.9));
+                this.queueEvent(event);
             }
         } else {
             playerEntity.getPlayer().getSession().send(new WhisperMessageComposer(entity.getId(), "Wired kick exception: " + kickException));
@@ -66,9 +59,10 @@ public class WiredActionKickUser extends WiredActionShowMessage {
         return true;
     }
 
-    public void onTickComplete() {
-        if (this.entity != null) {
-            this.entity.leaveRoom(false, true, true);
+    @Override
+    public void onEventComplete(WiredItemEvent event) {
+        if (event.entity != null) {
+            event.entity.leaveRoom(false, true, true);
         }
     }
 }

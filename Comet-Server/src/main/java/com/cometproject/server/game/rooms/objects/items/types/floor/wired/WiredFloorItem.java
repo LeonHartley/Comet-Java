@@ -3,9 +3,11 @@ package com.cometproject.server.game.rooms.objects.items.types.floor.wired;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.objects.items.types.AdvancedFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.data.WiredActionItemData;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.data.WiredItemData;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.events.WiredItemEvent;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerPeriodically;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.composers.MessageComposer;
@@ -19,7 +21,7 @@ import java.util.List;
 /**
  * This system was inspired by Nillus' "habbod2".
  */
-public abstract class WiredFloorItem extends RoomItemFloor implements WiredItemSnapshot.Refreshable, Stateable {
+public abstract class WiredFloorItem extends AdvancedFloorItem<WiredItemEvent> implements WiredItemSnapshot.Refreshable, Stateable {
     /**
      * The data associated with this wired item
      */
@@ -129,6 +131,8 @@ public abstract class WiredFloorItem extends RoomItemFloor implements WiredItemS
     public void onTick() {
         if (this instanceof WiredTriggerPeriodically) return;
 
+        super.onTick();
+
         if (this.state && this.hasTicked) {
             this.state = false;
             this.hasTicked = false;
@@ -137,6 +141,11 @@ public abstract class WiredFloorItem extends RoomItemFloor implements WiredItemS
         } else if(this.state) {
             this.hasTicked = true;
         }
+    }
+
+    @Override
+    protected void onEventComplete(WiredItemEvent event) {
+
     }
 
     /**

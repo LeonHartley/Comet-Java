@@ -6,9 +6,11 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.DiceFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.events.WiredItemEvent;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.google.common.collect.Lists;
+import org.apache.http.impl.conn.Wire;
 
 import java.util.List;
 
@@ -43,22 +45,20 @@ public class WiredActionToggleState extends WiredActionItem {
 
     @Override
     public boolean evaluate(RoomEntity entity, Object data) {
-        if(this.hasTicks()) {
-            // we're busy, try again later.
-            return false;
-        }
-
         if (this.getWiredData().getDelay() >= 1) {
-            this.setTicks(RoomItemFactory.getProcessTime(this.getWiredData().getDelay() / 2));
+            final WiredItemEvent event = new WiredItemEvent();
+
+            event.setTotalTicks(RoomItemFactory.getProcessTime(this.getWiredData().getDelay() / 2));
+            this.queueEvent(event);
         } else {
-            this.onTickComplete();
+            this.onEventComplete(null);
         }
 
         return true;
     }
 
     @Override
-    public void onTickComplete() {
+    public void onEventComplete(WiredItemEvent event) {
         List<Position> tilesToUpdate = Lists.newArrayList();
 
         for (long itemId : this.getWiredData().getSelectedIds()) {

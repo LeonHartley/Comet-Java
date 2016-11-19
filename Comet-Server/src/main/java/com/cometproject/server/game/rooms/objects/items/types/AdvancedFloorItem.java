@@ -11,8 +11,6 @@ import java.util.List;
 import java.util.Set;
 
 public abstract class AdvancedFloorItem<T extends FloorItemEvent> extends RoomItemFloor {
-    public static final int MAX_ITEM_EVENTS = 500;
-
     private final Set<T> itemEvents = new ConcurrentHashSet<T>();
 
     public AdvancedFloorItem(long id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
@@ -39,11 +37,7 @@ public abstract class AdvancedFloorItem<T extends FloorItemEvent> extends RoomIt
         finishedEvents.clear();
     }
 
-    public void queueEvent(final T floorItemEvent) throws Exception {
-        if(this.itemEvents.size() >= MAX_ITEM_EVENTS) {
-            throw new Exception("AdvancedFloorItem max item events reached");
-        }
-
+    public void queueEvent(final T floorItemEvent) {
         this.itemEvents.add(floorItemEvent);
     }
 

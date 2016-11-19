@@ -1,9 +1,10 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.base;
 
-import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.objects.items.types.AdvancedFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.data.WiredActionItemData;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.events.WiredItemEvent;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.wired.dialog.WiredActionMessageComposer;
@@ -13,8 +14,6 @@ import java.util.List;
 
 
 public abstract class WiredActionItem extends WiredFloorItem {
-    protected RoomEntity entity;
-
     /**
      * The default constructor
      *

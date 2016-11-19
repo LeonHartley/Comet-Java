@@ -7,6 +7,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.DiceFloorIte
 import com.cometproject.server.game.rooms.objects.items.types.floor.banzai.BanzaiTimerFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredItemSnapshot;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.events.WiredItemEvent;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.highscore.HighscoreClassicFloorItem;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
@@ -51,16 +52,19 @@ public class WiredActionMatchToSnapshot extends WiredActionItem {
         if (this.hasTicks()) return false;
 
         if (this.getWiredData().getDelay() >= 1) {
-            this.setTicks(RoomItemFactory.getProcessTime(this.getWiredData().getDelay() / 2));
+            final WiredItemEvent event = new WiredItemEvent();
+
+            event.setTotalTicks(RoomItemFactory.getProcessTime(this.getWiredData().getDelay() / 2));
+            this.queueEvent(event);
         } else {
-            this.onTickComplete();
+            this.onEventComplete(null);
         }
 
         return true;
     }
 
     @Override
-    public void onTickComplete() {
+    public void onEventComplete(WiredItemEvent event) {
         if (this.getWiredData().getSnapshots().size() == 0) {
             return;
         }

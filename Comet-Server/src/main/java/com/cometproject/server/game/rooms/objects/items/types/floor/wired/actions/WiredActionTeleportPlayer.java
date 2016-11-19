@@ -6,6 +6,8 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredUtil;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.events.WiredItemEvent;
+import com.cometproject.server.game.rooms.objects.items.types.state.FloorItemEvent;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 
@@ -32,53 +34,51 @@ public class WiredActionTeleportPlayer extends WiredActionItem {
     public boolean evaluate(RoomEntity entity, Object data) {
         if (entity == null) return false;
 
-        if (this.entity != null) {
-            // this action is busy, pls come back later.
-            return false;
-        }
+        final WiredItemEvent event = new WiredItemEvent();
 
-        this.entity = entity;
+        event.entity = entity;
 
         if (this.getWiredData().getDelay() >= 1) {
-            this.setTicks(RoomItemFactory.getProcessTime(this.getWiredData().getDelay() / 2));
+            event.setTotalTicks(RoomItemFactory.getProcessTime(this.getWiredData().getDelay() / 2));
+            this.queueEvent(event);
         } else {
-            this.onTickComplete();
+            this.onEventComplete(event);
         }
 
         return true;
     }
 
     @Override
-    public void onTickComplete() {
-        if (this.entity == null) return;
+    public void onEventComplete(WiredItemEvent event) {
+        if (event.entity == null) return;
 
         if (this.getWiredData() == null || this.getWiredData().getSelectedIds() == null || this.getWiredData().getSelectedIds().isEmpty()) {
-            this.entity = null;
+            event.entity = null;
             return;
         }
 
         Long itemId = WiredUtil.getRandomElement(this.getWiredData().getSelectedIds());
 
         if (itemId == null) {
-            this.entity = null;
+            event.entity = null;
             return;
         }
 
         RoomItemFloor item = this.getRoom().getItems().getFloorItem(itemId);
 
         if (item == null || item.isAtDoor() || item.getPosition() == null || item.getTile() == null) {
-            this.entity = null;
+            event.entity = null;
             return;
         }
 
         Position position = new Position(item.getPosition().getX(), item.getPosition().getY(), item.getTile().getWalkHeight());
 
-        this.entity.applyEffect(new PlayerEffect(4, 5));
+        event.entity.applyEffect(new PlayerEffect(4, 5));
 
-        this.entity.cancelWalk();
-        this.entity.warp(position);
+        event.entity.cancelWalk();
+        event.entity.warp(position);
 
-        this.entity = null;
+        event.entity = null;
     }
 
 
