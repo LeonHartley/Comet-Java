@@ -37,6 +37,10 @@ public class MinionAI extends AbstractBotAI {
             entity.getData().setMode("relaxed");
         });
 
+        put("minions relax", (entity) -> {
+            entity.getData().setMode("relaxed");
+        });
+
         put("minions stand", (entity) -> {
             entity.removeStatus(RoomEntityStatus.SIT);
             entity.markNeedsUpdate();

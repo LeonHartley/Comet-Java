@@ -8,6 +8,7 @@ import com.cometproject.server.game.rooms.objects.BigRoomFloorObject;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.items.types.AdvancedFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.RollableFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.RollerFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredFloorItem;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
@@ -51,7 +52,7 @@ public abstract class RoomItem extends BigRoomFloorObject implements Attributabl
     }
 
     public final boolean requiresTick() {
-        return this.hasTicks() || this instanceof WiredFloorItem || this instanceof AdvancedFloorItem;
+        return this.hasTicks() || this instanceof WiredFloorItem || this instanceof AdvancedFloorItem || this instanceof RollerFloorItem;
     }
 
     protected final boolean hasTicks() {
