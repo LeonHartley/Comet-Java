@@ -129,6 +129,7 @@ public class InstanceController {
 
         modelAndView.addObject("pageName", "instance-console");
         modelAndView.addObject("instance", instance);
+        modelAndView.addObject("host", host);
         modelAndView.addObject("instanceStatus", instanceStatus);
 
         return modelAndView;
