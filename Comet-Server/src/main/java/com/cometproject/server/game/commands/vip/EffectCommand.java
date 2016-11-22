@@ -22,7 +22,7 @@ public class EffectCommand extends ChatCommand {
 
             final Integer minimumRank = PermissionsManager.getInstance().getEffects().get(effectId);
 
-            if(minimumRank != null && minimumRank < client.getPlayer().getData().getRank()) {
+            if(minimumRank != null && client.getPlayer().getData().getRank() < minimumRank) {
                 effectId = 10;
             }
 
