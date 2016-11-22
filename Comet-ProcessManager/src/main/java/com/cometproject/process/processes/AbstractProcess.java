@@ -7,6 +7,7 @@ import org.apache.http.cookie.CookiePathComparator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.http.HttpMethod;
+import org.eclipse.jetty.util.ConcurrentHashSet;
 import org.slf4j.LoggerFactory;
 import org.zeroturnaround.exec.ProcessExecutor;
 import org.zeroturnaround.exec.ProcessResult;
@@ -14,7 +15,9 @@ import org.zeroturnaround.exec.stream.LogOutputStream;
 import org.zeroturnaround.exec.stream.slf4j.Slf4jStream;
 
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.TimeoutException;
 
@@ -27,7 +30,10 @@ public abstract class AbstractProcess extends Thread {
     private long lastStatusCheck = 0;
     private long shutdownRequested = 0;
 
-    private final List<SocketIOClient> listeners = new CopyOnWriteArrayList<>();
+    private final LinkedList<String> console = new LinkedList<String>();
+
+
+    private final Set<SocketIOClient> listeners = new ConcurrentHashSet<>();
 
     public AbstractProcess(String processName) {
         super(processName);
@@ -103,7 +109,11 @@ public abstract class AbstractProcess extends Thread {
                             if(getProcessStatus() == ProcessStatus.STARTING)
                                 setProcessStatus(ProcessStatus.UP);
 
-                            System.out.println(line);
+                            if(console.size() >= 100) {
+                                console.removeFirst();
+                            }
+
+                            console.add(line);
 
                             if(listeners.isEmpty()) {
                                 return;
@@ -127,7 +137,7 @@ public abstract class AbstractProcess extends Thread {
             }
         }
 
-        log.info("Processed exited");
+        log.info("Process exited");
     }
 
     public void performShutdown() {
@@ -161,10 +171,16 @@ public abstract class AbstractProcess extends Thread {
     }
 
     public void listen(SocketIOClient client) {
+        if(!this.console.isEmpty()) {
+            for(String line : this.console) {
+                client.sendEvent("serverLog", line);
+            }
+        }
+
         this.listeners.add(client);
     }
 
-    public List<SocketIOClient> getListeners() {
+    public Set<SocketIOClient> getListeners() {
         return this.listeners;
     }
 }

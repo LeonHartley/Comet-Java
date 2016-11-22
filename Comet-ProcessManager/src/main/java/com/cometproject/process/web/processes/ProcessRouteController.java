@@ -5,6 +5,7 @@ import com.cometproject.process.processes.AbstractProcess;
 import com.cometproject.process.processes.ProcessStatus;
 import com.cometproject.process.processes.server.CometServerProcess;
 import com.cometproject.process.web.AbstractRouteController;
+import com.corundumstudio.socketio.SocketIOClient;
 import spark.Request;
 import spark.Response;
 
@@ -33,6 +34,15 @@ public class ProcessRouteController extends AbstractRouteController {
                 final String apiToken = request.queryParams("apiToken");
 
                 process = new CometServerProcess(processName, applicationArguments, serverVersion, apiUrl, apiToken);
+
+                final AbstractProcess oldProcess = this.getProcessManager().getProcesses().get(processName);
+
+                if(oldProcess != null) {
+                    for(SocketIOClient client : oldProcess.getListeners()) {
+                        process.listen(client);
+                    }
+                }
+
                 break;
         }
 

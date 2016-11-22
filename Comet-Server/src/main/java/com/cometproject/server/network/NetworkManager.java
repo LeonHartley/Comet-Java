@@ -67,14 +67,14 @@ public class NetworkManager {
        // this.monitorClient = new MonitorClient(new NioEventLoopGroup());
         //this.messagingClient = MessagingClient.create(UUID.randomUUID() + "-" + ip + ":" + ports, new CoerceConfiguration());
 
-        if(Comet.messagingServerHost != null) {
-            final CoerceConfiguration coerceConfiguration = new CoerceConfiguration();
-
-            this.messagingClient = MessagingClient.create(Comet.instanceId, coerceConfiguration);
-            this.messagingClient.connect(Comet.messagingServerHost, Comet.messagingServerPort, (client) -> {
-                log.info("Connected to Coerce Messaging Server");
-            });
-        }
+//        if(Comet.messagingServerHost != null) {
+//            final CoerceConfiguration coerceConfiguration = new CoerceConfiguration();
+//
+//            this.messagingClient = MessagingClient.create(Comet.instanceId, coerceConfiguration);
+//            this.messagingClient.connect(Comet.messagingServerHost, Comet.messagingServerPort, (client) -> {
+//                log.info("Connected to Coerce Messaging Server");
+//            });
+//        }
 
         this.rsa.init();
 

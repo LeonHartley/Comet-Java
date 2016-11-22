@@ -40,6 +40,12 @@ public class WebSocketServer {
         this.commands.put("help", (client, data) -> {
             final StringBuilder status = new StringBuilder();
 
+            if(client.has("key")) {
+                if(client.get("key").equals("console")) {
+                    return;
+                }
+            }
+
             status.append("Commands: <br />");
             status.append("<div style='padding-left: 30px;'>service status [alias | all]</div>");
             status.append("<div style='padding-left: 30px;'>service start [alias]</div>");
@@ -62,6 +68,12 @@ public class WebSocketServer {
             if(!client.has("authenticated")) {
                 client.sendEvent("log", "You must be authenticated to use this command");
                 return;
+            }
+
+            if(client.has("key") && !data[1].equals("listen")) {
+                if(client.get("key").equals("console")) {
+                    return;
+                }
             }
 
             try {
@@ -168,6 +180,7 @@ public class WebSocketServer {
                             return;
                         }
 
+                        client.sendEvent("log", "Comet Server console activated");
                         process.listen(client);
                         return;
                     }
@@ -206,7 +219,9 @@ public class WebSocketServer {
 
             final String authKey = data[1];
 
-            if (authKey.equals(AUTHENTICATION_KEY)) {
+            if (authKey.equals(AUTHENTICATION_KEY) || authKey.equals("console")) {
+                client.set("key", authKey);
+
                 client.sendEvent("log", "Successfully authenticated");
                 client.set("authenticated", "yes");
             } else {

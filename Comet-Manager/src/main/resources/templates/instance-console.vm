@@ -1,9 +1,9 @@
 #parse('/templates/base/header.vm')
 
- <script src="assets/js/socket.io.min.js"></script>
+ <script src="/js/socket.io.min.js"></script>
 
  <script type="text/javascript">
- var socket = io.connect('http://178.33.171.199:1232');
+ var socket = io.connect('http://$host.address:1232');
 
         socket.on('log', function (obj) {
             append("INFO", obj)
@@ -26,8 +26,8 @@
         }
 
         socket.on('connect', function() {
-            socket.emit("Command", "authenticate cometServer69");
-            socket.emit("Command", "listen $instance.id");
+            socket.emit("Command", "authenticate console");
+            socket.emit("Command", "service listen $instance.id");
         });
 
         $(document).ready(function() {
@@ -46,6 +46,28 @@
     .settings {
         padding-top: 10px;
     }
+
+#console {
+    padding: 10px;
+    font-family: monospace;
+    font-size: 11px;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+::-webkit-scrollbar-track {
+    background-color: #eaeaea;
+    border-left: 1px solid #ccc;
+}
+::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+}
+::-webkit-scrollbar-thumb:hover {
+    background-color: #aaa;
+}
 
 </style>
 
@@ -92,11 +114,11 @@
     #parse('/templates/components/instance-sidebar.vm')
 
     <div class="col-md-8">
-        <div class="panel panel-default">
-            <div class="panel-heading"><b>Console</b></div>
-            <div class="panel-body" id="console">
 
-            </div>
+        <div class="panel panel-default" id="consoleContainer" >
+            <ul class="list-group" id="console" style="height: 40vh; min-height: 500px; overflow: auto; overflow-y: scroll;">
+            </ul>
+            <input id="consoleCommand" style="width: 100%; margin: 0; padding: 10px; border-bottom: none; border-left: none; border-right: none; border-top: 1px solid #ccc; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px;" placeholder="Command "/>
         </div>
     </div>
 </div>
