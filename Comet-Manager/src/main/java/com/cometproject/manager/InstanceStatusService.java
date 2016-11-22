@@ -6,7 +6,7 @@ public class InstanceStatusService {
 
     private static InstanceStatusService instance;
 
-    private static Map<String, String> instances;
+    private Map<String, String> instances;
 
     public InstanceStatusService() {
 

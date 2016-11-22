@@ -1,9 +1,6 @@
 package com.cometproject.manager.controllers;
 
-import com.cometproject.manager.repositories.CustomerRepository;
-import com.cometproject.manager.repositories.HostRepository;
-import com.cometproject.manager.repositories.InstanceRepository;
-import com.cometproject.manager.repositories.VersionRepository;
+import com.cometproject.manager.repositories.*;
 import com.cometproject.manager.repositories.customers.Customer;
 import com.cometproject.manager.repositories.customers.roles.CustomerRole;
 import com.cometproject.manager.repositories.instances.Instance;
@@ -38,6 +35,9 @@ public class AdminController {
 
     @Autowired
     private VersionRepository versionRepository;
+
+    @Autowired
+    private ConfigurationRepository configurationRepository;
 
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
     public ModelAndView index(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -192,6 +192,31 @@ public class AdminController {
         modelAndView.addObject("versions", versionRepository.findAll());
 
         modelAndView.addObject("pageName", "admin-versions");
+
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/admin/configuration", method = RequestMethod.GET)
+    public ModelAndView configuration(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        if (request.getSession() == null || request.getSession().getAttribute("customer") == null) {
+            response.sendRedirect("/");
+            return null;
+        }
+
+        final Customer customer = customerRepository.findOne((String) request.getSession().getAttribute("customer"));
+
+        if(!customer.hasRole(CustomerRole.ADMINISTRATOR)) {
+            response.sendRedirect("/");
+            return null;
+        }
+
+        ModelAndView modelAndView = new ModelAndView("admin/configuration");
+
+        modelAndView.addObject("customer", customer);
+
+        modelAndView.addObject("configuration", configurationRepository.findAll());
+
+        modelAndView.addObject("pageName", "admin-configuration");
 
         return modelAndView;
     }

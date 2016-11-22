@@ -11,9 +11,8 @@ public class TeleportCommand extends ChatCommand {
     public void execute(Session client, String[] message) {
         if (client.getPlayer().getEntity() != null && client.getPlayer().getEntity().getRoom() != null) {
             if (!client.getPlayer().getEntity().getRoom().getRights().hasRights(client.getPlayer().getId()) &&
-                    !client.getPlayer().getPermissions().getRank().roomFullControl() &&
-                    !client.getPlayer().getData().isVip()) {
-                sendNotif(Locale.getOrDefault("You need to be VIP or have rights in this room to use this command!", "command.need.rights"), client);
+                    !client.getPlayer().getPermissions().getRank().roomFullControl()) {
+                sendNotif(Locale.getOrDefault("You need to have rights in this room to use this command!", "command.need.rights"), client);
                 return;
             }
 

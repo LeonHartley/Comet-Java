@@ -163,6 +163,8 @@ public class TeleporterFloorItem extends AdvancedFloorItem<TeleporterFloorItem.T
                         this.toggleDoor(true);
 
                     if (event.incomingEntity != null) {
+                        event.incomingEntity.setOverriden(false);
+
                         event.incomingEntity.moveTo(this.getPosition().squareInFront(this.getRotation()).getX(), this.getPosition().squareInFront(this.getRotation()).getY());
                     }
 
@@ -175,11 +177,6 @@ public class TeleporterFloorItem extends AdvancedFloorItem<TeleporterFloorItem.T
                 case 7: {
                     if (!(this instanceof TeleportPadFloorItem))
                         this.toggleDoor(false);
-
-                    if (event.incomingEntity != null) {
-                        event.incomingEntity.setOverriden(false);
-                        event.incomingEntity = null;
-                    }
 
                     this.inUse = false;
                     break;

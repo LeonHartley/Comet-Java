@@ -120,4 +120,31 @@ public class PermissionsDao {
 
         return data;
     }
+
+    public static Map<Integer, Integer> getEffects() {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        Map<Integer, Integer> data = new HashMap<>();
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+            preparedStatement = SqlHelper.prepare("SELECT * FROM permission_effects", sqlConnection);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                data.put(resultSet.getInt("effect_id"), resultSet.getInt("minimum_rank"));
+            }
+
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(resultSet);
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+
+        return data;
+    }
 }

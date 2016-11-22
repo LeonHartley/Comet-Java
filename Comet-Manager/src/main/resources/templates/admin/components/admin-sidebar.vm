@@ -6,6 +6,7 @@
         <a href="/admin/versions" class="list-group-item #if($pageName == 'admin-versions') active #end">Versions</a>
         <a href="/admin/customers" class="list-group-item #if($pageName == 'admin-customers') active #end">Customers</a>
         <a href="/admin/support" class="list-group-item #if($pageName == 'admin-support') active #end">Support</a>
+        <a href="/admin/configuration" class="list-group-item #if($pageName == 'admin-configuration') active #end">Configuration</a>
         <!--<a href="/instance/$instance.id/logging" class="list-group-item #if($pageName == 'instance-logging') active #end">Logging</a>-->
     </div>
 </div>

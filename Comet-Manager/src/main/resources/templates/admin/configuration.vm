@@ -1,0 +1,57 @@
+#parse('/templates/base/header.vm')
+
+
+<style type="text/css">
+    .settings {
+        padding-top: 10px;
+    }
+
+
+
+
+</style>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+    });
+
+
+
+
+</script>
+
+<ol class="breadcrumb">
+    <li><a href="/home">Admin</a></li>
+    <li class="active">Versions</li>
+</ol>
+
+<div class="row">
+
+    #parse('/templates/admin/components/admin-sidebar.vm')
+
+    <div class="col-md-10">
+
+        <!-- Table -->
+        <table class="table">
+            <tr>
+                <th>Key</th>
+                <th>Value</th>
+            </tr>
+
+            #foreach($entry in $configuration)
+            <tr>
+                <td>$entry.key</td>
+                <td><input type="text" class="form-control" value="$entry.value" /></td>
+
+                <td>
+                    <button class="btn btn-default btn-primary">Save</button>
+                </td>
+            </tr>
+
+            #end
+        </table>
+
+    </div>
+</div>
+#include('/templates/base/footer.vm')
