@@ -15,7 +15,12 @@ public class ChangeWallItemPositionMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) {
         int virtualId = msg.readInt();
 
-        long itemId = ItemManager.getInstance().getItemIdByVirtualId(virtualId);
+        Long itemId = ItemManager.getInstance().getItemIdByVirtualId(virtualId);
+
+        if(itemId == null) {
+            return;
+        }
+
         String position = Position.validateWallPosition(msg.readString());
 
         Room room = client.getPlayer().getEntity().getRoom();

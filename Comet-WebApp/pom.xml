@@ -7,12 +7,12 @@
     <parent>
         <groupId>Comet</groupId>
         <artifactId>Comet-Parent</artifactId>
-        <version>1.8.2-ALPHA1</version>
+        <version>1.8.3-ALPHA1</version>
     </parent>
 
     <groupId>Comet</groupId>
     <artifactId>Comet-WebApp</artifactId>
-    <version>1.8.2-ALPHA1</version>
+    <version>1.8.3-ALPHA1</version>
 
     
 </project>

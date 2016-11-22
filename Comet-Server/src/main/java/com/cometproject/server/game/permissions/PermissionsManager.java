@@ -17,8 +17,7 @@ public class PermissionsManager implements Initialisable {
     private Map<Integer, Perk> perks;
     private Map<Integer, Rank> ranks;
     private Map<String, CommandPermission> commands;
-
-
+    private Map<Integer, Integer> effects;
 
     private static Logger log = Logger.getLogger(PermissionsManager.class.getName());
 
@@ -31,11 +30,12 @@ public class PermissionsManager implements Initialisable {
         this.perks = new HashMap<>();
         this.commands = new HashMap<>();
         this.ranks = new HashMap<>();
+        this.effects = new HashMap<>();
 
         this.loadPerks();
         this.loadRankPermissions();
         this.loadCommands();
-
+        this.loadEffects();
 
         log.info("PermissionsManager initialized");
     }
@@ -95,6 +95,22 @@ public class PermissionsManager implements Initialisable {
         log.info("Loaded " + this.getCommands().size() + " command permissions");
     }
 
+    public void loadEffects() {
+        try {
+            if (this.getEffects().size() != 0) {
+                this.getEffects().clear();
+            }
+
+            this.effects = PermissionsDao.getEffects();
+
+        } catch (Exception e) {
+            log.error("Error while reloading effect permissions", e);
+            return;
+        }
+
+        log.info("Loaded " + this.getEffects().size() + " effect permissions");
+    }
+
     public Rank getRank(final int playerRankId) {
         final Rank rank = this.ranks.get(playerRankId);
 
@@ -116,5 +132,9 @@ public class PermissionsManager implements Initialisable {
 
     public Map<Integer, Perk> getPerks() {
         return perks;
+    }
+
+    public Map<Integer, Integer> getEffects() {
+        return effects;
     }
 }

@@ -1,5 +1,47 @@
 #parse('/templates/base/header.vm')
 
+ <script src="assets/js/socket.io.min.js"></script>
+
+ <script type="text/javascript">
+ var socket = io.connect('http://178.33.171.199:1232');
+
+        socket.on('log', function (obj) {
+            append("INFO", obj)
+
+            var consoleElement = document.getElementById("console");
+
+            consoleElement.scrollTop = consoleElement.scrollHeight;
+        });
+
+        socket.on('serverLog', function(obj) {
+            $('#console').append(obj + "<br />");
+        });
+
+        function append(level, data) {
+            if(level === ">") {
+                $('#console').append("<font color='green'>" + data + "</font><br />");
+            } else {
+                $('#console').append("[" + level + "][" +  new Date().toLocaleString() + "] " + data + "<br />");
+             }
+        }
+
+        socket.on('connect', function() {
+            socket.emit("Command", "authenticate cometServer69");
+            socket.emit("Command", "listen $instance.id");
+        });
+
+        $(document).ready(function() {
+            $("#consoleCommand").on("keypress", function(e) {
+                if (e.keyCode == 13) {
+                    socket.emit("Command", $(this).val())
+                    append(">", $(this).val())
+
+                    $(this).val("")
+                }
+            });
+        });
+        </script>
+
 <style type="text/css">
     .settings {
         padding-top: 10px;
@@ -52,7 +94,7 @@
     <div class="col-md-8">
         <div class="panel panel-default">
             <div class="panel-heading"><b>Console</b></div>
-            <div class="panel-body">
+            <div class="panel-body" id="console">
 
             </div>
         </div>

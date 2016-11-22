@@ -1,10 +1,13 @@
 package com.cometproject.server.network;
 
 import com.cometproject.server.boot.Comet;
+import com.cometproject.server.boot.CometServer;
 import com.cometproject.server.network.messages.MessageHandler;
 import com.cometproject.server.network.monitor.MonitorClient;
 import com.cometproject.server.network.sessions.SessionManager;
 import com.cometproject.server.protocol.security.exchange.RSA;
+import io.coerce.commons.config.CoerceConfiguration;
+import io.coerce.services.messaging.client.MessagingClient;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.ChannelOption;
@@ -40,6 +43,7 @@ public class NetworkManager {
     private RSA rsa;
 
     private MonitorClient monitorClient;
+    private MessagingClient messagingClient;
 
     private static Logger log = Logger.getLogger(NetworkManager.class.getName());
 
@@ -62,6 +66,15 @@ public class NetworkManager {
         this.serverPort = Integer.parseInt(ports.split(",")[0]);
        // this.monitorClient = new MonitorClient(new NioEventLoopGroup());
         //this.messagingClient = MessagingClient.create(UUID.randomUUID() + "-" + ip + ":" + ports, new CoerceConfiguration());
+
+        if(Comet.messagingServerHost != null) {
+            final CoerceConfiguration coerceConfiguration = new CoerceConfiguration();
+
+            this.messagingClient = MessagingClient.create(Comet.instanceId, coerceConfiguration);
+            this.messagingClient.connect(Comet.messagingServerHost, Comet.messagingServerPort, (client) -> {
+                log.info("Connected to Coerce Messaging Server");
+            });
+        }
 
         this.rsa.init();
 

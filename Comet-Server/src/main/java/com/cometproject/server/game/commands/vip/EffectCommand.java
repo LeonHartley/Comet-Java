@@ -2,6 +2,7 @@ package com.cometproject.server.game.commands.vip;
 
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
+import com.cometproject.server.game.permissions.PermissionsManager;
 import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.components.games.GameTeam;
@@ -19,8 +20,10 @@ public class EffectCommand extends ChatCommand {
         try {
             int effectId = Integer.parseInt(params[0]);
 
-            if (effectId == 102 || effectId == 178 || effectId == 187 && !client.getPlayer().getPermissions().getRank().modTool()) {
-                effectId = 3;
+            final Integer minimumRank = PermissionsManager.getInstance().getEffects().get(effectId);
+
+            if(minimumRank != null && client.getPlayer().getData().getRank() < minimumRank) {
+                effectId = 10;
             }
 
             PlayerEntity entity = client.getPlayer().getEntity();
@@ -36,7 +39,6 @@ public class EffectCommand extends ChatCommand {
             }
 
             entity.applyEffect(new PlayerEffect(effectId, 0));
-
         } catch (Exception e) {
             sendNotif(Locale.get("command.enable.invalidid"), client);
         }
