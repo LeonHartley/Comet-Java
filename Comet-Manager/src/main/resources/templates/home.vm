@@ -4,6 +4,7 @@
     $(document).ready(function() {
 
     });
+
 </script>
 
 <div class="row">
@@ -12,17 +13,17 @@
             <div class="panel-heading"><b>My Instances</b></div>
             <ul class="list-group">
                 #foreach($instance in $instances)
-                    <a href="/instance/$instance.id">
-                        <li class="list-group-item">
-                            $instance.name &nbsp; &nbsp; <span class="label $instance.instanceStatus.statusStyle">$instance.instanceStatus.status</span>
-                        </li>
-                    </a>
+                <a href="/instance/$instance.id">
+                    <li class="list-group-item">
+                        $instance.name &nbsp; &nbsp; <span class="label $instance.instanceStatus.statusStyle">$instance.instanceStatus.status</span>
+                    </li>
+                </a>
                 #end
             </ul>
         </div>
     </div>
     <div class="col-md-8">
-
     </div>
 
-#include('/templates/base/footer.vm')
+
+    #include('/templates/base/footer.vm')

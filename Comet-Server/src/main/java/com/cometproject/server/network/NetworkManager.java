@@ -1,11 +1,15 @@
 package com.cometproject.server.network;
 
+import com.cometproject.api.messaging.console.ConsoleCommandRequest;
+import com.cometproject.api.messaging.performance.QueryRequest;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.boot.CometServer;
+import com.cometproject.server.boot.utils.ConsoleCommands;
 import com.cometproject.server.network.messages.MessageHandler;
 import com.cometproject.server.network.monitor.MonitorClient;
 import com.cometproject.server.network.sessions.SessionManager;
 import com.cometproject.server.protocol.security.exchange.RSA;
+import com.cometproject.server.storage.SqlHelper;
 import io.coerce.commons.config.CoerceConfiguration;
 import io.coerce.services.messaging.client.MessagingClient;
 import io.netty.bootstrap.ServerBootstrap;
@@ -64,8 +68,15 @@ public class NetworkManager {
         this.messageHandler = new MessageHandler();
 
         this.serverPort = Integer.parseInt(ports.split(",")[0]);
-       // this.monitorClient = new MonitorClient(new NioEventLoopGroup());
-        //this.messagingClient = MessagingClient.create(UUID.randomUUID() + "-" + ip + ":" + ports, new CoerceConfiguration());
+        this.messagingClient = MessagingClient.create("com.cometproject:instance/5802ae081fdb242ab1f614bb", new CoerceConfiguration("configuration/Coerce.json"));
+
+        this.messagingClient.observe(ConsoleCommandRequest.class, (consoleCommandRequest -> {
+            ConsoleCommands.handleCommand(consoleCommandRequest.getCommand());
+        }));
+
+        this.messagingClient.connect("178.33.171.199", 6500, (client) -> {
+
+        });
 
 //        if(Comet.messagingServerHost != null) {
 //            final CoerceConfiguration coerceConfiguration = new CoerceConfiguration();
@@ -165,5 +176,9 @@ public class NetworkManager {
 
     public int getServerPort() {
         return serverPort;
+    }
+
+    public MessagingClient getMessagingClient() {
+        return this.messagingClient;
     }
 }
