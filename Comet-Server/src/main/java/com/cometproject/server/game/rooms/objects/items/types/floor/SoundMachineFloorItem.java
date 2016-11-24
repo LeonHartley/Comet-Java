@@ -29,8 +29,8 @@ public class SoundMachineFloorItem extends RoomItemFloor implements Stateable {
 
     private boolean pendingPlay = false;
 
-    public SoundMachineFloorItem(long id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, room, owner, x, y, z, rotation, data);
+    public SoundMachineFloorItem(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
+        super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
 
         if (data.startsWith("##jukeboxOn[")) {
             this.songs = JsonUtil.getInstance().fromJson(data.replace("##jukeboxOn", ""), new TypeToken<ArrayList<SongItemData>>() {

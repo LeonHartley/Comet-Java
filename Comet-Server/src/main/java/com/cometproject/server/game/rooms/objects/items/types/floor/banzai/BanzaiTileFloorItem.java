@@ -17,8 +17,8 @@ public class BanzaiTileFloorItem extends RoomItemFloor {
     private GameTeam gameTeam = GameTeam.NONE;
     private int points = 0;
 
-    public BanzaiTileFloorItem(long id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, room, owner, x, y, z, rotation, data);
+    public BanzaiTileFloorItem(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
+        super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
 
         this.setExtraData("0");
     }

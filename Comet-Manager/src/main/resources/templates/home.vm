@@ -22,31 +22,7 @@
         </div>
     </div>
     <div class="col-md-8">
-        <div class="row">
-            <div class="col-sm-6 col-md-4">
-                <div class="well">
-                    <center><b>x</b> open tickets</center>
-                </div>
-            </div>
 
-            <div class="col-sm-6 col-md-4">
-                <div class="well">
-                    <center><b>x</b> active instances</center>
-                </div>
-            </div>
-
-            <div class="col-sm-6 col-md-4">
-                <div class="well">
-                    <center><b>x,xxx</b> players online</center>
-                </div>
-            </div>
-        </div>
-        <div class="panel panel-default">
-            <div class="panel-heading"><b>Notifications</b></div>
-            <div class="panel-body">
-                You have no unread notifications.
-            </div>
-        </div>
     </div>
 
 #include('/templates/base/footer.vm')

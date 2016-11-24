@@ -6,8 +6,8 @@ import com.cometproject.server.game.rooms.types.Room;
 
 
 public class WiredAddonFloorSwitch extends RoomItemFloor {
-    public WiredAddonFloorSwitch(long id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, room, owner, x, y, z, rotation, data);
+    public WiredAddonFloorSwitch(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
+        super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
     }
 
     @Override

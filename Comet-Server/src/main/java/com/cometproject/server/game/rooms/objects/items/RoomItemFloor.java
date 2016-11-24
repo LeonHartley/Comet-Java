@@ -46,12 +46,12 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
     private RoomEntity collidedEntity;
     private boolean hasQueuedSave;
 
-    public RoomItemFloor(long id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
+    public RoomItemFloor(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
         super(id, new Position(x, y, z), room);
 
         this.itemId = itemId;
-        this.ownerId = this.getRoom().getGroup() == null ? this.getRoom().getData().getOwnerId() : owner;
-        this.ownerName = this.getRoom().getGroup() == null ? this.getRoom().getData().getOwner() : PlayerDao.getUsernameByPlayerId(this.ownerId);
+        this.ownerId = owner;
+        this.ownerName = ownerName;
         this.rotation = rotation;
         this.extraData = data;
     }

@@ -9,6 +9,8 @@ import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 
+import java.util.Map;
+
 
 public class FloorItemsMessageComposer extends MessageComposer {
     private final Room room;
@@ -25,11 +27,15 @@ public class FloorItemsMessageComposer extends MessageComposer {
     @Override
     public void compose(IComposer msg) {
         if (room.getItems().getFloorItems().size() > 0) {
-            if (room.getGroup() == null) {
-                msg.writeInt(1);
-                msg.writeInt(room.getData().getOwnerId());
-                msg.writeString(room.getData().getOwner());
-            } else {
+            //if (room.getGroup() == null) {
+            msg.writeInt(room.getItems().getItemOwners().size());
+
+            for (Map.Entry<Integer, String> itemOwner : room.getItems().getItemOwners().entrySet()) {
+                msg.writeInt(itemOwner.getKey());
+                msg.writeString(itemOwner.getValue());
+            }
+            ;
+           /* } else {
                 final Group group = room.getGroup();
 
                 if (group.getData().canMembersDecorate()) {
@@ -53,7 +59,7 @@ public class FloorItemsMessageComposer extends MessageComposer {
                         msg.writeString(PlayerDao.getUsernameByPlayerId(groupMember));
                     }
                 }
-            }
+            }*/
 
             msg.writeInt(room.getItems().getFloorItems().size());
 

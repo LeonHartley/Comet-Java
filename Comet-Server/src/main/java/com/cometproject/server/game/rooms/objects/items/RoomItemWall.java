@@ -15,7 +15,7 @@ public abstract class RoomItemWall extends RoomItem {
 
     private ItemDefinition itemDefinition;
 
-    public RoomItemWall(long id, int itemId, Room room, int owner, String position, String data) {
+    public RoomItemWall(long id, int itemId, Room room, int owner, String ownerName, String position, String data) {
         super(id, null, room);
 
         this.itemId = itemId;
