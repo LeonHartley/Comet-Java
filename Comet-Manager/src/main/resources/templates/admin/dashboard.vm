@@ -47,6 +47,9 @@
     // Log messages from the <server></server>
     connection.onmessage = function (e) {
       console.log('Server: ' + e.data);
+
+             var height = $('#console')[0].scrollHeight;
+             $('#console').scrollTop(height);
       $('#console').append(e.data + '<br />');
     };
     });

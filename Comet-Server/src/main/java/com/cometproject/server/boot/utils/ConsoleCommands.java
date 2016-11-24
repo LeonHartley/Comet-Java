@@ -55,6 +55,11 @@ public class ConsoleCommands {
                 default:
                     log.error("Invalid command");
                     break;
+
+                case "/query-log":
+                    SqlHelper.queryLogEnabled = !SqlHelper.queryLogEnabled;
+                    break;
+
                 case "/":
                 case "/help":
                 case "/commands":

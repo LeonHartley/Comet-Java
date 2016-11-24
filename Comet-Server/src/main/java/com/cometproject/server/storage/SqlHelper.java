@@ -18,13 +18,14 @@ public class SqlHelper {
     private static Logger log = Logger.getLogger(SqlHelper.class.getName());
 
     private static Map<String, AtomicInteger> queryCounters = new ConcurrentHashMap<>();
+    public static boolean queryLogEnabled = false;
 
     public static class QueryLog {
         public long startTime = System.currentTimeMillis();
         public String query;
     }
 
-    private static Map<Integer, QueryLog> queryLog = new ConcurrentHashMap<>();
+    public static Map<Integer, QueryLog> queryLog = new ConcurrentHashMap<>();
 
     public static void init(StorageManager storageEngine) {
         storage = storageEngine;
@@ -62,7 +63,7 @@ public class SqlHelper {
                 return;
             }
 
-            if(queryLog.containsKey(statement.hashCode())) {
+            if(queryLogEnabled && queryLog.containsKey(statement.hashCode())) {
                 final QueryLog log = queryLog.get(statement.hashCode());
                 final long timeTaken = (System.currentTimeMillis() - log.startTime);
 
@@ -109,10 +110,12 @@ public class SqlHelper {
 
         final PreparedStatement statement = returnKeys ? con.prepareStatement(query, java.sql.Statement.RETURN_GENERATED_KEYS) : con.prepareStatement(query);
 
-        final QueryLog log = new QueryLog();
-        log.query = query;
+        if(queryLogEnabled) {
+            final QueryLog log = new QueryLog();
+            log.query = query;
 
-        queryLog.put(statement.hashCode(), log);
+            queryLog.put(statement.hashCode(), log);
+        }
 
         return statement;
     }

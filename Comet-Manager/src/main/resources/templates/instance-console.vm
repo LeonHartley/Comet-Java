@@ -14,6 +14,11 @@
         });
 
         socket.on('serverLog', function(obj) {
+            if(obj.startsWith("\tat")) {
+                obj = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + obj;
+            } else if(!obj.startsWith("[")) {
+                obj = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + obj;
+            }
 
             $('#console').append(obj.replace("com.cometproject.server", "comet") + "<br />");
 

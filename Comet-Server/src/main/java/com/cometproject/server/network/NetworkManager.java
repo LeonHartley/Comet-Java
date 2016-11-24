@@ -68,7 +68,7 @@ public class NetworkManager {
         this.messageHandler = new MessageHandler();
 
         this.serverPort = Integer.parseInt(ports.split(",")[0]);
-        this.messagingClient = MessagingClient.create("com.cometproject:instance/5802ae081fdb242ab1f614bb", new CoerceConfiguration("configuration/Coerce.json"));
+        this.messagingClient = MessagingClient.create("com.cometproject:instance/" + Comet.instanceId, new CoerceConfiguration("configuration/Coerce.json"));
 
         this.messagingClient.observe(ConsoleCommandRequest.class, (consoleCommandRequest -> {
             ConsoleCommands.handleCommand(consoleCommandRequest.getCommand());
