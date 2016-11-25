@@ -413,7 +413,9 @@ public class OldCatalogPurchaseHandler {
                 if (giftData != null) {
                     giftData.setExtraData(extraData);
 
-                    purchases.add(new CatalogPurchase(playerIdToDeliver, ItemManager.getInstance().getBySpriteId(giftData.getSpriteId()).getId(), "GIFT::##" + JsonUtil.getInstance().toJson(giftData)));
+                    ItemDefinition itemDefinition = ItemManager.getInstance().getBySpriteId(giftData.getSpriteId());
+
+                    purchases.add(new CatalogPurchase(playerIdToDeliver, itemDefinition == null ? CatalogManager.getInstance().getGiftBoxesOld().get(0) : itemDefinition.getId(), "GIFT::##" + JsonUtil.getInstance().toJson(giftData)));
                 } else {
                     for (int purchaseCount = 0; purchaseCount < amount; purchaseCount++) {
                         for (int itemCount = 0; itemCount != bundledItem.getAmount(); itemCount++) {

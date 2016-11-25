@@ -12,7 +12,11 @@ public class UseWallItemMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) {
         int virtualId = msg.readInt();
 
-        long itemId = ItemManager.getInstance().getItemIdByVirtualId(virtualId);
+        Long itemId = ItemManager.getInstance().getItemIdByVirtualId(virtualId);
+
+        if(itemId == null) {
+            return;
+        }
 
         if (client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null) {
             return;
