@@ -37,6 +37,9 @@ public class WhisperMessageEvent implements Event {
 
         if (userTo == null || user.equals(client.getPlayer().getData().getUsername()))
             return;
+        
+        if (!((PlayerEntity) userTo).getPlayer().getEntity().isVisible())
+            return;
 
         String filteredMessage = TalkMessageEvent.filterMessage(message);
 
