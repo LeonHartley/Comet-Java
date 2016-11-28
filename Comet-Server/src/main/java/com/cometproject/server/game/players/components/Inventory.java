@@ -104,6 +104,10 @@ public class Inventory implements PlayerInventory {
                     send(new UnseenItemsMessageComposer(new HashMap<Integer, List<Integer>>() {{
                         put(4, Lists.newArrayList(1));
                     }}));
+            
+            if (sendAlert) {
+                this.player.getSession().send(new WiredRewardMessageComposer(7));
+            }
 
         }
     }
