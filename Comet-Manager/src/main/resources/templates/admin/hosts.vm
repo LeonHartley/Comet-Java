@@ -1,0 +1,57 @@
+#parse('/templates/base/header.vm')
+
+<style type="text/css">
+
+</style>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+    });
+
+
+
+
+</script>
+
+<ol class="breadcrumb">
+    <li><a href="/home">Admin</a></li>
+    <li class="active">Hosts</li>
+</ol>
+
+<div class="row">
+
+    #parse('/templates/admin/components/admin-sidebar.vm')
+
+    <div class="col-md-10">
+
+        <div style="text-align: right;padding-bottom: 10px;">
+            <button class="btn btn-default btn-success">Create Host</button>
+        </div>
+
+            <!-- Table -->
+            <table class="table">
+                <tr>
+                    <th>Host Name</th>
+                    <th>Endpoint</th>
+                    <th>Actions</th>
+                </tr>
+
+                #foreach($host in $hosts)
+                <tr>
+                    <td>$host.hostName</td>
+                    <td>$host.endpoint</td>
+                    <td>
+
+                        <button class="btn btn-default btn-primary">Edit</button>
+                        <button class="btn btn-default btn-warning">Remove</button>
+
+                    </td>
+                </tr>
+
+                #end
+            </table>
+
+    </div>
+</div>
+#include('/templates/base/footer.vm')

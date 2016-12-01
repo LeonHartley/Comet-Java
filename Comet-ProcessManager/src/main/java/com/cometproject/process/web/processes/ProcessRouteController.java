@@ -2,6 +2,7 @@ package com.cometproject.process.web.processes;
 
 import com.cometproject.process.CometProcessManager;
 import com.cometproject.process.processes.AbstractProcess;
+import com.cometproject.process.processes.ProcessStatus;
 import com.cometproject.process.processes.server.CometServerProcess;
 import com.cometproject.process.web.AbstractRouteController;
 import spark.Request;
@@ -45,8 +46,27 @@ public class ProcessRouteController extends AbstractRouteController {
         return result;
     }
 
+    public Map<String, Object> status(Request request, Response response) {
+        final Map<String, Object> result = new HashMap<>();
+
+        final String processId = request.params("processId");
+
+        final AbstractProcess process = this.getProcessManager().getProcesses().get(processId);
+
+        if(process == null) {
+            result.put("status", ProcessStatus.DOWN);
+            return result;
+        }
+
+        result.put("status", process.getProcessStatus());
+        result.put("statusObject", process.buildStatusObject());
+
+        return result;
+    }
+
     @Override
     public void install() {
         this.post("/process/start/:type", this::start);
+        this.get("/process/status/:processId", this::status);
     }
 }

@@ -78,6 +78,10 @@ public class WebSocketServer {
                             for (AbstractProcess process : this.processManager.getProcesses().values()) {
                                 final CometServerProcess comet = ((CometServerProcess) process);
 
+                                if(comet.getStatusObject() == null) {
+                                    continue;
+                                }
+
                                 final com.google.gson.JsonObject statusObject = comet.getStatusObject().get("status").getAsJsonObject();
 
                                 status.append("<div style='padding-left: 30px;'><b>" +

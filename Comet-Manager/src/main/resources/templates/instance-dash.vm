@@ -1,0 +1,62 @@
+#parse('/templates/base/header.vm')
+
+<style type="text/css">
+    .settings {
+        padding-top: 10px;
+    }
+
+    .update-instance {
+        text-align: right;
+    }
+
+
+
+</style>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+    });
+
+
+
+</script>
+
+<ol class="breadcrumb">
+    <li><a href="/home">Home</a></li>
+    <li>Instance</li>
+    <li class="active">$instance.name</li>
+</ol>
+
+<div class="row">
+
+    #parse('/templates/components/instance-sidebar.vm')
+
+    <div class="col-md-8">
+        #foreach($v in $versions )
+        <div class="panel panel-default">
+            <div class="panel-heading"><b>Comet $v.version</b></div>
+            <div class="panel-body">
+                <p>
+                    $v.notes
+                </p>
+
+                #if($v.versionNumber > $version.versionNumber)
+                <div class="update-instance">
+                    <button type="button" class="btn btn-default btn-sm btn-success">Update</button>
+                </div>
+                #elseif($v.versionNumber == $version.versionNumber)
+                <div class="update-instance">
+                    <button type="button" class="btn btn-default btn-sm btn-disabled disabled">Current version</button>
+                </div>
+                #else
+                <div class="update-instance">
+                    <button type="button" class="btn btn-default btn-sm btn-disabled disabled">Not available</button>
+                </div>
+                #end
+            </div>
+        </div>
+        #end
+    </div>
+</div>
+#include('/templates/base/footer.vm')
