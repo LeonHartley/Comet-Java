@@ -7,6 +7,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.DiceFloorIte
 import com.cometproject.server.game.rooms.objects.items.types.floor.banzai.BanzaiTimerFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredItemSnapshot;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.events.WiredItemEvent;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.highscore.HighscoreClassicFloorItem;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
@@ -32,8 +33,8 @@ public class WiredActionMatchToSnapshot extends WiredActionItem {
      * @param rotation The orientation of the item
      * @param data     The JSON object associated with this item
      */
-    public WiredActionMatchToSnapshot(long id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, room, owner, x, y, z, rotation, data);
+    public WiredActionMatchToSnapshot(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
+        super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
     }
 
     @Override
@@ -51,16 +52,19 @@ public class WiredActionMatchToSnapshot extends WiredActionItem {
         if (this.hasTicks()) return false;
 
         if (this.getWiredData().getDelay() >= 1) {
-            this.setTicks(RoomItemFactory.getProcessTime(this.getWiredData().getDelay() / 2));
+            final WiredItemEvent event = new WiredItemEvent();
+
+            event.setTotalTicks(RoomItemFactory.getProcessTime(this.getWiredData().getDelay() / 2));
+            this.queueEvent(event);
         } else {
-            this.onTickComplete();
+            this.onEventComplete(null);
         }
 
         return true;
     }
 
     @Override
-    public void onTickComplete() {
+    public void onEventComplete(WiredItemEvent event) {
         if (this.getWiredData().getSnapshots().size() == 0) {
             return;
         }
@@ -85,16 +89,14 @@ public class WiredActionMatchToSnapshot extends WiredActionItem {
             if (matchPosition || matchRotation) {
                 Position currentPosition = floorItem.getPosition().copy();
 
-                Position newPosition = new Position(itemSnapshot.getX(), itemSnapshot.getY());
+                Position newPosition = new Position(itemSnapshot.getX(), itemSnapshot.getY(), itemSnapshot.getZ());
 
                 int currentRotation = floorItem.getRotation();
 
-                if (this.getRoom().getItems().moveFloorItem(floorItem.getId(), !matchPosition ? currentPosition : newPosition, matchRotation ? itemSnapshot.getRotation() : floorItem.getRotation(), true)) {
+                if (this.getRoom().getItems().moveFloorItem(floorItem.getId(), !matchPosition ? currentPosition : newPosition, matchRotation ? itemSnapshot.getRotation() : floorItem.getRotation(), true, false)) {
                     if (currentRotation != floorItem.getRotation()) {
                         rotationChanged = true;
                     }
-
-                    newPosition.setZ(floorItem.getPosition().getZ());
 
                     if (!matchRotation || !rotationChanged && !matchState) {
                         this.getRoom().getEntities().broadcastMessage(new SlideObjectBundleMessageComposer(currentPosition, newPosition, 0, this.getVirtualId(), floorItem.getVirtualId()));

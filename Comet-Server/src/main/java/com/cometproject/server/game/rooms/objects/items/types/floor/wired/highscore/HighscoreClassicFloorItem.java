@@ -16,8 +16,8 @@ public class HighscoreClassicFloorItem extends RoomItemFloor {
     private boolean state;
     private final ScoreboardItemData itemData;
 
-    public HighscoreClassicFloorItem(long id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, room, owner, x, y, z, rotation, data);
+    public HighscoreClassicFloorItem(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
+        super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
 
         if(data.startsWith("1{") || data.startsWith("0{")) {
             this.state = data.startsWith("1");

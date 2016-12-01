@@ -2,6 +2,7 @@ package com.cometproject.server.storage.queries.catalog;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.catalog.CatalogManager;
+import com.cometproject.server.game.catalog.types.CatalogFrontPageEntry;
 import com.cometproject.server.game.catalog.types.CatalogItem;
 import com.cometproject.server.game.catalog.types.CatalogPage;
 import com.cometproject.server.storage.SqlHelper;
@@ -168,6 +169,30 @@ public class CatalogDao {
                 } else {
                     giftBoxesNew.add(resultSet.getInt("sprite_id"));
                 }
+            }
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(resultSet);
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+    }
+
+    public static void getFeaturedPages(List<CatalogFrontPageEntry> frontPageEntries) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("SELECT * FROM catalog_featured_pages", sqlConnection);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                frontPageEntries.add(new CatalogFrontPageEntry(resultSet.getInt("id"), resultSet.getString("caption"),
+                        resultSet.getString("image"), resultSet.getString("page_link"), resultSet.getInt("page_id")));
             }
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);

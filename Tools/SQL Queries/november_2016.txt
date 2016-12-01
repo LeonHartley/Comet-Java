@@ -1,0 +1,11 @@
+insert into permission_commands VALUES('ejectall_command', 1, '0');
+
+CREATE TABLE permission_effects
+(
+   effect_id int(11) PRIMARY KEY NOT NULL,
+   minimum_rank int(11) DEFAULT '7'
+);
+
+INSERT INTO permission_effects (effect_id, minimum_rank) VALUES (102, 6);
+INSERT INTO permission_effects (effect_id, minimum_rank) VALUES (178, 6);
+INSERT INTO permission_effects (effect_id, minimum_rank) VALUES (187, 6);                                                                                                                                                                                                                                                                                                                                                                                                                           insert into server_locale values('command.ejectall.name', 'ejectall');

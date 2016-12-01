@@ -64,7 +64,7 @@ public class PlayerDao {
             sqlConnection = SqlHelper.getConnection();
 
             preparedStatement = SqlHelper.prepare("SELECT p.id as playerId, p.username AS playerData_username, p.figure AS playerData_figure, p.motto AS playerData_motto, p.credits AS playerData_credits, p.vip_points AS playerData_vipPoints, p.rank AS playerData_rank, p.vip AS playerData_vip, p.gender AS playerData_gender, p.last_online AS playerData_lastOnline, p.reg_timestamp AS playerData_regTimestamp, p.reg_date AS playerData_regDate, p.favourite_group AS playerData_favouriteGroup, p.achievement_points AS playerData_achievementPoints, p.email AS playerData_email, p.activity_points AS playerData_activityPoints, p.quest_id AS playerData_questId, p.last_ip AS playerData_lastIp \n" +
-                    "FROM players p\n" +
+                    "FROM players p " +
                     "WHERE p.auth_ticket = ?", sqlConnection);
             preparedStatement.setString(1, ssoTicket);
 

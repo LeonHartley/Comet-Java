@@ -53,7 +53,7 @@ public class PlayerManager implements Initialisable {
         this.ipAddressToPlayerIds = new ConcurrentHashMap<>();
         this.ssoTicketToPlayerId = new ConcurrentHashMap<>();
 
-        this.playerLoginService = Executors.newFixedThreadPool(4);// TODO: configure this.
+        this.playerLoginService = Executors.newFixedThreadPool(16);// TODO: configure this.
 
         // Configure player cache
         if ((boolean) Comet.getServer().getConfig().getOrDefault("comet.cache.players.enabled", true)) {

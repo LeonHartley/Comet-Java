@@ -300,7 +300,7 @@ public class OldCatalogPurchaseHandler {
                     int petId = PetDao.createPet(client.getPlayer().getId(), petData[0], Integer.parseInt(petRace), Integer.parseInt(petData[1]), petData[2]);
 
                     client.getPlayer().getAchievements().progressAchievement(AchievementType.PET_LOVER, 1);
-                    client.getPlayer().getPets().addPet(new PetData(petId, petData[0], 0, StaticPetProperties.DEFAULT_LEVEL, StaticPetProperties.DEFAULT_HAPPINESS, StaticPetProperties.DEFAULT_EXPERIENCE, StaticPetProperties.DEFAULT_ENERGY, client.getPlayer().getId(), petData[2], Integer.parseInt(petData[1]), Integer.parseInt(petRace)));
+                    client.getPlayer().getPets().addPet(new PetData(petId, petData[0], 0, StaticPetProperties.DEFAULT_LEVEL, StaticPetProperties.DEFAULT_HAPPINESS, StaticPetProperties.DEFAULT_EXPERIENCE, StaticPetProperties.DEFAULT_ENERGY, client.getPlayer().getId(), client.getPlayer().getData().getUsername(), petData[2], Integer.parseInt(petData[1]), Integer.parseInt(petRace)));
                     client.send(new PetInventoryMessageComposer(client.getPlayer().getPets().getPets()));
 
                     client.send(new UnseenItemsMessageComposer(new HashMap<Integer, List<Integer>>() {{
@@ -413,7 +413,9 @@ public class OldCatalogPurchaseHandler {
                 if (giftData != null) {
                     giftData.setExtraData(extraData);
 
-                    purchases.add(new CatalogPurchase(playerIdToDeliver, ItemManager.getInstance().getBySpriteId(giftData.getSpriteId()).getId(), "GIFT::##" + JsonUtil.getInstance().toJson(giftData)));
+                    ItemDefinition itemDefinition = ItemManager.getInstance().getBySpriteId(giftData.getSpriteId());
+
+                    purchases.add(new CatalogPurchase(playerIdToDeliver, itemDefinition == null ? CatalogManager.getInstance().getGiftBoxesOld().get(0) : itemDefinition.getId(), "GIFT::##" + JsonUtil.getInstance().toJson(giftData)));
                 } else {
                     for (int purchaseCount = 0; purchaseCount < amount; purchaseCount++) {
                         for (int itemCount = 0; itemCount != bundledItem.getAmount(); itemCount++) {

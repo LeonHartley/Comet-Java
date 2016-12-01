@@ -21,8 +21,8 @@ import com.cometproject.server.network.messages.incoming.group.forum.settings.Sa
 import com.cometproject.server.network.messages.incoming.group.forum.threads.*;
 import com.cometproject.server.network.messages.incoming.group.settings.*;
 import com.cometproject.server.network.messages.incoming.handshake.*;
-import com.cometproject.server.network.messages.incoming.help.HelpTicketMessageEvent;
 import com.cometproject.server.network.messages.incoming.help.GetSanctionStatusEvent;
+import com.cometproject.server.network.messages.incoming.help.HelpTicketMessageEvent;
 import com.cometproject.server.network.messages.incoming.help.InitHelpToolMessageEvent;
 import com.cometproject.server.network.messages.incoming.landing.LandingLoadWidgetMessageEvent;
 import com.cometproject.server.network.messages.incoming.landing.RefreshPromoArticlesMessageEvent;
@@ -353,7 +353,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.SetMannequinNameMessageEvent, new SaveMannequinMessageEvent());
         this.getMessages().put(Events.SetMannequinFigureMessageEvent, new SaveMannequinFigureMessageEvent());
         this.getMessages().put(Events.SetTonerMessageEvent, new SaveTonerMessageEvent());
-//        this.getMessages().put(Events.Save, new SaveBrandingMessageEvent());
+        this.getMessages().put(Events.SetObjectDataMessageEvent, new SaveBrandingMessageEvent());
         this.getMessages().put(Events.OpenGiftMessageEvent, new OpenGiftMessageEvent());
         this.getMessages().put(Events.GetMoodlightConfigMessageEvent, new UseMoodlightMessageEvent());
         this.getMessages().put(Events.ToggleMoodlightMessageEvent, new ToggleMoodlightMessageEvent());
@@ -387,6 +387,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.PurchaseFromCatalogAsGiftMessageEvent, new PurchaseGiftMessageEvent());
         this.getMessages().put(Events.GetGroupFurniConfigMessageEvent, new GroupFurnitureCatalogMessageEvent());
         this.getMessages().put(Events.GetCatalogOfferMessageEvent, new GetCatalogOfferMessageEvent());
+        this.getMessages().put(Events.RedeemVoucherMessageEvent, new RedeemVoucherMessageEvent());
     }
 
     public void registerLanding() {

@@ -59,6 +59,7 @@ public class ConfigDao {
 //                CometSettings.storagePlayerQueueEnabled = config.getBoolean("storage_player_queue_enabled");
                 CometSettings.cameraPhotoUrl = config.getString("camera_photo_url");
                 CometSettings.cameraPhotoItemId = config.getInt("camera_photo_itemid");
+                CometSettings.maxConnectionsPerIpAddress = config.getInt("max_connections_per_ip");
 
                 final String characters = config.getString("word_filter_strict_chars");
 

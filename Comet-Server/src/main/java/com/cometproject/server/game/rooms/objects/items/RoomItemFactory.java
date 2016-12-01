@@ -173,7 +173,7 @@ public class RoomItemFactory {
         }};
     }
 
-    public static RoomItemFloor createFloor(long id, int baseId, Room room, int ownerId, int x, int y, double height, int rot, String data, LimitedEditionItemData limitedEditionItemData) {
+    public static RoomItemFloor createFloor(long id, int baseId, Room room, int ownerId, String ownerName, int x, int y, double height, int rot, String data, LimitedEditionItemData limitedEditionItemData) {
         ItemDefinition def = ItemManager.getInstance().getDefinition(baseId);
 
         if(CometSettings.storageItemQueueEnabled) {
@@ -191,16 +191,16 @@ public class RoomItemFactory {
         }
 
         if (def.canSit()) {
-            floorItem = new SeatFloorItem(id, baseId, room, ownerId, x, y, height, rot, data);
+            floorItem = new SeatFloorItem(id, baseId, room, ownerId, ownerName, x, y, height, rot, data);
         }
 
         if (def.getItemName().startsWith(STACK_TOOL)) {
-            floorItem = new MagicStackFloorItem(id, baseId, room, ownerId, x, y, height, rot, data);
+            floorItem = new MagicStackFloorItem(id, baseId, room, ownerId, ownerName, x, y, height, rot, data);
         }
 
         if (data.startsWith(GIFT_DATA)) {
             try {
-                floorItem = new GiftFloorItem(id, baseId, room, ownerId, x, y, height, rot, data);
+                floorItem = new GiftFloorItem(id, baseId, room, ownerId, ownerName, x, y, height, rot, data);
             } catch (Exception e) {
                 return null;
 //                floorItem = new DefaultFloorItem(id, baseId, room, ownerId, x, y, height, rot, "");
@@ -208,8 +208,8 @@ public class RoomItemFactory {
         } else {
             if (itemDefinitionMap.containsKey(def.getInteraction())) {
                 try {
-                    floorItem = itemDefinitionMap.get(def.getInteraction()).getConstructor(long.class, int.class, Room.class, int.class, int.class, int.class, double.class, int.class, String.class)
-                            .newInstance(id, baseId, room, ownerId, x, y, height, rot, data);
+                    floorItem = itemDefinitionMap.get(def.getInteraction()).getConstructor(long.class, int.class, Room.class, int.class, String.class, int.class, int.class, double.class, int.class, String.class)
+                            .newInstance(id, baseId, room, ownerId, ownerName, x, y, height, rot, data);
                 } catch (Exception e) {
                     log.warn("Failed to create instance for item: " + id + ", type: " + def.getInteraction(), e);
                 }
@@ -217,7 +217,7 @@ public class RoomItemFactory {
         }
 
         if (floorItem == null) {
-            floorItem = new DefaultFloorItem(id, baseId, room, ownerId, x, y, height, rot, data);
+            floorItem = new DefaultFloorItem(id, baseId, room, ownerId, ownerName, x, y, height, rot, data);
         }
 
         if (limitedEditionItemData != null) {
@@ -227,7 +227,7 @@ public class RoomItemFactory {
         return floorItem;
     }
 
-    public static RoomItemWall createWall(long id, int baseId, Room room, int owner, String position, String data, LimitedEditionItemData limitedEditionItemData) {
+    public static RoomItemWall createWall(long id, int baseId, Room room, int owner, String ownerName, String position, String data, LimitedEditionItemData limitedEditionItemData) {
         ItemDefinition def = ItemManager.getInstance().getDefinition(baseId);
         if (def == null) {
             return null;
@@ -237,19 +237,19 @@ public class RoomItemFactory {
 
         switch (def.getInteraction()) {
             case "habbowheel": {
-                wallItem = new WheelWallItem(id, baseId, room, owner, position, data);
+                wallItem = new WheelWallItem(id, baseId, room, owner, ownerName, position, data);
                 break;
             }
             case "dimmer": {
-                wallItem = new MoodlightWallItem(id, baseId, room, owner, position, data);
+                wallItem = new MoodlightWallItem(id, baseId, room, owner, ownerName, position, data);
                 break;
             }
             case "postit": {
-                wallItem = new PostItWallItem(id, baseId, room, owner, position, data);
+                wallItem = new PostItWallItem(id, baseId, room, owner, ownerName, position, data);
                 break;
             }
             default: {
-                wallItem = new DefaultWallItem(id, baseId, room, owner, position, data);
+                wallItem = new DefaultWallItem(id, baseId, room, owner, ownerName, position, data);
                 break;
             }
         }

@@ -56,18 +56,6 @@ public class GroupManager implements Initialisable {
     private GroupItemManager groupItems;
 
     /**
-     * The cache which stores all group data. This cache follows the
-     * LRU design
-     */
-    //private ConcurrentLRUCache<Integer, GroupData> groupData;
-
-    /**
-     * The cache which stores all group instances. This cache
-     * follows the LRU design
-     */
-    //private ConcurrentLRUCache<Integer, Group> groupInstances;
-
-    /**
      * Stores room ID by group ID, so we can retrieve groups faster
      */
     private Map<Integer, Integer> roomIdToGroupId;
@@ -93,8 +81,8 @@ public class GroupManager implements Initialisable {
 
         final int oneDay = 24 * 60 * 60;
 
-        this.groupDataCache = new Cache("groupDataCache", 75000, false, false, oneDay, oneDay);
-        this.groupInstanceCache = new Cache("groupInstanceCache", 3000, false, false, oneDay, oneDay);
+        this.groupDataCache = new Cache("groupDataCache", 1000, false, false, oneDay, oneDay);
+        this.groupInstanceCache = new Cache("groupInstanceCache", 1000, false, false, oneDay, oneDay);
 
         this.groupInstanceCache.getCacheEventNotificationService().registerListener(new GroupCacheEventListener());
 

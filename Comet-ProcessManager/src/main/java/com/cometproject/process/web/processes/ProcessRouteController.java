@@ -5,6 +5,7 @@ import com.cometproject.process.processes.AbstractProcess;
 import com.cometproject.process.processes.ProcessStatus;
 import com.cometproject.process.processes.server.CometServerProcess;
 import com.cometproject.process.web.AbstractRouteController;
+import com.corundumstudio.socketio.SocketIOClient;
 import spark.Request;
 import spark.Response;
 
@@ -33,6 +34,15 @@ public class ProcessRouteController extends AbstractRouteController {
                 final String apiToken = request.queryParams("apiToken");
 
                 process = new CometServerProcess(processName, applicationArguments, serverVersion, apiUrl, apiToken);
+
+                final AbstractProcess oldProcess = this.getProcessManager().getProcesses().get(processName);
+
+                if(oldProcess != null) {
+                    for(SocketIOClient client : oldProcess.getListeners()) {
+                        process.listen(client);
+                    }
+                }
+
                 break;
         }
 
@@ -64,9 +74,28 @@ public class ProcessRouteController extends AbstractRouteController {
         return result;
     }
 
+    public Map<String, Object> stop(Request request, Response response) {
+        final Map<String, Object> result = new HashMap<>();
+
+        final String processId = request.params("processId");
+
+        final AbstractProcess process = this.getProcessManager().getProcesses().get(processId);
+
+        if(process == null) {
+            result.put("status", ProcessStatus.DOWN);
+            return result;
+        }
+
+        process.setProcessStatus(ProcessStatus.STOPPING);
+        result.put("status", ProcessStatus.STOPPING);
+
+        return result;
+    }
+
     @Override
     public void install() {
         this.post("/process/start/:type", this::start);
+        this.get("/process/stop/:processId", this::stop);
         this.get("/process/status/:processId", this::status);
     }
 }

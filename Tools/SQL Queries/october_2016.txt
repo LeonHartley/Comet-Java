@@ -1,0 +1,36 @@
+CREATE TABLE `vouchers` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`type` ENUM('COINS','DUCKETS','VIP_POINTS','ROOM_BUNDLE') NOT NULL DEFAULT 'COINS',
+	`data` TEXT NOT NULL,
+	`created_by` INT(11) NOT NULL DEFAULT '0',
+	`created_at` INT(11) NOT NULL DEFAULT '0',
+	`claimed_by` INT(11) NOT NULL DEFAULT '0',
+	`claimed_at` INT(11) NOT NULL DEFAULT '0',
+	`status` ENUM('UNCLAIMED','CLAIMED') NOT NULL DEFAULT 'UNCLAIMED',
+	`code` VARCHAR(128) NOT NULL DEFAULT 'voucher-00001',
+	PRIMARY KEY (`id`),
+	UNIQUE INDEX `code` (`code`),
+	INDEX `created_by` (`created_by`),
+	INDEX `claimed_by` (`claimed_by`)
+)
+COLLATE='utf8_general_ci'
+ENGINE=MyISAM
+;
+
+CREATE TABLE IF NOT EXISTS `catalog_featured_pages` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `caption` varchar(255) NOT NULL,
+  `image` varchar(255) NOT NULL,
+  `page_link` varchar(255) NOT NULL,
+  `page_id` int(11) NOT NULL DEFAULT '-1',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+
+INSERT INTO `catalog_featured_pages` (`id`, `caption`, `image`, `page_link`, `page_id`) VALUES
+	(1, 'Welcome to the new Comet catalog!', 'catalogue/feature_cata_vert_hween16LTD.png', '', -1),
+	(2, 'Comet has updated!', 'catalogue/feature_cata_hort_hween16bun4.png', '', -1),
+	(3, 'Some awesome furniture to get!', 'catalogue/feature_cata_hort_newfurnihween16.png', '', -1),
+	(4, 'HC? Don\'t worry.. It\'s free!', 'catalogue/feature_cata_hort_HC_b.png', '', -1);
+
+ALTER TABLE `server_configuration`
+	ADD COLUMN `max_connections_per_ip` INT(11) NOT NULL DEFAULT '5';

@@ -29,6 +29,7 @@ import com.cometproject.server.game.commands.staff.rewards.mass.MassDucketsComma
 import com.cometproject.server.game.commands.staff.rewards.mass.MassPointsCommand;
 import com.cometproject.server.game.commands.user.*;
 import com.cometproject.server.game.commands.user.group.DeleteGroupCommand;
+import com.cometproject.server.game.commands.user.group.EjectAllCommand;
 import com.cometproject.server.game.commands.user.room.PickAllCommand;
 import com.cometproject.server.game.commands.user.room.SetMaxCommand;
 import com.cometproject.server.game.commands.user.room.SetSpeedCommand;
@@ -110,6 +111,7 @@ public class CommandManager implements Initialisable {
         this.addCommand(Locale.get("command.commands.name"), new CommandsCommand());
         this.addCommand(Locale.get("command.about.name"), new AboutCommand());
         this.addCommand(Locale.get("command.pickall.name"), new PickAllCommand());
+        this.addCommand(Locale.get("command.ejectall.name"), new EjectAllCommand());
         this.addCommand(Locale.get("command.empty.name"), new EmptyCommand());
         this.addCommand(Locale.get("command.sit.name"), new SitCommand());
         this.addCommand(Locale.get("command.lay.name"), new LayCommand());

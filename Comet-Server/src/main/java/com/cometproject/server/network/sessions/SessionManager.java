@@ -4,6 +4,7 @@ import com.cometproject.api.networking.messages.IMessageComposer;
 import com.cometproject.api.networking.sessions.BaseSession;
 import com.cometproject.api.networking.sessions.ISessionManager;
 import com.cometproject.api.networking.sessions.SessionManagerAccessor;
+import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.utilities.CometStats;
 import com.cometproject.server.utilities.JsonUtil;
@@ -37,10 +38,6 @@ public final class SessionManager implements ISessionManager {
 
     public boolean add(ChannelHandlerContext channel) {
         Session session = new Session(channel);
-
-//        if(PlayerManager.getInstance().getPlayerCountByIpAddress(session.getIpAddress()) > CometSettings.maxConnectionsPerIpAddress) {
-//            return false;
-//        }
 
         this.channelGroup.add(channel.channel());
         channel.attr(CHANNEL_ID_ATTR).set(this.idGenerator.incrementAndGet());

@@ -10,6 +10,7 @@ import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.ai.BotAI;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.game.rooms.types.mapping.RoomEntityMovementNode;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.network.messages.outgoing.room.avatar.*;
 import com.cometproject.server.utilities.collections.ConcurrentHashSet;
@@ -514,6 +515,12 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
         }
 
         this.isVisible = isVisible;
+    }
+
+    public void refresh() {
+        this.updateVisibility(false);
+        this.updateVisibility(true);
+        this.markNeedsUpdate();
     }
 
     public void cancelWalk() {

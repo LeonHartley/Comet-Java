@@ -10,8 +10,8 @@ import java.util.List;
 public class WiredAddonUnseenEffect extends RoomItemFloor {
     private List<Long> seenEffects;
 
-    public WiredAddonUnseenEffect(long id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, room, owner, x, y, z, rotation, data);
+    public WiredAddonUnseenEffect(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
+        super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
 
         this.seenEffects = Lists.newArrayList();
     }

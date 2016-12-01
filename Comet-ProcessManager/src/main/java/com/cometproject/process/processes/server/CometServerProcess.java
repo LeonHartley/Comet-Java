@@ -33,6 +33,7 @@ public class CometServerProcess extends AbstractProcess {
     public String[] executionCommand() {
         return new String[]{
                 "java",
+                "-Dfile.encoding=UTF-8",
                 "-jar",
                 System.getProperty("user.dir") + "/Versions/" + this.serverVersion +
                         "/Comet-Server-" + this.serverVersion + ".jar", this.applicationArguments,

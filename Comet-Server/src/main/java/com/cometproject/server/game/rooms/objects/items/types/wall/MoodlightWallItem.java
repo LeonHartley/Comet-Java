@@ -11,8 +11,8 @@ import com.cometproject.server.storage.queries.items.MoodlightDao;
 public class MoodlightWallItem extends RoomItemWall {
     private MoodlightData moodlightData = null;
 
-    public MoodlightWallItem(long id, int itemId, Room room, int owner, String position, String data) {
-        super(id, itemId, room, owner, position, data);
+    public MoodlightWallItem(long id, int itemId, Room room, int owner, String ownerName, String position, String data) {
+        super(id, itemId, room, owner, ownerName, position, data);
     }
 
     @Override

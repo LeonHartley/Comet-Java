@@ -25,7 +25,6 @@ public class BanUserMessageEvent implements Event {
         if (client.getPlayer().getId() != room.getData().getOwnerId() && room.getData().getBanState() != RoomBanState.RIGHTS && !client.getPlayer().getPermissions().getRank().roomFullControl())
             return;
 
-
         int userId = msg.readInt();
         int junk = msg.readInt();
         String time = msg.readString();

@@ -26,6 +26,8 @@ public class SaveBrandingMessageEvent implements Event {
             data = data + (char) 9 + msg.readString();
         }
 
+        data = data.replace("https", "http");
+
         RoomItemFloor item = room.getItems().getFloorItem(brandingId);
         item.setExtraData(data);
 

@@ -24,8 +24,8 @@ public class WiredActionJoinTeam extends WiredActionItem {
      * @param rotation The orientation of the item
      * @param data     The JSON object associated with this item
      */
-    public WiredActionJoinTeam(long id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, room, owner, x, y, z, rotation, data);
+    public WiredActionJoinTeam(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
+        super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
 
         if (this.getWiredData().getParams().size() != 1) {
             this.getWiredData().getParams().put(PARAM_TEAM_ID, 1); // team red

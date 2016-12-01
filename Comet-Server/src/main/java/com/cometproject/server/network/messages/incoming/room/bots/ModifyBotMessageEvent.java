@@ -41,6 +41,10 @@ public class ModifyBotMessageEvent implements Event {
 
         BotEntity botEntity = room.getEntities().getEntityByBotId(botId);
 
+        if(botEntity.getData() == null) {
+            return;
+        }
+
         switch (action) {
             case 1:
                 String figure = entity.getFigure();
@@ -112,6 +116,14 @@ public class ModifyBotMessageEvent implements Event {
             case 5:
                 // Change name
                 final String botName = room.getBots().getAvailableName(data);
+                
+                FilterResult filterResult = RoomManager.getInstance().getFilter().filter(botName);
+
+                if (filterResult.isBlocked()) {
+                        client.send(new AdvancedAlertMessageComposer(Locale.get("game.message.blocked").replace("%s", filterResult.getMessage())));
+                        return;
+                }
+                
                 room.getBots().changeBotName(botEntity.getUsername(), botName);
 
                 botEntity.getData().setUsername(botName);

@@ -1,0 +1,26 @@
+{
+  "nettyServer": {
+    "ioGroup": 4,
+    "channelGroup": 4,
+    "acceptGroup": 4,
+    "epoll": true,
+    "backlog": 100,
+    "tcpNoDelay": true
+  },
+  "nettyClient": {
+    "epoll": true,
+    "threads": 2
+  },
+  "httpServer": {
+    "requestQueueCapacity": 10000,
+    "requestQueueWorkers": 4
+  },
+
+  "modules": {
+    "networking": {
+      "io.coerce.networking.NetworkingService": "io.coerce.networking.netty.NettyNetworkingService",
+      "io.coerce.networking.NetworkingClient": "io.coerce.networking.netty.clients.NettyNetworkingClient",
+      "io.coerce.networking.http.HttpServerService": "io.coerce.http.CoreHttpServerService"
+    }
+  }
+}

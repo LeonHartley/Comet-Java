@@ -30,8 +30,8 @@ public class InventoryDao {
             sqlConnection = SqlHelper.getConnection();
 
             preparedStatement = ITEMS_USERID_INDEX.equals("") ?
-                    SqlHelper.prepare("SELECT i.*, ltd.limited_id, ltd.limited_total FROM items i LEFT JOIN items_limited_edition ltd ON ltd.item_id = i.id WHERE room_id = 0 AND user_id = ? ORDER by id DESC LIMIT 5000;", sqlConnection)
-                    : SqlHelper.prepare("SELECT i.*, ltd.limited_id, ltd.limited_total FROM items i LEFT JOIN items_limited_edition ltd ON ltd.item_id = i.id USE INDEX (" + ITEMS_USERID_INDEX + ") WHERE room_id = 0 AND user_id = ? ORDER by id DESC LIMIT 5000;", sqlConnection);
+                    SqlHelper.prepare("SELECT i.*, ltd.limited_id, ltd.limited_total FROM items i LEFT JOIN items_limited_edition ltd ON ltd.item_id = i.id WHERE room_id = 0 AND user_id = ? ORDER by id DESC;", sqlConnection)
+                    : SqlHelper.prepare("SELECT i.*, ltd.limited_id, ltd.limited_total FROM items i LEFT JOIN items_limited_edition ltd ON ltd.item_id = i.id USE INDEX (" + ITEMS_USERID_INDEX + ") WHERE room_id = 0 AND user_id = ? ORDER by id DESC;", sqlConnection);
 
             preparedStatement.setInt(1, playerId);
 

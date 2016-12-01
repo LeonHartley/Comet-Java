@@ -10,7 +10,7 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-
+        $('#edit-modal-$editingId').modal('show');
     });
 
 </script>
@@ -30,6 +30,10 @@
             <button class="btn btn-default btn-success">Create Instance</button>
         </div>
 
+        #if($saved)
+        <div class="alert alert-success" role="alert">Instance config saved successfully!</div>
+        #end
+
         <!-- Table -->
         <table class="table">
             <tr>
@@ -44,9 +48,10 @@
                 <td>$instance.version</td>
                 <td>
                     <a href="/instance/$instance.id" target="_blank" class="btn btn-default">View</a>
-                    <button class="btn btn-default btn-primary" data-toggle="modal" data-target="#edit-modal-$instance.id">Edit</button>
+                    <a href="/admin/instances/edit/$instance.id" class="btn btn-primary">Edit</a>
                     <button class="btn btn-default btn-warning">Remove</button>
 
+                    #if($editingId == $instance.id)
                     <!-- Modal -->
                     <div class="modal fade" id="edit-modal-$instance.id" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                         <div class="modal-dialog" role="document">
@@ -94,6 +99,7 @@
                             </div>
                         </div>
                     </div>
+                    #end
 
                 </td>
             </tr>

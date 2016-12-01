@@ -47,7 +47,7 @@ public class PlayerLoginRequest implements CometTask {
 
     @Override
     public void run() {
-        if (this.client == null || this.client.getChannel().pipeline().get("encryptionDecoder") == null) {
+        if (this.client == null) {// || this.client.getChannel().pipeline().get("encryptionDecoder") == null) {
             return;
         }
 
@@ -77,7 +77,7 @@ public class PlayerLoginRequest implements CometTask {
             player = PlayerDao.getPlayerFallback(ticket);
 
             if (player == null) {
-                client.disconnect(false);
+                client.disconnect();
                 return;
             }
         }
@@ -85,7 +85,7 @@ public class PlayerLoginRequest implements CometTask {
         Session cloneSession = NetworkManager.getInstance().getSessions().getByPlayerId(player.getId());
 
         if (cloneSession != null) {
-            cloneSession.disconnect(true);
+            cloneSession.disconnect();
         }
 
         if (BanManager.getInstance().hasBan(Integer.toString(player.getId()), BanType.USER)) {
@@ -107,6 +107,11 @@ public class PlayerLoginRequest implements CometTask {
             }
 
             client.getPlayer().getData().setIpAddress(ipAddress);
+
+            if(PlayerManager.getInstance().getPlayerCountByIpAddress(ipAddress) > CometSettings.maxConnectionsPerIpAddress) {
+                client.disconnect();
+                return;
+            }
         }
 
         if (CometSettings.saveLogins)

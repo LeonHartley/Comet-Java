@@ -7,7 +7,10 @@ import com.cometproject.server.game.rooms.objects.entities.types.ai.BotAI;
 import com.cometproject.server.game.rooms.objects.entities.types.ai.pets.PetAI;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.LeaveRoomMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.pets.horse.HorseFigureMessageComposer;
 import com.cometproject.server.storage.queries.pets.PetDao;
 
 import java.util.Map;
@@ -47,6 +50,25 @@ public class PetEntity extends RoomEntity {
     public void leaveRoom(boolean save) {
         if (save) {
             PetDao.savePosition(this.getPosition().getX(), this.getPosition().getY(), this.data.getId());
+        }
+
+        if (this.getMountedEntity() != null) {
+            final RoomEntity entity = this.getMountedEntity();
+            entity.getMountedEntity().setHasMount(false);
+
+            this.setMountedEntity(null);
+
+            entity.getPosition().setZ(entity.getTile().getWalkHeight());
+
+            entity.updateVisibility(false);
+            entity.updateVisibility(true);
+
+            entity.markNeedsUpdate();
+            //entity.moveTo(entity.getPosition().squareInFront(entity.getBodyRotation()));
+
+            entity.setMountedEntity(null);
+            entity.setHasMount(false);
+            entity.applyEffect(null);
         }
 
         this.getRoom().getEntities().removeEntity(this);
@@ -116,7 +138,7 @@ public class PetEntity extends RoomEntity {
         msg.writeInt(this.data.getRaceId());
 
         msg.writeInt(this.data.getOwnerId());
-        msg.writeString("Leon"); // TODO: this :P
+        msg.writeString(this.data.getOwnerName());
         msg.writeInt(1);
         msg.writeBoolean(true); // has saddle
         msg.writeBoolean(this.hasMount()); // has rider?

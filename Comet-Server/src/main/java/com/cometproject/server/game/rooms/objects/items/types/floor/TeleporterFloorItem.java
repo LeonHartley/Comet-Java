@@ -1,37 +1,214 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
+import com.cometproject.server.boot.Comet;
+import com.cometproject.server.boot.CometServer;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
-import com.cometproject.server.game.rooms.objects.items.events.types.TeleportItemEvent;
+import com.cometproject.server.game.rooms.objects.items.types.AdvancedFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.state.FloorItemEvent;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomForwardMessageComposer;
-import com.cometproject.server.tasks.CometThreadManager;
 
-import java.util.concurrent.TimeUnit;
+public class TeleporterFloorItem extends AdvancedFloorItem<TeleporterFloorItem.TeleporterItemEvent> {
+    class TeleporterItemEvent extends FloorItemEvent {
 
+        public int state;
+        public PlayerEntity outgoingEntity;
+        public PlayerEntity incomingEntity;
 
-public class TeleporterFloorItem extends RoomItemFloor {
+        protected TeleporterItemEvent(int delay) {
+            super(delay);
+        }
+    }
+
     private boolean inUse = false;
-    private RoomEntity outgoingEntity;
-    private RoomEntity incomingEntity;
 
-    private int state = -1;
     private long pairId = -1;
     boolean isDoor = false;
 
-    public TeleporterFloorItem(long id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, room, owner, x, y, z, rotation, data);
+    public TeleporterFloorItem(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
+        super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
 
         this.setExtraData("0");
 
         if (this.getDefinition().getInteraction().equals("teleport_door")) {
             this.isDoor = true;
+        }
+    }
+
+    @Override
+    protected void onEventComplete(TeleporterItemEvent event) {
+        try {
+            switch (event.state) {
+                case 0: {
+                    event.outgoingEntity.moveTo(this.getPosition().getX(), this.getPosition().getY());
+
+                    if (!(this instanceof TeleportPadFloorItem)) {
+                        this.toggleDoor(true);
+                    }
+
+                    event.state = 1;
+
+                    event.setTotalTicks(RoomItemFactory.getProcessTime(1));
+                    this.queueEvent(event);
+                    break;
+                }
+
+                case 1: {
+                    RoomItemFloor pairItem = this.getPartner(this.getPairId());
+
+                    if (pairItem == null) {
+                        int roomId = ItemManager.getInstance().roomIdByItemId(pairId);
+
+                        if (RoomManager.getInstance().get(roomId) == null) {
+                            event.state = 8;
+
+                            event.setTotalTicks(RoomItemFactory.getProcessTime(0.5));
+                            this.queueEvent(event);
+                            return;
+                        }
+                    }
+
+                    if (!this.isDoor && !(this instanceof TeleportPadFloorItem))
+                        this.toggleDoor(false);
+
+                    event.state = 2;
+                    event.setTotalTicks(RoomItemFactory.getProcessTime(this instanceof TeleportPadFloorItem ? 0.1 : 0.5));
+                    this.queueEvent(event);
+                    break;
+                }
+
+                case 2: {
+                    if (!this.isDoor) {
+                        this.toggleAnimation(true);
+
+                        event.state = 3;
+                        event.setTotalTicks(RoomItemFactory.getProcessTime(1));
+                        this.queueEvent(event);
+                    } else {
+                        event.state = 3;
+                        event.setTotalTicks(RoomItemFactory.getProcessTime(0.1));
+                        this.queueEvent(event);
+                    }
+                    break;
+                }
+
+                case 3: {
+                    long pairId = this.getPairId();
+
+                    if (pairId == 0) {
+                        event.state = 8;
+                        event.setTotalTicks(RoomItemFactory.getProcessTime(0.5));
+                        this.queueEvent(event);
+                        return;
+                    }
+
+                    RoomItemFloor pairItem = this.getPartner(pairId);
+
+                    if (pairItem == null) {
+                        int roomId = ItemManager.getInstance().roomIdByItemId(pairId);
+
+                        if (RoomManager.getInstance().get(roomId) != null) {
+                            if (event.outgoingEntity != null) {
+                                PlayerEntity pEntity = (PlayerEntity) event.outgoingEntity;
+
+                                if (pEntity.getPlayer() != null && pEntity.getPlayer().getSession() != null) {
+                                    pEntity.getPlayer().setTeleportId(pairId);
+                                    pEntity.getPlayer().setTeleportRoomId(roomId);
+                                    pEntity.getPlayer().getSession().send(new RoomForwardMessageComposer(roomId));
+                                }
+
+                                event.state = 7;
+                                event.setTotalTicks(RoomItemFactory.getProcessTime(0.5));
+                                this.queueEvent(event);
+                            }
+                        } else {
+                            event.state = 8;
+                            event.setTotalTicks(RoomItemFactory.getProcessTime(0.5));
+                            this.queueEvent(event);
+                            return;
+                        }
+                    }
+
+                    if (!this.isDoor) {
+                        event.state = 9;
+                        event.setTotalTicks(RoomItemFactory.getProcessTime(1));
+                        this.queueEvent(event);
+                    }
+
+                    TeleporterFloorItem teleItem = (TeleporterFloorItem) pairItem;
+
+                    if (teleItem != null)
+                        teleItem.handleIncomingEntity(event.outgoingEntity, this);
+                    break;
+                }
+
+                case 5: {
+                    this.toggleAnimation(false);
+                    event.state = 6;
+
+                    event.setTotalTicks(RoomItemFactory.getProcessTime(0.5));
+                    this.queueEvent(event);
+                    break;
+                }
+
+                case 6: {
+                    if (!(this instanceof TeleportPadFloorItem))
+                        this.toggleDoor(true);
+
+                    if (event.incomingEntity != null) {
+                        event.incomingEntity.setBodyRotation(this.rotation);
+                        event.incomingEntity.setHeadRotation(this.rotation);
+                        event.incomingEntity.refresh();
+
+                        event.incomingEntity.moveTo(this.getPosition().squareInFront(this.getRotation()).getX(), this.getPosition().squareInFront(this.getRotation()).getY());
+                    }
+
+                    event.state = 7;
+                    event.setTotalTicks(RoomItemFactory.getProcessTime(1));
+                    this.queueEvent(event);
+                    break;
+                }
+
+                case 7: {
+                    if (!(this instanceof TeleportPadFloorItem))
+                        this.toggleDoor(false);
+
+                    if (event.incomingEntity != null) {
+                        event.incomingEntity.setOverriden(false);
+                        event.incomingEntity = null;
+                    }
+
+                    this.inUse = false;
+                    break;
+                }
+
+                case 8: {
+                    if (!(this instanceof TeleportPadFloorItem))
+                        this.toggleDoor(true);
+
+                    if (event.outgoingEntity != null) {
+                        event.outgoingEntity.moveTo(this.getPosition().squareBehind(this.rotation).getX(), this.getPosition().squareBehind(this.rotation).getY());
+                    }
+
+                    event.state = 7;
+                    event.setTotalTicks(RoomItemFactory.getProcessTime(1));
+                    this.queueEvent(event);
+                    break;
+                }
+
+                case 9: {
+                    this.endTeleporting();
+                }
+            }
+        } catch (Exception e) {
+            Comet.getServer().getLogger().error("Failed to handle teleport event", e);
         }
     }
 
@@ -56,13 +233,21 @@ public class TeleporterFloorItem extends RoomItemFloor {
 
 //
         this.inUse = true;
-        this.outgoingEntity = entity;
-        this.outgoingEntity.setOverriden(true);
 
-        this.state = 0;
-        this.setTicks(RoomItemFactory.getProcessTime(1));
+        final TeleporterItemEvent event = new TeleporterItemEvent(RoomItemFactory.getProcessTime(1));
+        event.outgoingEntity = (PlayerEntity) entity;
 
-//        CometThreadManager.getInstance().executeSchedule(new TeleportItemEvent(this, entity), 1, TimeUnit.SECONDS);
+        entity.setOverriden(false);
+        event.outgoingEntity.setOverriden(true);
+
+        event.state = 0;
+
+        try {
+            this.queueEvent(event);
+        } catch (Exception e) {
+            Comet.getServer().getLogger().error("Failed to queue teleporter item event", e);
+        }
+
         return true;
     }
 
@@ -72,165 +257,21 @@ public class TeleporterFloorItem extends RoomItemFloor {
             return;
         }
 
-        if (this.incomingEntity != null && this.incomingEntity.getId() == entity.getId()) {
-            return;
-        }
+        //if (event.incomingEntity != null && event.incomingEntity.getId() == entity.getId()) {
+         //   return;
+        //}
 
         this.inUse = true;
-        this.outgoingEntity = entity;
-        this.outgoingEntity.setOverriden(true);
+        //event.outgoingEntity = entity;
+       // event.outgoingEntity.setOverriden(true);
 
-        this.state = 1;
+        //event.state = 1;
         this.setTicks(RoomItemFactory.getProcessTime(0.01));
     }
 
     @Override
     public void onTickComplete() {
-        switch (this.state) {
-            case 0: {
 
-                this.outgoingEntity.moveTo(this.getPosition().getX(), this.getPosition().getY());
-
-                if (!(this instanceof TeleportPadFloorItem)) {
-                    this.toggleDoor(true);
-                }
-
-                this.state = 1;
-                this.setTicks(RoomItemFactory.getProcessTime(1));
-                break;
-            }
-
-            case 1: {
-                RoomItemFloor pairItem = this.getPartner(this.getPairId());
-
-                if (pairItem == null) {
-                    int roomId = ItemManager.getInstance().roomIdByItemId(pairId);
-
-                    if (RoomManager.getInstance().get(roomId) == null) {
-                        this.state = 8;
-                        this.setTicks(RoomItemFactory.getProcessTime(0.5));
-                        return;
-                    }
-                }
-
-                if (!this.isDoor && !(this instanceof TeleportPadFloorItem))
-                    this.toggleDoor(false);
-
-                this.state = 2;
-                this.setTicks(RoomItemFactory.getProcessTime(this instanceof TeleportPadFloorItem ? 0.1 : 0.5));
-                break;
-            }
-
-            case 2: {
-                if (!this.isDoor) {
-                    this.toggleAnimation(true);
-
-                    this.state = 3;
-                    this.setTicks(RoomItemFactory.getProcessTime(1));
-                } else {
-                    this.state = 3;
-                    this.setTicks(RoomItemFactory.getProcessTime(0.1));
-                }
-                break;
-            }
-
-            case 3: {
-                long pairId = this.getPairId();
-
-                if (pairId == 0) {
-                    this.state = 8;
-                    this.setTicks(RoomItemFactory.getProcessTime(0.5));
-                    return;
-                }
-
-                RoomItemFloor pairItem = this.getPartner(pairId);
-
-                if (pairItem == null) {
-                    int roomId = ItemManager.getInstance().roomIdByItemId(pairId);
-
-                    if (RoomManager.getInstance().get(roomId) != null) {
-                        if (this.outgoingEntity instanceof PlayerEntity) {
-                            PlayerEntity pEntity = (PlayerEntity) this.outgoingEntity;
-
-                            if (pEntity.getPlayer() != null && pEntity.getPlayer().getSession() != null) {
-                                pEntity.getPlayer().setTeleportId(pairId);
-                                pEntity.getPlayer().setTeleportRoomId(roomId);
-                                pEntity.getPlayer().getSession().send(new RoomForwardMessageComposer(roomId));
-                            }
-
-                            this.state = 7;
-                            this.setTicks(RoomItemFactory.getProcessTime(0.5));
-                        }
-                    } else {
-                        this.state = 8;
-                        this.setTicks(RoomItemFactory.getProcessTime(0.5));
-                        return;
-                    }
-                }
-
-                if (!this.isDoor) {
-                    this.state = 9;
-                    this.setTicks(RoomItemFactory.getProcessTime(1));
-                }
-
-                TeleporterFloorItem teleItem = (TeleporterFloorItem) pairItem;
-
-                if (teleItem != null)
-                    teleItem.handleIncomingEntity(this.outgoingEntity, this);
-                break;
-            }
-
-            case 5: {
-                this.toggleAnimation(false);
-                this.state = 6;
-                this.setTicks(RoomItemFactory.getProcessTime(0.5));
-                break;
-            }
-
-            case 6: {
-                if (!(this instanceof TeleportPadFloorItem))
-                    this.toggleDoor(true);
-
-                if (this.incomingEntity != null) {
-                    this.incomingEntity.moveTo(this.getPosition().squareInFront(this.getRotation()).getX(), this.getPosition().squareInFront(this.getRotation()).getY());
-                }
-
-                this.state = 7;
-                this.setTicks(RoomItemFactory.getProcessTime(1));
-                break;
-            }
-
-            case 7: {
-                if (!(this instanceof TeleportPadFloorItem))
-                    this.toggleDoor(false);
-
-                if (this.incomingEntity != null) {
-                    this.incomingEntity.setOverriden(false);
-                    this.incomingEntity = null;
-                }
-
-                this.inUse = false;
-                this.state = -1;
-                break;
-            }
-
-            case 8: {
-                if (!(this instanceof TeleportPadFloorItem))
-                    this.toggleDoor(true);
-
-                if (this.outgoingEntity != null) {
-                    this.outgoingEntity.moveTo(this.getPosition().squareBehind(this.rotation).getX(), this.getPosition().squareBehind(this.rotation).getY());
-                }
-
-                this.state = 7;
-                this.setTicks(RoomItemFactory.getProcessTime(1));
-                break;
-            }
-
-            case 9: {
-                this.endTeleporting();
-            }
-        }
     }
 
     @Override
@@ -248,28 +289,32 @@ public class TeleporterFloorItem extends RoomItemFloor {
 
     public void endTeleporting() {
         this.toggleAnimation(false);
-
-        this.state = -1;
-        this.outgoingEntity = null;
         this.inUse = false;
     }
 
-    public void handleIncomingEntity(RoomEntity entity, TeleporterFloorItem otherItem) {
+    public void handleIncomingEntity(PlayerEntity entity, TeleporterFloorItem otherItem) {
         if (otherItem != null)
             otherItem.endTeleporting();
 
         entity.updateAndSetPosition(this.getPosition().copy());
         this.toggleAnimation(true);
 
+        final TeleporterItemEvent event = new TeleporterItemEvent(0);
 
-        this.incomingEntity = entity;
+        event.incomingEntity = entity;
 
         if (!this.isDoor) {
-            this.state = 5;
-            this.setTicks(RoomItemFactory.getProcessTime(1));
+            event.state = 5;
+            event.setTotalTicks(RoomItemFactory.getProcessTime(1));
         } else {
-            this.state = 6;
-            this.setTicks(RoomItemFactory.getProcessTime(0.1));
+            event.state = 6;
+            event.setTotalTicks(RoomItemFactory.getProcessTime(0.1));
+        }
+
+        try {
+            this.queueEvent(event);
+        } catch (Exception e) {
+            Comet.getServer().getLogger().error("Error while queueing teleport event", e);
         }
     }
 

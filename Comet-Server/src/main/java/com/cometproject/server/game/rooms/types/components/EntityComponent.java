@@ -191,7 +191,7 @@ EntityComponent {
         for (RoomEntity entity : this.getAllEntities().values()) {
             if (entity.getUsername() == null) continue;
 
-            if (entity.getUsername().equals(name) && entity.getEntityType() == type) {
+            if (entity.getUsername().equalsIgnoreCase(name) && entity.getEntityType() == type) {
                 return entity;
             }
         }

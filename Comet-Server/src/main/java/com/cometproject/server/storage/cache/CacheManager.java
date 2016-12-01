@@ -20,16 +20,25 @@ public class CacheManager implements Initialisable {
 
     private JedisPool jedis;
     private final String keyPrefix;
+    private final String connectionString;
 
     public CacheManager() {
         this.enabled = Boolean.parseBoolean((String) Comet.getServer().getConfig().getOrDefault("comet.cache.enabled", "false"));
         this.keyPrefix = (String) Comet.getServer().getConfig().getOrDefault("comet.cache.prefix", "comet");
+        this.connectionString = (String) Comet.getServer().getConfig().getOrDefault("comet.cache.connection.url", "");
     }
 
     @Override
     public void initialise() {
         if (!this.enabled)
             return;
+
+        if(this.connectionString.isEmpty()) {
+            log.error("Invalid redis connection string");
+
+            this.enabled = false;
+            return;
+        }
 
         // Initializes the config for the cache
         if (!this.initializeConfig()) {
@@ -76,7 +85,7 @@ public class CacheManager implements Initialisable {
             // Wait 100ms before we fall back to MySQL.
             poolConfig.setMaxWaitMillis(100);
 
-            this.jedis = new JedisPool("tcp://comet:AwLd28akbsX9DMM28dwWCp9UCMHv9Twn@151.80.207.53:4000");
+            this.jedis = new JedisPool(this.connectionString);
 
             return true;
         } catch (Exception e) {
@@ -86,6 +95,10 @@ public class CacheManager implements Initialisable {
     }
 
     public void put(final String key, CachableObject object) {
+        if(this.jedis == null) {
+            return;
+        }
+
         try {
             try (final Jedis jedis = this.jedis.getResource()) {
                 final long startTime = System.currentTimeMillis();
@@ -104,6 +117,10 @@ public class CacheManager implements Initialisable {
     }
 
     public void putString(final String key, final String value) {
+        if(this.jedis == null) {
+            return;
+        }
+
         try {
             try (final Jedis jedis = this.jedis.getResource()) {
                 jedis.set(this.getKey(key), value);

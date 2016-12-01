@@ -1,0 +1,137 @@
+#parse('/templates/base/header.vm')
+
+ <script src="/js/socket.io.min.js"></script>
+
+ <script type="text/javascript">
+ var socket = io.connect('http://$host.address:1232');
+
+        socket.on('log', function (obj) {
+            append("INFO", obj)
+
+            var consoleElement = document.getElementById("console");
+
+            consoleElement.scrollTop = consoleElement.scrollHeight;
+        });
+
+        socket.on('serverLog', function(obj) {
+            if(obj.startsWith("\tat")) {
+                obj = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + obj;
+            } else if(!obj.startsWith("[")) {
+                obj = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + obj;
+            }
+
+            $('#console').append(obj.replace("com.cometproject.server", "comet") + "<br />");
+
+             var height = $('#console')[0].scrollHeight;
+             $('#console').scrollTop(height);
+        });
+
+        function append(level, data) {
+            if(level === ">") {
+                $('#console').append("<font color='green'>" + data + "</font><br />");
+            } else {
+                $('#console').append("[" + level + "][" +  new Date().toLocaleString() + "] " + data + "<br />");
+             }
+
+             var height = $('#console')[0].scrollHeight;
+             $('#console').scrollTop(height);
+        }
+
+        socket.on('connect', function() {
+            socket.emit("Command", "authenticate console");
+            socket.emit("Command", "service listen $instance.id");
+        });
+
+        $(document).ready(function() {
+            $("#consoleCommand").on("keypress", function(e) {
+                if (e.keyCode == 13) {
+                    socket.emit("Command", "command " + $(this).val())
+                    append(">", $(this).val())
+
+                    $(this).val("")
+                }
+            });
+        });
+        </script>
+
+<style type="text/css">
+    .settings {
+        padding-top: 10px;
+    }
+
+#console {
+    padding: 10px;
+    font-family: monospace;
+    font-size: 11px;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+::-webkit-scrollbar-track {
+    background-color: #eaeaea;
+    border-left: 1px solid #ccc;
+}
+::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+}
+::-webkit-scrollbar-thumb:hover {
+    background-color: #aaa;
+}
+
+</style>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#showPassword').click(function () {
+            var passwordField = $('#password');
+
+            if (passwordField.attr('type') === 'text') {
+                // hide the password
+                passwordField.attr('type', 'password');
+                $(this).html('Show');
+            } else {
+                passwordField.attr('type', 'text');
+                $(this).html('Hide');
+            }
+        });
+
+        $('#showToken').click(function () {
+            var passwordField = $('#token');
+
+            if (passwordField.attr('type') === 'text') {
+                // hide the password
+                passwordField.attr('type', 'password');
+                $(this).html('Show');
+            } else {
+                passwordField.attr('type', 'text');
+                $(this).html('Hide');
+            }
+        });
+    });
+
+</script>
+
+<ol class="breadcrumb">
+    <li><a href="/home">Home</a></li>
+    <li>Instance</li>
+    <li><a href="/instance/$instance.id">$instance.name</a></li>
+    <li class="active">Console</li>
+</ol>
+
+<div class="row">
+
+    #parse('/templates/components/instance-sidebar.vm')
+
+    <div class="col-md-8">
+
+        <div class="panel panel-default" id="consoleContainer" >
+            <ul class="list-group" id="console" style="height: 40vh; min-height: 500px; overflow: auto; overflow-y: scroll;">
+            </ul>
+            <input id="consoleCommand" style="width: 100%; margin: 0; padding: 10px; border-bottom: none; border-left: none; border-right: none; border-top: 1px solid #ccc; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px;" placeholder="Command "/>
+        </div>
+    </div>
+</div>
+#include('/templates/base/footer.vm')

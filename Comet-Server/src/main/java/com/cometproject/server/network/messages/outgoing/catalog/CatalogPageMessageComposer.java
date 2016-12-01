@@ -1,6 +1,8 @@
 package com.cometproject.server.network.messages.outgoing.catalog;
 
 import com.cometproject.api.networking.messages.IComposer;
+import com.cometproject.server.game.catalog.CatalogManager;
+import com.cometproject.server.game.catalog.types.CatalogFrontPageEntry;
 import com.cometproject.server.game.catalog.types.CatalogItem;
 import com.cometproject.server.game.catalog.types.CatalogPage;
 import com.cometproject.server.network.messages.composers.MessageComposer;
@@ -54,7 +56,16 @@ public class CatalogPageMessageComposer extends MessageComposer {
         msg.writeBoolean(false); // allow seasonal currency as credits
 
         if(this.catalogPage.getTemplate().equals("frontpage4")) {
-            msg.writeInt(0);
+            msg.writeInt(CatalogManager.getInstance().getFrontPageEntries().size());
+
+            for(CatalogFrontPageEntry entry : CatalogManager.getInstance().getFrontPageEntries()) {
+                msg.writeInt(entry.getId());
+                msg.writeString(entry.getCaption());
+                msg.writeString(entry.getImage());
+                msg.writeInt(0);
+                msg.writeString(entry.getPageLink());
+                msg.writeString(entry.getPageId());
+            }
         }
     }
 }

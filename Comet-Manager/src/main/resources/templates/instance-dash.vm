@@ -33,6 +33,31 @@
     #parse('/templates/components/instance-sidebar.vm')
 
     <div class="col-md-8">
+        #if($instanceStatus.status == "UP" && $instanceStatus.statusObject.serverStatus)
+        <div class="row">
+            <div class="col-sm-6 col-md-4">
+                <div class="well">
+                    <center><b>$instanceStatus.statusObject.serverStatus.status.players</b> players online</center>
+                </div>
+            </div>
+
+            <div class="col-sm-6 col-md-4">
+                <div class="well">
+                    <center><b>$instanceStatus.statusObject.serverStatus.status.rooms</b> active rooms</center>
+                </div>
+            </div>
+
+            <div class="col-sm-6 col-md-4">
+                <div class="well">
+                    <center><b>$instanceStatus.statusObject.serverStatus.status.uptime</b> uptime</center>
+                </div>
+            </div>
+        </div>
+        #else
+            <div class="alert alert-warning" role="alert">This instance is not currently running</div>
+        #end
+
+
         #foreach($v in $versions )
         <div class="panel panel-default">
             <div class="panel-heading"><b>Comet $v.version</b></div>
