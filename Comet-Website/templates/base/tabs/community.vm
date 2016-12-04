@@ -1,0 +1,30 @@
+##TODO: make this dynamic...
+<li class="#if($page.id == "community") selected #end">
+    #set($pageName = "Community")
+
+    #if($page.id != "community")
+        <a href="$config.siteUrl/community">$pageName</a>
+    #else
+        $pageName
+    #end
+</li>
+
+<li class="#if($page.id == "articles") selected #end">
+    #set($pageName = "Articles")
+
+    #if($page.id != "articles")
+        <a href="$config.siteUrl/articles">$pageName</a>
+    #else
+        $pageName
+    #end
+</li>
+
+##<li class="#if($page.id == "staff") selected #end">
+##    #set($pageName = "Staff")
+##
+##    #if($page.id != "staff")
+##        <a href="$config.siteUrl/staff">$pageName</a>
+##    #else
+##        $pageName
+##    #end
+##</li>

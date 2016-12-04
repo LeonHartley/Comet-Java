@@ -1,0 +1,3 @@
+#parse('/templates/base/page-header.vm')
+#parse('/templates/widgets/article-promos.vm')
+#parse('/templates/base/page-footer.vm')

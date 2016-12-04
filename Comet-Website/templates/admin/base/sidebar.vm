@@ -1,0 +1,29 @@
+<div class="col-sm-3 col-md-2 sidebar">
+    <ul class="nav nav-sidebar">
+        <li #if($page == 'dashboard') class="active" #end><a href="/admin/dashboard">Overview <span class="sr-only">(current)</span></a></li>
+        <li><a href="/">Exit Admin Panel</a></li>
+    </ul>
+##
+##    <h4>Game</h4>
+##    <ul class="nav nav-sidebar">
+##            <li #if($page == 'rooms') class="active" #end><a href="/admin/rooms">Rooms</a></li>
+####
+####        <li><a href="">Players</a></li>
+####        <li><a href="">Catalog</a></li>
+####        <li><a href="">Promo Articles</a></li>
+##    </ul>
+
+    <h4>Website</h4>
+    <ul class="nav nav-sidebar">
+        <li #if($page == 'settings') class="active" #end><a href="/admin/settings">Settings</a></li>
+        <li #if($page == 'cache') class="active" #end><a href="/admin/cache">Cache</a></li>
+        <li #if($page == 'news') class="active" #end><a href="/admin/news">News Articles</a></li>
+    </ul>
+##
+##    <h4>Moderation</h4>
+##    <ul class="nav nav-sidebar">
+##        <li><a href="">IP Address Search</a></li>
+##        <li><a href="">Bans</a></li>
+##        <li><a href="">Chatlog</a></li>
+##    </ul>
+</div>

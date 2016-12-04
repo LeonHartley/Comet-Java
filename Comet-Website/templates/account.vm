@@ -1,0 +1,66 @@
+#* @vtlvariable name="action" type="java.lang.String" *#
+#parse('/templates/base/page-header.vm')
+
+<div>
+    <div class="content">
+
+            <div class="habblet-container" style="float:left; width:210px;">
+
+                <div class="cb settings">
+        #if($action != "disconnected")
+                    <div class="bt">
+                        <div></div>
+                    </div>
+                    <div class="i1">
+                        <div class="i2">
+                            <div class="i3">
+                                <div class="title rounded-box-bold" style="background: #595959;">Account Settings</div>
+                                <div class="box-content">
+                                    <div id="settingsNavigation">
+                                        #parse('/templates/account/navigation.vm')
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bb">
+                        <div></div>
+                    </div>
+        #end
+                </div>
+            </div>
+        <div class="habblet-container " style="float:left; width: 560px;">
+            <div class="cb clearfix settings">
+                <div class="bt">
+                    <div></div>
+                </div>
+                <div class="i1">
+                    <div class="i2">
+                        <div class="i3">
+                            <div class="title rounded-box-bold" style="background: #595959;">
+                                    #if($action == "preferences")
+                                        Change your profile
+                                    #elseif($action == "password")
+                                        Change your password
+                                    #elseif($action == "email")
+                                        Change your E-mail address
+                                    #elseif($action == "disconnected")
+                                        Disconnected
+                                    #end
+                            </div>
+                            <div class="box-content">
+                                #set($contentFile = "/templates/account/" + $action + ".vm")
+                                #parse($contentFile)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bb">
+                    <div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+#parse('/templates/base/page-footer.vm')

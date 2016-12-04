@@ -1,0 +1,92 @@
+#* @vtlvariable name="rooms" type="java.lang.String" *#
+#parse('/templates/admin/base/header.vm')
+#set($page = 'news')
+
+<div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                        class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="createModalLabel">Create News Article</h4>
+            </div>
+
+            <form action="/admin/news/create" method="post">
+                <div class="modal-body">
+
+                    Title:<br/>
+                    <input type="text" class="form-control" name="title" placeholder="Article title"/><br/>
+
+                    Slug URL:<br/>
+                    <input type="text" class="form-control" name="slug" placeholder="Article slug URL"/><br/>
+
+                    Promo Image:<br/>
+                    <input type="text" class="form-control" name="promoImage" placeholder="Article promo article"/><br/>
+
+
+                    Description:<br/>
+                    <input type="text" class="form-control" name="description" placeholder="Promo description"/><br/>
+
+                    Body:<br/>
+                    <textarea class="form-control" name="body" style="height: 200px;"
+                              placeholder="Body of the article"></textarea><br/>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <input type="submit" class="btn btn-primary" value="Create Article" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        #parse('/templates/admin/base/sidebar.vm')
+
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <h1 class="page-header">News Articles
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createModal">Create
+                    New
+                </button>
+            </h1>
+
+            <p>The articles are ordered by newest created.</p>
+
+            #if($success)
+                <div class="alert alert-success">Your request was successful</div>
+            #end
+
+            <table class="table table-striped">
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Slug</th>
+                    <th>Description</th>
+                    <th>Author</th>
+                    <th>Date</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                #foreach($article in $articles)
+                    <tr>
+                        <td>$article.id</td>
+                        <td>$article.title</td>
+                        <td>$article.slug</td>
+                        <td style="max-width: 500px;">$article.description</td>
+                        <td>$article.authorName</td>
+                        <td>$article.formattedTimeCreated</td>
+
+                        <td><a href="/admin/news/$article.id/edit" class="btn btn-default">Edit</a></td>
+
+                        <td><a href="/admin/news/$article.id/delete" class="btn btn-danger">Delete</a></td>
+                    </tr>
+                #end
+            </table>
+        </div>
+    </div>
+</div>
+
+#parse('/templates/admin/base/footer.vm')

@@ -1,0 +1,57 @@
+#parse('/templates/base/page-header.vm')
+
+<div id="wide-personal-info">
+    <div id="habbo-plate">
+        <a href="#">
+            <img alt="$player.username"
+                 src="http://www.habbo.nl/habbo-imaging/avatarimage?figure=$player.figure"/>
+        </a>
+    </div>
+    <div id="name-box" class="info-box">
+        <div class="label">Name:</div>
+        <div class="content">$player.username</div>
+    </div>
+    <div id="motto-box" class="info-box">
+        <div class="label">Motto:</div>
+        <div class="content">$player.escapedMotto</div>
+    </div>
+    <div id="last-logged-in-box" class="info-box">
+        <div class="label">Last signed in:</div>
+        <div class="content">$player.formattedLastVisit</div>
+    </div>
+    <div class="enter-hotel-btn">
+        <div class="open enter-btn">
+            <a href="$config.siteUrl/client" target="26530fff566f9e67da99560b7fe8da6d71d46391"
+               onclick="HabboClient.openOrFocus(this); return false;">Enter $siteSettings.hotelName
+                Hotel<i></i></a>
+            <b></b>
+        </div>
+    </div>
+</div>
+
+#parse('/templates/widgets/article-promos.vm')
+
+#if($siteSettings.useTwitter())
+<div id="column1" class="column">
+    <a class="twitter-timeline" data-dnt="true" href="https://twitter.com/$siteSettings.twitterUsername"
+       data-widget-id="$siteSettings.twitterWidgetId">Tweets by @$siteSettings.twitterUsername</a>
+    <script>!function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
+        if (!d.getElementById(id)) {
+            js = d.createElement(s);
+            js.id = id;
+            js.src = p + "://platform.twitter.com/widgets.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }
+    }(document, "script", "twitter-wjs");</script>
+</div>
+#end
+
+#if($siteSettings.useFacebook())
+<div id="column2" class="column" style="background: #FFF;">
+    <div class="fb-like-box" data-href="https://www.facebook.com/$siteSettings.facebookUsername"
+         data-colorscheme="light"
+         data-show-faces="false" data-header="false" data-stream="true" data-show-border="true"></div>
+</div>
+#end
+#parse('/templates/base/page-footer.vm')

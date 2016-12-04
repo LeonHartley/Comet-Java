@@ -1,0 +1,34 @@
+#* @vtlvariable name="rooms" type="java.lang.String" *#
+#parse('/templates/admin/base/header.vm')
+#set($page = 'cache')
+
+<div class="container-fluid">
+    <div class="row">
+
+        #parse('/templates/admin/base/sidebar.vm')
+
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <h1 class="page-header">Cache</h1>
+
+            #if($success)
+                <div class="alert alert-success">Your request was successful</div>
+            #end
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Cache Settings</h3>
+                        </div>
+
+                        <div class="panel-body">
+                            <a href="/admin/cache/reload" class="btn btn-primary">Reload Gamedata Cache</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+#parse('/templates/admin/base/footer.vm')

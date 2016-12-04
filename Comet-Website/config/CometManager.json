@@ -1,0 +1,18 @@
+{
+    "dbHost": "127.0.0.1",
+    "dbUsername": "root",
+    "dbPassword": "",
+    "dbDatabase": "cometsrv",
+    "dbPoolSize": 1,
+
+    "siteUrl": "http://localhost:8080",
+    "assetsUrl": "http://178.33.171.199/web/",
+    "sitePort": 8080,
+
+    "passwordHashMode": "sha1",
+    "passwordSalt": "0wo9i3r4iu90rw3490iurw489u0wreu",
+
+    "apiHost": "127.0.0.1",
+    "apiPort": 30001,
+    "apiAuthToken": "matouisgay"
+}

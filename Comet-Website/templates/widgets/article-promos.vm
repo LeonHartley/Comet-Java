@@ -1,0 +1,27 @@
+#* @vtlvariable name="articles" type="java.util.List<com.cometproject.website.articles.Article>" *#
+
+<div id="promo-box">
+    <div id="promo-bullets"></div>
+
+    #foreach($article in $articles)
+        <div class="promo-container" style="background-image: url($article.promoImage);" #if($articles.indexOf($article) != 0) style="display: none;" #end>
+            <div class="promo-content-container">
+                <div class="promo-content">
+                    <div class="title">$article.title</div>
+                    <div class="body">$article.description</div>
+                </div>
+            </div>
+            <div class="promo-link-container">
+                <div class="enter-hotel-btn">
+                    <div class="open enter-btn">
+                        <a style="padding: 0 8px 0 19px;" href="$config.siteUrl/articles/$article.slug">Read
+                            more &raquo;</a><b></b>
+                    </div>
+                </div>
+            </div>
+        </div>
+    #end
+</div>
+<script type="text/javascript">
+    document.observe("dom:loaded", function() { PromoSlideShow.init(); });
+</script>

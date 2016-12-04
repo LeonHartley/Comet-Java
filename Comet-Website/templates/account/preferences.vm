@@ -1,0 +1,63 @@
+#* @vtlvariable name="success" type="java.lang.Boolean" *#
+#if($success)
+    <div class="title rounded-box-small" style="background: #3ba800;">Your profile has been updated!</div>
+#end
+
+#set($preferences = $player.getPreferences())
+
+<form action="$config.siteUrl/account/preferences/submit" method="post"
+      id="profileForm">
+    <h3>Your motto</h3>
+
+    <p>
+        Your motto is what other players will see when
+        clicking your avatar in the hotel.
+    </p>
+
+    <p>
+        <label>Motto:
+            <input type="text" name="motto" size="32" maxlength="32" value="$player.escapedMotto"
+                   id="avatarmotto"></label>
+    </p>
+
+    <h3>Friend Requests</h3>
+
+    <p>
+        Select who can send you friend requests:<br/>
+        <label><input type="radio" name="friendRequestsAllowed" value="false" #if(!$preferences.allowFriendRequests()) checked="checked" #end>Nobody</label>
+        <label><input type="radio" name="friendRequestsAllowed" value="true"  #if($preferences.allowFriendRequests()) checked="checked" #end ">Everybody</label>
+    </p>
+
+    <h3>Online status</h3>
+
+    <p>
+        Select who can see your online status:<br>
+        <label><input type="radio" name="showOnlineStatus" value="false" #if($preferences.showOnlineStatus()) checked="checked" #end>Nobody</label>
+        <label><input type="radio" name="showOnlineStatus" value="true" #if(!$preferences.showOnlineStatus()) checked="checked" #end>Everybody</label>
+    </p>
+
+    <h3>Follow Me Settings</h3>
+
+    <p>
+        Select who can follow you from room to room:<br>
+        <label><input type="radio" name="followFriendMode" value="nobody" #if($preferences.getFollowMode() == "NOBODY") checked="checked" #end>Nobody</label>
+        <label><input type="radio" name="followFriendMode" value="friends" #if($preferences.getFollowMode() == "FRIENDS") checked="checked" #end>My friends</label>
+        <label><input type="radio" name="followFriendMode" value="everybody" #if($preferences.getFollowMode() == "EVERYBODY") checked="checked" #end>Everybody</label>
+    </p>
+
+    <div class="settings-buttons">
+        <a href="#" class="new-button" id="profileForm-submit"><b>Save
+            changes</b><i></i></a>
+        <noscript>&lt;input type="submit" value="Save changes" name="save"
+            class="submit" /&gt;</noscript>
+    </div>
+
+</form>
+
+<script type="text/javascript">
+    $("profileForm-submit").observe("click", function (e) {
+        e.stop();
+        $("profileForm").submit();
+    });
+    $("profileForm-submit").show();
+</script>

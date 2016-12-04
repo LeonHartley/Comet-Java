@@ -1,0 +1,40 @@
+##TODO: make this dynamic...
+<li class="#if($page.id == "me") selected #end">
+    #set($pageName = "Home")
+
+    #if($page.id != "me")
+        <a href="$config.siteUrl/me">$pageName</a>
+    #else
+        $pageName
+    #end
+</li>
+
+##<li class="#if($page.id == "mypage") selected #end">
+##    #set($pageName = "My Page")
+##
+##    #if($page.id != "mypage")
+##        <a href="$config.siteUrl/home/$player.username">$pageName</a>
+##    #else
+##        $pageName
+##    #end
+##</li>
+
+<li class="#if($page.id == "account") selected #end">
+    #set($pageName = "Account Settings")
+
+    #if($page.id != "account")
+        <a href="$config.siteUrl/account">$pageName</a>
+    #else
+        $pageName
+    #end
+</li>
+
+##<li class="#if($page.id == "playlist") selected #end">
+##    #set($pageName = "Playlist Editor")
+##
+##    #if($page.id != "playlist")
+##        <a href="$config.siteUrl/playlist">$pageName</a>
+##    #else
+##        $pageName
+##    #end
+##</li>

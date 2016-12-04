@@ -17,12 +17,11 @@ public class EmptyCommand extends ChatCommand {
         if (params.length != 1) {
             sendAlert(Locale.getOrDefault("command.empty.confirm", "<b>Warning!</b>\rAre you sure? You are going to delete your Furni, Bots & Pets.\r\rIf you are sure type  <b>:" + Locale.get("command.empty.name")  + " yes</b>"), client);
         } else {
-            switch (params[0]) {
-                default:
-                    sendAlert(Locale.getOrDefault("command.empty.confirm", "<b>Warning!</b>\rAre you sure? You are going to delete your Furni, Bots & Pets.\r\rIf you are sure type  <b>:" + Locale.get("command.empty.name")  + " yes</b>"), client);
-                    break;
+            final String yes = Locale.getOrDefault("command.empty.yes", "yes");
 
-                case "yes":
+            if (!params[0].equals(yes)) {
+                sendAlert(Locale.getOrDefault("command.empty.confirm", "<b>Warning!</b>\rAre you sure? You are going to delete your Furni, Bots & Pets.\r\rIf you are sure type  <b>:" + Locale.get("command.empty.name") + " " + yes + "</b>"), client);
+            } else {
                     client.getPlayer().getInventory().getFloorItems().clear();
                     client.getPlayer().getInventory().getWallItems().clear();
 

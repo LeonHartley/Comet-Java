@@ -1,0 +1,55 @@
+#* @vtlvariable name="rooms" type="java.lang.String" *#
+#parse('/templates/admin/base/header.vm')
+#set($page = 'rooms')
+
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">$siteSettings.hotelName</a>
+        </div>
+
+    </div>
+</nav>
+
+<script>
+    $(document).ready(function () {
+        var rooms = ($rooms).response;
+
+        var roomTemplate = Handlebars.compile($('#room-template').html());
+
+        for (var i = 0; i < rooms.length; i++) {
+            if (rooms[i].players == 0) continue;
+
+            $('.rooms').append(roomTemplate(rooms[i]));
+        }
+    });
+
+</script>
+
+<script id="room-template" type="text/x-handlebars-template">
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <ul class="list-group">
+                <li class="list-group-item"><b>ID</b>: {{data.id}}</li>
+                <li class="list-group-item"><b>Name</b>: {{data.name}}</li>
+                <li class="list-group-item"><b>Owner</b>: {{data.owner}}</li>
+                <li class="list-group-item"><a href="test" class="btn btn-default">Unload</a> <a href="test" class="btn btn-default">Players</a> <a href="test" class="btn btn-default">Items</a> <a href="test" class="btn btn-default">Alert</a></li>
+            </ul>
+        </div>
+    </div>
+</script>
+
+<div class="container-fluid">
+    <div class="row">
+
+        #parse('/templates/admin/base/sidebar.vm')
+
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <h1 class="page-header">Rooms <small>Showing all active rooms</small></h1>
+
+            <div class="row rooms"></div>
+        </div>
+    </div>
+</div>
+
+#parse('/templates/admin/base/footer.vm')

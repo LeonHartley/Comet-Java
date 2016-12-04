@@ -1,0 +1,18 @@
+<script type="text/javascript">
+    HabboView.run();
+</script>
+<!--[if lt IE 7]>
+<script type="text/javascript">
+    Pngfix.doPngImageFix();
+</script>
+<![endif]-->
+
+
+<div id="footer" style="margin-top:-20px;">
+    <p class="copyright">Copyright &copy; $siteSettings.hotelName 2014. All rights reserved to their
+        respective owner(s).<br /><br /><b>Powered by Comet</b></p>
+</div>
+</div>
+</div>
+</body>
+</html>

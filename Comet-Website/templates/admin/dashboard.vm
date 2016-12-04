@@ -1,0 +1,43 @@
+#parse('/templates/admin/base/header.vm')
+#set($page = 'dashboard')
+
+<div class="container-fluid">
+    <div class="row">
+
+        #parse('/templates/admin/base/sidebar.vm')
+
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <h1 class="page-header">Dashboard</h1>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Server Statistics</h3>
+                        </div>
+
+                        <div class="panel-body">
+                            Active Players: $serverStatistics.activePlayers<br/>
+                            Active Rooms: $serverStatistics.activeRooms<br/>
+                            Version: $serverStatistics.serverVersion<br/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Server Information</h3>
+                        </div>
+
+                        <div class="panel-body">
+                            Comet Server & Comet Website are both written in Java. They are currently private software and are very exclusive.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+#parse('/templates/admin/base/footer.vm')

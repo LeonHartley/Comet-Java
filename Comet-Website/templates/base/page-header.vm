@@ -1,0 +1,205 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" xmlns:og="http://opengraphprotocol.org/schema/">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>$siteSettings.hotelName: $page.name</title>
+    <script type="text/javascript">
+        var andSoItBegins = (new Date()).getTime();
+    </script>
+    <link rel="shortcut icon" href="$config.assetsUrl/web-gallery/v2/favicon.ico" type="image/vnd.microsoft.icon"/>
+    <link rel="stylesheet" href="$config.assetsUrl/web-gallery/static/styles/common.css" type="text/css"/>
+    <script src="$config.assetsUrl/web-gallery/static/js/libs2.js" type="text/javascript"></script>
+    <script src="$config.assetsUrl/web-gallery/static/js/visual.js" type="text/javascript"></script>
+    <script src="$config.assetsUrl/web-gallery/static/js/libs.js" type="text/javascript"></script>
+    <script src="$config.assetsUrl/web-gallery/static/js/common.js" type="text/javascript"></script>
+    <script src="$config.assetsUrl/web-gallery/static/js/fullcontent.js" type="text/javascript"></script>
+
+    #if($authenticated)
+        <script type="text/javascript">
+            document.habboLoggedIn = true;
+            var habboName = "$player.username";
+            var habboId = $player.id;
+            var facebookUser = false;
+            var habboReqPath = "";
+            var habboStaticFilePath = "$config.siteUrl/web-gallery";
+            var habboImagerUrl = "http://www.habbo.com/habbo-imaging/";
+            var habboPartner = "";
+            var habboDefaultClientPopupUrl = "$config.siteUrl/client";
+            window.name = "habboMain";
+            if (typeof HabboClient != "undefined") {
+                HabboClient.windowName = "26530fff566f9e67da99560b7fe8da6d71d46391";
+                HabboClient.maximizeWindow = true;
+            }
+        </script>
+    #end
+    <meta name="description"
+          content="Check into one of the world's largest virtual retro hotels for FREE! Meet and make friends, play games, chat with others, create your avatar, design rooms and more..."/>
+    <meta name="keywords"
+          content="retro hotel, habbo, habbo hotel, habbo retros, habbo retro, retros, virtual, world, social network, free, community, avatar, chat, online, teen, roleplaying, join, social, groups, forums, safe, play, games, online, friends, teens, rares, rare furni, collecting, create, collect, connect, furni, furniture, pets, room design, sharing, expression, badges, hangout, music, celebrity, celebrity visits, celebrities, mmo, mmorpg, massively multiplayer, otaku, ragezone, devbest, retroslist, thehabbos, phoenix, phx, phoenix emulator, emulator, revcms, ubercms, butterfly, bfly, free credits, free coins, coins, credits"/>
+    <!--[if IE 8]>
+    <link rel="stylesheet" href="$config.assetsUrl/web-gallery/static/styles/ie8.css" type="text/css"/>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="$config.assetsUrl/web-gallery/static/styles/ie.css" type="text/css"/>
+    <![endif]-->
+    <!--[if lt IE 7]>
+    <link rel="stylesheet" href="$config.assetsUrl/web-gallery/static/styles/ie6.css" type="text/css"/>
+    <script src="$config.assetsUrl/web-gallery/static/js/pngfix.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        try {
+            document.execCommand('BackgroundImageCache', false, true);
+        } catch (e) {
+        }
+    </script>
+
+    <style type="text/css">
+        body {
+            behavior: url(/js/csshover.htc);
+        }
+    </style>
+    <![endif]-->
+
+    <meta name="build" content="63-BUILD2470 - 30.09.2013 11:10 - com"/>
+    <link rel="stylesheet" href="$config.assetsUrl/web-gallery/static/styles/lightweightmepage.css" type="text/css"/>
+    <script src="$config.assetsUrl/web-gallery/static/js/lightweightmepage.js" type="text/javascript"></script>
+    <style type="text/css">
+        .rounded-box-bold {
+            border-radius: 5px;
+            padding: 5px;
+            text-align: center;;
+            margin-left: 5px;
+            margin-right: 5px;
+            color: #fff;
+            font-size: 14px;
+            font-weight: bold;;
+        }
+
+        .rounded-box-small {
+            border-radius: 5px;
+            padding: 5px;
+            text-align: center;
+            margin-left: 5px;
+            margin-right: 5px;
+            color: #fff;
+            font-size: inherit;
+            font-weight: inherit;
+        }
+    </style>
+</head>
+
+    #set($bodyId = 'home')
+
+    #if($page.id == 'articles')
+        #set($bodyId = 'news')
+    #end
+
+<body id="$bodyId" class=" ">
+<div id="fb-root"></div>
+<script>(function (d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s);
+    js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div id="overlay"></div>
+<style>.login-error {
+    width: 100%;
+    text-align: center;
+    height: 34px;
+    line-height: 34px;
+    background: rgba(255, 0, 0, .6);
+    top: 0;
+    color: #fff;
+    font-weight: bold;
+    font-size: 16px;
+}</style>
+<div id="header-container">
+    <div id="header" class="clearfix">
+        <h1><a href="$config.siteUrl"></a></h1>
+
+        <div id="subnavi" class="">
+            <div style="padding: 7px;">Welcome to the official <b>Comet Server</b> test hotel!</div>
+            <div id="subnavi-search">
+                <div id="subnavi-search-upper">
+                    <ul id="subnavi-search-links">
+                        #if($siteSettings.useFacebook())
+                            <li><a href="http://facebook.com/$siteSettings.facebookUsername"
+                                   target="_blank">Facebook</a></li>
+                        #end
+
+                        <li><a href="https://cometproject.com">Comet</a></li>
+
+                        <li>
+                            <form action="/logout" method="post">
+                                <button type="submit" id="signout" class="link"><span>Sign Out</span></button>
+                            </form>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="to-hotel">
+                <a href="$config.siteUrl/client" class="new-button green-button"
+                   target="26530fff566f9e67da99560b7fe8da6d71d46391"
+                   onclick="HabboClient.openOrFocus(this); return false;"><b>Enter $siteSettings.hotelName
+                    Hotel</b><i></i></a>
+                <br/><br/>
+
+                #if($player.rank > 6)
+                    <a href="$config.siteUrl/admin/" class="new-button red-button"><b>Housekeeping</b><i></i></a>
+                #end
+            </div>
+
+            #if(!$authenticated)
+                <div id="subnavi-login" style="height: 100%">
+                    <form action="$config.siteUrl/" method="post" id="login-form">
+                        <ul>
+                            <li>
+                                <label for="login-username" class="login-text"><b>Username</b></label>
+                                <input tabindex="1" type="text" class="login-field" name="credentials.username"
+                                       id="login-username">
+                                <a href="#" id="login-submit-new-button" class="new-button" style="float: left;"><b>Login</b><i></i></a>
+                                <input type="submit" id="login-submit-button" value="Login" class="submit"
+                                       style="margin-left: -10000px;">
+                            </li>
+                            <li>
+                                <label for="login-password" class="login-text"><b>Password</b></label>
+                                <input tabindex="2" type="password" class="login-field" name="credentials.password"
+                                       id="login-password"><br/><br/>
+                            </li>
+                        </ul>
+                    </form>
+                    <div id="subnavi-login-help" class="clearfix">
+                        <ul>
+                            <li class="register"><a href="$config.siteUrl/password/forgot" id="forgot-password"><span>Forgot your password?</span></a>
+                            </li>
+                            <li><a href="$config.siteUrl/#registration"><span>Register for free</span></a></li>
+                        </ul>
+                    </div>
+
+                </div>
+            #end
+        </div>
+        #parse('/templates/base/page-header-tabs.vm')
+        <div id="habbos-online">
+            <div id="content">
+                <div class="cbb ">
+                    <span>$serverStatistics.activePlayers ${siteSettings.hotelName}(s) online!</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="content-container">
+    <div id="navi2-container" class="pngbg">
+        <div id="navi2" class="pngbg clearfix">
+            <ul>
+                #set($parseFile = "/templates/base/tabs/" + $page.tab + ".vm")
+                #parse($parseFile)
+            </ul>
+        </div>
+    </div>
+    <div id="container">
+        <div id="content" style="position: relative" class="clearfix">

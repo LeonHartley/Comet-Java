@@ -1,0 +1,25 @@
+<ul>
+    <li #if($action == "preferences") class="selected" #end>
+        #if($action != "preferences")
+            <a href="$config.siteUrl/account/preferences">My Preferences</a>
+        #else
+            My Preferences
+        #end
+    </li>
+
+    <li #if($action == "password") class="selected" #end>
+        #if($action != "password")
+            <a href="$config.siteUrl/account/password">My Password</a>
+        #else
+            My Password
+        #end
+    </li>
+
+##    <li #if($action == "email") class="selected" #end>
+##        #if($action != "email")
+##            <a href="$config.siteUrl/account/email">My Email</a>
+##        #else
+##            My Email
+##        #end
+##    </li>
+</ul>

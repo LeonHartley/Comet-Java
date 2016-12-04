@@ -1,0 +1,7 @@
+#* @implicitly included *#
+#* @vtlvariable name="serverStatistics" type="com.cometproject.website.statistics.ServerStatistics" *#
+#* @vtlvariable name="player" type="com.cometproject.website.players.Player" *#
+#* @vtlvariable name="config" type="com.cometproject.website.config.Configuration" *#
+#* @vtlvariable name="siteSettings" type="com.cometproject.website.settings.SiteSettings" *#
+#* @vtlvariable name="authenticated" type="java.lang.Boolean" *#
+#* @vtlvariable name="page" type="com.cometproject.website.pages.Page" *#

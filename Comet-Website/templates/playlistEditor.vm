@@ -1,0 +1,88 @@
+#* @vtlvariable name="playlist" type="java.util.List<com.cometproject.website.players.playlist.PlaylistItem>" *#
+#parse('/templates/base/page-header.vm')
+
+<div id="column1" class="column">
+    <div class="habblet-container">
+        <div class="cb clearfix orange ">
+            <div class="bt">
+                <div></div>
+            </div>
+            <div class="i1">
+                <div class="i2">
+                    <div class="i3">
+                        <div class="rounded-box-bold" style="background: #4ab501">info</div>
+                        <div id="notfound-content" class="box-content">
+                            #if($playlist.size() == 0)
+                                You don't have any videos in your playlist! Why don't you add some?
+                            #else
+                                #foreach($video in $playlist)
+                                    $video.title<br />
+                                #end
+                            #end
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bb">
+                <div></div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        if (!$(document.body).hasClassName('process-template')) {
+            Rounder.init();
+        }
+    </script>
+</div>
+
+<div id="column2" class="column">
+    <div class="habblet-container">
+        <div class="cb clearfix blue ">
+            <div class="bt">
+                <div></div>
+            </div>
+            <div class="i1">
+                <div class="i2">
+                    <div class="i3">
+                        <div class="rounded-box-bold" style="background: #4ab501">info</div>
+                        <div class="box-content">
+                            top kek
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bb">
+                <div></div>
+            </div>
+        </div>
+    </div>
+    <div class="habblet-container ">
+        <div class="cb clearfix green ">
+            <div class="bt">
+                <div></div>
+            </div>
+            <div class="i1">
+                <div class="i2">
+                    <div class="i3">
+                        <div class="rounded-box-bold" style="background: #4ab501">info</div>
+                        <div class="box-content">
+                            top kek
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bb">
+                <div></div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        if (!$(document.body).hasClassName('process-template')) {
+            Rounder.init();
+        }
+    </script>
+</div>
+
+#parse('/templates/base/page-footer.vm')

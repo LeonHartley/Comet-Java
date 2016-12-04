@@ -1,0 +1,93 @@
+#* @vtlvariable name="articles" type="java.util.List<com.cometproject.website.articles.Article>" *#
+#* @vtlvariable name="selectedArticle" type="int" *#
+#parse('/templates/base/page-header.vm')
+<div id="column1" class="column">
+
+    <div class="habblet-container ">
+        <div class="cbb clearfix default ">
+            <h2 class="title">News
+            </h2>
+
+            <div id="article-archive">
+                <h2>Latest Articles</h2>
+                <ul>
+                    #foreach($article in $articles)
+                        #if($articles.get($selectedArticle).getId() == $article.getId())
+                            <li>$article.title</li>
+                        #else
+                            <li><a href="/articles/$article.slug" class="article-$article.id">$article.title
+                                &nbsp;&raquo;</a></li>
+                        #end
+                    #end
+                </ul>
+            </div>
+
+
+        </div>
+    </div>
+    <script type="text/javascript">if (!$(document.body).hasClassName('process-template')) {
+        Rounder.init();
+    }</script>
+</div>
+<div id="column2" class="column">
+
+    #set($article = $articles.get($selectedArticle))
+
+    <div class="habblet-container ">
+        <div class="cbb clearfix notitle ">
+            <div id="article-wrapper">
+                <h2>$article.title</h2>
+
+                <div class="article-meta">Posted $article.formattedTimeCreated
+                </div>
+
+                $article.formattedBody
+
+                <div class="article-images clearfix">
+                </div>
+
+                <div class="article-body"><p><font face="Verdana" size="1"><b>- $article.authorName</b></p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script type="text/javascript">if (!$(document.body).hasClassName('process-template')) {
+        Rounder.init();
+    }</script>
+
+
+</div>
+<script type="text/javascript">
+    HabboView.run();
+</script>
+<div id="column3" class="column">
+
+    <div class="habblet-container ">
+
+
+    </div>
+    <script type="text/javascript">if (!$(document.body).hasClassName('process-template')) {
+        Rounder.init();
+    }</script>
+
+
+    <div class="habblet-container ">
+
+        ad here
+
+
+    </div>
+    <script type="text/javascript">if (!$(document.body).hasClassName('process-template')) {
+        Rounder.init();
+    }</script>
+
+
+</div>
+<!--[if lt IE 7]>
+<script type="text/javascript">
+    Pngfix.doPngImageFix();
+</script>
+<![endif]-->
+
+#parse('/templates/base/page-footer.vm')

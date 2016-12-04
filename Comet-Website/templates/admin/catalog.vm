@@ -1,0 +1,39 @@
+#* @vtlvariable name="rooms" type="java.lang.String" *#
+#parse('/templates/admin/base/header.vm')
+#set($page = 'catalog')
+
+<div class="container-fluid">
+    <div class="row">
+
+        #parse('/templates/admin/base/sidebar.vm')
+
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <h1 class="page-header">Catalog</h1>
+
+
+            <div class="panel with-nav-tabs panel-default">
+                <div class="panel-heading">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#tab1default" data-toggle="tab">Frontpage</a></li>
+                        <li><a href="#tab2default" data-toggle="tab">Furniture</a></li>
+                        <li><a href="#tab3default" data-toggle="tab">Clothing</a></li>
+                        <li class="pull-right"><button class="btn btn-success">+</button></li>
+                    </ul>
+                </div>
+                <div class="panel-body">
+
+                    <div class="row">
+                        <div class="col-xs-6 col-md-3">
+                            hey
+                        </div>
+
+                        <div class="col-xs-12 col-md-9">bye</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+#parse('/templates/admin/base/footer.vm')

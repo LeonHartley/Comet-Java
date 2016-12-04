@@ -1,0 +1,17 @@
+<footer>
+
+    <div id="partner-logo"><a href="https://help.habbo.com/entries/22561483-What-is-Habbo-" target="_blank" style="background-image: url('//habboo-a.akamaihd.net/c_images/Landingpage_partner_logos/whatishabboEN.gif')"></a></div>
+    <div id="footer-content" class="partner-logo-present">
+        <div id="footer"><a href="http://help.habbo.com">Customer Support</a> / <a href="https://help.habbo.com/forums/144065-information-for-parents">Parents</a> / <a href="https://help.habbo.com/entries/23096348-Terms-of-Service-and-Privacy-Policy" target="_new">Terms of Use & Privacy Policy</a> / <a href="https://help.habbo.com/entries/278050-infringements-policy" target="_new">Infringements</a> / <a href="http://www.habbo.com/safety/habbo_way" target="_new">Habbo Way</a> / <a href="http://www.habbo.com/safety/safety_tips">Safety</a> / <a href="http://issuu.com/sulake/docs/habbo_media_pack_2013_v3.0_com?mode=window&viewMode=doublePage" target="_blank">For Advertisers</a> / <a href="http://www.sulake.com/press/press-contacts/" target="_blank">Press</a></div>
+        <div id="copyright">© 2004 - 2014 Sulake Corporation Oy. HABBO is a registered trademark of Sulake Corporation Oy in the European Union, the USA, Japan, the People's Republic of China and various other jurisdictions. All rights reserved.</div>
+    </div>
+    <div id="sulake-logo"><a href="http://www.sulake.com" target="_blank"></a></div>
+
+</footer>
+<script src="$config.assetsUrl/web-gallery/static/js/v3_landing_bottom.js" type="text/javascript"></script>
+<!--[if IE]>
+<script src="$config.assetsUrl/web-gallery/static/js/v3_ie_fixes.js" type="text/javascript"></script>
+<![endif]-->
+</body>
+
+</html>

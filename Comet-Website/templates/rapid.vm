@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>$siteSettings.hotelName:</title>
+    <link rel="stylesheet" href="$config.assetsUrl/client/css/client.css" type="text/css">
+    <script type="text/javascript" src="$config.assetsUrl/client/js/escape.js"></script>
+    <script type="text/javascript" src="$config.assetsUrl/client/js/swfobject.js"></script>
+    <script type="text/javascript">
+        var BaseUrl = "$siteSettings.gameClientBase";
+        var flashvars =
+        {
+            "client.starting" : "Please wait. Habbo is loading...",
+            "client.allow.cross.domain" : "1",
+            "client.notify.cross.domain" : "1",
+            "client.hotel_view.show_on_startup" : "1",
+            "site.url" : "$config.siteUrl",
+            "url.prefix" : "$config.siteUrl",
+            "client.reload.url" : "$config.siteUrl/client",
+            "client.fatal.error.url" : "$config.siteUrl/client/error",
+            "client.connection.failed.url" : "$config.siteUrl/cient/connection",
+            "connection.info.host" : "localhost",
+            "connection.info.port" : "3000",
+            "external.variables.txt" : "$siteSettings.gameClientVariables",
+            "external.texts.txt" : "$siteSettings.gameClientTexts",
+            "productdata.load.url" : "$siteSettings.gameClientProductData",
+            "furnidata.load.url" : "$siteSettings.gameClientFurniData",
+            "hotelview.banner.url" : "$siteSettings.gameClientBanner",
+            "use.sso.ticket" : "1",
+            "sso.ticket" : "COMET-0001",
+            "processlog.enabled" : "0",
+            "flash.client.url" : BaseUrl,
+            "flash.client.origin" : "popup",
+        };
+        var params =
+        {
+            "base" : BaseUrl,
+            "allowScriptAccess" : "always",
+            "menu" : "false"
+        };
+
+        swfobject.embedSWF("http://178.33.171.199/2016/gordon/NEW/asmd_Habbo.swf", "client", "100%", "100%", "10.0.0", "$siteSettings.gameClientBase/ExpressInstall.swf", flashvars, params, null);
+    </script>
+</head>
+<body>
+<div id="client"></div>
+</body>
+</html>

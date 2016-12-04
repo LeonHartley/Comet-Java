@@ -1,0 +1,43 @@
+#* @vtlvariable name="rooms" type="java.lang.String" *#
+#parse('/templates/admin/base/header.vm')
+#set($page = 'news')
+
+<style>
+    input[type='text'] {
+        width: 70%;
+    }
+</style>
+
+<div class="container-fluid">
+    <div class="row">
+
+        #parse('/templates/admin/base/sidebar.vm')
+
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <h1 class="page-header">Edit Article
+                <small>$article.id / $article.title</small>
+            </h1>
+
+                <form action="/admin/news/$article.id/save" method="post">
+                    Title:<br/>
+                    <input type="text" class="form-control" name="title" value="$article.title"/><br />
+
+                    Slug URL:<br/>
+                    <input type="text" class="form-control" name="slug" value="$article.slug"/><br />
+
+                    Promo Image:<br/>
+                    <input type="text" class="form-control" name="promoImage" value="$article.promoImage"/><br />
+
+
+                    Description:<br/>
+                    <input type="text" class="form-control" name="description" value="$article.description"/><br />
+
+                    Body:<br />
+                    <textarea class="form-control" name="body" style="width: 80%; height: 200px;">$article.body</textarea><br />
+                    <input type="submit" class="btn btn-primary" value="Save Article"/>
+                </form>
+        </div>
+    </div>
+</div>
+
+#parse('/templates/admin/base/footer.vm')
