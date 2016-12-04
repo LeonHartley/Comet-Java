@@ -66,6 +66,8 @@ public class CometSettings {
 
     public static int maxConnectionsPerIpAddress = 2;
 
+    public static boolean playerRightsItemPlacement = true;
+
     private static final Logger log = Logger.getLogger(CometSettings.class.getName());
 
     /**

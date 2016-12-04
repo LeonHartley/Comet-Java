@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.types.components;
 
+import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.types.RoomBan;
@@ -42,6 +43,10 @@ public class RightsComponent {
     }
 
     public boolean hasRights(int playerId) {
+        return this.hasRights(playerId, true);
+    }
+
+    public boolean hasRights(int playerId, boolean includeGroupCheck) {
         final Group group = this.getRoom().getGroup();
 
         if (group != null && group.getData() != null && group.getMembershipComponent() != null && group.getMembershipComponent().getMembers() != null) {
@@ -68,6 +73,10 @@ public class RightsComponent {
             if (group.getMembershipComponent().getAdministrators().contains(playerId)) {
                 return true;
             }
+        }
+
+        if(this.hasRights(playerId, false) && CometSettings.playerRightsItemPlacement) {
+            return true;
         }
 
         return this.room.getData().getOwnerId() == playerId;

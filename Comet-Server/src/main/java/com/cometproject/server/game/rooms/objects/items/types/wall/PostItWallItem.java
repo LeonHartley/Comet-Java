@@ -11,8 +11,8 @@ public class PostItWallItem extends RoomItemWall {
     private String colour;
     private String message;
 
-    public PostItWallItem(long id, int itemId, Room room, int owner, String position, String data) {
-        super(id, itemId, room, owner, position, data);
+    public PostItWallItem(long id, int itemId, Room room, int owner, String ownerName, String position, String data) {
+        super(id, itemId, room, owner, ownerName, position, data);
 
         if (this.isValidData(data))
             this.setExtraData(data);

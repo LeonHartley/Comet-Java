@@ -41,10 +41,14 @@ public class HomeController {
         final List<Instance> instances = customer.getInstances(this.instanceRepository);
         final RestTemplate restTemplate = new RestTemplate();
 
-        for (Instance instance : instances) {
-            final Host instanceHost = this.hostRepository.findOneByHostName(instance.getServer());
+        try {
+            for (Instance instance : instances) {
+                final Host instanceHost = this.hostRepository.findOneByHostName(instance.getServer());
 
-            instance.setInstanceStatus(instanceHost.getInstanceStatus(restTemplate, instance.getId()));
+                instance.setInstanceStatus(instanceHost.getInstanceStatus(restTemplate, instance.getId()));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         ModelAndView modelAndView = new ModelAndView("home");

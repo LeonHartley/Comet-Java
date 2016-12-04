@@ -5,7 +5,7 @@ import com.cometproject.server.game.rooms.types.Room;
 
 
 public final class DecorationWallItem extends RoomItemWall {
-    public DecorationWallItem(long id, int itemId, Room room, int owner, String position, String data) {
-        super(id, itemId, room, owner, position, data);
+    public DecorationWallItem(long id, int itemId, Room room, int owner, String ownerName, String position, String data) {
+        super(id, itemId, room, owner, ownerName, position, data);
     }
 }

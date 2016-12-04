@@ -130,7 +130,7 @@ public class Customer {
         return this.roles.contains(role);
     }
 
-    public boolean hasRole(final String role) {
-        return this.roles.contains(CustomerRole.valueOf(role.toUpperCase()));
+    public boolean hasRole(String roleName) {
+        return this.roles.contains(CustomerRole.valueOf(roleName.toUpperCase()));
     }
 }

@@ -33,7 +33,7 @@ public class RoomItemDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("SELECT i.*, ltd.limited_id, ltd.limited_total FROM items i LEFT JOIN items_limited_edition ltd ON ltd.item_id = i.id WHERE i.room_id = ?", sqlConnection);
+            preparedStatement = SqlHelper.prepare("SELECT i.*, player.username AS user_name, ltd.limited_id, ltd.limited_total FROM items i LEFT JOIN items_limited_edition ltd ON ltd.item_id = i.id RIGHT JOIN players player ON player.id = i.user_id WHERE i.room_id = ?", sqlConnection);
             preparedStatement.setInt(1, room.getId());
 
             resultSet = preparedStatement.executeQuery();
@@ -47,9 +47,9 @@ public class RoomItemDao {
 
                 if (ItemManager.getInstance().getDefinition(resultSet.getInt("base_item")) != null) {
                     if (ItemManager.getInstance().getDefinition(resultSet.getInt("base_item")).getType().equals("s"))
-                        floorItems.put(resultSet.getLong("id"), RoomItemFactory.createFloor(resultSet.getLong("id"), resultSet.getInt("base_item"), room, resultSet.getInt("user_id"), resultSet.getInt("x"), resultSet.getInt("y"), resultSet.getDouble("z"), resultSet.getInt("rot"), resultSet.getString("extra_data"), limitedEditionItemData));
+                        floorItems.put(resultSet.getLong("id"), RoomItemFactory.createFloor(resultSet.getLong("id"), resultSet.getInt("base_item"), room, resultSet.getInt("user_id"), resultSet.getString("user_name"), resultSet.getInt("x"), resultSet.getInt("y"), resultSet.getDouble("z"), resultSet.getInt("rot"), resultSet.getString("extra_data"), limitedEditionItemData));
                     else
-                        wallItems.put(resultSet.getLong("id"), RoomItemFactory.createWall(resultSet.getLong("id"), resultSet.getInt("base_item"), room, resultSet.getInt("user_id"), resultSet.getString("wall_pos"), resultSet.getString("extra_data"), limitedEditionItemData));
+                        wallItems.put(resultSet.getLong("id"), RoomItemFactory.createWall(resultSet.getLong("id"), resultSet.getInt("base_item"), room, resultSet.getInt("user_id"), resultSet.getString("user_name"), resultSet.getString("wall_pos"), resultSet.getString("extra_data"), limitedEditionItemData));
 
                 } else {
                     log.warn("Item (" + resultSet.getInt("id") + ") with invalid definition ID: " + resultSet.getInt("base_item"));

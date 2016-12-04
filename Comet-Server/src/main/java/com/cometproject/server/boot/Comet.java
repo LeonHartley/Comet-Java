@@ -15,6 +15,7 @@ import java.util.Map;
 
 
 public class Comet {
+    public static String instanceId = "";
     /**
      * Logging during start-up & console commands
      */
@@ -120,6 +121,10 @@ public class Comet {
 
                 if(arg.equals("--daemon")) {
                     daemon = true;
+                }
+
+                if(arg.startsWith("--instance-name=")) {
+                    instanceId = arg.replace("--instance-name=", "");
                 }
 
                 if (!arg.contains("="))

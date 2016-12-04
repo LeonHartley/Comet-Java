@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Comet Manager</title>
+
+    <link rel='stylesheet' href='//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css' type='text/css' />
+    <link rel='stylesheet' href='/css/app.css' type='text/css' />
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+</head>
+<body>
+<div class='header'>
+    <div class='wrapper'>
+        <div class='logo'>Comet</div>
+
+        <ul class='navigation'
+                <li><a href="/admin/home">Dashboard</a></li>
+                <li><a href="/">Exit</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class='wrapper'>

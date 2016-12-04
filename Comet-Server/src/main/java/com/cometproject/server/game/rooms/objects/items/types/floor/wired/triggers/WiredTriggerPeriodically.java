@@ -21,8 +21,8 @@ public class WiredTriggerPeriodically extends WiredTriggerItem {
      * @param rotation The orientation of the item
      * @param data     The JSON object associated with this item
      */
-    public WiredTriggerPeriodically(long id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, room, owner, x, y, z, rotation, data);
+    public WiredTriggerPeriodically(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
+        super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
 
         if (this.getWiredData().getParams().get(PARAM_TICK_LENGTH) == null) {
             this.getWiredData().getParams().put(PARAM_TICK_LENGTH, 2); // 1s

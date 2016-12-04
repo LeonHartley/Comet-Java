@@ -18,7 +18,7 @@ public class WiredNegativeConditionFurniHasPlayers extends WiredConditionFurniHa
      * @param rotation The orientation of the item
      * @param data     The JSON object associated with this item
      */
-    public WiredNegativeConditionFurniHasPlayers(long id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, room, owner, x, y, z, rotation, data);
+    public WiredNegativeConditionFurniHasPlayers(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
+        super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
     }
 }

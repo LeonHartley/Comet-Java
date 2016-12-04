@@ -22,7 +22,7 @@ public class EjectAllCommand extends ChatCommand {
         Room room = client.getPlayer().getEntity().getRoom();
         Group group = room.getGroup();
 
-        if (group.getData().getOwnerId() != client.getPlayer().getId()) {
+        if (room.getData().getOwnerId() != client.getPlayer().getId()) {
             final List<RoomItem> itemsToRemove = Lists.newArrayList();
 
             for(RoomItemFloor roomItemFloor : client.getPlayer().getEntity().getRoom().getItems().getFloorItems().values()) {
@@ -45,20 +45,20 @@ public class EjectAllCommand extends ChatCommand {
                 }
             }
         } else {
-            for (Integer groupMemberId : group.getMembershipComponent().getMembers().keySet()) {
-                Session groupMemberSession = NetworkManager.getInstance().getSessions().getByPlayerId(groupMemberId);
+            for (Integer playerWithItem : room.getItems().getItemOwners().keySet()) {
+                Session groupMemberSession = NetworkManager.getInstance().getSessions().getByPlayerId(playerWithItem);
 
                 List<RoomItem> floorItemsOwnedByPlayer = Lists.newArrayList();
 
                 for (RoomItemFloor floorItem : room.getItems().getFloorItems().values()) {
 
-                    if (floorItem.getOwner() == groupMemberId) {
+                    if (floorItem.getOwner() == playerWithItem) {
                         floorItemsOwnedByPlayer.add(floorItem);
                     }
                 }
 
                 for (RoomItemWall wallItem : room.getItems().getWallItems().values()) {
-                    if (wallItem.getOwner() == groupMemberId) {
+                    if (wallItem.getOwner() == playerWithItem) {
                         floorItemsOwnedByPlayer.add(wallItem);
                     }
                 }
@@ -78,7 +78,7 @@ public class EjectAllCommand extends ChatCommand {
                     }
                 } else {
                     for (RoomItem roomItem : floorItemsOwnedByPlayer) {
-                        RoomItemDao.removeItemFromRoom(roomItem.getId(), groupMemberId);
+                        RoomItemDao.removeItemFromRoom(roomItem.getId(), playerWithItem);
                     }
                 }
 

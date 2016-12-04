@@ -72,6 +72,9 @@ public class NavigatorSearchService implements CometTask {
         });
     }
 
+    private List<RoomData> popularRooms;
+    private long lastPopularRoomsUpdate = 0;
+
     public List<RoomData> search(Category category, Player player, boolean expanded) {
         List<RoomData> rooms = Lists.newCopyOnWriteArrayList();
 
@@ -89,7 +92,10 @@ public class NavigatorSearchService implements CometTask {
                 break;
 
             case POPULAR:
+
                 rooms.addAll(order(RoomManager.getInstance().getRoomsByCategory(-1), expanded ? category.getRoomCountExpanded() : category.getRoomCount()));
+
+
                 break;
 
             case CATEGORY:

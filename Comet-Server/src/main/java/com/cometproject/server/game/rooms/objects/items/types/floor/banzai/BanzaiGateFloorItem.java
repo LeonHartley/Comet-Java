@@ -12,8 +12,8 @@ import com.cometproject.server.game.rooms.types.components.games.GameTeam;
 public class BanzaiGateFloorItem extends DefaultFloorItem {
     private GameTeam gameTeam;
 
-    public BanzaiGateFloorItem(long id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, room, owner, x, y, z, rotation, data);
+    public BanzaiGateFloorItem(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
+        super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
 
         switch (this.getDefinition().getInteraction()) {
             case "bb_red_gate":

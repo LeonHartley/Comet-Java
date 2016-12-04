@@ -1,5 +1,6 @@
 package com.cometproject.process.io;
 
+import com.cometproject.api.messaging.console.ConsoleCommandRequest;
 import com.cometproject.process.CometProcessManager;
 import com.cometproject.process.processes.AbstractProcess;
 import com.cometproject.process.processes.ProcessStatus;
@@ -10,12 +11,15 @@ import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.listener.DataListener;
 import com.corundumstudio.socketio.parser.JsonObject;
+import io.coerce.commons.config.CoerceConfiguration;
+import io.coerce.services.messaging.client.MessagingClient;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.auth.AUTH;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
@@ -27,8 +31,16 @@ public class WebSocketServer {
 
     private final CometProcessManager processManager;
 
+    private final MessagingClient messagingClient = MessagingClient.create("com.cometproject:process-manager/" + UUID.randomUUID(), new CoerceConfiguration("configuration/Coerce.json"));
+
+    private boolean isConnected = false;
+
     public WebSocketServer(CometProcessManager processManager) {
         this.processManager = processManager;
+
+        messagingClient.connect("178.33.171.199", 6500, (client) -> {
+            isConnected = true;
+        });
 
         final Configuration configuration = new Configuration();
 
@@ -40,8 +52,8 @@ public class WebSocketServer {
         this.commands.put("help", (client, data) -> {
             final StringBuilder status = new StringBuilder();
 
-            if(client.has("key")) {
-                if(client.get("key").equals("console")) {
+            if (client.has("key")) {
+                if (client.get("key").equals("console")) {
                     return;
                 }
             }
@@ -65,13 +77,13 @@ public class WebSocketServer {
                 return;
             }
 
-            if(!client.has("authenticated")) {
+            if (!client.has("authenticated")) {
                 client.sendEvent("log", "You must be authenticated to use this command");
                 return;
             }
 
-            if(client.has("key") && !data[1].equals("listen")) {
-                if(client.get("key").equals("console")) {
+            if (client.has("key") && !data[1].equals("listen")) {
+                if (client.get("key").equals("console")) {
                     return;
                 }
             }
@@ -90,7 +102,7 @@ public class WebSocketServer {
                             for (AbstractProcess process : this.processManager.getProcesses().values()) {
                                 final CometServerProcess comet = ((CometServerProcess) process);
 
-                                if(comet.getStatusObject() == null) {
+                                if (comet.getStatusObject() == null) {
                                     continue;
                                 }
 
@@ -180,6 +192,8 @@ public class WebSocketServer {
                             return;
                         }
 
+                        client.set("instance", instance);
+
                         client.sendEvent("log", "Comet Server console activated");
                         process.listen(client);
                         return;
@@ -194,7 +208,7 @@ public class WebSocketServer {
                             return;
                         }
 
-                        if(data.length < 4) {
+                        if (data.length < 4) {
                             client.sendEvent("log", "There is no process with this name");
                             return;
                         }
@@ -235,6 +249,14 @@ public class WebSocketServer {
     }
 
     private void handleCommand(SocketIOClient client, String data) {
+        if (data.startsWith("command ") && client.has("instance")) {
+            final String consoleCommand = data.replace("command ", "");
+            final String instanceId = client.get("instance");
+
+            this.messagingClient.sendMessage("com.cometproject:instance/" + instanceId, new ConsoleCommandRequest(consoleCommand));
+            return;
+        }
+
         final String[] commandData = data.split(" ");
         final BiConsumer<SocketIOClient, String[]> commandHandler = this.commands.get(commandData[0]);
 

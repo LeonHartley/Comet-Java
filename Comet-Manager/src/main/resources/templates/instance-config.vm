@@ -47,14 +47,12 @@
 </ol>
 
 <div class="row">
-
     #parse('/templates/components/instance-sidebar.vm')
 
     <div class="col-md-8">
         <div class="panel panel-default">
             <div class="panel-heading"><b>Configuration</b></div>
             <div class="panel-body">
-
                 #if($saved)
                     <div class="alert alert-success" role="alert">Instance config saved successfully!</div>
                 #end
@@ -154,5 +152,4 @@
             </div>
         </div>
     </div>
-</div>
 #include('/templates/base/footer.vm')

@@ -10,8 +10,8 @@ import com.cometproject.server.utilities.RandomInteger;
 public class WiredAddonColourWheel extends RoomItemFloor {
     private static final int TIMEOUT = 4;
 
-    public WiredAddonColourWheel(long id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, room, owner, x, y, z, rotation, "0");
+    public WiredAddonColourWheel(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
+        super(id, itemId, room, owner, ownerName, x, y, z, rotation, "0");
     }
 
     @Override

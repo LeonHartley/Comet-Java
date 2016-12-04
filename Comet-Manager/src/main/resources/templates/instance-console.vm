@@ -14,7 +14,16 @@
         });
 
         socket.on('serverLog', function(obj) {
-            $('#console').append(obj + "<br />");
+            if(obj.startsWith("\tat")) {
+                obj = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + obj;
+            } else if(!obj.startsWith("[")) {
+                obj = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + obj;
+            }
+
+            $('#console').append(obj.replace("com.cometproject.server", "comet") + "<br />");
+
+             var height = $('#console')[0].scrollHeight;
+             $('#console').scrollTop(height);
         });
 
         function append(level, data) {
@@ -23,6 +32,9 @@
             } else {
                 $('#console').append("[" + level + "][" +  new Date().toLocaleString() + "] " + data + "<br />");
              }
+
+             var height = $('#console')[0].scrollHeight;
+             $('#console').scrollTop(height);
         }
 
         socket.on('connect', function() {
@@ -33,7 +45,7 @@
         $(document).ready(function() {
             $("#consoleCommand").on("keypress", function(e) {
                 if (e.keyCode == 13) {
-                    socket.emit("Command", $(this).val())
+                    socket.emit("Command", "command " + $(this).val())
                     append(">", $(this).val())
 
                     $(this).val("")

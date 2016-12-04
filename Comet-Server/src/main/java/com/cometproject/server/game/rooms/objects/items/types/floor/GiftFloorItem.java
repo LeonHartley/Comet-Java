@@ -13,8 +13,8 @@ public class GiftFloorItem extends RoomItemFloor {
     private GiftData giftData;
     private boolean isOpened = false;
 
-    public GiftFloorItem(long id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) throws Exception {
-        super(id, itemId, room, owner, x, y, z, rotation, data);
+    public GiftFloorItem(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) throws Exception {
+        super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
 
         this.giftData = JsonUtil.getInstance().fromJson(data.split("GIFT::##")[1], GiftData.class);
 
