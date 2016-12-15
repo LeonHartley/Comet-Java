@@ -255,7 +255,7 @@ public class TeleporterFloorItem extends AdvancedFloorItem<TeleporterFloorItem.T
 
     @Override
     public void onEntityStepOn(RoomEntity entity) {
-        if (this.inUse) {
+        if (this.inUse || !(entity instanceof PlayerEntity)) {
             return;
         }
 

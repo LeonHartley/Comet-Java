@@ -1,17 +1,18 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions;
 
-import com.cometproject.server.config.Locale;
-import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.events.WiredItemEvent;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.game.rooms.types.misc.ChatEmotion;
+import com.cometproject.server.network.messages.outgoing.room.avatar.ShoutMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.avatar.WhisperMessageComposer;
 
-public class WiredActionBotGiveHandItem extends WiredActionItem {
-    private final static int PARAM_HANDITEM = 0;
+public class WiredActionBotTalkToAvatar extends WiredActionItem {
+    public static final int PARAM_MESSAGE_TYPE = 0;
 
     /**
      * The default constructor
@@ -26,40 +27,55 @@ public class WiredActionBotGiveHandItem extends WiredActionItem {
      * @param rotation The orientation of the item
      * @param data     The JSON object associated with this item
      */
-    public WiredActionBotGiveHandItem(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
+    public WiredActionBotTalkToAvatar(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
     }
 
     @Override
     public boolean requiresPlayer() {
-        return true;
+        return false;
     }
 
     @Override
     public int getInterface() {
-        return 24;
+        return 27;
     }
 
     @Override
     public void onEventComplete(WiredItemEvent event) {
-        if (this.getWiredData().getParams().size() != 1) {
+        if (!this.getWiredData().getText().contains("\t")) {
             return;
         }
 
-        if (this.getWiredData().getText().isEmpty()) {
+        final String[] talkData = this.getWiredData().getText().split("\t");
+
+        if (talkData.length != 2) {
             return;
         }
 
-        if (event.entity == null || !(event.entity instanceof PlayerEntity)) return;
+        final String botName = talkData[0];
+        String message = talkData[1];
 
-        int param = this.getWiredData().getParams().get(PARAM_HANDITEM);
+        if (botName.isEmpty() || message.isEmpty()) {
+            return;
+        }
 
-        final String botName = this.getWiredData().getText();
+        message = message.replace("%username%", event.entity.getUsername());
+
+        message = message.replace("<", "").replace(">", "");
+
         final BotEntity botEntity = this.getRoom().getBots().getBotByName(botName);
 
         if (botEntity != null) {
-            this.getRoom().getEntities().broadcastMessage(new TalkMessageComposer(botEntity.getId(), Locale.get("bots.chat.giveItemMessage").replace("%username%", event.entity.getUsername()), RoomManager.getInstance().getEmotions().getEmotion(":)"), 2));
-            event.entity.carryItem(param);
+            if(event.entity instanceof PlayerEntity) {
+                boolean isWhisper = (this.getWiredData().getParams().size() == 1 && (this.getWiredData().getParams().get(PARAM_MESSAGE_TYPE) == 1));
+
+                if(isWhisper) {
+                    ((PlayerEntity) event.entity).getPlayer().getSession().send(new WhisperMessageComposer(botEntity.getId(), message, 2));
+                } else {
+                    ((PlayerEntity) event.entity).getPlayer().getSession().send(new TalkMessageComposer(botEntity.getId(), message, ChatEmotion.NONE, 2));
+                }
+            }
         }
     }
 }

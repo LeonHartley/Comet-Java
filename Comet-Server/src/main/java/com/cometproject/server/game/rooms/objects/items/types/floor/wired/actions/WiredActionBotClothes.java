@@ -9,40 +9,41 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.W
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.events.WiredItemEvent;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.avatar.UpdateInfoMessageComposer;
 
-public class WiredActionBotGiveHandItem extends WiredActionItem {
+public class WiredActionBotClothes extends WiredActionItem {
     private final static int PARAM_HANDITEM = 0;
-
     /**
      * The default constructor
      *
-     * @param id       The ID of the item
-     * @param itemId   The ID of the item definition
-     * @param room     The instance of the room
-     * @param owner    The ID of the owner
-     * @param x        The position of the item on the X axis
-     * @param y        The position of the item on the Y axis
-     * @param z        The position of the item on the z axis
-     * @param rotation The orientation of the item
-     * @param data     The JSON object associated with this item
+     * @param id        The ID of the item
+     * @param itemId    The ID of the item definition
+     * @param room      The instance of the room
+     * @param owner     The ID of the owner
+     * @param ownerName
+     * @param x         The position of the item on the X axis
+     * @param y         The position of the item on the Y axis
+     * @param z         The position of the item on the z axis
+     * @param rotation  The orientation of the item
+     * @param data      The JSON object associated with this item
      */
-    public WiredActionBotGiveHandItem(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
+    public WiredActionBotClothes(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
     }
 
     @Override
     public boolean requiresPlayer() {
-        return true;
+        return false;
     }
 
     @Override
     public int getInterface() {
-        return 24;
+        return 26;
     }
 
     @Override
     public void onEventComplete(WiredItemEvent event) {
-        if (this.getWiredData().getParams().size() != 1) {
+        if (!this.getWiredData().getText().contains("\t")) {
             return;
         }
 
@@ -51,15 +52,20 @@ public class WiredActionBotGiveHandItem extends WiredActionItem {
         }
 
         if (event.entity == null || !(event.entity instanceof PlayerEntity)) return;
+        final String[] data = this.getWiredData().getText().split("\t");
 
-        int param = this.getWiredData().getParams().get(PARAM_HANDITEM);
+        if (data.length != 2) {
+            return;
+        }
 
-        final String botName = this.getWiredData().getText();
+        final String botName = data[0];
+        String figure = data[1];
+
         final BotEntity botEntity = this.getRoom().getBots().getBotByName(botName);
 
         if (botEntity != null) {
-            this.getRoom().getEntities().broadcastMessage(new TalkMessageComposer(botEntity.getId(), Locale.get("bots.chat.giveItemMessage").replace("%username%", event.entity.getUsername()), RoomManager.getInstance().getEmotions().getEmotion(":)"), 2));
-            event.entity.carryItem(param);
+            botEntity.getData().setFigure(figure);
+            this.getRoom().getEntities().broadcastMessage(new UpdateInfoMessageComposer(botEntity));
         }
     }
 }
