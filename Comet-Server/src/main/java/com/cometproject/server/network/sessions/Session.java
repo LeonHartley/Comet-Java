@@ -2,6 +2,7 @@ package com.cometproject.server.network.sessions;
 
 import com.cometproject.api.networking.messages.IMessageComposer;
 import com.cometproject.api.networking.sessions.BaseSession;
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.moderation.ModerationManager;
 import com.cometproject.server.game.players.PlayerManager;
@@ -35,7 +36,7 @@ public class Session implements BaseSession {
     private boolean disconnectCalled = false;
 
     private DiffieHellman diffieHellman;
-    private long lastPing = System.currentTimeMillis();
+    private long lastPing = Comet.getTime();
 
     public Session(ChannelHandlerContext channel) {
         this.channel = channel;
