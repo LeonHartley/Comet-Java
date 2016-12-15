@@ -27,13 +27,11 @@ import com.cometproject.server.storage.queries.groups.GroupDao;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.storage.queue.types.PlayerDataStorageQueue;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Player implements BasePlayer {
 
@@ -76,6 +74,8 @@ public class Player implements BasePlayer {
     private double messengerFloodTime = 0;
     private int messengerFloodFlag = 0;
 
+    private boolean usernameConfirmed = false;
+
     private long teleportId = 0;
     private int teleportRoomId = 0;
     private String lastMessage = "";
@@ -112,6 +112,8 @@ public class Player implements BasePlayer {
     private long lastPhotoTaken = 0;
 
     private String ssoTicket;
+
+    private Set<String> eventLogCategories = Sets.newConcurrentHashSet();
 
     public Player(ResultSet data, boolean isFallback) throws SQLException {
         this.id = data.getInt("playerId");
@@ -227,6 +229,10 @@ public class Player implements BasePlayer {
 
     @Override
     public void loadRoom(int id, String password) {
+        if(!this.usernameConfirmed || !this.getEventLogCategories().contains("Navigation")) {
+            return;
+        }
+
         if (entity != null && entity.getRoom() != null) {
             entity.leaveRoom(true, false, false);
             setEntity(null);
@@ -700,5 +706,17 @@ public class Player implements BasePlayer {
 
     public void setVoucherRedeemAttempts(int voucherRedeemAttempts) {
         this.voucherRedeemAttempts = voucherRedeemAttempts;
+    }
+
+    public boolean isUsernameConfirmed() {
+        return usernameConfirmed;
+    }
+
+    public void setUsernameConfirmed(boolean usernameConfirmed) {
+        this.usernameConfirmed = usernameConfirmed;
+    }
+
+    public Set<String> getEventLogCategories() {
+        return eventLogCategories;
     }
 }

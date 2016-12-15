@@ -8,6 +8,7 @@ import java.util.Map;
 
 
 public class Events {
+    public static final short ConfirmUsernameMessageEvent = 1709;
     public static final short GetRoomBannedUsersMessageEvent = 15; // PRODUCTION-201610052203-260805057
     public static final short GetPetInventoryMessageEvent = 2135; // PRODUCTION-201610052203-260805057
     public static final short DropHandItemMessageEvent = 3887; // PRODUCTION-201610052203-260805057

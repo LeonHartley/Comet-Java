@@ -21,6 +21,6 @@ public class EventLogMessageEvent implements Event {
         final String extraString = msg.readString();
         final int extraInt = msg.readInt();
 
-
+        client.getPlayer().getEventLogCategories().add(category);
     }
 }

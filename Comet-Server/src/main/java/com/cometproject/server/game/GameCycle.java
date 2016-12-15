@@ -107,6 +107,11 @@ public class GameCycle implements CometTask, Initialisable {
                         continue;
                     }
 
+                    if((Comet.getTime() - ((Session) client).getLastPing()) >= 300) {
+                        client.disconnect();
+                        continue;
+                    }
+
                     if (updateDaily) {
                         //  TODO: put this in config.
                         client.getPlayer().getStats().setDailyRespects(dailyRespects);

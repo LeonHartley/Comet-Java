@@ -29,7 +29,7 @@ public class RollerFloorItem extends RoomItemFloor {
 
     @Override
     public void onEntityStepOn(RoomEntity entity) {
-        if (entity.isWalking() && !entity.getWalkingGoal().equals(this.getPosition())) return;
+        if (entity.isWalking()) return;
 
         if (this.ticksTimer < 1) {
             this.lastTick = System.currentTimeMillis();
@@ -127,7 +127,7 @@ public class RollerFloorItem extends RoomItemFloor {
             }
 
             this.getRoom().getEntities().broadcastMessage(new SlideObjectBundleMessageComposer(entity.getPosition(), new Position(sqInfront.getX(), sqInfront.getY(), toHeight), this.getVirtualId(), entity.getId(), 0));
-            entity.updateAndSetPosition(new Position(sqInfront.getX(), sqInfront.getY(), toHeight));
+            entity.setPosition(new Position(sqInfront.getX(), sqInfront.getY(), toHeight));
         }
 
         if (retry) {

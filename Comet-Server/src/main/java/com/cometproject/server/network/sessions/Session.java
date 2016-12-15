@@ -35,6 +35,7 @@ public class Session implements BaseSession {
     private boolean disconnectCalled = false;
 
     private DiffieHellman diffieHellman;
+    private long lastPing;
 
     public Session(ChannelHandlerContext channel) {
         this.channel = channel;
@@ -175,5 +176,13 @@ public class Session implements BaseSession {
         }
 
         return diffieHellman;
+    }
+
+    public void setLastPing(long lastPing) {
+        this.lastPing = lastPing;
+    }
+
+    public long getLastPing() {
+        return lastPing;
     }
 }

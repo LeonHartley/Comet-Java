@@ -93,6 +93,7 @@ import com.cometproject.server.network.messages.incoming.user.youtube.LoadPlayli
 import com.cometproject.server.network.messages.incoming.user.youtube.NextVideoMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.youtube.PlayVideoMessageEvent;
 import com.cometproject.server.network.messages.outgoing.group.DeleteGroupMessageEvent;
+import com.cometproject.server.network.messages.outgoing.handshake.ConfirmUsernameMessageEvent;
 import com.cometproject.server.network.messages.types.tasks.MessageEventTask;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.protocol.headers.Events;
@@ -176,6 +177,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.GenerateSecretKeyMessageEvent, new GenerateSecretKeyMessageEvent());
         this.getMessages().put(Events.SSOTicketMessageEvent, new SSOTicketMessageEvent());
         this.getMessages().put(Events.UniqueIDMessageEvent, new UniqueIdMessageEvent());
+        this.getMessages().put(Events.ConfirmUsernameMessageEvent, new ConfirmUsernameMessageEvent());
     }
 
     public void registerModTool() {
