@@ -35,7 +35,7 @@ public class Session implements BaseSession {
     private boolean disconnectCalled = false;
 
     private DiffieHellman diffieHellman;
-    private long lastPing;
+    private long lastPing = System.currentTimeMillis();
 
     public Session(ChannelHandlerContext channel) {
         this.channel = channel;
