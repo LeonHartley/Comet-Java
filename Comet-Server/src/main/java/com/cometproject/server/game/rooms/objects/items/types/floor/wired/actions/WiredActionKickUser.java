@@ -30,12 +30,17 @@ public class WiredActionKickUser extends WiredActionShowMessage {
     }
 
     @Override
-    public boolean evaluate(RoomEntity entity, Object data) {
-        if (!(entity instanceof PlayerEntity)) {
-            return false;
+    public void onEventComplete(WiredItemEvent event) {
+        if(event.entity != null && event.type == 1) {
+            event.entity.leaveRoom(false, true, true);
+            return;
         }
 
-        PlayerEntity playerEntity = (PlayerEntity) entity;
+        if (!(event.entity instanceof PlayerEntity)) {
+            return;
+        }
+
+        PlayerEntity playerEntity = (PlayerEntity) event.entity;
 
         String kickException = "";
 
@@ -44,25 +49,15 @@ public class WiredActionKickUser extends WiredActionShowMessage {
         }
 
         if (kickException.isEmpty()) {
-            if (super.evaluate(entity, data)) {
-                final WiredItemEvent event = new WiredItemEvent();
-                event.entity = entity;
-                event.entity.applyEffect(new PlayerEffect(4, 5));
+            super.onEventComplete(event);
 
-                event.setTotalTicks(RoomItemFactory.getProcessTime(0.9));
-                this.queueEvent(event);
-            }
+            event.entity.applyEffect(new PlayerEffect(4, 5));
+            event.type = 1;
+
+            event.setTotalTicks(RoomItemFactory.getProcessTime(0.9));
+            this.queueEvent(event);
         } else {
-            playerEntity.getPlayer().getSession().send(new WhisperMessageComposer(entity.getId(), "Wired kick exception: " + kickException));
-        }
-
-        return true;
-    }
-
-    @Override
-    public void onEventComplete(WiredItemEvent event) {
-        if (event.entity != null) {
-            event.entity.leaveRoom(false, true, true);
+            playerEntity.getPlayer().getSession().send(new WhisperMessageComposer(playerEntity.getId(), "Wired kick exception: " + kickException));
         }
     }
 }

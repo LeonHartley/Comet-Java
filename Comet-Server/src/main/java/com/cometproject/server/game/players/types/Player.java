@@ -189,6 +189,9 @@ public class Player implements BasePlayer {
         this.enteredRooms.clear();
         this.enteredRooms = null;
 
+        this.eventLogCategories.clear();
+        this.eventLogCategories = null;
+
         this.settings = null;
         this.data = null;
 

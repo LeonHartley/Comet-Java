@@ -1,5 +1,7 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.base;
 
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
+import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.AdvancedFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredFloorItem;
@@ -34,6 +36,22 @@ public abstract class WiredActionItem extends WiredFloorItem {
     @Override
     public MessageComposer getDialog() {
         return new WiredActionMessageComposer(this);
+    }
+
+    @Override
+    public final boolean evaluate(RoomEntity entity, Object data) {
+        if (this.hasTicks()) return false;
+
+        final WiredItemEvent itemEvent = new WiredItemEvent(entity, data);
+
+        if (this.getWiredData().getDelay() >= 1) {
+            itemEvent.setTotalTicks(RoomItemFactory.getProcessTime(this.getWiredData().getDelay() / 2));
+            this.queueEvent(itemEvent);
+        } else {
+            this.onEventComplete(itemEvent);
+        }
+
+        return true;
     }
 
     @Override

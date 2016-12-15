@@ -4,6 +4,7 @@ import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.events.WiredItemEvent;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.misc.ChatEmotion;
 import com.cometproject.server.network.messages.outgoing.room.avatar.ShoutMessageComposer;
@@ -40,26 +41,26 @@ public class WiredActionBotTalk extends WiredActionItem {
     }
 
     @Override
-    public boolean evaluate(RoomEntity entity, Object data) {
+    public void onEventComplete(WiredItemEvent event) {
         if (!this.getWiredData().getText().contains("\t")) {
-            return false;
+            return;
         }
 
         final String[] talkData = this.getWiredData().getText().split("\t");
 
         if (talkData.length != 2) {
-            return false;
+            return;
         }
 
         final String botName = talkData[0];
         String message = talkData[1];
 
         if (botName.isEmpty() || message.isEmpty()) {
-            return false;
+            return;
         }
 
-        if (entity instanceof PlayerEntity) {
-            message = message.replace("%username%", entity.getUsername());
+        if (event.entity instanceof PlayerEntity) {
+            message = message.replace("%username%", event.entity.getUsername());
         }
 
         message = message.replace("<", "").replace(">", "");
@@ -75,7 +76,5 @@ public class WiredActionBotTalk extends WiredActionItem {
                 this.getRoom().getEntities().broadcastMessage(new TalkMessageComposer(botEntity.getId(), message, ChatEmotion.NONE, 2));
             }
         }
-
-        return true;
     }
 }

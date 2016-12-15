@@ -13,6 +13,7 @@ import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.events.WiredItemEvent;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.catalog.UnseenItemsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
@@ -98,14 +99,14 @@ public class WiredActionGiveReward extends WiredActionItem {
     }
 
     @Override
-    public boolean evaluate(RoomEntity entity, Object data) {
-        if (this.getWiredData().getParams().size() != 4 || !(entity instanceof PlayerEntity) || this.rewards.size() == 0) {
-            return false;
+    public void onEventComplete(WiredItemEvent event) {
+        if (this.getWiredData().getParams().size() != 4 || !(event.entity instanceof PlayerEntity) || this.rewards.size() == 0) {
+            return;
         }
 
-        if (CometSettings.roomWiredRewardMinimumRank > this.ownerRank) return false;
+        if (CometSettings.roomWiredRewardMinimumRank > this.ownerRank) return;
 
-        PlayerEntity playerEntity = ((PlayerEntity) entity);
+        PlayerEntity playerEntity = ((PlayerEntity) event.entity);
 
         final int howOften = this.getWiredData().getParams().get(PARAM_HOW_OFTEN);
         final boolean unique = this.getWiredData().getParams().get(PARAM_UNIQUE) == 1;
@@ -119,7 +120,7 @@ public class WiredActionGiveReward extends WiredActionItem {
                     errorCode = 1;
                 } else {
                     this.givenRewards.add(playerEntity.getPlayerId());
-                    RoomItemDao.saveReward(this.getId(), ((PlayerEntity) entity).getPlayerId());
+                    RoomItemDao.saveReward(this.getId(), ((PlayerEntity) event.entity).getPlayerId());
                 }
 
                 if (rewardTimings.get(this.getId()).containsKey(playerEntity.getPlayerId())) {
@@ -156,7 +157,7 @@ public class WiredActionGiveReward extends WiredActionItem {
 
         if (errorCode != -1) {
             playerEntity.getPlayer().getSession().send(new WiredRewardMessageComposer(errorCode));
-            return false;
+            return;
         }
 
         this.totalRewardCounter++;
@@ -250,7 +251,8 @@ public class WiredActionGiveReward extends WiredActionItem {
         } else {
             rewardTimings.get(this.getId()).put(playerEntity.getPlayerId(), Comet.getTime());
         }
-        return false;
+
+        return;
     }
 
     private boolean isCurrencyReward(final String key) {

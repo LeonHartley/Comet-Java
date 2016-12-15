@@ -3,6 +3,7 @@ package com.cometproject.server.game.rooms.objects.items.types.floor.wired.actio
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.events.WiredItemEvent;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.avatar.WhisperMessageComposer;
 import com.cometproject.server.tasks.CometThreadManager;
@@ -42,17 +43,11 @@ public class WiredActionShowMessage extends WiredActionItem {
     }
 
     @Override
-    public boolean evaluate(RoomEntity entity, Object data) {
-        if (!(entity instanceof PlayerEntity)) return false;
+    public void onEventComplete(WiredItemEvent event) {
+        if (!(event.entity instanceof PlayerEntity)) return;
 
-        PlayerEntity playerEntity = ((PlayerEntity) entity);
+        PlayerEntity playerEntity = ((PlayerEntity) event.entity);
 
-        if (!this.getWiredData().getText().isEmpty()) {
-            CometThreadManager.getInstance().executeSchedule(() -> {
-                playerEntity.getPlayer().getSession().send(new WhisperMessageComposer(entity.getId(), this.getWiredData().getText(), isWhisperBubble ? 0 : 34));
-            }, this.getWiredData().getDelay() / 2, TimeUnit.SECONDS);
-        }
-
-        return true;
+        playerEntity.getPlayer().getSession().send(new WhisperMessageComposer(playerEntity.getId(), this.getWiredData().getText(), isWhisperBubble ? 0 : 34));
     }
 }

@@ -6,6 +6,7 @@ import com.cometproject.server.game.rooms.objects.entities.pathfinding.types.Ite
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.events.WiredItemEvent;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 
@@ -42,10 +43,9 @@ public class WiredActionFlee extends WiredActionItem {
     }
 
     @Override
-    public boolean evaluate(RoomEntity entity, Object data) {
-        return false;
-    }
+    public void onEventComplete(WiredItemEvent event) {
 
+    }
 
 //    public boolean evaluate(RoomEntity entity, Object data) {
 //        if (getWiredData().getSelectedIds().size() == 0) {

@@ -4,6 +4,7 @@ import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.events.WiredItemEvent;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.games.GameTeam;
 
@@ -41,26 +42,24 @@ public class WiredActionJoinTeam extends WiredActionItem {
     public int getInterface() {
         return 9;
     }
-
     @Override
-    public boolean evaluate(RoomEntity entity, Object data) {
-        if (entity == null || !(entity instanceof PlayerEntity)) {
-            return false;
+    public void onEventComplete(WiredItemEvent event) {
+        if (event.entity == null || !(event.entity instanceof PlayerEntity)) {
+            return;
         }
 
-        PlayerEntity playerEntity = ((PlayerEntity) entity);
+        PlayerEntity playerEntity = ((PlayerEntity) event.entity);
 
         if (playerEntity.getGameTeam() != GameTeam.NONE) {
-            return false; // entity already in a team!
+            return; // entity already in a team!
         }
 
         if (this.getTeam() == GameTeam.NONE)
-            return false;
+            return;
 
         playerEntity.setGameTeam(this.getTeam());
         this.getRoom().getGame().getTeams().get(this.getTeam()).add(playerEntity.getPlayerId());
         playerEntity.applyEffect(new PlayerEffect(this.getTeam().getFreezeEffect(), false));
-        return true;
     }
 
     private GameTeam getTeam() {

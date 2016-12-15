@@ -3,6 +3,7 @@ package com.cometproject.server.game.rooms.objects.items.types.floor.wired.actio
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.events.WiredItemEvent;
 import com.cometproject.server.game.rooms.types.Room;
 
 
@@ -43,21 +44,19 @@ public class WiredActionGiveScore extends WiredActionItem {
     public int getInterface() {
         return 6;
     }
-
     @Override
-    public boolean evaluate(RoomEntity entity, Object data) {
-        if (!(entity instanceof PlayerEntity)) {
-            return false;
+    public void onEventComplete(WiredItemEvent event) {
+        if (!(event.entity instanceof PlayerEntity)) {
+            return;
         }
 
-        PlayerEntity playerEntity = ((PlayerEntity) entity);
+        PlayerEntity playerEntity = ((PlayerEntity) event.entity);
 
         if (playerEntity.getGameTeam() == null) {
-            return false;
+            return;
         }
 
         this.getRoom().getGame().increaseScore(playerEntity.getGameTeam(), this.getScore());
-        return true;
     }
 
     public int getScore() {

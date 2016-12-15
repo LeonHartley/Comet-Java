@@ -7,6 +7,7 @@ import com.cometproject.server.game.rooms.objects.entities.pathfinding.types.Ite
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.events.WiredItemEvent;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerCollision;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
@@ -48,8 +49,8 @@ public class WiredActionChase extends WiredActionItem {
     }
 
     @Override
-    public boolean evaluate(RoomEntity entity, Object data) {
-        if (this.getWiredData().getSelectedIds().size() == 0) return false;
+    public void onEventComplete(WiredItemEvent event) {
+        if (this.getWiredData().getSelectedIds().size() == 0) return;
 
         for (long itemId : this.getWiredData().getSelectedIds()) {
             RoomItemFloor floorItem = this.getRoom().getItems().getFloorItem(itemId);
@@ -85,8 +86,6 @@ public class WiredActionChase extends WiredActionItem {
                 this.moveToTile(floorItem, positionFrom, null);
             }
         }
-
-        return true;
     }
 
     public boolean isCollided(PlayerEntity entity, RoomItemFloor floorItem) {

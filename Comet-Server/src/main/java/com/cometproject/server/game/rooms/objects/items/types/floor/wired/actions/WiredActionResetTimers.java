@@ -41,19 +41,7 @@ public class WiredActionResetTimers extends WiredActionItem {
     }
 
     @Override
-    public boolean evaluate(RoomEntity entity, Object data) {
-        if (this.getWiredData().getDelay() >= 1) {            final WiredItemEvent event = new WiredItemEvent();
-
-            event.setTotalTicks(RoomItemFactory.getProcessTime(this.getWiredData().getDelay() / 2));
-            this.queueEvent(event);
-        } else {
-            this.onTickComplete();
-        }
-
-        return true;
-    }
-
-    public void onTickComplete() {
+    public void onEventComplete(WiredItemEvent event) {
         final List<RoomItemFloor> items = this.getRoom().getItems().getByClass(WiredTriggerAtGivenTime.class);
         items.addAll(this.getRoom().getItems().getByClass(WiredTriggerAtGivenTimeLong.class));
 

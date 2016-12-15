@@ -44,20 +44,6 @@ public class WiredActionToggleState extends WiredActionItem {
     }
 
     @Override
-    public boolean evaluate(RoomEntity entity, Object data) {
-        if (this.getWiredData().getDelay() >= 1) {
-            final WiredItemEvent event = new WiredItemEvent();
-
-            event.setTotalTicks(RoomItemFactory.getProcessTime(this.getWiredData().getDelay() / 2));
-            this.queueEvent(event);
-        } else {
-            this.onEventComplete(null);
-        }
-
-        return true;
-    }
-
-    @Override
     public void onEventComplete(WiredItemEvent event) {
         List<Position> tilesToUpdate = Lists.newArrayList();
 

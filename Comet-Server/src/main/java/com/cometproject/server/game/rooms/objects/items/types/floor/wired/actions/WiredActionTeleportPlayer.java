@@ -31,24 +31,6 @@ public class WiredActionTeleportPlayer extends WiredActionItem {
     }
 
     @Override
-    public boolean evaluate(RoomEntity entity, Object data) {
-        if (entity == null) return false;
-
-        final WiredItemEvent event = new WiredItemEvent();
-
-        event.entity = entity;
-
-        if (this.getWiredData().getDelay() >= 1) {
-            event.setTotalTicks(RoomItemFactory.getProcessTime(this.getWiredData().getDelay() / 2));
-            this.queueEvent(event);
-        } else {
-            this.onEventComplete(event);
-        }
-
-        return true;
-    }
-
-    @Override
     public void onEventComplete(WiredItemEvent event) {
         if (event.entity == null) return;
 

@@ -40,8 +40,8 @@ public abstract class RollableFloorItem extends RoomItemFloor {
     }
 
     @Override
-    public void onEntityPostStepOn(RoomEntity entity) {
-        if (this.skipNext && (this.playerEntity != null && entity.getId() == this.playerEntity.getId()) && !this.wasDribbling) {
+    public void onEntityStepOn(RoomEntity entity) {
+        if (this.skipNext && (this.playerEntity != null && entity.getId() == this.playerEntity.getId())) {
             this.skipNext = false;
             return;
         }
@@ -53,11 +53,12 @@ public abstract class RollableFloorItem extends RoomItemFloor {
 
         boolean isOnBall = entity.getWalkingGoal().getX() == this.getPosition().getX() && entity.getWalkingGoal().getY() == this.getPosition().getY();
 
-        if (isOnBall && !this.wasDribbling) {
+        if (isOnBall) {
             if (entity instanceof PlayerEntity) {
                 this.playerEntity = (PlayerEntity) entity;
             }
 
+            this.wasDribbling = false;
             this.rollStage = 0;
             this.rollBall(entity.getPosition(), entity.getBodyRotation());
 //        } else if(isOnBall) {
@@ -95,6 +96,7 @@ public abstract class RollableFloorItem extends RoomItemFloor {
             this.isRolling = false;
             this.rollStage = -1;
             this.skipNext = false;
+            this.wasDribbling = false;
             return;
         }
 
@@ -169,6 +171,7 @@ public abstract class RollableFloorItem extends RoomItemFloor {
 
         this.moveTo(newPosition, entity.getBodyRotation());
         this.isRolling = false;
+        this.wasDribbling = false;
     }
 
     @Override
@@ -223,21 +226,20 @@ public abstract class RollableFloorItem extends RoomItemFloor {
     }
 
     private double getDelay(int i) {
-        // return 0.35;
         switch (i) {
             case 1:
                 return 0.075;
             case 2:
-                return 0.2;
+                return 0.4;
             case 3:
-                return 0.25;
+                return 0.65;
             case 4:
-                return 0.3;
+                return 0.8;
             default:
                 if (i != 5) {
-                    return ((i != 6) ? 0.3 : 0.35);
+                    return ((i != 6) ? 0.95 : 1.1);
                 }
-                return 0.35;
+                return 1.1;
         }
     }
 

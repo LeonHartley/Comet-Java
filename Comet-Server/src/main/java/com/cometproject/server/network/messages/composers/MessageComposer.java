@@ -22,7 +22,7 @@ public abstract class MessageComposer implements IMessageComposer {
         try {
             this.compose(composer);
         } catch (Exception e) {
-            Comet.getServer().getLogger().error("Error during message composing", e);
+            Comet.getServer().getLogger().error("Error composing message " + this.getId() + " / " + this.getClass().getSimpleName(), e);
             throw e;
         } finally {
             this.dispose();

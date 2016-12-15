@@ -4,6 +4,7 @@ import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.DiceFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.events.WiredItemEvent;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.items.SlideObjectBundleMessageComposer;
@@ -43,9 +44,9 @@ public class WiredActionMoveToDirection extends WiredActionItem {
     }
 
     @Override
-    public boolean evaluate(RoomEntity entity, Object data) {
+    public void onEventComplete(WiredItemEvent event) {
         if (this.getWiredData().getParams().size() != 2) {
-            return false;
+            return;
         }
 
         final int startDir = this.getWiredData().getParams().get(PARAM_START_DIR);
@@ -75,7 +76,7 @@ public class WiredActionMoveToDirection extends WiredActionItem {
             }
         }
 
-        return false;
+        return;
     }
 
     private final Random random = new Random();
