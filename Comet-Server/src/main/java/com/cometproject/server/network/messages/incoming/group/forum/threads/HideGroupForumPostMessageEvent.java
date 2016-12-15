@@ -7,18 +7,23 @@ import com.cometproject.server.game.groups.types.components.forum.settings.Forum
 import com.cometproject.server.game.groups.types.components.forum.threads.ForumThread;
 import com.cometproject.server.game.groups.types.components.forum.threads.ForumThreadReply;
 import com.cometproject.server.network.messages.incoming.Event;
+import com.cometproject.server.network.messages.outgoing.group.forums.GroupForumThreadsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.group.forums.GroupForumUpdateReplyMessageComposer;
+import com.cometproject.server.network.messages.outgoing.group.forums.GroupForumUpdateThreadMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.storage.queries.groups.GroupForumThreadDao;
 
-public class HideMessageMessageEvent implements Event {
+import static com.cometproject.server.protocol.headers.Events.DeleteGroupReplyMessageEvent;
+
+public class HideGroupForumPostMessageEvent implements Event {
 
     @Override
     public void handle(Session client, MessageEvent msg) throws Exception {
         int groupId = msg.readInt();
         int threadId = msg.readInt();
-        int messageId = msg.readInt();
+        int messageId = msg.getId() == DeleteGroupReplyMessageEvent ? msg.readInt() : -1;
+        //int messageId = msg.readInt();
         int state = msg.readInt();
 
         Group group = GroupManager.getInstance().get(groupId);
@@ -45,16 +50,20 @@ public class HideMessageMessageEvent implements Event {
             return;
         }
 
-        ForumThreadReply reply = forumThread.getReplyById(messageId);
+       if(messageId != -1) {
+            ForumThreadReply reply = forumThread.getReplyById(messageId);
 
-        if(reply == null) {
-            return;
+            if (reply == null) {
+                return;
+            }
+
+            reply.setState(state);
+            client.send(new GroupForumUpdateReplyMessageComposer(reply, threadId, groupId));
+        } else {
+           forumThread.setState(state);
+           client.send(new GroupForumUpdateThreadMessageComposer(groupId, forumThread));
         }
 
-        reply.setState(state);
-        GroupForumThreadDao.saveMessageState(reply.getId(), state);
-
-        client.send(new GroupForumUpdateReplyMessageComposer(reply, threadId, groupId));
-
+        GroupForumThreadDao.saveMessageState(messageId != -1 ? messageId : threadId, state);
     }
 }

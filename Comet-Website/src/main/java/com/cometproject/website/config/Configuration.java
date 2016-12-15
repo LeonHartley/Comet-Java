@@ -8,7 +8,7 @@ public class Configuration {
 
     public static Configuration getInstance() {
         if(instance == null) {
-            instance = new Gson().fromJson(FileUtils.getContents("./config/CometManager.json"), Configuration.class);
+            instance = new Gson().fromJson(FileUtils.getContents("./config/CometWebsite.json"), Configuration.class);
         }
 
         return instance;

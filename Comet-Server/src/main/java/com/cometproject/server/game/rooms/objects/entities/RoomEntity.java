@@ -10,8 +10,8 @@ import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.ai.BotAI;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.game.rooms.types.mapping.RoomEntityMovementNode;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
+import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
 import com.cometproject.server.network.messages.outgoing.room.avatar.*;
 import com.cometproject.server.utilities.collections.ConcurrentHashSet;
 
@@ -139,6 +139,10 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
 
         if (tile == null)
             return;
+
+        if(tile.getState() == RoomTileState.INVALID) {
+            return;
+        }
 
         // reassign the position values if they're set to redirect
         if (tile.getRedirect() != null) {
@@ -493,7 +497,7 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
         this.overriden = overriden;
     }
 
-    public abstract void joinRoom(Room room, String password);
+    public abstract boolean joinRoom(Room room, String password);
 
     protected abstract void finalizeJoinRoom();
 

@@ -425,7 +425,8 @@ public final class MessageHandler {
         this.getMessages().put(Events.GetThreadDataMessageEvent, new ViewThreadMessageEvent());
         this.getMessages().put(Events.UpdateThreadMessageEvent, new UpdateThreadMessageEvent());
         this.getMessages().put(Events.GetForumsListDataMessageEvent, new GetForumsMessageEvent());
-        this.getMessages().put(Events.DeleteGroupThreadMessageEvent, new HideMessageMessageEvent());
+        this.getMessages().put(Events.DeleteGroupThreadMessageEvent, new HideGroupForumPostMessageEvent());
+        this.getMessages().put(Events.DeleteGroupReplyMessageEvent, new HideGroupForumPostMessageEvent());
     }
 
     public void registerQuests() {

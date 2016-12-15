@@ -23,8 +23,10 @@ public class CreateRoomMessageEvent implements Event {
             return;
         }
 
-        if(((int) Comet.getTime()) - client.getPlayer().getLastRoomCreated() < 60) {
-            client.send(new MotdNotificationMessageComposer(Locale.getOrDefault("room.creation.time", "Due to abuse, can only create 1 room every 60 seconds!")));
+        int lastRoomCreatedDifference = ((int) Comet.getTime()) - client.getPlayer().getLastRoomCreated();
+
+        if(lastRoomCreatedDifference < 30) {
+            client.send(new MotdNotificationMessageComposer(Locale.getOrDefault("room.creation.time", "Due to abuse, you can only create 1 room every 30 seconds (You have " + (30 - lastRoomCreatedDifference) + " seconds left)!")));
             return;
         }
 

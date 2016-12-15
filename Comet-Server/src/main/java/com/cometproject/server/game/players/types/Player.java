@@ -250,7 +250,9 @@ public class Player implements BasePlayer {
         PlayerEntity playerEntity = room.getEntities().createEntity(this);
         setEntity(playerEntity);
 
-        playerEntity.joinRoom(room, password);
+        if(!playerEntity.joinRoom(room, password)) {
+            setEntity(null);
+        }
 
         if (this.getData().getQuestId() != 0) {
             Quest quest = QuestManager.getInstance().getById(this.getData().getQuestId());

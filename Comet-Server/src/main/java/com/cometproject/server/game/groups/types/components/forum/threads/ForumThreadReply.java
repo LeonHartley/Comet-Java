@@ -4,6 +4,7 @@ import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.data.PlayerAvatar;
+import com.cometproject.server.storage.queries.groups.GroupForumThreadDao;
 
 public class ForumThreadReply {
     private int id;
@@ -44,7 +45,7 @@ public class ForumThreadReply {
         msg.writeInt(0); // _adminId
         msg.writeString(""); // _adminName
         msg.writeInt(0); // _adminOperationTimeAsSeccondsAgo
-        msg.writeInt(0); // messages by author
+        msg.writeInt(GroupForumThreadDao.getPlayerMessageCount(playerAvatar.getId())); // messages by author todo: optimise if needed
     }
 
     public int getId() {

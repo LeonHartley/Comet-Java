@@ -23,8 +23,8 @@ public class InventoryMessageComposer extends MessageComposer {
 
     @Override
     public void compose(IComposer msg) {
-        msg.writeInt(1);
-        msg.writeInt(0);
+        msg.writeInt(1); // how many pages page
+        msg.writeInt(0); // index of current page
         msg.writeInt(inventoryComponent.getTotalSize());
 
         for (Map.Entry<Long, PlayerItem>  inventoryItem : inventoryComponent.getFloorItems().entrySet()) {

@@ -67,8 +67,8 @@ public class BotEntity extends RoomEntity {
     }
 
     @Override
-    public void joinRoom(Room room, String password) {
-
+    public boolean joinRoom(Room room, String password) {
+        return true;
     }
 
     @Override

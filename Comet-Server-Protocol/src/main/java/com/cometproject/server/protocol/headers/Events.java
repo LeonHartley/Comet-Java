@@ -110,6 +110,8 @@ public class Events {
     public static final short SetTonerMessageEvent = 2452; // PRODUCTION-201610052203-260805057
     public static final short RespectUserMessageEvent = 3840; // PRODUCTION-201610052203-260805057
     public static final short DeleteGroupThreadMessageEvent = 3450; // PRODUCTION-201610052203-260805057
+    public static final short DeleteGroupReplyMessageEvent = 1419; // PRODUCTION-201610052203-260805057
+
     public static final short CreditFurniRedeemMessageEvent = 1667; // PRODUCTION-201610052203-260805057
     public static final short ModerationMsgMessageEvent = 3683; // PRODUCTION-201610052203-260805057
     public static final short ToggleYouTubeVideoMessageEvent = 3139; // PRODUCTION-201610052203-260805057
@@ -230,6 +232,8 @@ public class Events {
     public static final short TradingConfirmMessageEvent = 1987; // PRODUCTION-201610052203-260805057
     public static final short TradingCancelConfirmMessageEvent = 1054; // PRODUCTION-201610052203-260805057
     public static final short RedeemVoucherMessageEvent = 2664; // PRODUCTION-201610052203-260805057
+    public static final short Hide= 2664; // PRODUCTION-201610052203-260805057
+
 
     private static Map<Short, String> eventPacketNames = new HashMap<>();
 

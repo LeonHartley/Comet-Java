@@ -10,7 +10,6 @@ import com.cometproject.website.website.routes.*;
 import com.cometproject.website.website.routes.admin.*;
 import com.cometproject.website.website.routes.gamedata.TextsRoute;
 import com.cometproject.website.website.routes.gamedata.VariablesRoute;
-import com.sun.org.apache.xml.internal.resolver.Catalog;
 import org.apache.velocity.app.VelocityEngine;
 import spark.Spark;
 import spark.template.velocity.VelocityTemplateEngine;

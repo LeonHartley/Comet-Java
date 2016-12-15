@@ -153,6 +153,10 @@ public class TeleporterFloorItem extends AdvancedFloorItem<TeleporterFloorItem.T
                     this.toggleAnimation(false);
                     event.state = 6;
 
+                    event.incomingEntity.setBodyRotation(this.rotation);
+                    event.incomingEntity.setHeadRotation(this.rotation);
+                    event.incomingEntity.refresh();
+
                     event.setTotalTicks(RoomItemFactory.getProcessTime(0.5));
                     this.queueEvent(event);
                     break;
@@ -163,9 +167,6 @@ public class TeleporterFloorItem extends AdvancedFloorItem<TeleporterFloorItem.T
                         this.toggleDoor(true);
 
                     if (event.incomingEntity != null) {
-                        event.incomingEntity.setBodyRotation(this.rotation);
-                        event.incomingEntity.setHeadRotation(this.rotation);
-                        event.incomingEntity.refresh();
 
                         event.incomingEntity.moveTo(this.getPosition().squareInFront(this.getRotation()).getX(), this.getPosition().squareInFront(this.getRotation()).getY());
                     }
@@ -220,7 +221,8 @@ public class TeleporterFloorItem extends AdvancedFloorItem<TeleporterFloorItem.T
 
         if (entity.isOverriden()) return false;
 
-        if (entity.getPosition().getX() != posInFront.getX() || entity.getPosition().getY() != posInFront.getY()) {
+        if (entity.getPosition().getX() != posInFront.getX() || entity.getPosition().getY() != posInFront.getY() &&
+                !(entity.getPosition().getX() == this.getPosition().getX() && entity.getPosition().getY() == this.getPosition().getY())) {
             entity.moveTo(posInFront.getX(), posInFront.getY());
 
             RoomTile tile = this.getRoom().getMapping().getTile(posInFront.getX(), posInFront.getY());
@@ -257,16 +259,23 @@ public class TeleporterFloorItem extends AdvancedFloorItem<TeleporterFloorItem.T
             return;
         }
 
-        //if (event.incomingEntity != null && event.incomingEntity.getId() == entity.getId()) {
-         //   return;
-        //}
-
         this.inUse = true;
-        //event.outgoingEntity = entity;
-       // event.outgoingEntity.setOverriden(true);
 
-        //event.state = 1;
-        this.setTicks(RoomItemFactory.getProcessTime(0.01));
+        if(entity.isOverriden()) return;
+
+        final TeleporterItemEvent event = new TeleporterItemEvent(RoomItemFactory.getProcessTime(0.01));
+        event.outgoingEntity = (PlayerEntity) entity;
+
+        entity.setOverriden(false);
+        event.outgoingEntity.setOverriden(true);
+
+        event.state = 1;
+
+        try {
+            this.queueEvent(event);
+        } catch (Exception e) {
+            Comet.getServer().getLogger().error("Failed to queue teleporter item event", e);
+        }
     }
 
     @Override
@@ -296,7 +305,9 @@ public class TeleporterFloorItem extends AdvancedFloorItem<TeleporterFloorItem.T
         if (otherItem != null)
             otherItem.endTeleporting();
 
-        entity.updateAndSetPosition(this.getPosition().copy());
+        entity.warp(this.getPosition().copy());
+        //entity.updateAndSetPosition(this.getPosition().copy());
+
         this.toggleAnimation(true);
 
         final TeleporterItemEvent event = new TeleporterItemEvent(0);

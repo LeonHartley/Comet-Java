@@ -201,4 +201,30 @@ public class GroupForumThreadDao {
             SqlHelper.closeSilently(sqlConnection);
         }
     }
+
+    public static int getPlayerMessageCount(int playerId) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("SELECT COUNT(0) as messageCount FROM group_forum_messages WHERE author_id = ?", sqlConnection);
+            preparedStatement.setInt(1, playerId);
+
+            resultSet = preparedStatement.executeQuery();
+
+            while(resultSet.next()) {
+                return resultSet.getInt("messageCount");
+            }
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+
+        return 0;
+    }
 }

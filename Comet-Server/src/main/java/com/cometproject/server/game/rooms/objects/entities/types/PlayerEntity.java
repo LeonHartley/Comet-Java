@@ -11,6 +11,7 @@ import com.cometproject.server.game.commands.vip.TransformCommand;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.moderation.BanManager;
+import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.quests.types.QuestType;
@@ -101,8 +102,8 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
     }
 
     @Override
-    public void joinRoom(Room room, String password) {
-        if (this.isFinalized()) return;
+    public boolean joinRoom(Room room, String password) {
+        if (this.isFinalized()) return this.getRoom().getId() == room.getId();
 
         boolean isAuthFailed = false;
         boolean isSpectating = this.getPlayer().isSpectating(room.getId());
@@ -121,7 +122,7 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
 
                 this.isQueueing = true;
                 this.getPlayer().getSession().send(new RoomQueueStatusMessageComposer(RoomQueue.getInstance().getQueueCount(room.getId(), this.playerId)));
-                return;
+                return false;
             }
 
             this.getPlayer().getSession().send(new CantConnectMessageComposer(1));
@@ -137,8 +138,6 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
 
         boolean isOwner = (this.getRoom().getData().getOwnerId() == this.getPlayerId());
         boolean isTeleporting = this.getPlayer().isTeleporting() && (this.getPlayer().getTeleportRoomId() == this.getRoom().getId());
-
-        this.getPlayer().getSession().send(new OpenConnectionMessageComposer());
 
         if (!isAuthFailed && !this.getPlayer().isBypassingRoomAuth() && (!isOwner && !this.getPlayer().getPermissions().getRank().roomEnterLocked() && !this.isDoorbellAnswered()) && !isTeleporting) {
             if (this.getRoom().getData().getAccess() == RoomAccessType.PASSWORD) {
@@ -178,11 +177,15 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
         this.getPlayer().setRoomQueueId(0);
 
         if (isAuthFailed) {
-            return;
+            return false;
         }
+
+        this.getPlayer().getSession().send(new OpenConnectionMessageComposer());
 
         this.getRoom().getEntities().addEntity(this);
         this.finalizeJoinRoom();
+
+        return true;
     }
 
     @Override
@@ -365,6 +368,13 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
     @Override
     public boolean onChat(String message) {
         final long time = System.currentTimeMillis();
+
+        final boolean isPlayerOnline = PlayerManager.getInstance().isOnline(this.getPlayerId());
+
+        if(!isPlayerOnline) {
+            this.leaveRoom(true, false, false);
+            return false;
+        }
 
         if (!this.getPlayer().getPermissions().getRank().floodBypass()) {
             if (this.lastMessage.equals(message)) {

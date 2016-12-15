@@ -51,17 +51,19 @@ public abstract class RollableFloorItem extends RoomItemFloor {
             this.sendUpdate();
         }
 
-        if (entity.getWalkingGoal().getX() == this.getPosition().getX() && entity.getWalkingGoal().getY() == this.getPosition().getY()) {
+        boolean isOnBall = entity.getWalkingGoal().getX() == this.getPosition().getX() && entity.getWalkingGoal().getY() == this.getPosition().getY();
+
+        if (isOnBall && !this.wasDribbling) {
             if (entity instanceof PlayerEntity) {
                 this.playerEntity = (PlayerEntity) entity;
             }
 
             this.rollStage = 0;
             this.rollBall(entity.getPosition(), entity.getBodyRotation());
-            this.skipNext = true;
+//        } else if(isOnBall) {
+//            this.wasDribbling = false;
         } else {
             this.rollSingle(entity);
-//            this.skipNext = true;
             this.wasDribbling = true;
         }
     }
@@ -92,6 +94,7 @@ public abstract class RollableFloorItem extends RoomItemFloor {
         if (!this.isRolling || this.rollStage == -1 || this.rollStage >= KICK_POWER) {
             this.isRolling = false;
             this.rollStage = -1;
+            this.skipNext = false;
             return;
         }
 
