@@ -69,7 +69,7 @@ public class WhisperMessageEvent implements Event {
 
             for (PlayerEntity entity : client.getPlayer().getEntity().getRoom().getEntities().getWhisperSeers()) {
                 if (entity.getPlayer().getId() != client.getPlayer().getId() && !user.equals(entity.getUsername()))
-                    entity.getPlayer().getSession().send(new WhisperMessageComposer(client.getPlayer().getEntity().getId(), "Fluistert naar " + user + ": " + filteredMessage));
+                    entity.getPlayer().getSession().send(new WhisperMessageComposer(client.getPlayer().getEntity().getId(), "Whisper to " + user + ": " + filteredMessage));
             }
         }
 
