@@ -470,7 +470,7 @@ public class ItemsComponent {
             if (currentPosition != null && currentPosition.getX() == tile.getPosition().getX() && currentPosition.getY() == tile.getPosition().getY())
                 return true;
 
-            List<AffectedTile> affectedTiles = AffectedTile.getAffectedTilesAt(
+            List<AffectedTile> affectedTiles = AffectedTile.getAffectedBothTilesAt(
                     item.getLength(), item.getWidth(), tile.getPosition().getX(), tile.getPosition().getY(), rotation);
 
             for(AffectedTile affectedTile : affectedTiles) {
