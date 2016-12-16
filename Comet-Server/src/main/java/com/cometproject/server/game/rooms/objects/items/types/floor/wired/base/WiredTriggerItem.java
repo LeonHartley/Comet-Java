@@ -171,8 +171,6 @@ public abstract class WiredTriggerItem extends WiredFloorItem {
             }
         }
 
-        actionItem.flash();
-
         return actionItem.evaluate(entity, data);
     }
 

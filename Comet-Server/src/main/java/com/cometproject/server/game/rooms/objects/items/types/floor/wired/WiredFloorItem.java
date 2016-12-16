@@ -136,18 +136,9 @@ public abstract class WiredFloorItem extends AdvancedFloorItem<WiredItemEvent> i
 
     @Override
     public void onTick() {
-        if (this instanceof WiredTriggerPeriodically) return;
-
         super.onTick();
 
-        if (this.state && this.hasTicked) {
-            this.state = false;
-            this.hasTicked = false;
-
-            this.sendUpdate();
-        } else if(this.state) {
-            this.hasTicked = true;
-        }
+        // any wired-only ontick stuff here?
     }
 
     @Override

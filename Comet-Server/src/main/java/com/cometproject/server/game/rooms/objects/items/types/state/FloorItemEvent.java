@@ -29,4 +29,8 @@ public abstract class FloorItemEvent {
     public boolean isFinished() {
         return this.ticks.get() >= this.totalTicks;
     }
+
+    public boolean isInteractiveEvent() {
+        return true;
+    }
 }

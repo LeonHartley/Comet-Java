@@ -2,6 +2,7 @@ package com.cometproject.server.game.rooms.objects.items.types.floor.wired.trigg
 
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredTriggerItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.events.WiredItemEvent;
 import com.cometproject.server.game.rooms.types.Room;
 
 
@@ -24,11 +25,15 @@ public class WiredTriggerPeriodically extends WiredTriggerItem {
     public WiredTriggerPeriodically(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
 
-        if (this.getWiredData().getParams().get(PARAM_TICK_LENGTH) == null) {
-            this.getWiredData().getParams().put(PARAM_TICK_LENGTH, 2); // 1s
-        }
+        this.getWiredData().getParams().putIfAbsent(PARAM_TICK_LENGTH, 5);
 
-        this.setTicks(RoomItemFactory.getProcessTime(this.getWiredData().getParams().get(PARAM_TICK_LENGTH) / 2));
+        final WiredItemEvent event = new WiredItemEvent(null, null);
+
+        int ticks = RoomItemFactory.getProcessTime(this.getWiredData().getParams().get(PARAM_TICK_LENGTH) / 2) * 10;
+
+        event.setTotalTicks(ticks);
+
+        this.queueEvent(event);
     }
 
     @Override
@@ -37,15 +42,31 @@ public class WiredTriggerPeriodically extends WiredTriggerItem {
     }
 
     @Override
-    public void onTickComplete() {
+    public void onEventComplete(WiredItemEvent event) {
         this.evaluate(null, null);
 
         // loop
-        this.setTicks(RoomItemFactory.getProcessTime(this.getWiredData().getParams().get(PARAM_TICK_LENGTH) / 2));
+        event.setTotalTicks(RoomItemFactory.getProcessTime(this.getWiredData().getParams().get(PARAM_TICK_LENGTH) / 2));
+        this.queueEvent(event);
+    }
+
+    @Override
+    public void onDataChange() {
+        final WiredItemEvent event = new WiredItemEvent(null, null);
+
+        int ticks = RoomItemFactory.getProcessTime(this.getWiredData().getParams().get(PARAM_TICK_LENGTH) / 2);
+        event.setTotalTicks(ticks);
+
+        this.queueEvent(event);
     }
 
     @Override
     public int getInterface() {
         return 6;
+    }
+
+    @Override
+    public int getMaxEvents() {
+        return 10;
     }
 }

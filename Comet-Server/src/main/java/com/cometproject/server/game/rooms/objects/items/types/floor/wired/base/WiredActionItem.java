@@ -46,8 +46,10 @@ public abstract class WiredActionItem extends WiredFloorItem {
 
         if (this.getWiredData().getDelay() >= 1) {
             itemEvent.setTotalTicks(RoomItemFactory.getProcessTime(this.getWiredData().getDelay() / 2));
+
             this.queueEvent(itemEvent);
         } else {
+            itemEvent.onCompletion(this);
             this.onEventComplete(itemEvent);
         }
 

@@ -2,6 +2,7 @@ package com.cometproject.server.game.rooms.objects.items.types.floor.wired.trigg
 
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredTriggerItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.events.WiredItemEvent;
 import com.cometproject.server.game.rooms.types.Room;
 
 
@@ -11,24 +12,26 @@ public class WiredTriggerPeriodicallyLong extends WiredTriggerItem {
     /**
      * The default constructor
      *
-     * @param id       The ID of the item
-     * @param itemId   The ID of the item definition
-     * @param room     The instance of the room
-     * @param owner    The ID of the owner
-     * @param x        The position of the item on the X axis
-     * @param y        The position of the item on the Y axis
-     * @param z        The position of the item on the z axis
-     * @param rotation The orientation of the item
-     * @param data     The JSON object associated with this item
+     * @param id        The ID of the item
+     * @param itemId    The ID of the item definition
+     * @param room      The instance of the room
+     * @param owner     The ID of the owner
+     * @param ownerName The username of the owner
+     * @param x         The position of the item on the X axis
+     * @param y         The position of the item on the Y axis
+     * @param z         The position of the item on the z axis
+     * @param rotation  The orientation of the item
+     * @param data      The JSON object associated with this item
      */
     public WiredTriggerPeriodicallyLong(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
 
-        if (this.getWiredData().getParams().get(PARAM_TICK_LENGTH) == null) {
-            this.getWiredData().getParams().put(PARAM_TICK_LENGTH, 1 / 2 * 10); // 5s
-        }
+        this.getWiredData().getParams().putIfAbsent(PARAM_TICK_LENGTH, 2); // 1s
 
-        this.setTicks(RoomItemFactory.getProcessTime(this.getWiredData().getParams().get(PARAM_TICK_LENGTH) / 2) * 10);
+        final WiredItemEvent event = new WiredItemEvent(null, null);
+        event.setTotalTicks(RoomItemFactory.getProcessTime(this.getWiredData().getParams().get(PARAM_TICK_LENGTH) / 2) * 10);
+
+        this.queueEvent(event);
     }
 
     @Override
@@ -37,15 +40,16 @@ public class WiredTriggerPeriodicallyLong extends WiredTriggerItem {
     }
 
     @Override
-    public void onTickComplete() {
+    public void onEventComplete(WiredItemEvent event) {
         this.evaluate(null, null);
 
         // loop
-        this.setTicks(RoomItemFactory.getProcessTime(this.getWiredData().getParams().get(PARAM_TICK_LENGTH) / 2) * 10);
+        event.setTotalTicks(RoomItemFactory.getProcessTime(this.getWiredData().getParams().get(PARAM_TICK_LENGTH) / 2) * 10);
+        this.queueEvent(event);
     }
 
     @Override
     public int getInterface() {
-        return 12;
+        return 6;
     }
 }

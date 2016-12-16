@@ -18,4 +18,9 @@ public class WiredItemFlashEvent extends WiredItemEvent {
             ((WiredFloorItem) floorItem).switchState();
         }
     }
+
+    @Override
+    public boolean isInteractiveEvent() {
+        return false;
+    }
 }

@@ -33,15 +33,26 @@ public abstract class AdvancedFloorItem<T extends FloorItemEvent> extends RoomIt
             this.itemEvents.remove(finishedEvent);
 
             finishedEvent.onCompletion(this);
-            this.onEventComplete(finishedEvent);
+
+            if (finishedEvent.isInteractiveEvent()) {
+                this.onEventComplete(finishedEvent);
+            }
         }
 
         finishedEvents.clear();
     }
 
     public void queueEvent(final T floorItemEvent) {
+        if(this.getMaxEvents() <= this.itemEvents.size()) {
+            return;
+        }
+
         this.itemEvents.add(floorItemEvent);
     }
 
     protected abstract void onEventComplete(T event);
+
+    public int getMaxEvents() {
+        return 5000;
+    }
 }
