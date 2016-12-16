@@ -43,7 +43,7 @@ public class ModuleManager implements Initialisable {
     }
 
     @Override
-    public void initialise() {
+    public void initialize() {
         if (this.modules != null) {
             this.modules.clear();
         } else {

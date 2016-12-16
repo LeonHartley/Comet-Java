@@ -69,7 +69,7 @@ public class CommandManager implements Initialisable {
     }
 
     @Override
-    public void initialise() {
+    public void initialize() {
         this.commands = new HashMap<>();
 
         this.reloadAllCommands();

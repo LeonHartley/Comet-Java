@@ -35,7 +35,7 @@ public class ItemStorageQueue implements Initialisable, CometTask, StorageQueue<
     }
 
     @Override
-    public void initialise() {
+    public void initialize() {
         this.future = CometThreadManager.getInstance().executePeriodic(this, 0, 1500, TimeUnit.MILLISECONDS);
     }
 

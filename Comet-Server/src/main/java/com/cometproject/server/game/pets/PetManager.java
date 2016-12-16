@@ -27,7 +27,7 @@ public class PetManager implements Initialisable {
     }
 
     @Override
-    public void initialise() {
+    public void initialize() {
         this.loadPetRaces();
         this.loadPetSpeech();
         this.loadTransformablePets();

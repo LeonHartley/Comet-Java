@@ -55,7 +55,7 @@ public class RoomManager implements Initialisable {
     }
 
     @Override
-    public void initialise() {
+    public void initialize() {
         this.roomDataInstances = new ConcurrentLRUCache<>(LRU_MAX_ENTRIES, LRU_MAX_LOWER_WATERMARK);
 
         this.loadedRoomInstances = new ConcurrentHashMap<>();

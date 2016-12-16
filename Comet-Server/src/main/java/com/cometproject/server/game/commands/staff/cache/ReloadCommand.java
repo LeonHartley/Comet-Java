@@ -166,7 +166,7 @@ public class ReloadCommand extends ChatCommand {
                 break;
 
             case "polls":
-                PollManager.getInstance().initialise();
+                PollManager.getInstance().initialize();
 
                 if(PollManager.getInstance().roomHasPoll(client.getPlayer().getEntity().getRoom().getId())) {
                     Poll poll = PollManager.getInstance().getPollByRoomId(client.getPlayer().getEntity().getRoom().getId());

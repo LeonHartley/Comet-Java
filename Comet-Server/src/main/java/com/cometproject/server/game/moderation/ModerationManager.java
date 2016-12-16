@@ -37,7 +37,7 @@ public class ModerationManager implements Initialisable {
     }
 
     @Override
-    public void initialise() {
+    public void initialize() {
         this.moderators = new ConcurrentHashSet<>();
 
         loadPresets();

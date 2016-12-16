@@ -19,7 +19,7 @@ public class QuestManager implements Initialisable {
     }
 
     @Override
-    public void initialise() {
+    public void initialize() {
         this.loadQuests();
     }
 

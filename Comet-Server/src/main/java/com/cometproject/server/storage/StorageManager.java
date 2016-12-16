@@ -17,7 +17,7 @@ public class StorageManager implements Initialisable {
     }
 
     @Override
-    public void initialise() {
+    public void initialize() {
         boolean isConnectionFailed = false;
 
         try {
@@ -55,7 +55,7 @@ public class StorageManager implements Initialisable {
             }
         }
 
-        CacheManager.getInstance().initialise();
+        CacheManager.getInstance().initialize();
         SqlHelper.init(this);
     }
 

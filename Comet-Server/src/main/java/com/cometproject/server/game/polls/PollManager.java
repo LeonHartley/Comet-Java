@@ -23,7 +23,7 @@ public class PollManager implements Initialisable {
     }
 
     @Override
-    public void initialise() {
+    public void initialize() {
         if(this.polls != null) {
             for(Poll poll : this.polls.values()) {
                 for(PollQuestion pollQuestion : poll.getPollQuestions().values()) {

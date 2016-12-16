@@ -147,14 +147,14 @@ public class NetworkManager {
         try {
             bootstrap.bind(new InetSocketAddress(ip, port)).addListener(objectFuture -> {
                 if (!objectFuture.isSuccess()) {
-                    Comet.exit("Failed to initialise sockets on address: " + ip + ":" + port);
+                    Comet.exit("Failed to initialize sockets on address: " + ip + ":" + port);
                 }
             });
 
             log.info("CometServer listening on port: " + port);
         } catch (Exception e) {
             e.printStackTrace();
-            Comet.exit("Failed to initialise sockets on address: " + ip + ":" + port);
+            Comet.exit("Failed to initialize sockets on address: " + ip + ":" + port);
         }
     }
 

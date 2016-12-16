@@ -29,7 +29,7 @@ public class CacheManager implements Initialisable {
     }
 
     @Override
-    public void initialise() {
+    public void initialize() {
         if (!this.enabled)
             return;
 
@@ -49,7 +49,7 @@ public class CacheManager implements Initialisable {
         }
 
         if (!this.initializeJedis()) {
-            log.error("Failed to initialise Redis cluster, disabling caching");
+            log.error("Failed to initialize Redis cluster, disabling caching");
 
             this.enabled = false;
             return;

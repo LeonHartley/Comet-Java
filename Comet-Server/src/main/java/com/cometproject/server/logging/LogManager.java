@@ -18,7 +18,7 @@ public class LogManager implements Initialisable {
     }
 
     @Override
-    public void initialise() {
+    public void initialize() {
         this.store = new LogStore();
     }
 

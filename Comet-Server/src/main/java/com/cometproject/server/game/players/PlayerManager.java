@@ -47,7 +47,7 @@ public class PlayerManager implements Initialisable {
     }
 
     @Override
-    public void initialise() {
+    public void initialize() {
         this.playerIdToSessionId = new ConcurrentHashMap<>();
         this.playerUsernameToPlayerId = new ConcurrentHashMap<>();
         this.ipAddressToPlayerIds = new ConcurrentHashMap<>();

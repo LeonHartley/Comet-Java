@@ -28,7 +28,7 @@ public class CometThreadManager implements Initialisable {
     }
 
     @Override
-    public void initialise() {
+    public void initialize() {
         int poolSize = Integer.parseInt((String) Comet.getServer().getConfig().getOrDefault("comet.system.threads", "8"));
 
         this.coreExecutor = Executors.newScheduledThreadPool(poolSize, r -> {

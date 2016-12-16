@@ -18,7 +18,7 @@ public class LandingManager implements Initialisable {
     }
 
     @Override
-    public void initialise() {
+    public void initialize() {
         this.loadArticles();
 
         log.info("LandingManager initialized");

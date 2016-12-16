@@ -17,7 +17,7 @@ public class WiredActionBotFollowAvatar extends WiredActionItem {
      * @param itemId    The ID of the item definition
      * @param room      The instance of the room
      * @param owner     The ID of the owner
-     * @param ownerName
+     * @param ownerName The username of the owner
      * @param x         The position of the item on the X axis
      * @param y         The position of the item on the Y axis
      * @param z         The position of the item on the z axis

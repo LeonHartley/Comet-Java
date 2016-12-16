@@ -36,7 +36,7 @@ public class ItemManager implements Initialisable {
     }
 
     @Override
-    public void initialise() {
+    public void initialize() {
         this.itemDefinitions = new HashMap<>();
         this.musicData = new HashMap<>();
 

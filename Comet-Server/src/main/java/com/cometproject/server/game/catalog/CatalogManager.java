@@ -76,7 +76,7 @@ public class CatalogManager implements Initialisable {
     }
 
     @Override
-    public void initialise() {
+    public void initialize() {
         this.pages = new ListOrderedMap<>();
         this.items = new ListOrderedMap<>();
 

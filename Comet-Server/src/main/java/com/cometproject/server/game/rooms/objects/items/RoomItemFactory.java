@@ -4,7 +4,6 @@ import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.items.rares.LimitedEditionItemData;
 import com.cometproject.server.game.items.types.ItemDefinition;
-import com.cometproject.server.game.rooms.objects.RoomObject;
 import com.cometproject.server.game.rooms.objects.items.types.DefaultFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.DefaultWallItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.*;
@@ -90,6 +89,7 @@ public class RoomItemFactory {
             put("wf_act_bot_talk_to_avatar", WiredActionBotTalkToAvatar.class);//new
             put("wf_act_bot_clothes", WiredActionBotClothes.class);//new
             put("wf_act_bot_follow_avatar", WiredActionBotFollowAvatar.class);//new
+            put("wf_act_call_stacks", WiredActionExecuteStacks.class);//new
 
             put("wf_trg_says_something", WiredTriggerPlayerSaysKeyword.class);//new
             put("wf_trg_enter_room", WiredTriggerEnterRoom.class);//new

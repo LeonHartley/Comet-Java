@@ -64,7 +64,7 @@ public class APIManager implements Initialisable {
      * Initialize the API
      */
     @Override
-    public void initialise() {
+    public void initialize() {
         this.initializeConfiguration();
         this.initializeSpark();
         this.initializeRouting();

@@ -19,7 +19,7 @@ public class AchievementManager implements Initialisable {
     }
 
     @Override
-    public void initialise() {
+    public void initialize() {
         this.loadAchievements();
 
         log.info("AchievementManager initialized");

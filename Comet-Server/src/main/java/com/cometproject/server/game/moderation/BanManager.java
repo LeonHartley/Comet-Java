@@ -27,7 +27,7 @@ public class BanManager implements Initialisable {
     }
 
     @Override
-    public void initialise() {
+    public void initialize() {
         this.mutedPlayers = new ConcurrentHashSet<>();
 
         loadBans();

@@ -76,7 +76,7 @@ public class GroupManager implements Initialisable {
      * Initialize the group manager
      */
     @Override
-    public void initialise() {
+    public void initialize() {
         this.groupItems = new GroupItemManager();
 
         final int oneDay = 24 * 60 * 60;

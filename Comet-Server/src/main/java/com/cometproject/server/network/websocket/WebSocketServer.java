@@ -37,7 +37,7 @@ public class WebSocketServer implements Initialisable {
     /**
      * Initializes the server
      */
-    public void initialise() {
+    public void initialize() {
         this.configure();
         this.setupServer();
         this.setupListeners();

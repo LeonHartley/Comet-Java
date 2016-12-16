@@ -26,7 +26,7 @@ public class PlayerDataStorageQueue implements Initialisable, CometTask, Storage
     }
 
     @Override
-    public void initialise() {
+    public void initialize() {
         this.future = CometThreadManager.getInstance().executePeriodic(this, 0, 1500, TimeUnit.MILLISECONDS);
     }
 

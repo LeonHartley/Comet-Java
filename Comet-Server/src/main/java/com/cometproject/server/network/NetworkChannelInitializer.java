@@ -5,6 +5,7 @@ import com.cometproject.server.protocol.codec.MessageDecoder;
 import com.cometproject.server.protocol.codec.MessageEncoder;
 import com.cometproject.server.protocol.codec.XMLPolicyDecoder;
 import io.netty.channel.ChannelInitializer;
+import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.string.StringEncoder;
 import io.netty.handler.timeout.IdleStateHandler;

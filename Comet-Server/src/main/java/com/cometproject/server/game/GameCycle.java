@@ -41,7 +41,7 @@ public class GameCycle implements CometTask, Initialisable {
     }
 
     @Override
-    public void initialise() {
+    public void initialize() {
         this.gameFuture = CometThreadManager.getInstance().executePeriodic(this, interval, interval, TimeUnit.MINUTES);
         this.active = true;
 

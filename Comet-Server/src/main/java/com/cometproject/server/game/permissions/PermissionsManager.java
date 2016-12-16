@@ -26,7 +26,7 @@ public class PermissionsManager implements Initialisable {
     }
 
     @Override
-    public void initialise() {
+    public void initialize() {
         this.perks = new HashMap<>();
         this.commands = new HashMap<>();
         this.ranks = new HashMap<>();
