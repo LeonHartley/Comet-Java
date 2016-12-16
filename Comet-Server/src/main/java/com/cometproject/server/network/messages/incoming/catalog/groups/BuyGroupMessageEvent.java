@@ -1,20 +1,26 @@
 package com.cometproject.server.network.messages.incoming.catalog.groups;
 
 import com.cometproject.server.config.CometSettings;
+import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.groups.types.GroupAccessLevel;
 import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.game.groups.types.GroupMember;
 import com.cometproject.server.game.rooms.RoomManager;
+import com.cometproject.server.game.rooms.filter.FilterResult;
+import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.catalog.BoughtItemMessageComposer;
 import com.cometproject.server.network.messages.outgoing.group.GroupBadgesMessageComposer;
 import com.cometproject.server.network.messages.outgoing.group.GroupRoomMessageComposer;
+import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.LeaveRoomMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomForwardMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.permissions.RemoveRightsMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.permissions.YouAreControllerMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.purse.SendCreditsMessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
@@ -43,6 +49,22 @@ public class BuyGroupMessageEvent implements Event {
 
         if (!client.getPlayer().getRooms().contains(roomId) || RoomManager.getInstance().getRoomData(roomId) == null || GroupManager.getInstance().getGroupByRoomId(roomId) != null) {
             return;
+        }
+
+        String filteredPromotionName = name;
+        String filteredPromotionDesc = desc;
+
+        if (!client.getPlayer().getPermissions().getRank().roomFilterBypass()) {
+            FilterResult filterResult = RoomManager.getInstance().getFilter().filter(filteredPromotionName);
+            FilterResult filterResultDesc = RoomManager.getInstance().getFilter().filter(filteredPromotionDesc);
+
+            if (filterResult.isBlocked() || filterResultDesc.isBlocked()) {
+                client.send(new AdvancedAlertMessageComposer(Locale.get("game.message.blocked").replace("%s", filterResult.getMessage())));
+                return;
+            } else if (filterResult.wasModified() || filterResultDesc.wasModified()) {
+                name = filterResult.getMessage();
+                desc = filterResultDesc.getMessage();
+            }
         }
 
         int stateCount = msg.readInt();
@@ -74,6 +96,35 @@ public class BuyGroupMessageEvent implements Event {
             client.send(new RoomForwardMessageComposer(roomId));
         } else {
             Room room = client.getPlayer().getEntity().getRoom();
+
+            if (room == null) {
+                return;
+            }
+
+            if (room.getData().getOwnerId() != client.getPlayer().getId()) {
+                return;
+            }
+
+            List<Integer> toRemove = new ArrayList<>();
+
+            for (Integer id : room.getRights().getAll()) {
+                PlayerEntity playerEntity = room.getEntities().getEntityByPlayerId(id);
+
+                if (playerEntity != null) {
+                    playerEntity.getPlayer().getSession().send(new YouAreControllerMessageComposer(0));
+                }
+
+                // Remove rights from the player id
+                client.send(new RemoveRightsMessageComposer(id, room.getId()));
+                toRemove.add(id);
+            }
+
+            for (Integer id : toRemove) {
+                room.getRights().removeRights(id);
+            }
+
+//        client.send(new RightsListMessageComposer(room.getId(), room.getRights().getAll()));
+            toRemove.clear();
 
             room.setGroup(group);
 
