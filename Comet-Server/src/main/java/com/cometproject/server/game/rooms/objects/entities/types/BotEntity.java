@@ -41,15 +41,15 @@ public class BotEntity extends RoomEntity {
                 this.ai = new DefaultAI(this);
                 break;
 
-            case "waiter":
+            case WAITER:
                 this.ai = new WaiterAI(this);
                 break;
 
-            case "mimic":
+            case MIMIC:
                 this.ai = new MinionAI(this);
                 break;
 
-            case "spy":
+            case SPY:
                 this.ai = new SpyAI(this);
 
                 if (this.data.getData() == null) {

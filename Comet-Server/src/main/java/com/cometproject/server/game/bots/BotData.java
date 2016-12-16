@@ -60,8 +60,9 @@ public abstract class BotData implements BotInformation {
      */
     private String[] messages;
 
-    private String botType;
-    private String mode;
+    private BotType botType;
+
+    private BotMode mode;
 
     private String data;
 
@@ -89,8 +90,8 @@ public abstract class BotData implements BotInformation {
         this.gender = gender;
         this.ownerId = ownerId;
         this.ownerName = ownerName;
-        this.botType = botType;
-        this.mode = mode;
+        this.botType = BotType.valueOf(botType.toUpperCase());
+        this.mode = BotMode.valueOf(mode.toUpperCase());
         this.data = data;
         this.messages = (messages == null || messages.isEmpty()) ? new String[0] : JsonUtil.getInstance().fromJson(messages, String[].class);
         this.chatDelay = chatDelay;
@@ -105,8 +106,8 @@ public abstract class BotData implements BotInformation {
         this.gender = gender;
         this.ownerId = ownerId;
         this.ownerName = ownerName;
-        this.botType = botType;
-        this.mode = mode;
+        this.botType = BotType.valueOf(botType.toUpperCase());
+        this.mode = BotMode.valueOf(mode.toUpperCase());
         this.data = data;
         this.messages = messages;
         this.chatDelay = chatDelay;
@@ -124,8 +125,8 @@ public abstract class BotData implements BotInformation {
         jsonObject.addProperty("gender", this.gender);
         jsonObject.addProperty("ownerId", this.ownerId);
         jsonObject.addProperty("ownerName", this.ownerName);
-        jsonObject.addProperty("botType", this.botType);
-        jsonObject.addProperty("mode", this.mode);
+        jsonObject.addProperty("botType", this.botType.toString());
+        jsonObject.addProperty("mode", this.mode.toString());
         jsonObject.addProperty("data", this.data);
         jsonObject.addProperty("chatDelay", this.chatDelay);
         jsonObject.addProperty("isAutomaticChat", this.isAutomaticChat);
@@ -331,19 +332,15 @@ public abstract class BotData implements BotInformation {
         Arrays.fill(messages, null);
     }
 
-    public String getBotType() {
+    public BotType getBotType() {
         return botType;
     }
 
-    public void setBotType(String botType) {
-        this.botType = botType;
-    }
-
-    public String getMode() {
+    public BotMode getMode() {
         return mode;
     }
 
-    public void setMode(String mode) {
+    public void setMode(BotMode mode) {
         this.mode = mode;
     }
 

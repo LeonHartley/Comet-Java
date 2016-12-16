@@ -1,6 +1,7 @@
 package com.cometproject.server.network.messages.incoming.room.bots;
 
 import com.cometproject.server.config.Locale;
+import com.cometproject.server.game.bots.BotMode;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.filter.FilterResult;
 import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
@@ -89,12 +90,12 @@ public class ModifyBotMessageEvent implements Event {
             case 3:
                 // Relax
                 switch (botEntity.getData().getMode()) {
-                    case "default":
-                        botEntity.getData().setMode("relaxed");
+                    case DEFAULT:
+                        botEntity.getData().setMode(BotMode.RELAXED);
                         break;
 
-                    case "relaxed":
-                        botEntity.getData().setMode("default");
+                    case RELAXED:
+                        botEntity.getData().setMode(BotMode.DEFAULT);
                         break;
                 }
 

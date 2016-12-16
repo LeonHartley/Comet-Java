@@ -23,7 +23,7 @@ public class RemoveBotMessageEvent implements Event {
         }
 
         if (entity.getBotId() > 0) {
-            InventoryBot bot = new InventoryBot(entity.getBotId(), entity.getData().getOwnerId(), entity.getData().getOwnerName(), entity.getUsername(), entity.getFigure(), entity.getGender(), entity.getMotto(), entity.getData().getBotType());
+            InventoryBot bot = new InventoryBot(entity.getBotId(), entity.getData().getOwnerId(), entity.getData().getOwnerName(), entity.getUsername(), entity.getFigure(), entity.getGender(), entity.getMotto(), entity.getData().getBotType().toString());
 
             client.getPlayer().getBots().addBot(bot);
 

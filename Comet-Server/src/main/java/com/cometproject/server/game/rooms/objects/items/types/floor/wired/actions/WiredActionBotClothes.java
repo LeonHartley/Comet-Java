@@ -66,6 +66,8 @@ public class WiredActionBotClothes extends WiredActionItem {
         if (botEntity != null) {
             botEntity.getData().setFigure(figure);
             this.getRoom().getEntities().broadcastMessage(new UpdateInfoMessageComposer(botEntity));
+
+            botEntity.getData().save();
         }
     }
 }

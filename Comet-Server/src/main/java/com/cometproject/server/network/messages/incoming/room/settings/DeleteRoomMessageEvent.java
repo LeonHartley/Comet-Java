@@ -65,7 +65,7 @@ public class DeleteRoomMessageEvent implements Event {
         }
 
         for (BotEntity bot : room.getEntities().getBotEntities()) {
-            InventoryBot inventoryBot = new InventoryBot(bot.getBotId(), bot.getData().getOwnerId(), bot.getData().getOwnerName(), bot.getUsername(), bot.getFigure(), bot.getGender(), bot.getMotto(), bot.getData().getBotType());
+            InventoryBot inventoryBot = new InventoryBot(bot.getBotId(), bot.getData().getOwnerId(), bot.getData().getOwnerName(), bot.getUsername(), bot.getFigure(), bot.getGender(), bot.getMotto(), bot.getData().getBotType().toString());
             client.getPlayer().getBots().addBot(inventoryBot);
 
             RoomBotDao.setRoomId(0, inventoryBot.getId());

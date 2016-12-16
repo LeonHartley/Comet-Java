@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.objects.entities.types.ai.bots;
 
+import com.cometproject.server.game.bots.BotMode;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
@@ -34,18 +35,18 @@ public class MinionAI extends AbstractBotAI {
             entity.addStatus(RoomEntityStatus.SIT, "0.5");
             entity.markNeedsUpdate();
 
-            entity.getData().setMode("relaxed");
+            entity.getData().setMode(BotMode.RELAXED);
         });
 
         put("minions relax", (entity) -> {
-            entity.getData().setMode("relaxed");
+            entity.getData().setMode(BotMode.RELAXED);
         });
 
         put("minions stand", (entity) -> {
             entity.removeStatus(RoomEntityStatus.SIT);
             entity.markNeedsUpdate();
 
-            entity.getData().setMode("default");
+            entity.getData().setMode(BotMode.DEFAULT);
         });
 
         put("minions follow", (entity) -> {

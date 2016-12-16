@@ -3,6 +3,7 @@ package com.cometproject.server.game.rooms.objects.items.types.floor;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupGateFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerWalksOffFurni;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerWalksOnFurni;
 import com.cometproject.server.game.rooms.objects.misc.Position;
@@ -108,6 +109,8 @@ public class RollerFloorItem extends RoomItemFloor {
             WiredTriggerWalksOffFurni.executeTriggers(entity, this);
 
             for (RoomItemFloor nextItem : this.getRoom().getItems().getItemsOnSquare(sqInfront.getX(), sqInfront.getY())) {
+                if(nextItem instanceof GroupGateFloorItem) break;
+
                 WiredTriggerWalksOnFurni.executeTriggers(entity, nextItem);
 
                 nextItem.onEntityStepOn(entity);

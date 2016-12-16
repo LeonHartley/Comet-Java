@@ -83,7 +83,7 @@ public class RoomBotDao {
             preparedStatement.setString(5, JsonUtil.getInstance().toJson(data.getMessages()));
             preparedStatement.setString(6, data.isAutomaticChat() ? "1" : "0");
             preparedStatement.setInt(7, data.getChatDelay());
-            preparedStatement.setString(8, data.getMode());
+            preparedStatement.setString(8, data.getMode().toString());
             preparedStatement.setString(9, data.getData());
 
             preparedStatement.setInt(10, data.getId());

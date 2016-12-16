@@ -6,6 +6,7 @@ import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.achievements.types.AchievementType;
+import com.cometproject.server.game.bots.BotMode;
 import com.cometproject.server.game.commands.CommandManager;
 import com.cometproject.server.game.commands.vip.TransformCommand;
 import com.cometproject.server.game.groups.GroupManager;
@@ -329,6 +330,18 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
             for (PetEntity petEntity : this.getRoom().getEntities().getPetEntities()) {
                 if (petEntity.getData().getOwnerId() == this.getPlayerId()) {
                     petEntity.kick();
+                }
+            }
+        }
+
+        for(RoomEntity follower : this.getFollowingEntities()) {
+            if(follower instanceof BotEntity) {
+                final BotEntity botEntity = ((BotEntity) follower);
+
+                if(botEntity.getData() != null) {
+                    if (botEntity.getData().getMode() == BotMode.RELAXED) {
+                        botEntity.getData().setMode(BotMode.DEFAULT);
+                    }
                 }
             }
         }

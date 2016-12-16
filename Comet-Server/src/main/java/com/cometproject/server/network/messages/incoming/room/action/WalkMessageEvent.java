@@ -19,7 +19,6 @@ public class WalkMessageEvent implements Event {
 
         try {
             if (client.getPlayer().getEntity() == null || client.getPlayer().getEntity().hasAttribute("warp")) {
-                // User not in room!
                 return;
             }
 
