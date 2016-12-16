@@ -186,6 +186,11 @@ public class TeleporterFloorItem extends AdvancedFloorItem<TeleporterFloorItem.T
                         event.incomingEntity = null;
                     }
 
+                    if (event.outgoingEntity!= null) {
+                        event.outgoingEntity.setOverriden(false);
+                        event.outgoingEntity = null;
+                    }
+
                     this.inUse = false;
                     break;
                 }
