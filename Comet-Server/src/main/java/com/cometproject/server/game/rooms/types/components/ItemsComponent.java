@@ -384,7 +384,7 @@ public class ItemsComponent {
 
         RoomTile tile = this.getRoom().getMapping().getTile(newPosition.getX(), newPosition.getY());
 
-        if (!this.verifyItemPosition(item.getDefinition(), tile, item.getPosition())) {
+        if (!this.verifyItemPosition(item.getDefinition(), tile, item.getPosition(), rotation)) {
             return false;
         }
 
@@ -465,49 +465,66 @@ public class ItemsComponent {
         return true;
     }
 
-    private boolean verifyItemPosition(FurnitureDefinition item, RoomTile tile, Position currentPosition) {
+    private boolean verifyItemPosition(FurnitureDefinition item, RoomTile tile, Position currentPosition, int rotation) {
         if (tile != null) {
             if (currentPosition != null && currentPosition.getX() == tile.getPosition().getX() && currentPosition.getY() == tile.getPosition().getY())
                 return true;
 
-            if (!tile.canPlaceItemHere()) {
-                return false;
-            }
+            List<AffectedTile> affectedTiles = AffectedTile.getAffectedTilesAt(
+                    item.getLength(), item.getWidth(), tile.getPosition().getX(), tile.getPosition().getY(), rotation);
 
-            if (!tile.canStack() && tile.getTopItem() != 0 && tile.getTopItem() != item.getId()) {
-                if (!item.getItemName().startsWith(RoomItemFactory.STACK_TOOL))
-                    return false;
-            }
+            for(AffectedTile affectedTile : affectedTiles) {
+                final RoomTile roomTile = this.getRoom().getMapping().getTile(affectedTile.x, affectedTile.y);
 
-            if (!item.getInteraction().equals(RoomItemFactory.TELEPORT_PAD) && tile.getPosition().getX() == this.getRoom().getModel().getDoorX() && tile.getPosition().getY() == this.getRoom().getModel().getDoorY()) {
-                return false;
-            }
-
-            if (item.getInteraction().equals("dice")) {
-                boolean hasOtherDice = false;
-                boolean hasStackTool = false;
-
-                for (RoomItemFloor floorItem : tile.getItems()) {
-                    if (floorItem instanceof DiceFloorItem) {
-                        hasOtherDice = true;
+                if(roomTile != null) {
+                    if(!this.verifyItemTilePosition(item, roomTile, rotation)) {
+                        return false;
                     }
-
-                    if (floorItem instanceof MagicStackFloorItem) {
-                        hasStackTool = true;
-                    }
-                }
-
-                if (hasOtherDice && hasStackTool)
-                    return false;
-            }
-
-            if (!CometSettings.roomCanPlaceItemOnEntity) {
-                if (tile.getEntities().size() != 0) {
-                    return false;
                 }
             }
         } else {
             return false;
+        }
+
+        return true;
+    }
+
+    private boolean verifyItemTilePosition(FurnitureDefinition item, RoomTile tile, int rotation) {
+        if (!tile.canPlaceItemHere()) {
+            return false;
+        }
+
+        if (!tile.canStack() && tile.getTopItem() != 0 && tile.getTopItem() != item.getId()) {
+            if (!item.getItemName().startsWith(RoomItemFactory.STACK_TOOL))
+                return false;
+        }
+
+        if (!item.getInteraction().equals(RoomItemFactory.TELEPORT_PAD) && tile.getPosition().getX() == this.getRoom().getModel().getDoorX() && tile.getPosition().getY() == this.getRoom().getModel().getDoorY()) {
+            return false;
+        }
+
+        if (item.getInteraction().equals("dice")) {
+            boolean hasOtherDice = false;
+            boolean hasStackTool = false;
+
+            for (RoomItemFloor floorItem : tile.getItems()) {
+                if (floorItem instanceof DiceFloorItem) {
+                    hasOtherDice = true;
+                }
+
+                if (floorItem instanceof MagicStackFloorItem) {
+                    hasStackTool = true;
+                }
+            }
+
+            if (hasOtherDice && hasStackTool)
+                return false;
+        }
+
+        if (!CometSettings.roomCanPlaceItemOnEntity) {
+            if (tile.getEntities().size() != 0) {
+                return false;
+            }
         }
 
         return true;
@@ -548,7 +565,7 @@ public class ItemsComponent {
 
         double height = tile.getStackHeight();
 
-        if (!this.verifyItemPosition(item.getDefinition(), tile, null))
+        if (!this.verifyItemPosition(item.getDefinition(), tile, null, rot))
             return;
 
         if (item.getDefinition().getInteraction().equals("soundmachine")) {
