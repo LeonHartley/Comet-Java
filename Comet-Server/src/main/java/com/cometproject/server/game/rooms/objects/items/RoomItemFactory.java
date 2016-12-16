@@ -89,6 +89,7 @@ public class RoomItemFactory {
             put("wf_act_move_to_dir", WiredActionMoveToDirection.class);//new
             put("wf_act_bot_talk_to_avatar", WiredActionBotTalkToAvatar.class);//new
             put("wf_act_bot_clothes", WiredActionBotClothes.class);//new
+            put("wf_act_bot_follow_avatar", WiredActionBotFollowAvatar.class);//new
 
             put("wf_trg_says_something", WiredTriggerPlayerSaysKeyword.class);//new
             put("wf_trg_enter_room", WiredTriggerEnterRoom.class);//new
