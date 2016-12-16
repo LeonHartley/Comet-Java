@@ -1,21 +1,18 @@
 package com.cometproject.server.network.messages.incoming.catalog.groups;
 
 import com.cometproject.server.config.CometSettings;
-import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.groups.types.GroupAccessLevel;
 import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.game.groups.types.GroupMember;
 import com.cometproject.server.game.rooms.RoomManager;
-import com.cometproject.server.game.rooms.filter.FilterResult;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.catalog.BoughtItemMessageComposer;
 import com.cometproject.server.network.messages.outgoing.group.GroupBadgesMessageComposer;
 import com.cometproject.server.network.messages.outgoing.group.GroupRoomMessageComposer;
-import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.LeaveRoomMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomForwardMessageComposer;
@@ -53,19 +50,6 @@ public class BuyGroupMessageEvent implements Event {
 
         String filteredPromotionName = name;
         String filteredPromotionDesc = desc;
-
-        if (!client.getPlayer().getPermissions().getRank().roomFilterBypass()) {
-            FilterResult filterResult = RoomManager.getInstance().getFilter().filter(filteredPromotionName);
-            FilterResult filterResultDesc = RoomManager.getInstance().getFilter().filter(filteredPromotionDesc);
-
-            if (filterResult.isBlocked() || filterResultDesc.isBlocked()) {
-                client.send(new AdvancedAlertMessageComposer(Locale.get("game.message.blocked").replace("%s", filterResult.getMessage())));
-                return;
-            } else if (filterResult.wasModified() || filterResultDesc.wasModified()) {
-                name = filterResult.getMessage();
-                desc = filterResultDesc.getMessage();
-            }
-        }
 
         int stateCount = msg.readInt();
 
