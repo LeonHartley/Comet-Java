@@ -139,6 +139,7 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
 
         boolean isOwner = (this.getRoom().getData().getOwnerId() == this.getPlayerId());
         boolean isTeleporting = this.getPlayer().isTeleporting() && (this.getPlayer().getTeleportRoomId() == this.getRoom().getId());
+        boolean isDoorbell = false;
 
         if (!isAuthFailed && !this.getPlayer().isBypassingRoomAuth() && (!isOwner && !this.getPlayer().getPermissions().getRank().roomEnterLocked() && !this.isDoorbellAnswered()) && !isTeleporting) {
             if (this.getRoom().getData().getAccess() == RoomAccessType.PASSWORD) {
@@ -166,6 +167,7 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
                         this.getRoom().getEntities().broadcastMessage(new DoorbellRequestComposer(this.getUsername()), true);
                         this.getPlayer().getSession().send(new DoorbellRequestComposer(""));
                         isAuthFailed = true;
+                        isDoorbell = true;
                     }
                 }
             }
@@ -178,7 +180,7 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
         this.getPlayer().setRoomQueueId(0);
 
         if (isAuthFailed) {
-            return false;
+            return isDoorbell;
         }
 
         this.getPlayer().getSession().send(new OpenConnectionMessageComposer());
