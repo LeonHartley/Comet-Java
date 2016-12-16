@@ -44,6 +44,7 @@ public class WiredActionExecuteStacks extends WiredActionItem {
             for(RoomItemFloor roomItemFloor : this.getRoom().getMapping().getTile(tileToUpdate).getItems()) {
                 if(roomItemFloor instanceof WiredActionItem) {
                     ((WiredActionItem) roomItemFloor).evaluate(event.entity, event.data);
+                    ((WiredActionItem) roomItemFloor).flash();
                 }
             }
         }

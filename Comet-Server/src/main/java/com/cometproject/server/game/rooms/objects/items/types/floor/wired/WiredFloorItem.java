@@ -8,6 +8,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.W
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.data.WiredActionItemData;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.data.WiredItemData;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.events.WiredItemEvent;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.events.WiredItemFlashEvent;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerPeriodically;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.composers.MessageComposer;
@@ -122,8 +123,14 @@ public abstract class WiredFloorItem extends AdvancedFloorItem<WiredItemEvent> i
     }
 
     public void flash() {
-        this.state = true;
+        this.switchState();
 
+        final WiredItemFlashEvent flashEvent = new WiredItemFlashEvent();
+        this.queueEvent(flashEvent);
+    }
+
+    public void switchState() {
+        this.state = !this.state;
         this.sendUpdate();
     }
 

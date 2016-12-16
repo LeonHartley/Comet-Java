@@ -1,5 +1,7 @@
 package com.cometproject.server.game.rooms.objects.items.types.state;
 
+import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
+
 import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class FloorItemEvent {
@@ -9,6 +11,11 @@ public abstract class FloorItemEvent {
     protected FloorItemEvent(int totalTicks) {
         this.ticks = new AtomicInteger(0);
         this.totalTicks = totalTicks;
+    }
+
+    /** You can override this to FORCE a callback! (even if the onEventComplete method is overriden) */
+    public void onCompletion(final RoomItemFloor floorItem) {
+
     }
 
     public void setTotalTicks(final int ticks) {

@@ -31,6 +31,8 @@ public abstract class AdvancedFloorItem<T extends FloorItemEvent> extends RoomIt
 
         for(T finishedEvent : finishedEvents) {
             this.itemEvents.remove(finishedEvent);
+
+            finishedEvent.onCompletion(this);
             this.onEventComplete(finishedEvent);
         }
 
