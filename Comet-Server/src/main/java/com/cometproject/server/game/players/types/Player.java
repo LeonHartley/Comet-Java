@@ -232,7 +232,8 @@ public class Player implements BasePlayer {
 
     @Override
     public void loadRoom(int id, String password) {
-        if(!this.usernameConfirmed || !this.getEventLogCategories().contains("Navigation")) {
+        if(!this.usernameConfirmed) {
+            session.send(new HotelViewMessageComposer());
             return;
         }
 

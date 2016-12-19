@@ -6,7 +6,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.events
 import com.cometproject.server.game.rooms.types.Room;
 
 
-public class WiredTriggerPeriodicallyLong extends WiredTriggerItem {
+public class WiredTriggerPeriodicallyLong extends WiredTriggerPeriodically {
     private static final int PARAM_TICK_LENGTH = 0;
 
     /**
@@ -25,31 +25,11 @@ public class WiredTriggerPeriodicallyLong extends WiredTriggerItem {
      */
     public WiredTriggerPeriodicallyLong(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
-
-        this.getWiredData().getParams().putIfAbsent(PARAM_TICK_LENGTH, 2); // 1s
-
-        final WiredItemEvent event = new WiredItemEvent(null, null);
-        event.setTotalTicks(RoomItemFactory.getProcessTime(this.getWiredData().getParams().get(PARAM_TICK_LENGTH) / 2) * 10);
-
-        this.queueEvent(event);
     }
 
     @Override
-    public boolean suppliesPlayer() {
-        return false;
+    public double getTickCount() {
+        return (this.getWiredData().getParams().get(PARAM_TICK_LENGTH) / 2) * 10;
     }
 
-    @Override
-    public void onEventComplete(WiredItemEvent event) {
-        this.evaluate(null, null);
-
-        // loop
-        event.setTotalTicks(RoomItemFactory.getProcessTime(this.getWiredData().getParams().get(PARAM_TICK_LENGTH) / 2) * 10);
-        this.queueEvent(event);
-    }
-
-    @Override
-    public int getInterface() {
-        return 6;
-    }
 }

@@ -9,6 +9,8 @@ import com.cometproject.server.game.rooms.types.Room;
 public class WiredTriggerPeriodically extends WiredTriggerItem {
     private static final int PARAM_TICK_LENGTH = 0;
 
+    private final WiredItemEvent event;
+
     /**
      * The default constructor
      *
@@ -27,9 +29,9 @@ public class WiredTriggerPeriodically extends WiredTriggerItem {
 
         this.getWiredData().getParams().putIfAbsent(PARAM_TICK_LENGTH, 5);
 
-        final WiredItemEvent event = new WiredItemEvent(null, null);
+        this.event = new WiredItemEvent(null, null);
 
-        int ticks = RoomItemFactory.getProcessTime(this.getWiredData().getParams().get(PARAM_TICK_LENGTH) / 2) * 10;
+        int ticks = RoomItemFactory.getProcessTime(this.getWiredData().getParams().get(PARAM_TICK_LENGTH) / 2);
 
         event.setTotalTicks(ticks);
 
@@ -45,19 +47,17 @@ public class WiredTriggerPeriodically extends WiredTriggerItem {
     public void onEventComplete(WiredItemEvent event) {
         this.evaluate(null, null);
 
+        int ticks = RoomItemFactory.getProcessTime(this.getTickCount());
+
         // loop
-        event.setTotalTicks(RoomItemFactory.getProcessTime(this.getWiredData().getParams().get(PARAM_TICK_LENGTH) / 2));
-        this.queueEvent(event);
+        this.event.setTotalTicks(ticks);
+        this.queueEvent(this.event);
     }
 
     @Override
     public void onDataChange() {
-        final WiredItemEvent event = new WiredItemEvent(null, null);
-
-        int ticks = RoomItemFactory.getProcessTime(this.getWiredData().getParams().get(PARAM_TICK_LENGTH) / 2);
-        event.setTotalTicks(ticks);
-
-        this.queueEvent(event);
+        int ticks = RoomItemFactory.getProcessTime(this.getTickCount());
+        this.event.setTotalTicks(ticks);
     }
 
     @Override
@@ -65,8 +65,7 @@ public class WiredTriggerPeriodically extends WiredTriggerItem {
         return 6;
     }
 
-    @Override
-    public int getMaxEvents() {
-        return 10;
+    public double getTickCount() {
+        return this.getWiredData().getParams().get(PARAM_TICK_LENGTH) / 2;
     }
 }
