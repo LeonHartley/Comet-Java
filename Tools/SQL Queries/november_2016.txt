@@ -8,4 +8,6 @@ CREATE TABLE permission_effects
 
 INSERT INTO permission_effects (effect_id, minimum_rank) VALUES (102, 6);
 INSERT INTO permission_effects (effect_id, minimum_rank) VALUES (178, 6);
-INSERT INTO permission_effects (effect_id, minimum_rank) VALUES (187, 6);                                                                                                                                                                                                                                                                                                                                                                                                                           insert into server_locale values('command.ejectall.name', 'ejectall');
+INSERT INTO permission_effects (effect_id, minimum_rank) VALUES (187, 6);                                     
+
+insert into server_locale values('command.ejectall.name', 'ejectall');

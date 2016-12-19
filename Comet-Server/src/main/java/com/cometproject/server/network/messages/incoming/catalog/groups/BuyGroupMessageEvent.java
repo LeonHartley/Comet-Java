@@ -7,6 +7,7 @@ import com.cometproject.server.game.groups.types.GroupAccessLevel;
 import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.game.groups.types.GroupMember;
 import com.cometproject.server.game.rooms.RoomManager;
+import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.catalog.BoughtItemMessageComposer;
@@ -15,6 +16,8 @@ import com.cometproject.server.network.messages.outgoing.group.GroupRoomMessageC
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.LeaveRoomMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomForwardMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.permissions.RemoveRightsMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.permissions.YouAreControllerMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.purse.SendCreditsMessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
@@ -45,6 +48,9 @@ public class BuyGroupMessageEvent implements Event {
             return;
         }
 
+        String filteredPromotionName = name;
+        String filteredPromotionDesc = desc;
+
         int stateCount = msg.readInt();
 
         int groupBase = msg.readInt();
@@ -74,6 +80,35 @@ public class BuyGroupMessageEvent implements Event {
             client.send(new RoomForwardMessageComposer(roomId));
         } else {
             Room room = client.getPlayer().getEntity().getRoom();
+
+            if (room == null) {
+                return;
+            }
+
+            if (room.getData().getOwnerId() != client.getPlayer().getId()) {
+                return;
+            }
+
+            List<Integer> toRemove = new ArrayList<>();
+
+            for (Integer id : room.getRights().getAll()) {
+                PlayerEntity playerEntity = room.getEntities().getEntityByPlayerId(id);
+
+                if (playerEntity != null) {
+                    playerEntity.getPlayer().getSession().send(new YouAreControllerMessageComposer(0));
+                }
+
+                // Remove rights from the player id
+                client.send(new RemoveRightsMessageComposer(id, room.getId()));
+                toRemove.add(id);
+            }
+
+            for (Integer id : toRemove) {
+                room.getRights().removeRights(id);
+            }
+
+//        client.send(new RightsListMessageComposer(room.getId(), room.getRights().getAll()));
+            toRemove.clear();
 
             room.setGroup(group);
 
