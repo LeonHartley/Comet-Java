@@ -48,9 +48,6 @@ public class BuyGroupMessageEvent implements Event {
             return;
         }
 
-        String filteredPromotionName = name;
-        String filteredPromotionDesc = desc;
-
         int stateCount = msg.readInt();
 
         int groupBase = msg.readInt();
