@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.settings;
 
+import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.players.PlayerManager;
@@ -11,20 +12,25 @@ import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItem;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
+import com.cometproject.server.game.rooms.objects.items.types.floor.GiftFloorItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.incoming.Event;
+import com.cometproject.server.network.messages.outgoing.catalog.UnseenItemsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.handshake.HomeRoomMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.BotInventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.PetInventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
+import com.cometproject.server.network.sessions.SessionManager;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.bots.RoomBotDao;
 import com.cometproject.server.storage.queries.pets.RoomPetDao;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.storage.queries.rooms.RoomDao;
+import com.cometproject.server.storage.queries.rooms.RoomItemDao;
+import com.google.common.collect.Sets;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,39 +85,6 @@ public class DeleteRoomMessageEvent implements Event {
 
         RoomManager.getInstance().forceUnload(room.getId());
         RoomManager.getInstance().removeData(room.getId());
-
-        if (PlayerManager.getInstance().isOnline(room.getData().getOwnerId())) {
-            Session owner = NetworkManager.getInstance().getSessions().getByPlayerId(room.getData().getOwnerId());
-
-            if (owner != null && owner.getPlayer() != null && owner.getPlayer().getRooms() != null) {
-                if (owner.getPlayer().getRooms().contains(room.getId())) {
-                    owner.getPlayer().getRooms().remove(owner.getPlayer().getRooms().indexOf(room.getId()));
-                }
-            }
-        }
-
-//        if (GroupManager.getInstance().getGroupByRoomId(room.getId()) != null) {
-//            Group group = GroupManager.getInstance().getGroupByRoomId(room.getId());
-//
-//            for (Integer groupMemberId : group.getMembershipComponent().getMembers().keySet()) {
-//                Session groupMemberSession = NetworkManager.getInstance().getSessions().getByPlayerId(groupMemberId);
-//
-//                if (groupMemberSession != null && groupMemberSession.getPlayer() != null) {
-//                    groupMemberSession.getPlayer().getGroups().remove(new Integer(group.getId()));
-//
-//                    if (groupMemberSession.getPlayer().getData().getFavouriteGroup() == group.getId()) {
-//                        groupMemberSession.getPlayer().getData().setFavouriteGroup(0);
-//
-//                        if (groupMemberSession.getPlayer().getEntity() != null) {
-//                            groupMemberSession.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new LeaveRoomMessageComposer(client.getPlayer().getEntity().getId()));
-//                            groupMemberSession.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new AvatarsMessageComposer(client.getPlayer().getEntity()));
-//                        }
-//                    }
-//                }
-//            }
-//
-//            GroupManager.getInstance().removeGroup(group.getId());
-//        }
 
         if (client.getPlayer().getSettings().getHomeRoom() == roomId) {
             client.send(new HomeRoomMessageComposer(client.getPlayer().getSettings().getHomeRoom(), 0));

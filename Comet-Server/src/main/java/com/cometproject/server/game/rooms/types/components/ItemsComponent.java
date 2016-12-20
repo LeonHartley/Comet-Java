@@ -23,6 +23,7 @@ import com.cometproject.server.game.rooms.objects.items.types.wall.MoodlightWall
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
+import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.outgoing.catalog.UnseenItemsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.NotificationMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.UpdateStackMapMessageComposer;
@@ -306,7 +307,7 @@ public class ItemsComponent {
         removeItem(item, client, true, false);
     }
 
-    public void removeItem(RoomItemFloor item, Session client, boolean toInventory, boolean delete) {
+    public void removeItem(RoomItemFloor item, Session session, boolean toInventory, boolean delete) {
         List<RoomEntity> affectEntities = room.getEntities().getEntitiesAt(item.getPosition());
         List<Position> tilesToUpdate = new ArrayList<>();
 
@@ -331,12 +332,21 @@ public class ItemsComponent {
             }
         }
 
-        this.getRoom().getEntities().broadcastMessage(new RemoveFloorItemMessageComposer(item.getVirtualId(), client != null ? client.getPlayer().getId() : 0));
+        Session client = session;
+        int owner = item.getOwner();
+
+        if(session != null) {
+            if(owner != session.getPlayer().getId()) {
+                client = NetworkManager.getInstance().getSessions().getByPlayerId(owner);
+            }
+        }
+
+        this.getRoom().getEntities().broadcastMessage(new RemoveFloorItemMessageComposer(item.getVirtualId(), owner));
         this.getFloorItems().remove(item.getId());
 
-        if (toInventory && client != null) {
-            RoomItemDao.removeItemFromRoom(item.getId(), client.getPlayer().getId());
+        RoomItemDao.removeItemFromRoom(item.getId(), owner);
 
+        if (toInventory && client != null) {
             final PlayerItem playerItem = client.getPlayer().getInventory().add(item.getId(), item.getItemId(), item.getExtraData(), item instanceof GiftFloorItem ? ((GiftFloorItem) item).getGiftData() : null, item.getLimitedEditionItemData());
             client.sendQueue(new UpdateInventoryMessageComposer());
             client.sendQueue(new UnseenItemsMessageComposer(Sets.newHashSet(playerItem)));
@@ -358,17 +368,25 @@ public class ItemsComponent {
     }
 
     public void removeItem(RoomItemWall item, Session client, boolean toInventory) {
-        this.getRoom().getEntities().broadcastMessage(new RemoveWallItemMessageComposer(item.getVirtualId(), client.getPlayer().getId()));
+        this.getRoom().getEntities().broadcastMessage(new RemoveWallItemMessageComposer(item.getVirtualId(), item.getOwner()));
         this.getWallItems().remove(item.getId());
 
         if (toInventory) {
-            RoomItemDao.removeItemFromRoom(item.getId(), client.getPlayer().getId());
+            RoomItemDao.removeItemFromRoom(item.getId(), item.getOwner());
 
-            client.getPlayer().getInventory().add(item.getId(), item.getItemId(), item.getExtraData(), item.getLimitedEditionItemData());
-            client.send(new UpdateInventoryMessageComposer());
-            client.send(new UnseenItemsMessageComposer(new HashMap<Integer, List<Integer>>() {{
-                put(1, Lists.newArrayList(item.getVirtualId()));
-            }}));
+            Session session = client;
+
+            if(item.getOwner() != client.getPlayer().getId()) {
+                session = NetworkManager.getInstance().getSessions().getByPlayerId(item.getOwner());
+            }
+
+            if(session != null) {
+                session.getPlayer().getInventory().add(item.getId(), item.getItemId(), item.getExtraData(), item.getLimitedEditionItemData());
+                session.send(new UpdateInventoryMessageComposer());
+                session.send(new UnseenItemsMessageComposer(new HashMap<Integer, List<Integer>>() {{
+                    put(1, Lists.newArrayList(item.getVirtualId()));
+                }}));
+            }
         } else {
             RoomItemDao.deleteItem(item.getId());
         }
