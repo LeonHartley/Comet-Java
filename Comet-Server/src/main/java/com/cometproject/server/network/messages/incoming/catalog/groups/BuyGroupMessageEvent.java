@@ -73,13 +73,13 @@ public class BuyGroupMessageEvent implements Event {
         client.getPlayer().getData().setFavouriteGroup(group.getId());
         client.getPlayer().getData().save();
 
-        if (client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom().getId() != roomId) {
-            client.send(new RoomForwardMessageComposer(roomId));
-        } else {
-            Room room = client.getPlayer().getEntity().getRoom();
+        final Room room = RoomManager.getInstance().get(roomId);
 
-            if (room == null) {
-                return;
+        if(room != null) {
+            if(client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() != null &&
+                    client.getPlayer().getEntity().getRoom().getId() != roomId) {
+
+                client.send(new RoomForwardMessageComposer(roomId));
             }
 
             if (room.getData().getOwnerId() != client.getPlayer().getId()) {
@@ -104,7 +104,6 @@ public class BuyGroupMessageEvent implements Event {
                 room.getRights().removeRights(id);
             }
 
-//        client.send(new RightsListMessageComposer(room.getId(), room.getRights().getAll()));
             toRemove.clear();
 
             room.setGroup(group);
@@ -116,8 +115,8 @@ public class BuyGroupMessageEvent implements Event {
 
             room.getEntities().broadcastMessage(new LeaveRoomMessageComposer(client.getPlayer().getEntity().getId()));
             room.getEntities().broadcastMessage(new AvatarsMessageComposer(client.getPlayer().getEntity()));
-        }
 
-        client.send(new GroupRoomMessageComposer(roomId, group.getId()));
+            client.send(new GroupRoomMessageComposer(roomId, group.getId()));
+        }
     }
 }
