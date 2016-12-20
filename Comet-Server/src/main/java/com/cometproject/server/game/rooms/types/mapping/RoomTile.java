@@ -32,7 +32,7 @@ public class RoomTile {
     private boolean canStack;
 
     private long topItem = 0;
-    private double stackHeight = 0d;
+    private double stackHeight = 0.0001d;
 
     private long originalTopItem = 0;
     private double originalHeight = 0d;
@@ -72,7 +72,7 @@ public class RoomTile {
         this.topItem = 0;
         this.originalHeight = 0d;
         this.originalTopItem = 0;
-        this.stackHeight = 0d;
+        this.stackHeight = 0.0001d;
         this.hasAdjustableHeight = false;
         this.hasGate = false;
 
@@ -87,7 +87,7 @@ public class RoomTile {
         // component item is an item that can be used along with an item that overrides the height.
         boolean hasComponentItem = false;
 
-        double highestHeight = 0d;
+        double highestHeight = 0.001d;
         long highestItem = 0;
 
         Double staticOverrideHeight = null;
