@@ -2,6 +2,7 @@ package com.cometproject.server.network.messages.incoming.catalog;
 
 import com.cometproject.server.game.achievements.types.AchievementType;
 import com.cometproject.server.game.catalog.CatalogManager;
+import com.cometproject.server.game.catalog.types.CatalogOffer;
 import com.cometproject.server.game.catalog.types.gifts.GiftData;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.protocol.messages.MessageEvent;
@@ -13,6 +14,17 @@ public class PurchaseGiftMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) throws Exception {
         int pageId = msg.readInt();
         int itemId = msg.readInt();
+
+        if(pageId <= 0) {
+            final CatalogOffer catalogOffer = CatalogManager.getCatalogOffers().get(itemId);
+
+            if(catalogOffer == null) {
+                return;
+            }
+
+            pageId = catalogOffer.getCatalogPageId();
+            itemId = catalogOffer.getCatalogItemId();
+        }
 
         String extraData = msg.readString();
 
