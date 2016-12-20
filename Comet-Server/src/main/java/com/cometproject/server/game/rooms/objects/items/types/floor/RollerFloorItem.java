@@ -3,6 +3,8 @@ package com.cometproject.server.game.rooms.objects.items.types.floor;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.objects.items.events.types.RollerFloorItemEvent;
+import com.cometproject.server.game.rooms.objects.items.types.AdvancedFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupGateFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerWalksOffFurni;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerWalksOnFurni;
@@ -15,56 +17,47 @@ import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import java.util.List;
 
 
-public class RollerFloorItem extends RoomItemFloor {
+public class RollerFloorItem extends AdvancedFloorItem<RollerFloorItemEvent> {
     private boolean hasRollScheduled = false;
     private long lastTick = 0;
 
+    private final RollerFloorItemEvent event;
+
     public RollerFloorItem(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
+
+        this.event = new RollerFloorItemEvent(0);
     }
 
     @Override
     public void onLoad() {
-        this.setTicks(this.getTickCount());
+        event.setTotalTicks(this.getTickCount());
+        this.queueEvent(event);
+    }
+
+    @Override
+    public void onPlaced() {
+        event.setTotalTicks(this.getTickCount());
+        this.queueEvent(event);
     }
 
     @Override
     public void onEntityStepOn(RoomEntity entity) {
-        if (entity.isWalking()) return;
-
-        if (this.ticksTimer < 1) {
-            this.lastTick = System.currentTimeMillis();
-            //this.tickRequest = System.currentTimeMillis();
-            //this.hasRollScheduled = true;
-//            this.setTicks(this.getTickCount());
-        }
+        event.setTotalTicks(this.getTickCount());
     }
 
     @Override
     public void onItemAddedToStack(RoomItemFloor floorItem) {
-        if (this.ticksTimer < 1) {
-            this.lastTick = System.currentTimeMillis();
-            //this.tickRequest = System.currentTimeMillis();
-            //this.hasRollScheduled = true;
-            //this.setTicks(this.getTickCount());
-        }
+        event.setTotalTicks(this.getTickCount());
     }
 
     @Override
-    public void onTick() {
-        if((System.currentTimeMillis() - this.lastTick) <= 1000) {
-            return;
-        }
-
-        //if(this.hasRollScheduled) {
+    protected void onEventComplete(RollerFloorItemEvent event) {
         this.handleItems();
         this.handleEntities();
-        //}
 
-        this.lastTick = System.currentTimeMillis();
-
-        //this.hasRollScheduled = false;
-        //this.tickRequest = 0;
+        event.setTotalTicks(this.getTickCount());
+        this.queueEvent(event);
     }
 
     private void handleEntities() {
