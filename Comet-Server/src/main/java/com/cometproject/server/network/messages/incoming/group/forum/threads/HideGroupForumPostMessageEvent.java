@@ -50,6 +50,10 @@ public class HideGroupForumPostMessageEvent implements Event {
             return;
         }
 
+        if(!client.getPlayer().getPermissions().getRank().modTool() && state > 10) {
+            state = 10;
+        }
+
        if(messageId != -1) {
             ForumThreadReply reply = forumThread.getReplyById(messageId);
 
