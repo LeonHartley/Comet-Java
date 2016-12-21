@@ -28,8 +28,8 @@ public class WiredTriggerPeriodicallyLong extends WiredTriggerPeriodically {
     }
 
     @Override
-    public double getTickCount() {
-        return (this.getWiredData().getParams().get(PARAM_TICK_LENGTH) / 2) * 10;
+    public int getTickCount() {
+        return (this.getWiredData().getParams().get(PARAM_TICK_LENGTH)) * 10;
     }
     
     @Override

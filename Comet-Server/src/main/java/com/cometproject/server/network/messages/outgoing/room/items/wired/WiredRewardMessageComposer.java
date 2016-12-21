@@ -14,7 +14,7 @@ public class WiredRewardMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return 0;
+        return Composers.WiredRewardMessageComposer;
     }
 
     @Override
@@ -22,6 +22,5 @@ public class WiredRewardMessageComposer extends MessageComposer {
         // 1-5 = error
         // 6-7 = success (rewardMisc, rewardBadge)
         msg.writeInt(reason);
-        msg.writeInt(0);
     }
 }

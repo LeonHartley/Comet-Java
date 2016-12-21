@@ -1,5 +1,7 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers;
 
+import com.cometproject.server.boot.Comet;
+import com.cometproject.server.boot.CometServer;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredTriggerItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.events.WiredItemEvent;
@@ -31,10 +33,7 @@ public class WiredTriggerPeriodically extends WiredTriggerItem {
 
         this.event = new WiredItemEvent(null, null);
 
-        int ticks = RoomItemFactory.getProcessTime(this.getWiredData().getParams().get(PARAM_TICK_LENGTH) / 2);
-
-        event.setTotalTicks(ticks);
-
+        event.setTotalTicks(this.getTickCount());
         this.queueEvent(event);
     }
 
@@ -47,17 +46,14 @@ public class WiredTriggerPeriodically extends WiredTriggerItem {
     public void onEventComplete(WiredItemEvent event) {
         this.evaluate(null, null);
 
-        int ticks = RoomItemFactory.getProcessTime(this.getTickCount());
-
         // loop
-        this.event.setTotalTicks(ticks);
+        this.event.setTotalTicks(this.getTickCount());
         this.queueEvent(this.event);
     }
 
     @Override
     public void onDataChange() {
-        int ticks = RoomItemFactory.getProcessTime(this.getTickCount());
-        this.event.setTotalTicks(ticks);
+        this.event.setTotalTicks(this.getTickCount());
     }
 
     @Override
@@ -65,7 +61,7 @@ public class WiredTriggerPeriodically extends WiredTriggerItem {
         return 6;
     }
 
-    public double getTickCount() {
-        return this.getWiredData().getParams().get(PARAM_TICK_LENGTH) / 2;
+    public int getTickCount() {
+        return this.getWiredData().getParams().get(PARAM_TICK_LENGTH);
     }
 }

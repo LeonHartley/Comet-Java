@@ -8,6 +8,7 @@ import java.util.Map;
 
 
 public class Composers {
+    public static final short WiredRewardMessageComposer = 2509; // PRODUCTION-201610052203-260805057
     public static final short HeightMapMessageComposer = 2222; // PRODUCTION-201610052203-260805057
     public static final short CallForHelpPendingCallsMessageComposer = 2912; // PRODUCTION-201610052203-260805057
     public static final short ChatMessageComposer = 619; // PRODUCTION-201610052203-260805057
