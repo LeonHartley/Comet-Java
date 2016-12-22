@@ -21,7 +21,7 @@ public class WhisperMessageEvent implements Event {
         String text = msg.readString();
 
         String user = text.split(" ")[0];
-        String message = text.replace(user + " ", "");
+        String message = text.substring(user.length() + 1);
 
         if (client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null) {
             return;
