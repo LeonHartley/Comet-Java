@@ -37,6 +37,11 @@ public class SaveWiredDataMessageEvent implements Event {
         WiredFloorItem wiredItem = ((WiredFloorItem) room.getItems().getFloorItem(itemId));
 
         if (wiredItem == null) return;
+        
+        if (wiredItem instanceof WiredActionGiveReward && CometSettings.roomWiredRewardMinimumRank > client.getPlayer().getData().getRank()) {
+            client.send(new SaveWiredMessageComposer());
+            return;
+        }
 
         int paramCount = msg.readInt();
 
