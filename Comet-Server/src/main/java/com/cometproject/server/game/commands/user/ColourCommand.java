@@ -10,6 +10,9 @@ public class ColourCommand extends ChatCommand {
     public void execute(Session client, String[] params) {
         if (params.length != 1) {
             client.getPlayer().setChatMessageColour(null);
+
+            sendNotif(Locale.getOrDefault("command.colour.reset", "Your chat has been returned to normal!"), client);
+            return;
         }
 
         final String colourName = params[0];
