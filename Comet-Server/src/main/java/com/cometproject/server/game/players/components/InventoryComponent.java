@@ -11,7 +11,6 @@ import com.cometproject.server.game.items.music.SongItemData;
 import com.cometproject.server.game.players.components.types.inventory.InventoryItem;
 import com.cometproject.server.game.players.components.types.inventory.InventoryItemSnapshot;
 import com.cometproject.server.game.players.types.Player;
-import com.cometproject.server.game.players.types.PlayerComponent;
 import com.cometproject.server.network.messages.outgoing.catalog.UnseenItemsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.wired.WiredRewardMessageComposer;
@@ -26,7 +25,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 
-public class Inventory implements PlayerInventory {
+public class InventoryComponent implements PlayerInventory {
     private Player player;
 
     private Map<Long, PlayerItem> floorItems;
@@ -35,9 +34,9 @@ public class Inventory implements PlayerInventory {
 
     private boolean itemsLoaded = false;
 
-    private Logger log = Logger.getLogger(Inventory.class.getName());
+    private Logger log = Logger.getLogger(InventoryComponent.class.getName());
 
-    public Inventory(Player player) {
+    public InventoryComponent(Player player) {
         this.player = player;
 
         this.floorItems = new ConcurrentHashMap<>();

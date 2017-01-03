@@ -2,6 +2,7 @@ package com.cometproject.server.storage.queries.player;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.players.PlayerManager;
+import com.cometproject.server.game.players.components.types.wardrobe.WardrobeClothing;
 import com.cometproject.server.game.players.data.PlayerAvatar;
 import com.cometproject.server.game.players.data.PlayerAvatarData;
 import com.cometproject.server.game.players.data.PlayerData;
@@ -742,5 +743,29 @@ public class PlayerDao {
             SqlHelper.closeSilently(preparedStatement);
             SqlHelper.closeSilently(sqlConnection);
         }
+    }
+
+    public static void getPurchasedClothesByPlayerId(final int playerId) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("SELECT `id`, `part_id`, `part` FROM `player_clothing` WHERE `player_id` = ?", sqlConnection);
+
+            preparedStatement.setInt(1, playerId);
+
+            preparedStatement.executeQuery();
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+    }
+
+    public static int addPurchasedClothing(final int playerId, WardrobeClothing clothingData) {
+
     }
 }
