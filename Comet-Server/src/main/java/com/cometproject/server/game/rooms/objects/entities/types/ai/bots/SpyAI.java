@@ -18,8 +18,10 @@ public class SpyAI extends AbstractBotAI {
     @Override
     public boolean onPlayerEnter(PlayerEntity playerEntity) {
         if (playerEntity.getPlayerId() != this.getBotEntity().getData().getOwnerId()) {
-            if (!((SpyBotData) this.getBotEntity().getDataObject()).getVisitors().contains(playerEntity.getUsername())) {
-                ((SpyBotData) this.getBotEntity().getDataObject()).getVisitors().add(playerEntity.getUsername());
+            if (!playerEntity.getPlayer().isInvisible()) {
+                if (!((SpyBotData) this.getBotEntity().getDataObject()).getVisitors().contains(playerEntity.getUsername())) {
+                    ((SpyBotData) this.getBotEntity().getDataObject()).getVisitors().add(playerEntity.getUsername());
+                }
             }
         } else {
             if(((SpyBotData) this.getBotEntity().getDataObject()).getVisitors().size() == 0) {
