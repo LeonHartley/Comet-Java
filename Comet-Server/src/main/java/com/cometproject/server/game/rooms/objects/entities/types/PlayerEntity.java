@@ -384,10 +384,6 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
     public boolean onChat(String message) {
         final long time = System.currentTimeMillis();
 
-        if(this.getPlayer().getChatMessageColour() != null) {
-            message = "@" + this.getPlayer().getChatMessageColour() + "@" + message;
-        }
-
         final boolean isPlayerOnline = PlayerManager.getInstance().isOnline(this.getPlayerId());
 
         if(!isPlayerOnline) {
