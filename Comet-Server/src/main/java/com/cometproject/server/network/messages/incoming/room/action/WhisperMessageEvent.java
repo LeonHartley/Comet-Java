@@ -40,6 +40,14 @@ public class WhisperMessageEvent implements Event {
         
         if (!((PlayerEntity) userTo).getPlayer().getEntity().isVisible())
             return;
+        
+        if (client.getPlayer().getChatMessageColour() != null) {
+            message = "@" + client.getPlayer().getChatMessageColour() + "@" + message;
+
+            if (message.toLowerCase().startsWith("@" + client.getPlayer().getChatMessageColour() + "@:")) {
+                message = message.toLowerCase().replace("@" + client.getPlayer().getChatMessageColour() + "@:", ":");
+            }
+        }
 
         String filteredMessage = TalkMessageEvent.filterMessage(message);
 
