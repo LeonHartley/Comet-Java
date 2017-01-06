@@ -9,6 +9,7 @@ import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.outgoing.catalog.UnseenItemsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.trading.*;
+import com.cometproject.server.network.messages.outgoing.user.inventory.InventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
 import com.cometproject.server.storage.queries.items.TradeDao;
 import com.cometproject.server.storage.queue.types.ItemStorageQueue;
@@ -66,6 +67,9 @@ public class Trade {
             user2.addStatus(RoomEntityStatus.TRADE, "");
             user2.markNeedsUpdate();
         }
+
+        user1.getPlayer().getSession().send(new InventoryMessageComposer(user1.getPlayer().getInventory()));
+        user2.getPlayer().getSession().send(new InventoryMessageComposer(user2.getPlayer().getInventory()));
 
         sendToUsers(new TradeStartMessageComposer(user1.getPlayer().getId(), user2.getPlayer().getId()));
     }
