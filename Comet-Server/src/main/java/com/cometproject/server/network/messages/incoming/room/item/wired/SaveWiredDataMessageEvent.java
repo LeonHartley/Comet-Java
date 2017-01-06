@@ -1,10 +1,12 @@
 package com.cometproject.server.network.messages.incoming.room.item.wired;
 
+import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.filter.FilterResult;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions.WiredActionGiveReward;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions.WiredActionMatchToSnapshot;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.conditions.positive.WiredConditionMatchSnapshot;
@@ -37,6 +39,11 @@ public class SaveWiredDataMessageEvent implements Event {
         WiredFloorItem wiredItem = ((WiredFloorItem) room.getItems().getFloorItem(itemId));
 
         if (wiredItem == null) return;
+        
+        if (wiredItem instanceof WiredActionGiveReward && CometSettings.roomWiredRewardMinimumRank > client.getPlayer().getData().getRank()) {
+            client.send(new SaveWiredMessageComposer());
+            return;
+        }
 
         int paramCount = msg.readInt();
 

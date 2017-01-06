@@ -123,6 +123,7 @@ public class CommandManager implements Initialisable {
         this.addCommand(Locale.get("command.enablecommand.name"), new EnableCommand());
         this.addCommand(Locale.get("command.disablecommand.name"), new DisableCommand());
         this.addCommand("screenshot", new ScreenshotCommand());
+        this.addCommand(Locale.get("command.colour.name"), new ColourCommand());
 
         // VIP commands
         this.addCommand(Locale.get("command.push.name"), new PushCommand());

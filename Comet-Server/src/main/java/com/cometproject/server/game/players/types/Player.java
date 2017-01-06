@@ -14,6 +14,7 @@ import com.cometproject.server.game.quests.types.QuestType;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.game.rooms.types.components.types.ChatMessageColour;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.MotdNotificationMessageComposer;
@@ -45,7 +46,7 @@ public class Player implements BasePlayer {
     private Session session;
 
     private final PermissionComponent permissions;
-    private final Inventory inventory;
+    private final InventoryComponent inventory;
     private final SubscriptionComponent subscription;
     private final MessengerComponent messenger;
     private final RelationshipComponent relationships;
@@ -115,6 +116,8 @@ public class Player implements BasePlayer {
 
     private Set<String> eventLogCategories = Sets.newConcurrentHashSet();
 
+    private ChatMessageColour chatMessageColour = null;
+
     public Player(ResultSet data, boolean isFallback) throws SQLException {
         this.id = data.getInt("playerId");
 
@@ -133,7 +136,7 @@ public class Player implements BasePlayer {
         }
 
         this.permissions = new PermissionComponent(this);
-        this.inventory = new Inventory(this);
+        this.inventory = new InventoryComponent(this);
         this.messenger = new MessengerComponent(this);
         this.subscription = new SubscriptionComponent(this);
         this.relationships = new RelationshipComponent(this);
@@ -722,5 +725,13 @@ public class Player implements BasePlayer {
 
     public Set<String> getEventLogCategories() {
         return eventLogCategories;
+    }
+
+    public ChatMessageColour getChatMessageColour() {
+        return chatMessageColour;
+    }
+
+    public void setChatMessageColour(ChatMessageColour chatMessageColour) {
+        this.chatMessageColour = chatMessageColour;
     }
 }
