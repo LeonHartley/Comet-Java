@@ -34,7 +34,7 @@ public class ShoutMessageEvent implements Event {
             return;
         }
         
-        if(client.getPlayer().getChatMessageColour() != null) {
+        if (client.getPlayer().getChatMessageColour() != null) {
             message = "@" + client.getPlayer().getChatMessageColour() + "@" + message;
 
             if (message.toLowerCase().startsWith("@" + client.getPlayer().getChatMessageColour() + "@:")) {
