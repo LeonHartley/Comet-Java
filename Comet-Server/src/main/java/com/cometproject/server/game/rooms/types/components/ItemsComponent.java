@@ -402,7 +402,7 @@ public class ItemsComponent {
 
         RoomTile tile = this.getRoom().getMapping().getTile(newPosition.getX(), newPosition.getY());
 
-        if (!this.verifyItemPosition(item.getDefinition(), tile, item.getPosition(), rotation)) {
+        if (!this.verifyItemPosition(item.getDefinition(), item, tile, item.getPosition(), rotation)) {
             return false;
         }
 
@@ -483,7 +483,7 @@ public class ItemsComponent {
         return true;
     }
 
-    private boolean verifyItemPosition(FurnitureDefinition item, RoomTile tile, Position currentPosition, int rotation) {
+    private boolean verifyItemPosition(FurnitureDefinition item, RoomItemFloor floor, RoomTile tile, Position currentPosition, int rotation) {
         if (tile != null) {
             if (currentPosition != null && currentPosition.getX() == tile.getPosition().getX() && currentPosition.getY() == tile.getPosition().getY())
                 return true;
@@ -495,7 +495,7 @@ public class ItemsComponent {
                 final RoomTile roomTile = this.getRoom().getMapping().getTile(affectedTile.x, affectedTile.y);
 
                 if(roomTile != null) {
-                    if(!this.verifyItemTilePosition(item, roomTile, rotation)) {
+                    if(!this.verifyItemTilePosition(item, floor, roomTile, rotation)) {
                         return false;
                     }
                 }
@@ -507,12 +507,12 @@ public class ItemsComponent {
         return true;
     }
 
-    private boolean verifyItemTilePosition(FurnitureDefinition item, RoomTile tile, int rotation) {
+    private boolean verifyItemTilePosition(FurnitureDefinition item, RoomItemFloor floorItem, RoomTile tile, int rotation) {
         if (!tile.canPlaceItemHere()) {
             return false;
         }
 
-        if (!tile.canStack() && tile.getTopItem() != 0 && tile.getTopItem() != item.getId()) {
+        if (!tile.canStack() && tile.getTopItem() != 0 && (floorItem != null && tile.getTopItem() != floorItem.getId())) {
             if (!item.getItemName().startsWith(RoomItemFactory.STACK_TOOL))
                 return false;
         }
@@ -525,7 +525,7 @@ public class ItemsComponent {
             boolean hasOtherDice = false;
             boolean hasStackTool = false;
 
-            for (RoomItemFloor floorItem : tile.getItems()) {
+            for (RoomItemFloor itemFloor : tile.getItems()) {
                 if (floorItem instanceof DiceFloorItem) {
                     hasOtherDice = true;
                 }
@@ -583,7 +583,7 @@ public class ItemsComponent {
 
         double height = tile.getStackHeight();
 
-        if (!this.verifyItemPosition(item.getDefinition(), tile, null, rot))
+        if (!this.verifyItemPosition(item.getDefinition(), null, tile, null, rot))
             return;
 
         if (item.getDefinition().getInteraction().equals("soundmachine")) {
