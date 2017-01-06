@@ -6,13 +6,14 @@ import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
 
 import java.util.List;
+import java.util.Map;
 
 
 public class RoomBannedListMessageComposer extends MessageComposer {
     private final int roomId;
-    private final List<RoomBan> bans;
+    private final Map<Integer, RoomBan> bans;
 
-    public RoomBannedListMessageComposer(int roomId, List<RoomBan> bans) {
+    public RoomBannedListMessageComposer(int roomId, Map<Integer, RoomBan> bans) {
         this.roomId = roomId;
         this.bans = bans;
     }
@@ -27,7 +28,7 @@ public class RoomBannedListMessageComposer extends MessageComposer {
         msg.writeInt(roomId);
         msg.writeInt(bans.size());
 
-        for (RoomBan ban : bans) {
+        for (RoomBan ban : bans.values()) {
             msg.writeInt(ban.getPlayerId());
             msg.writeString(ban.getPlayerName());
         }

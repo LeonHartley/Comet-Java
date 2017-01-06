@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.types.components;
 
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.rooms.types.Room;
@@ -9,6 +10,8 @@ import com.cometproject.server.storage.queries.rooms.RightsDao;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 
@@ -16,8 +19,8 @@ public class RightsComponent {
     private Room room;
 
     private List<Integer> rights;
-    private List<RoomBan> bannedPlayers;
-    private List<RoomMute> mutedPlayers;
+    private Map<Integer, RoomBan> bannedPlayers;
+    private Map<Integer, RoomMute> mutedPlayers;
 
     public RightsComponent(Room room) {
         this.room = room;
@@ -33,8 +36,8 @@ public class RightsComponent {
             this.room.log.error("Error while loading room rights", e);
         }
 
-        this.bannedPlayers = new CopyOnWriteArrayList<>();
-        this.mutedPlayers = new CopyOnWriteArrayList<>();
+        this.bannedPlayers = RightsDao.getRoomBansByRoomId(this.room.getId());
+        this.mutedPlayers = new ConcurrentHashMap<>();
     }
 
     public void dispose() {
@@ -94,53 +97,33 @@ public class RightsComponent {
         RightsDao.add(playerId, this.room.getId());
     }
 
-    public void addBan(int playerId, String playerName, int length) {
-        this.bannedPlayers.add(new RoomBan(playerId, playerName, length != -1 ? length * 2 : -1));
+    public void addBan(int playerId, String playerName, int expireTimestamp) {
+        this.bannedPlayers.put(playerId, new RoomBan(playerId, playerName, expireTimestamp));
+        RightsDao.addRoomBan(playerId, this.room.getId(), expireTimestamp);
     }
 
     public void addMute(int playerId, int minutes) {
-        this.mutedPlayers.add(new RoomMute(playerId, (minutes * 60) * 2));
+        this.mutedPlayers.put(playerId, new RoomMute(playerId, (minutes * 60) * 2));
     }
 
     public boolean hasBan(int userId) {
-        for (RoomBan ban : this.bannedPlayers) {
-            if (ban.getPlayerId() == userId) {
-                return true;
-            }
-        }
-
-        return false;
+        return this.bannedPlayers.containsKey(userId);
     }
 
     public void removeBan(int playerId) {
-        int indexToRemove = -1;
+        this.bannedPlayers.remove(playerId);
 
-        for (RoomBan ban : this.bannedPlayers) {
-            if (ban.getPlayerId() == playerId) {
-                indexToRemove = this.bannedPlayers.indexOf(ban);
-            }
-        }
-
-        if (indexToRemove != -1) {
-            this.bannedPlayers.remove(indexToRemove);
-        }
+        // delete it from the db.
+        RightsDao.deleteRoomBan(playerId, this.room.getId());
     }
 
     public boolean hasMute(int playerId) {
-        for (RoomMute mute : this.mutedPlayers) {
-            if (mute.getPlayerId() == playerId) {
-                return true;
-            }
-        }
-
-        return false;
+        return this.mutedPlayers.containsKey(playerId);
     }
 
     public int getMuteTime(int playerId) {
-        for (RoomMute mute : this.mutedPlayers) {
-            if (mute.getPlayerId() == playerId) {
-                return (mute.getTicksLeft() / 2);
-            }
+        if(!this.hasMute(playerId)) {
+            return this.mutedPlayers.get(playerId).getTicksLeft() / 2;
         }
 
         return 0;
@@ -150,15 +133,13 @@ public class RightsComponent {
         List<RoomBan> bansToRemove = new ArrayList<>();
         List<RoomMute> mutesToRemove = new ArrayList<>();
 
-        for (RoomBan ban : this.bannedPlayers) {
-            if (ban.getTicksLeft() <= 0 && !ban.isPermanent()) {
+        for (RoomBan ban : this.bannedPlayers.values()) {
+            if (ban.getExpireTimestamp() <= Comet.getTime() && !ban.isPermanent()) {
                 bansToRemove.add(ban);
             }
-
-            ban.decreaseTicks();
         }
 
-        for (RoomMute mute : this.mutedPlayers) {
+        for (RoomMute mute : this.mutedPlayers.values()) {
             if (mute.getTicksLeft() <= 0) {
                 mutesToRemove.add(mute);
             }
@@ -168,18 +149,18 @@ public class RightsComponent {
 
 
         for (RoomBan ban : bansToRemove) {
-            this.bannedPlayers.remove(ban);
+            this.bannedPlayers.remove(ban.getPlayerId());
         }
 
         for (RoomMute mute : mutesToRemove) {
-            this.mutedPlayers.remove(mute);
+            this.mutedPlayers.remove(mute.getPlayerId());
         }
 
         bansToRemove.clear();
         mutesToRemove.clear();
     }
 
-    public List<RoomBan> getBannedPlayers() {
+    public Map<Integer, RoomBan> getBannedPlayers() {
         return this.bannedPlayers;
     }
 

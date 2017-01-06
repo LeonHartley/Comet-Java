@@ -19,6 +19,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 public class RoomItemDao {
@@ -353,24 +354,24 @@ public class RoomItemDao {
         }
     }
 
-    public static Set<Integer> getGivenRewards(long id) {
+    public static Map<Integer, String> getGivenRewards(long id) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        Set<Integer> data = new ConcurrentHashSet<>();
+        Map<Integer, String> data = new ConcurrentHashMap<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("SELECT player_id FROM items_wired_rewards WHERE item_id = ?;", sqlConnection);
+            preparedStatement = SqlHelper.prepare("SELECT player_id, reward_data FROM items_wired_rewards WHERE item_id = ?;", sqlConnection);
 
             preparedStatement.setLong(1, id);
 
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                data.add(resultSet.getInt("player_id"));
+                data.put(resultSet.getInt("player_id"), resultSet.getString("reward_data"));
             }
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);
