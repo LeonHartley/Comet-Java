@@ -33,6 +33,14 @@ public class ShoutMessageEvent implements Event {
         if(!client.getPlayer().getEntity().isVisible()) {
             return;
         }
+        
+        if (client.getPlayer().getChatMessageColour() != null) {
+            message = "@" + client.getPlayer().getChatMessageColour() + "@" + message;
+
+            if (message.toLowerCase().startsWith("@" + client.getPlayer().getChatMessageColour() + "@:")) {
+                message = message.toLowerCase().replace("@" + client.getPlayer().getChatMessageColour() + "@:", ":");
+            }
+        }
 
         if (!client.getPlayer().getPermissions().getRank().roomFilterBypass()) {
             FilterResult filterResult = RoomManager.getInstance().getFilter().filter(message);
