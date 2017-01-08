@@ -303,13 +303,7 @@ public class ProcessComponent implements CometTask {
 
                 if (topItem != null) {
                     if (topItem.getDefinition().getEffectId() != 0) {
-                        if (oldItem != null) {
-                            if (oldItem.getDefinition().getEffectId() != topItem.getDefinition().getEffectId()) {
-                                entity.applyEffect(new PlayerEffect(topItem.getDefinition().getEffectId(), true));
-                            }
-                        } else {
-                            entity.applyEffect(new PlayerEffect(topItem.getDefinition().getEffectId(), true));
-                        }
+                        entity.applyEffect(new PlayerEffect(topItem.getDefinition().getEffectId(), true));
                     }
 
                     topItem.onEntityStepOn(entity);
