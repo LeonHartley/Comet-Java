@@ -4,4 +4,6 @@ CREATE TABLE `room_bans` (
   `player_id` int(11) NOT NULL DEFAULT 0,
   `expire_timestamp` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='latin1_swedish_ci'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='latin1_swedish_ci';
+
+alter table `players` add column `time_muted` int(11) null default 0;
