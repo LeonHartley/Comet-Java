@@ -333,17 +333,18 @@ public class RoomItemDao {
         }
     }
 
-    public static void saveReward(long itemId, int playerId) {
+    public static void saveReward(long itemId, int playerId, final String rewardData) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
 
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("INSERT into items_wired_rewards (item_id, player_id) VALUES(?, ?);", sqlConnection);
+            preparedStatement = SqlHelper.prepare("INSERT into items_wired_rewards (item_id, player_id, reward_data) VALUES(?, ?, ?);", sqlConnection);
 
             preparedStatement.setLong(1, itemId);
             preparedStatement.setInt(2, playerId);
+            preparedStatement.setString(3, rewardData);
 
             SqlHelper.executeStatementSilently(preparedStatement, false);
         } catch (SQLException e) {
