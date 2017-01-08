@@ -258,6 +258,7 @@ public class WiredActionGiveReward extends WiredActionItem {
 
         if(errorCode != -1) {
             playerEntity.getPlayer().getSession().send(new WiredRewardMessageComposer(errorCode));
+            return;
         }
 
         if (!receivedReward) {
