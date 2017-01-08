@@ -53,7 +53,7 @@ public class WiredActionGiveReward extends WiredActionItem {
     private int totalRewardCounter = 0;
 
     private List<Reward> rewards;
-    private Map<Integer, String> givenRewards;
+    private Map<Integer, Set<String>> givenRewards;
 
     private final int ownerRank;
 
@@ -134,16 +134,21 @@ public class WiredActionGiveReward extends WiredActionItem {
         for (Reward reward : this.rewards) {
             switch (howOften) {
                 case REWARD_LIMIT_ONCE:
-                    if(this.givenRewards.containsKey(playerEntity.getPlayerId())) {
+                    if(this.givenRewards.containsKey(playerEntity.getPlayerId()) && this.givenRewards.get(playerEntity.getPlayerId()).contains(reward.productCode)) {
                         errorCode = 1;
                     } else {
-                        this.givenRewards.put(playerEntity.getPlayerId(), reward.productCode);
+                        if(!this.givenRewards.containsKey(playerEntity.getPlayerId())) {
+                            this.givenRewards.put(playerEntity.getPlayerId(), new HashSet<>());
+                        }
+
+                        this.givenRewards.get(playerEntity.getPlayerId()).add(reward.productCode);
                         RoomItemDao.saveReward(this.getId(), ((PlayerEntity) event.entity).getPlayerId(), reward.productCode);
                     }
 
                     if (rewardTimings.get(this.getId()).containsKey(playerEntity.getPlayerId())) {
                         errorCode = 1;
                     }
+
                     break;
 
                 case REWARD_LIMIT_DAY:
@@ -174,7 +179,6 @@ public class WiredActionGiveReward extends WiredActionItem {
             }
 
             if (errorCode != -1) {
-                playerEntity.getPlayer().getSession().send(new WiredRewardMessageComposer(errorCode));
                 continue;
             }
 
@@ -244,8 +248,6 @@ public class WiredActionGiveReward extends WiredActionItem {
 
                             playerEntity.getPlayer().getSession().send(new UpdateInventoryMessageComposer());
                             playerEntity.getPlayer().getSession().send(new UnseenItemsMessageComposer(Sets.newHashSet(playerItem)));
-
-                            playerEntity.getPlayer().getSession().send(new WiredRewardMessageComposer(6));
                         }
                     }
                 }
@@ -254,9 +256,14 @@ public class WiredActionGiveReward extends WiredActionItem {
             }
         }
 
+        if(errorCode != -1) {
+            playerEntity.getPlayer().getSession().send(new WiredRewardMessageComposer(errorCode));
+        }
 
         if (!receivedReward) {
             playerEntity.getPlayer().getSession().send(new WiredRewardMessageComposer(4));
+        } else {
+            playerEntity.getPlayer().getSession().send(new WiredRewardMessageComposer(6));
         }
 
         if (rewardTimings.get(this.getId()).containsKey(playerEntity.getPlayerId())) {
