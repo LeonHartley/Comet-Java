@@ -59,7 +59,7 @@ public class MuteCommand extends ChatCommand {
 
     @Override
     public String getParameter() {
-        return Locale.getOrDefault("command.parameter.username", "%username%");
+        return Locale.getOrDefault("command.parameter.mute", "%username% %time%");
     }
 
     @Override
