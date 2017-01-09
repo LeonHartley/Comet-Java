@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.user.details;
 
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.achievements.types.AchievementType;
 import com.cometproject.server.game.quests.types.QuestType;
@@ -7,6 +8,7 @@ import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.filter.FilterResult;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.avatar.MutedMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.UpdateInfoMessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
@@ -16,6 +18,15 @@ import org.apache.commons.lang3.StringUtils;
 public class ChangeMottoMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) {
         String motto = msg.readString();
+
+        final int TimeMutedExpire = client.getPlayer().getData().getTimeMuted() - (int) Comet.getTime();
+
+        if (client.getPlayer().getData().getTimeMuted() != 0) {
+            if (client.getPlayer().getData().getTimeMuted() > (int) Comet.getTime()) {
+                client.getPlayer().getSession().send(new AdvancedAlertMessageComposer(Locale.getOrDefault("command.mute.muted", "You are muted for violating the rules! Your mute will expire in %timeleft% seconds").replace("%timeleft%", TimeMutedExpire + "")));
+                return;
+            }
+        }
 
         if (!client.getPlayer().getPermissions().getRank().roomFilterBypass()) {
             FilterResult filterResult = RoomManager.getInstance().getFilter().filter(motto);

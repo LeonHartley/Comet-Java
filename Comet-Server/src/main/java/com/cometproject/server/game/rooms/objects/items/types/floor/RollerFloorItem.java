@@ -13,13 +13,18 @@ import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.network.messages.outgoing.room.items.SlideObjectBundleMessageComposer;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
+import com.cometproject.server.utilities.collections.ConcurrentHashSet;
 
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 
 public class RollerFloorItem extends AdvancedFloorItem<RollerFloorItemEvent> {
     private boolean hasRollScheduled = false;
     private long lastTick = 0;
+
+    private Set<Integer> entitiesOnRoller = new ConcurrentHashSet<>();
 
     private final RollerFloorItemEvent event;
 
@@ -43,7 +48,17 @@ public class RollerFloorItem extends AdvancedFloorItem<RollerFloorItemEvent> {
 
     @Override
     public void onEntityStepOn(RoomEntity entity) {
+        this.entitiesOnRoller.add(entity.getId());
         event.setTotalTicks(this.getTickCount());
+    }
+
+    @Override
+    public void onEntityStepOff(RoomEntity entity) {
+        if(!this.entitiesOnRoller.contains(entity.getId())) {
+            return;
+        }
+
+        this.entitiesOnRoller.remove(entity.getId());
     }
 
     @Override
@@ -78,6 +93,10 @@ public class RollerFloorItem extends AdvancedFloorItem<RollerFloorItemEvent> {
 
         for (RoomEntity entity : entities) {
             if (entity.getPosition().getX() != this.getPosition().getX() && entity.getPosition().getY() != this.getPosition().getY()) {
+                continue;
+            }
+
+            if(!this.entitiesOnRoller.contains(entity.getId())) {
                 continue;
             }
 
@@ -124,6 +143,8 @@ public class RollerFloorItem extends AdvancedFloorItem<RollerFloorItemEvent> {
 
             this.getRoom().getEntities().broadcastMessage(new SlideObjectBundleMessageComposer(entity.getPosition(), new Position(sqInfront.getX(), sqInfront.getY(), toHeight), this.getVirtualId(), entity.getId(), 0));
             entity.setPosition(new Position(sqInfront.getX(), sqInfront.getY(), toHeight));
+
+            this.onEntityStepOff(entity);
         }
 
         if (retry) {

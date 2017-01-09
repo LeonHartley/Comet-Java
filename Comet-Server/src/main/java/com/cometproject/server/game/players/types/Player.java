@@ -114,6 +114,8 @@ public class Player implements BasePlayer {
 
     private String ssoTicket;
 
+    public int lastBannedListRequest = 0;
+
     private Set<String> eventLogCategories = Sets.newConcurrentHashSet();
 
     private ChatMessageColour chatMessageColour = null;

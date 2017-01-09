@@ -15,10 +15,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 public class RoomItemDao {
@@ -332,17 +330,18 @@ public class RoomItemDao {
         }
     }
 
-    public static void saveReward(long itemId, int playerId) {
+    public static void saveReward(long itemId, int playerId, final String rewardData) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
 
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("INSERT into items_wired_rewards (item_id, player_id) VALUES(?, ?);", sqlConnection);
+            preparedStatement = SqlHelper.prepare("INSERT into items_wired_rewards (item_id, player_id, reward_data) VALUES(?, ?, ?);", sqlConnection);
 
             preparedStatement.setLong(1, itemId);
             preparedStatement.setInt(2, playerId);
+            preparedStatement.setString(3, rewardData);
 
             SqlHelper.executeStatementSilently(preparedStatement, false);
         } catch (SQLException e) {
@@ -353,24 +352,31 @@ public class RoomItemDao {
         }
     }
 
-    public static Set<Integer> getGivenRewards(long id) {
+    public static Map<Integer, Set<String>> getGivenRewards(long id) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        Set<Integer> data = new ConcurrentHashSet<>();
+        Map<Integer, Set<String>> data = new ConcurrentHashMap<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("SELECT player_id FROM items_wired_rewards WHERE item_id = ?;", sqlConnection);
+            preparedStatement = SqlHelper.prepare("SELECT player_id, reward_data FROM items_wired_rewards WHERE item_id = ?;", sqlConnection);
 
             preparedStatement.setLong(1, id);
 
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                data.add(resultSet.getInt("player_id"));
+                final int playerId = resultSet.getInt("player_id");
+                final String rewardData = resultSet.getString("reward_data");
+
+                if(!data.containsKey(playerId)) {
+                    data.put(playerId, new HashSet<>());
+                }
+
+                data.get(playerId).add(rewardData);
             }
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);

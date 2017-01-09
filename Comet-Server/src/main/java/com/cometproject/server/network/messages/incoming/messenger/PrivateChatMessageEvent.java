@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.messenger;
 
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.moderation.ModerationManager;
@@ -19,6 +20,15 @@ public class PrivateChatMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) {
         int userId = msg.readInt();
         String message = msg.readString();
+
+        final int TimeMutedExpire = client.getPlayer().getData().getTimeMuted() - (int) Comet.getTime();
+
+        if (client.getPlayer().getData().getTimeMuted() != 0) {
+            if (client.getPlayer().getData().getTimeMuted() > (int) Comet.getTime()) {
+                client.getPlayer().getSession().send(new AdvancedAlertMessageComposer(Locale.getOrDefault("command.mute.muted", "You are muted for violating the rules! Your mute will expire in %timeleft% seconds").replace("%timeleft%", TimeMutedExpire + "")));
+                return;
+            }
+        }
 
         if (userId == Integer.MAX_VALUE && client.getPlayer().getPermissions().getRank().messengerStaffChat()) {
             for (Session player : ModerationManager.getInstance().getModerators()) {

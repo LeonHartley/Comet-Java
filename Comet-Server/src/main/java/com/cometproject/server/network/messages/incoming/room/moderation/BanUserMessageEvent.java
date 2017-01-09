@@ -1,6 +1,7 @@
 package com.cometproject.server.network.messages.incoming.room.moderation;
 
 import com.cometproject.api.game.rooms.settings.RoomBanState;
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.Event;
@@ -45,6 +46,8 @@ public class BanUserMessageEvent implements Event {
                 break;
         }
 
+        int expireTimestamp = banLength == -1 ? banLength : (int) Comet.getTime() + banLength;
+
         PlayerEntity playerEntity = room.getEntities().getEntityByPlayerId(userId);
 
         if (playerEntity != null) {
@@ -52,7 +55,7 @@ public class BanUserMessageEvent implements Event {
                 return;
             }
 
-            room.getRights().addBan(userId, playerEntity.getUsername(), banLength);
+            room.getRights().addBan(userId, playerEntity.getUsername(), expireTimestamp);
             playerEntity.leaveRoom(false, true, true);
         }
     }

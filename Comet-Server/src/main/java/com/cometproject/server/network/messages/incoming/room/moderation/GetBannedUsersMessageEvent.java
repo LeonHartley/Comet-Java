@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.moderation;
 
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.room.settings.RoomBannedListMessageComposer;
@@ -16,6 +17,12 @@ public class GetBannedUsersMessageEvent implements Event {
         if ((room.getData().getOwnerId() != client.getPlayer().getId() && !client.getPlayer().getPermissions().getRank().roomFullControl())) {
             return;
         }
+
+        if(Comet.getTime() - client.getPlayer().lastBannedListRequest < 5) {
+            return;
+        }
+
+        client.getPlayer().lastBannedListRequest = (int) Comet.getTime();
 
         client.send(new RoomBannedListMessageComposer(room.getId(), room.getRights().getBannedPlayers()));
     }

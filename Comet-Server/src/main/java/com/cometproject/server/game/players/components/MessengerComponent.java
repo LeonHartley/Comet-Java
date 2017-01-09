@@ -27,6 +27,7 @@ public class MessengerComponent implements PlayerComponent {
     private Map<Integer, MessengerFriend> friends;
 
     private List<Integer> requests;
+    private boolean initialised;
 
     public MessengerComponent(Player player) {
         this.player = player;
@@ -106,7 +107,7 @@ public class MessengerComponent implements PlayerComponent {
 
             Session session = NetworkManager.getInstance().getSessions().getByPlayerId(friend.getUserId());
 
-            if (session != null)
+            if (session != null && session.getPlayer().getMessenger().isInitialised())
                 session.send(msg);
         }
     }
@@ -199,4 +200,11 @@ public class MessengerComponent implements PlayerComponent {
         this.requests.remove(request);
     }
 
+    public void setInitialised(boolean initialised) {
+        this.initialised = initialised;
+    }
+
+    public boolean isInitialised() {
+        return initialised;
+    }
 }

@@ -1,0 +1,2 @@
+truncate table `items_wired_rewards`;
+alter table `items_wired_rewards` add column `reward_data` varchar(255) null default null;
