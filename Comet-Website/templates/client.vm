@@ -27,7 +27,7 @@
             "furnidata.load.url" : "$siteSettings.gameClientFurniData",
             "hotelview.banner.url" : "$siteSettings.gameClientBanner",
             "use.sso.ticket" : "1",
-            "sso.ticket" : "$player.generateTicket()",
+            "sso.ticket" : "$loginTicket",
             "processlog.enabled" : "0",
             "flash.client.url" : BaseUrl,
             "flash.client.origin" : "popup",
