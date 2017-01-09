@@ -122,7 +122,7 @@ public class RightsComponent {
     }
 
     public int getMuteTime(int playerId) {
-        if(!this.hasMute(playerId)) {
+        if(this.hasMute(playerId)) {
             return this.mutedPlayers.get(playerId).getTicksLeft() / 2;
         }
 
