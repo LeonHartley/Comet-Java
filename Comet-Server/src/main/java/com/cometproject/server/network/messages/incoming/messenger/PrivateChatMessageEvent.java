@@ -57,13 +57,12 @@ public class PrivateChatMessageEvent implements Event {
                 client.getPlayer().setMessengerFloodFlag(client.getPlayer().getMessengerFloodFlag() + 1);
 
                 if (client.getPlayer().getMessengerFloodFlag() >= 4) {
-                    client.getPlayer().setMessengerFloodTime(client.getPlayer().getPermissions().getRank().floodTime());
+                    client.getPlayer().setMessengerFloodTime(time / 1000L + client.getPlayer().getPermissions().getRank().floodTime());
                     client.getPlayer().setMessengerFloodFlag(0);
-
                 }
             }
 
-            if (client.getPlayer().getMessengerFloodTime() >= 1) {
+            if ((time / 1000L) < client.getPlayer().getMessengerFloodTime()) {
                 return;
             }
 
