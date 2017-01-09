@@ -26,7 +26,7 @@ public class MuteRoomMessageEvent implements Event {
             for (RoomEntity entity : client.getPlayer().getEntity().getRoom().getEntities().getPlayerEntities()) {
                 if (entity.getEntityType() == RoomEntityType.PLAYER) {
                     PlayerEntity playerEntity = (PlayerEntity) entity;
-                    playerEntity.getPlayer().getSession().send(new WhisperMessageComposer(playerEntity.getId(), Locale.getOrDefault("command.roommute.nomute", "You are now able to chat again :-)")));
+                    playerEntity.getPlayer().getSession().send(new WhisperMessageComposer(playerEntity.getId(), Locale.getOrDefault("event.room.muted", "You are now able to chat again :-)")));
                 }
             }
 
@@ -46,7 +46,7 @@ public class MuteRoomMessageEvent implements Event {
             for (RoomEntity entity : client.getPlayer().getEntity().getRoom().getEntities().getPlayerEntities()) {
                 if (entity.getEntityType() == RoomEntityType.PLAYER) {
                     PlayerEntity playerEntity = (PlayerEntity) entity;
-                    playerEntity.getPlayer().getSession().send(new WhisperMessageComposer(playerEntity.getId(), "The room owner has muted the room."));
+                    playerEntity.getPlayer().getSession().send(new WhisperMessageComposer(playerEntity.getId(), Locale.getOrDefault("event.room.unmute", "The room owner has muted the room.")));
                 }
             }
         }
