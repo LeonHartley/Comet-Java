@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.settings;
 
+import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityType;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
