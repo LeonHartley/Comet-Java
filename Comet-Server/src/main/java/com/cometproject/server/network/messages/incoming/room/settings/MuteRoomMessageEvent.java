@@ -24,6 +24,11 @@ public class MuteRoomMessageEvent implements Event {
             return;
         }
         
+        if (room.hasRoomMute()) {
+            for(RoomEntity entity : room.getEntities().getAllEntities().values()) {
+                entity.setRoomMuted(false);
+            }
+
             for (RoomEntity entity : client.getPlayer().getEntity().getRoom().getEntities().getPlayerEntities()) {
                 if (entity.getEntityType() == RoomEntityType.PLAYER) {
                     PlayerEntity playerEntity = (PlayerEntity) entity;
@@ -31,18 +36,13 @@ public class MuteRoomMessageEvent implements Event {
                 }
             }
 
-        if (room.hasRoomMute()) {
-            for(RoomEntity entity : room.getEntities().getAllEntities().values()) {
-                entity.setRoomMuted(false);
-            }
-
             room.setRoomMute(false);
         } else {
-            room.setRoomMute(true);
-
             for(RoomEntity entity : room.getEntities().getAllEntities().values()) {
                 entity.setRoomMuted(true);
             }
+
+            room.setRoomMute(true);
             
             for (RoomEntity entity : client.getPlayer().getEntity().getRoom().getEntities().getPlayerEntities()) {
                 if (entity.getEntityType() == RoomEntityType.PLAYER) {
