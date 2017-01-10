@@ -7,3 +7,14 @@ CREATE TABLE `room_bans` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='latin1_swedish_ci';
 
 alter table `players` add column `time_muted` int(11) null default 0;
+
+CREATE TABLE `permission_command_overrides` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`command_id` VARCHAR(255) NULL DEFAULT NULL,
+	`player_id` INT(11) NULL DEFAULT NULL,
+	`enabled` ENUM('1','0') NULL DEFAULT '1',
+	PRIMARY KEY (`id`),
+	INDEX `player_id` (`player_id`)
+)
+ENGINE=InnoDB
+;
