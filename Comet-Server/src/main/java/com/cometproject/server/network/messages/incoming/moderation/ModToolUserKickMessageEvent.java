@@ -27,7 +27,7 @@ public class ModToolUserKickMessageEvent implements Event {
                 if (!message.isEmpty())
                     session.send(new AdvancedAlertMessageComposer(message));
 
-                if (!session.getPlayer().getPermissions().getRank().roomKickable() || session.getPlayer().getEntity() != null) {
+                if (session.getPlayer().getPermissions().getRank().roomKickable() && session.getPlayer().getEntity() != null) {
                     session.getPlayer().getEntity().kick();
                 }
             }
