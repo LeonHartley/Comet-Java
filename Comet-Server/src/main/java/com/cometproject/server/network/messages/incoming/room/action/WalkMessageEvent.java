@@ -33,6 +33,8 @@ public class WalkMessageEvent implements Event {
             if (entity.hasAttribute("teleport")) {
                 List<Square> squares = new LinkedList<>();
                 squares.add(new Square(goalX, goalY));
+                
+                entity.unIdle();
 
                 if (entity.getMountedEntity() != null) {
                     entity.getMountedEntity().setWalkingPath(squares);
