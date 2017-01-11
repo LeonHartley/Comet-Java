@@ -62,16 +62,17 @@ public class RoomItemDao {
         }
     }
 
-    public static void removeItemFromRoom(long itemId, int userId) {
+    public static void removeItemFromRoom(long itemId, int userId, String finalState) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
 
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("UPDATE items SET room_id = 0, user_id = ?, x = 0, y = 0, z = 0, wall_pos = '' WHERE id = ?", sqlConnection);
+            preparedStatement = SqlHelper.prepare("UPDATE items SET room_id = 0, user_id = ?, x = 0, y = 0, z = 0, wall_pos = '', extra_data = ? WHERE id = ?", sqlConnection);
             preparedStatement.setInt(1, userId);
-            preparedStatement.setLong(2, itemId);
+            preparedStatement.setString(2, finalState);
+            preparedStatement.setLong(3, itemId);
 
             SqlHelper.executeStatementSilently(preparedStatement, false);
         } catch (SQLException e) {

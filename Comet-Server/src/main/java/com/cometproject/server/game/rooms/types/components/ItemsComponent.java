@@ -288,7 +288,7 @@ public class ItemsComponent {
     }
 
     public void removeItem(RoomItemWall item, int ownerId, Session client) {
-        RoomItemDao.removeItemFromRoom(item.getId(), ownerId);
+        RoomItemDao.removeItemFromRoom(item.getId(), ownerId, item.getExtraData());
 
         room.getEntities().broadcastMessage(new RemoveWallItemMessageComposer(ItemManager.getInstance().getItemVirtualId(item.getId()), ownerId));
         this.getWallItems().remove(item.getId());
@@ -344,7 +344,7 @@ public class ItemsComponent {
         this.getRoom().getEntities().broadcastMessage(new RemoveFloorItemMessageComposer(item.getVirtualId(), owner));
         this.getFloorItems().remove(item.getId());
 
-        RoomItemDao.removeItemFromRoom(item.getId(), owner);
+        RoomItemDao.removeItemFromRoom(item.getId(), owner, item.getDataObject());
 
         if (toInventory && client != null) {
             final PlayerItem playerItem = client.getPlayer().getInventory().add(item.getId(), item.getItemId(), item.getExtraData(), item instanceof GiftFloorItem ? ((GiftFloorItem) item).getGiftData() : null, item.getLimitedEditionItemData());
@@ -372,7 +372,7 @@ public class ItemsComponent {
         this.getWallItems().remove(item.getId());
 
         if (toInventory) {
-            RoomItemDao.removeItemFromRoom(item.getId(), item.getOwner());
+            RoomItemDao.removeItemFromRoom(item.getId(), item.getOwner(), item.getExtraData());
 
             Session session = client;
 
