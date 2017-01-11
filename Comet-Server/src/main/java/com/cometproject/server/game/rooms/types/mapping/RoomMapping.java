@@ -309,7 +309,7 @@ public class RoomMapping {
         final double fromHeight = this.getStepHeight(from);
         final double toHeight = this.getStepHeight(to);
 
-        return !(fromHeight < toHeight && (toHeight - fromHeight) > 1.1);
+        return !(fromHeight < toHeight && (toHeight - fromHeight) > 1.5);
 
     }
 
