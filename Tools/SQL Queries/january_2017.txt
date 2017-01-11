@@ -18,3 +18,5 @@ CREATE TABLE `permission_command_overrides` (
 )
 ENGINE=InnoDB
 ;
+
+alter table `group_forum_messages` add column `moderator_id` int(11) not null default '0' AFTER `pinned`, add column `moderator_username` varchar(255) not null default '' AFTER `moderator_id`;
