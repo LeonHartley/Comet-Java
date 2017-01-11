@@ -512,7 +512,7 @@ public class ItemsComponent {
             return false;
         }
 
-        if (!tile.canStack() && tile.getTopItem() != 0 && (floorItem != null && tile.getTopItem() != floorItem.getId())) {
+        if (!tile.canStack() && tile.getTopItem() != 0 && (floorItem == null || tile.getTopItem() != floorItem.getId())) {
             if (!item.getItemName().startsWith(RoomItemFactory.STACK_TOOL))
                 return false;
         }
