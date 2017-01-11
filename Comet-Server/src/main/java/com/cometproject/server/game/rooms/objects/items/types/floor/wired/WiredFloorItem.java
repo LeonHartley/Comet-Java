@@ -56,11 +56,11 @@ public abstract class WiredFloorItem extends AdvancedFloorItem<WiredItemEvent> i
     /**
      * Turn the wired item data into a JSON object, and then save it to the database
      */
+    @Override
     public void save() {
-        super.save();
-
         this.setExtraData(JsonUtil.getInstance().toJson(wiredItemData));
-        this.saveData();
+
+        super.save();
     }
 
     /**
