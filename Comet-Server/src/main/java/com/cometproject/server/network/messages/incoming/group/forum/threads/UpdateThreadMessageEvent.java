@@ -56,7 +56,7 @@ public class UpdateThreadMessageEvent implements Event {
         }
 
         if (isLocked != forumThread.isLocked()) {
-            GroupForumThreadDao.saveMessageLockState(forumThread.getId(), isLocked);
+            GroupForumThreadDao.saveMessageLockState(forumThread.getId(), isLocked, client.getPlayer().getId(), client.getPlayer().getData().getUsername());
 
             client.send(new NotificationMessageComposer("forums.thread." + (isLocked ? "locked" : "unlocked")));
         }

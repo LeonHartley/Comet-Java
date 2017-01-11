@@ -68,6 +68,7 @@ public class HideGroupForumPostMessageEvent implements Event {
            client.send(new GroupForumUpdateThreadMessageComposer(groupId, forumThread));
         }
 
-        GroupForumThreadDao.saveMessageState(messageId != -1 ? messageId : threadId, state);
+        GroupForumThreadDao.saveMessageState(messageId != -1 ? messageId : threadId, state, client.getPlayer().getId(),
+                client.getPlayer().getData().getUsername());
     }
 }

@@ -35,7 +35,8 @@ public class GroupForumThreadDao {
                                 resultSet.getString("title"), resultSet.getString("message"),
                                 resultSet.getInt("author_id"), resultSet.getInt("author_timestamp"),
                                 resultSet.getInt("state"), resultSet.getString("locked").equals("1"),
-                                resultSet.getString("pinned").equals("1"));
+                                resultSet.getString("pinned").equals("1"), resultSet.getInt("moderator_id"),
+                                resultSet.getString("moderator_username"));
 
                         threads.put(forumThread.getId(), forumThread);
                         break;
@@ -50,7 +51,8 @@ public class GroupForumThreadDao {
 
                         final ForumThreadReply threadReply = new ForumThreadReply(msgId, -1,
                                 resultSet.getString("message"), threadId, resultSet.getInt("author_id"),
-                                resultSet.getInt("author_timestamp"), resultSet.getInt("state"));
+                                resultSet.getInt("author_timestamp"), resultSet.getInt("state"),
+                                resultSet.getInt("moderator_id"), resultSet.getString("moderator_username"));
 
                         threads.get(threadReply.getThreadId()).addReply(threadReply);
 
@@ -92,7 +94,7 @@ public class GroupForumThreadDao {
             resultSet = preparedStatement.getGeneratedKeys();
 
             while (resultSet.next()) {
-                return new ForumThread(resultSet.getInt(1), title, message, authorId, time, 1, false, false);
+                return new ForumThread(resultSet.getInt(1), title, message, authorId, time, 1, false, false, 0, "");
             }
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);
@@ -129,7 +131,7 @@ public class GroupForumThreadDao {
             resultSet = preparedStatement.getGeneratedKeys();
 
             while (resultSet.next()) {
-                return new ForumThreadReply(resultSet.getInt(1), -1, message, threadId, authorId, time, 1);
+                return new ForumThreadReply(resultSet.getInt(1), -1, message, threadId, authorId, time, 1, 0, "");
             }
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);
@@ -142,16 +144,18 @@ public class GroupForumThreadDao {
         return null;
     }
 
-    public static void saveMessageState(int messageId, int state) {
+    public static void saveMessageState(int messageId, int state, int playerId, String username) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("UPDATE group_forum_messages SET state = ? WHERE id = ?", sqlConnection);
+            preparedStatement = SqlHelper.prepare("UPDATE group_forum_messages SET state = ?, moderator_id = ?, moderator_username = ? WHERE id = ?", sqlConnection);
 
             preparedStatement.setInt(1, state);
             preparedStatement.setInt(2, messageId);
+            preparedStatement.setString(3, username);
+            preparedStatement.setInt(4, playerId);
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -162,16 +166,18 @@ public class GroupForumThreadDao {
         }
     }
 
-    public static void saveMessageLockState(int messageId, boolean isLocked) {
+    public static void saveMessageLockState(int messageId, boolean isLocked, int playerId, String username) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("UPDATE group_forum_messages SET locked = ? WHERE id = ?", sqlConnection);
+            preparedStatement = SqlHelper.prepare("UPDATE group_forum_messages SET locked = ?, moderator_id = ?, moderator_username = ? WHERE id = ?", sqlConnection);
 
             preparedStatement.setString(1, isLocked ? "1" : "0");
-            preparedStatement.setInt(2, messageId);
+            preparedStatement.setInt(2, playerId);
+            preparedStatement.setString(3, username);
+            preparedStatement.setInt(4, messageId);
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {

@@ -9,6 +9,7 @@ import com.google.common.collect.Lists;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class ForumThread {
     private int id;
@@ -19,9 +20,12 @@ public class ForumThread {
     private boolean isLocked;
     private boolean isPinned;
 
+    private int adminId;
+    private String adminUsername;
+
     private List<ForumThreadReply> replies;
 
-    public ForumThread(int id, String title, String message, int authorId, int authorTimestamp, int state, boolean isLocked, boolean isPinned) {
+    public ForumThread(int id, String title, String message, int authorId, int authorTimestamp, int state, boolean isLocked, boolean isPinned, int adminId, String adminUsername) {
         this.id = id;
         this.title = title;
         this.authorId = authorId;
@@ -29,13 +33,16 @@ public class ForumThread {
         this.state = state;
         this.isLocked = isLocked;
         this.isPinned = isPinned;
+        this.adminId = adminId;
+        this.adminUsername = adminUsername;
+
         this.replies = new ArrayList<>();
 
         // Add the OP.
-        this.replies.add(new ForumThreadReply(id, 0, message, this.id, authorId, authorTimestamp, 1));
+        this.replies.add(new ForumThreadReply(id, 0, message, this.id, authorId, authorTimestamp, 1, this.adminId, this.adminUsername));
     }
 
-    public ForumThread(int id, String title, int authorId, int authorTimestamp, int state, boolean isLocked, boolean isPinned, List<ForumThreadReply> replies) {
+    public ForumThread(int id, String title, int authorId, int authorTimestamp, int state, boolean isLocked, boolean isPinned, List<ForumThreadReply> replies, int adminId, String adminUsername) {
         this.id = id;
         this.title = title;
         this.authorId = authorId;
@@ -44,6 +51,8 @@ public class ForumThread {
         this.isLocked = isLocked;
         this.isPinned = isPinned;
         this.replies = replies;
+        this.adminId = adminId;
+        this.adminUsername = adminUsername;
     }
 
     public void compose(IComposer msg) {
@@ -68,8 +77,8 @@ public class ForumThread {
         msg.writeString(replyAuthor == null ? "Unknown Player" : replyAuthor.getUsername());
         msg.writeInt((int) Comet.getTime() - this.getMostRecentPost().getAuthorTimestamp());
         msg.writeByte(this.getState());
-        msg.writeInt(0); //admin id
-        msg.writeString(""); // admin username
+        msg.writeInt(this.adminId); //admin id
+        msg.writeString(this.adminUsername); // admin username
         msg.writeInt(0); // admin action time ago.
     }
 
