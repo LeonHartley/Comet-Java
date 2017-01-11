@@ -13,8 +13,10 @@ import java.util.Map;
 public class ClientRoute {
     public static ModelAndView index(Request req, Response res) {
         Map<String, Object> model = new HashMap<>();
+        final Player player = PlayerDao.getById(req.session().attribute("player"));
 
-        model.put("player", PlayerDao.getById(req.session().attribute("player")));
+        model.put("player", player);
+        model.put("loginTicket", player.generateTicket());
 
         return new ModelAndView(WebsiteManager.applyGlobals(model), "./templates/client.vm");
     }
