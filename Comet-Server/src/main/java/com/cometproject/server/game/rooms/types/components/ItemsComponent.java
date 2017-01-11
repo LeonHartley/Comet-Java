@@ -526,11 +526,11 @@ public class ItemsComponent {
             boolean hasStackTool = false;
 
             for (RoomItemFloor itemFloor : tile.getItems()) {
-                if (floorItem instanceof DiceFloorItem) {
+                if (itemFloor instanceof DiceFloorItem) {
                     hasOtherDice = true;
                 }
 
-                if (floorItem instanceof MagicStackFloorItem) {
+                if (itemFloor instanceof MagicStackFloorItem) {
                     hasStackTool = true;
                 }
             }
