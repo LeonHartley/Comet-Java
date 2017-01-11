@@ -68,7 +68,7 @@ public class RoomItemFactory {
             put("soundmachine", SoundMachineFloorItem.class);
             put("privatechat", PrivateChatFloorItem.class);
 
-//            put("wf_act_flee", WiredActionFlee.class);//todo: this
+            put("wf_act_flee", WiredActionFlee.class);//todo: this
             put("wf_act_match_to_sshot", WiredActionMatchToSnapshot.class);//new
             put("wf_act_teleport_to", WiredActionTeleportPlayer.class);//new
             put("wf_act_show_message", WiredActionShowMessage.class);//new

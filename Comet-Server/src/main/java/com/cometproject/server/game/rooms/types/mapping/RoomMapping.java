@@ -4,6 +4,7 @@ import com.cometproject.server.game.rooms.models.RoomModel;
 import com.cometproject.server.game.rooms.objects.RoomFloorObject;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
+import com.cometproject.server.game.rooms.objects.items.types.floor.OneWayGateFloorItem;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
@@ -290,6 +291,15 @@ public class RoomMapping {
 
         if (tile == null) {
             return false;
+        }
+
+        // todo: we need a per-item canStepOn(Entity entity) boolean or something.
+        if(tile.getTopItemInstance() instanceof OneWayGateFloorItem) {
+            final OneWayGateFloorItem item = (OneWayGateFloorItem) tile.getTopItemInstance();
+
+            if(entity != null && item.getInteractingEntity() != null && item.getInteractingEntity().getId() == entity) {
+                return true;
+            }
         }
 
         if (tile.getMovementNode() == RoomEntityMovementNode.CLOSED || (tile.getMovementNode() == RoomEntityMovementNode.END_OF_ROUTE && !lastStep)) {
