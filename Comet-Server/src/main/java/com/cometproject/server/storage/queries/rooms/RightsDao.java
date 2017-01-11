@@ -135,8 +135,9 @@ public class RightsDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("SELECT b.`room_id`, b.`player_id`, b.`expire_timestamp`, p.`username` AS player_name FROM `room_bans` b LEFT JOIN `players` AS p ON p.`id` = b.`player_id` WHERE b.`room_id` = ? AND b.`expire_timestamp` >= UNIX_TIMESTAMP() OR b.`expire_timestamp` = -1", sqlConnection);
+            preparedStatement = SqlHelper.prepare("SELECT b.`room_id`, b.`player_id`, b.`expire_timestamp`, p.`username` AS player_name FROM `room_bans` b LEFT JOIN `players` AS p ON p.`id` = b.`player_id` WHERE b.`room_id` = ? AND b.`expire_timestamp` >= UNIX_TIMESTAMP() OR b.`room_id` = ? AND b.`expire_timestamp` = -1", sqlConnection);
             preparedStatement.setInt(1, roomId);
+            preparedStatement.setInt(2, roomId);
 
             resultSet = preparedStatement.executeQuery();
 

@@ -183,6 +183,12 @@ public class PlayerLoginRequest implements CometTask {
                 client.disconnect();
             }, 5, TimeUnit.SECONDS);
         }
+		
+        if (client.getPlayer().getData().getTimeMuted() != 0) {
+            if (client.getPlayer().getData().getTimeMuted() < (int) Comet.getTime()) {
+                PlayerDao.addTimeMute(player.getData().getId(), 0);
+            }
+        }
 
         player.setSsoTicket(this.ticket);
         PlayerManager.getInstance().getSsoTicketToPlayerId().put(this.ticket, player.getId());

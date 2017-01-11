@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.action;
 
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.filter.FilterResult;
@@ -9,6 +10,7 @@ import com.cometproject.server.logging.LogManager;
 import com.cometproject.server.logging.entries.RoomChatLogEntry;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.avatar.MutedMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.ShoutMessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
@@ -18,22 +20,29 @@ public class ShoutMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) {
         String message = msg.readString();
         int colour = msg.readInt();
+		
+		final int TimeMutedExpire = client.getPlayer().getData().getTimeMuted() - (int) Comet.getTime();
 
         if (message.length() < 1) return;
 
         if (!TalkMessageEvent.isValidColour(colour, client)) {
             colour = 0;
         }
-
-        String filteredMessage = TalkMessageEvent.filterMessage(message);
-
+		
         if (client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null)
             return;
 
         if(!client.getPlayer().getEntity().isVisible()) {
             return;
         }
-        
+		
+        if (client.getPlayer().getData().getTimeMuted() != 0) {
+            if (client.getPlayer().getData().getTimeMuted() > (int) Comet.getTime()) {
+                client.getPlayer().getSession().send(new MutedMessageComposer(TimeMutedExpire));
+                return;
+            }
+        }
+
         if (client.getPlayer().getChatMessageColour() != null) {
             message = "@" + client.getPlayer().getChatMessageColour() + "@" + message;
 
@@ -41,6 +50,8 @@ public class ShoutMessageEvent implements Event {
                 message = message.toLowerCase().replace("@" + client.getPlayer().getChatMessageColour() + "@:", ":");
             }
         }
+
+        String filteredMessage = TalkMessageEvent.filterMessage(message);
 
         if (!client.getPlayer().getPermissions().getRank().roomFilterBypass()) {
             FilterResult filterResult = RoomManager.getInstance().getFilter().filter(message);

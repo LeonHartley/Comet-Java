@@ -40,8 +40,10 @@ public class PlayerData implements PlayerAvatar, IPlayerData {
     private boolean vip;
     private int questId;
 
+    private int timeMuted;
+
     public PlayerData(int id, String username, String motto, String figure, String gender, String email, int rank, int credits, int vipPoints, int activityPoints,
-                      String reg, int lastVisit, boolean vip, int achievementPoints, int regTimestamp, int favouriteGroup, String ipAddress, int questId) {
+                      String reg, int lastVisit, boolean vip, int achievementPoints, int regTimestamp, int favouriteGroup, String ipAddress, int questId, int timeMuted) {
         this.id = id;
         this.username = username;
         this.motto = motto;
@@ -60,6 +62,7 @@ public class PlayerData implements PlayerAvatar, IPlayerData {
         this.favouriteGroup = favouriteGroup;
         this.ipAddress = ipAddress;
         this.questId = questId;
+        this.timeMuted = timeMuted;
 
         if(this.figure != null) {
             if (!PlayerFigureValidator.isValidFigureCode(this.figure, this.gender.toLowerCase())) {
@@ -86,7 +89,8 @@ public class PlayerData implements PlayerAvatar, IPlayerData {
                 data.getInt("playerData_regTimestamp"),
                 data.getInt("playerData_favouriteGroup"),
                 data.getString("playerData_lastIp"),
-                data.getInt("playerData_questId"));
+                data.getInt("playerData_questId"),
+                data.getInt("playerData_timeMuted"));
     }
 
     public void save() {
@@ -272,6 +276,10 @@ public class PlayerData implements PlayerAvatar, IPlayerData {
     public void setQuestId(int questId) {
         this.questId = questId;
     }
+
+    public int getTimeMuted() { return this.timeMuted; }
+
+    public void setTimeMuted(int Time) { this.timeMuted = Time; }
 
     public void setAchievementPoints(int achievementPoints) {
         this.achievementPoints = achievementPoints;

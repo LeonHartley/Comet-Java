@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.action;
 
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.filter.FilterResult;
@@ -11,6 +12,7 @@ import com.cometproject.server.logging.LogManager;
 import com.cometproject.server.logging.entries.RoomChatLogEntry;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.avatar.MutedMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.WhisperMessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
@@ -22,6 +24,8 @@ public class WhisperMessageEvent implements Event {
 
         String user = text.split(" ")[0];
         String message = text.substring(user.length() + 1);
+		
+        final int TimeMutedExpire = client.getPlayer().getData().getTimeMuted() - (int) Comet.getTime();
 
         if (client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null) {
             return;
@@ -30,6 +34,13 @@ public class WhisperMessageEvent implements Event {
         if(!client.getPlayer().getEntity().isVisible()) {
             return;
         }
+		
+        if (client.getPlayer().getData().getTimeMuted() != 0) {
+            if (client.getPlayer().getData().getTimeMuted() > (int) Comet.getTime()) {
+                client.getPlayer().getSession().send(new MutedMessageComposer(TimeMutedExpire));
+                return;
+            }
+        }
 
         final Room room = client.getPlayer().getEntity().getRoom();
 
@@ -37,10 +48,10 @@ public class WhisperMessageEvent implements Event {
 
         if (userTo == null || user.equals(client.getPlayer().getData().getUsername()))
             return;
-        
+            
         if (!((PlayerEntity) userTo).getPlayer().getEntity().isVisible())
             return;
-        
+
         if (client.getPlayer().getChatMessageColour() != null) {
             message = "@" + client.getPlayer().getChatMessageColour() + "@" + message;
 

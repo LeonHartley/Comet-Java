@@ -15,7 +15,8 @@ public class InitializeFriendListMessageEvent implements Event {
 
         if(!client.getPlayer().getAchievements().hasStartedAchievement(AchievementType.FRIENDS_LIST)) {
             client.getPlayer().getAchievements().progressAchievement(AchievementType.FRIENDS_LIST, client.getPlayer().getMessenger().getFriends().size());
-            client.getPlayer().getMessenger().setInitialised(true);
         }
+        
+        client.getPlayer().getMessenger().setInitialised(true);
     }
 }

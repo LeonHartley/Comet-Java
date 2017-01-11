@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.messenger;
 
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.filter.FilterResult;
@@ -17,6 +18,15 @@ public class InviteFriendsMessageEvent implements Event {
     @Override
     public void handle(Session client, MessageEvent msg) throws Exception {
         final long time = System.currentTimeMillis();
+
+        final int TimeMutedExpire = client.getPlayer().getData().getTimeMuted() - (int) Comet.getTime();
+
+        if (client.getPlayer().getData().getTimeMuted() != 0) {
+            if (client.getPlayer().getData().getTimeMuted() > (int) Comet.getTime()) {
+                client.getPlayer().getSession().send(new AdvancedAlertMessageComposer(Locale.getOrDefault("command.mute.muted", "You are muted for violating the rules! Your mute will expire in %timeleft% seconds").replace("%timeleft%", TimeMutedExpire + "")));
+                return;
+            }
+        }
 
         if (!client.getPlayer().getPermissions().getRank().floodBypass()) {
             if (time - client.getPlayer().getMessengerLastMessageTime() < 750) {

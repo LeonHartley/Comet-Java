@@ -147,4 +147,33 @@ public class PermissionsDao {
 
         return data;
     }
+
+    public static Map<String, Boolean> getCommandOverridePermissionsByPlayerId(int playerId) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        Map<String, Boolean> data = new HashMap<>();
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+            preparedStatement = SqlHelper.prepare("SELECT * FROM permission_command_overrides WHERE player_id = ?;", sqlConnection);
+            preparedStatement.setInt(1, playerId);
+
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                data.put(resultSet.getString("command_id"), resultSet.getString("enabled").equals("1"));
+            }
+
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(resultSet);
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+
+        return data;
+    }
 }
