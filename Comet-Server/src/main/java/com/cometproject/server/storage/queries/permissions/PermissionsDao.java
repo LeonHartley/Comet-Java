@@ -157,7 +157,7 @@ public class PermissionsDao {
 
         try {
             sqlConnection = SqlHelper.getConnection();
-            preparedStatement = SqlHelper.prepare("SELECT * FROM permissions_command_overrides WHERE player_id = ?;", sqlConnection);
+            preparedStatement = SqlHelper.prepare("SELECT * FROM permission_command_overrides WHERE player_id = ?;", sqlConnection);
             preparedStatement.setInt(1, playerId);
 
             resultSet = preparedStatement.executeQuery();

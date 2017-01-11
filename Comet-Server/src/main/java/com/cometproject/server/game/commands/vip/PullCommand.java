@@ -10,6 +10,7 @@ import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.misc.ChatEmotion;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.avatar.WhisperMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 
 import java.util.List;
@@ -55,6 +56,7 @@ public class PullCommand extends ChatCommand {
         }
 
         if (pulledEntity.getPosition().distanceTo(client.getPlayer().getEntity()) != 2) {
+            client.getPlayer().getSession().send(new WhisperMessageComposer(client.getPlayer().getEntity().getId(), Locale.getOrDefault("command.notaround", "Oops! %playername% is not near, walk to this player.").replace("%playername%", pulledEntity.getUsername()), 34));
             return;
         }
 
@@ -84,7 +86,7 @@ public class PullCommand extends ChatCommand {
     public String getPermission() {
         return "pull_command";
     }
-    
+
     @Override
     public String getParameter() {
         return Locale.getOrDefault("command.parameter.username", "%username%");
