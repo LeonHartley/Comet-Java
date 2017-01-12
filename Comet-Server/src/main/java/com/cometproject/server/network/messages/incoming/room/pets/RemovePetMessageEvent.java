@@ -32,7 +32,7 @@ public class RemovePetMessageEvent implements Event {
                     return;
                 }
 
-                if ((client.getPlayer().getEntity().getRoom().getData().getOwnerId() == playerEntity.getPlayerId() || !playerEntity.getPlayer().getPermissions().getRank().roomKickable()) && !client.getPlayer().getPermissions().getRank().roomFullControl()) {
+                if (client.getPlayer().getEntity().getRoom().getData().getOwnerId() == playerEntity.getPlayerId() || !playerEntity.getPlayer().getPermissions().getRank().roomKickable()) {
                     return;
                 }
 
