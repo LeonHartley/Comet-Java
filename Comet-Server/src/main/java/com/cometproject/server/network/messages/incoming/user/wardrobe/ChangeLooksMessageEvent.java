@@ -42,6 +42,6 @@ public class ChangeLooksMessageEvent implements Event {
 
         client.getPlayer().getAchievements().progressAchievement(AchievementType.AVATAR_LOOKS, 1);
         client.getPlayer().getQuests().progressQuest(QuestType.PROFILE_CHANGE_LOOK);
-//        client.send(new AvatarAspectUpdateMessageComposer(figure, gender));
+        client.send(new AvatarAspectUpdateMessageComposer(figure, gender));
     }
 }
