@@ -639,7 +639,7 @@ public class PlayerDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("UPDATE player_settings SET home_room = 0 WHERE player_id = ?", sqlConnection);
+            preparedStatement = SqlHelper.prepare("UPDATE player_settings SET home_room = 0 WHERE home_room = ?", sqlConnection);
             preparedStatement.setInt(1, roomId);
 
             SqlHelper.executeStatementSilently(preparedStatement, false);
