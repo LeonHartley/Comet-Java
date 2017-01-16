@@ -24,8 +24,8 @@ public class BeginTradeMessageEvent implements Event {
 
         PlayerEntity entity = (PlayerEntity) client.getPlayer().getEntity().getRoom().getEntities().getEntity(userId);
 
-        if (entity == null || entity.hasStatus(RoomEntityStatus.TRADE) || entity.getPlayer() == null || entity.getPlayer().getSession() == null) {
-            client.send(new TradeErrorMessageComposer(8, entity != null ? entity.getUsername() : "Unknown Player"));
+        if (client.getPlayer().getEntity().getRoom().getData().getOwnerId() != client.getPlayer().getId() && entity.getRoom().getData().getTradeState() == RoomTradeState.OWNER_ONLY) {
+            client.send(new TradeErrorMessageComposer(6, ""));
             return;
         }
 
@@ -34,8 +34,13 @@ public class BeginTradeMessageEvent implements Event {
             return;
         }
 
-        if (client.getPlayer().getEntity().getRoom().getData().getOwnerId() != client.getPlayer().getId() && entity.getRoom().getData().getTradeState() == RoomTradeState.OWNER_ONLY) {
-            client.send(new TradeErrorMessageComposer(6, ""));
+        if (client == null || client.getPlayer().getEntity().hasStatus(RoomEntityStatus.TRADE) || client.getPlayer() == null || client.getPlayer().getSession() == null) {
+            client.send(new TradeErrorMessageComposer(7, ""));
+            return;
+        }
+
+        if (entity == null || entity.hasStatus(RoomEntityStatus.TRADE) || entity.getPlayer() == null || entity.getPlayer().getSession() == null) {
+            client.send(new TradeErrorMessageComposer(8, entity != null ? entity.getUsername() : "Unknown Player"));
             return;
         }
 
