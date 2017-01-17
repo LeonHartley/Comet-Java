@@ -3,6 +3,8 @@ package com.cometproject.server.game.commands.staff.muting;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.game.players.PlayerManager;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntityType;
+import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.sessions.Session;
@@ -19,11 +21,23 @@ public class MuteCommand extends ChatCommand {
             return;
         }
 
-        int playerId = PlayerManager.getInstance().getPlayerIdByUsername(params[0]);
+        String username = params[0];
+
+        int playerId = PlayerManager.getInstance().getPlayerIdByUsername(username);
         Session session = NetworkManager.getInstance().getSessions().getByPlayerId(playerId);
+        PlayerEntity entity = (PlayerEntity) client.getPlayer().getEntity().getRoom().getEntities().getEntityByName(username, RoomEntityType.PLAYER);
 
         if (session == null) {
             sendNotif(Locale.getOrDefault("command.user.offline", "This user is offline!"), client);
+            return;
+        }
+
+        if (entity.getUsername().equals(client.getPlayer().getData().getUsername())) {
+            return;
+        }
+
+        if (entity.getPlayer().getPermissions().getRank().roomFullControl()) {
+            sendNotif(Locale.getOrDefault("command.mute.unmutable", "You can't mute this player!"), client);
             return;
         }
 
