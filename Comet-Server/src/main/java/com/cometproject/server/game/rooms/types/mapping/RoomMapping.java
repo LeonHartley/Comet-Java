@@ -194,6 +194,10 @@ public class RoomMapping {
     }
 
     public boolean isValidStep(Integer entity, Position from, Position to, boolean lastStep, boolean isFloorItem, boolean isRetry) {
+        return isValidStep(entity, from, to, lastStep, isFloorItem, isRetry, false);
+    }
+
+    public boolean isValidStep(Integer entity, Position from, Position to, boolean lastStep, boolean isFloorItem, boolean isRetry, boolean ignoreHeight) {
         if (from.getX() == to.getX() && from.getY() == to.getY()) {
             return true;
         }
@@ -304,6 +308,10 @@ public class RoomMapping {
 
         if (tile.getMovementNode() == RoomEntityMovementNode.CLOSED || (tile.getMovementNode() == RoomEntityMovementNode.END_OF_ROUTE && !lastStep)) {
             return false;
+        }
+
+        if(ignoreHeight) {
+            return true;
         }
 
         final double fromHeight = this.getStepHeight(from);

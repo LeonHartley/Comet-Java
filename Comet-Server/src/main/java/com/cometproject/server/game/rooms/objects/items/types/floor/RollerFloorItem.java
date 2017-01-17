@@ -104,7 +104,7 @@ public class RollerFloorItem extends AdvancedFloorItem<RollerFloorItemEvent> {
                 continue;
             }
 
-            if (!this.getRoom().getMapping().isValidStep(entity.getId(), entity.getPosition(), sqInfront, true, false, false) || this.getRoom().getEntities().positionHasEntity(sqInfront)) {
+            if (!this.getRoom().getMapping().isValidStep(entity.getId(), entity.getPosition(), sqInfront, true, false, false, true) || this.getRoom().getEntities().positionHasEntity(sqInfront)) {
                 retry = true;
                 break;
             }
