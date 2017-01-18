@@ -31,7 +31,7 @@ public class CommandsCommand extends ChatCommand {
             }
         }
 
-        client.send(new MotdNotificationMessageComposer(Locale.get("Comet Server - " + Comet.getBuild() + "\n================================================\n" + Locale.get("command.commands.title") + "\n================================================\n\n" + list.toString())));
+        client.send(new MotdNotificationMessageComposer("Comet Server - " + Comet.getBuild() + "\n================================================\n" + Locale.get("command.commands.title") + "\n================================================\n\n" + list.toString()));
     }
 
     @Override

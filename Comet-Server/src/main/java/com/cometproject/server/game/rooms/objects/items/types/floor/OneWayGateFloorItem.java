@@ -59,4 +59,12 @@ public class OneWayGateFloorItem extends RoomItemFloor {
         this.isInUse = false;
         this.interactingEntity = null;
     }
+
+    public RoomEntity getInteractingEntity() {
+        return interactingEntity;
+    }
+
+    public void setInteractingEntity(RoomEntity interactingEntity) {
+        this.interactingEntity = interactingEntity;
+    }
 }

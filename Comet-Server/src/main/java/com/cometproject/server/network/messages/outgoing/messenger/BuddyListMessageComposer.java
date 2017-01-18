@@ -1,6 +1,8 @@
 package com.cometproject.server.network.messages.outgoing.messenger;
 
 import com.cometproject.api.networking.messages.IComposer;
+import com.cometproject.server.game.groups.GroupManager;
+import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.players.components.types.messenger.MessengerFriend;
 import com.cometproject.server.game.players.data.PlayerAvatar;
 import com.cometproject.server.network.NetworkManager;
@@ -15,9 +17,11 @@ import java.util.Map;
 public class BuddyListMessageComposer extends MessageComposer {
     private final Map<Integer, MessengerFriend> friends;
     private final List<PlayerAvatar> avatars;
+    private final List<Integer> groups;
+    
     private final boolean hasStaffChat;
 
-    public BuddyListMessageComposer(Map<Integer, MessengerFriend> friends, final boolean hasStaffChat) {
+    public BuddyListMessageComposer(Map<Integer, MessengerFriend> friends, final boolean hasStaffChat, final List<Integer> groups) {
         this.hasStaffChat = hasStaffChat;
 
         this.friends = friends;
@@ -32,6 +36,8 @@ public class BuddyListMessageComposer extends MessageComposer {
                 }
             }
         }
+
+        this.groups = groups;
     }
 
     @Override
@@ -44,7 +50,7 @@ public class BuddyListMessageComposer extends MessageComposer {
         msg.writeInt(0);//?
         msg.writeInt(0);//?
 
-        msg.writeInt(avatars.size() + (hasStaffChat ? 1 : 0));
+        msg.writeInt(avatars.size() + (hasStaffChat ? 1 : 0) + this.groups.size());
 
         for (PlayerAvatar playerAvatar : avatars) {
             msg.writeInt(playerAvatar.getId());
@@ -72,7 +78,7 @@ public class BuddyListMessageComposer extends MessageComposer {
             msg.writeBoolean(isInRoom);
 
             msg.writeString(playerAvatar.getFigure());
-            msg.writeInt(0);
+            msg.writeInt(0); // category id
             msg.writeString(playerAvatar.getMotto());
             msg.writeString("");
             msg.writeString("");
@@ -97,6 +103,26 @@ public class BuddyListMessageComposer extends MessageComposer {
             msg.writeBoolean(false);
             msg.writeBoolean(false);
             msg.writeShort(0);
+        }
+
+        for(Integer groupId : this.groups) {
+            final Group group = GroupManager.getInstance().get(groupId);
+
+            msg.writeInt(-groupId);
+            msg.writeString(group.getData().getTitle());
+            msg.writeInt(0);
+            msg.writeBoolean(true);
+            msg.writeBoolean(false);
+            msg.writeString(group.getData().getBadge());
+            msg.writeInt(1);
+            msg.writeString("");
+            msg.writeString("");
+            msg.writeString("");
+            msg.writeBoolean(false);
+            msg.writeBoolean(false);
+            msg.writeBoolean(false);
+            msg.writeShort(0);
+
         }
     }
 

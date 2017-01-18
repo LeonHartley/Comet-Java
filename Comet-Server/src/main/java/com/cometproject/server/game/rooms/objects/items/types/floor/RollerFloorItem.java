@@ -198,6 +198,11 @@ public class RollerFloorItem extends AdvancedFloorItem<RollerFloorItemEvent> {
             for (RoomItemFloor iq : itemsSq) {
                 if (iq instanceof RollerFloorItem) {
                     hasRoller = true;
+
+                    if(iq.getPosition().getZ() != this.getPosition().getZ()) {
+                        height -= this.getPosition().getZ();
+                        height += iq.getPosition().getZ();
+                    }
                 }
             }
 
@@ -222,7 +227,7 @@ public class RollerFloorItem extends AdvancedFloorItem<RollerFloorItemEvent> {
 //                }
 //            }
 
-            if (!this.getRoom().getMapping().isValidStep(new Position(floor.getPosition().getX(), floor.getPosition().getY(), floor.getPosition().getZ()), sqInfront, true) || this.getRoom().getEntities().positionHasEntity(sqInfront)) {
+            if (!this.getRoom().getMapping().isValidStep(null, new Position(floor.getPosition().getX(), floor.getPosition().getY(), floor.getPosition().getZ()), sqInfront, true, false, false, true) || this.getRoom().getEntities().positionHasEntity(sqInfront)) {
                 this.setTicks(this.getTickCount());
                 return;
             }

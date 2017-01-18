@@ -9,6 +9,7 @@ import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.items.types.AdvancedFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.RollableFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.RollerFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.banzai.BanzaiTeleporterFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredFloorItem;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
@@ -62,7 +63,7 @@ public abstract class RoomItem extends BigRoomFloorObject implements Attributabl
     protected final void setTicks(int time) {
         this.ticksTimer = time;
 
-        if (this instanceof RollableFloorItem) {
+        if (this instanceof RollableFloorItem || this instanceof BanzaiTeleporterFloorItem) {
             LowPriorityItemProcessor.getInstance().submit(((RoomItemFloor) this));
         }
     }
