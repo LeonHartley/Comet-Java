@@ -29,7 +29,7 @@ public class KickCommand extends ChatCommand {
         }
 
         if (!entity.getPlayer().getPermissions().getRank().roomKickable()) {
-            sendNotif(Locale.get("command.kick.unkickable"), client);
+            sendNotif(Locale.getOrDefault("command.kick.unkickable", "You can't kick this player!"), client);
             return;
         }
 
