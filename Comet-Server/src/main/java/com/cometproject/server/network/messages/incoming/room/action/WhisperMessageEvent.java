@@ -25,7 +25,7 @@ public class WhisperMessageEvent implements Event {
         String user = text.split(" ")[0];
         String message = text.substring(user.length() + 1);
 		
-        final int TimeMutedExpire = client.getPlayer().getData().getTimeMuted() - (int) Comet.getTime();
+        final int timeMutedExpire = client.getPlayer().getData().getTimeMuted() - (int) Comet.getTime();
 
         if (client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null) {
             return;
@@ -37,7 +37,7 @@ public class WhisperMessageEvent implements Event {
 		
         if (client.getPlayer().getData().getTimeMuted() != 0) {
             if (client.getPlayer().getData().getTimeMuted() > (int) Comet.getTime()) {
-                client.getPlayer().getSession().send(new MutedMessageComposer(TimeMutedExpire));
+                client.getPlayer().getSession().send(new MutedMessageComposer(timeMutedExpire));
                 return;
             }
         }

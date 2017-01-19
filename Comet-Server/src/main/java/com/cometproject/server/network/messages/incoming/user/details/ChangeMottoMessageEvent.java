@@ -19,11 +19,11 @@ public class ChangeMottoMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) {
         String motto = msg.readString();
 
-        final int TimeMutedExpire = client.getPlayer().getData().getTimeMuted() - (int) Comet.getTime();
+        final int timeMutedExpire = client.getPlayer().getData().getTimeMuted() - (int) Comet.getTime();
 
         if (client.getPlayer().getData().getTimeMuted() != 0) {
             if (client.getPlayer().getData().getTimeMuted() > (int) Comet.getTime()) {
-                client.getPlayer().getSession().send(new AdvancedAlertMessageComposer(Locale.getOrDefault("command.mute.muted", "You are muted for violating the rules! Your mute will expire in %timeleft% seconds").replace("%timeleft%", TimeMutedExpire + "")));
+                client.getPlayer().getSession().send(new AdvancedAlertMessageComposer(Locale.getOrDefault("command.mute.muted", "You are muted for violating the rules! Your mute will expire in %timeleft% seconds").replace("%timeleft%", timeMutedExpire + "")));
                 return;
             }
         }

@@ -53,10 +53,10 @@ public class MuteCommand extends ChatCommand {
                     time = 600;
                 }
 
-                final int TimeMuted = (int) Comet.getTime() + time;
+                final int timeMuted = (int) Comet.getTime() + time;
 
-                PlayerDao.addTimeMute(playerId, TimeMuted);
-                session.getPlayer().getData().setTimeMuted(TimeMuted);
+                PlayerDao.addTimeMute(playerId, timeMuted);
+                session.getPlayer().getData().setTimeMuted(timeMuted);
 
                 session.send(new AdvancedAlertMessageComposer(Locale.getOrDefault("command.mute.muted", "You are muted for violating the rules! Your mute will expire in %timeleft% seconds").replace("%timeleft%", time + "")));
             }
