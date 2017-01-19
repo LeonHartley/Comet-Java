@@ -81,7 +81,7 @@ public class BanzaiTeleporterFloorItem extends RoomItemFloor {
 
         this.stage = 1;
 
-        //entity.cancelWalk();
+        entity.cancelWalk();
         this.setTicks(LowPriorityItemProcessor.getProcessTime(0.3));
     }
 

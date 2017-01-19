@@ -3,6 +3,10 @@ package com.cometproject.server.game.groups.types.components.membership;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.groups.types.GroupMember;
 import com.cometproject.server.game.groups.types.components.GroupComponent;
+import com.cometproject.server.network.NetworkManager;
+import com.cometproject.server.network.messages.composers.MessageComposer;
+import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.network.sessions.SessionManager;
 import com.cometproject.server.storage.queries.groups.GroupMemberDao;
 import org.apache.commons.collections4.map.ListOrderedMap;
 import org.apache.commons.collections4.set.ListOrderedSet;
@@ -136,6 +140,23 @@ public class MembershipComponent implements GroupComponent {
         groupMembershipRequests.remove(playerId);
 
         GroupMemberDao.deleteRequest(this.group.getId(), playerId);
+    }
+
+    /**
+     * Broadcasts a message to every online group member
+     * @param messageComposer The message payload to send
+     * @param sender The sender (The sender will not be sent the message)
+     */
+    public void broadcastMessage(final MessageComposer messageComposer, int sender) {
+        for(GroupMember groupMember : this.getMembersAsList()) {
+            if(groupMember.getPlayerId() == sender) continue;
+
+            final Session session = NetworkManager.getInstance().getSessions().getByPlayerId(groupMember.getPlayerId());
+
+            if(session != null) {
+                session.send(messageComposer);
+            }
+        }
     }
 
     /**

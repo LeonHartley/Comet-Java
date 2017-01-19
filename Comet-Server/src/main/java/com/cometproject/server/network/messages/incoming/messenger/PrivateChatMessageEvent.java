@@ -3,6 +3,8 @@ package com.cometproject.server.network.messages.incoming.messenger;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
+import com.cometproject.server.game.groups.GroupManager;
+import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.moderation.ModerationManager;
 import com.cometproject.server.game.players.components.types.messenger.MessengerFriend;
 import com.cometproject.server.game.rooms.RoomManager;
@@ -21,34 +23,15 @@ public class PrivateChatMessageEvent implements Event {
         int userId = msg.readInt();
         String message = msg.readString();
 
-        final int TimeMutedExpire = client.getPlayer().getData().getTimeMuted() - (int) Comet.getTime();
+        final int timeMutedExpire = client.getPlayer().getData().getTimeMuted() - (int) Comet.getTime();
 
         if (client.getPlayer().getData().getTimeMuted() != 0) {
             if (client.getPlayer().getData().getTimeMuted() > (int) Comet.getTime()) {
-                client.getPlayer().getSession().send(new AdvancedAlertMessageComposer(Locale.getOrDefault("command.mute.muted", "You are muted for violating the rules! Your mute will expire in %timeleft% seconds").replace("%timeleft%", TimeMutedExpire + "")));
+                client.getPlayer().getSession().send(new AdvancedAlertMessageComposer(Locale.getOrDefault("command.mute.muted", "You are muted for violating the rules! Your mute will expire in %timeleft% seconds").replace("%timeleft%", timeMutedExpire + "")));
                 return;
             }
         }
 
-        if (userId == Integer.MAX_VALUE && client.getPlayer().getPermissions().getRank().messengerStaffChat()) {
-            for (Session player : ModerationManager.getInstance().getModerators()) {
-                if (player == client) continue;
-                player.send(new InstantChatMessageComposer(client.getPlayer().getData().getUsername() + ": " + message, Integer.MAX_VALUE));
-            }
-            return;
-        }
-
-        MessengerFriend friend = client.getPlayer().getMessenger().getFriendById(userId);
-
-        if (friend == null) {
-            return;
-        }
-
-        Session friendClient = friend.getSession();
-
-        if (friendClient == null) {
-            return;
-        }
 
         final long time = System.currentTimeMillis();
 
@@ -87,6 +70,36 @@ public class PrivateChatMessageEvent implements Event {
 
         }
 
+        if (userId == Integer.MAX_VALUE && client.getPlayer().getPermissions().getRank().messengerStaffChat()) {
+            for (Session player : ModerationManager.getInstance().getModerators()) {
+                if (player == client) continue;
+                player.send(new InstantChatMessageComposer(message, Integer.MAX_VALUE, client.getPlayer().getData().getUsername(), client.getPlayer().getData().getFigure(), client.getPlayer().getId()));
+            }
+            return;
+        }
+
+        if(userId < 0) {
+            final int groupId = -userId;
+            final Group group = GroupManager.getInstance().get(groupId);
+
+            if(group != null && client.getPlayer().getGroups().contains(groupId)) {
+                group.getMembershipComponent().broadcastMessage(new InstantChatMessageComposer(message, userId, client.getPlayer().getData().getUsername(), client.getPlayer().getData().getFigure(), client.getPlayer().getId()), client.getPlayer().getId());
+            }
+
+            return;
+        }
+
+        MessengerFriend friend = client.getPlayer().getMessenger().getFriendById(userId);
+
+        if (friend == null) {
+            return;
+        }
+
+        Session friendClient = friend.getSession();
+
+        if (friendClient == null) {
+            return;
+        }
 
         friendClient.send(new InstantChatMessageComposer(message, client.getPlayer().getId()));
     }

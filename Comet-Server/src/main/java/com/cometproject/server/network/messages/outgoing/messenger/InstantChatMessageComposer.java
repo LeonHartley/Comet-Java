@@ -9,9 +9,21 @@ public class InstantChatMessageComposer extends MessageComposer {
     private final String message;
     private final int fromId;
 
+    private String username;
+    private String figure;
+    private int playerId;
+
     public InstantChatMessageComposer(final String message, final int fromId) {
         this.message = message;
         this.fromId = fromId;
+    }
+
+    public InstantChatMessageComposer(final String message, final int fromId, final String username, final String figure, final int playerId) {
+        this.message = message;
+        this.fromId = fromId;
+        this.username = username;
+        this.figure = figure;
+        this.playerId = playerId;
     }
 
     @Override
@@ -24,5 +36,10 @@ public class InstantChatMessageComposer extends MessageComposer {
         msg.writeInt(fromId);
         msg.writeString(message);
         msg.writeInt(0);
+
+        if(this.username != null) { // we can assume the rest aren't null
+            final String data = username + "/" + figure + "/" + playerId;
+            msg.writeString(data);
+        }
     }
 }
