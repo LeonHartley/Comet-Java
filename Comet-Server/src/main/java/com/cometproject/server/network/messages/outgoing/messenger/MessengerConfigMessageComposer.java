@@ -19,10 +19,15 @@ public class MessengerConfigMessageComposer extends MessageComposer {
         msg.writeInt(CometSettings.messengerMaxFriends);
         msg.writeInt(300);
         msg.writeInt(800);
-       // msg.writeInt(CometSettings.messengerMaxFriends);
-        msg.writeInt(1);
+        // msg.writeInt(CometSettings.messengerMaxFriends);
 
-        msg.writeInt(1);
-        msg.writeString(Locale.getOrDefault("group.chats", "Group Chats"));
+        if (CometSettings.groupChatEnabled) {
+            msg.writeInt(1);
+
+            msg.writeInt(1);
+            msg.writeString(Locale.getOrDefault("group.chats", "Group Chats"));
+        } else {
+            msg.writeInt(0);
+        }
     }
 }

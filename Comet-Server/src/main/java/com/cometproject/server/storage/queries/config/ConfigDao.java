@@ -60,7 +60,7 @@ public class ConfigDao {
                 CometSettings.cameraPhotoUrl = config.getString("camera_photo_url");
                 CometSettings.cameraPhotoItemId = config.getInt("camera_photo_itemid");
                 CometSettings.maxConnectionsPerIpAddress = config.getInt("max_connections_per_ip");
-
+                CometSettings.groupChatEnabled = config.getBoolean("group_chat_enabled");
                 final String characters = config.getString("word_filter_strict_chars");
 
                 CometSettings.strictFilterCharacters.clear();

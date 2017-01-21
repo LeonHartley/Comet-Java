@@ -68,6 +68,8 @@ public class CometSettings {
 
     public static boolean playerRightsItemPlacement = true;
 
+    public static boolean groupChatEnabled = false;
+
     private static final Logger log = Logger.getLogger(CometSettings.class.getName());
 
     /**

@@ -78,7 +78,7 @@ public class PrivateChatMessageEvent implements Event {
             return;
         }
 
-        if(userId < 0) {
+        if(userId < 0 && CometSettings.groupChatEnabled) {
             final int groupId = -userId;
             final Group group = GroupManager.getInstance().get(groupId);
 
