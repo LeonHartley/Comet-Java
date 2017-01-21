@@ -228,7 +228,7 @@ public class GroupDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("SELECT `group_id` FROM group_memberships WHERE player_id = ?", sqlConnection, true);
+            preparedStatement = SqlHelper.prepare("SELECT `group_id` FROM group_memberships WHERE player_id = ? ORDER BY id DESC", sqlConnection, true);
             preparedStatement.setInt(1, playerId);
 
             resultSet = preparedStatement.executeQuery();
