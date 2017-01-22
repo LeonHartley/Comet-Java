@@ -101,6 +101,7 @@ public class ConsoleCommands {
 
                 case "/reload_permissions":
                     PermissionsManager.getInstance().loadCommands();
+                    PermissionsManager.getInstance().loadOverrideCommands();
                     PermissionsManager.getInstance().loadPerks();
                     PermissionsManager.getInstance().loadRankPermissions();
                     log.info("Permissions cache was reloaded.");

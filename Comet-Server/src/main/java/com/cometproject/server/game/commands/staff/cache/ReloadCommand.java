@@ -85,6 +85,7 @@ public class ReloadCommand extends ChatCommand {
                 PermissionsManager.getInstance().loadRankPermissions();
                 PermissionsManager.getInstance().loadPerks();
                 PermissionsManager.getInstance().loadCommands();
+                PermissionsManager.getInstance().loadOverrideCommands();
 
                 sendNotif(Locale.get("command.reload.permissions"), client);
                 break;

@@ -77,6 +77,7 @@ public class SystemRoutes {
                 PermissionsManager.getInstance().loadRankPermissions();
                 PermissionsManager.getInstance().loadPerks();
                 PermissionsManager.getInstance().loadCommands();
+                PermissionsManager.getInstance().loadOverrideCommands();
                 break;
 
             case "config":
