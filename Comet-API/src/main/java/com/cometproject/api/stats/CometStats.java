@@ -1,9 +1,4 @@
-package com.cometproject.server.utilities;
-
-import com.cometproject.server.boot.Comet;
-import com.cometproject.server.game.rooms.RoomManager;
-import com.cometproject.server.network.NetworkManager;
-
+package com.cometproject.api.stats;
 
 public class CometStats {
     private int players;
@@ -78,21 +73,5 @@ public class CometStats {
 
     public void setCpuCores(int cpuCores) {
         this.cpuCores = cpuCores;
-    }
-
-    public static CometStats get() {
-        CometStats statsInstance = new CometStats();
-
-        statsInstance.setPlayers(NetworkManager.getInstance().getSessions().getUsersOnlineCount());
-        statsInstance.setRooms(RoomManager.getInstance().getRoomInstances().size());
-        statsInstance.setUptime(TimeSpan.millisecondsToDate(System.currentTimeMillis() - Comet.start));
-
-        statsInstance.setProcessId(CometRuntime.processId);
-        statsInstance.setAllocatedMemory((Runtime.getRuntime().totalMemory() / 1024) / 1024);
-        statsInstance.setUsedMemory(statsInstance.getAllocatedMemory() - (Runtime.getRuntime().freeMemory() / 1024) / 1024);
-        statsInstance.setOperatingSystem(CometRuntime.operatingSystem + " (" + CometRuntime.operatingSystemArchitecture + ")");
-        statsInstance.setCpuCores(Runtime.getRuntime().availableProcessors());
-
-        return statsInstance;
     }
 }

@@ -1,6 +1,7 @@
 package com.cometproject.server.api.routes;
 
 import com.cometproject.api.networking.sessions.BaseSession;
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.boot.utils.ShutdownProcess;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
@@ -16,7 +17,6 @@ import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.outgoing.catalog.CatalogPublishMessageComposer;
 import com.cometproject.server.network.messages.outgoing.moderation.ModToolMessageComposer;
-import com.cometproject.server.utilities.CometStats;
 import spark.Request;
 import spark.Response;
 
@@ -28,7 +28,7 @@ public class SystemRoutes {
         Map<String, Object> result = new HashMap<>();
         res.type("application/json");
 
-        result.put("status", CometStats.get());
+        result.put("status", Comet.getStats());
 
         return result;
     }

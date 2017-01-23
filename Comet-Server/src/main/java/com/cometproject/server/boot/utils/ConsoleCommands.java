@@ -1,5 +1,6 @@
 package com.cometproject.server.boot.utils;
 
+import com.cometproject.api.stats.CometStats;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
@@ -10,11 +11,9 @@ import com.cometproject.server.game.permissions.PermissionsManager;
 import com.cometproject.server.modules.ModuleManager;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.storage.SqlHelper;
-import com.cometproject.server.utilities.CometStats;
 import org.apache.log4j.Logger;
 
 import java.io.BufferedReader;
-import java.io.EOFException;
 import java.io.InputStreamReader;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -72,7 +71,7 @@ public class ConsoleCommands {
                     break;
 
                 case "/about":
-                    final CometStats stats = CometStats.get();
+                    final CometStats stats = Comet.getStats();
 
                     log.info("This server is powered by Comet (" + Comet.getBuild() + ")");
                     log.info("    Players online: " + stats.getPlayers());

@@ -28,25 +28,31 @@ public class CometManagerApplication {
         SpringApplication.run(CometManagerApplication.class, args);
     }
 
-    private final MessagingClient client = MessagingClient.create("com.cometproject:manager", new CoerceConfiguration());
+    private MessagingClient client;
 
     @Autowired
     private InstanceRepository instanceRepository;
 
     public CometManagerApplication() {
-        client.observe(QueryRequest.class, (queryRequest) -> {
-            for(final WebSocketSession listener : QueryLogHandler.listeners) {
-                try {
-                    listener.sendMessage(new TextMessage("[QUERY][" + instanceRepository.findOne(queryRequest.getSender().split("/")[1]).getName() + "] " + queryRequest.getQuery() + " took " + queryRequest.getTimeTakenMs() + "ms"));
-                } catch (IOException e) {
-                    e.printStackTrace();
+        try {
+            this.client = MessagingClient.create("com.cometproject:manager", new CoerceConfiguration());
+
+            this.client.observe(QueryRequest.class, (queryRequest) -> {
+                for (final WebSocketSession listener : QueryLogHandler.listeners) {
+                    try {
+                        listener.sendMessage(new TextMessage("[QUERY][" + instanceRepository.findOne(queryRequest.getSender().split("/")[1]).getName() + "] " + queryRequest.getQuery() + " took " + queryRequest.getTimeTakenMs() + "ms"));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
-        });
+            });
 
-        client.connect("178.33.171.199", 6500, (client) -> {
+            this.client.connect("master.cometproject.com", 6500, (client) -> {
 
-        });
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Scheduled(fixedDelay=1000)
