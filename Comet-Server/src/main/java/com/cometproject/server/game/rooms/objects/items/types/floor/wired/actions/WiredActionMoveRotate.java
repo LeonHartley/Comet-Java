@@ -10,6 +10,7 @@ import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.items.SlideObjectBundleMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorItemMessageComposer;
+import com.cometproject.server.utilities.RandomInteger;
 
 import java.util.Random;
 
@@ -80,6 +81,8 @@ public class WiredActionMoveRotate extends WiredActionItem {
     private final Random random = new Random();
 
     private Position handleMovement(Position point, int movementType) {
+        final boolean dir = Math.random() < 0.5;
+
         switch (movementType) {
             case 0:
                 return point;
@@ -100,10 +103,7 @@ public class WiredActionMoveRotate extends WiredActionItem {
                 break;
 
             case 2:
-                // Left right
-                int i = random.nextInt((2 - 1) + 1 + 1);
-
-                if (i == 1) {
+                if (dir) {
                     point = handleMovement(point, 7);
                 } else {
                     point = handleMovement(point, 5);
@@ -111,10 +111,7 @@ public class WiredActionMoveRotate extends WiredActionItem {
                 break;
 
             case 3:
-                // Up down
-                int j = random.nextInt((2 - 1) + 1 + 1);
-
-                if (j == 1) {
+                if (dir) {
                     point = handleMovement(point, 4);
                 } else {
                     point = handleMovement(point, 6);
