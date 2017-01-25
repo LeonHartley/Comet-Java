@@ -4,6 +4,7 @@ import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityType;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
+import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.outgoing.user.details.AvatarAspectUpdateMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 
@@ -17,31 +18,30 @@ public class MimicCommand extends ChatCommand {
         }
 
         String username = params[0];
+        Session user = NetworkManager.getInstance().getSessions().getByPlayerUsername(username);
 
-        PlayerEntity entity = (PlayerEntity) client.getPlayer().getEntity().getRoom().getEntities().getEntityByName(username, RoomEntityType.PLAYER);
-
-        if (entity == null) {
+        if (user == null) {
             sendNotif(Locale.getOrDefault("command.user.offline", "This user is offline!"), client);
             return;
         }
 
-        if (entity.getUsername().equals(client.getPlayer().getData().getUsername())) {
+        if (username.equals(client.getPlayer().getData().getUsername())) {
             return;
         }
 
-        if(!entity.getPlayer().getSettings().getAllowMimic()) {
+        if(!user.getPlayer().getSettings().getAllowMimic() && client.getPlayer().getData().getRank() < 3) {
             sendNotif(Locale.getOrDefault("command.mimic.disabled", "You can't steal the look of this user."), client);
             return;
         }
 
         PlayerEntity playerEntity = client.getPlayer().getEntity();
 
-        playerEntity.getPlayer().getData().setFigure(entity.getFigure());
-        playerEntity.getPlayer().getData().setGender(entity.getGender());
+        playerEntity.getPlayer().getData().setFigure(user.getPlayer().getData().getFigure());
+        playerEntity.getPlayer().getData().setGender(user.getPlayer().getData().getGender());
         playerEntity.getPlayer().getData().save();
 
         playerEntity.getPlayer().poof();
-        client.send(new AvatarAspectUpdateMessageComposer(entity.getFigure(), entity.getGender()));
+        client.send(new AvatarAspectUpdateMessageComposer(user.getPlayer().getData().getFigure(), user.getPlayer().getData().getGender()));
         isExecuted(client);
     }
 
@@ -49,7 +49,7 @@ public class MimicCommand extends ChatCommand {
     public String getPermission() {
         return "mimic_command";
     }
-    
+
     @Override
     public String getParameter() {
         return Locale.getOrDefault("command.parameter.username", "%username%");
