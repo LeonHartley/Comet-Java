@@ -1,7 +1,8 @@
 package com.cometproject.server.network.monitor;
 
 
-import com.cometproject.server.utilities.CometStats;
+import com.cometproject.api.stats.CometStats;
+import com.cometproject.server.boot.Comet;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import io.netty.buffer.ByteBuf;
@@ -32,7 +33,7 @@ public class MonitorMessageLibrary {
         JsonObject jsonObject = new JsonObject();
 
         jsonObject.add("name", gsonInstance.toJsonTree("status"));
-        jsonObject.add("message", gsonInstance.toJsonTree(CometStats.get(), CometStats.class));
+        jsonObject.add("message", gsonInstance.toJsonTree(Comet.getStats(), CometStats.class));
 
         sendMessage(jsonObject.toString());
     }

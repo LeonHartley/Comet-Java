@@ -24,19 +24,18 @@ public class MuteCommand extends ChatCommand {
         String username = params[0];
 
         int playerId = PlayerManager.getInstance().getPlayerIdByUsername(username);
-        Session session = NetworkManager.getInstance().getSessions().getByPlayerId(playerId);
-        PlayerEntity entity = (PlayerEntity) client.getPlayer().getEntity().getRoom().getEntities().getEntityByName(username, RoomEntityType.PLAYER);
+        Session user = NetworkManager.getInstance().getSessions().getByPlayerUsername(username);
 
-        if (session == null) {
+        if (user == null) {
             sendNotif(Locale.getOrDefault("command.user.offline", "This user is offline!"), client);
             return;
         }
 
-        if (entity.getUsername().equals(client.getPlayer().getData().getUsername())) {
+        if (username.equals(client.getPlayer().getData().getUsername())) {
             return;
         }
 
-        if (entity.getPlayer().getPermissions().getRank().roomFullControl()) {
+        if (user.getPlayer().getData().getRank() > 2) {
             sendNotif(Locale.getOrDefault("command.mute.unmutable", "You can't mute this player!"), client);
             return;
         }
@@ -48,17 +47,18 @@ public class MuteCommand extends ChatCommand {
                 if (time < 0) {
                     sendNotif(Locale.getOrDefault("command.mute.negative", "You can only use positive numbers!"), client);
                     return;
-                } else if (time > 600) {
+                } else if (time > 600 && !client.getPlayer().getPermissions().getRank().roomFullControl()) {
                     sendNotif(Locale.getOrDefault("command.mute.nomore", "You can only mute someone for no more than 600 seconds! The amount got changed to 600 seconds."), client);
                     time = 600;
                 }
 
-                final int TimeMuted = (int) Comet.getTime() + time;
+                final int timeMuted = (int) Comet.getTime() + time;
 
-                PlayerDao.addTimeMute(playerId, TimeMuted);
-                session.getPlayer().getData().setTimeMuted(TimeMuted);
+                PlayerDao.addTimeMute(playerId, timeMuted);
+                user.getPlayer().getData().setTimeMuted(timeMuted);
 
-                session.send(new AdvancedAlertMessageComposer(Locale.getOrDefault("command.mute.muted", "You are muted for violating the rules! Your mute will expire in %timeleft% seconds").replace("%timeleft%", time + "")));
+                user.send(new AdvancedAlertMessageComposer(Locale.getOrDefault("command.mute.muted", "You are muted for violating the rules! Your mute will expire in %timeleft% seconds").replace("%timeleft%", time + "")));
+                isExecuted(client);
             }
         } catch (Exception e) {
             sendNotif(Locale.getOrDefault("command.mute.invalid", "Please, use numbers only!"), client);

@@ -28,13 +28,13 @@ public class UnmuteCommand extends ChatCommand {
         }
 
         if (playerId != -1) {
-            final int TimeMuted = 0;
+            final int timeMuted = 0;
 
             session.send(new AdvancedAlertMessageComposer(Locale.get("command.unmute.unmuted")));
 
             if (session.getPlayer().getData().getTimeMuted() > (int) Comet.getTime()) {
-                PlayerDao.addTimeMute(playerId, TimeMuted);
-                session.getPlayer().getData().setTimeMuted(TimeMuted);
+                PlayerDao.addTimeMute(playerId, timeMuted);
+                session.getPlayer().getData().setTimeMuted(timeMuted);
                 isExecuted(client);
             } else {
                 PlayerEntity entity = session.getPlayer().getEntity();

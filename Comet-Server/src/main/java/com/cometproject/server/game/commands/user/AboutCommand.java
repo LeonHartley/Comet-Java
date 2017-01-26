@@ -7,7 +7,7 @@ import com.cometproject.server.game.GameCycle;
 import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.sessions.Session;
-import com.cometproject.server.utilities.CometStats;
+import com.cometproject.api.stats.CometStats;
 
 import java.text.NumberFormat;
 
@@ -19,7 +19,7 @@ public class AboutCommand extends ChatCommand {
         StringBuilder about = new StringBuilder();
         NumberFormat format = NumberFormat.getInstance();
 
-        CometStats cometStats = CometStats.get();
+        CometStats cometStats = Comet.getStats();
 
         boolean aboutDetailed = client.getPlayer().getPermissions().getRank().aboutDetailed();
         boolean aboutStats = client.getPlayer().getPermissions().getRank().aboutStats();

@@ -21,7 +21,7 @@ public class ShoutMessageEvent implements Event {
         String message = msg.readString();
         int colour = msg.readInt();
 		
-		final int TimeMutedExpire = client.getPlayer().getData().getTimeMuted() - (int) Comet.getTime();
+		final int timeMutedExpire = client.getPlayer().getData().getTimeMuted() - (int) Comet.getTime();
 
         if (message.length() < 1) return;
 
@@ -38,7 +38,7 @@ public class ShoutMessageEvent implements Event {
 		
         if (client.getPlayer().getData().getTimeMuted() != 0) {
             if (client.getPlayer().getData().getTimeMuted() > (int) Comet.getTime()) {
-                client.getPlayer().getSession().send(new MutedMessageComposer(TimeMutedExpire));
+                client.getPlayer().getSession().send(new MutedMessageComposer(timeMutedExpire));
                 return;
             }
         }

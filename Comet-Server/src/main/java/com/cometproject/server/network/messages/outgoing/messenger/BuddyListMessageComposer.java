@@ -1,6 +1,7 @@
 package com.cometproject.server.network.messages.outgoing.messenger;
 
 import com.cometproject.api.networking.messages.IComposer;
+import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.players.components.types.messenger.MessengerFriend;
@@ -18,7 +19,7 @@ public class BuddyListMessageComposer extends MessageComposer {
     private final Map<Integer, MessengerFriend> friends;
     private final List<PlayerAvatar> avatars;
     private final List<Integer> groups;
-    
+
     private final boolean hasStaffChat;
 
     public BuddyListMessageComposer(Map<Integer, MessengerFriend> friends, final boolean hasStaffChat, final List<Integer> groups) {
@@ -50,7 +51,11 @@ public class BuddyListMessageComposer extends MessageComposer {
         msg.writeInt(1);//?
         msg.writeInt(0);//?
 
-        msg.writeInt(avatars.size() + (hasStaffChat ? 1 : 0) + this.groups.size());
+        if (CometSettings.groupChatEnabled) {
+            msg.writeInt(avatars.size() + (hasStaffChat ? 1 : 0) + this.groups.size());
+        } else {
+            msg.writeInt(avatars.size() + (hasStaffChat ? 1 : 0));
+        }
 
         for (PlayerAvatar playerAvatar : avatars) {
             msg.writeInt(playerAvatar.getId());
@@ -105,23 +110,26 @@ public class BuddyListMessageComposer extends MessageComposer {
             msg.writeShort(0);
         }
 
-        for(Integer groupId : this.groups) {
-            final Group group = GroupManager.getInstance().get(groupId);
+        if (CometSettings.groupChatEnabled) {
+            for (Integer groupId : this.groups) {
+                final Group group = GroupManager.getInstance().get(groupId);
 
-            msg.writeInt(-groupId);
-            msg.writeString(group.getData().getTitle());
-            msg.writeInt(0);
-            msg.writeBoolean(true);
-            msg.writeBoolean(false);
-            msg.writeString(group.getData().getBadge());
-            msg.writeInt(1);
-            msg.writeString("");
-            msg.writeString("");
-            msg.writeString("");
-            msg.writeBoolean(false);
-            msg.writeBoolean(false);
-            msg.writeBoolean(false);
-            msg.writeShort(0);
+                msg.writeInt(-groupId);
+                msg.writeString(group.getData().getTitle());
+                msg.writeInt(0);
+                msg.writeBoolean(true);
+                msg.writeBoolean(false);
+                msg.writeString(group.getData().getBadge());
+                msg.writeInt(1);
+                msg.writeString("");
+                msg.writeString("");
+                msg.writeString("");
+                msg.writeBoolean(false);
+                msg.writeBoolean(false);
+                msg.writeBoolean(false);
+                msg.writeShort(0);
+
+            }
         }
     }
 

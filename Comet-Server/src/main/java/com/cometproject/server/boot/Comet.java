@@ -2,20 +2,23 @@ package com.cometproject.server.boot;
 
 import com.cometproject.server.boot.utils.ConsoleCommands;
 import com.cometproject.server.boot.utils.ShutdownProcess;
+import com.cometproject.server.game.rooms.RoomManager;
+import com.cometproject.server.network.NetworkManager;
+import com.cometproject.server.utilities.CometRuntime;
+import com.cometproject.api.stats.CometStats;
+import com.cometproject.server.utilities.TimeSpan;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
 import java.io.FileInputStream;
 import java.lang.management.ManagementFactory;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 public class Comet {
-    public static String instanceId = "";
+    public static String instanceId = UUID.randomUUID().toString();
+
     /**
      * Logging during start-up & console commands
      */
@@ -48,7 +51,7 @@ public class Comet {
 
     /**
      * Whether we're running Comet in daemon mode or not
-      */
+     */
     public static boolean daemon = false;
 
     /**
@@ -98,10 +101,10 @@ public class Comet {
             for (int i = 0; i < args.length; i++) {
                 final String arg = args[i];
 
-                if(arg.contains(" ")) {
+                if (arg.contains(" ")) {
                     final String[] splitString = arg.split(" ");
 
-                    for(int j = 0; j < splitString.length; j++) {
+                    for (int j = 0; j < splitString.length; j++) {
                         arguments.add(splitString[j]);
                     }
                 } else {
@@ -114,16 +117,16 @@ public class Comet {
                     logLevel = Level.DEBUG;
                 }
 
-                if(arg.equals("--gui")) {
+                if (arg.equals("--gui")) {
                     // start GUI!
                     showGui = true;
                 }
 
-                if(arg.equals("--daemon")) {
+                if (arg.equals("--daemon")) {
                     daemon = true;
                 }
 
-                if(arg.startsWith("--instance-name=")) {
+                if (arg.startsWith("--instance-name=")) {
                     instanceId = arg.replace("--instance-name=", "");
                 }
 
@@ -141,7 +144,7 @@ public class Comet {
         Logger.getRootLogger().setLevel(logLevel);
         server.init();
 
-        if(!daemon) {
+        if (!daemon) {
             ConsoleCommands.init();
         }
 
@@ -174,6 +177,27 @@ public class Comet {
      */
     public static String getBuild() {
         return Comet.class.getPackage().getImplementationVersion() == null ? "Comet-DEV" : Comet.class.getPackage().getImplementationVersion();
+    }
+
+    /**
+     * Gets the current server stats
+     *
+     * @return Server stats object
+     */
+    public static CometStats getStats() {
+        CometStats statsInstance = new CometStats();
+
+        statsInstance.setPlayers(NetworkManager.getInstance().getSessions().getUsersOnlineCount());
+        statsInstance.setRooms(RoomManager.getInstance().getRoomInstances().size());
+        statsInstance.setUptime(TimeSpan.millisecondsToDate(System.currentTimeMillis() - Comet.start));
+
+        statsInstance.setProcessId(CometRuntime.processId);
+        statsInstance.setAllocatedMemory((Runtime.getRuntime().totalMemory() / 1024) / 1024);
+        statsInstance.setUsedMemory(statsInstance.getAllocatedMemory() - (Runtime.getRuntime().freeMemory() / 1024) / 1024);
+        statsInstance.setOperatingSystem(CometRuntime.operatingSystem + " (" + CometRuntime.operatingSystemArchitecture + ")");
+        statsInstance.setCpuCores(Runtime.getRuntime().availableProcessors());
+
+        return statsInstance;
     }
 
     /**

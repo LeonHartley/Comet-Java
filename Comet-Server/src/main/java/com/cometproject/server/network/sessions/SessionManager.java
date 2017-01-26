@@ -4,9 +4,8 @@ import com.cometproject.api.networking.messages.IMessageComposer;
 import com.cometproject.api.networking.sessions.BaseSession;
 import com.cometproject.api.networking.sessions.ISessionManager;
 import com.cometproject.api.networking.sessions.SessionManagerAccessor;
-import com.cometproject.server.config.CometSettings;
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.players.PlayerManager;
-import com.cometproject.server.utilities.CometStats;
 import com.cometproject.server.utilities.JsonUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.group.ChannelGroup;
@@ -158,7 +157,7 @@ public final class SessionManager implements ISessionManager {
                 }
 
                 case "stats": {
-                    ctx.channel().writeAndFlush("response||" + JsonUtil.getInstance().toJson(CometStats.get()));
+                    ctx.channel().writeAndFlush("response||" + JsonUtil.getInstance().toJson(Comet.getStats()));
                     break;
                 }
 

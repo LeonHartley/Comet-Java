@@ -31,16 +31,16 @@ public class WebSocketServer {
 
     private final CometProcessManager processManager;
 
-    private final MessagingClient messagingClient = MessagingClient.create("com.cometproject:process-manager/" + UUID.randomUUID(), new CoerceConfiguration("configuration/Coerce.json"));
-
     private boolean isConnected = false;
 
     public WebSocketServer(CometProcessManager processManager) {
         this.processManager = processManager;
+/*
 
         messagingClient.connect("178.33.171.199", 6500, (client) -> {
             isConnected = true;
         });
+*/
 
         final Configuration configuration = new Configuration();
 
@@ -253,7 +253,7 @@ public class WebSocketServer {
             final String consoleCommand = data.replace("command ", "");
             final String instanceId = client.get("instance");
 
-            this.messagingClient.sendMessage("com.cometproject:instance/" + instanceId, new ConsoleCommandRequest(consoleCommand));
+//            this.messagingClient.sendMessage("com.cometproject:instance/" + instanceId, new ConsoleCommandRequest(consoleCommand));
             return;
         }
 

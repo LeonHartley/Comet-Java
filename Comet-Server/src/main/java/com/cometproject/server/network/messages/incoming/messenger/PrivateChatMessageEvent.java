@@ -73,12 +73,12 @@ public class PrivateChatMessageEvent implements Event {
         if (userId == Integer.MAX_VALUE && client.getPlayer().getPermissions().getRank().messengerStaffChat()) {
             for (Session player : ModerationManager.getInstance().getModerators()) {
                 if (player == client) continue;
-                player.send(new InstantChatMessageComposer(message, Integer.MAX_VALUE, client.getPlayer().getData().getUsername(), client.getPlayer().getData().getFigure(), client.getPlayer().getId()));
+                player.send(new InstantChatMessageComposer(client.getPlayer().getData().getUsername() + ": " + message, Integer.MAX_VALUE));
             }
             return;
         }
 
-        if(userId < 0) {
+        if(userId < 0 && CometSettings.groupChatEnabled) {
             final int groupId = -userId;
             final Group group = GroupManager.getInstance().get(groupId);
 

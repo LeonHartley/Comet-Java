@@ -1,8 +1,8 @@
 package com.cometproject.server.boot.utils.gui;
 
+import com.cometproject.api.stats.CometStats;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.tasks.CometThreadManager;
-import com.cometproject.server.utilities.CometStats;
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,7 +32,7 @@ public class CometGui extends JFrame {
     }
 
     public void update() {
-        final CometStats stats = CometStats.get();
+        final CometStats stats = Comet.getStats();
 
         playersOnline.setText("Players online: " + stats.getPlayers());
         roomsLoaded.setText("Rooms loaded: " + stats.getRooms());
