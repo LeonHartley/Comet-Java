@@ -13,6 +13,7 @@ import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.group.GroupMembersMessageComposer;
+import com.cometproject.server.network.messages.outgoing.messenger.UpdateFriendStateMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.permissions.YouAreControllerMessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
@@ -87,6 +88,7 @@ public class
                 client.getPlayer().getEntity().markNeedsUpdate();
             }
 
+            client.send(new UpdateFriendStateMessageComposer(-1, -groupId));
             this.ejectItems(itemsToRemove, client);
         } else {
             if (PlayerManager.getInstance().isOnline(playerId)) {
@@ -108,6 +110,8 @@ public class
 
                     if (session.getPlayer().getGroups().contains(groupId)) {
                         session.getPlayer().getGroups().remove(session.getPlayer().getGroups().indexOf(groupId));
+
+                        session.send(new UpdateFriendStateMessageComposer(-1, -groupId));
                     }
 
                     this.ejectItems(itemsToRemove, session);

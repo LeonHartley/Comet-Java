@@ -13,6 +13,7 @@ import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.catalog.BoughtItemMessageComposer;
 import com.cometproject.server.network.messages.outgoing.group.GroupBadgesMessageComposer;
 import com.cometproject.server.network.messages.outgoing.group.GroupRoomMessageComposer;
+import com.cometproject.server.network.messages.outgoing.messenger.UpdateFriendStateMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.LeaveRoomMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomForwardMessageComposer;
@@ -116,6 +117,7 @@ public class BuyGroupMessageEvent implements Event {
             room.getEntities().broadcastMessage(new LeaveRoomMessageComposer(client.getPlayer().getEntity().getId()));
             room.getEntities().broadcastMessage(new AvatarsMessageComposer(client.getPlayer().getEntity()));
 
+            client.send(new UpdateFriendStateMessageComposer(group));
             client.send(new GroupRoomMessageComposer(roomId, group.getId()));
         }
     }

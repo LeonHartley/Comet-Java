@@ -8,6 +8,7 @@ import com.cometproject.server.game.groups.types.GroupType;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.group.GroupBadgesMessageComposer;
+import com.cometproject.server.network.messages.outgoing.messenger.UpdateFriendStateMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.permissions.YouAreControllerMessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
@@ -47,6 +48,8 @@ public class JoinGroupMessageEvent implements Event {
 
             group.getMembershipComponent().createMembership(new GroupMember(client.getPlayer().getId(), group.getId(), GroupAccessLevel.MEMBER));
             client.send(group.composeInformation(true, client.getPlayer().getId()));
+
+            client.send(new UpdateFriendStateMessageComposer(group));
 
             if (client.getPlayer().getEntity() != null && group.getData().canMembersDecorate()) {
                 client.getPlayer().getEntity().removeStatus(RoomEntityStatus.CONTROLLER);

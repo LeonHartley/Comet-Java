@@ -122,7 +122,6 @@ public class BuddyListMessageComposer extends MessageComposer {
             msg.writeBoolean(false);
             msg.writeBoolean(false);
             msg.writeShort(0);
-
         }
     }
 

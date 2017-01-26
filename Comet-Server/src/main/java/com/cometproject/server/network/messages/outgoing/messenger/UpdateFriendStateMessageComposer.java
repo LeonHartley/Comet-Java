@@ -1,6 +1,7 @@
 package com.cometproject.server.network.messages.outgoing.messenger;
 
 import com.cometproject.api.networking.messages.IComposer;
+import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.players.data.PlayerAvatar;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
@@ -8,24 +9,35 @@ import com.cometproject.server.protocol.headers.Composers;
 
 public class UpdateFriendStateMessageComposer extends MessageComposer {
     private final PlayerAvatar playerAvatar;
+    private final Group group;
+
     private final boolean online;
     private final boolean inRoom;
 
     private int action;
-    private int playerId;
+    private int friendId;
 
     public UpdateFriendStateMessageComposer(final PlayerAvatar playerAvatar, final boolean online, final boolean inRoom) {
         this.playerAvatar = playerAvatar;
+        this.group = null;
         this.online = online;
         this.inRoom = inRoom;
     }
 
-    public UpdateFriendStateMessageComposer(int action, int playerId) {
+    public UpdateFriendStateMessageComposer(final Group group) {
         this.playerAvatar = null;
+        this.group = group;
+        this.online = true;
+        this.inRoom = false;
+    }
+
+    public UpdateFriendStateMessageComposer(int action, int friendId) {
+        this.playerAvatar = null;
+        this.group = null;
         this.online = false;
         this.inRoom = false;
         this.action = action;
-        this.playerId = playerId;
+        this.friendId = friendId;
     }
 
     @Override
@@ -35,11 +47,11 @@ public class UpdateFriendStateMessageComposer extends MessageComposer {
 
     @Override
     public void compose(IComposer msg) {
-        if (this.playerAvatar == null) {
+        if (this.playerAvatar == null && this.group == null) {
             msg.writeInt(0);
             msg.writeInt(1);
             msg.writeInt(this.action);
-            msg.writeInt(this.playerId);
+            msg.writeInt(this.friendId);
 
             return;
         }
@@ -47,20 +59,20 @@ public class UpdateFriendStateMessageComposer extends MessageComposer {
         msg.writeInt(0);
         msg.writeInt(1);
         msg.writeInt(0);
-        msg.writeInt(this.playerAvatar.getId());
-        msg.writeString(this.playerAvatar.getUsername());
-        msg.writeInt(1);
+
+        msg.writeInt(this.group != null ? -this.group.getId() : this.playerAvatar.getId());
+        msg.writeString(this.group != null ? this.group.getData().getTitle() : this.playerAvatar.getUsername());
+        msg.writeInt(77);
         msg.writeBoolean(online);
         msg.writeBoolean(inRoom);
-        msg.writeString(this.playerAvatar.getFigure());
-        msg.writeInt(0);
-        msg.writeString(this.playerAvatar.getMotto());
+        msg.writeString(this.group != null ? this.group.getData().getBadge() : this.playerAvatar.getFigure());
+        msg.writeInt(this.group != null ? 1 : 0);
+        msg.writeString(this.group != null ? "" : this.playerAvatar.getMotto());
         msg.writeString(""); // facebook name ?
         msg.writeString("");
-        msg.writeBoolean(true);
-        msg.writeBoolean(true);
         msg.writeBoolean(false);
         msg.writeBoolean(false);
         msg.writeBoolean(false);
+        msg.writeShort(0);
     }
 }
