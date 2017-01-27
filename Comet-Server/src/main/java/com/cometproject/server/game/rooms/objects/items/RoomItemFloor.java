@@ -391,22 +391,6 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
         return null;
     }
 
-    public PlayerEntity nearestPlayerEntity() {
-        PositionComporator positionComporator = new PositionComporator(this);
-
-        List<PlayerEntity> nearestEntities = this.getRoom().getEntities().getPlayerEntities();
-
-        Collections.sort(nearestEntities, positionComporator);
-
-        for (PlayerEntity playerEntity : nearestEntities) {
-            if (playerEntity.getTile().isReachable(this)) {
-                return playerEntity;
-            }
-        }
-
-        return null;
-    }
-
     public RoomEntity getCollision() {
         return this.collidedEntity;
     }

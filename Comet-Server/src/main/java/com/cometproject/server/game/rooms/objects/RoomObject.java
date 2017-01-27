@@ -1,10 +1,15 @@
 package com.cometproject.server.game.rooms.objects;
 
 import com.cometproject.api.game.rooms.objects.IRoomObject;
+import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.objects.misc.Positionable;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
+import com.cometproject.server.utilities.comporators.PositionComporator;
+
+import java.util.Collections;
+import java.util.List;
 
 
 public abstract class RoomObject implements IRoomObject, Positionable {
@@ -58,6 +63,26 @@ public abstract class RoomObject implements IRoomObject, Positionable {
      */
     public boolean isAtDoor() {
         return this.position.getX() == this.getRoom().getModel().getDoorX() && this.position.getY() == this.getRoom().getModel().getDoorY();
+    }
+
+    /**
+     * Gets the closest player entity
+     * @return The closest player entity | null if one couldn't be found
+     */
+    public PlayerEntity nearestPlayerEntity() {
+        PositionComporator positionComporator = new PositionComporator(this);
+
+        List<PlayerEntity> nearestEntities = this.getRoom().getEntities().getPlayerEntities();
+
+        Collections.sort(nearestEntities, positionComporator);
+
+        for (PlayerEntity playerEntity : nearestEntities) {
+            if (playerEntity.getTile().isReachable(this)) {
+                return playerEntity;
+            }
+        }
+
+        return null;
     }
 
     /**

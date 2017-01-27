@@ -6,9 +6,11 @@ import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerBotReachedAvatar;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.game.rooms.types.misc.ChatEmotion;
+import com.cometproject.server.game.utilities.DistanceCalculator;
 import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessageComposer;
 import com.cometproject.server.utilities.RandomInteger;
 
@@ -89,11 +91,27 @@ public abstract class AbstractBotAI implements BotAI {
             } catch (Exception ignored) {
 
             }
+
+            final PlayerEntity closestEntity = this.entity.nearestPlayerEntity();
+
+            if(closestEntity != null) {
+                // calculate the distance.
+                final int distance = DistanceCalculator.calculate(this.entity.getPosition(), closestEntity.getPosition());
+
+                if(distance == 1) {
+                    WiredTriggerBotReachedAvatar.executeTriggers(entity);
+                }
+            }
         }
     }
 
     @Override
     public void onTickComplete() {
+
+    }
+
+    @Override
+    public void onReachedTile(RoomTile tile) {
 
     }
 

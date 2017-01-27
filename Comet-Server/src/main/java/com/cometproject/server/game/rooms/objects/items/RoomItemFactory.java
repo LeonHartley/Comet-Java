@@ -104,6 +104,7 @@ public class RoomItemFactory {
             put("wf_trg_at_given_time", WiredTriggerAtGivenTime.class);//new
             put("wf_trg_at_given_time_long", WiredTriggerAtGivenTimeLong.class);//new
             put("wf_trg_score_achieved", WiredTriggerScoreAchieved.class);//new
+            put("wf_trg_bot_reached_avtr", WiredTriggerBotReachedAvatar.class);//new
 
             put("wf_cnd_trggrer_on_frn", WiredConditionTriggererOnFurni.class);//new
             put("wf_cnd_not_trggrer_on", WiredNegativeConditionTriggererOnFurni.class);//new

@@ -7,6 +7,7 @@ import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityType;
 import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Square;
+import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.TeleportPadFloorItem;
@@ -266,6 +267,10 @@ public class ProcessComponent implements CometTask {
 
             entity.updateAndSetPosition(null);
             entity.setPosition(newPosition);
+
+            if(entity instanceof BotEntity) {
+                entity.getAI().onReachedTile(newTile);
+            }
 
             // Step off
             for (RoomItemFloor item : itemsOnOldSq) {
