@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.group;
 
+import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.groups.types.GroupMember;
@@ -88,7 +89,10 @@ public class
                 client.getPlayer().getEntity().markNeedsUpdate();
             }
 
-            client.send(new UpdateFriendStateMessageComposer(-1, -groupId));
+            if (CometSettings.groupChatEnabled) {
+                client.send(new UpdateFriendStateMessageComposer(-1, -groupId));
+            }
+
             this.ejectItems(itemsToRemove, client);
         } else {
             if (PlayerManager.getInstance().isOnline(playerId)) {
@@ -111,7 +115,9 @@ public class
                     if (session.getPlayer().getGroups().contains(groupId)) {
                         session.getPlayer().getGroups().remove(session.getPlayer().getGroups().indexOf(groupId));
 
-                        session.send(new UpdateFriendStateMessageComposer(-1, -groupId));
+                        if (CometSettings.groupChatEnabled) {
+                            session.send(new UpdateFriendStateMessageComposer(-1, -groupId));
+                        }
                     }
 
                     this.ejectItems(itemsToRemove, session);

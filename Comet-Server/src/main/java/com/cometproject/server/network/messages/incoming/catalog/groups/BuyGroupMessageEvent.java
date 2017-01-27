@@ -117,7 +117,10 @@ public class BuyGroupMessageEvent implements Event {
             room.getEntities().broadcastMessage(new LeaveRoomMessageComposer(client.getPlayer().getEntity().getId()));
             room.getEntities().broadcastMessage(new AvatarsMessageComposer(client.getPlayer().getEntity()));
 
-            client.send(new UpdateFriendStateMessageComposer(group));
+            if (CometSettings.groupChatEnabled) {
+                client.send(new UpdateFriendStateMessageComposer(group));
+            }
+
             client.send(new GroupRoomMessageComposer(roomId, group.getId()));
         }
     }
