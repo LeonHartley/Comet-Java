@@ -137,7 +137,13 @@ public class GroupManager implements Initialisable {
         }
 
         if(this.groupInstanceCache.get(id) != null) {
-            return ((Group) this.groupInstanceCache.get(id).getObjectValue());
+            Group group = ((Group) this.groupInstanceCache.get(id).getObjectValue());
+
+            if(group.getData() != null) {
+                return group;
+            } else {
+                this.groupInstanceCache.remove(id);
+            }
         }
 
         Group groupInstance = null;
