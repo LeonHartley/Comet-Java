@@ -91,17 +91,6 @@ public abstract class AbstractBotAI implements BotAI {
             } catch (Exception ignored) {
 
             }
-
-            final PlayerEntity closestEntity = this.entity.nearestPlayerEntity();
-
-            if(closestEntity != null) {
-                // calculate the distance.
-                final int distance = DistanceCalculator.calculate(this.entity.getPosition(), closestEntity.getPosition());
-
-                if(distance == 1) {
-                    WiredTriggerBotReachedAvatar.executeTriggers(entity);
-                }
-            }
         }
     }
 
@@ -112,7 +101,16 @@ public abstract class AbstractBotAI implements BotAI {
 
     @Override
     public void onReachedTile(RoomTile tile) {
+        final PlayerEntity closestEntity = this.entity.nearestPlayerEntity();
 
+        if(closestEntity != null) {
+            // calculate the distance.
+            final int distance = DistanceCalculator.calculate(this.entity.getPosition(), closestEntity.getPosition());
+
+            if(distance == 1) {
+                WiredTriggerBotReachedAvatar.executeTriggers(entity);
+            }
+        }
     }
 
     public void walkNow() {
