@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.group;
 
+import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.groups.types.GroupAccessLevel;
@@ -49,7 +50,9 @@ public class JoinGroupMessageEvent implements Event {
             group.getMembershipComponent().createMembership(new GroupMember(client.getPlayer().getId(), group.getId(), GroupAccessLevel.MEMBER));
             client.send(group.composeInformation(true, client.getPlayer().getId()));
 
-            client.send(new UpdateFriendStateMessageComposer(group));
+            if (CometSettings.groupChatEnabled) {
+                client.send(new UpdateFriendStateMessageComposer(group));
+            }
 
             if (client.getPlayer().getEntity() != null && group.getData().canMembersDecorate()) {
                 client.getPlayer().getEntity().removeStatus(RoomEntityStatus.CONTROLLER);
