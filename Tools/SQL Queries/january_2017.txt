@@ -22,3 +22,12 @@ ENGINE=InnoDB
 alter table `group_forum_messages` add column `moderator_id` int(11) not null default '0' AFTER `pinned`, add column `moderator_username` varchar(255) not null default '' AFTER `moderator_id`;
 
 alter table `server_configuration` add column `group_chat_enabled` enum('true','false') NOT NULL DEFAULT 'false';
+
+CREATE TABLE `logs_namechange` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL DEFAULT '0',
+  `new_name` varchar(50) NOT NULL DEFAULT '',
+  `old_name` varchar(50) NOT NULL DEFAULT '',
+  `timestamp` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='latin1_swedish_ci';
