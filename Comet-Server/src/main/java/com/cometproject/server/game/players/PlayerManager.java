@@ -218,6 +218,13 @@ public class PlayerManager implements Initialisable {
         return -1;
     }
 
+    public void updateUsernameCache(final String oldName, final String newName) {
+        final int playerId = this.getPlayerIdByUsername(oldName.toLowerCase());
+
+        this.playerUsernameToPlayerId.remove(oldName.toLowerCase());
+        this.playerUsernameToPlayerId.put(newName.toLowerCase(), playerId);
+    }
+
     public List<Integer> getPlayerIdsByIpAddress(String ipAddress) {
         return new ArrayList<>(this.ipAddressToPlayerIds.get(ipAddress));
     }

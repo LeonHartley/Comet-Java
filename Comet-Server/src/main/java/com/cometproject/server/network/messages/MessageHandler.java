@@ -246,6 +246,8 @@ public final class MessageHandler {
         this.getMessages().put(Events.SetSoundSettingsMessageEvent, new UpdateAudioSettingsMessageEvent());
         this.getMessages().put(Events.SetChatPreferenceMessageEvent, new UpdateChatStyleMessageEvent());
         this.getMessages().put(Events.SetMessengerInviteStatusMessageEvent, new IgnoreInvitationsMessageEvent());
+        this.getMessages().put(Events.ChangeNameMessageEvent, new ChangeNameMessageEvent());
+        this.getMessages().put(Events.CheckValidNameMessageEvent, new CheckValidNameMessageEvent());
     }
 
     public void registerBots() {

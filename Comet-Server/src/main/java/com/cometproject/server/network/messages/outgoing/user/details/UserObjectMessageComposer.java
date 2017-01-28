@@ -42,7 +42,7 @@ public class UserObjectMessageComposer extends MessageComposer {
         msg.writeBoolean(true);
         msg.writeString(getDate(player.getData().getLastVisit()));
 
-        msg.writeBoolean(false); // can change username
+        msg.writeBoolean(player.getData().getChangingName()); // can change username
         msg.writeBoolean(false);
     }
 
