@@ -267,6 +267,8 @@ public class PlayerDao {
     }
 
     public static PlayerStatistics getStatisticsById(int id) {
+        if(id < 0) return null; // todo: figure out why this would be negative
+
         Connection sqlConnection = null;
         ResultSet resultSet = null;
         PreparedStatement preparedStatement = null;
