@@ -108,7 +108,7 @@ public abstract class AbstractBotAI implements BotAI {
             final int distance = DistanceCalculator.calculate(this.entity.getPosition(), closestEntity.getPosition());
 
             if(distance == 1) {
-                WiredTriggerBotReachedAvatar.executeTriggers(entity);
+                WiredTriggerBotReachedAvatar.executeTriggers(closestEntity);
             }
         }
     }
