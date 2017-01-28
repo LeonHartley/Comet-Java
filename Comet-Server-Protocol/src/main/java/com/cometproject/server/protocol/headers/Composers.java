@@ -214,6 +214,9 @@ public class Composers {
     public static final short CameraPhotoPreviewMessageComposer = 1446; // PRODUCTION-201610052203-260805057
     public static final short CameraBuyPhotoMessageComposer = 2544; // PRODUCTION-201610052203-260805057
     public static final short CameraPriceMessageComposer = 3672; // PRODUCTION-201610052203-260805057
+    public static final short UpdateUsernameMessageComposer = 871; // PRODUCTION-201610052203-260805057
+    public static final short UserNameChangeMessageComposer = 3151; // PRODUCTION-201610052203-260805057
+    public static final short NameChangeUpdateMessageComposer = 2276; // PRODUCTION-201610052203-260805057
 
     private static Map<Short, String> composerPacketNames = new HashMap<>();
 

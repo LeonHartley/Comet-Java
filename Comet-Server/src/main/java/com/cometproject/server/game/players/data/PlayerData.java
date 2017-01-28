@@ -42,6 +42,10 @@ public class PlayerData implements PlayerAvatar, IPlayerData {
 
     private int timeMuted;
 
+    private boolean changingName = false;
+
+    private boolean flaggingUser = false;
+
     public PlayerData(int id, String username, String motto, String figure, String gender, String email, int rank, int credits, int vipPoints, int activityPoints,
                       String reg, int lastVisit, boolean vip, int achievementPoints, int regTimestamp, int favouriteGroup, String ipAddress, int questId, int timeMuted) {
         this.id = id;
@@ -284,4 +288,12 @@ public class PlayerData implements PlayerAvatar, IPlayerData {
     public void setAchievementPoints(int achievementPoints) {
         this.achievementPoints = achievementPoints;
     }
+
+    public boolean getChangingName() { return this.changingName; }
+
+    public void setChangingName(boolean changingName) { this.changingName = changingName; }
+
+    public boolean getFlaggingUser() { return this.flaggingUser; }
+
+    public void setFlaggingUser(boolean flaggingUser) { this.flaggingUser = flaggingUser; }
 }
