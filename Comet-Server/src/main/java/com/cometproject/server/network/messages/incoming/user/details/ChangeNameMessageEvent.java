@@ -33,7 +33,7 @@ public class ChangeNameMessageEvent implements Event {
 
         if (newName.equals(oldName)) {
             if (client.getPlayer().getData().getFlaggingUser()) {
-                client.send(new AdvancedAlertMessageComposer("Grrrr!", Locale.getOrDefault("command.flaguser.alreadyexist","Your name is inappropriate! That means that you're not allowed to choose your own inappropriate name again.")));
+                client.send(new AdvancedAlertMessageComposer(Locale.getOrDefault("command.flaguser.alreadyexist.title", "Grrrr!"), Locale.getOrDefault("command.flaguser.alreadyexist","Your name is inappropriate! That means that you're not allowed to choose your own inappropriate name again.")));
                 return;
             } else {
                 client.send(new UpdateUsernameMessageComposer(newName));
@@ -44,7 +44,7 @@ public class ChangeNameMessageEvent implements Event {
 
         if (PlayerManager.getInstance().getPlayerIdByUsername(newName) != -1 || PlayerDao.getUsernameAlreadyExist(newName) != 0) {
             inUse = true;
-            client.send(new AdvancedAlertMessageComposer("Woops!", Locale.getOrDefault("command.flagme.alreadyexist","This name already exists! Try another name")));
+            client.send(new AdvancedAlertMessageComposer(Locale.getOrDefault("command.flagme.alreadyexist.title", "Woops!"), Locale.getOrDefault("command.flagme.alreadyexist","This name already exists! Try another name")));
         }
 
         char[] letters = newName.toLowerCase().toCharArray();
