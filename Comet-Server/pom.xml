@@ -8,12 +8,12 @@
 
     <packaging>jar</packaging>
 
-    <version>1.9.0-TEST1</version>
+    <version>1.10.0-TEST1</version>
 
     <parent>
         <groupId>Comet</groupId>
         <artifactId>Comet-Parent</artifactId>
-        <version>1.9.0-TEST1</version>
+        <version>1.10.0-TEST1</version>
     </parent>
 
     <build>
@@ -194,7 +194,7 @@
         <dependency>
             <groupId>Comet</groupId>
             <artifactId>Comet-API</artifactId>
-            <version>1.9.0-TEST1</version>
+            <version>1.10.0-TEST1</version>
         </dependency>
 
         <dependency>
@@ -380,7 +380,7 @@
         <dependency>
             <groupId>Comet</groupId>
             <artifactId>Comet-Server-Protocol</artifactId>
-            <version>1.9.0-TEST1</version>
+            <version>1.10.0-TEST1</version>
         </dependency>
 
         <dependency>
