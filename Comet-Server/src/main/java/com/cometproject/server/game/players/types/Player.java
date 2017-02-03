@@ -5,6 +5,8 @@ import com.cometproject.api.game.players.data.components.PlayerInventory;
 import com.cometproject.api.networking.sessions.BaseSession;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
+import com.cometproject.server.game.guides.GuideManager;
+import com.cometproject.server.game.guides.types.HelperSession;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.components.*;
 import com.cometproject.server.game.players.data.PlayerData;
@@ -44,6 +46,8 @@ public class Player implements BasePlayer {
 
     private PlayerEntity entity;
     private Session session;
+
+    private HelperSession helperSession;
 
     private final PermissionComponent permissions;
     private final InventoryComponent inventory;
@@ -162,6 +166,11 @@ public class Player implements BasePlayer {
                 // Player failed to leave room
                 this.getSession().getLogger().error("Error while disposing entity when player disconnects", e);
             }
+        }
+
+        if(this.helperSession != null) {
+            GuideManager.getInstance().finishPlayerDuty(this.helperSession);
+            this.helperSession = null;
         }
 
         if (PlayerDataStorageQueue.getInstance().isQueued(this.getData())) {
@@ -735,5 +744,13 @@ public class Player implements BasePlayer {
 
     public void setChatMessageColour(ChatMessageColour chatMessageColour) {
         this.chatMessageColour = chatMessageColour;
+    }
+
+    public HelperSession getHelperSession() {
+        return helperSession;
+    }
+
+    public void setHelperSession(HelperSession helperSession) {
+        this.helperSession = helperSession;
     }
 }

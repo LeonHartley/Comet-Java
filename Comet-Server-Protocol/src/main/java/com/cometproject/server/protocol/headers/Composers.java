@@ -218,6 +218,27 @@ public class Composers {
     public static final short UserNameChangeMessageComposer = 3151; // PRODUCTION-201610052203-260805057
     public static final short NameChangeUpdateMessageComposer = 2276; // PRODUCTION-201610052203-260805057
 
+    public static final short GuideSessionAttachedMessageComposer = 3416; // PRODUCTION-201610052203-260805057
+    public static final short GuideSessionDetachedMessageComposer = 2058; // PRODUCTION-201610052203-260805057
+    public static final short GuideSessionStartedMessageComposer = 45; // PRODUCTION-201610052203-260805057
+    public static final short GuideSessionEndedMessageComposer = 693; // PRODUCTION-201610052203-260805057
+    public static final short GuideSessionErrorMessageComposer = 2262; // PRODUCTION-201610052203-260805057
+    public static final short GuideSessionMessageMessageComposer = 2145; // PRODUCTION-201610052203-260805057
+    public static final short GuideSessionRequesterRoomMessageComposer = 2413; // PRODUCTION-201610052203-260805057
+    public static final short GuideSessionInvitedToGuideRoomMessageComposer = 171; // PRODUCTION-201610052203-260805057
+    public static final short GuideSessionPartnerIsTypingMessageComposer = 3631; // PRODUCTION-201610052203-260805057
+    public static final short GuideToolsMessageComposer = 685; // PRODUCTION-201610052203-260805057
+    public static final short GuardianNewReportReceivedMessageComposer = 2609; // PRODUCTION-201610052203-260805057
+    public static final short GuardianVotingRequestedMessageComposer = 1283; // PRODUCTION-201610052203-260805057
+    public static final short GuardianVotingVotesMessageComposer = 140; // PRODUCTION-201610052203-260805057
+    public static final short GuardianVotingResultMessageComposer = 2449; // PRODUCTION-201610052203-260805057
+    public static final short GuardianVotingTimeEndedMessageComposer = 2063; // PRODUCTION-201610052203-260805057
+    public static final short ModToolReportReceivedAlertMessageComposer = 3986; // PRODUCTION-201610052203-260805057
+    public static final short BullyReportClosedMessageComposer = 1358; // PRODUCTION-201610052203-260805057
+    public static final short BullyReportRequestMessageComposer = 267; // PRODUCTION-201610052203-260805057
+    public static final short BullyReportedMessageMessageComposer = 339; // PRODUCTION-201610052203-260805057
+    public static final short HelperRequestDisabledMessageComposer = 3706; // PRODUCTION-201610052203-260805057
+
     private static Map<Short, String> composerPacketNames = new HashMap<>();
 
     static {

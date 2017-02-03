@@ -24,6 +24,7 @@ import com.cometproject.server.network.messages.incoming.handshake.*;
 import com.cometproject.server.network.messages.incoming.help.GetSanctionStatusEvent;
 import com.cometproject.server.network.messages.incoming.help.HelpTicketMessageEvent;
 import com.cometproject.server.network.messages.incoming.help.InitHelpToolMessageEvent;
+import com.cometproject.server.network.messages.incoming.help.tool.OpenGuideToolMessageEvent;
 import com.cometproject.server.network.messages.incoming.landing.LandingLoadWidgetMessageEvent;
 import com.cometproject.server.network.messages.incoming.landing.RefreshPromoArticlesMessageEvent;
 import com.cometproject.server.network.messages.incoming.messenger.*;
@@ -162,6 +163,7 @@ public final class MessageHandler {
         this.registerMisc();
         this.registerMusic();
         this.registerCamera();
+        this.registerGuideTool();
 
         log.info("Loaded " + this.getMessages().size() + " message events");
     }
@@ -460,6 +462,10 @@ public final class MessageHandler {
 
     private void registerCamera() {
 //        this.getMessages().put(Events.TakePhotoMessageEvent, new TakePhotoMessageEvent());
+    }
+
+    public void registerGuideTool() {
+        this.getMessages().put(Events.OpenGuideToolMessageEvent, new OpenGuideToolMessageEvent());
     }
 
     public void handle(MessageEvent message, Session client) {
