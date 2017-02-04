@@ -34,7 +34,7 @@ public class ItemPathfinder extends Pathfinder {
             return false;
         }
 
-        if (!roomFloorObject.getRoom().getMapping().isValidPosition(to) || (roomFloorObject.getRoom().getModel().getSquareState()[to.getX()][to.getY()] == RoomTileState.INVALID)) {
+        if (!(roomFloorObject instanceof RollableFloorItem) && (!roomFloorObject.getRoom().getMapping().isValidPosition(to) || (roomFloorObject.getRoom().getModel().getSquareState()[to.getX()][to.getY()] == RoomTileState.INVALID))) {
             return false;
         }
 
@@ -83,6 +83,10 @@ public class ItemPathfinder extends Pathfinder {
                 if(floor instanceof GroupGateFloorItem) {
                     return false;
                 }
+            }
+
+            if(tile.getItems().size() == 1) {
+                return tile.getStackHeight() <= 0.5;
             }
         }
 
