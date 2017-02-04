@@ -166,6 +166,10 @@ public class NavigatorSearchService implements CometTask {
             case MY_FRIENDS_ROOMS:
                 List<RoomData> friendsRooms = Lists.newArrayList();
 
+                if(player.getMessenger() == null) {
+                    return rooms;
+                }
+
                 for(MessengerFriend messengerFriend : player.getMessenger().getFriends().values()) {
                     if(messengerFriend.isInRoom()) {
                         PlayerEntity playerEntity = messengerFriend.getSession().getPlayer().getEntity();

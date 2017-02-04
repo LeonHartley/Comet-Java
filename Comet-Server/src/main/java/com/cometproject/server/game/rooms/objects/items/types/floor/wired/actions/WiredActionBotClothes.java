@@ -51,7 +51,6 @@ public class WiredActionBotClothes extends WiredActionItem {
             return;
         }
 
-        if (event.entity == null || !(event.entity instanceof PlayerEntity)) return;
         final String[] data = this.getWiredData().getText().split("\t");
 
         if (data.length != 2) {

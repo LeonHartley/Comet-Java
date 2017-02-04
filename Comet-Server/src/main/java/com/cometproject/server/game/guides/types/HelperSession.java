@@ -7,8 +7,11 @@ public class HelperSession {
     private boolean helpRequests;
     private boolean bullyReports;
 
+    public HelpRequest handlingRequest;
+    
     public HelperSession(int playerId, boolean tourRequests, boolean helpRequests, boolean bullyReports) {
         this.playerId = playerId;
+
         this.tourRequests = tourRequests;
         this.helpRequests = helpRequests;
         this.bullyReports = bullyReports;

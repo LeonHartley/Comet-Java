@@ -8,6 +8,22 @@ import java.util.Map;
 
 
 public class Events {
+    public static final short RequestGuideAssistanceMessageEvent = 585; // PRODUCTION-201610052203-260805057
+    public static final short GuideUserTypingMessageEvent = 1588; // PRODUCTION-201610052203-260805057
+    public static final short GuideReportHelperMessageEvent = 776; // PRODUCTION-201610052203-260805057
+    public static final short GuideRecommendHelperMessageEvent = 1109; // PRODUCTION-201610052203-260805057
+    public static final short GuideUserMessageMessageEvent = 2258; // PRODUCTION-201610052203-260805057
+    public static final short GuideCancelHelpRequestMessageEvent = 2653; // PRODUCTION-201610052203-260805057
+    public static final short GuideHandleHelpRequestMessageEvent = 3702; // PRODUCTION-201610052203-260805057
+    public static final short GuideVisitUserMessageEvent = 2479; // PRODUCTION-201610052203-260805057
+    public static final short GuideInviteUserMessageEvent = 2500; // PRODUCTION-201610052203-260805057
+    public static final short GuideCloseHelpRequestMessageEvent = 3183; // PRODUCTION-201610052203-260805057
+    public static final short GuardianNoUpdatesWantedMessageEvent = 1223; // PRODUCTION-201610052203-260805057
+    public static final short GuardianVoteMessageEvent = 2714; // PRODUCTION-201610052203-260805057
+    public static final short GuardianAcceptRequestMessageEvent = 1030; // PRODUCTION-201610052203-260805057
+
+    public static final short RequestReportUserBullyingMessageEvent = 1174; // PRODUCTION-201610052203-260805057
+    public static final short ReportBullyMessageEvent = 3350; // PRODUCTION-201610052203-260805057
     public static final short OpenGuideToolMessageEvent = 3320; // PRODUCTION-201610052203-260805057
     public static final short ConfirmUsernameMessageEvent = 1709; // PRODUCTION-201610052203-260805057
     public static final short GetRoomBannedUsersMessageEvent = 15; // PRODUCTION-201610052203-260805057

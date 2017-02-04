@@ -1,5 +1,6 @@
 package com.cometproject.server.game.guides;
 
+import com.cometproject.server.game.guides.types.HelpRequest;
 import com.cometproject.server.game.guides.types.HelperSession;
 import com.cometproject.server.utilities.Initialisable;
 import com.cometproject.server.utilities.collections.ConcurrentHashSet;
@@ -13,8 +14,10 @@ public class GuideManager implements Initialisable {
 
     private final Map<Integer, HelperSession> sessions = new ConcurrentHashMap<>();
 
-    private Set<Integer> activeGuides = new ConcurrentHashSet<>();
-    private Set<Integer> activeGuardians = new ConcurrentHashSet<>();
+    private final Set<Integer> activeGuides = new ConcurrentHashSet<>();
+    private final Set<Integer> activeGuardians = new ConcurrentHashSet<>();
+
+    private final Map<Integer, HelpRequest> activeHelpRequests = new ConcurrentHashMap<>();
 
     @Override
     public void initialize() {
@@ -47,6 +50,14 @@ public class GuideManager implements Initialisable {
         if(helperSession.handlesBullyReports()) {
             this.activeGuardians.remove(helperSession.getPlayerId());
         }
+    }
+
+    public void requestHelp(final HelpRequest helpRequest) {
+        this.activeHelpRequests.put(helpRequest.getPlayerId(), helpRequest);
+    }
+
+    public HelpRequest getHelpRequestByCreator(final int playerId) {
+        return this.activeHelpRequests.get(playerId);
     }
 
     public int getActiveGuideCount() {
