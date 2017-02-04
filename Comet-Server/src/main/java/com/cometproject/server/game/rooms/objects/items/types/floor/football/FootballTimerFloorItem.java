@@ -67,6 +67,11 @@ public class FootballTimerFloorItem extends RoomItemFloor {
             this.setExtraData(this.time + "");
             this.sendUpdate();
         } else {
+            // Force it to be finished before restarting.
+            if(this.time != 0) {
+                return false;
+            }
+
             // Tell the room we have an active football game.
             this.getRoom().setAttribute("football", true);
 
