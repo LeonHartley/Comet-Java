@@ -43,6 +43,7 @@ public class ApiClient {
             Future<Response> responseFuture = builder.addHeader("authToken", Configuration.getInstance().getApiAuthToken()).execute();
             Response response = responseFuture.get();
 
+            System.out.println(response.getResponseBody());
             return new JSONObject(response.getResponseBody());
         } catch (Exception e) {
             if(e instanceof ExecutionException) {
