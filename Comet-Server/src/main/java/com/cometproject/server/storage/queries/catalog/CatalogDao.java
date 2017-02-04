@@ -2,6 +2,7 @@ package com.cometproject.server.storage.queries.catalog;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.catalog.CatalogManager;
+import com.cometproject.server.game.catalog.purchase.OldCatalogPurchaseHandler;
 import com.cometproject.server.game.catalog.types.CatalogFrontPageEntry;
 import com.cometproject.server.game.catalog.types.CatalogItem;
 import com.cometproject.server.game.catalog.types.CatalogPage;
@@ -198,6 +199,29 @@ public class CatalogDao {
             SqlHelper.handleSqlException(e);
         } finally {
             SqlHelper.closeSilently(resultSet);
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+    }
+
+    public static void saveRecentPurchase(final int playerId, final int catalogItem, final int amount, final String data) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("INSERT into `player_recent_purchases` (player_id, catalog_item, amount, data) VALUES(?, ?, ?, ?);", sqlConnection);
+
+            preparedStatement.setInt(1, playerId);
+            preparedStatement.setInt(2, catalogItem);
+            preparedStatement.setInt(3, amount);
+            preparedStatement.setString(4, data);
+
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
             SqlHelper.closeSilently(preparedStatement);
             SqlHelper.closeSilently(sqlConnection);
         }

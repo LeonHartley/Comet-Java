@@ -1,5 +1,6 @@
 package com.cometproject.server.storage.queries.items;
 
+import com.cometproject.server.game.catalog.purchase.CatalogPurchase;
 import com.cometproject.server.game.catalog.purchase.OldCatalogPurchaseHandler;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.items.types.ItemDefinition;
@@ -87,7 +88,7 @@ public class ItemDao {
         return 0;
     }
 
-    public static List<Long> createItems(List<OldCatalogPurchaseHandler.CatalogPurchase> catalogPurchases) {
+    public static List<Long> createItems(List<CatalogPurchase> catalogPurchases) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -99,7 +100,7 @@ public class ItemDao {
 
             preparedStatement = SqlHelper.prepare("INSERT into items (`user_id`, `room_id`, `base_item`, `extra_data`, `x`, `y`, `z`, `rot`, `wall_pos`) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);", sqlConnection, true);
 
-            for (OldCatalogPurchaseHandler.CatalogPurchase purchase : catalogPurchases) {
+            for (CatalogPurchase purchase : catalogPurchases) {
                 preparedStatement.setInt(1, purchase.getPlayerId());
                 preparedStatement.setInt(2, 0);
                 preparedStatement.setInt(3, purchase.getItemBaseId());
