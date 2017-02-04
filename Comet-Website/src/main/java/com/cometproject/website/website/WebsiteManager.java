@@ -121,6 +121,9 @@ public class WebsiteManager {
         get("/admin/cache/reload", CacheRoute::reload);
 
         get("/admin/catalog", CatalogRoute::index, velocityTemplateEngine);
+
+        post("/camera/upload/:ssoTicket", CameraRoute::upload);
+        get("/camera/photo/:photoId", CameraRoute::photo);
     }
 
     public void registerFilters() {

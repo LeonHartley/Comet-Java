@@ -28,6 +28,7 @@
             "hotelview.banner.url" : "$siteSettings.gameClientBanner",
             "use.sso.ticket" : "1",
             "sso.ticket" : "$loginTicket",
+            "comet.camera.uploadLink" : "$config.siteUrl/camera/upload/$loginTicket",
             "processlog.enabled" : "0",
             "flash.client.url" : BaseUrl,
             "flash.client.origin" : "popup",
