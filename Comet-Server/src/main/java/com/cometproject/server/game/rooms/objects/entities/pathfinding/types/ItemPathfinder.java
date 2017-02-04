@@ -86,7 +86,7 @@ public class ItemPathfinder extends Pathfinder {
             }
 
             if(tile.getItems().size() == 1) {
-                return tile.getStackHeight() <= 0.5;
+                return tile.getStackHeight() <= 0.5 && tile.canPlaceItemHere();
             }
         }
 
