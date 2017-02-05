@@ -44,7 +44,9 @@ public class WiredActionShowMessage extends WiredActionItem {
 
     @Override
     public void onEventComplete(WiredItemEvent event) {
-        if (!(event.entity instanceof PlayerEntity)) return;
+        if (event.entity == null || !(event.entity instanceof PlayerEntity)) {
+            return;
+        }
 
         PlayerEntity playerEntity = ((PlayerEntity) event.entity);
 
