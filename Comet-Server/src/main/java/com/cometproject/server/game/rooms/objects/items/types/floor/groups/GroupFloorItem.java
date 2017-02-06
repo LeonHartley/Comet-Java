@@ -15,7 +15,7 @@ public class GroupFloorItem extends RoomItemFloor {
     public GroupFloorItem(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
 
-        if (!StringUtils.isNumeric(data))
+        if (!StringUtils.isNumeric(data) || data.isEmpty())
             this.groupId = 0;
         else
             this.groupId = Integer.parseInt(data);
