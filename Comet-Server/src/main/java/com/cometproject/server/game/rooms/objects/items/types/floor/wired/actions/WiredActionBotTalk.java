@@ -1,6 +1,5 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions;
 
-import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
@@ -46,6 +45,10 @@ public class WiredActionBotTalk extends WiredActionItem {
             return;
         }
 
+        if (event.entity == null || !(event.entity instanceof PlayerEntity)) {
+            return;
+        }
+
         final String[] talkData = this.getWiredData().getText().split("\t");
 
         if (talkData.length != 2) {
@@ -59,9 +62,7 @@ public class WiredActionBotTalk extends WiredActionItem {
             return;
         }
 
-        if (event.entity instanceof PlayerEntity) {
-            message = message.replace("%username%", event.entity.getUsername());
-        }
+        message = message.replace("%username%", event.entity.getUsername());
 
         message = message.replace("<", "").replace(">", "");
 
