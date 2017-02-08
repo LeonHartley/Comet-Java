@@ -2,9 +2,7 @@ package com.cometproject.server.game.commands.user.group;
 
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
-import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
-import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.objects.items.RoomItem;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
@@ -63,7 +61,7 @@ public class EjectAllCommand extends ChatCommand {
                     }
                 }
 
-                if (groupMemberSession != null && groupMemberSession.getPlayer() != null) {
+                if (groupMemberSession != null && groupMemberSession.getPlayer() != null && group != null) {
                     groupMemberSession.getPlayer().getGroups().remove(new Integer(group.getId()));
 
                     if (groupMemberSession.getPlayer().getData().getFavouriteGroup() == group.getId()) {
