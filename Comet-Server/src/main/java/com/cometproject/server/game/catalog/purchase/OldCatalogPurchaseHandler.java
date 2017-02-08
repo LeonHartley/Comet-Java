@@ -468,7 +468,9 @@ public class OldCatalogPurchaseHandler {
                     client.send(new UnseenItemsMessageComposer(unseenItems));
                     client.send(new UpdateInventoryMessageComposer());
 
-                    CatalogDao.saveRecentPurchase(client.getPlayer().getId(), item.getId(), amount, extraData);
+                    if(CometSettings.logCatalogPurchases) {
+                        CatalogDao.saveRecentPurchase(client.getPlayer().getId(), item.getId(), amount, extraData);
+                    }
                 }
             }
         } catch (Exception e) {
