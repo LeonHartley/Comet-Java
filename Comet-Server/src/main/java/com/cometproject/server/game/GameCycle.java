@@ -4,6 +4,7 @@ import com.cometproject.api.networking.sessions.BaseSession;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.achievements.types.AchievementType;
+import com.cometproject.server.game.guides.GuideManager;
 import com.cometproject.server.game.moderation.BanManager;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.network.NetworkManager;

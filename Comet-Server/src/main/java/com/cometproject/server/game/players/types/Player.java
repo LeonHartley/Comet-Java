@@ -6,6 +6,7 @@ import com.cometproject.api.networking.sessions.BaseSession;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.guides.GuideManager;
+import com.cometproject.server.game.guides.types.HelpRequest;
 import com.cometproject.server.game.guides.types.HelperSession;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.components.*;
@@ -123,6 +124,8 @@ public class Player implements BasePlayer {
     private Set<String> eventLogCategories = Sets.newConcurrentHashSet();
 
     private ChatMessageColour chatMessageColour = null;
+
+    private HelpRequest helpRequest = null;
 
     public Player(ResultSet data, boolean isFallback) throws SQLException {
         this.id = data.getInt("playerId");
@@ -752,5 +755,13 @@ public class Player implements BasePlayer {
 
     public void setHelperSession(HelperSession helperSession) {
         this.helperSession = helperSession;
+    }
+
+    public HelpRequest getHelpRequest() {
+        return helpRequest;
+    }
+
+    public void setHelpRequest(HelpRequest helpRequest) {
+        this.helpRequest = helpRequest;
     }
 }

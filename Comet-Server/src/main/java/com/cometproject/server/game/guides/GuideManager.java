@@ -2,33 +2,70 @@ package com.cometproject.server.game.guides;
 
 import com.cometproject.server.game.guides.types.HelpRequest;
 import com.cometproject.server.game.guides.types.HelperSession;
+import com.cometproject.server.network.messages.outgoing.help.guides.GuideSessionAttachedMessageComposer;
+import com.cometproject.server.tasks.CometThread;
+import com.cometproject.server.tasks.CometThreadManager;
 import com.cometproject.server.utilities.Initialisable;
 import com.cometproject.server.utilities.collections.ConcurrentHashSet;
 
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 public class GuideManager implements Initialisable {
     private static GuideManager guideManagerInstance;
 
     private final Map<Integer, HelperSession> sessions = new ConcurrentHashMap<>();
 
-    private final Set<Integer> activeGuides = new ConcurrentHashSet<>();
+    private final Map<Integer, Boolean> activeGuides = new ConcurrentHashMap<>();
     private final Set<Integer> activeGuardians = new ConcurrentHashSet<>();
 
     private final Map<Integer, HelpRequest> activeHelpRequests = new ConcurrentHashMap<>();
 
     @Override
     public void initialize() {
+        CometThreadManager.getInstance().executePeriodic(this::processRequests, 1000L, 1000L, TimeUnit.MILLISECONDS);
+    }
 
+    private void processRequests() {
+        // Loop through every request and make sure it has an attached guide, if it doesn't.. find a guide that hasn't
+        // declined it yet.
+
+        for(HelpRequest helpRequest : this.activeHelpRequests.values()) {
+            if(!helpRequest.hasGuide()) {
+                if(helpRequest.getProcessTicks() >= 60) {
+                    // Find a guide!
+                    for(Map.Entry<Integer, Boolean> activeGuide : activeGuides.entrySet()) {
+                        if(!activeGuide.getValue()) { // Guide is available!
+                            if(!helpRequest.declined(activeGuide.getKey())) {
+                                helpRequest.setGuide(activeGuide.getKey());
+
+                                helpRequest.getPlayerSession().send(new GuideSessionAttachedMessageComposer(helpRequest, false));
+                                helpRequest.getGuideSession().send(new GuideSessionAttachedMessageComposer(helpRequest, true));
+                                break;
+                            }
+                        }
+                    }
+
+                    if(helpRequest.hasGuide()) {
+                        this.activeGuides.put(helpRequest.guideId, true);
+                    }
+
+                    // None found? Search again!
+                    helpRequest.resetProcessTicks();
+                } else {
+                    helpRequest.incrementProcessTicks();
+                }
+            }
+        }
     }
 
     public void startPlayerDuty(final HelperSession helperSession) {
         this.sessions.put(helperSession.getPlayerId(), helperSession);
 
         if(helperSession.handlesHelpRequests()) {
-            this.activeGuides.add(helperSession.getPlayerId());
+            this.activeGuides.put(helperSession.getPlayerId(), false);
         }
 
         if(helperSession.handlesBullyReports()) {
