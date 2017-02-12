@@ -10,6 +10,7 @@ import com.cometproject.server.game.achievements.AchievementManager;
 import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.commands.CommandManager;
 import com.cometproject.server.game.groups.GroupManager;
+import com.cometproject.server.game.guides.GuideManager;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.landing.LandingManager;
 import com.cometproject.server.game.moderation.BanManager;
@@ -89,6 +90,7 @@ public class CometServer {
         QuestManager.getInstance().initialize();
         AchievementManager.getInstance().initialize();
         PollManager.getInstance().initialize();
+        GuideManager.getInstance().initialize();
 
         PlayerDataStorageQueue.getInstance().initialize();
         ItemStorageQueue.getInstance().initialize();

@@ -10,3 +10,7 @@ CREATE TABLE `player_recent_purchases` (
 )
 ENGINE=InnoDB
 ;
+
+
+ALTER TABLE `server_configuration`
+	ADD COLUMN `log_catalog_purchases` ENUM('true','false') NULL DEFAULT 'true' AFTER `max_connections_per_ip`;

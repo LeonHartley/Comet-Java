@@ -15,7 +15,7 @@ import com.cometproject.server.network.sessions.Session;
 
 public class PickUpItemMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) {
-        if (client.getPlayer() == null || client.getPlayer().getEntity() == null) {
+        if (client == null || client.getPlayer() == null || client.getPlayer().getEntity() == null) {
             return;
         }
 
