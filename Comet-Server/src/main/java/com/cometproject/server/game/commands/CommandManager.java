@@ -195,6 +195,8 @@ public class CommandManager implements Initialisable {
         // New
         this.addCommand(Locale.get("command.advban.name"), new AdvBanCommand());
         this.addCommand(Locale.get("command.softban.name"), new SoftBanCommand());
+        this.addCommand(Locale.get("command.freeze.name"), new FreezeCommand());
+        this.addCommand(Locale.get("command.unfreeze.name"), new UnfreezeCommand());
 
         // Room bundles
         this.addCommand(Locale.get("command.bundle.name"), new BundleCommand());
