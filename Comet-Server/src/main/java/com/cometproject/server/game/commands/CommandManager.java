@@ -126,6 +126,7 @@ public class CommandManager implements Initialisable {
         this.addCommand(Locale.get("command.colour.name"), new ColourCommand());
         this.addCommand(Locale.get("command.flagme.name"), new FlagMeCommand());
         this.addCommand(Locale.get("command.flaguser.name"), new FlagUserCommand());
+        this.addCommand(Locale.get("command.randomize.name"), new RandomizeCommand());
 
         // VIP commands
         this.addCommand(Locale.get("command.push.name"), new PushCommand());
@@ -195,6 +196,10 @@ public class CommandManager implements Initialisable {
         // New
         this.addCommand(Locale.get("command.advban.name"), new AdvBanCommand());
         this.addCommand(Locale.get("command.softban.name"), new SoftBanCommand());
+        this.addCommand(Locale.get("command.masseffect.name"), new MassEffectCommand());
+        this.addCommand(Locale.get("command.masshanditem.name"), new MassHandItemCommand());
+        this.addCommand(Locale.get("command.freeze.name"), new FreezeCommand());
+        this.addCommand(Locale.get("command.unfreeze.name"), new UnfreezeCommand());
 
         // Room bundles
         this.addCommand(Locale.get("command.bundle.name"), new BundleCommand());

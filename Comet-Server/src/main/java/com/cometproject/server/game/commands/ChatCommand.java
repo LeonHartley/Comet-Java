@@ -25,7 +25,7 @@ public abstract class ChatCommand {
     }
 
     public static void sendWhisper(String msg, Session session) {
-        session.send(new WhisperMessageComposer(session.getPlayer().getId(), msg));
+        session.send(new WhisperMessageComposer(session.getPlayer().getEntity().getId(), msg));
     }
 
     public static void isExecuted(Session session) {
