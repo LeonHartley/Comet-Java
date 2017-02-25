@@ -34,7 +34,7 @@ public class ItemPathfinder extends Pathfinder {
             return false;
         }
 
-        if (!(roomFloorObject instanceof RollableFloorItem) && (!roomFloorObject.getRoom().getMapping().isValidPosition(to) || (roomFloorObject.getRoom().getModel().getSquareState()[to.getX()][to.getY()] == RoomTileState.INVALID))) {
+        if ((!roomFloorObject.getRoom().getMapping().isValidPosition(to) || (roomFloorObject.getRoom().getModel().getSquareState()[to.getX()][to.getY()] == RoomTileState.INVALID))) {
             return false;
         }
 
