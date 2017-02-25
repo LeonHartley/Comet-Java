@@ -36,14 +36,19 @@ public class ScratchPetMessageEvent implements Event {
             }
 
             if(tile != null) {
-                playerEntity.moveTo(position);
-                tile.scheduleEvent(playerEntity.getId(), (e) -> scratch(((PlayerEntity) e).getPlayer().getSession(), petEntity));
+                if(!tile.isReachable(playerEntity)) {
+                    petEntity.getPetAI().waitForInteraction();
+                    petEntity.cancelWalk();
+
+                    scratch(client, petEntity);
+                } else {
+                    playerEntity.moveTo(position);
+                    tile.scheduleEvent(playerEntity.getId(), (e) -> scratch(((PlayerEntity) e).getPlayer().getSession(), petEntity));
+                }
             } else {
                 return;
             }
 
-            petEntity.getPetAI().waitForInteraction();
-            petEntity.cancelWalk();
             return;
         }
 
