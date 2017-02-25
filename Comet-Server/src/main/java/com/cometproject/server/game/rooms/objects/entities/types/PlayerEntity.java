@@ -51,7 +51,10 @@ import com.cometproject.server.network.messages.outgoing.room.permissions.YouAre
 import com.cometproject.server.network.messages.outgoing.room.permissions.YouAreSpectatorMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.queue.RoomQueueStatusMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.settings.RoomRatingMessageComposer;
+import com.cometproject.server.network.messages.outgoing.user.inventory.PetInventoryMessageComposer;
+import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.storage.queries.pets.RoomPetDao;
 import com.cometproject.server.utilities.attributes.Attributable;
 import org.apache.log4j.Logger;
 import org.mindrot.jbcrypt.BCrypt;
@@ -331,7 +334,12 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
         if (this.hasPlacedPet && this.getRoom().getData().getOwnerId() != this.playerId) {
             for (PetEntity petEntity : this.getRoom().getEntities().getPetEntities()) {
                 if (petEntity.getData().getOwnerId() == this.getPlayerId()) {
-                    petEntity.kick();
+                    RoomPetDao.updatePet(0, 0, 0, petEntity.getData().getId());
+                    petEntity.leaveRoom(false);
+
+                    this.getPlayer().getPets().addPet(petEntity.getData());
+                    this.getPlayer().getSession().send(new PetInventoryMessageComposer(this.getPlayer().getPets().getPets()));
+
                 }
             }
         }
