@@ -14,9 +14,11 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredF
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.utilities.attributes.Attributable;
+import com.google.common.collect.Sets;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 
 public abstract class RoomItem extends BigRoomFloorObject implements Attributable {
@@ -28,12 +30,18 @@ public abstract class RoomItem extends BigRoomFloorObject implements Attributabl
 
     protected int ticksTimer;
 
+    private final Set<Long> wiredItems = Sets.newHashSet();
+
     private LimitedEditionItemData limitedEditionItemData;
     private Map<String, Object> attributes;
 
     public RoomItem(long id, Position position, Room room) {
         super(id, position, room);
         this.ticksTimer = -1;
+    }
+
+    public Set<Long> getWiredItems() {
+        return this.wiredItems;
     }
 
     public void setLimitedEditionItemData(LimitedEditionItemData limitedEditionItemData) {

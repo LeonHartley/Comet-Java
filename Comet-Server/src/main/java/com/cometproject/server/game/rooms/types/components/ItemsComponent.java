@@ -7,7 +7,6 @@ import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.items.rares.LimitedEditionItemData;
-import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.AffectedTile;
@@ -19,6 +18,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.DiceFloorIte
 import com.cometproject.server.game.rooms.objects.items.types.floor.GiftFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.MagicStackFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.SoundMachineFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.wall.MoodlightWallItem;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
@@ -37,11 +37,9 @@ import com.cometproject.server.storage.cache.objects.items.FloorItemDataObject;
 import com.cometproject.server.storage.cache.objects.items.WallItemDataObject;
 import com.cometproject.server.storage.queries.items.LimitedEditionDao;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
-import com.cometproject.server.storage.queue.types.ItemStorageQueue;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import org.apache.commons.lang3.concurrent.ConcurrentRuntimeException;
 import org.apache.log4j.Logger;
 
 import java.util.*;
@@ -101,6 +99,26 @@ public class ItemsComponent {
         for (RoomItemFloor floorItem : this.floorItems.values()) {
             if (floorItem instanceof SoundMachineFloorItem) {
                 soundMachineId = floorItem.getId();
+            }
+
+            if (floorItem instanceof WiredFloorItem) {
+                List<Long> itemsToRemove = Lists.newArrayList();
+
+                for (long selectedItemId : ((WiredFloorItem) floorItem).getWiredData().getSelectedIds()) {
+                    final RoomItemFloor floor = this.getFloorItem(selectedItemId);
+
+                    if (floor != null) {
+                        floor.getWiredItems().add(floorItem.getId());
+                    } else {
+                        itemsToRemove.add(selectedItemId);
+                    }
+                }
+
+                for(long itemId : itemsToRemove) {
+                    ((WiredFloorItem) floorItem).getWiredData().getSelectedIds().remove(itemId);
+                }
+
+                itemsToRemove.clear();
             }
 
             this.indexItem(floorItem);
@@ -304,6 +322,16 @@ public class ItemsComponent {
             this.soundMachineId = 0;
         }
 
+        if (item.getWiredItems().size() != 0) {
+            for (long wiredItem : item.getWiredItems()) {
+                final WiredFloorItem floorItem = (WiredFloorItem) this.getFloorItem(wiredItem);
+
+                if(floorItem != null) {
+                    floorItem.getWiredData().getSelectedIds().remove(item.getId());
+                }
+            }
+        }
+
         removeItem(item, client, true, false);
     }
 
@@ -335,8 +363,8 @@ public class ItemsComponent {
         Session client = session;
         int owner = item.getOwner();
 
-        if(session != null) {
-            if(owner != session.getPlayer().getId()) {
+        if (session != null) {
+            if (owner != session.getPlayer().getId()) {
                 client = NetworkManager.getInstance().getSessions().getByPlayerId(owner);
             }
         }
@@ -376,11 +404,11 @@ public class ItemsComponent {
 
             Session session = client;
 
-            if(item.getOwner() != client.getPlayer().getId()) {
+            if (item.getOwner() != client.getPlayer().getId()) {
                 session = NetworkManager.getInstance().getSessions().getByPlayerId(item.getOwner());
             }
 
-            if(session != null) {
+            if (session != null) {
                 session.getPlayer().getInventory().add(item.getId(), item.getItemId(), item.getExtraData(), item.getLimitedEditionItemData());
                 session.send(new UpdateInventoryMessageComposer());
                 session.send(new UnseenItemsMessageComposer(new HashMap<Integer, List<Integer>>() {{
@@ -491,11 +519,11 @@ public class ItemsComponent {
             List<AffectedTile> affectedTiles = AffectedTile.getAffectedBothTilesAt(
                     item.getLength(), item.getWidth(), tile.getPosition().getX(), tile.getPosition().getY(), rotation);
 
-            for(AffectedTile affectedTile : affectedTiles) {
+            for (AffectedTile affectedTile : affectedTiles) {
                 final RoomTile roomTile = this.getRoom().getMapping().getTile(affectedTile.x, affectedTile.y);
 
-                if(roomTile != null) {
-                    if(!this.verifyItemTilePosition(item, floor, roomTile, rotation)) {
+                if (roomTile != null) {
+                    if (!this.verifyItemTilePosition(item, floor, roomTile, rotation)) {
                         return false;
                     }
                 }

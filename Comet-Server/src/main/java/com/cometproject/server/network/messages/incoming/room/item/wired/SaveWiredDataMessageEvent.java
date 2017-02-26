@@ -5,6 +5,7 @@ import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.filter.FilterResult;
+import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions.WiredActionGiveReward;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions.WiredActionMatchToSnapshot;
@@ -64,7 +65,6 @@ public class SaveWiredDataMessageEvent implements Event {
             }
         }
 
-
         wiredItem.getWiredData().setText(filteredMessage);
 
         wiredItem.getWiredData().getSelectedIds().clear();
@@ -72,7 +72,16 @@ public class SaveWiredDataMessageEvent implements Event {
         int selectedItemCount = msg.readInt();
 
         for (int i = 0; i < selectedItemCount; i++) {
-            wiredItem.getWiredData().selectItem(ItemManager.getInstance().getItemIdByVirtualId(msg.readInt()));
+            long selectedItem = ItemManager.getInstance().getItemIdByVirtualId(msg.readInt());
+
+            final RoomItemFloor floor = room.getItems().getFloorItem(selectedItem);
+
+            if(floor == null) {
+                continue;
+            }
+
+            floor.getWiredItems().add(wiredItem.getId());
+            wiredItem.getWiredData().selectItem(selectedItem);
         }
 
         if (wiredItem instanceof WiredActionItem) {
