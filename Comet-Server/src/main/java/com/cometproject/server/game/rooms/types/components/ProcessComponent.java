@@ -415,18 +415,20 @@ public class ProcessComponent implements CometTask {
                 List<RoomItemFloor> preItems = this.getRoom().getItems().getItemsOnSquare(nextSq.x, nextSq.y);
 
                 for (RoomItemFloor item : preItems) {
-                    if (entity.getCurrentEffect() != null && entity.getCurrentEffect().getEffectId() == item.getDefinition().getEffectId()) {
-                        if (item.getId() == tile.getTopItem()) {
-                            effectNeedsRemove = false;
+                    if (item != null) {
+                        if (entity.getCurrentEffect() != null && entity.getCurrentEffect().getEffectId() == item.getDefinition().getEffectId()) {
+                            if (item.getId() == tile.getTopItem()) {
+                                effectNeedsRemove = false;
+                            }
                         }
-                    }
 
-                    if (item.isMovementCancelled(entity)) {
-                        isCancelled = true;
-                    }
+                        if (item.isMovementCancelled(entity)) {
+                            isCancelled = true;
+                        }
 
-                    if (!isCancelled) {
-                        item.onEntityPreStepOn(entity);
+                        if (!isCancelled) {
+                            item.onEntityPreStepOn(entity);
+                        }
                     }
                 }
 
