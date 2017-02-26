@@ -11,6 +11,10 @@ public class UserBadgesMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) {
         int userId = msg.readInt();
 
+        if (client.getPlayer() == null || client.getPlayer().getInventory() == null) {
+            return;
+        }
+
         if (client.getPlayer().getId() == userId) {
             client.send(new UserBadgesMessageComposer(client.getPlayer().getId(), client.getPlayer().getInventory().equippedBadges()));
             return;

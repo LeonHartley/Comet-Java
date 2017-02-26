@@ -2,7 +2,6 @@ package com.cometproject.server.network.messages.incoming.room.action;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
-import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.filter.FilterResult;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
@@ -77,6 +76,10 @@ public class TalkMessageEvent implements Event {
         }
 
         String filteredMessage = filterMessage(message);
+
+        if (filteredMessage == null) {
+            return;
+        }
 
         if (!client.getPlayer().getPermissions().getRank().roomFilterBypass()) {
             FilterResult filterResult = RoomManager.getInstance().getFilter().filter(filteredMessage);

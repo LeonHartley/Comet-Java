@@ -24,6 +24,8 @@ public class SaveWiredDataMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) throws Exception {
         int virtualId = msg.readInt();
 
+        if (ItemManager.getInstance().getItemIdByVirtualId(virtualId) == null) return;
+
         long itemId = ItemManager.getInstance().getItemIdByVirtualId(virtualId);
 
         if (client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null) return;
@@ -53,6 +55,10 @@ public class SaveWiredDataMessageEvent implements Event {
         }
 
         String filteredMessage = msg.readString();
+
+        if (filteredMessage == null) {
+            return;
+        }
 
         if (!client.getPlayer().getPermissions().getRank().roomFilterBypass()) {
             FilterResult filterResult = RoomManager.getInstance().getFilter().filter(filteredMessage);

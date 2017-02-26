@@ -52,7 +52,6 @@ import com.cometproject.server.network.messages.outgoing.room.permissions.YouAre
 import com.cometproject.server.network.messages.outgoing.room.queue.RoomQueueStatusMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.settings.RoomRatingMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.PetInventoryMessageComposer;
-import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.pets.RoomPetDao;
 import com.cometproject.server.utilities.attributes.Attributable;
@@ -436,11 +435,13 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
             return false;
 
         try {
-            if (CommandManager.getInstance().isCommand(message)) {
-                if (CommandManager.getInstance().parse(message, this.getPlayer().getSession()))
-                    return false;
-            } else if (CommandManager.getInstance().getNotifications().isNotificationExecutor(message, this.getPlayer().getData().getRank())) {
-                CommandManager.getInstance().getNotifications().execute(this.player, message.substring(1));
+            if (this.getPlayer() != null && this.getPlayer().getSession() != null) {
+                if (CommandManager.getInstance().isCommand(message)) {
+                    if (CommandManager.getInstance().parse(message, this.getPlayer().getSession()))
+                        return false;
+                } else if (CommandManager.getInstance().getNotifications().isNotificationExecutor(message, this.getPlayer().getData().getRank())) {
+                    CommandManager.getInstance().getNotifications().execute(this.player, message.substring(1));
+                }
             }
         } catch (Exception e) {
             log.error("Error while executing command", e);

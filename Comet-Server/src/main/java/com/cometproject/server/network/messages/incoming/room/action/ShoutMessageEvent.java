@@ -53,6 +53,10 @@ public class ShoutMessageEvent implements Event {
 
         String filteredMessage = TalkMessageEvent.filterMessage(message);
 
+        if (filteredMessage == null) {
+            return;
+        }
+
         if (!client.getPlayer().getPermissions().getRank().roomFilterBypass()) {
             FilterResult filterResult = RoomManager.getInstance().getFilter().filter(message);
 
