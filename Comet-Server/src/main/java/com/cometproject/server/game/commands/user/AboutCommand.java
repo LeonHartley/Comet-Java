@@ -54,15 +54,14 @@ public class AboutCommand extends ChatCommand {
         if (aboutStats) {
             about.append("<br><br><b>Hotel Stats</b><br>");
             about.append("Online record: " + GameCycle.getInstance().getOnlineRecord() + "<br>");
-            about.append("Record since last reboot: " + GameCycle.getInstance().getCurrentOnlineRecord() + "<br>");
+            about.append("Record since last reboot: " + GameCycle.getInstance().getCurrentOnlineRecord() + "<br><br>");
         }
-        
-        about.append("https://www.cometproject.nl");
+
 
         client.send(new AdvancedAlertMessageComposer(
                 "Comet Server - " + Comet.getBuild(),
                 about.toString(),
-                CometSettings.aboutImg
+                "www.cometproject.nl", "https://www.cometproject.nl", CometSettings.aboutImg
         ));
     }
 
@@ -70,7 +69,7 @@ public class AboutCommand extends ChatCommand {
     public String getPermission() {
         return "about_command";
     }
-    
+
     @Override
     public String getParameter() {
         return "";
