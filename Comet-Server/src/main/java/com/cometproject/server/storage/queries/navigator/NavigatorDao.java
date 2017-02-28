@@ -11,18 +11,18 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 
 
 public class NavigatorDao {
-    public static Map<Integer, PublicRoom> getPublicRooms() {
+    public static LinkedHashMap<Integer, PublicRoom> getPublicRooms() {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        Map<Integer, PublicRoom> data = new ConcurrentHashMap<>();
+        LinkedHashMap<Integer, PublicRoom> data = new LinkedHashMap<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();
