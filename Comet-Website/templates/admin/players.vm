@@ -1,0 +1,105 @@
+#parse('/templates/admin/base/header.vm')
+#set($page = 'players')
+
+<style>
+    input[type='text'] {
+        width: 60%;
+    }
+
+</style>
+
+<script>
+    $('#myTab a').click(function (e) {
+        e.preventDefault()
+        $(this).tab('show')
+    })
+
+
+    $(document).ready(function () {
+        var playerTemplate = Handlebars.compile($('#player-template').html());
+
+        $('#playerUsername').on('input', function (e) {
+            if (e.target.value === '') {
+            } else {
+                var username = $('#playerUsername').val()
+                $('#usernameDisplay').html(username)
+
+                var formData = {
+                    'username': username //for get email
+                }
+
+                $.ajax({
+                    url: "/admin/players/search",
+                    type: "post",
+                    data: formData,
+                    success: function (d) {
+                        listPlayers(JSON.parse(d).players)
+                    }
+                });
+            }
+        });
+
+        function listPlayers(players) {
+            $('#playerList').empty()
+
+            for (var i = 0; i < players.length; i++) {
+                console.log(players[i])
+                $('#playerList').append(playerTemplate(players[i]))
+            }
+        }
+    });
+
+</script>
+
+
+<script id="player-template" type="text/x-handlebars-template">
+    <div class="list-group-item list-group-item-action flex-column align-items-start" style="min-height: 150px;">
+        <span style="width: 64px; height: 110px; position: absolute; left: 10px; right: 10px; background: url('https://www.habbo.nl/habbo-imaging/avatarimage?figure={{figure}}');"></span>
+
+        <div style="z-index: 100; margin-left: 64px;width: 200px; height: auto;float: right;">
+            <h5 class="mb-1">{{username}}</h5>
+            <small class="text-muted">Motto: <i>{{motto}}</i></small>
+            <br/>
+            <small class="text-muted">Credits: <i>{{credits}}</i></small>
+            <br/>
+            <small class="text-muted">Rank: <i>{{rank}}</i></small>
+            <br />
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-secondary">Modify</button>
+                <button type="button" class="btn btn-secondary">Inventory</button>
+                <button type="button" class="btn btn-secondary">Chatlog</button>
+                <button type="button" class="btn btn-secondary">Bans</button>
+            </div>
+        </div>
+
+    </div>
+</script>
+
+<div class="container-fluid">
+    <div class="row">
+
+        #parse('/templates/admin/base/sidebar.vm')
+
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style="padding: 20px;">
+            <form>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="playerUsername" placeholder="Player Username">
+                    <small id="emailHelp" class="form-text text-muted">
+                        Start typing a username and it will be searched
+                        automatically!
+                    </small>
+                </div>
+            </form>
+
+            <div>
+                Showing results for <i><span id="usernameDisplay"></span></i>
+            </div>
+
+            <div style="margin-top: 10px;" class="list-group" id="playerList">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+#parse('/templates/admin/base/footer.vm')

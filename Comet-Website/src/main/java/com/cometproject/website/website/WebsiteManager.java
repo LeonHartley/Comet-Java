@@ -114,6 +114,9 @@ public class WebsiteManager {
         post("/admin/news/create", NewsRoute::create);
         get("/admin/news/:id/delete", NewsRoute::delete);
 
+        get("/admin/players", PlayersRoute::index, velocityTemplateEngine);
+        post("/admin/players/search", PlayersRoute::search);
+
         get("/admin/settings", SettingsRoute::index, velocityTemplateEngine);
         post("/admin/settings/save", SettingsRoute::save);
 

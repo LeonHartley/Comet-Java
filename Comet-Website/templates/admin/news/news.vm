@@ -46,7 +46,7 @@
     <div class="row">
         #parse('/templates/admin/base/sidebar.vm')
 
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style="padding: 20px;">
             <h1 class="page-header">News Articles
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createModal">Create
                     New

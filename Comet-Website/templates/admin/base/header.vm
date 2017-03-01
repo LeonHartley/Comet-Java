@@ -7,10 +7,9 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>$siteSettings.hotelName Admin</title>
+    <title>$siteSettings.hotelName Housekeeping</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="$config.assetsUrl/admin/css/dashboard.css">
 
 
@@ -19,11 +18,8 @@
 
 </head>
 <body>
-<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">$siteSettings.hotelName</a>
-        </div>
 
-    </div>
+<!-- As a heading -->
+<nav class="navbar navbar-light bg-faded">
+    <h1 class="navbar-brand mb-0">$siteSettings.hotelName</h1>
 </nav>

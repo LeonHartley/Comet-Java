@@ -5,36 +5,29 @@
     <div class="row">
 
         #parse('/templates/admin/base/sidebar.vm')
+        <div class="col-md-10" style="padding: 20px;">
 
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             <h1 class="page-header">Dashboard</h1>
 
             <div class="row">
-                <div class="col-md-6">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Server Statistics</h3>
-                        </div>
-
-                        <div class="panel-body">
-                            Active Players: $serverStatistics.activePlayers<br/>
-                            Active Rooms: $serverStatistics.activeRooms<br/>
-                            Version: $serverStatistics.serverVersion<br/>
+                <div class="card-group">
+                    <div class="card">
+                        <div class="card-block">
+                            <h4 class="card-title">Server Statistics</h4>
+                            <p class="card-text">                    Active Players: $serverStatistics.activePlayers<br/>
+                                Active Rooms: $serverStatistics.activeRooms<br/>
+                                Version: $serverStatistics.serverVersion<br/></p>
                         </div>
                     </div>
-                </div>
 
-                <div class="col-md-6">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Server Information</h3>
-                        </div>
-
-                        <div class="panel-body">
-                            Comet Server & Comet Website are both written in Java. They are currently private software and are very exclusive.
+                    <div class="card">
+                        <div class="card-block">
+                            <h4 class="card-title">Server Information</h4>
+                            <p class="card-text">Comet Server & Comet Website are written in Java by the Comet Team. They are extremely exclusive.</p>
+                            <a href="http://cometproject.nl" class="card-link">Comet Project</a>
                         </div>
                     </div>
-                </div>
+                    </div>
             </div>
         </div>
     </div>

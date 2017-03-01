@@ -7,6 +7,8 @@ import com.cometproject.website.settings.SiteSettings;
 import com.cometproject.website.storage.dao.DaoHelper;
 
 import java.sql.*;
+import java.util.LinkedList;
+import java.util.List;
 
 public class PlayerDao {
     public static Player getByCredentials(String username, String password) {
@@ -63,6 +65,39 @@ public class PlayerDao {
 
         return null;
     }
+
+
+    public static List<Player> searchByUsername(String username) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        final List<Player> data = new LinkedList<>();
+
+        try {
+            sqlConnection = DaoHelper.getConnection();
+
+            username = username + "%";
+
+            preparedStatement = sqlConnection.prepareStatement("SELECT * FROM players WHERE username LIKE ?");
+            preparedStatement.setString(1, username);
+
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                data.add(new Player(resultSet));
+            }
+        } catch (SQLException e) {
+            DaoHelper.handleException(e);
+        } finally {
+            DaoHelper.close(resultSet);
+            DaoHelper.close(preparedStatement);
+            DaoHelper.close(sqlConnection);
+        }
+
+        return data;
+    }
+
 
     public static int getRankByPlayerId(Integer id) {
         if (id == null)

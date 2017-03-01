@@ -7,24 +7,20 @@
 
         #parse('/templates/admin/base/sidebar.vm')
 
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <div class="col-md-5 main" style="padding: 20px;">
             <h1 class="page-header">Cache</h1>
 
             #if($success)
                 <div class="alert alert-success">Your request was successful</div>
             #end
 
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Cache Settings</h3>
-                        </div>
-
-                        <div class="panel-body">
-                            <a href="/admin/cache/reload" class="btn btn-primary">Reload Gamedata Cache</a>
-                        </div>
-                    </div>
+            <div class="card">
+                <div class="card-header">
+                    Cache
+                </div>
+                <div class="card-block">
+                    <p class="card-text">Refresh the gamedata cache</p>
+                    <a href="/admin/cache/reload" class="btn btn-primary">Reload</a>
                 </div>
             </div>
         </div>
