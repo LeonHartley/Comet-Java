@@ -11,6 +11,7 @@ public class ItemDefinition implements FurnitureDefinition {
     private final String publicName;
     private final String itemName;
     private final String type;
+    private final ItemType itemType;
     private final int width;
     private final int length;
     private final double height;
@@ -89,6 +90,8 @@ public class ItemDefinition implements FurnitureDefinition {
         } else {
             this.height = height;
         }
+
+        this.itemType = ItemType.forString(this.type);
     }
 
     public boolean isAdFurni() {
@@ -121,6 +124,10 @@ public class ItemDefinition implements FurnitureDefinition {
 
     public String getType() {
         return this.type;
+    }
+
+    public ItemType getItemType() {
+        return this.itemType;
     }
 
     public int getWidth() {

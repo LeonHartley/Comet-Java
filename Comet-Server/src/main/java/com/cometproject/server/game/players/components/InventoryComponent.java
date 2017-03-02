@@ -186,11 +186,11 @@ public class InventoryComponent implements PlayerInventory {
         PlayerItem item = new InventoryItem(id, itemId, extraData, giftData, limitedEditionItem);
 
         if (item.getDefinition().getType().equals("s")) {
-            this.getFloorItems().put(id, (InventoryItem) item);
+            this.getFloorItems().put(id, item);
         }
 
         if (item.getDefinition().getType().equals("i")) {
-            this.getWallItems().put(id, (InventoryItem) item);
+            this.getWallItems().put(id, item);
         }
 
         return item;

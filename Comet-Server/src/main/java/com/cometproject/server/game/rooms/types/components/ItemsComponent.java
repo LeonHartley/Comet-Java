@@ -323,6 +323,10 @@ public class ItemsComponent {
     }
 
     public void removeItem(RoomItemFloor item, Session client) {
+        removeItem(item, client, true);
+    }
+
+    public void removeItem(RoomItemFloor item, Session client, boolean toInventory) {
         if (item instanceof SoundMachineFloorItem) {
             this.soundMachineId = 0;
         }
@@ -337,7 +341,7 @@ public class ItemsComponent {
             }
         }
 
-        removeItem(item, client, true, false);
+        removeItem(item, client, toInventory, false);
     }
 
     public void removeItem(RoomItemFloor item, Session session, boolean toInventory, boolean delete) {
