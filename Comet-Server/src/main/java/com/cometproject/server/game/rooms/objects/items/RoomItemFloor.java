@@ -11,7 +11,6 @@ import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.data.PlayerAvatar;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.AffectedTile;
-import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.data.BackgroundTonerData;
 import com.cometproject.server.game.rooms.objects.items.types.DefaultFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.AdjustableHeightFloorItem;
@@ -27,16 +26,12 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.highsc
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorItemMessageComposer;
-import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import com.cometproject.server.storage.queue.types.ItemStorageQueue;
 import com.cometproject.server.utilities.attributes.Collidable;
-import com.cometproject.server.utilities.attributes.Stateable;
-import com.cometproject.server.utilities.comporators.PositionComporator;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang.StringUtils;
 
-import java.util.Collections;
 import java.util.List;
 
 
@@ -205,7 +200,7 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
             } else {
                 msg.writeInt(2);
                 msg.writeInt(5);
-                msg.writeString(this instanceof GroupGateFloorItem ? this.getExtraData() : "0");
+                msg.writeString(this instanceof GroupGateFloorItem ? ((GroupGateFloorItem) this).isOpen ? "1" : "0" : "0");
                 msg.writeString(this.getExtraData());
                 msg.writeString(groupData.getBadge());
 

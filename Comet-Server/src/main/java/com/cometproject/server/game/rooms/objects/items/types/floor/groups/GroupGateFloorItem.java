@@ -8,15 +8,17 @@ import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorI
 
 
 public class GroupGateFloorItem extends GroupFloorItem {
+    public boolean isOpen = false;
+
     public GroupGateFloorItem(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
 
-        this.setExtraData("0");
+        this.isOpen = false;
     }
 
     @Override
     public void onEntityStepOn(RoomEntity entity) {
-        this.setExtraData("1");
+        this.isOpen = true;
         this.sendUpdate();
     }
 
@@ -27,7 +29,7 @@ public class GroupGateFloorItem extends GroupFloorItem {
 
     @Override
     public void onTickComplete() {
-        this.setExtraData("0");
+        this.isOpen = false;
         this.sendUpdate();
     }
 
