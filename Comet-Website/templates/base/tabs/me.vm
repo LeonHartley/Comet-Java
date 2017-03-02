@@ -29,12 +29,12 @@
     #end
 </li>
 
-##<li class="#if($page.id == "playlist") selected #end">
-##    #set($pageName = "Playlist Editor")
-##
-##    #if($page.id != "playlist")
-##        <a href="$config.siteUrl/playlist">$pageName</a>
-##    #else
-##        $pageName
-##    #end
-##</li>
+<li class="#if($page.id == "playlist") selected #end">
+    #set($pageName = "Playlist Editor")
+
+    #if($page.id != "playlist")
+        <a href="$config.siteUrl/playlist">$pageName</a>
+    #else
+        $pageName
+    #end
+</li>

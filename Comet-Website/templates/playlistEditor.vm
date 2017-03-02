@@ -10,13 +10,15 @@
             <div class="i1">
                 <div class="i2">
                     <div class="i3">
-                        <div class="rounded-box-bold" style="background: #4ab501">info</div>
+                        <div class="rounded-box-bold" style="background: #fc6204;">My Videos</div>
                         <div id="notfound-content" class="box-content">
                             #if($playlist.size() == 0)
                                 You don't have any videos in your playlist! Why don't you add some?
                             #else
                                 #foreach($video in $playlist)
-                                    $video.title<br />
+                                    <b>$video.title</b> <a href="/playlist/remove/$video.videoId"><button type="button">Remove</button></a><br />
+                                    <a href="https://youtube.com/watch?v=$video.videoId" target="_new">https://youtube.com/watch?v=$video.videoId</a>
+                                    <br /><br />
                                 #end
                             #end
                         </div>
@@ -44,10 +46,10 @@
             <div class="i1">
                 <div class="i2">
                     <div class="i3">
-                        <div class="rounded-box-bold" style="background: #4ab501">info</div>
+                        <div class="rounded-box-bold" style="background: #d64242;">Add Video</div>
                         <div class="box-content">
-                            top kek
-
+                        <input type="text" placeholder="Video Link" />
+                        <input type="submit" value="Add Video" />
                         </div>
                     </div>
                 </div>
@@ -65,10 +67,10 @@
             <div class="i1">
                 <div class="i2">
                     <div class="i3">
-                        <div class="rounded-box-bold" style="background: #4ab501">info</div>
+                        <div class="rounded-box-bold" style="background: #4ab501">How does it work?</div>
                         <div class="box-content">
-                            top kek
-
+                            Add your YouTube video link here and whenever you open a YouTube television in your room,
+                            all videos listed here will be there!
                         </div>
                     </div>
                 </div>
