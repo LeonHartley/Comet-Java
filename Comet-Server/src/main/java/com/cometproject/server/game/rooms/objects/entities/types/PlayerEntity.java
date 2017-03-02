@@ -398,6 +398,10 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
             return false;
         }
 
+        if (WiredTriggerPlayerSaysKeyword.executeTriggers(this, message)) {
+            return false;
+        }
+
         if (!this.getPlayer().getPermissions().getRank().floodBypass()) {
             if (this.lastMessage.equals(message)) {
                 this.lastMessageCounter++;
@@ -455,10 +459,6 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
         if ((this.getRoom().getRights().hasMute(this.getPlayerId()) || BanManager.getInstance().isMuted(this.getPlayerId())) && !this.getPlayer().getPermissions().getRank().roomMuteBypass()) {
             this.getPlayer().getSession().send(new MutedMessageComposer(this.getRoom().getRights().getMuteTime(this.getPlayerId())));
 
-            return false;
-        }
-
-        if (WiredTriggerPlayerSaysKeyword.executeTriggers(this, message)) {
             return false;
         }
 
