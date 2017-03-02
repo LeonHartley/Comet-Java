@@ -88,7 +88,7 @@ public class BanzaiGame extends RoomGame {
             }
         }
 
-        final List<RoomItemFloor> scoreboards = this.room.getItems().getByClass(HighscoreClassicFloorItem.class);
+        final List<HighscoreClassicFloorItem> scoreboards = this.room.getItems().getByClass(HighscoreClassicFloorItem.class);
 
         if (scoreboards.size() != 0) {
             List<Integer> winningPlayers = this.room.getGame().getTeams().get(this.winningTeam());
@@ -99,8 +99,8 @@ public class BanzaiGame extends RoomGame {
             }
 
             if (winningPlayerUsernames.size() != 0) {
-                for (RoomItemFloor scoreboard : scoreboards) {
-                    ((HighscoreClassicFloorItem) scoreboard).addEntry(winningPlayerUsernames, this.getScore(this.winningTeam()));
+                for (HighscoreClassicFloorItem scoreboard : scoreboards) {
+                    scoreboard.addEntry(winningPlayerUsernames, this.getScore(this.winningTeam()));
                 }
             }
         }

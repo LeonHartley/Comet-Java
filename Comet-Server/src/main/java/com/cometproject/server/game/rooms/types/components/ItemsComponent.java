@@ -289,8 +289,8 @@ public class ItemsComponent {
         return items;
     }
 
-    public List<RoomItemFloor> getByClass(Class<? extends RoomItemFloor> clazz) {
-        List<RoomItemFloor> items = new ArrayList<>();
+    public <T extends RoomItemFloor> List<T> getByClass(Class<T> clazz) {
+        List<T> items = new ArrayList<>();
 
         if (this.itemClassIndex.containsKey(clazz)) {
             for (long itemId : this.itemClassIndex.get(clazz)) {
@@ -298,7 +298,12 @@ public class ItemsComponent {
 
                 if (floorItem == null || floorItem.getDefinition() == null) continue;
 
-                items.add(this.getFloorItem(itemId));
+                if(floorItem.getClass().equals(clazz)) {
+                    continue;
+                }
+
+                T item = ((T) floorItem);
+                items.add(item);
             }
         }
 
