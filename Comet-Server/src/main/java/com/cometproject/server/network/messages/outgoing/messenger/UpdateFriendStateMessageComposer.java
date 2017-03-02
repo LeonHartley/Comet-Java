@@ -79,6 +79,6 @@ public class UpdateFriendStateMessageComposer extends MessageComposer {
         msg.writeBoolean(false);
         msg.writeBoolean(false);
         msg.writeBoolean(false);
-        msg.writeShort(this.relationshipLevel != null ? relationshipLevel.getLevelId() : 01);
+        msg.writeShort(this.relationshipLevel != null ? relationshipLevel.getLevelId() : 0);
     }
 }
