@@ -1,6 +1,7 @@
 package com.cometproject.server.game.players;
 
 import com.cometproject.server.boot.Comet;
+import com.cometproject.server.config.Configuration;
 import com.cometproject.server.game.players.data.PlayerAvatar;
 import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.game.players.login.PlayerLoginRequest;
@@ -56,7 +57,7 @@ public class PlayerManager implements Initialisable {
         this.playerLoginService = Executors.newFixedThreadPool(16);// TODO: configure this.
 
         // Configure player cache
-        if ((boolean) Comet.getServer().getConfig().getOrDefault("comet.cache.players.enabled", true)) {
+        if ((boolean) Configuration.currentConfig().getOrDefault("comet.cache.players.enabled", true)) {
             log.info("Initializing Player cache");
 
             final int oneDay = 24 * 60 * 60;

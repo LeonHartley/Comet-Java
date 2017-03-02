@@ -2,6 +2,7 @@ package com.cometproject.server.game.rooms;
 
 import com.cometproject.api.game.rooms.settings.RoomTradeState;
 import com.cometproject.server.boot.Comet;
+import com.cometproject.server.config.Configuration;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.rooms.filter.WordFilter;
 import com.cometproject.server.game.rooms.models.CustomFloorMapData;
@@ -32,8 +33,8 @@ public class RoomManager implements Initialisable {
     private static RoomManager roomManagerInstance;
     public static final Logger log = Logger.getLogger(RoomManager.class.getName());
 
-    public static final int LRU_MAX_ENTRIES = Integer.parseInt(Comet.getServer().getConfig().getProperty("comet.game.rooms.data.max"));
-    public static final int LRU_MAX_LOWER_WATERMARK = Integer.parseInt(Comet.getServer().getConfig().getProperty("comet.game.rooms.data.lowerWatermark"));
+    public static final int LRU_MAX_ENTRIES = Integer.parseInt(Configuration.currentConfig().getProperty("comet.game.rooms.data.max"));
+    public static final int LRU_MAX_LOWER_WATERMARK = Integer.parseInt(Configuration.currentConfig().getProperty("comet.game.rooms.data.lowerWatermark"));
 
     private ConcurrentLRUCache<Integer, RoomData> roomDataInstances;
 

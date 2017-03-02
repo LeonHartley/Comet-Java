@@ -6,6 +6,7 @@ import com.cometproject.server.api.routes.RoomRoutes;
 import com.cometproject.server.api.routes.SystemRoutes;
 import com.cometproject.server.api.transformers.JsonTransformer;
 import com.cometproject.server.boot.Comet;
+import com.cometproject.server.config.Configuration;
 import com.cometproject.server.utilities.Initialisable;
 import org.apache.log4j.Logger;
 import spark.Spark;
@@ -82,7 +83,7 @@ public class APIManager implements Initialisable {
      */
     private void initializeConfiguration() {
         for (String configProperty : configProperties) {
-            if (!Comet.getServer().getConfig().containsKey(configProperty)) {
+            if (!Configuration.currentConfig().containsKey(configProperty)) {
                 log.warn("API configuration property not available: " + configProperty + ", API is disabled");
                 this.enabled = false;
 
@@ -90,9 +91,9 @@ public class APIManager implements Initialisable {
             }
         }
 
-        this.enabled = Comet.getServer().getConfig().getProperty("comet.api.enabled").equals("true");
-        this.port = Integer.parseInt(Comet.getServer().getConfig().getProperty("comet.api.port"));
-        this.authToken = Comet.getServer().getConfig().getProperty("comet.api.token");
+        this.enabled = Configuration.currentConfig().getProperty("comet.api.enabled").equals("true");
+        this.port = Integer.parseInt(Configuration.currentConfig().getProperty("comet.api.port"));
+        this.authToken = Configuration.currentConfig().getProperty("comet.api.token");
     }
 
     /**

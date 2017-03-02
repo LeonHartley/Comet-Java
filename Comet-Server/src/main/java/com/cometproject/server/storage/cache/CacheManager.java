@@ -1,6 +1,7 @@
 package com.cometproject.server.storage.cache;
 
 import com.cometproject.server.boot.Comet;
+import com.cometproject.server.config.Configuration;
 import com.cometproject.server.utilities.Initialisable;
 import com.cometproject.server.utilities.JsonUtil;
 import org.apache.log4j.Logger;
@@ -23,9 +24,9 @@ public class CacheManager implements Initialisable {
     private final String connectionString;
 
     public CacheManager() {
-        this.enabled = Boolean.parseBoolean((String) Comet.getServer().getConfig().getOrDefault("comet.cache.enabled", "false"));
-        this.keyPrefix = (String) Comet.getServer().getConfig().getOrDefault("comet.cache.prefix", "comet");
-        this.connectionString = (String) Comet.getServer().getConfig().getOrDefault("comet.cache.connection.url", "");
+        this.enabled = Boolean.parseBoolean((String) Configuration.currentConfig().getOrDefault("comet.cache.enabled", "false"));
+        this.keyPrefix = (String) Configuration.currentConfig().getOrDefault("comet.cache.prefix", "comet");
+        this.connectionString = (String) Configuration.currentConfig().getOrDefault("comet.cache.connection.url", "");
     }
 
     @Override

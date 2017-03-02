@@ -41,16 +41,11 @@ public class CometServer {
 
     public static final String CLIENT_VERSION = "PRODUCTION-201610052203-260805057";
 
-    /**
-     * Comet's configuration
-     */
-    private Configuration config;
-
     public CometServer(Map<String, String> overridenConfig) {
-        this.config = new Configuration("./config/comet.properties");
+        Configuration.setConfiguration(new Configuration("./config/comet.properties"));
 
         if (overridenConfig != null) {
-            this.config.override(overridenConfig);
+            Configuration.currentConfig().override(overridenConfig);
         }
     }
 
@@ -117,7 +112,7 @@ public class CometServer {
      * @return Comet configuration
      */
     public Configuration getConfig() {
-        return this.config;
+        return Configuration.currentConfig();
     }
 
     public Logger getLogger() {

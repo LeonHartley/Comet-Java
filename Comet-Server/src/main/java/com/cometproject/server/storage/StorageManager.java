@@ -1,6 +1,7 @@
 package com.cometproject.server.storage;
 
 import com.cometproject.server.boot.Comet;
+import com.cometproject.server.config.Configuration;
 import com.cometproject.server.storage.cache.CacheManager;
 import com.cometproject.server.utilities.Initialisable;
 import com.zaxxer.hikari.HikariConfig;
@@ -24,23 +25,23 @@ public class StorageManager implements Initialisable {
             HikariConfig config = new HikariConfig();
 
             config.setJdbcUrl(
-                    "jdbc:mysql://" + Comet.getServer().getConfig().get("comet.db.host") +
-                            "/" + Comet.getServer().getConfig().get("comet.db.name") + "?tcpKeepAlive=" + Comet.getServer().getConfig().get("comet.db.pool.tcpKeepAlive") +
-                            "&autoReconnect=" + Comet.getServer().getConfig().get("comet.db.pool.autoReconnect")
+                    "jdbc:mysql://" + Configuration.currentConfig().get("comet.db.host") +
+                            "/" + Configuration.currentConfig().get("comet.db.name") + "?tcpKeepAlive=" + Configuration.currentConfig().get("comet.db.pool.tcpKeepAlive") +
+                            "&autoReconnect=" + Configuration.currentConfig().get("comet.db.pool.autoReconnect")
             );
 
-            config.setUsername(Comet.getServer().getConfig().get("comet.db.username"));
-            config.setPassword(Comet.getServer().getConfig().get("comet.db.password"));
+            config.setUsername(Configuration.currentConfig().get("comet.db.username"));
+            config.setPassword(Configuration.currentConfig().get("comet.db.password"));
 
-            config.setMaximumPoolSize(Integer.parseInt(Comet.getServer().getConfig().get("comet.db.pool.max")));
+            config.setMaximumPoolSize(Integer.parseInt(Configuration.currentConfig().get("comet.db.pool.max")));
 
-//            config.setMaxConnectionsPerPartition(Integer.parseInt(Comet.getServer().getConfig().get("comet.db.pool.max")));
-//            config.setPartitionCount(Integer.parseInt(Comet.getServer().getConfig().get("comet.db.pool.count")));
+//            config.setMaxConnectionsPerPartition(Integer.parseInt(Configuration.currentConfig().get("comet.db.pool.max")));
+//            config.setPartitionCount(Integer.parseInt(Configuration.currentConfig().get("comet.db.pool.count")));
 //
-//            config.setIdleMaxAge(Integer.valueOf(Comet.getServer().getConfig().get("comet.db.pool.idleMaxAgeSeconds")), TimeUnit.SECONDS);
-//            config.setMaxConnectionAge(Integer.valueOf(Comet.getServer().getConfig().get("comet.db.pool.maxConnectionAgeSeconds")), TimeUnit.SECONDS);
+//            config.setIdleMaxAge(Integer.valueOf(Configuration.currentConfig().get("comet.db.pool.idleMaxAgeSeconds")), TimeUnit.SECONDS);
+//            config.setMaxConnectionAge(Integer.valueOf(Configuration.currentConfig().get("comet.db.pool.maxConnectionAgeSeconds")), TimeUnit.SECONDS);
 //
-//            config.setAcquireRetryAttempts(Integer.valueOf(Comet.getServer().getConfig().get("comet.db.pool.acquireRetryAttempts")));
+//            config.setAcquireRetryAttempts(Integer.valueOf(Configuration.currentConfig().get("comet.db.pool.acquireRetryAttempts")));
 
             log.info("Connecting to the MySQL server");
 

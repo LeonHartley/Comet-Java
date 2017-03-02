@@ -1,6 +1,7 @@
 package com.cometproject.server.tasks;
 
 import com.cometproject.server.boot.Comet;
+import com.cometproject.server.config.Configuration;
 import com.cometproject.server.game.rooms.types.components.ProcessComponent;
 import com.cometproject.server.utilities.Initialisable;
 import org.apache.log4j.Logger;
@@ -29,7 +30,7 @@ public class CometThreadManager implements Initialisable {
 
     @Override
     public void initialize() {
-        int poolSize = Integer.parseInt((String) Comet.getServer().getConfig().getOrDefault("comet.system.threads", "8"));
+        int poolSize = Integer.parseInt((String) Configuration.currentConfig().getOrDefault("comet.system.threads", "8"));
 
         this.coreExecutor = Executors.newScheduledThreadPool(poolSize, r -> {
             POOL_SIZE++;

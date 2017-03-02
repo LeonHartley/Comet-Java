@@ -8,6 +8,7 @@ import com.cometproject.server.boot.Comet;
 import com.cometproject.server.boot.CometServer;
 import com.cometproject.server.boot.utils.ConsoleCommands;
 import com.cometproject.server.config.CometSettings;
+import com.cometproject.server.config.Configuration;
 import com.cometproject.server.network.messages.MessageHandler;
 import com.cometproject.server.network.monitor.MonitorClient;
 import com.cometproject.server.network.sessions.SessionManager;
@@ -40,10 +41,10 @@ import java.util.UUID;
 public class NetworkManager {
     private static NetworkManager networkManagerInstance;
 
-    public static boolean IDLE_TIMER_ENABLED = Boolean.parseBoolean(Comet.getServer().getConfig().get("comet.network.idleTimer.enabled", "false"));
-    public static int IDLE_TIMER_READER_TIME = Integer.parseInt(Comet.getServer().getConfig().get("comet.network.idleTimer.readerIdleTime", "30"));
-    public static int IDLE_TIMER_WRITER_TIME = Integer.parseInt(Comet.getServer().getConfig().get("comet.network.idleTimer.writerIdleTime", "30"));
-    public static int IDLE_TIMER_ALL_TIME = Integer.parseInt(Comet.getServer().getConfig().get("comet.network.idleTimer.allIdleTime", "30"));
+    public static boolean IDLE_TIMER_ENABLED = Boolean.parseBoolean(Configuration.currentConfig().get("comet.network.idleTimer.enabled", "false"));
+    public static int IDLE_TIMER_READER_TIME = Integer.parseInt(Configuration.currentConfig().get("comet.network.idleTimer.readerIdleTime", "30"));
+    public static int IDLE_TIMER_WRITER_TIME = Integer.parseInt(Configuration.currentConfig().get("comet.network.idleTimer.writerIdleTime", "30"));
+    public static int IDLE_TIMER_ALL_TIME = Integer.parseInt(Configuration.currentConfig().get("comet.network.idleTimer.allIdleTime", "30"));
 
     private int serverPort;
 
@@ -111,15 +112,15 @@ public class NetworkManager {
         EventLoopGroup ioGroup;
         EventLoopGroup channelGroup;
 
-        final boolean isEpollEnabled = Boolean.parseBoolean(Comet.getServer().getConfig().get("comet.network.epoll", "false"));
+        final boolean isEpollEnabled = Boolean.parseBoolean(Configuration.currentConfig().get("comet.network.epoll", "false"));
         final boolean isEpollAvailable = Epoll.isAvailable();
         final int defaultThreadCount = 16; // TODO: Find the best count.
 
         if (isEpollAvailable && isEpollEnabled) {
             log.info("Epoll is enabled");
-            acceptGroup = new EpollEventLoopGroup(Integer.parseInt((String) Comet.getServer().getConfig().getOrDefault("comet.network.acceptGroupThreads", defaultThreadCount)));
-            ioGroup = new EpollEventLoopGroup(Integer.parseInt((String) Comet.getServer().getConfig().getOrDefault("comet.network.ioGroupThreads", defaultThreadCount)));
-            channelGroup = new EpollEventLoopGroup(Integer.parseInt((String) Comet.getServer().getConfig().getOrDefault("comet.network.channelGroupThreads", defaultThreadCount)));
+            acceptGroup = new EpollEventLoopGroup(Integer.parseInt((String) Configuration.currentConfig().getOrDefault("comet.network.acceptGroupThreads", defaultThreadCount)));
+            ioGroup = new EpollEventLoopGroup(Integer.parseInt((String) Configuration.currentConfig().getOrDefault("comet.network.ioGroupThreads", defaultThreadCount)));
+            channelGroup = new EpollEventLoopGroup(Integer.parseInt((String) Configuration.currentConfig().getOrDefault("comet.network.channelGroupThreads", defaultThreadCount)));
         } else {
             if (isEpollAvailable) {
                 log.info("Epoll is available but not enabled");
@@ -127,16 +128,16 @@ public class NetworkManager {
                 log.info("Epoll is not available");
             }
 
-            acceptGroup = new NioEventLoopGroup(Integer.parseInt((String) Comet.getServer().getConfig().getOrDefault("comet.network.acceptGroupThreads", defaultThreadCount)));
-            ioGroup = new NioEventLoopGroup(Integer.parseInt((String) Comet.getServer().getConfig().getOrDefault("comet.network.ioGroupThreads", defaultThreadCount)));
-            channelGroup = new NioEventLoopGroup(Integer.parseInt((String) Comet.getServer().getConfig().getOrDefault("comet.network.channelGroupThreads", defaultThreadCount)));
+            acceptGroup = new NioEventLoopGroup(Integer.parseInt((String) Configuration.currentConfig().getOrDefault("comet.network.acceptGroupThreads", defaultThreadCount)));
+            ioGroup = new NioEventLoopGroup(Integer.parseInt((String) Configuration.currentConfig().getOrDefault("comet.network.ioGroupThreads", defaultThreadCount)));
+            channelGroup = new NioEventLoopGroup(Integer.parseInt((String) Configuration.currentConfig().getOrDefault("comet.network.channelGroupThreads", defaultThreadCount)));
         }
 
         ServerBootstrap bootstrap = new ServerBootstrap()
                 .group(acceptGroup, ioGroup)
                 .channel(isEpollAvailable && isEpollEnabled ? EpollServerSocketChannel.class : NioServerSocketChannel.class)
                 .childHandler(new NetworkChannelInitializer(channelGroup))
-                .option(ChannelOption.SO_BACKLOG, Integer.parseInt(Comet.getServer().getConfig().get("comet.network.backlog", "500")))
+                .option(ChannelOption.SO_BACKLOG, Integer.parseInt(Configuration.currentConfig().get("comet.network.backlog", "500")))
                 .option(ChannelOption.TCP_NODELAY, true)
                 .option(ChannelOption.WRITE_BUFFER_LOW_WATER_MARK, 32 * 1024)
                 .option(ChannelOption.WRITE_BUFFER_HIGH_WATER_MARK, 64 * 1024)

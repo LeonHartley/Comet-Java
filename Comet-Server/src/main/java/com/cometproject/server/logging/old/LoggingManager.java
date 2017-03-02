@@ -9,8 +9,8 @@
 
 //
 //public class LoggingManager {
-//    private final int FLUSH_SECONDS = 0;//Integer.parseInt(Comet.getServer().getConfig().get("comet.game.logging.flush.seconds"));
-//    private final String TOKEN = "";//Comet.getServer().getConfig().get("comet.game.logging.token");
+//    private final int FLUSH_SECONDS = 0;//Integer.parseInt(Configuration.currentConfig().get("comet.game.logging.flush.seconds"));
+//    private final String TOKEN = "";//Configuration.currentConfig().get("comet.game.logging.token");
 //
 //    private final LoggingQueue queue;
 //    private ScheduledFuture process;

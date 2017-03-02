@@ -27,7 +27,7 @@
 //public class LoggingQueue implements CometTask {
 //    private final static Logger log = Logger.getLogger(LoggingQueue.class);
 //
-//    private final String BASE_URL = Comet.getServer().getConfig().get("comet.game.logging.baseurl");
+//    private final String BASE_URL = Configuration.currentConfig().get("comet.game.logging.baseurl");
 //
 //    private FastTable<AbstractLogEntry> loggingEntries = new FastTable<>();
 //    private FastTable<AbstractLogEntry> pendingLogEntries = new FastTable<>();

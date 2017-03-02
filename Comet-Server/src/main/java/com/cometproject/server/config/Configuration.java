@@ -16,6 +16,8 @@ public class Configuration extends Properties {
      */
     private static Logger log = Logger.getLogger(Configuration.class.getName());
 
+    private static Configuration configuration;
+
     /**
      * Initialize the configuration object
      * This configuration will be loaded from the *.properties files in /config
@@ -68,5 +70,13 @@ public class Configuration extends Properties {
         }
 
         return fallback;
+    }
+
+    public static Configuration currentConfig() {
+        return configuration;
+    }
+
+    public static void setConfiguration(Configuration conf) {
+        configuration = conf;
     }
 }

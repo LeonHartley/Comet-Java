@@ -16,13 +16,13 @@
 //        try {
 //            BoneCPConfig config = new BoneCPConfig();
 //
-//            config.setJdbcUrl("jdbc:mysql://" + Comet.getServer().getConfig().get("comet.game.logging.database.host") + "/" + Comet.getServer().getConfig().get("comet.game.logging.database.name"));
-//            config.setUsername(Comet.getServer().getConfig().get("comet.game.logging.database.username"));
-//            config.setPassword(Comet.getServer().getConfig().get("comet.game.logging.database.password"));
+//            config.setJdbcUrl("jdbc:mysql://" + Configuration.currentConfig().get("comet.game.logging.database.host") + "/" + Configuration.currentConfig().get("comet.game.logging.database.name"));
+//            config.setUsername(Configuration.currentConfig().get("comet.game.logging.database.username"));
+//            config.setPassword(Configuration.currentConfig().get("comet.game.logging.database.password"));
 //
-//            config.setMinConnectionsPerPartition(Integer.parseInt(Comet.getServer().getConfig().get("comet.db.pool.min")));
-//            config.setMaxConnectionsPerPartition(Integer.parseInt(Comet.getServer().getConfig().get("comet.db.pool.max")));
-//            config.setPartitionCount(Integer.parseInt(Comet.getServer().getConfig().get("comet.db.pool.count")));
+//            config.setMinConnectionsPerPartition(Integer.parseInt(Configuration.currentConfig().get("comet.db.pool.min")));
+//            config.setMaxConnectionsPerPartition(Integer.parseInt(Configuration.currentConfig().get("comet.db.pool.max")));
+//            config.setPartitionCount(Integer.parseInt(Configuration.currentConfig().get("comet.db.pool.count")));
 //
 //            this.connections = new BoneCP(config);
 //        } catch (Exception e) {
