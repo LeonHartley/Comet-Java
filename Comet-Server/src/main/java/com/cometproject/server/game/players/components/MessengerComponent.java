@@ -165,7 +165,7 @@ public class MessengerComponent implements PlayerComponent {
     }
 
     public void sendOffline(int friend, boolean online, boolean inRoom) {
-        this.getPlayer().getSession().send(new UpdateFriendStateMessageComposer(PlayerManager.getInstance().getAvatarByPlayerId(friend, PlayerAvatar.USERNAME_FIGURE_MOTTO), online, inRoom));
+        this.getPlayer().getSession().send(new UpdateFriendStateMessageComposer(PlayerManager.getInstance().getAvatarByPlayerId(friend, PlayerAvatar.USERNAME_FIGURE_MOTTO), online, inRoom, this.getPlayer().getRelationships().get(friend)));
     }
 
     public void sendStatus(boolean online, boolean inRoom) {
@@ -177,7 +177,16 @@ public class MessengerComponent implements PlayerComponent {
             return;
         }
 
-        this.broadcast(new UpdateFriendStateMessageComposer(this.getPlayer().getData(), online, inRoom));
+        for (MessengerFriend friend : this.getFriends().values()) {
+            if (!friend.isOnline() || friend.getUserId() == this.getPlayer().getId()) {
+                continue;
+            }
+
+            Session session = NetworkManager.getInstance().getSessions().getByPlayerId(friend.getUserId());
+
+            if (session != null && session.getPlayer().getMessenger().isInitialised())
+                session.send(new UpdateFriendStateMessageComposer(this.getPlayer().getData(), online, inRoom, session.getPlayer().getRelationships().get(this.getPlayer().getId())));
+        }
     }
 
     public MessengerFriend getFriendById(int id) {
