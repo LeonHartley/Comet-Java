@@ -9,7 +9,7 @@ import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessage
 import com.cometproject.server.network.messages.outgoing.room.permissions.FloodFilterMessageComposer;
 
 public class WaiterAI extends AbstractBotAI {
-    private static final Drink[] drinks = {
+    public static final Drink[] drinks = {
             new Drink("tea", 1),
             new Drink("juice", 2),
             new Drink("milk", 5),
@@ -58,7 +58,7 @@ public class WaiterAI extends AbstractBotAI {
         return false;
     }
 
-    private static class Drink {
+    public static class Drink {
         private String trigger;
         private int handItemId;
 

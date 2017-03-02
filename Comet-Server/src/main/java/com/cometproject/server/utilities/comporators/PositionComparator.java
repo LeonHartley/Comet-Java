@@ -6,10 +6,10 @@ import com.cometproject.server.game.rooms.objects.RoomObject;
 import java.util.Comparator;
 
 
-public class PositionComporator implements Comparator<RoomFloorObject> {
+public class PositionComparator implements Comparator<RoomFloorObject> {
     private RoomObject roomFloorObject;
 
-    public PositionComporator(RoomObject roomFloorObject) {
+    public PositionComparator(RoomObject roomFloorObject) {
         this.roomFloorObject = roomFloorObject;
     }
 

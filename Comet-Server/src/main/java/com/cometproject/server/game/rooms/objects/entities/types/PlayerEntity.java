@@ -5,8 +5,10 @@ import com.cometproject.api.game.rooms.settings.RoomAccessType;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
+import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.achievements.types.AchievementType;
 import com.cometproject.server.game.bots.BotMode;
+import com.cometproject.server.game.bots.BotType;
 import com.cometproject.server.game.commands.CommandManager;
 import com.cometproject.server.game.commands.vip.TransformCommand;
 import com.cometproject.server.game.groups.GroupManager;
@@ -21,6 +23,7 @@ import com.cometproject.server.game.rooms.RoomQueue;
 import com.cometproject.server.game.rooms.objects.entities.PlayerEntityAccess;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
+import com.cometproject.server.game.rooms.objects.entities.types.ai.bots.WaiterAI;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerPlayerSaysKeyword;
 import com.cometproject.server.game.rooms.objects.misc.Position;
@@ -481,6 +484,25 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
     }
 
     public void postChat(String message) {
+        String triggerMessage = message.toLowerCase();
+
+        boolean isDrinkRequest = false;
+
+        for (WaiterAI.Drink drink : WaiterAI.drinks) {
+            if (triggerMessage.contains(Locale.get("drink." + drink.getTrigger()))) {
+                isDrinkRequest = true;
+            }
+        }
+
+        if(isDrinkRequest) {
+            final BotEntity nearestBot = this.nearestBotEntity(BotType.WAITER);
+
+            if(nearestBot != null) {
+                nearestBot.getAI().onTalk(this, message);
+                return;
+            }
+        }
+
         for (Map.Entry<Integer, RoomEntity> entity : this.getRoom().getEntities().getAllEntities().entrySet()) {
             if (entity.getValue().getAI() != null)
                 entity.getValue().getAI().onTalk(this, message);
