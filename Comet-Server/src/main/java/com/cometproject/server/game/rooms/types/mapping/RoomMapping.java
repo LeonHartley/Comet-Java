@@ -206,7 +206,9 @@ public class RoomMapping {
             return false;
         }
 
-        if (!isValidPosition(to) || (this.getModel().getSquareState()[to.getX()][to.getY()] == RoomTileState.INVALID)) {
+        boolean isTileInvalid = (this.getModel().getSquareState()[to.getX()][to.getY()] == RoomTileState.INVALID);
+
+        if (!isValidPosition(to) || isTileInvalid) {
             return false;
         }
 
@@ -317,8 +319,9 @@ public class RoomMapping {
         final double fromHeight = this.getStepHeight(from);
         final double toHeight = this.getStepHeight(to);
 
-        return !(fromHeight < toHeight && (toHeight - fromHeight) > 1.5);
+        if(isAtDoor) return true;
 
+        return !(fromHeight < toHeight && (toHeight - fromHeight) > 1.5);
     }
 
     public double getStepHeight(Position position) {
