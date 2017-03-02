@@ -2,6 +2,7 @@ package com.cometproject.server.network.messages.outgoing.messenger;
 
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.groups.types.Group;
+import com.cometproject.server.game.players.components.types.messenger.RelationshipLevel;
 import com.cometproject.server.game.players.data.PlayerAvatar;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
@@ -17,11 +18,14 @@ public class UpdateFriendStateMessageComposer extends MessageComposer {
     private int action;
     private int friendId;
 
-    public UpdateFriendStateMessageComposer(final PlayerAvatar playerAvatar, final boolean online, final boolean inRoom) {
+    private final RelationshipLevel relationshipLevel;
+
+    public UpdateFriendStateMessageComposer(final PlayerAvatar playerAvatar, final boolean online, final boolean inRoom, final RelationshipLevel level) {
         this.playerAvatar = playerAvatar;
         this.group = null;
         this.online = online;
         this.inRoom = inRoom;
+        this.relationshipLevel = level;
     }
 
     public UpdateFriendStateMessageComposer(final Group group) {
@@ -29,6 +33,7 @@ public class UpdateFriendStateMessageComposer extends MessageComposer {
         this.group = group;
         this.online = true;
         this.inRoom = false;
+        this.relationshipLevel = null;
     }
 
     public UpdateFriendStateMessageComposer(int action, int friendId) {
@@ -38,6 +43,7 @@ public class UpdateFriendStateMessageComposer extends MessageComposer {
         this.inRoom = false;
         this.action = action;
         this.friendId = friendId;
+        this.relationshipLevel = null;
     }
 
     @Override
@@ -73,6 +79,6 @@ public class UpdateFriendStateMessageComposer extends MessageComposer {
         msg.writeBoolean(false);
         msg.writeBoolean(false);
         msg.writeBoolean(false);
-        msg.writeShort(0);
+        msg.writeShort(this.relationshipLevel != null ? relationshipLevel.getLevelId() : 01);
     }
 }

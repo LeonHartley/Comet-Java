@@ -5,7 +5,9 @@ import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.players.components.types.messenger.MessengerFriend;
+import com.cometproject.server.game.players.components.types.messenger.RelationshipLevel;
 import com.cometproject.server.game.players.data.PlayerAvatar;
+import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
@@ -16,15 +18,17 @@ import java.util.List;
 import java.util.Map;
 
 public class BuddyListMessageComposer extends MessageComposer {
+    private final Player player;
     private final Map<Integer, MessengerFriend> friends;
     private final List<PlayerAvatar> avatars;
     private final List<Integer> groups;
 
     private final boolean hasStaffChat;
 
-    public BuddyListMessageComposer(Map<Integer, MessengerFriend> friends, final boolean hasStaffChat, final List<Integer> groups) {
+    public BuddyListMessageComposer(final Player player, Map<Integer, MessengerFriend> friends, final boolean hasStaffChat, final List<Integer> groups) {
         this.hasStaffChat = hasStaffChat;
 
+        this.player = player;
         this.friends = friends;
         this.avatars = Lists.newArrayList();
 
@@ -90,7 +94,10 @@ public class BuddyListMessageComposer extends MessageComposer {
             msg.writeBoolean(false);
             msg.writeBoolean(false);
             msg.writeBoolean(false);
-            msg.writeShort(0);
+
+            final RelationshipLevel level = this.player.getRelationships().get(playerAvatar.getId());
+
+            msg.writeShort(level == null ? 0 : level.getLevelId());
         }
 
         if (hasStaffChat) {

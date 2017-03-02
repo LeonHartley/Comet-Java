@@ -206,9 +206,7 @@ public class RoomMapping {
             return false;
         }
 
-        boolean isTileInvalid = (this.getModel().getSquareState()[to.getX()][to.getY()] == RoomTileState.INVALID);
-
-        if (!isValidPosition(to) || isTileInvalid) {
+        if (!isValidPosition(to) || (this.getModel().getSquareState()[to.getX()][to.getY()] == RoomTileState.INVALID)) {
             return false;
         }
 

@@ -1,8 +1,10 @@
 package com.cometproject.server.network.messages.incoming.user.profile;
 
 import com.cometproject.server.game.players.components.RelationshipComponent;
+import com.cometproject.server.game.players.components.types.messenger.MessengerFriend;
 import com.cometproject.server.game.players.components.types.messenger.RelationshipLevel;
 import com.cometproject.server.network.messages.incoming.Event;
+import com.cometproject.server.network.messages.outgoing.messenger.UpdateFriendStateMessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.player.relationships.RelationshipDao;
@@ -16,6 +18,8 @@ public class SetRelationshipMessageEvent implements Event {
         if(client.getPlayer().getMessenger().getFriendById(user) == null) {
             return;
         }
+
+        final MessengerFriend friend = client.getPlayer().getMessenger().getFriendById(user);
 
         RelationshipComponent relationships = client.getPlayer().getRelationships();
 
@@ -31,17 +35,21 @@ public class SetRelationshipMessageEvent implements Event {
                 relationships.getRelationships().remove(user);
             }
         } else {
-            String levelString = level == 1 ? "HEART" : level == 2 ? "SMILE" : "BOBBA";
+            final String levelString = level == 1 ? "HEART" : level == 2 ? "SMILE" : "BOBBA";
+            final RelationshipLevel relationshipLevel = RelationshipLevel.valueOf(levelString);
 
             if (relationships.getRelationships().containsKey(user)) {
 
                 RelationshipDao.updateRelationship(client.getPlayer().getId(), user, levelString);
                 relationships.getRelationships().replace(user, RelationshipLevel.valueOf(levelString));
-                return;
-            }
+            } else {
 
-            RelationshipDao.createRelationship(client.getPlayer().getId(), user, levelString);
-            relationships.getRelationships().put(user, RelationshipLevel.valueOf(levelString));
+                RelationshipDao.createRelationship(client.getPlayer().getId(), user, levelString);
+                relationships.getRelationships().put(user, relationshipLevel);
+            }
         }
+
+        client.send(new UpdateFriendStateMessageComposer(friend.getAvatar(),
+                friend.isOnline(), friend.isInRoom(), client.getPlayer().getRelationships().get(user)));
     }
 }
