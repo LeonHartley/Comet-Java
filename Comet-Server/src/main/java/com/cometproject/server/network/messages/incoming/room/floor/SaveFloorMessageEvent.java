@@ -74,7 +74,7 @@ public class SaveFloorMessageEvent implements Event {
         room.getData().setThicknessWall(wallThickness);
         room.getData().setThicknessFloor(floorThickness);
 
-        final CustomFloorMapData floorMapData = new CustomFloorMapData(doorX, doorY, doorRotation, model.trim(), wallHeight);
+        final CustomFloorMapData floorMapData = new CustomFloorMapData(doorX, doorY, doorRotation, model.trim(), wallHeight == 0 ? room.getModel().getWallHeight() : wallHeight);
 
         room.getData().setHeightmap(JsonUtil.getInstance().toJson(floorMapData));
         room.getData().save();
