@@ -6,7 +6,7 @@
     "dbPoolSize": 1,
 
     "siteUrl": "http://localhost:8080",
-    "assetsUrl": "http://178.33.171.199/web/",
+    "assetsUrl": "http://localhost/comet/website/",
     "sitePort": 8080,
 
     "passwordHashMode": "sha1",

@@ -31,6 +31,7 @@
         <module>Comet-StressTest</module>
         <module>Comet-WebApp</module>
         <module>Comet-Website</module>
+        <module>Comet-CatalogTool</module>
     </modules>
 
 </project>
