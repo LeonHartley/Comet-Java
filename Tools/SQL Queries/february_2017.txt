@@ -13,4 +13,4 @@ ENGINE=InnoDB
 
 
 ALTER TABLE `server_configuration`
-	ADD COLUMN `log_catalog_purchases` ENUM('true','false') NULL DEFAULT 'true' AFTER `max_connections_per_ip`;
+	ADD COLUMN `log_catalog_purchases` ENUM('true','false') NULL DEFAULT 'false' AFTER `max_connections_per_ip`;
