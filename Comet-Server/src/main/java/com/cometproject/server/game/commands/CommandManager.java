@@ -232,7 +232,7 @@ public class CommandManager implements Initialisable {
             executor = executor.substring(1);
         }
 
-        boolean isCommand = executor.equals(Locale.get("command.commands.name")) || commands.containsKey(executor.substring(1)) || ModuleManager.getInstance().getEventHandler().getCommands().containsKey(executor);
+        boolean isCommand = executor.equals(":" + Locale.get("command.commands.name")) || commands.containsKey(executor.substring(1)) || ModuleManager.getInstance().getEventHandler().getCommands().containsKey(executor);
 
         if (!isCommand) {
             for (String keys : this.commands.keySet()) {
