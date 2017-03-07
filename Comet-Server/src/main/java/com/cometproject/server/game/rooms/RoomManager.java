@@ -10,6 +10,7 @@ import com.cometproject.server.game.rooms.models.types.StaticRoomModel;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.game.rooms.types.RoomPromotion;
+import com.cometproject.server.game.rooms.types.RoomReloadListener;
 import com.cometproject.server.game.rooms.types.misc.ChatEmotionsManager;
 import com.cometproject.server.network.messages.outgoing.room.events.RoomPromotionMessageComposer;
 import com.cometproject.server.network.sessions.Session;
@@ -27,6 +28,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.function.BiConsumer;
 
 
 public class RoomManager implements Initialisable {
@@ -51,6 +53,8 @@ public class RoomManager implements Initialisable {
 
     private ExecutorService executorService;
 
+    private Map<Integer, RoomReloadListener> reloadListeners;
+
     public RoomManager() {
 
     }
@@ -62,6 +66,7 @@ public class RoomManager implements Initialisable {
         this.loadedRoomInstances = new ConcurrentHashMap<>();
         this.unloadingRoomInstances = new ConcurrentHashMap<>();
         this.roomPromotions = new ConcurrentHashMap<>();
+        this.reloadListeners = new ConcurrentHashMap<>();
 
         this.emotions = new ChatEmotionsManager();
         this.filterManager = new WordFilter();
@@ -189,7 +194,22 @@ public class RoomManager implements Initialisable {
 
     public void unloadIdleRooms() {
         for (Room room : this.unloadingRoomInstances.values()) {
-            this.executorService.submit(room::dispose);
+            this.executorService.submit(() -> {
+                room.dispose();
+
+                if(room.isReloading()) {
+                    Room newRoom = this.get(room.getId());
+
+                    if(newRoom != null) {
+                        if(this.reloadListeners.containsKey(room.getId())) {
+                            final RoomReloadListener reloadListener = this.reloadListeners.get(newRoom.getId());
+
+                            reloadListener.onReloaded(newRoom);
+                            this.reloadListeners.remove(room.getId());
+                        }
+                    }
+                }
+            });
         }
 
         this.unloadingRoomInstances.clear();
@@ -220,6 +240,10 @@ public class RoomManager implements Initialisable {
         }
 
         this.getRoomDataInstances().remove(roomId);
+    }
+
+    public void addReloadListener(int roomId, RoomReloadListener listener) {
+        this.reloadListeners.put(roomId, listener);
     }
 
     public void loadRoomsForUser(Player player) {
@@ -306,9 +330,9 @@ public class RoomManager implements Initialisable {
             this.roomPromotions.put(roomId, roomPromotion);
         }
 
-        if (this.get(roomId) != null) {
-            Room room = this.get(roomId);
+        final Room room = this.get(roomId);
 
+        if (room != null) {
             if (room.getEntities() != null && room.getEntities().realPlayerCount() >= 1) {
                 room.getEntities().broadcastMessage(new RoomPromotionMessageComposer(room.getData(), this.roomPromotions.get(roomId)));
             }
@@ -316,11 +340,7 @@ public class RoomManager implements Initialisable {
     }
 
     public boolean hasPromotion(int roomId) {
-        if (this.roomPromotions.containsKey(roomId) && !this.roomPromotions.get(roomId).isExpired()) {
-            return true;
-        }
-
-        return false;
+        return this.roomPromotions.containsKey(roomId) && !this.roomPromotions.get(roomId).isExpired();
     }
 
     public final ChatEmotionsManager getEmotions() {
@@ -331,7 +351,7 @@ public class RoomManager implements Initialisable {
         return this.loadedRoomInstances;
     }
 
-    public final ConcurrentLRUCache<Integer, RoomData> getRoomDataInstances() {
+    private ConcurrentLRUCache<Integer, RoomData> getRoomDataInstances() {
         return this.roomDataInstances;
     }
 

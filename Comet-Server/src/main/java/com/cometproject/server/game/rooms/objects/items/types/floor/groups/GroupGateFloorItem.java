@@ -29,6 +29,10 @@ public class GroupGateFloorItem extends GroupFloorItem {
 
     @Override
     public void onTickComplete() {
+        if(this.getTile().getEntities().size() != 0) {
+            return;
+        }
+
         this.isOpen = false;
         this.sendUpdate();
     }

@@ -16,14 +16,19 @@ import com.cometproject.server.game.navigator.NavigatorManager;
 import com.cometproject.server.game.permissions.PermissionsManager;
 import com.cometproject.server.game.pets.PetManager;
 import com.cometproject.server.game.pets.commands.PetCommandManager;
+import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.polls.PollManager;
 import com.cometproject.server.game.polls.types.Poll;
 import com.cometproject.server.game.quests.QuestManager;
 import com.cometproject.server.game.rooms.RoomManager;
+import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.game.rooms.types.RoomReloadListener;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.outgoing.catalog.CatalogPublishMessageComposer;
 import com.cometproject.server.network.messages.outgoing.moderation.ModToolMessageComposer;
+import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.MotdNotificationMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.engine.RoomForwardMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.polls.InitializePollMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 
@@ -178,7 +183,22 @@ public class ReloadCommand extends ChatCommand {
                 sendNotif(Locale.get("command.reload.polls"), client);
                 break;
 
+            case "room": {
+                final Room room = client.getPlayer().getEntity().getRoom();
 
+                final RoomReloadListener reloadListener = new RoomReloadListener(room, (players, newRoom) -> {
+                    for (Player player : players) {
+                        if (player.getEntity() == null) {
+                            player.getSession().send(new AlertMessageComposer(Locale.getOrDefault("command.reload.roomReloaded", "The room was reloaded by a member of staff!")));
+                            player.getSession().send(new RoomForwardMessageComposer(newRoom.getId()));
+                        }
+                    }
+                });
+
+                RoomManager.getInstance().addReloadListener(client.getPlayer().getEntity().getRoom().getId(), reloadListener);
+                room.reload();
+                break;
+            }
         }
     }
 

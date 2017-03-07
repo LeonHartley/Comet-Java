@@ -68,6 +68,8 @@ public class Room implements Attributable, IRoom {
     private int idleTicks = 0;
     private final AtomicInteger wiredTimer = new AtomicInteger(0);
 
+    private boolean isReloading = false;
+
     public Room(RoomData data) {
         this.data = data;
         this.log = Logger.getLogger("Room \"" + this.getData().getName() + "\"");
@@ -192,6 +194,11 @@ public class Room implements Attributable, IRoom {
     public void setIdleNow() {
         this.idleTicks = 600;
         this.forcedUnload = true;
+    }
+
+    public void reload() {
+        this.setIdleNow();
+        this.isReloading = true;
     }
 
     public void dispose() {
@@ -406,5 +413,9 @@ public class Room implements Attributable, IRoom {
 
     public RoomDataObject getCachedData() {
         return cachedData;
+    }
+
+    public boolean isReloading() {
+        return this.isReloading;
     }
 }
