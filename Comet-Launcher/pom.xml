@@ -7,12 +7,12 @@
     <parent>
         <groupId>Comet</groupId>
         <artifactId>Comet-Parent</artifactId>
-        <version>1.10.0-TEST1</version>
+        <version>1.10.1-ALPHA1</version>
     </parent>
 
     <groupId>Comet</groupId>
     <artifactId>Comet-Launcher</artifactId>
-    <version>1.10.0-TEST1</version>
+    <version>1.10.1-ALPHA1</version>
 
     
 </project>
