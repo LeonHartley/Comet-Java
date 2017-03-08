@@ -298,7 +298,7 @@ public class ItemsComponent {
 
                 if (floorItem == null || floorItem.getDefinition() == null) continue;
 
-                if(floorItem.getClass().equals(clazz)) {
+                if(!floorItem.getClass().equals(clazz)) {
                     continue;
                 }
 
