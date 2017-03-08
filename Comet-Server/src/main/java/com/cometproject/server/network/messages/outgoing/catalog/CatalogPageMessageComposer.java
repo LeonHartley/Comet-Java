@@ -5,6 +5,8 @@ import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.catalog.types.CatalogFrontPageEntry;
 import com.cometproject.server.game.catalog.types.CatalogItem;
 import com.cometproject.server.game.catalog.types.CatalogPage;
+import com.cometproject.server.game.catalog.types.CatalogPageType;
+import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
 
@@ -13,10 +15,12 @@ public class CatalogPageMessageComposer extends MessageComposer {
 
     private final String catalogType;
     private final CatalogPage catalogPage;
+    private final Player player;
 
-    public CatalogPageMessageComposer(final String catalogType, final CatalogPage catalogPage) {
+    public CatalogPageMessageComposer(final String catalogType, final CatalogPage catalogPage, final Player player) {
         this.catalogType = catalogType;
         this.catalogPage = catalogPage;
+        this.player = player;
     }
 
     @Override
@@ -42,7 +46,13 @@ public class CatalogPageMessageComposer extends MessageComposer {
             msg.writeString(text);
         }
 
-        if (!this.catalogPage.getTemplate().equals("frontpage") && !this.catalogPage.getTemplate().equals("club_buy")) {
+        if (this.catalogPage.getType() == CatalogPageType.RECENT_PURCHASES) {
+            msg.writeInt(player.getRecentPurchases().size());
+
+            for(CatalogItem item : player.getRecentPurchases()) {
+                item.compose(msg);
+            }
+        } else if(!this.catalogPage.getTemplate().equals("frontpage") && !this.catalogPage.getTemplate().equals("club_buy")) {
             msg.writeInt(this.catalogPage.getItems().size());
 
             for (CatalogItem item : this.catalogPage.getItems().values()) {

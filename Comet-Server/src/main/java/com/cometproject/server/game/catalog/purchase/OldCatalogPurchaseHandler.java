@@ -471,6 +471,8 @@ public class OldCatalogPurchaseHandler {
                     if(CometSettings.logCatalogPurchases) {
                         CatalogDao.saveRecentPurchase(client.getPlayer().getId(), item.getId(), amount, extraData);
                     }
+
+                    client.getPlayer().getRecentPurchases().add(item);
                 }
             }
         } catch (Exception e) {

@@ -5,6 +5,7 @@ import com.cometproject.api.game.players.data.components.PlayerInventory;
 import com.cometproject.api.networking.sessions.BaseSession;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
+import com.cometproject.server.game.catalog.types.CatalogItem;
 import com.cometproject.server.game.guides.GuideManager;
 import com.cometproject.server.game.guides.types.HelpRequest;
 import com.cometproject.server.game.guides.types.HelperSession;
@@ -27,9 +28,11 @@ import com.cometproject.server.network.messages.outgoing.room.engine.HotelViewMe
 import com.cometproject.server.network.messages.outgoing.user.purse.CurrenciesMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.purse.SendCreditsMessageComposer;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.storage.queries.catalog.CatalogDao;
 import com.cometproject.server.storage.queries.groups.GroupDao;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.storage.queue.types.PlayerDataStorageQueue;
+import com.cometproject.server.utilities.collections.ConcurrentHashSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
@@ -120,6 +123,8 @@ public class Player implements BasePlayer {
     private String ssoTicket;
 
     public int lastBannedListRequest = 0;
+
+    private Set<CatalogItem> recentPurchases;
 
     private Set<String> eventLogCategories = Sets.newConcurrentHashSet();
 
@@ -763,5 +768,15 @@ public class Player implements BasePlayer {
 
     public void setHelpRequest(HelpRequest helpRequest) {
         this.helpRequest = helpRequest;
+    }
+
+    public Set<CatalogItem> getRecentPurchases() {
+        if(this.recentPurchases == null) {
+            this.recentPurchases = new ConcurrentHashSet<>();
+
+            this.recentPurchases.addAll(CatalogDao.findRecentPurchases(30, this.id));
+        }
+
+        return this.recentPurchases;
     }
 }

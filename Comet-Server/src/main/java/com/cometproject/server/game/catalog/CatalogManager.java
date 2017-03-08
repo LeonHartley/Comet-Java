@@ -225,6 +225,16 @@ public class CatalogManager implements Initialisable {
     }
 
     /**
+     * Get a catalog item by its ID
+     *
+     * @param catalogItemId The ID of the catalog item
+     * @return CatalogItem object with specified ID
+     */
+    public CatalogItem getCatalogItem(final int catalogItemId) {
+        return this.items.get(catalogItemId);
+    }
+
+    /**
      * Does a page with a specific ID exist?
      *
      * @param id The ID of the page we want to check that exists
