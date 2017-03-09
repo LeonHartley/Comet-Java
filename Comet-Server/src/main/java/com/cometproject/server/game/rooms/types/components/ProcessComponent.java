@@ -360,7 +360,7 @@ public class ProcessComponent implements CometTask {
                 entity.markNeedsUpdate();
             }
 
-            if (entity instanceof PlayerEntity && entity.isIdleAndIncrement()) {
+            if (entity instanceof PlayerEntity && entity.isIdleAndIncrement() && entity.isVisible()) {
                 if (entity.getIdleTime() >= 60 * CometSettings.roomIdleMinutes * 2) {
                     if (this.getRoom().getData().getOwnerId() != ((PlayerEntity) entity).getPlayerId())
                         return true;
