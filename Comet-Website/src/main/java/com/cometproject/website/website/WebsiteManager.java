@@ -65,6 +65,7 @@ public class WebsiteManager {
 
         get("/", IndexRoute::index, velocityTemplateEngine);
         post("/", IndexRoute::postLogin);
+        get("/facebook", FacebookRoute::facebookLogin);
 
         post("/registration/submit", RegistrationRoute::submit);
 

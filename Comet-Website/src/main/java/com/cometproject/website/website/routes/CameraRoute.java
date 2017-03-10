@@ -39,6 +39,7 @@ public class CameraRoute {
             ApiClient.getInstance().execute("/camera/purchase", parameters);
             return "OK";
         } catch (Exception e) {
+            e.printStackTrace();
             return "error.img_save";
         }
     }
