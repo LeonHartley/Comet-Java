@@ -47,7 +47,7 @@ public class WiredTriggerPlayerSaysKeyword extends WiredTriggerItem {
             final boolean isOwner = playerEntity.getPlayerId() == trigger.getRoom().getData().getOwnerId();
 
             if (!ownerOnly || isOwner) {
-                if (!trigger.getWiredData().getText().isEmpty() && message.equalsIgnoreCase(trigger.getWiredData().getText())) {
+                if (!trigger.getWiredData().getText().isEmpty() && message.toLowerCase().contains(trigger.getWiredData().getText().toLowerCase())) {
                     wasExecuted = trigger.evaluate(playerEntity, message);
                 }
             }
