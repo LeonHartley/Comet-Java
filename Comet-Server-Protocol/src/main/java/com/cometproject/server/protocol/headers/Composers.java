@@ -114,7 +114,7 @@ public class Composers {
     public static final short GiftWrappingConfigurationMessageComposer = 546; // PRODUCTION-201702211601-24705679
     public static final short FloorPlanFloorMapMessageComposer = 133; // PRODUCTION-201702211601-24705679
     public static final short ThreadReplyMessageComposer = 1488; // PRODUCTION-201702211601-24705679
-    public static final short GroupCreationWindowMessageComposer = 642; // PRODUCTION-201702211601-24705679
+    public static final short GroupCreationWindowMessageComposer = 1941; // PRODUCTION-201702211601-24705679
     public static final short GetGuestRoomResultMessageComposer = 2991; // PRODUCTION-201702211601-24705679
     public static final short RoomNotificationMessageComposer = 1234; // PRODUCTION-201702211601-24705679
     public static final short InitCryptoMessageComposer = 1247; // PRODUCTION-201702211601-24705679
