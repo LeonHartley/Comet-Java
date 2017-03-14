@@ -8,6 +8,10 @@ import com.cometproject.server.network.sessions.Session;
 
 public class ClubStatusMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) {
+        if (client == null) {
+            return;
+        }
+        
         client.send(new ClubStatusMessageComposer(client.getPlayer().getSubscription()));
         client.send(client.getPlayer().composeCurrenciesBalance());
     }
