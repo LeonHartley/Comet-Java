@@ -11,7 +11,7 @@ public class CometCommand extends ChatCommand {
 
     @Override
     public void execute(Session client, String message[]) {
-        client.send(new AlertMessageComposer("Powered by Comet Server. <br><br><b>Waves to:</b><br>- Leon<br>- Eden<br>- Matty<br>- Matou19<br>- Metus/Ryan<br>- Mandoe<br>- Markones<br>- Helpi<br>- Vaguinho<br>- Equipe Staff<br>- Gladius<br>- Luck<br>- Johno<br>- Sledmore<br>- Scott<br>- Nillus<br>- Jordan<br>- Burak<br>- Quackster<br>- Jaxter<br>- Kai<br>- Caffeine<br>- More Caffeine<br>- Mary Jane<br><br><b>Fuckings to:</b><br>- Fahd<br>- Magrao<br>- TheGeneral<br><br>Server Version: <b>" + Comet.getBuild() + "</b><br>Client Version: <b>" + CometServer.CLIENT_VERSION.replace("PRODUCTION-", "").split(" ")[0] + "</b><br><br>https://www.cometproject.nl/"));
+        client.send(new AlertMessageComposer("Powered by Comet Server. <br><br><b>Waves to:</b><br>- Leon<br>- Eden<br>- Matty<br>- Matou19<br>- Metus<br>- Mandoe<br>- Markones<br>- Helpi<br>- Vaguinho<br>- Equipe Staff<br>- Gladius<br>- Luck<br>- Johno<br>- Sledmore<br>- Scott<br>- Nillus<br>- Jordan<br>- Burak<br>- Quackster<br>- Jaxter<br>- Kai<br>- Caffeine<br>- More Caffeine<br>- Mary Jane<br><br><b>Fuckings to:</b><br>- Fahd<br>- Magrao<br>- TheGeneral<br><br>Server Version: <b>" + Comet.getBuild() + "</b><br>Client Version: <b>" + CometServer.CLIENT_VERSION.replace("PRODUCTION-", "").split(" ")[0] + "</b>"));
     }
 
     @Override
