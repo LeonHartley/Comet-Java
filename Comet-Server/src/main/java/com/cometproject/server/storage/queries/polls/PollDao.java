@@ -124,4 +124,34 @@ public class PollDao {
             return false;
     }
 
+    public static boolean hasAnswered(int playerId, int pollId) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            String query = "SELECT NULL FROM polls_answers WHERE AND poll_id = ? AND player_id = ?;";
+            preparedStatement = SqlHelper.prepare(query, sqlConnection);
+
+            preparedStatement.setInt(1, pollId);
+            preparedStatement.setInt(2, playerId);
+
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                return true;
+            }
+
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(resultSet);
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+
+        return false;
+    }
 }

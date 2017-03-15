@@ -61,7 +61,7 @@ public class AboutCommand extends ChatCommand {
         client.send(new AdvancedAlertMessageComposer(
                 "Comet Server - " + Comet.getBuild(),
                 about.toString(),
-                "www.cometproject.nl", "https://www.cometproject.nl", CometSettings.aboutImg
+                "www.cometproject.com", "https://www.cometproject.com", CometSettings.aboutImg
         ));
     }
 

@@ -71,6 +71,10 @@ public class CometSettings {
     public static boolean groupChatEnabled = false;
     public static boolean logCatalogPurchases = false;
 
+    public static boolean hallOfFameEnabled = false;
+    public static String hallOfFameCurrency = "";
+    public static int hallOfFameRefreshMinutes = 5;
+
     private static final Logger log = Logger.getLogger(CometSettings.class.getName());
 
     /**

@@ -29,24 +29,24 @@ public class PollMessageComposer extends MessageComposer {
         msg.writeString(this.poll.getThanksMessage());
         msg.writeInt(this.poll.getPollQuestions().size());
 
-        for(Map.Entry<Integer, PollQuestion> pollQuestion : this.poll.getPollQuestions().entrySet()) {
+        for (Map.Entry<Integer, PollQuestion> pollQuestion : this.poll.getPollQuestions().entrySet()) {
             msg.writeInt(pollQuestion.getKey());
             msg.writeInt(0);
-            msg.writeInt(pollQuestion.getValue() instanceof MultipleChoiceQuestion ? 1 : 3);//type
+            msg.writeInt(pollQuestion.getValue().getType());
             msg.writeString(pollQuestion.getValue().getQuestion());
             msg.writeInt(0);
 
-            int minimumSelections = pollQuestion.getValue() instanceof MultipleChoiceQuestion ? 1 : 0;
-            int optionSizes = pollQuestion.getValue() instanceof MultipleChoiceQuestion ? ((MultipleChoiceQuestion) pollQuestion.getValue()).getChoices().size() : 0;
+            final int minimumSelections = pollQuestion.getValue() instanceof MultipleChoiceQuestion ? 1 : 0;
+            final int optionSizes = pollQuestion.getValue() instanceof MultipleChoiceQuestion ? ((MultipleChoiceQuestion) pollQuestion.getValue()).getChoices().size() : 0;
 
             msg.writeInt(minimumSelections);
             msg.writeInt(optionSizes);
 
-            if(optionSizes != 0) {
-                for(int i = 0; i < optionSizes; i++) {
+            if (optionSizes != 0) {
+                for (int i = 0; i < optionSizes; i++) {
                     String choice = ((MultipleChoiceQuestion) pollQuestion.getValue()).getChoices().get(i);
 
-                    msg.writeString("");
+                    msg.writeString(i + "");
                     msg.writeString(choice);
                     msg.writeInt(i);
                 }

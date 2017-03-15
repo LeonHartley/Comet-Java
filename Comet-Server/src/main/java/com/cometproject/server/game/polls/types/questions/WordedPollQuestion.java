@@ -7,4 +7,10 @@ public class WordedPollQuestion extends PollQuestion {
     public WordedPollQuestion(String question) {
         super(question);
     }
+
+    @Override
+    public int getType() {
+        return 3;
+    }
+
 }

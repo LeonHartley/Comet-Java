@@ -467,7 +467,7 @@ public final class MessageHandler {
     }
 
     public void registerGuideTool() {
-        this.getMessages().put(Events.OpenHelpToolMessageEvent, new OpenGuideToolMessageEvent());
+        this.getMessages().put(Events.RequestGuideToolMessageEvent, new OpenGuideToolMessageEvent());
         this.getMessages().put(Events.RequestGuideAssistanceMessageEvent, new RequestGuideAssistanceMessageEvent());
     }
 

@@ -17,13 +17,12 @@ public class MultipleChoiceQuestion extends PollQuestion {
         }.getType());
     }
 
-    public MultipleChoiceQuestion(String question, List<String> choices) {
-        super(question);
-
-        this.choices = choices;
-    }
-
     public List<String> getChoices() {
         return this.choices;
+    }
+
+    @Override
+    public int getType() {
+        return 2;
     }
 }
