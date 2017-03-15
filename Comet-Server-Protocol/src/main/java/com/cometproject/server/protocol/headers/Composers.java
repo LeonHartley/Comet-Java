@@ -207,7 +207,7 @@ public class Composers {
     public static final short QuickPollResultMessageComposer = 454; // PRODUCTION-201702211601-24705679
     public static final short QuickPollResultsMessageComposer = 2167; // PRODUCTION-201702211601-24705679
     public static final short InitializePollMessageComposer = 1931; // PRODUCTION-201702211601-24705679
-    public static final short PollMessageComposer = 2833; // PRODUCTION-201702211601-24705679
+    public static final short PollMessageComposer = 3626; // PRODUCTION-201702211601-24705679
     public static final short AvatarAspectUpdateMessageComposer = 1351; // PRODUCTION-201702211601-24705679
     public static final short YouAreSpectatorMessageComposer = 1028; // PRODUCTION-201702211601-24705679
     public static final short UpdateStackMapMessageComposer = 1918; // PRODUCTION-201702211601-24705679
