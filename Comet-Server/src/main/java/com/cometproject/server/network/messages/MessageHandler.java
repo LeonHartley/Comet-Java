@@ -219,6 +219,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.RemoveBuddyMessageEvent, new DeleteFriendsMessageEvent());
         this.getMessages().put(Events.SendRoomInviteMessageEvent, new InviteFriendsMessageEvent());
         this.getMessages().put(Events.DeclineBuddyMessageEvent, new DeclineFriendshipMessageEvent());
+        this.getMessages().put(Events.)
     }
 
     public void registerNavigator() {

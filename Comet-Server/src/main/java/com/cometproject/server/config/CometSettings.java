@@ -74,6 +74,7 @@ public class CometSettings {
     public static boolean hallOfFameEnabled = false;
     public static String hallOfFameCurrency = "";
     public static int hallOfFameRefreshMinutes = 5;
+    public static String hallOfFameTextsKey = "";
 
     private static final Logger log = Logger.getLogger(CometSettings.class.getName());
 

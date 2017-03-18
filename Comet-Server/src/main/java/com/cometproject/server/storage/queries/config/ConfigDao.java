@@ -62,6 +62,10 @@ public class ConfigDao {
                 CometSettings.maxConnectionsPerIpAddress = config.getInt("max_connections_per_ip");
                 CometSettings.groupChatEnabled = config.getBoolean("group_chat_enabled");
                 CometSettings.logCatalogPurchases = config.getBoolean("log_catalog_purchases");
+                CometSettings.hallOfFameEnabled = config.getBoolean("hall_of_fame_enabled");
+                CometSettings.hallOfFameCurrency = config.getString("hall_of_fame_currency");
+                CometSettings.hallOfFameRefreshMinutes = config.getInt("hall_of_fame_refresh_minutes");
+                CometSettings.hallOfFameTextsKey = config.getString("hall_of_fame_texts_key");
                 final String characters = config.getString("word_filter_strict_chars");
 
                 CometSettings.strictFilterCharacters.clear();

@@ -13,6 +13,7 @@ import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorI
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.protocol.security.exchange.DiffieHellman;
 import com.cometproject.server.storage.queries.player.PlayerDao;
+import com.cometproject.server.tasks.CometThreadManager;
 import io.netty.channel.ChannelHandlerContext;
 import org.apache.log4j.Logger;
 
@@ -70,20 +71,22 @@ public class Session implements BaseSession {
 
         this.disconnectCalled = true;
 
-        if (player != null && player.getData() != null)
-            PlayerManager.getInstance().remove(player.getId(), player.getData().getUsername(), this.channel.attr(SessionManager.CHANNEL_ID_ATTR).get(), this.getIpAddress());
+        PlayerManager.getInstance().getPlayerLoadExecutionService().submit(() -> {
+            if (player != null && player.getData() != null)
+                PlayerManager.getInstance().remove(player.getId(), player.getData().getUsername(), this.channel.attr(SessionManager.CHANNEL_ID_ATTR).get(), this.getIpAddress());
 
-        this.eventHandler.dispose();
+            this.eventHandler.dispose();
 
-        if (this.player != null) {
-            if (this.getPlayer().getPermissions().getRank().modTool()) {
-                ModerationManager.getInstance().removeModerator(this);
+            if (this.player != null) {
+                if (this.getPlayer().getPermissions().getRank().modTool()) {
+                    ModerationManager.getInstance().removeModerator(this);
+                }
+
+                this.getPlayer().dispose();
             }
 
-            this.getPlayer().dispose();
-        }
-
-        this.setPlayer(null);
+            this.setPlayer(null);
+        });
     }
 
     public void disconnect() {

@@ -13,7 +13,9 @@ import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
 import com.cometproject.server.network.sessions.Session;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,7 +31,7 @@ public class BuddyListMessageComposer extends MessageComposer {
         this.hasStaffChat = hasStaffChat;
 
         this.player = player;
-        this.friends = friends;
+        this.friends = Maps.newHashMap(friends);
         this.avatars = Lists.newArrayList();
 
         for (Map.Entry<Integer, MessengerFriend> friend : friends.entrySet()) {
@@ -66,7 +68,7 @@ public class BuddyListMessageComposer extends MessageComposer {
             msg.writeString(playerAvatar.getUsername());
             msg.writeInt(77); // Male.
 
-            boolean isOnline = friends.get(playerAvatar.getId()).isOnline();
+            boolean isOnline = friends.get(playerAvatar.getId()) .isOnline();
             boolean isInRoom = friends.get(playerAvatar.getId()).isInRoom();
 
             if (friends.get(playerAvatar.getId()).isOnline()) {
