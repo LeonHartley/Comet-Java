@@ -4,11 +4,13 @@ import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.landing.types.PromoArticle;
 import com.cometproject.server.game.players.data.PlayerAvatar;
 import com.cometproject.server.storage.queries.landing.LandingDao;
+import com.cometproject.server.tasks.CometThreadManager;
 import com.cometproject.server.utilities.Initialisable;
 import com.google.common.collect.Maps;
 import org.apache.log4j.Logger;
 
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 
 public class LandingManager implements Initialisable {
@@ -46,13 +48,19 @@ public class LandingManager implements Initialisable {
         this.articles = LandingDao.getArticles();
     }
 
-    public void loadHallOfFame() {
-        if(CometSettings.hallOfFameEnabled) {
-            if(this.hallOfFame != null) {
-                this.hallOfFame.clear();
-            }
+    private void loadHallOfFame() {
+        if(this.hallOfFame != null) {
+            this.hallOfFame.clear();
+        }
 
+        if(CometSettings.hallOfFameEnabled) {
             this.hallOfFame = LandingDao.getHallOfFame(CometSettings.hallOfFameCurrency, 10);
+
+            // Queue it to be refreshed again in X minutes
+            CometThreadManager.getInstance().executeSchedule(
+                    this::loadHallOfFame,
+                    CometSettings.hallOfFameRefreshMinutes,
+                    TimeUnit.MINUTES);
         }
     }
 
