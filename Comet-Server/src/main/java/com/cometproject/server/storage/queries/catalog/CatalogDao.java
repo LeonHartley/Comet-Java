@@ -140,7 +140,7 @@ public class CatalogDao {
             sqlConnection = SqlHelper.getConnection();
 
             preparedStatement = SqlHelper.prepare("UPDATE catalog_items SET limited_sells = limited_sells + ? WHERE id = ?", sqlConnection);
-            preparedStatement.setInt(amount, itemId);
+            preparedStatement.setInt(1, amount);
             preparedStatement.setInt(2, itemId);
 
             SqlHelper.executeStatementSilently(preparedStatement, false);
