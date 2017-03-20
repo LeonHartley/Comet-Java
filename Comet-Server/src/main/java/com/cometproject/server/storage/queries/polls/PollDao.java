@@ -3,6 +3,7 @@ package com.cometproject.server.storage.queries.polls;
 import com.cometproject.server.game.polls.types.Poll;
 import com.cometproject.server.game.polls.types.PollQuestionType;
 import com.cometproject.server.game.polls.types.questions.MultipleChoiceQuestion;
+import com.cometproject.server.game.polls.types.questions.SingleChoiceQuestion;
 import com.cometproject.server.game.polls.types.questions.WordedPollQuestion;
 import com.cometproject.server.storage.SqlHelper;
 import com.google.common.collect.Maps;
@@ -25,7 +26,7 @@ public class PollDao {
             sqlConnection = SqlHelper.getConnection();
 
             preparedStatement = SqlHelper.prepare("SELECT pQ.id AS id, p.id AS pollId, p.title AS pollTitle, p.thanks_message AS pollThanksMessage, p.room_id AS pollRoomId," +
-                    " p.badge_reward AS badgeReward, pQ.question_type AS questionType, pQ.question AS question, pQ.options AS options FROM polls_questions pQ LEFT JOIN polls p ON" +
+                    " p.reward_badge AS rewardBadge, p.reward_credits AS rewardCredits, p.reward_vip_points AS rewardVipPoints, p.reward_activity_points AS rewardActivityPoints, p.reward_achievement_points AS rewardAchievementPoints, pQ.question_type AS questionType, pQ.question AS question, pQ.options AS options FROM polls_questions pQ LEFT JOIN polls p ON" +
                     "(SELECT id FROM polls WHERE id = pQ.poll_id);", sqlConnection);
             resultSet = preparedStatement.executeQuery();
 
@@ -37,9 +38,14 @@ public class PollDao {
                     final String title = resultSet.getString("pollTitle");
                     final int roomId = resultSet.getInt("pollRoomId");
                     final String thanksMessage = resultSet.getString("pollThanksMessage");
-                    final String badgeReward = resultSet.getString("badgeReward");
 
-                    poll = new Poll(pollId, roomId, title, thanksMessage, badgeReward);
+                    final String rewardBadge = resultSet.getString("rewardBadge");
+                    final int rewardCredits = resultSet.getInt("rewardCredits");
+                    final int rewardActivityPoints = resultSet.getInt("rewardActivityPoints");
+                    final int rewardDiamonds = resultSet.getInt("rewardVipPoints");
+                    final int rewardAchievementPoints = resultSet.getInt("rewardAchievementPoints");
+
+                    poll = new Poll(pollId, roomId, title, thanksMessage, rewardBadge, rewardCredits, rewardDiamonds, rewardActivityPoints, rewardAchievementPoints);
                     data.put(pollId, poll);
                 } else {
                     poll = data.get(pollId);
@@ -55,6 +61,10 @@ public class PollDao {
 
                     case MULTIPLE_CHOICE:
                         poll.addQuestion(resultSet.getInt("id"), new MultipleChoiceQuestion(resultSet.getString("question"), resultSet.getString("options")));
+                        break;
+
+                    case SINGLE_CHOICE:
+                        poll.addQuestion(resultSet.getInt("id"), new SingleChoiceQuestion(resultSet.getString("question"), resultSet.getString("options")));
                         break;
                 }
             }
@@ -132,7 +142,7 @@ public class PollDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            String query = "SELECT NULL FROM polls_answers WHERE AND poll_id = ? AND player_id = ?;";
+            String query = "SELECT NULL FROM polls_answers WHERE poll_id = ? AND player_id = ?;";
             preparedStatement = SqlHelper.prepare(query, sqlConnection);
 
             preparedStatement.setInt(1, pollId);
