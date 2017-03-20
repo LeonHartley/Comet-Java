@@ -25,6 +25,7 @@ import com.cometproject.server.network.messages.incoming.handshake.*;
 import com.cometproject.server.network.messages.incoming.help.GetSanctionStatusEvent;
 import com.cometproject.server.network.messages.incoming.help.HelpTicketMessageEvent;
 import com.cometproject.server.network.messages.incoming.help.InitHelpToolMessageEvent;
+import com.cometproject.server.network.messages.incoming.help.guides.GuideHandleHelpRequestMessageEvent;
 import com.cometproject.server.network.messages.incoming.help.guides.OpenGuideToolMessageEvent;
 import com.cometproject.server.network.messages.incoming.help.guides.RequestGuideAssistanceMessageEvent;
 import com.cometproject.server.network.messages.incoming.landing.LandingLoadWidgetMessageEvent;
@@ -219,7 +220,6 @@ public final class MessageHandler {
         this.getMessages().put(Events.RemoveBuddyMessageEvent, new DeleteFriendsMessageEvent());
         this.getMessages().put(Events.SendRoomInviteMessageEvent, new InviteFriendsMessageEvent());
         this.getMessages().put(Events.DeclineBuddyMessageEvent, new DeclineFriendshipMessageEvent());
-        this.getMessages().put(Events.)
     }
 
     public void registerNavigator() {
@@ -470,6 +470,7 @@ public final class MessageHandler {
     public void registerGuideTool() {
         this.getMessages().put(Events.RequestGuideToolMessageEvent, new OpenGuideToolMessageEvent());
         this.getMessages().put(Events.RequestGuideAssistanceMessageEvent, new RequestGuideAssistanceMessageEvent());
+        this.getMessages().put(Events.GuideHandleHelpRequestMessageEvent, new GuideHandleHelpRequestMessageEvent());
     }
 
     public void handle(MessageEvent message, Session client) {

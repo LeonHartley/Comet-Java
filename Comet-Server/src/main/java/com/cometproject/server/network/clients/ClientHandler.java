@@ -30,7 +30,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<MessageEvent> {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        if (!NetworkManager.getInstance().getSessions().add(ctx)) {
+        if (!NetworkManager.getInstance().getSessions().add(ctx.channel())) {
             ctx.channel().disconnect();
         }
     }
@@ -44,8 +44,8 @@ public class ClientHandler extends SimpleChannelInboundHandler<MessageEvent> {
 //            e.printStackTrace();
         }
 
-        NetworkManager.getInstance().getSessions().remove(ctx);
-        ctx.attr(SessionManager.SESSION_ATTR).remove();
+        NetworkManager.getInstance().getSessions().remove(ctx.channel());
+        ctx.channel().attr(SessionManager.SESSION_ATTR).set(null);
     }
 
     @Override

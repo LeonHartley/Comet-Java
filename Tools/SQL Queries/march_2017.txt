@@ -1,0 +1,40 @@
+
+DROP TABLE IF EXISTS `polls`;
+CREATE TABLE IF NOT EXISTS `polls` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(100) NOT NULL DEFAULT 'Untitled Poll',
+  `thanks_message` varchar(100) NOT NULL DEFAULT 'Thanks!',
+  `reward_badge` varchar(100) NOT NULL DEFAULT 'US8',
+  `reward_credits` int(11) NOT NULL DEFAULT '0',
+  `reward_vip_points` int(11) NOT NULL DEFAULT '0',
+  `reward_activity_points` int(11) NOT NULL DEFAULT '0',
+  `reward_achievement_points` int(11) NOT NULL DEFAULT '0',
+  `room_id` int(11) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `room_id` (`room_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+DROP TABLE IF EXISTS `polls_answers`;
+CREATE TABLE IF NOT EXISTS `polls_answers` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `poll_id` int(11) DEFAULT '0',
+  `question_id` int(11) DEFAULT '0',
+  `player_id` int(11) DEFAULT '0',
+  `answer` varchar(1000) DEFAULT '',
+  PRIMARY KEY (`id`),
+  KEY `poll_id_question_id_player_id` (`poll_id`,`question_id`,`player_id`),
+  KEY `player_id` (`player_id`),
+  KEY `poll_id` (`poll_id`),
+  KEY `poll_id_question_id` (`poll_id`,`question_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+DROP TABLE IF EXISTS `polls_questions`;
+CREATE TABLE IF NOT EXISTS `polls_questions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `poll_id` int(11) NOT NULL,
+  `question_type` enum('WORDED','MULTIPLE_CHOICE','SINGLE_CHOICE') NOT NULL DEFAULT 'WORDED',
+  `question` varchar(100) NOT NULL DEFAULT 'What do you think of Comet Server?',
+  `options` text,
+  PRIMARY KEY (`id`),
+  KEY `poll_id` (`poll_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;

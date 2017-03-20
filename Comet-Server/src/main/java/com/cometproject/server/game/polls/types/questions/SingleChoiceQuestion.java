@@ -7,6 +7,6 @@ public class SingleChoiceQuestion extends MultipleChoiceQuestion {
 
     @Override
     public int getType() {
-        return 2;
+        return 1;
     }
 }
