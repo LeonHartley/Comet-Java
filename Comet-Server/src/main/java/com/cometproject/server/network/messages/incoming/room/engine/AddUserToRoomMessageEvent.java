@@ -23,6 +23,7 @@ import com.cometproject.server.network.messages.outgoing.room.polls.QuickPollRes
 import com.cometproject.server.network.messages.outgoing.room.settings.RoomVisualizationSettingsMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.protocol.messages.MessageEvent;
+import com.cometproject.server.storage.queries.polls.PollDao;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -113,7 +114,7 @@ public class AddUserToRoomMessageEvent implements Event {
         if (PollManager.getInstance().roomHasPoll(room.getId())) {
             Poll poll = PollManager.getInstance().getPollByRoomId(room.getId());
 
-            if (!poll.getPlayersAnswered().contains(client.getPlayer().getId())) {
+            if (!poll.getPlayersAnswered().contains(client.getPlayer().getId()) && !PollDao.hasAnswered(client.getPlayer().getId(), poll.getPollId())) {
                 client.send(new InitializePollMessageComposer(poll.getPollId(), poll.getPollTitle(), poll.getThanksMessage()));
             }
         }

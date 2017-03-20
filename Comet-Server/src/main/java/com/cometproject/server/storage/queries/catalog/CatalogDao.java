@@ -132,15 +132,16 @@ public class CatalogDao {
         return data;
     }
 
-    public static void updateLimitSellsForItem(int itemId) {
+    public static void updateLimitSellsForItem(int itemId, int amount) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
 
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("UPDATE catalog_items SET limited_sells = limited_sells + 1 WHERE id = ?", sqlConnection);
-            preparedStatement.setInt(1, itemId);
+            preparedStatement = SqlHelper.prepare("UPDATE catalog_items SET limited_sells = limited_sells + ? WHERE id = ?", sqlConnection);
+            preparedStatement.setInt(amount, itemId);
+            preparedStatement.setInt(2, itemId);
 
             SqlHelper.executeStatementSilently(preparedStatement, false);
         } catch (SQLException e) {

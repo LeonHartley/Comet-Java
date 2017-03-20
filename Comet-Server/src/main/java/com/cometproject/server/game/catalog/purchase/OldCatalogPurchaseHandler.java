@@ -1,5 +1,6 @@
 package com.cometproject.server.game.catalog.purchase;
 
+import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
@@ -18,7 +19,6 @@ import com.cometproject.server.game.items.rares.LimitedEditionItemData;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.pets.data.PetData;
 import com.cometproject.server.game.pets.data.StaticPetProperties;
-import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
 import com.cometproject.server.game.players.components.types.inventory.InventoryBot;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.bundles.RoomBundleManager;
@@ -26,13 +26,9 @@ import com.cometproject.server.game.rooms.bundles.types.RoomBundle;
 import com.cometproject.server.game.rooms.bundles.types.RoomBundleItem;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.outgoing.catalog.BoughtItemMessageComposer;
-import com.cometproject.server.network.messages.outgoing.notification.PurchaseErrorMessageComposer;
 import com.cometproject.server.network.messages.outgoing.catalog.GiftUserNotFoundMessageComposer;
 import com.cometproject.server.network.messages.outgoing.catalog.UnseenItemsMessageComposer;
-import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
-import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
-import com.cometproject.server.network.messages.outgoing.notification.MotdNotificationMessageComposer;
-import com.cometproject.server.network.messages.outgoing.notification.NotificationMessageComposer;
+import com.cometproject.server.network.messages.outgoing.notification.*;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomForwardMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.settings.EnforceRoomCategoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.BotInventoryMessageComposer;
@@ -69,7 +65,7 @@ public class OldCatalogPurchaseHandler {
 
     public void purchaseItem(Session client, int pageId, int itemId, String data, int amount, GiftData giftData) {
         if (CometSettings.asyncCatalogPurchase) {
-            if(this.executorService == null) {
+            if (this.executorService == null) {
                 this.executorService = Executors.newFixedThreadPool(2);
             }
 
@@ -170,7 +166,7 @@ public class OldCatalogPurchaseHandler {
                     return;
                 }
             }
-            
+
             if (amount > 1 && !item.allowOffer()) {
                 client.send(new AlertMessageComposer(Locale.get("catalog.error.nooffer")));
 
@@ -211,6 +207,11 @@ public class OldCatalogPurchaseHandler {
                 client.getLogger().warn("Player with ID: " + client.getPlayer().getId() + " tried to purchase item with ID: " + item.getId() + " with the incorrect amount of credits or points.");
                 client.send(new AlertMessageComposer(Locale.get("catalog.error.notenough")));
                 return;
+            }
+
+            if(item.getLimitedTotal() > 0) {
+                item.increaseLimitedSells(amount);
+                CatalogDao.updateLimitSellsForItem(item.getId(), amount);
             }
 
             if (!CometSettings.playerInfiniteBalance) {
@@ -257,7 +258,7 @@ public class OldCatalogPurchaseHandler {
 
             if (item.isBadgeOnly()) {
 
-                if (item.hasBadge() && !client.getPlayer().getInventory().hasBadge(item.getBadgeId())){
+                if (item.hasBadge() && !client.getPlayer().getInventory().hasBadge(item.getBadgeId())) {
                     client.getPlayer().getInventory().addBadge(item.getBadgeId(), true);
                 }
 
@@ -326,7 +327,7 @@ public class OldCatalogPurchaseHandler {
 
                     extraData = data;
                 } else if (def.getType().equals("r")) {
-                     // It's a bot!
+                    // It's a bot!
                     String botName = "New Bot";
                     String botFigure = item.getPresetData();
                     String botGender = "m";
@@ -428,9 +429,6 @@ public class OldCatalogPurchaseHandler {
 
                 for (long newItem : newItems) {
                     if (item.getLimitedTotal() > 0) {
-                        item.increaseLimitedSells(1);
-                        CatalogDao.updateLimitSellsForItem(item.getId());
-
                         LimitedEditionDao.save(new LimitedEditionItemData(newItem, item.getLimitedSells(), item.getLimitedTotal()));
                     }
 
@@ -468,7 +466,7 @@ public class OldCatalogPurchaseHandler {
                     client.send(new UnseenItemsMessageComposer(unseenItems));
                     client.send(new UpdateInventoryMessageComposer());
 
-                    if(CometSettings.logCatalogPurchases) {
+                    if (CometSettings.logCatalogPurchases) {
                         CatalogDao.saveRecentPurchase(client.getPlayer().getId(), item.getId(), amount, extraData);
                     }
 
