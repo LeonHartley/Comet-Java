@@ -214,6 +214,9 @@ public class Player implements BasePlayer {
         this.eventLogCategories.clear();
         this.eventLogCategories = null;
 
+        this.recentPurchases.clear();
+        this.recentPurchases = null;
+
         this.settings = null;
         this.data = null;
 
