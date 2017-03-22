@@ -42,3 +42,6 @@ CREATE TABLE IF NOT EXISTS `polls_questions` (
 // New commands
 INSERT INTO permission_commands (`command_id`, `minimum_rank`, `vip_only`) VALUES ('masseffect_command', '7', '0');
 INSERT INTO permission_commands (`command_id`, `minimum_rank`, `vip_only`) VALUES ('masshanditem_command', '7', '0');
+INSERT INTO permission_commands (`command_id`, `minimum_rank`, `vip_only`) VALUES ('freeze_command', '7', '0');
+INSERT INTO permission_commands (`command_id`, `minimum_rank`, `vip_only`) VALUES ('unfreeze_command', '7', '0');
+INSERT INTO permission_commands (`command_id`, `minimum_rank`, `vip_only`) VALUES ('randomize_command', '1', '0');
