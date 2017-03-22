@@ -38,3 +38,7 @@ CREATE TABLE IF NOT EXISTS `polls_questions` (
   PRIMARY KEY (`id`),
   KEY `poll_id` (`poll_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+// New commands
+INSERT INTO permission_commands (`command_id`, `minimum_rank`, `vip_only`) VALUES ('masseffect_command', '7', '0');
+INSERT INTO permission_commands (`command_id`, `minimum_rank`, `vip_only`) VALUES ('masshanditem_command', '7', '0');
