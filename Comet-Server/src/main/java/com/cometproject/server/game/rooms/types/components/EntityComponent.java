@@ -19,6 +19,7 @@ import org.apache.log4j.Logger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -57,6 +58,18 @@ EntityComponent {
         if (tile != null) {
             if (tile.getEntities().size() != 0)
                 return true;
+        }
+
+        return false;
+    }
+
+    public boolean positionHasEntity(Position position, final Set<Integer> ignoredEntities) {
+        RoomTile tile = this.getRoom().getMapping().getTile(position.getX(), position.getY());
+
+        if (tile != null) {
+            for(RoomEntity entity : tile.getEntities()) {
+                if(!ignoredEntities.contains(entity.getId())) return true;
+            }
         }
 
         return false;
