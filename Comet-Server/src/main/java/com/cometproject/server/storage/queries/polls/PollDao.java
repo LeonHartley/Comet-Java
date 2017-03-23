@@ -25,33 +25,42 @@ public class PollDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("SELECT pQ.id AS id, p.id AS pollId, p.title AS pollTitle, p.thanks_message AS pollThanksMessage, p.room_id AS pollRoomId," +
-                    " p.reward_badge AS rewardBadge, p.reward_credits AS rewardCredits, p.reward_vip_points AS rewardVipPoints, p.reward_activity_points AS rewardActivityPoints, p.reward_achievement_points AS rewardAchievementPoints, pQ.question_type AS questionType, pQ.question AS question, pQ.options AS options FROM polls_questions pQ LEFT JOIN polls p ON" +
-                    "(SELECT id FROM polls WHERE id = pQ.poll_id);", sqlConnection);
+            preparedStatement = SqlHelper.prepare("SELECT * FROM polls;", sqlConnection);
+
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                final int pollId = resultSet.getInt("pollId");
-                Poll poll;
+                int pollId = resultSet.getInt("id");
+                final String title = resultSet.getString("title");
+                final int roomId = resultSet.getInt("room_id");
+                final String thanksMessage = resultSet.getString("thanks_message");
 
-                if(!data.containsKey(pollId)) {
-                    final String title = resultSet.getString("pollTitle");
-                    final int roomId = resultSet.getInt("pollRoomId");
-                    final String thanksMessage = resultSet.getString("pollThanksMessage");
+                final String rewardBadge = resultSet.getString("reward_badge");
+                final int rewardCredits = resultSet.getInt("reward_credits");
+                final int rewardActivityPoints = resultSet.getInt("reward_activity_points");
+                final int rewardDiamonds = resultSet.getInt("reward_vip_points");
+                final int rewardAchievementPoints = resultSet.getInt("reward_achievement_points");
 
-                    final String rewardBadge = resultSet.getString("rewardBadge");
-                    final int rewardCredits = resultSet.getInt("rewardCredits");
-                    final int rewardActivityPoints = resultSet.getInt("rewardActivityPoints");
-                    final int rewardDiamonds = resultSet.getInt("rewardVipPoints");
-                    final int rewardAchievementPoints = resultSet.getInt("rewardAchievementPoints");
+                data.put(pollId, new Poll(pollId, roomId, title, thanksMessage, rewardBadge, rewardCredits, rewardDiamonds, rewardActivityPoints, rewardAchievementPoints));
+            }
 
-                    poll = new Poll(pollId, roomId, title, thanksMessage, rewardBadge, rewardCredits, rewardDiamonds, rewardActivityPoints, rewardAchievementPoints);
-                    data.put(pollId, poll);
-                } else {
-                    poll = data.get(pollId);
+            // close the stuff cos we gonna create new ones
+            SqlHelper.closeSilently(resultSet);
+            SqlHelper.closeSilently(preparedStatement);
+
+            preparedStatement = SqlHelper.prepare("SELECT * FROM polls_questions", sqlConnection);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                final int pollId = resultSet.getInt("poll_id");
+
+                if (!data.containsKey(pollId)) {
+                    continue;
                 }
 
-                PollQuestionType questionType = PollQuestionType.valueOf(resultSet.getString("questionType"));
+                final Poll poll = data.get(pollId);
+
+                PollQuestionType questionType = PollQuestionType.valueOf(resultSet.getString("question_type"));
 
                 switch (questionType) {
                     default:
@@ -67,6 +76,7 @@ public class PollDao {
                         poll.addQuestion(resultSet.getInt("id"), new SingleChoiceQuestion(resultSet.getString("question"), resultSet.getString("options")));
                         break;
                 }
+
             }
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);
@@ -103,35 +113,35 @@ public class PollDao {
     }
 
     public static boolean hasAnswered(int playerId, int pollId, int questionId) {
-            Connection sqlConnection = null;
-            PreparedStatement preparedStatement = null;
-            ResultSet resultSet = null;
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
 
-            try {
-                sqlConnection = SqlHelper.getConnection();
+        try {
+            sqlConnection = SqlHelper.getConnection();
 
-                String query = "SELECT NULL FROM polls_answers WHERE question_id = ? AND poll_id = ? AND player_id = ?;";
-                preparedStatement = SqlHelper.prepare(query, sqlConnection);
+            String query = "SELECT NULL FROM polls_answers WHERE question_id = ? AND poll_id = ? AND player_id = ?;";
+            preparedStatement = SqlHelper.prepare(query, sqlConnection);
 
-                preparedStatement.setInt(1, questionId);
-                preparedStatement.setInt(2, pollId);
-                preparedStatement.setInt(3, playerId);
+            preparedStatement.setInt(1, questionId);
+            preparedStatement.setInt(2, pollId);
+            preparedStatement.setInt(3, playerId);
 
-                resultSet = preparedStatement.executeQuery();
+            resultSet = preparedStatement.executeQuery();
 
-                while (resultSet.next()) {
-                    return true;
-                }
-
-            } catch (SQLException e) {
-                SqlHelper.handleSqlException(e);
-            } finally {
-                SqlHelper.closeSilently(resultSet);
-                SqlHelper.closeSilently(preparedStatement);
-                SqlHelper.closeSilently(sqlConnection);
+            while (resultSet.next()) {
+                return true;
             }
 
-            return false;
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(resultSet);
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+
+        return false;
     }
 
     public static boolean hasAnswered(int playerId, int pollId) {
