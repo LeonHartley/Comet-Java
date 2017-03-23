@@ -33,6 +33,12 @@ public class PlayerSettings implements IPlayerSettings {
     private boolean useOldChat;
     private boolean ignoreInvites;
 
+    private int navigatorX;
+    private int navigatorY;
+    private int navigatorHeight;
+    private int navigatorWidth;
+    private boolean navigatorShowSearches;
+
     public PlayerSettings(ResultSet data, boolean isLogin) throws SQLException {
         if (isLogin) {
             String volumeData = data.getString("playerSettings_volume");
@@ -72,6 +78,13 @@ public class PlayerSettings implements IPlayerSettings {
 
             this.useOldChat = data.getString("playerSettings_useOldChat").equals("1");
             this.ignoreInvites = data.getString("playerSettings_ignoreInvites").equals("1");
+
+            this.navigatorX = data.getInt("playerSettings_navigatorX");
+            this.navigatorY = data.getInt("playerSettings_navigatorY");
+            this.navigatorHeight = data.getInt("playerSettings_navigatorHeight");
+            this.navigatorWidth = data.getInt("playerSettings_navigatorWidth");
+
+            this.navigatorShowSearches = data.getString("playerSettings_navigatorShowSearches").equals("1");
         } else {
             String volumeData = data.getString("volume");
 
@@ -110,6 +123,13 @@ public class PlayerSettings implements IPlayerSettings {
 
             this.useOldChat = data.getString("chat_oldstyle").equals("1");
             this.ignoreInvites = data.getString("ignore_invites").equals("1");
+
+            this.navigatorX = data.getInt("navigator_x");
+            this.navigatorY = data.getInt("navigator_y");
+            this.navigatorHeight = data.getInt("navigator_height");
+            this.navigatorWidth = data.getInt("navigator_width");
+
+            this.navigatorShowSearches = data.getString("playerSettings_navigatorShowSearches").equals("1");
         }
     }
 
@@ -125,6 +145,12 @@ public class PlayerSettings implements IPlayerSettings {
         this.wardrobe = new ArrayList<>();
         this.playlist = new ArrayList<>();
         this.useOldChat = false;
+
+        this.navigatorX = 68;
+        this.navigatorY = 68;
+        this.navigatorWidth = 425;
+        this.navigatorHeight = 592;
+        this.navigatorShowSearches = false;
     }
 
     public IVolumeData getVolumes() {
@@ -193,5 +219,45 @@ public class PlayerSettings implements IPlayerSettings {
 
     public void setIgnoreInvites(boolean ignoreInvites) {
         this.ignoreInvites = ignoreInvites;
+    }
+
+    public int getNavigatorX() {
+        return navigatorX;
+    }
+
+    public void setNavigatorX(int navigatorX) {
+        this.navigatorX = navigatorX;
+    }
+
+    public int getNavigatorY() {
+        return navigatorY;
+    }
+
+    public void setNavigatorY(int navigatorY) {
+        this.navigatorY = navigatorY;
+    }
+
+    public int getNavigatorHeight() {
+        return navigatorHeight;
+    }
+
+    public void setNavigatorHeight(int navigatorHeight) {
+        this.navigatorHeight = navigatorHeight;
+    }
+
+    public int getNavigatorWidth() {
+        return navigatorWidth;
+    }
+
+    public void setNavigatorWidth(int navigatorWidth) {
+        this.navigatorWidth = navigatorWidth;
+    }
+
+    public boolean getNavigatorShowSearches() {
+        return navigatorShowSearches;
+    }
+
+    public void setNavigatorShowSearches(boolean navigatorShowSearches) {
+        this.navigatorShowSearches = navigatorShowSearches;
     }
 }

@@ -44,6 +44,7 @@ import com.cometproject.server.network.messages.incoming.music.playlist.Playlist
 import com.cometproject.server.network.messages.incoming.navigator.*;
 import com.cometproject.server.network.messages.incoming.navigator.updated.InitializeNewNavigatorMessageEvent;
 import com.cometproject.server.network.messages.incoming.navigator.updated.NewNavigatorSearchMessageEvent;
+import com.cometproject.server.network.messages.incoming.navigator.updated.ResizeNavigatorMessageEvent;
 import com.cometproject.server.network.messages.incoming.performance.EventLogMessageEvent;
 import com.cometproject.server.network.messages.incoming.performance.RequestLatencyTestMessageEvent;
 import com.cometproject.server.network.messages.incoming.polls.GetPollMessageEvent;
@@ -106,6 +107,8 @@ import org.apache.log4j.Logger;
 
 import java.util.Map;
 import java.util.concurrent.*;
+
+import static com.cometproject.server.protocol.headers.Events.ResizeNavigatorMessageEvent;
 
 public final class MessageHandler {
     public static Logger log = Logger.getLogger(MessageHandler.class.getName());
@@ -231,6 +234,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.GetEventCategoriesMessageEvent, new EventCategoriesMessageEvent());
         this.getMessages().put(Events.GetPromotableRoomsMessageEvent, new CatalogPromotionGetRoomsMessageEvent());
         this.getMessages().put(Events.StaffPickRoomMessageEvent, new AddToStaffPickedRoomsMessageEvent());
+        this.getMessages().put(Events.ResizeNavigatorMessageEvent, new ResizeNavigatorMessageEvent());
     }
 
     public void registerUser() {
