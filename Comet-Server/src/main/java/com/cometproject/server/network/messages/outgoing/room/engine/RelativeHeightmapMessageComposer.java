@@ -34,9 +34,9 @@ public class RelativeHeightmapMessageComposer extends MessageComposer {
 
         for (int y = 0; y < model.getSizeY(); y++) {
             for (int x = 0; x < model.getSizeX(); x++) {
-                if (x == model.getDoorX() && y == model.getDoorY()) {
+                /*if (x == model.getDoorX() && y == model.getDoorY()) {
                     builder.append(model.getDoorZ());
-                } else if (model.getSquareState()[x][y] == RoomTileState.INVALID) {
+                } else */if (model.getSquareState()[x][y] == RoomTileState.INVALID) {
                     builder.append("x");
                 } else {
                     builder.append(characters[(int) Math.floor(model.getSquareHeight()[x][y] + 0.5d)]);
