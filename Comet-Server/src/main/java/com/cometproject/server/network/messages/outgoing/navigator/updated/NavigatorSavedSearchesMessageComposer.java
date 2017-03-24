@@ -1,13 +1,20 @@
 package com.cometproject.server.network.messages.outgoing.navigator.updated;
 
 import com.cometproject.api.networking.messages.IComposer;
+import com.cometproject.server.game.players.components.types.navigator.SavedSearch;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
 
-/**
- * Created by Leon on 23/03/2017.
- */
+import java.util.Map;
+
 public class NavigatorSavedSearchesMessageComposer extends MessageComposer {
+
+    private final Map<Integer, SavedSearch> savedSearches;
+
+    public NavigatorSavedSearchesMessageComposer(final Map<Integer, SavedSearch> savedSearches) {
+        this.savedSearches = savedSearches;
+    }
+
     @Override
     public short getId() {
         return Composers.NavigatorSavedSearchesMessageComposer;
@@ -15,11 +22,13 @@ public class NavigatorSavedSearchesMessageComposer extends MessageComposer {
 
     @Override
     public void compose(IComposer msg) {
-        msg.writeInt(0);//count
+        msg.writeInt(this.savedSearches.size());//count
 
-//        msg.writeInt(1);
-//        msg.writeString("a");
-//        msg.writeString("b");
-//        msg.writeString("c");
+        for(Map.Entry<Integer, SavedSearch> savedSearch : this.savedSearches.entrySet()) {
+            msg.writeInt(savedSearch.getKey());
+            msg.writeString(savedSearch.getValue().getView());
+            msg.writeString(savedSearch.getValue().getSearchQuery());
+            msg.writeString("");
+        }
     }
 }

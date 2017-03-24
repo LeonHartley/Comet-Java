@@ -2,6 +2,7 @@ package com.cometproject.server.storage.queries.player;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.players.PlayerManager;
+import com.cometproject.server.game.players.components.types.navigator.SavedSearch;
 import com.cometproject.server.game.players.components.types.wardrobe.WardrobeClothing;
 import com.cometproject.server.game.players.data.PlayerAvatar;
 import com.cometproject.server.game.players.data.PlayerAvatarData;
@@ -17,6 +18,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 public class PlayerDao {
@@ -270,7 +272,7 @@ public class PlayerDao {
     }
 
     public static PlayerStatistics getStatisticsById(int id) {
-        if(id < 0) return null; // todo: figure out why this would be negative
+        if (id < 0) return null; // todo: figure out why this would be negative
 
         Connection sqlConnection = null;
         ResultSet resultSet = null;
@@ -335,8 +337,8 @@ public class PlayerDao {
     }
 
     public static String getUsernameByPlayerId(int playerId) {
-        if(CacheManager.getInstance().isEnabled()) {
-            if(CacheManager.getInstance().exists("players.username." + playerId)) {
+        if (CacheManager.getInstance().isEnabled()) {
+            if (CacheManager.getInstance().exists("players.username." + playerId)) {
                 return CacheManager.getInstance().getString("players.username." + playerId);
             }
         }
@@ -356,7 +358,7 @@ public class PlayerDao {
             while (resultSet.next()) {
                 final String username = resultSet.getString("username");
 
-                if(CacheManager.getInstance().isEnabled()) {
+                if (CacheManager.getInstance().isEnabled()) {
                     CacheManager.getInstance().putString("players.username." + playerId, username);
                 }
 
@@ -704,7 +706,7 @@ public class PlayerDao {
 
             preparedStatement = SqlHelper.prepare("UPDATE players SET username = ?, motto = ?, figure = ?, credits = ?, vip_points = ?, gender = ?, favourite_group = ?, activity_points = ?, quest_id = ?, achievement_points = ? WHERE id = ?", sqlConnection);
 
-            for(PlayerData playerDataInstance : playerData.values()) {
+            for (PlayerData playerDataInstance : playerData.values()) {
                 preparedStatement.setString(1, playerDataInstance.getUsername());
                 preparedStatement.setString(2, playerDataInstance.getMotto());
                 preparedStatement.setString(3, playerDataInstance.getFigure());
@@ -883,4 +885,82 @@ public class PlayerDao {
         }
     }
 
+    public static Map<Integer, SavedSearch> getSavedSearches(int playerId) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        final Map<Integer, SavedSearch> data = new ConcurrentHashMap<>();
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("SELECT `id`, `view`, `search_query` FROM player_saved_searches WHERE player_id = ?", sqlConnection);
+            preparedStatement.setInt(1, playerId);
+
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                data.put(resultSet.getInt("id"), new SavedSearch(resultSet.getString("view"), resultSet.getString("search_query")));
+            }
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+
+        return data;
+    }
+
+    public static int saveSearch(int playerId, SavedSearch savedSearch) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("INSERT into player_saved_searches (player_id, view, search_query) VALUES(?, ?, ?);", sqlConnection, true);
+
+            preparedStatement.setInt(1, playerId);
+            preparedStatement.setString(2, savedSearch.getView());
+            preparedStatement.setString(3, savedSearch.getSearchQuery());
+
+            preparedStatement.execute();
+
+            resultSet = preparedStatement.getGeneratedKeys();
+
+            while (resultSet.next()) {
+                return resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(resultSet);
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+
+        return 0;
+    }
+
+    public static void deleteSearch(int searchId) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("DELETE FROM player_saved_searches WHERE id = ?", sqlConnection);
+            preparedStatement.setInt(1, searchId);
+
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+    }
 }

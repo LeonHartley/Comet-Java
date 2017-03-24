@@ -15,7 +15,7 @@ public class InitializeNewNavigatorMessageEvent implements Event {
         client.sendQueue(new NavigatorPreferencesMessageComposer(client.getPlayer().getSettings()))
                 .sendQueue(new NavigatorMetaDataMessageComposer())
                 .sendQueue(new NavigatorLiftedRoomsMessageComposer())
-                .sendQueue(new NavigatorSavedSearchesMessageComposer())
+                .sendQueue(new NavigatorSavedSearchesMessageComposer(client.getPlayer().getNavigator().getSavedSearches()))
                 .sendQueue(new NavigatorCollapsedCategoriesMessageComposer());
 
         client.flush();
