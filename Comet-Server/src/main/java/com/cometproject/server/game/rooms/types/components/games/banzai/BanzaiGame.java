@@ -134,6 +134,16 @@ public class BanzaiGame extends RoomGame {
         }
     }
 
+    public void addTile() {
+        this.banzaiTileCount += 1;
+        this.startBanzaiTileCount += 1;
+    }
+
+    public void removeTile() {
+        this.banzaiTileCount -= 1;
+        this.startBanzaiTileCount -= 1;
+    }
+
     public int getScore(GameTeam team) {
         return this.getGameComponent().getScore(team);
     }

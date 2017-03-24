@@ -24,8 +24,26 @@ public class BanzaiTileFloorItem extends RoomItemFloor {
     }
 
     @Override
+    public void onPickup() {
+        if(!(this.getRoom().getGame().getInstance() instanceof BanzaiGame)) {
+            return;
+        }
+
+        ((BanzaiGame) this.getRoom().getGame().getInstance()).removeTile();
+    }
+
+    @Override
+    public void onPlaced() {
+        if(!(this.getRoom().getGame().getInstance() instanceof BanzaiGame)) {
+            return;
+        }
+
+        ((BanzaiGame) this.getRoom().getGame().getInstance()).addTile();
+    }
+
+    @Override
     public void onEntityPostStepOn(RoomEntity entity) {
-        if (!(entity instanceof PlayerEntity) || ((PlayerEntity) entity).getGameTeam() == GameTeam.NONE || this.getRoom().getGame().getInstance() == null) {
+        if (!(entity instanceof PlayerEntity) || ((PlayerEntity) entity).getGameTeam() == GameTeam.NONE || !(this.getRoom().getGame().getInstance() instanceof BanzaiGame)) {
             return;
         }
 
@@ -98,8 +116,8 @@ public class BanzaiTileFloorItem extends RoomItemFloor {
         }
     }
 
-    public static List<BanzaiTileFloorItem> buildBanzaiRectangle(final BanzaiTileFloorItem triggerItem, final int x, final int y,
-                                                                 final int goX, final int goY, final int currentDirection, final int turns, final GameTeam team) {
+    private static List<BanzaiTileFloorItem> buildBanzaiRectangle(final BanzaiTileFloorItem triggerItem, final int x, final int y,
+                                                                  final int goX, final int goY, final int currentDirection, final int turns, final GameTeam team) {
         final boolean[] directions = new boolean[4];
 
         if (goX == -1 || goX == 0) {
