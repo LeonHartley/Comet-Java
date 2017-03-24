@@ -45,3 +45,10 @@ INSERT INTO permission_commands (`command_id`, `minimum_rank`, `vip_only`) VALUE
 INSERT INTO permission_commands (`command_id`, `minimum_rank`, `vip_only`) VALUES ('freeze_command', '7', '0');
 INSERT INTO permission_commands (`command_id`, `minimum_rank`, `vip_only`) VALUES ('unfreeze_command', '7', '0');
 INSERT INTO permission_commands (`command_id`, `minimum_rank`, `vip_only`) VALUES ('randomize_command', '1', '0');
+
+ALTER TABLE `player_settings`
+	ADD COLUMN `navigator_x` INT(11) NULL DEFAULT '68' AFTER `allow_mimic`,
+	ADD COLUMN `navigator_y` INT(11) NULL DEFAULT '42' AFTER `navigator_x`,
+	ADD COLUMN `navigator_width` INT(11) NULL DEFAULT '425' AFTER `navigator_y`,
+	ADD COLUMN `navigator_height` INT(11) NULL DEFAULT '592' AFTER `navigator_width`,
+	ADD COLUMN `navigator_show_searches` ENUM('1','0') NULL DEFAULT '0' AFTER `navigator_height`;
