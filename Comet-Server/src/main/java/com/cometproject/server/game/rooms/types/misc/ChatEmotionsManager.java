@@ -60,6 +60,7 @@ public class ChatEmotionsManager {
             put("matou19", ChatEmotion.ANGRY);
             put("mathis", ChatEmotion.ANGRY);
             put("helpi", ChatEmotion.ANGRY);
+            put("gladius", ChatEmotion.ANGRY); // this was so much needed!
 
             put("minette", ChatEmotion.SHOCKED); // mathis' cat
         }};
