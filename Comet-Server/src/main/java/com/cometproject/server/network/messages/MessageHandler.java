@@ -106,8 +106,6 @@ import org.apache.log4j.Logger;
 import java.util.Map;
 import java.util.concurrent.*;
 
-import static com.cometproject.server.protocol.headers.Events.ResizeNavigatorMessageEvent;
-
 public final class MessageHandler {
     public static Logger log = Logger.getLogger(MessageHandler.class.getName());
     private final Map<Short, Event> messages = new ConcurrentHashMap<>();
@@ -235,6 +233,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.ResizeNavigatorMessageEvent, new ResizeNavigatorMessageEvent());
         this.getMessages().put(Events.SaveNavigatorSearchMessageEvent, new SaveNavigatorSearchMessageEvent());
         this.getMessages().put(Events.DeleteNavigatorSavedSearchMessageEvent, new DeleteNavigatorSavedSearchMessageEvent());
+        this.getMessages().put(Events.FindRandomFriendingRoomMessageEvent, new FindRandomFriendingRoomMessageEvent());
     }
 
     public void registerUser() {
