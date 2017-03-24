@@ -267,6 +267,10 @@ public class RoomManager implements Initialisable {
 
         if (query.equals("tag:")) return rooms;
 
+        if (query.startsWith("roomname:")) {
+            query = query.substring(9);
+        }
+
         List<RoomData> roomSearchResults = RoomDao.getRoomsByQuery(query);
 
         for (RoomData data : roomSearchResults) {

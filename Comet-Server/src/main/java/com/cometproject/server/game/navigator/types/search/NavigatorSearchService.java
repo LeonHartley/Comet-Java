@@ -72,9 +72,6 @@ public class NavigatorSearchService implements CometTask {
         });
     }
 
-    private List<RoomData> popularRooms;
-    private long lastPopularRoomsUpdate = 0;
-
     public List<RoomData> search(Category category, Player player, boolean expanded) {
         List<RoomData> rooms = Lists.newCopyOnWriteArrayList();
 
