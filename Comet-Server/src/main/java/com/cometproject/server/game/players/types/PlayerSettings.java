@@ -129,7 +129,7 @@ public class PlayerSettings implements IPlayerSettings {
             this.navigatorHeight = data.getInt("navigator_height");
             this.navigatorWidth = data.getInt("navigator_width");
 
-            this.navigatorShowSearches = data.getString("playerSettings_navigatorShowSearches").equals("1");
+            this.navigatorShowSearches = data.getString("navigator_show_searches").equals("1");
         }
     }
 
@@ -147,7 +147,7 @@ public class PlayerSettings implements IPlayerSettings {
         this.useOldChat = false;
 
         this.navigatorX = 68;
-        this.navigatorY = 68;
+        this.navigatorY = 42;
         this.navigatorWidth = 425;
         this.navigatorHeight = 592;
         this.navigatorShowSearches = false;
