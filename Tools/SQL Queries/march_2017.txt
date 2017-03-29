@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `polls_questions` (
   KEY `poll_id` (`poll_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
-// New commands
+## New commands
 INSERT INTO permission_commands (`command_id`, `minimum_rank`, `vip_only`) VALUES ('masseffect_command', '7', '0');
 INSERT INTO permission_commands (`command_id`, `minimum_rank`, `vip_only`) VALUES ('masshanditem_command', '7', '0');
 INSERT INTO permission_commands (`command_id`, `minimum_rank`, `vip_only`) VALUES ('freeze_command', '7', '0');
@@ -52,3 +52,14 @@ ALTER TABLE `player_settings`
 	ADD COLUMN `navigator_width` INT(11) NULL DEFAULT '425' AFTER `navigator_y`,
 	ADD COLUMN `navigator_height` INT(11) NULL DEFAULT '592' AFTER `navigator_width`,
 	ADD COLUMN `navigator_show_searches` ENUM('1','0') NULL DEFAULT '0' AFTER `navigator_height`;
+	
+## player_saved_searches table (im not sure if is only this values!!)
+CREATE TABLE IF NOT EXISTS `player_saved_searches` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `player_id` int(11) NOT NULL,
+  `view` varchar(255) NOT NULL,
+  `search_query` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+
+ALTER TABLE `player_saved_searches`ADD INDEX `player_id` (`player_id`);
