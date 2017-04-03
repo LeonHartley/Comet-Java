@@ -1,11 +1,9 @@
 package com.cometproject.server.network;
 
 import com.cometproject.api.messaging.console.ConsoleCommandRequest;
-import com.cometproject.api.messaging.performance.QueryRequest;
 import com.cometproject.api.messaging.status.StatusRequest;
 import com.cometproject.api.messaging.status.StatusResponse;
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.boot.CometServer;
 import com.cometproject.server.boot.utils.ConsoleCommands;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Configuration;
@@ -13,8 +11,6 @@ import com.cometproject.server.network.messages.MessageHandler;
 import com.cometproject.server.network.monitor.MonitorClient;
 import com.cometproject.server.network.sessions.SessionManager;
 import com.cometproject.server.protocol.security.exchange.RSA;
-import com.cometproject.server.storage.SqlHelper;
-import com.fasterxml.jackson.databind.ser.std.InetAddressSerializer;
 import io.coerce.commons.config.CoerceConfiguration;
 import io.coerce.services.messaging.client.MessagingClient;
 import io.netty.bootstrap.ServerBootstrap;
@@ -31,11 +27,9 @@ import io.netty.util.ResourceLeakDetector;
 import io.netty.util.internal.logging.InternalLoggerFactory;
 import io.netty.util.internal.logging.Log4JLoggerFactory;
 import org.apache.log4j.Logger;
-import org.xbill.DNS.Address;
 
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
-import java.util.UUID;
 
 
 public class NetworkManager {
@@ -138,15 +132,15 @@ public class NetworkManager {
                 .channel(isEpollAvailable && isEpollEnabled ? EpollServerSocketChannel.class : NioServerSocketChannel.class)
                 .childHandler(new NetworkChannelInitializer(channelGroup))
                 .option(ChannelOption.SO_BACKLOG, Integer.parseInt(Configuration.currentConfig().get("comet.network.backlog", "500")))
-//                .option(ChannelOption.TCP_NODELAY, true)
-//                .option(ChannelOption.WRITE_BUFFER_LOW_WATER_MARK, 32 * 1024)
-//                .option(ChannelOption.WRITE_BUFFER_HIGH_WATER_MARK, 64 * 1024)
+                .option(ChannelOption.TCP_NODELAY, true)
+                .option(ChannelOption.WRITE_BUFFER_LOW_WATER_MARK, 32 * 1024)
+                .option(ChannelOption.WRITE_BUFFER_HIGH_WATER_MARK, 64 * 1024)
                 .option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT)
                 .option(ChannelOption.MESSAGE_SIZE_ESTIMATOR, DefaultMessageSizeEstimator.DEFAULT)
                 .childOption(ChannelOption.TCP_NODELAY, true)
-                .childOption(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT);
-//                .childOption(ChannelOption.WRITE_BUFFER_LOW_WATER_MARK, 32 * 1024)
-//                .childOption(ChannelOption.WRITE_BUFFER_HIGH_WATER_MARK, 64 * 1024);
+                .childOption(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT)
+                .childOption(ChannelOption.WRITE_BUFFER_LOW_WATER_MARK, 32 * 1024)
+                .childOption(ChannelOption.WRITE_BUFFER_HIGH_WATER_MARK, 64 * 1024);
 
         if (ports.contains(",")) {
             for (String s : ports.split(",")) {

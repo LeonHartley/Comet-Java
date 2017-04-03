@@ -13,8 +13,6 @@ import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorI
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.protocol.security.exchange.DiffieHellman;
 import com.cometproject.server.storage.queries.player.PlayerDao;
-import com.cometproject.server.tasks.CometThreadManager;
-import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import org.apache.log4j.Logger;
 
@@ -26,7 +24,7 @@ public class Session implements BaseSession {
     private Logger logger = Logger.getLogger("Session");
     public static int CLIENT_VERSION = 0;
 
-    private final Channel channel;
+    private final ChannelHandlerContext channel;
     private final SessionEventHandler eventHandler;
 
     private boolean isClone = false;
@@ -40,7 +38,7 @@ public class Session implements BaseSession {
     private DiffieHellman diffieHellman;
     private long lastPing = Comet.getTime();
 
-    public Session(Channel channel) {
+    public Session(ChannelHandlerContext channel) {
         this.channel = channel;
         this.channel.attr(SessionManager.SESSION_ATTR).set(this);
         this.eventHandler = new SessionEventHandler(this);
@@ -100,7 +98,7 @@ public class Session implements BaseSession {
         String ipAddress = "0.0.0.0";
 
         if (!CometSettings.useDatabaseIp) {
-            return ((InetSocketAddress) this.getChannel().remoteAddress()).getAddress().getHostAddress();
+            return ((InetSocketAddress) this.getChannel().channel().remoteAddress()).getAddress().getHostAddress();
         } else {
             if (this.getPlayer() != null) {
                 ipAddress = PlayerDao.getIpAddress(this.getPlayer().getId());
@@ -159,7 +157,7 @@ public class Session implements BaseSession {
         return this.player;
     }
 
-    public Channel getChannel() {
+    public ChannelHandlerContext getChannel() {
         return this.channel;
     }
 
