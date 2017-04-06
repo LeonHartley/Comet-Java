@@ -963,4 +963,63 @@ public class PlayerDao {
             SqlHelper.closeSilently(sqlConnection);
         }
     }
+
+    public static Map<Integer, WardrobeClothing> getClothing(int playerId) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        final Map<Integer, WardrobeClothing> data = new ConcurrentHashMap<>();
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("SELECT `id`, `part_id`, `part` FROM player_clothing WHERE `player_id` = ?;", sqlConnection);
+            preparedStatement.setInt(1, playerId);
+
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                data.put(resultSet.getInt("id"), new WardrobeClothing(resultSet.getInt("id"), resultSet.getInt("part_id"), resultSet.getInt("part")));
+            }
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+
+        return data;
+    }
+
+    public static WardrobeClothing createClothing(int playerId, int partId, int part) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("INSERT into player_clothing (player_id, part_id, part) VALUES(?, ?, ?);", sqlConnection, true);
+            preparedStatement.setInt(1, playerId);
+            preparedStatement.setInt(2, partId);
+            preparedStatement.setInt(3, part);
+
+            preparedStatement.execute();
+
+            resultSet = preparedStatement.getGeneratedKeys();
+
+            while (resultSet.next()) {
+                return new WardrobeClothing(resultSet.getInt(1), partId, part);
+            }
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+
+        return null;
+    }
+
 }
