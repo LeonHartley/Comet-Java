@@ -50,6 +50,14 @@ public class WiredActionShowMessage extends WiredActionItem {
 
         PlayerEntity playerEntity = ((PlayerEntity) event.entity);
 
+        if(playerEntity.getPlayer() == null || playerEntity.getPlayer().getSession() == null) {
+            return;
+        }
+
+        if(this.getWiredData() == null || this.getWiredData().getText() == null) {
+            return;
+        }
+
         playerEntity.getPlayer().getSession().send(new WhisperMessageComposer(playerEntity.getId(), this.getWiredData().getText(), isWhisperBubble ? 0 : 34));
     }
 }

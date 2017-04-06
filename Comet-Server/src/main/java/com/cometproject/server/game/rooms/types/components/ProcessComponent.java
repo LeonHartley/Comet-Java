@@ -44,6 +44,9 @@ public class ProcessComponent implements CometTask {
 
     private boolean isProcessing = false;
 
+    private List<PlayerEntity> playersToRemove;
+    private List<RoomEntity> entitiesToUpdate;
+
     public ProcessComponent(Room room) {
         this.room = room;
         this.log = Logger.getLogger("Room Process [" + room.getData().getName() + ", #" + room.getId() + "]");
@@ -78,65 +81,11 @@ public class ProcessComponent implements CometTask {
         try {
             Map<Integer, RoomEntity> entities = this.room.getEntities().getAllEntities();
 
-            List<PlayerEntity> playersToRemove = new ArrayList<>();
-            List<RoomEntity> entitiesToUpdate = new ArrayList<>();
+            playersToRemove = new ArrayList<>();
+            entitiesToUpdate = new ArrayList<>();
 
             for (RoomEntity entity : entities.values()) {
-                if (entity.getEntityType() == RoomEntityType.PLAYER) {
-                    PlayerEntity playerEntity = (PlayerEntity) entity;
-
-                    try {
-                        if (playerEntity.getPlayer() == null || playerEntity.getPlayer().isDisposed || playerEntity.getPlayer().getSession() == null) {
-                            playersToRemove.add(playerEntity);
-                            continue;
-                        }
-                    } catch (Exception e) {
-                        log.warn("Failed to remove null player from room - user data was null");
-                        continue;
-                    }
-
-                    boolean playerNeedsRemove = processEntity(playerEntity);
-
-                    if (playerNeedsRemove) {
-                        playersToRemove.add(playerEntity);
-                    }
-                } else if (entity.getEntityType() == RoomEntityType.BOT) {
-                    // do anything special here for bots?
-                    processEntity(entity);
-                } else if (entity.getEntityType() == RoomEntityType.PET) {
-                    if (entity.getMountedEntity() == null) {
-                        // do anything special here for pets?
-                        processEntity(entity);
-                    }
-                }
-
-                if ((entity.needsUpdate() && !entity.needsUpdateCancel() || entity.needsForcedUpdate) && entity.isVisible()) {
-                    if (entity.needsForcedUpdate && entity.updatePhase == 1) {
-                        entity.needsForcedUpdate = false;
-                        entity.updatePhase = 0;
-
-                        entitiesToUpdate.add(entity);
-                    } else if (entity.needsForcedUpdate) {
-                        if (entity.hasStatus(RoomEntityStatus.MOVE)) {
-                            entity.removeStatus(RoomEntityStatus.MOVE);
-                        }
-
-                        entity.updatePhase = 1;
-                        entitiesToUpdate.add(entity);
-                    } else {
-                        if (entity instanceof PlayerEntity) {
-                            if (entity.getMountedEntity() != null) {
-                                processEntity(entity.getMountedEntity());
-
-                                entity.getMountedEntity().markUpdateComplete();
-                                entitiesToUpdate.add(entity.getMountedEntity());
-                            }
-                        }
-
-                        entity.markUpdateComplete();
-                        entitiesToUpdate.add(entity);
-                    }
-                }
+               this.startProcessing(entity);
             }
 
             // only send the updates if we need to
@@ -158,6 +107,9 @@ public class ProcessComponent implements CometTask {
 
             playersToRemove.clear();
             entitiesToUpdate.clear();
+
+            playersToRemove = null;
+            entitiesToUpdate = null;
 
 //            log.debug("Room processing took " + (System.currentTimeMillis() - timeStart) + "ms");
         } catch (Exception e) {
@@ -227,6 +179,64 @@ public class ProcessComponent implements CometTask {
     public void setDelay(int time) {
         this.processFuture.cancel(false);
         this.processFuture = CometThreadManager.getInstance().executePeriodic(this, 0, time, TimeUnit.MILLISECONDS);
+    }
+
+    private void startProcessing(RoomEntity entity) {
+        if (entity.getEntityType() == RoomEntityType.PLAYER) {
+            PlayerEntity playerEntity = (PlayerEntity) entity;
+
+            try {
+                if (playerEntity.getPlayer() == null || playerEntity.getPlayer().isDisposed || playerEntity.getPlayer().getSession() == null) {
+                    playersToRemove.add(playerEntity);
+                    return;
+                }
+            } catch (Exception e) {
+                log.warn("Failed to remove null player from room - user data was null");
+                return;
+            }
+
+            boolean playerNeedsRemove = processEntity(playerEntity);
+
+            if (playerNeedsRemove) {
+                playersToRemove.add(playerEntity);
+            }
+        } else if (entity.getEntityType() == RoomEntityType.BOT) {
+            // do anything special here for bots?
+            processEntity(entity);
+        } else if (entity.getEntityType() == RoomEntityType.PET) {
+            if (entity.getMountedEntity() == null) {
+                // do anything special here for pets?
+                processEntity(entity);
+            }
+        }
+
+        if ((entity.needsUpdate() && !entity.needsUpdateCancel() || entity.needsForcedUpdate) && entity.isVisible()) {
+            if (entity.needsForcedUpdate && entity.updatePhase == 1) {
+                entity.needsForcedUpdate = false;
+                entity.updatePhase = 0;
+
+                entitiesToUpdate.add(entity);
+            } else if (entity.needsForcedUpdate) {
+                if (entity.hasStatus(RoomEntityStatus.MOVE)) {
+                    entity.removeStatus(RoomEntityStatus.MOVE);
+                }
+
+                entity.updatePhase = 1;
+                entitiesToUpdate.add(entity);
+            } else {
+                if (entity instanceof PlayerEntity) {
+                    if (entity.getMountedEntity() != null) {
+                        processEntity(entity.getMountedEntity());
+
+                        entity.getMountedEntity().markUpdateComplete();
+                        entitiesToUpdate.add(entity.getMountedEntity());
+                    }
+                }
+
+                entity.markUpdateComplete();
+                entitiesToUpdate.add(entity);
+            }
+        }
     }
 
     private boolean updateEntityStuff(RoomEntity entity) {

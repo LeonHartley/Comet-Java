@@ -83,7 +83,11 @@ public class Session implements BaseSession {
                     ModerationManager.getInstance().removeModerator(this);
                 }
 
-                this.getPlayer().dispose();
+                try {
+                    this.getPlayer().dispose();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
 
             this.setPlayer(null);

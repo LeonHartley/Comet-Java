@@ -316,7 +316,7 @@ public class RoomMapping {
 
         final double fromHeight = this.getStepHeight(from);
         final double toHeight = this.getStepHeight(to);
-        
+
         if(isAtDoor) return true;
 
         if(fromHeight > toHeight) {
