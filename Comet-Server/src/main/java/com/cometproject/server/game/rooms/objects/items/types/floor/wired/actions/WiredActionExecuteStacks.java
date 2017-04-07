@@ -35,7 +35,7 @@ public class WiredActionExecuteStacks extends WiredActionItem {
         for (long itemId : this.getWiredData().getSelectedIds()) {
             final RoomItemFloor floorItem = this.getRoom().getItems().getFloorItem(itemId);
 
-            if (floorItem == null) continue;
+            if (floorItem == null || floorItem.getPosition().equals(this.getPosition())) continue;
 
             tilesToExecute.add(new Position(floorItem.getPosition().getX(), floorItem.getPosition().getY()));
         }
