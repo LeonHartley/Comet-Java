@@ -379,6 +379,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.ToggleYouTubeVideoMessageEvent, new PlayVideoMessageEvent());
         this.getMessages().put(Events.YouTubeGetNextVideo, new NextVideoMessageEvent());
         this.getMessages().put(Events.ConfirmLoveLockMessageEvent, new ConfirmLoveLockMessageEvent());
+        this.getMessages().put(Events.SaveFootballGateMessageEvent, new SaveFootballGateMessageEvent());
     }
 
     public void registerPromotions() {
