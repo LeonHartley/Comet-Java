@@ -153,9 +153,12 @@ public class TeleporterFloorItem extends AdvancedFloorItem<TeleporterFloorItem.T
                     this.toggleAnimation(false);
                     event.state = 6;
 
-                    event.incomingEntity.setBodyRotation(this.rotation);
-                    event.incomingEntity.setHeadRotation(this.rotation);
-                    event.incomingEntity.refresh();
+                    if(event.incomingEntity.getPlayer() != null) {
+                        event.incomingEntity.setBodyRotation(this.rotation);
+                        event.incomingEntity.setHeadRotation(this.rotation);
+
+                        event.incomingEntity.refresh();
+                    }
 
                     event.setTotalTicks(RoomItemFactory.getProcessTime(0.5));
                     this.queueEvent(event);

@@ -15,6 +15,7 @@ import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
 import com.cometproject.server.network.messages.outgoing.room.avatar.*;
 import com.cometproject.server.utilities.collections.ConcurrentHashSet;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -72,6 +73,8 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
 
     private Map<RoomEntityStatus, String> statuses = new ConcurrentHashMap<>();
     private Position pendingWalk;
+
+    private boolean fastWalkEnabled = false;
 
     public RoomEntity(int identifier, Position startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
         super(identifier, startPosition, roomInstance);
@@ -180,6 +183,23 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
                 this.setWalkingGoal(this.getPosition().getX(), this.getPosition().getY());
                 return;
             }
+        }
+
+        if(this.isFastWalkEnabled()) {
+            List<Square> newPath = new ArrayList<>();
+
+            boolean add = false;
+            for(Square square : path) {
+                if(add) {
+                    newPath.add(square);
+                    add = false;
+                } else {
+                    add = true;
+                }
+            }
+
+            path.clear();
+            path = newPath;
         }
 
         this.stepsToGoal = path.size();
@@ -678,5 +698,17 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
 
     public void setPendingWalk(Position pendingWalk) {
         this.pendingWalk = pendingWalk;
+    }
+
+    public void toggleFastWalk() {
+        this.fastWalkEnabled = !this.fastWalkEnabled;
+    }
+
+    public boolean isFastWalkEnabled() {
+        return this.fastWalkEnabled;
+    }
+
+    public void setFastWalkEnabled(boolean fastWalkEnabled) {
+        this.fastWalkEnabled = fastWalkEnabled;
     }
 }

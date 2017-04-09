@@ -62,6 +62,7 @@ public class Player implements BasePlayer {
     private final PetComponent pets;
     private final QuestComponent quests;
     private final AchievementComponent achievements;
+    private final NavigatorComponent navigator;
 
     private List<Integer> rooms = new ArrayList<>();
     private List<Integer> enteredRooms = new ArrayList<>();
@@ -158,6 +159,7 @@ public class Player implements BasePlayer {
         this.pets = new PetComponent(this);
         this.quests = new QuestComponent(this);
         this.achievements = new AchievementComponent(this);
+        this.navigator = new NavigatorComponent(this);
 
         this.groups = GroupDao.getIdsByPlayerId(this.id);
 
@@ -192,6 +194,7 @@ public class Player implements BasePlayer {
         this.getMessenger().dispose();
         this.getRelationships().dispose();
         this.getQuests().dispose();
+        this.getNavigator().dispose();
 
         PlayerManager.getInstance().getSsoTicketToPlayerId().remove(this.ssoTicket);
 
@@ -781,5 +784,9 @@ public class Player implements BasePlayer {
         }
 
         return this.recentPurchases;
+    }
+
+    public NavigatorComponent getNavigator() {
+        return navigator;
     }
 }

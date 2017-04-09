@@ -42,8 +42,7 @@ import com.cometproject.server.network.messages.incoming.music.playlist.Playlist
 import com.cometproject.server.network.messages.incoming.music.playlist.PlaylistMessageEvent;
 import com.cometproject.server.network.messages.incoming.music.playlist.PlaylistRemoveMessageEvent;
 import com.cometproject.server.network.messages.incoming.navigator.*;
-import com.cometproject.server.network.messages.incoming.navigator.updated.InitializeNewNavigatorMessageEvent;
-import com.cometproject.server.network.messages.incoming.navigator.updated.NewNavigatorSearchMessageEvent;
+import com.cometproject.server.network.messages.incoming.navigator.updated.*;
 import com.cometproject.server.network.messages.incoming.performance.EventLogMessageEvent;
 import com.cometproject.server.network.messages.incoming.performance.RequestLatencyTestMessageEvent;
 import com.cometproject.server.network.messages.incoming.polls.GetPollMessageEvent;
@@ -231,6 +230,10 @@ public final class MessageHandler {
         this.getMessages().put(Events.GetEventCategoriesMessageEvent, new EventCategoriesMessageEvent());
         this.getMessages().put(Events.GetPromotableRoomsMessageEvent, new CatalogPromotionGetRoomsMessageEvent());
         this.getMessages().put(Events.StaffPickRoomMessageEvent, new AddToStaffPickedRoomsMessageEvent());
+        this.getMessages().put(Events.ResizeNavigatorMessageEvent, new ResizeNavigatorMessageEvent());
+        this.getMessages().put(Events.SaveNavigatorSearchMessageEvent, new SaveNavigatorSearchMessageEvent());
+        this.getMessages().put(Events.DeleteNavigatorSavedSearchMessageEvent, new DeleteNavigatorSavedSearchMessageEvent());
+        this.getMessages().put(Events.FindRandomFriendingRoomMessageEvent, new FindRandomFriendingRoomMessageEvent());
     }
 
     public void registerUser() {
@@ -376,6 +379,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.ToggleYouTubeVideoMessageEvent, new PlayVideoMessageEvent());
         this.getMessages().put(Events.YouTubeGetNextVideo, new NextVideoMessageEvent());
         this.getMessages().put(Events.ConfirmLoveLockMessageEvent, new ConfirmLoveLockMessageEvent());
+        this.getMessages().put(Events.SaveFootballGateMessageEvent, new SaveFootballGateMessageEvent());
     }
 
     public void registerPromotions() {

@@ -153,9 +153,9 @@ public class GroupForumThreadDao {
             preparedStatement = SqlHelper.prepare("UPDATE group_forum_messages SET state = ?, moderator_id = ?, moderator_username = ? WHERE id = ?", sqlConnection);
 
             preparedStatement.setInt(1, state);
-            preparedStatement.setInt(2, messageId);
+            preparedStatement.setInt(2, playerId);
             preparedStatement.setString(3, username);
-            preparedStatement.setInt(4, playerId);
+            preparedStatement.setInt(4, messageId);
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {

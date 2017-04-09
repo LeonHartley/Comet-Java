@@ -194,10 +194,10 @@ public class RoomMapping {
     }
 
     public boolean isValidStep(Integer entity, Position from, Position to, boolean lastStep, boolean isFloorItem, boolean isRetry) {
-        return isValidStep(entity, from, to, lastStep, isFloorItem, isRetry, false);
+        return isValidStep(entity, from, to, lastStep, isFloorItem, isRetry, false, false);
     }
 
-    public boolean isValidStep(Integer entity, Position from, Position to, boolean lastStep, boolean isFloorItem, boolean isRetry, boolean ignoreHeight) {
+    public boolean isValidStep(Integer entity, Position from, Position to, boolean lastStep, boolean isFloorItem, boolean isRetry, boolean ignoreHeight, boolean isItemOnRoller) {
         if (from.getX() == to.getX() && from.getY() == to.getY()) {
             return true;
         }
@@ -306,7 +306,7 @@ public class RoomMapping {
             }
         }
 
-        if (tile.getMovementNode() == RoomEntityMovementNode.CLOSED || (tile.getMovementNode() == RoomEntityMovementNode.END_OF_ROUTE && !lastStep)) {
+        if ((tile.getMovementNode() == RoomEntityMovementNode.CLOSED || (tile.getMovementNode() == RoomEntityMovementNode.END_OF_ROUTE && !lastStep)) && !isItemOnRoller) {
             return false;
         }
 
@@ -318,6 +318,12 @@ public class RoomMapping {
         final double toHeight = this.getStepHeight(to);
 
         if(isAtDoor) return true;
+
+        if(fromHeight > toHeight) {
+            if(fromHeight - toHeight >= 3) {
+                return false;
+            }
+        }
 
         return !(fromHeight < toHeight && (toHeight - fromHeight) > 1.5);
     }

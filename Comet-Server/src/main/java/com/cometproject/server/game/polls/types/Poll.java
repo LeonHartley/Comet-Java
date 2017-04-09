@@ -83,7 +83,7 @@ public class Poll {
             player.getSession().send(player.composeCurrenciesBalance());
 
             player.getSession().send(new AlertMessageComposer(
-                    Locale.getOrDefault("wired.reward.diamonds", "You received %s diamonds(s)!").replace("%s", this.rewardActivityPoints + "")));
+                    Locale.getOrDefault("wired.reward.diamonds", "You received %s diamonds(s)!").replace("%s", this.rewardVipPoints + "")));
             save = true;
         }
 

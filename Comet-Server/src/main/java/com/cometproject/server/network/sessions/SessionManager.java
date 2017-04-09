@@ -7,7 +7,6 @@ import com.cometproject.api.networking.sessions.SessionManagerAccessor;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.utilities.JsonUtil;
-import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
@@ -36,18 +35,18 @@ public final class SessionManager implements ISessionManager {
         SessionManagerAccessor.getInstance().setSessionManager(this);
     }
 
-    public boolean add(Channel channel) {
+    public boolean add(ChannelHandlerContext channel) {
         Session session = new Session(channel);
 
-        this.channelGroup.add(channel);
+        this.channelGroup.add(channel.channel());
         channel.attr(CHANNEL_ID_ATTR).set(this.idGenerator.incrementAndGet());
 
         return (this.sessions.putIfAbsent(channel.attr(CHANNEL_ID_ATTR).get(), session) == null);
     }
 
-    public boolean remove(Channel channel) {
+    public boolean remove(ChannelHandlerContext channel) {
         if (this.sessions.containsKey(channel.attr(CHANNEL_ID_ATTR).get())) {
-            this.channelGroup.remove(channel);
+            this.channelGroup.remove(channel.channel());
             this.sessions.remove(channel.attr(CHANNEL_ID_ATTR).get());
 
             return true;

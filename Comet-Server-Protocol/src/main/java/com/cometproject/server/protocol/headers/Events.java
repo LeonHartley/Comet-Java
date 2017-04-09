@@ -256,7 +256,9 @@ public class Events {
     public static final short ReportBullyMessageEvent = 3358; // PRODUCTION-201702211601-24705679
 
     public static final short GetUserTagsMessageEvent = 3007; // PRODUCTION-201702211601-24705679
-
+    public static final short SaveNavigatorSearchMessageEvent = 1979; // PRODUCTION-201702211601-24705679
+    public static final short DeleteNavigatorSavedSearchMessageEvent = 3655; // PRODUCTION-201702211601-24705679
+    public static final short SaveFootballGateMessageEvent = 3974; // PRODUCTION-201702211601-24705679
 
 
     private static Map<Short, String> eventPacketNames = new HashMap<>();

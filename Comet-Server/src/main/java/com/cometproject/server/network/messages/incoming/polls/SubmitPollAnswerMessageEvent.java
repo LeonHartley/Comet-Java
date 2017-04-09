@@ -62,7 +62,7 @@ public class SubmitPollAnswerMessageEvent implements Event {
                 return;
             }
 
-            String answer = "";
+            String answer;
 
             if (pollQuestion instanceof MultipleChoiceQuestion) {
                 try {
@@ -70,8 +70,6 @@ public class SubmitPollAnswerMessageEvent implements Event {
 
                     for (int i = 0; i < count; i++) {
                         final String answerStr = msg.readString();
-
-                        System.out.println(answerStr);
 
                         if (!StringUtils.isNumeric(answerStr)) continue;
 
@@ -83,7 +81,6 @@ public class SubmitPollAnswerMessageEvent implements Event {
                     answer = JsonUtil.getInstance().toJson(answers);
                 } catch (Exception e) {
                     client.send(new AlertMessageComposer(Locale.getOrDefault("polls.invalid.answer", "Invalid answer!")));
-                    e.printStackTrace();
                     return;
                 }
             } else {
@@ -91,12 +88,13 @@ public class SubmitPollAnswerMessageEvent implements Event {
             }
 
             if (PollDao.hasAnswered(client.getPlayer().getId(), pollId, questionId)) {
-                client.send(new AlertMessageComposer(Locale.getOrDefault("polls.already.answerered", "You've already answered this question!")));
                 return;
             }
 
-            // work out if the question is the last question
-            poll.getPlayersAnswered().add(client.getPlayer().getId());
+            if(poll.isFinalQuestion(questionId)) {
+                poll.onPlayerFinishedPoll(client.getPlayer());
+            }
+
             PollDao.saveAnswer(client.getPlayer().getId(), pollId, questionId, answer);
         }
     }

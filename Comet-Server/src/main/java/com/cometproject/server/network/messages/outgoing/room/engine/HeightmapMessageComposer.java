@@ -31,10 +31,9 @@ public class HeightmapMessageComposer extends MessageComposer {
 
                 if (room.getModel().getSquareState()[x][y] == RoomTileState.INVALID) {
                     msg.writeShort(16191);
-                } else if (room.getModel().getDoorY() == y && room.getModel().getDoorX() == x) {
-                    msg.writeShort(0);
+//                } else if (room.getModel().getDoorY() == y && room.getModel().getDoorX() == x) {
+//                    msg.writeShort(0);
                 } else {
-
                     if (tile != null) {
                         int height = (int) ((tile.getStackHeight()) * 256);
 

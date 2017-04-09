@@ -90,12 +90,11 @@ public class Room implements Attributable, IRoom {
                 CustomFloorMapData mapData = JsonUtil.getInstance().fromJson(this.getData().getHeightmap(), CustomFloorMapData.class);
 
                 dynamicRoomModel = DynamicRoomModel.create("dynamic_heightmap", mapData.getModelData(),
-                        mapData.getDoorX(), mapData.getDoorY(), this.getModel().getDoorZ(), mapData.getDoorRotation(),
+                        mapData.getDoorX(), mapData.getDoorY(), mapData.getDoorRotation(),
                         mapData.getWallHeight());
             } else {
                 dynamicRoomModel = DynamicRoomModel.create("dynamic_heightmap", this.getData().getHeightmap(),
-                        this.getModel().getDoorX(), this.getModel().getDoorY(), this.getModel().getDoorZ(),
-                        this.getModel().getDoorRotation(), -1);
+                        this.getModel().getDoorX(), this.getModel().getDoorY(), this.getModel().getDoorRotation(), -1);
             }
 
             if (dynamicRoomModel != null) {
@@ -125,7 +124,7 @@ public class Room implements Attributable, IRoom {
 
         this.setAttribute("loadTime", System.currentTimeMillis());
 
-        if(this.data.getType() == RoomType.PUBLIC) {
+        if (this.data.getType() == RoomType.PUBLIC) {
             RoomQueue.getInstance().addQueue(this.getId(), 0);
         }
 
@@ -140,34 +139,34 @@ public class Room implements Attributable, IRoom {
         final List<PetData> petData = new ArrayList<>();
         final List<BotData> botData = new ArrayList<>();
 
-        for(RoomItemFloor floorItem : this.getItems().getFloorItems().values()) {
-            if(floorItem != null) {
+        for (RoomItemFloor floorItem : this.getItems().getFloorItems().values()) {
+            if (floorItem != null) {
                 floorItems.add(new FloorItemDataObject(floorItem.getId(), floorItem.getItemId(),
                         this.getId(), floorItem.getOwner(), floorItem.getOwnerName(), floorItem.getDataObject(),
                         floorItem.getPosition(), floorItem.getRotation(), floorItem.getLimitedEditionItemData()));
             }
         }
 
-        for(RoomItemWall wallItem : this.getItems().getWallItems().values()) {
-            if(wallItem != null) {
+        for (RoomItemWall wallItem : this.getItems().getWallItems().values()) {
+            if (wallItem != null) {
                 wallItems.add(new WallItemDataObject(wallItem.getId(), wallItem.getItemId(),
                         this.getId(), wallItem.getOwner(), wallItem.getOwnerName(), wallItem.getExtraData(),
                         wallItem.getWallPosition(), wallItem.getLimitedEditionItemData()));
             }
         }
 
-        for(Integer roomRightsHolder : this.rights.getAll()) {
+        for (Integer roomRightsHolder : this.rights.getAll()) {
             rights.add(roomRightsHolder);
         }
 
-        for(PetEntity petEntity : this.getEntities().getPetEntities()) {
-            if(petEntity.getData() != null)  {
+        for (PetEntity petEntity : this.getEntities().getPetEntities()) {
+            if (petEntity.getData() != null) {
                 petData.add(petEntity.getData());
             }
         }
 
-        for(BotEntity botEntity : this.getEntities().getBotEntities()) {
-            if(botEntity.getData() instanceof PlayerBotData) {
+        for (BotEntity botEntity : this.getEntities().getBotEntities()) {
+            if (botEntity.getData() instanceof PlayerBotData) {
                 botData.add(botEntity.getData());
             }
         }
@@ -208,7 +207,7 @@ public class Room implements Attributable, IRoom {
 
         long currentTime = System.currentTimeMillis();
 
-        if(CacheManager.getInstance().isEnabled()) {
+        if (CacheManager.getInstance().isEnabled()) {
             CacheManager.getInstance().put("rooms." + this.getId(), this.getCacheObject());
         }
 
@@ -226,11 +225,11 @@ public class Room implements Attributable, IRoom {
         this.bots.dispose();
         this.mapping.dispose();
 
-        if(this.data.getType() == RoomType.PUBLIC) {
+        if (this.data.getType() == RoomType.PUBLIC) {
             RoomQueue.getInstance().removeQueue(this.getId());
         }
 
-        if(this.forcedUnload) {
+        if (this.forcedUnload) {
             RoomManager.getInstance().removeData(this.getId());
         }
 
@@ -244,7 +243,7 @@ public class Room implements Attributable, IRoom {
 
         long timeTaken = System.currentTimeMillis() - currentTime;
 
-        if(timeTaken >= 250) {
+        if (timeTaken >= 250) {
             this.log.warn("Room [" + this.getData().getId() + "][" + this.getData().getName() + "] took " + timeTaken + "ms to dispose");
         }
 
@@ -374,7 +373,7 @@ public class Room implements Attributable, IRoom {
     }
 
     public Group getGroup() {
-        if(this.group == null || this.group.getData() == null) return null;
+        if (this.group == null || this.group.getData() == null) return null;
 
         return this.group;
     }

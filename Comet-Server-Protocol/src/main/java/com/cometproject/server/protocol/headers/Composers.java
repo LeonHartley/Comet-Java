@@ -247,6 +247,7 @@ public class Composers {
     public static final short UserTagsMessageComposer = 2460; // PRODUCTION-201702211601-24705679
 
     public static final short GetRoomFilterListMessageComposer = 710; // PRODUCTION-201702211601-24705679
+    public static final short NavigatorSavedSearchesMessageComposer = 3220; // PRODUCTION-201702211601-24705679
 
     private static Map<Short, String> composerPacketNames = new HashMap<>();
 

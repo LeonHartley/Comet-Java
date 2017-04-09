@@ -2,6 +2,7 @@ package com.cometproject.server.storage.queries.player;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.players.PlayerManager;
+import com.cometproject.server.game.players.components.types.navigator.SavedSearch;
 import com.cometproject.server.game.players.components.types.wardrobe.WardrobeClothing;
 import com.cometproject.server.game.players.data.PlayerAvatar;
 import com.cometproject.server.game.players.data.PlayerAvatarData;
@@ -17,6 +18,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 public class PlayerDao {
@@ -28,9 +30,12 @@ public class PlayerDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("SELECT p.id as playerId, p.username AS playerData_username, p.figure AS playerData_figure, p.motto AS playerData_motto, p.credits AS playerData_credits, p.vip_points AS playerData_vipPoints, p.rank AS playerData_rank, p.last_ip AS playerData_lastIp, p.vip AS playerData_vip, p.gender AS playerData_gender, p.last_online AS playerData_lastOnline, p.reg_timestamp AS playerData_regTimestamp, p.reg_date AS playerData_regDate, p.favourite_group AS playerData_favouriteGroup, p.achievement_points AS playerData_achievementPoints, p.email AS playerData_email, p.activity_points AS playerData_activityPoints, p.quest_id AS playerData_questId, p.time_muted AS playerData_timeMuted, \n" +
+            preparedStatement = SqlHelper.prepare("SELECT p.id as playerId, p.username AS playerData_username, p.figure AS playerData_figure, p.motto AS playerData_motto, p.credits AS playerData_credits, p.vip_points AS playerData_vipPoints, p.rank AS playerData_rank, p.last_ip AS playerData_lastIp," +
+                    " p.vip AS playerData_vip, p.gender AS playerData_gender, p.last_online AS playerData_lastOnline, p.reg_timestamp AS playerData_regTimestamp, p.reg_date AS playerData_regDate, p.favourite_group AS playerData_favouriteGroup, p.achievement_points AS playerData_achievementPoints," +
+                    " p.email AS playerData_email, p.activity_points AS playerData_activityPoints, p.quest_id AS playerData_questId, p.time_muted AS playerData_timeMuted, \n" +
                     "  pSettings.volume AS playerSettings_volume, pSettings.home_room AS playerSettings_homeRoom, pSettings.hide_online AS playerSettings_hideOnline, pSettings.hide_inroom AS playerSettings_hideInRoom, pSettings.ignore_invites AS playerSettings_ignoreInvites, \n" +
                     "   pSettings.allow_friend_requests AS playerSettings_allowFriendRequests, pSettings.allow_trade AS playerSettings_allowTrade, pSettings.allow_follow AS playerSettings_allowFollow, pSettings.allow_mimic AS playerSettings_allowMimic, pSettings.wardrobe AS playerSettings_wardrobe, pSettings.playlist AS playerSettings_playlist, pSettings.chat_oldstyle AS playerSettings_useOldChat,\n" +
+                    " pSettings.navigator_x AS playerSettings_navigatorX, pSettings.navigator_y AS playerSettings_navigatorY, pSettings.navigator_height AS playerSettings_navigatorHeight, pSettings.navigator_width AS playerSettings_navigatorWidth, pSettings.navigator_show_searches AS playerSettings_navigatorShowSearches, " +
                     "  pStats.achievement_score AS playerStats_achievementPoints, pStats.daily_respects AS playerStats_dailyRespects, pStats.total_respect_points AS playerStats_totalRespectPoints, pStats.help_tickets AS playerStats_helpTickets, pStats.help_tickets_abusive AS playerStats_helpTicketsAbusive, pStats.cautions AS playerStats_cautions, pStats.bans AS playerStats_bans, pStats.daily_scratches AS playerStats_scratches \n" +
                     "FROM players p\n" +
                     " JOIN player_settings pSettings ON pSettings.player_id = p.id \n" +
@@ -267,7 +272,7 @@ public class PlayerDao {
     }
 
     public static PlayerStatistics getStatisticsById(int id) {
-        if(id < 0) return null; // todo: figure out why this would be negative
+        if (id < 0) return null; // todo: figure out why this would be negative
 
         Connection sqlConnection = null;
         ResultSet resultSet = null;
@@ -332,8 +337,8 @@ public class PlayerDao {
     }
 
     public static String getUsernameByPlayerId(int playerId) {
-        if(CacheManager.getInstance().isEnabled()) {
-            if(CacheManager.getInstance().exists("players.username." + playerId)) {
+        if (CacheManager.getInstance().isEnabled()) {
+            if (CacheManager.getInstance().exists("players.username." + playerId)) {
                 return CacheManager.getInstance().getString("players.username." + playerId);
             }
         }
@@ -353,7 +358,7 @@ public class PlayerDao {
             while (resultSet.next()) {
                 final String username = resultSet.getString("username");
 
-                if(CacheManager.getInstance().isEnabled()) {
+                if (CacheManager.getInstance().isEnabled()) {
                     CacheManager.getInstance().putString("players.username." + playerId, username);
                 }
 
@@ -701,7 +706,7 @@ public class PlayerDao {
 
             preparedStatement = SqlHelper.prepare("UPDATE players SET username = ?, motto = ?, figure = ?, credits = ?, vip_points = ?, gender = ?, favourite_group = ?, activity_points = ?, quest_id = ?, achievement_points = ? WHERE id = ?", sqlConnection);
 
-            for(PlayerData playerDataInstance : playerData.values()) {
+            for (PlayerData playerDataInstance : playerData.values()) {
                 preparedStatement.setString(1, playerDataInstance.getUsername());
                 preparedStatement.setString(2, playerDataInstance.getMotto());
                 preparedStatement.setString(3, playerDataInstance.getFigure());
@@ -854,4 +859,167 @@ public class PlayerDao {
             SqlHelper.closeSilently(sqlConnection);
         }
     }
+
+    public static void saveNavigatorSettings(int navigatorX, int navigatorY, int navigatorHeight, int navigatorWidth, boolean navigatorShowSearches, int playerId) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("UPDATE player_settings SET navigator_x = ?, navigator_y = ?, navigator_height = ?, navigator_width = ?, navigator_show_searches = ? WHERE player_id = ?", sqlConnection);
+
+            preparedStatement.setInt(1, navigatorX);
+            preparedStatement.setInt(2, navigatorY);
+            preparedStatement.setInt(3, navigatorHeight);
+            preparedStatement.setInt(4, navigatorWidth);
+            preparedStatement.setString(5, navigatorShowSearches ? "1" : "0");
+            preparedStatement.setInt(6, playerId);
+
+            SqlHelper.executeStatementSilently(preparedStatement, false);
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+    }
+
+    public static Map<Integer, SavedSearch> getSavedSearches(int playerId) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        final Map<Integer, SavedSearch> data = new ConcurrentHashMap<>();
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("SELECT `id`, `view`, `search_query` FROM player_saved_searches WHERE player_id = ?", sqlConnection);
+            preparedStatement.setInt(1, playerId);
+
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                data.put(resultSet.getInt("id"), new SavedSearch(resultSet.getString("view"), resultSet.getString("search_query")));
+            }
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+
+        return data;
+    }
+
+    public static int saveSearch(int playerId, SavedSearch savedSearch) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("INSERT into player_saved_searches (player_id, view, search_query) VALUES(?, ?, ?);", sqlConnection, true);
+
+            preparedStatement.setInt(1, playerId);
+            preparedStatement.setString(2, savedSearch.getView());
+            preparedStatement.setString(3, savedSearch.getSearchQuery());
+
+            preparedStatement.execute();
+
+            resultSet = preparedStatement.getGeneratedKeys();
+
+            while (resultSet.next()) {
+                return resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(resultSet);
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+
+        return 0;
+    }
+
+    public static void deleteSearch(int searchId) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("DELETE FROM player_saved_searches WHERE id = ?", sqlConnection);
+            preparedStatement.setInt(1, searchId);
+
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+    }
+
+    public static Map<Integer, WardrobeClothing> getClothing(int playerId) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        final Map<Integer, WardrobeClothing> data = new ConcurrentHashMap<>();
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("SELECT `id`, `part_id`, `part` FROM player_clothing WHERE `player_id` = ?;", sqlConnection);
+            preparedStatement.setInt(1, playerId);
+
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                data.put(resultSet.getInt("id"), new WardrobeClothing(resultSet.getInt("id"), resultSet.getInt("part_id"), resultSet.getInt("part")));
+            }
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+
+        return data;
+    }
+
+    public static WardrobeClothing createClothing(int playerId, int partId, int part) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("INSERT into player_clothing (player_id, part_id, part) VALUES(?, ?, ?);", sqlConnection, true);
+            preparedStatement.setInt(1, playerId);
+            preparedStatement.setInt(2, partId);
+            preparedStatement.setInt(3, part);
+
+            preparedStatement.execute();
+
+            resultSet = preparedStatement.getGeneratedKeys();
+
+            while (resultSet.next()) {
+                return new WardrobeClothing(resultSet.getInt(1), partId, part);
+            }
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+
+        return null;
+    }
+
 }

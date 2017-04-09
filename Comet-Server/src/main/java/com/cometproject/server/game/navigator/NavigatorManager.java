@@ -22,7 +22,7 @@ public class NavigatorManager implements Initialisable {
     private Map<Integer, PublicRoom> publicRooms;
     private Set<Integer> staffPicks;
 
-    Logger log = Logger.getLogger(NavigatorManager.class.getName());
+    private final Logger log = Logger.getLogger(NavigatorManager.class.getName());
 
     public NavigatorManager() {
     }
@@ -100,13 +100,7 @@ public class NavigatorManager implements Initialisable {
     }
 
     public Category getCategory(int id) {
-        for (Category c : this.getCategories().values()) {
-            if (c.getId() == id) {
-                return c;
-            }
-        }
-
-        return null;
+        return this.categories.get(id);
     }
 
     public boolean isStaffPicked(int roomId) {

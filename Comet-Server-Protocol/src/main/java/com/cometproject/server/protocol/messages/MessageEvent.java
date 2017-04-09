@@ -36,10 +36,8 @@ public final class MessageEvent {
     }
 
     public String readString() {
-        final int length = this.readShort();
-        final byte[] data = new byte[length];
-
-        this.content().readBytes(data);
+        int length = this.readShort();
+        byte[] data = this.content().readBytes((length)).array();
 
         return new String(data);
     }
