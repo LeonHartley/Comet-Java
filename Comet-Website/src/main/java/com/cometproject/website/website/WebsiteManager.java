@@ -117,6 +117,7 @@ public class WebsiteManager {
 
         get("/admin/players", PlayersRoute::index, velocityTemplateEngine);
         post("/admin/players/search", PlayersRoute::search);
+        post("/admin/players/inventory", PlayersRoute::inventory);
 
         get("/admin/settings", SettingsRoute::index, velocityTemplateEngine);
         post("/admin/settings/save", SettingsRoute::save);

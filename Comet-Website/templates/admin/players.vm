@@ -49,8 +49,42 @@
         }
     });
 
+    function showInventory(playerId) {
+        //$('#playerInventory').clear()
+
+        // fetch inventory data
+        $.ajax({
+            url: "/admin/players/inventory",
+            type: "post",
+            data: { 'playerId': playerId },
+            success: function (d) {
+                console.log(d);
+            }
+        });
+    }
+
 </script>
 
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script id="player-template" type="text/x-handlebars-template">
     <div class="list-group-item list-group-item-action flex-column align-items-start" style="min-height: 150px;">
@@ -66,7 +100,7 @@
             <br />
             <div class="btn-group" role="group">
                 <button type="button" class="btn btn-secondary">Modify</button>
-                <button type="button" class="btn btn-secondary">Inventory</button>
+                <button type="button" class="btn btn-secondary" onclick="showInventory({{id}})">Inventory</button>
                 <button type="button" class="btn btn-secondary">Chatlog</button>
                 <button type="button" class="btn btn-secondary">Bans</button>
             </div>
