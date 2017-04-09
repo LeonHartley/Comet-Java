@@ -35,6 +35,9 @@ public class Group {
      */
     private ForumComponent forumComponent;
 
+    /**
+     * The data of the group
+     */
     private final GroupData groupData;
 
     /**
@@ -111,9 +114,7 @@ public class Group {
 
         this.disposed = true;
 
-        if (CacheManager.getInstance().isEnabled()) {
-            CacheManager.getInstance().put("groups." + id, this.getCacheObject());
-        }
+        this.commit();
 
         if (this.membershipComponent != null) {
             this.membershipComponent.dispose();
@@ -124,6 +125,15 @@ public class Group {
         }
 
         GroupManager.getInstance().getLogger().debug("Group with id #" + this.getId() + " was disposed");
+    }
+
+    /**
+     * Commits the group data to the cache (if enabled)
+     */
+    public void commit() {
+        if (CacheManager.getInstance().isEnabled()) {
+            CacheManager.getInstance().put("groups." + id, this.getCacheObject());
+        }
     }
 
     /**
