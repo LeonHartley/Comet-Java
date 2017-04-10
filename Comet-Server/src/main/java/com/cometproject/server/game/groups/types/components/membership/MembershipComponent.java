@@ -73,8 +73,12 @@ public class MembershipComponent implements GroupComponent {
      * @param groupMember The new member
      */
     public void createMembership(GroupMember groupMember) {
-        if (groupMember.getMembershipId() == 0)
+        boolean needsCommit = false;
+        
+        if (groupMember.getMembershipId() == 0) {
             groupMember.setMembershipId(GroupMemberDao.create(groupMember));
+            needsCommit = true;
+        }
 
         if (groupMembers.containsKey(groupMember.getPlayerId()))
             groupMembers.remove(groupMember.getPlayerId());
@@ -84,7 +88,9 @@ public class MembershipComponent implements GroupComponent {
 
         groupMembers.put(groupMember.getPlayerId(), groupMember);
 
-        this.group.commit();
+        if(needsCommit) {
+            this.group.commit();
+        }
     }
 
     /**
