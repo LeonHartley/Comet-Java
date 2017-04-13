@@ -1,0 +1,2 @@
+## New commands
+INSERT INTO permission_commands (`command_id`, `minimum_rank`, `vip_only`) VALUES ('fastwalk_command', '7', '0');
