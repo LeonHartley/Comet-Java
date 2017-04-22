@@ -42,7 +42,10 @@ public class MessengerComponent implements PlayerComponent {
     public void dispose() {
         this.sendStatus(false, false);
 
-        this.requests.clear();
+        if(this.requests != null) {
+            this.requests.clear();
+        }
+        
         this.friends.clear();
         this.requests = null;
         this.friends = null;
