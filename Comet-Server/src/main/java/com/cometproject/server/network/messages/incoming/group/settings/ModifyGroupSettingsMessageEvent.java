@@ -39,6 +39,7 @@ public class ModifyGroupSettingsMessageEvent implements Event {
         group.getData().setCanMembersDecorate(rightsType == 0);
 
         group.getData().save();
+        group.commit();
 
         if (RoomManager.getInstance().isActive(group.getData().getRoomId())) {
             Room room = RoomManager.getInstance().get(group.getData().getRoomId());

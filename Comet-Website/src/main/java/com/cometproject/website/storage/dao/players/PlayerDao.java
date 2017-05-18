@@ -3,6 +3,7 @@ package com.cometproject.website.storage.dao.players;
 import com.cometproject.website.boot.CometWebsite;
 import com.cometproject.website.players.Player;
 import com.cometproject.website.players.PlayerPreferences;
+import com.cometproject.website.players.items.PlayerItem;
 import com.cometproject.website.settings.SiteSettings;
 import com.cometproject.website.storage.dao.DaoHelper;
 
@@ -86,6 +87,43 @@ public class PlayerDao {
 
             while (resultSet.next()) {
                 data.add(new Player(resultSet));
+            }
+        } catch (SQLException e) {
+            DaoHelper.handleException(e);
+        } finally {
+            DaoHelper.close(resultSet);
+            DaoHelper.close(preparedStatement);
+            DaoHelper.close(sqlConnection);
+        }
+
+        return data;
+    }
+
+    public static List<PlayerItem> getInventory(int playerId) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        final List<PlayerItem> data = new LinkedList<>();
+
+        try {
+            sqlConnection = DaoHelper.getConnection();
+
+            preparedStatement = sqlConnection.prepareStatement(
+                    "SELECT i.id, f.item_name, count(`item_name`) as amount FROM items AS i RIGHT JOIN furniture f ON f.id = i.base_item WHERE i.user_id = ? AND i.room_id = 0 GROUP BY `item_name`"
+            );
+            preparedStatement.setInt(1, playerId);
+
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                final PlayerItem playerItem = new PlayerItem();
+
+                playerItem.id = resultSet.getInt("id");
+                playerItem.itemName = resultSet.getString("item_name");
+                playerItem.amount = resultSet.getInt("amount");
+
+                data.add(playerItem);
             }
         } catch (SQLException e) {
             DaoHelper.handleException(e);

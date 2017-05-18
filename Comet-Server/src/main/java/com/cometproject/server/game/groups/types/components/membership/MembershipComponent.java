@@ -7,6 +7,7 @@ import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.network.sessions.SessionManager;
+import com.cometproject.server.storage.cache.CacheManager;
 import com.cometproject.server.storage.queries.groups.GroupMemberDao;
 import org.apache.commons.collections4.map.ListOrderedMap;
 import org.apache.commons.collections4.set.ListOrderedSet;
@@ -72,8 +73,12 @@ public class MembershipComponent implements GroupComponent {
      * @param groupMember The new member
      */
     public void createMembership(GroupMember groupMember) {
-        if (groupMember.getMembershipId() == 0)
+        boolean needsCommit = false;
+        
+        if (groupMember.getMembershipId() == 0) {
             groupMember.setMembershipId(GroupMemberDao.create(groupMember));
+            needsCommit = true;
+        }
 
         if (groupMembers.containsKey(groupMember.getPlayerId()))
             groupMembers.remove(groupMember.getPlayerId());
@@ -82,6 +87,10 @@ public class MembershipComponent implements GroupComponent {
             this.groupAdministrators.add(groupMember.getPlayerId());
 
         groupMembers.put(groupMember.getPlayerId(), groupMember);
+
+        if(needsCommit) {
+            this.group.commit();
+        }
     }
 
     /**
@@ -101,6 +110,8 @@ public class MembershipComponent implements GroupComponent {
 
         if (groupAdministrators.contains(playerId))
             groupAdministrators.remove(playerId);
+
+        this.group.commit();
     }
 
     /**
@@ -117,6 +128,8 @@ public class MembershipComponent implements GroupComponent {
 
         groupMembershipRequests.add(playerId);
         GroupMemberDao.createRequest(this.group.getId(), playerId);
+
+        this.group.commit();
     }
 
     /**

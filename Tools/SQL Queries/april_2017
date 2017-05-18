@@ -1,0 +1,8 @@
+## New commands
+INSERT INTO permission_commands (`command_id`, `minimum_rank`, `vip_only`) VALUES ('fastwalk_command', '7', '0');
+
+## New locale
+INSERT INTO server_locale (`key`, `value`) VALUES ('command.fastwalk.name', 'fastwalk');
+INSERT INTO server_locale (`key`, `value`) VALUES ('command.fastwalk.description', 'Activate fastwalk.');
+INSERT INTO server_locale (`key`, `value`) VALUES ('command.fastwalk.enabled', 'Fastwalk enabled!');
+INSERT INTO server_locale (`key`, `value`) VALUES ('command.fastwalk.disabled', 'Fastwalk disabled!');
