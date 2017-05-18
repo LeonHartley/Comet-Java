@@ -37,7 +37,7 @@ public class PetInformationMessageComposer extends MessageComposer {
             msg.writeInt(this.petEntity.getData().getLevel());
             msg.writeInt(20); // MAX_LEVEL
             msg.writeInt(this.petEntity.getData().getExperience());
-            msg.writeInt(200); // EXPERIENCE_GOAL
+            msg.writeInt(this.petEntity.getData().getExperienceGoal());
             msg.writeInt(this.petEntity.getData().getEnergy());
             msg.writeInt(100); // MAX_ENERGY
             msg.writeInt(100); // NUTRITION

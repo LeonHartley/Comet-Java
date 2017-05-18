@@ -51,7 +51,7 @@ public class Session implements BaseSession {
 
         String username = player.getData().getUsername();
 
-        this.logger = Logger.getLogger("[" + username + "][" + player.getId() + "]");
+            this.logger = Logger.getLogger("[" + username + "][" + player.getId() + "]");
         this.player = player;
 
         int channelId = this.channel.attr(SessionManager.CHANNEL_ID_ATTR).get();

@@ -18,12 +18,21 @@ import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.game.rooms.types.misc.ChatEmotion;
 import com.cometproject.server.network.messages.outgoing.room.pets.AddExperiencePointsMessageComposer;
 import com.cometproject.server.utilities.RandomInteger;
+import com.google.common.collect.Sets;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 
 public class PetAI extends AbstractBotAI {
     private static final PetAction[] possibleActions = {
             PetAction.LAY, PetAction.SIT, PetAction.TALK, PetAction.PLAY
     };
+
+    public static final List<Integer> levelBoundaries = Arrays.asList(0, 100, 200, 400, 600, 900, 1300,
+            1800, 2400, 3200, 4300, 5700, 7600, 10100, 13300, 17500, 23000, 30200, 39600, 51900);
 
     private String ownerName = "";
 
@@ -196,7 +205,22 @@ public class PetAI extends AbstractBotAI {
         this.getPetEntity().getData().increaseExperience(amount);
         this.getEntity().getRoom().getEntities().broadcastMessage(new AddExperiencePointsMessageComposer(this.getPetEntity().getData().getId(), this.getPetEntity().getId(), amount));
 
-        // level up
+        int level = 0;
+        boolean levelled = false;
+
+        for(Integer levelBoundary : levelBoundaries) {
+            level++;
+
+            if(this.getPetEntity().getData().getLevel() < level &&
+                    this.getPetEntity().getData().getExperience() >= levelBoundary) {
+                this.getPetEntity().getData().setLevel(level);
+                levelled = true;
+            }
+        }
+
+        if(levelled) {
+            this.applyGesture("lvl");
+        }
     }
 
     public void free() {

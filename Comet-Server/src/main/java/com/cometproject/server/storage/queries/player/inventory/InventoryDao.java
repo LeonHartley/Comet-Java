@@ -9,10 +9,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 
 public class InventoryDao {
@@ -57,23 +56,23 @@ public class InventoryDao {
         return data;
     }
 
-    public static Map<String, Integer> getWornBadgesByPlayerId(int playerId) {
+    public static List<String> getWornBadgesByPlayerId(int playerId) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        Map<String, Integer> data = new HashMap<>();
+        final List<String> badges = new ArrayList<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("SELECT * FROM player_badges WHERE player_id = ? AND slot != 0 LIMIT 5", sqlConnection);
+            preparedStatement = SqlHelper.prepare("SELECT * FROM player_badges WHERE player_id = ? AND slot != 0 ORDER BY `slot` LIMIT 5", sqlConnection);
             preparedStatement.setInt(1, playerId);
 
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                data.put(resultSet.getString("badge_code"), resultSet.getInt("slot"));
+                badges.add(resultSet.getString("badge_code"));
             }
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);
@@ -83,7 +82,7 @@ public class InventoryDao {
             SqlHelper.closeSilently(sqlConnection);
         }
 
-        return data;
+        return badges;
     }
 
     public static Map<String, Integer> getBadgesByPlayerId(int playerId) {
@@ -96,7 +95,7 @@ public class InventoryDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("SELECT * FROM player_badges WHERE player_id = ?", sqlConnection);
+            preparedStatement = SqlHelper.prepare("SELECT * FROM player_badges WHERE player_id = ? ORDER BY slot;", sqlConnection);
             preparedStatement.setInt(1, playerId);
 
             resultSet = preparedStatement.executeQuery();
