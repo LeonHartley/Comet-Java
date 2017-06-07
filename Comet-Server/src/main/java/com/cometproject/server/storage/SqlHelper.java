@@ -70,6 +70,7 @@ public class SqlHelper {
                 if(NetworkManager.getInstance().getMessagingClient() != null) {
                     NetworkManager.getInstance().getMessagingClient().sendMessage("com.cometproject:manager", new QueryRequest(log.query, timeTaken));
                 }
+
                 //System.out.println("[QUERY] " + log.query + " took " + timeTaken + "ms");
 
                 queryLog.remove(statement.hashCode());

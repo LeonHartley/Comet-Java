@@ -2,6 +2,7 @@ package com.cometproject.server.game.pets.data;
 
 import com.cometproject.server.game.pets.PetManager;
 import com.cometproject.server.game.pets.races.PetRace;
+import com.cometproject.server.game.rooms.objects.entities.types.ai.pets.PetAI;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.storage.queries.pets.PetDao;
 import com.google.gson.JsonObject;
@@ -15,23 +16,24 @@ public class PetData {
     private String name;
 
     private int scratches;
+
     private int level;
+
     private int happiness;
     private int experience;
     private int energy;
-
     private int ownerId;
+
     private String ownerName;
     private String colour;
     private int raceId;
     private int typeId;
-
     private int hairDye = 0;
+
     private int hair = -1;
-
     private boolean anyRider = false;
-    private boolean saddled = false;
 
+    private boolean saddled = false;
     private int birthday;
 
     private Position roomPosition;
@@ -150,6 +152,10 @@ public class PetData {
         return experience;
     }
 
+    public int getExperienceGoal() {
+        return PetAI.levelBoundaries.get(this.level);
+    }
+
     public int getEnergy() {
         return energy;
     }
@@ -240,5 +246,9 @@ public class PetData {
 
     public void setOwnerName(final String ownerName) {
         this.ownerName = ownerName;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
     }
 }
