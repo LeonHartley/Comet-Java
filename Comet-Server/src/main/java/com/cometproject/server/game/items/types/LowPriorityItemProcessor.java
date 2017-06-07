@@ -2,6 +2,7 @@ package com.cometproject.server.game.items.types;
 
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.tasks.CometTask;
+import org.apache.log4j.Logger;
 import org.apache.lucene.util.NamedThreadFactory;
 
 import java.util.ArrayList;
@@ -17,6 +18,8 @@ public class LowPriorityItemProcessor implements CometTask {
 
     private List<RoomItemFloor> itemsToProcess;
 
+    private final Logger log = Logger.getLogger(LowPriorityItemProcessor.class);
+
     public LowPriorityItemProcessor() {
         this.asyncItemEventQueue = Executors.newScheduledThreadPool(2, new NamedThreadFactory("LowPriorityItemProcessor-%d"));
         this.itemsToProcess = new CopyOnWriteArrayList<>();
@@ -29,10 +32,14 @@ public class LowPriorityItemProcessor implements CometTask {
         List<RoomItemFloor> itemsToRemove = new ArrayList<>();
 
         for (RoomItemFloor roomItemFloor : itemsToProcess) {
-            if (roomItemFloor.requiresTick()) {
-                roomItemFloor.tick();
-            } else {
-                itemsToRemove.add(roomItemFloor);
+            try {
+                if (roomItemFloor.requiresTick()) {
+                    roomItemFloor.tick();
+                } else {
+                    itemsToRemove.add(roomItemFloor);
+                }
+            } catch(Exception e) {
+                log.error("Error while processing item " + roomItemFloor.getId() + " / " + roomItemFloor.getClass().getSimpleName(), e);
             }
         }
 

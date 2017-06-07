@@ -133,6 +133,9 @@ public class Player implements BasePlayer {
 
     private HelpRequest helpRequest = null;
 
+    private boolean petsMuted;
+    private boolean botsMuted;
+
     public Player(ResultSet data, boolean isFallback) throws SQLException {
         this.id = data.getInt("playerId");
 
@@ -790,5 +793,21 @@ public class Player implements BasePlayer {
 
     public NavigatorComponent getNavigator() {
         return navigator;
+    }
+
+    public boolean petsMuted() {
+        return petsMuted;
+    }
+
+    public void setPetsMuted(boolean petsMuted) {
+        this.petsMuted = petsMuted;
+    }
+
+    public boolean botsMuted() {
+        return botsMuted;
+    }
+
+    public void setBotsMuted(boolean botsMuted) {
+        this.botsMuted = botsMuted;
     }
 }

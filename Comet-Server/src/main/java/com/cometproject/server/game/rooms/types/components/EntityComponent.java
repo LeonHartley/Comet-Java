@@ -10,6 +10,7 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.TeleporterFloorItem;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.game.rooms.types.components.types.RoomMessageType;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.settings.RoomRatingMessageComposer;
@@ -145,6 +146,10 @@ EntityComponent {
     }
 
     public void broadcastMessage(MessageComposer msg, boolean usersWithRightsOnly) {
+        broadcastMessage(msg, usersWithRightsOnly, RoomMessageType.GENERIC_COMPOSER);
+    }
+
+    public void broadcastMessage(MessageComposer msg, boolean usersWithRightsOnly, RoomMessageType type) {
         if (msg == null) return;
 
         for (RoomEntity entity : this.entities.values()) {
@@ -155,6 +160,14 @@ EntityComponent {
                     continue;
 
                 if (usersWithRightsOnly && !this.room.getRights().hasRights(playerEntity.getPlayerId()) && !playerEntity.getPlayer().getPermissions().getRank().roomFullControl()) {
+                    continue;
+                }
+
+                if(type == RoomMessageType.BOT_CHAT && playerEntity.getPlayer().botsMuted()) {
+                    continue;
+                }
+
+                if(type == RoomMessageType.PET_CHAT && playerEntity.getPlayer().petsMuted()) {
                     continue;
                 }
 
@@ -269,7 +282,7 @@ EntityComponent {
     public List<PlayerEntity> getPlayerEntities() {
         List<PlayerEntity> entities = new ArrayList<>();
 
-        if (this.entities == null || this.entities.size() < 1) {
+        if (this.entities.size() < 1) {
             return entities;
         }
 
@@ -285,7 +298,7 @@ EntityComponent {
     public List<PlayerEntity> getWhisperSeers() {
         List<PlayerEntity> entities = new ArrayList<>();
 
-        if (this.entities == null || this.entities.size() < 1) {
+        if (this.entities.size() < 1) {
             return entities;
         }
 

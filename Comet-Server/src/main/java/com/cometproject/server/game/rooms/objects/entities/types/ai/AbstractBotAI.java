@@ -6,8 +6,10 @@ import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
+import com.cometproject.server.game.rooms.objects.entities.types.ai.pets.PetAI;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerBotReachedAvatar;
 import com.cometproject.server.game.rooms.objects.misc.Position;
+import com.cometproject.server.game.rooms.types.components.types.RoomMessageType;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.game.rooms.types.misc.ChatEmotion;
 import com.cometproject.server.game.utilities.DistanceCalculator;
@@ -113,7 +115,7 @@ public abstract class AbstractBotAI implements BotAI {
         }
     }
 
-    public void walkNow() {
+    protected void walkNow() {
         this.walkNow = true;
     }
 
@@ -139,7 +141,7 @@ public abstract class AbstractBotAI implements BotAI {
             return;
         }
 
-        this.getEntity().getRoom().getEntities().broadcastMessage(new TalkMessageComposer(this.getEntity().getId(), message, emotion, 0));
+        this.getEntity().getRoom().getEntities().broadcastMessage(new TalkMessageComposer(this.getEntity().getId(), message, emotion, 0), false, this instanceof PetAI ? RoomMessageType.PET_CHAT : RoomMessageType.BOT_CHAT);
     }
 
     protected void moveTo(Position position) {
@@ -179,7 +181,7 @@ public abstract class AbstractBotAI implements BotAI {
     @Override
     public boolean onRemovedFromRoom() {
         if(this.followingPlayer != null) {
-            this.followingPlayer.getFollowingEntities().remove(this);
+            this.followingPlayer.getFollowingEntities().remove(this.entity);
             this.followingPlayer = null;
         }
 

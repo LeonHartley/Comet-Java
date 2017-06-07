@@ -226,32 +226,7 @@ public class OldCatalogPurchaseHandler {
 
             if (page != null) {
                 if (page.getType() == CatalogPageType.BUNDLE) {
-                    RoomBundle roomBundle = RoomBundleManager.getInstance().getBundle(page.getExtraData());
-
-                    try {
-                        int roomId = RoomManager.getInstance().createRoom(roomBundle.getConfig().getRoomName().replace("%username%", client.getPlayer().getData().getUsername()), "", roomBundle.getRoomModelData(), 0, 20, 0, client, roomBundle.getConfig().getThicknessWall(), roomBundle.getConfig().getThicknessFloor(), roomBundle.getConfig().getDecorations(), roomBundle.getConfig().isHideWalls());
-
-                        for (RoomBundleItem roomBundleItem : roomBundle.getRoomBundleData()) {
-                            long newItemId = ItemDao.createItem(client.getPlayer().getId(), roomBundleItem.getItemId(), roomBundleItem.getExtraData());
-
-                            if (roomBundleItem.getWallPosition() == null) {
-                                RoomItemDao.placeFloorItem(roomId, roomBundleItem.getX(), roomBundleItem.getY(), roomBundleItem.getZ(), roomBundleItem.getRotation(), roomBundleItem.getExtraData(), newItemId);
-                            } else {
-
-                                RoomItemDao.placeWallItem(roomId, roomBundleItem.getWallPosition(), roomBundleItem.getExtraData(), newItemId);
-                            }
-                        }
-
-                        client.send(new RoomForwardMessageComposer(roomId));
-                        client.send(new EnforceRoomCategoryMessageComposer());
-                        client.send(new BoughtItemMessageComposer(BoughtItemMessageComposer.PurchaseType.BADGE));
-                        client.getPlayer().setLastRoomCreated((int) Comet.getTime());
-
-                    } catch (Exception e) {
-                        client.send(new MotdNotificationMessageComposer("Invalid room bundle data, please contact an administrator."));
-                        client.send(new BoughtItemMessageComposer(BoughtItemMessageComposer.PurchaseType.BADGE));
-                        return;
-                    }
+                    purchaseBundle(page, client);
                     return;
                 }
             }
@@ -510,6 +485,33 @@ public class OldCatalogPurchaseHandler {
             client.send(new UpdateInventoryMessageComposer());
             client.send(new NotificationMessageComposer("gift_received", Locale.getOrDefault("notification.gift_received", "You have just received a gift from %username%!").replace("%username%", senderUsername)));
 
+        }
+    }
+
+    private void purchaseBundle(CatalogPage page, Session client) {
+        RoomBundle roomBundle = RoomBundleManager.getInstance().getBundle(page.getExtraData());
+
+        try {
+            int roomId = RoomManager.getInstance().createRoom(roomBundle.getConfig().getRoomName().replace("%username%", client.getPlayer().getData().getUsername()), "", roomBundle.getRoomModelData(), 0, 20, 0, client, roomBundle.getConfig().getThicknessWall(), roomBundle.getConfig().getThicknessFloor(), roomBundle.getConfig().getDecorations(), roomBundle.getConfig().isHideWalls());
+
+            for (RoomBundleItem roomBundleItem : roomBundle.getRoomBundleData()) {
+                long newItemId = ItemDao.createItem(client.getPlayer().getId(), roomBundleItem.getItemId(), roomBundleItem.getExtraData());
+
+                if (roomBundleItem.getWallPosition() == null) {
+                    RoomItemDao.placeFloorItem(roomId, roomBundleItem.getX(), roomBundleItem.getY(), roomBundleItem.getZ(), roomBundleItem.getRotation(), roomBundleItem.getExtraData(), newItemId);
+                } else {
+
+                    RoomItemDao.placeWallItem(roomId, roomBundleItem.getWallPosition(), roomBundleItem.getExtraData(), newItemId);
+                }
+            }
+
+            client.send(new RoomForwardMessageComposer(roomId));
+            client.send(new EnforceRoomCategoryMessageComposer());
+            client.send(new BoughtItemMessageComposer(BoughtItemMessageComposer.PurchaseType.BADGE));
+            client.getPlayer().setLastRoomCreated((int) Comet.getTime());
+        } catch (Exception e) {
+            client.send(new MotdNotificationMessageComposer("Invalid room bundle data, please contact an administrator."));
+            client.send(new BoughtItemMessageComposer(BoughtItemMessageComposer.PurchaseType.BADGE));
         }
     }
 
