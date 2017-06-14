@@ -71,7 +71,7 @@ public class ShoutMessageEvent implements Event {
                 filteredMessage = filterResult.getMessage();
             }
 
-            message = playerEntity.getRoom().getFilter().filter(playerEntity, message);
+            filteredMessage = playerEntity.getRoom().getFilter().filter(playerEntity, filteredMessage);
         }
 
         if (playerEntity.onChat(filteredMessage)) {

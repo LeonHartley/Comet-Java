@@ -56,23 +56,23 @@ public class InventoryDao {
         return data;
     }
 
-    public static List<String> getWornBadgesByPlayerId(int playerId) {
+    public static Map<String, Integer> getWornBadgesByPlayerId(int playerId) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        final List<String> badges = new ArrayList<>();
+        Map<String, Integer> data = new HashMap<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("SELECT * FROM player_badges WHERE player_id = ? AND slot != 0 ORDER BY `slot` LIMIT 5", sqlConnection);
+            preparedStatement = SqlHelper.prepare("SELECT * FROM player_badges WHERE player_id = ? AND slot != 0 LIMIT 5", sqlConnection);
             preparedStatement.setInt(1, playerId);
 
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                badges.add(resultSet.getString("badge_code"));
+                data.put(resultSet.getString("badge_code"), resultSet.getInt("slot"));
             }
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);
@@ -82,7 +82,7 @@ public class InventoryDao {
             SqlHelper.closeSilently(sqlConnection);
         }
 
-        return badges;
+        return data;
     }
 
     public static Map<String, Integer> getBadgesByPlayerId(int playerId) {

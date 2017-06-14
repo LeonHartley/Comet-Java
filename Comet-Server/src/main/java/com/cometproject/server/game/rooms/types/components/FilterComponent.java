@@ -29,13 +29,20 @@ public class FilterComponent {
     }
 
     public String filter(PlayerEntity entity, String message) {
+        String msg = message;
+
         if(!entity.hasRights()) {
             for(String word : this.filteredWords) {
                 if(message.contains(word)) {
-                    message = message.replace("(?i)" + word, Locale.getOrDefault("filter.bobba", "bobba"));
+                    msg = msg.replace(word, Locale.getOrDefault("filter.bobba", "bobba"));
                 }
             }
         }
-        return message;
+
+        return msg;
+    }
+
+    public Set<String> getFilteredWords() {
+        return this.filteredWords;
     }
 }

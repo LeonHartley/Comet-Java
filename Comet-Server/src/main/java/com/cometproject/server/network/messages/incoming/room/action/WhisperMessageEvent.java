@@ -78,6 +78,8 @@ public class WhisperMessageEvent implements Event {
             } else if (filterResult.wasModified()) {
                 filteredMessage = filterResult.getMessage();
             }
+
+            filteredMessage = playerEntity.getRoom().getFilter().filter(playerEntity, filteredMessage);
         }
 
         if (playerEntity.onChat(filteredMessage)) {

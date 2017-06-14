@@ -4,20 +4,15 @@ import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
 
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
-import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
-
 
 public class UserBadgesMessageComposer extends MessageComposer {
     private final int playerId;
-    private final List<String> badges;
+    private final Map<String, Integer> badges;
 
-    public UserBadgesMessageComposer(final int playerId, final List<String> badges) {
+    public UserBadgesMessageComposer(final int playerId, final Map<String, Integer> badges) {
         this.playerId = playerId;
-        this.badges = new LinkedList<>(badges);
+        this.badges = badges;
     }
 
     @Override
@@ -30,11 +25,11 @@ public class UserBadgesMessageComposer extends MessageComposer {
         msg.writeInt(playerId);
         msg.writeInt(badges.size());
 
-        int counter = 0;
-
-        for(String badge : this.badges) {
-            msg.writeInt(counter++);
-            msg.writeString(badge);
-        }
+        badges.forEach((badge, slot) -> {
+            if (slot > 0) {
+                msg.writeInt(slot);
+                msg.writeString(badge);
+            }
+        });
     }
 }
