@@ -1,4 +1,4 @@
-package com.cometproject.server.game.rooms.objects.items.types.floor.banzai;
+package com.cometproject.server.game.rooms.objects.items.types.floor.games.banzai;
 
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;

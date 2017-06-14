@@ -7,7 +7,7 @@ import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.rooms.objects.items.types.DefaultFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.DefaultWallItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.*;
-import com.cometproject.server.game.rooms.objects.items.types.floor.banzai.*;
+import com.cometproject.server.game.rooms.objects.items.types.floor.games.banzai.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.boutique.MannequinFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.football.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupFloorItem;

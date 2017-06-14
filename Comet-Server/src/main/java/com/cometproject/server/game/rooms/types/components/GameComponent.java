@@ -8,6 +8,7 @@ import com.cometproject.server.game.rooms.types.components.games.GameTeam;
 import com.cometproject.server.game.rooms.types.components.games.GameType;
 import com.cometproject.server.game.rooms.types.components.games.RoomGame;
 import com.cometproject.server.game.rooms.types.components.games.banzai.BanzaiGame;
+import com.cometproject.server.game.rooms.types.components.games.freeze.FreezeGame;
 import com.google.common.collect.Lists;
 
 import java.util.HashMap;
@@ -67,7 +68,7 @@ public class GameComponent {
         if (game == GameType.BANZAI) {
             this.instance = new BanzaiGame(this.room);
         } else if (game == GameType.FREEZE) {
-            this.instance = null; // TODO: freeze game
+            this.instance = new FreezeGame(this.room);
         }
     }
 

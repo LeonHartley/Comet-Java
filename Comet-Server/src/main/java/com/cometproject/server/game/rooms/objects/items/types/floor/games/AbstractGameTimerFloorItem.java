@@ -1,4 +1,4 @@
-package com.cometproject.server.game.rooms.objects.items.types.floor.banzai;
+package com.cometproject.server.game.rooms.objects.items.types.floor.games;
 
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
@@ -7,11 +7,10 @@ import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.games.GameType;
 import org.apache.commons.lang.StringUtils;
 
-
-public class BanzaiTimerFloorItem extends RoomItemFloor {
+public abstract class AbstractGameTimerFloorItem extends RoomItemFloor {
     private String lastTime;
 
-    public BanzaiTimerFloorItem(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
+    public AbstractGameTimerFloorItem(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
     }
 
@@ -69,7 +68,7 @@ public class BanzaiTimerFloorItem extends RoomItemFloor {
             this.sendUpdate();
             this.saveData();
         } else {
-            if(this.getExtraData().equals("0") && this.lastTime != null && !this.lastTime.isEmpty()) {
+            if (this.getExtraData().equals("0") && this.lastTime != null && !this.lastTime.isEmpty()) {
                 this.setExtraData(this.lastTime);
             }
 
@@ -77,7 +76,7 @@ public class BanzaiTimerFloorItem extends RoomItemFloor {
 
             this.lastTime = this.getExtraData();
 
-            if(gameLength == 0) return true;
+            if (gameLength == 0) return true;
 
             if (this.getRoom().getGame().getInstance() == null) {
                 this.getRoom().getGame().createNew(GameType.BANZAI);
@@ -100,4 +99,6 @@ public class BanzaiTimerFloorItem extends RoomItemFloor {
     public String getDataObject() {
         return this.lastTime != null && !this.lastTime.isEmpty() ? this.lastTime : this.getExtraData();
     }
+
+    public abstract GameType getGameType();
 }
