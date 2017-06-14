@@ -114,7 +114,7 @@ public class CatalogIndexMessageComposer extends MessageComposer {
             }
         }
 
-        msg.writeBoolean(true);
+        msg.writeBoolean(false);
         msg.writeString("NORMAL");
     }
 
