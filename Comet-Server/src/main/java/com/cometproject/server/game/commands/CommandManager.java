@@ -30,6 +30,8 @@ import com.cometproject.server.game.commands.staff.rewards.mass.MassPointsComman
 import com.cometproject.server.game.commands.user.*;
 import com.cometproject.server.game.commands.user.group.DeleteGroupCommand;
 import com.cometproject.server.game.commands.user.group.EjectAllCommand;
+import com.cometproject.server.game.commands.user.muting.MuteBotsCommand;
+import com.cometproject.server.game.commands.user.muting.MutePetsCommand;
 import com.cometproject.server.game.commands.user.room.PickAllCommand;
 import com.cometproject.server.game.commands.user.room.SetMaxCommand;
 import com.cometproject.server.game.commands.user.room.SetSpeedCommand;
@@ -64,7 +66,7 @@ public class CommandManager implements Initialisable {
     /**
      * Initialize the commands map and load all commands
      */
-    public CommandManager() {
+    private CommandManager() {
 
     }
 
@@ -109,7 +111,7 @@ public class CommandManager implements Initialisable {
     /**
      * Loads all user commands
      */
-    public void loadUserCommands() {
+    private void loadUserCommands() {
         this.addCommand(Locale.get("command.commands.name"), new CommandsCommand());
         this.addCommand(Locale.get("command.about.name"), new AboutCommand());
         this.addCommand(Locale.get("command.pickall.name"), new PickAllCommand());
@@ -129,6 +131,10 @@ public class CommandManager implements Initialisable {
         this.addCommand(Locale.get("command.flagme.name"), new FlagMeCommand());
         this.addCommand(Locale.get("command.flaguser.name"), new FlagUserCommand());
         this.addCommand(Locale.get("command.randomize.name"), new RandomizeCommand());
+        this.addCommand(Locale.get("command.emptypets.name"), new EmptyPetsCommand());
+        this.addCommand(Locale.get("command.emptybots.name"), new EmptyBotsCommand());
+        this.addCommand(Locale.get("command.mutebots.name"), new MuteBotsCommand());
+        this.addCommand(Locale.get("command.mutepets.name"), new MutePetsCommand());
 
         // VIP commands
         this.addCommand(Locale.get("command.push.name"), new PushCommand());
@@ -156,7 +162,7 @@ public class CommandManager implements Initialisable {
     /**
      * Loads all staff commands
      */
-    public void loadStaffCommands() {
+    private void loadStaffCommands() {
         this.addCommand(Locale.get("command.teleport.name"), new TeleportCommand());
         this.addCommand(Locale.get("command.massmotd.name"), new MassMotdCommand());
         this.addCommand(Locale.get("command.hotelalert.name"), new HotelAlertCommand());

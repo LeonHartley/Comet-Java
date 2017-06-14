@@ -187,18 +187,6 @@ public class PlayerManager implements Initialisable {
             return;
         }
 
-        if (this.ipAddressToPlayerIds.containsKey(ipAddress)) {
-            List<Integer> playerIds = this.ipAddressToPlayerIds.get(ipAddress);
-
-            if (!playerIds.isEmpty()) {
-                playerIds.remove((Integer) playerId);
-            }
-
-            if (playerIds.isEmpty()) {
-                this.ipAddressToPlayerIds.remove(ipAddress);
-            }
-        }
-
         this.playerIdToSessionId.remove(playerId);
         this.playerUsernameToPlayerId.remove(username.toLowerCase());
     }

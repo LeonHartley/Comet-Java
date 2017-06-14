@@ -4,6 +4,7 @@ import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.filter.FilterResult;
+import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.PrivateChatFloorItem;
 import com.cometproject.server.logging.LogManager;
@@ -43,6 +44,8 @@ public class ShoutMessageEvent implements Event {
             }
         }
 
+        PlayerEntity playerEntity = client.getPlayer().getEntity();
+
         if (client.getPlayer().getChatMessageColour() != null) {
             message = "@" + client.getPlayer().getChatMessageColour() + "@" + message;
 
@@ -67,29 +70,31 @@ public class ShoutMessageEvent implements Event {
             } else if (filterResult.wasModified()) {
                 filteredMessage = filterResult.getMessage();
             }
+
+            message = playerEntity.getRoom().getFilter().filter(playerEntity, message);
         }
 
-        if (client.getPlayer().getEntity().onChat(filteredMessage)) {
+        if (playerEntity.onChat(filteredMessage)) {
             try {
                 if (LogManager.ENABLED)
-                    LogManager.getInstance().getStore().getLogEntryContainer().put(new RoomChatLogEntry(client.getPlayer().getEntity().getRoom().getId(), client.getPlayer().getId(), message));
+                    LogManager.getInstance().getStore().getLogEntryContainer().put(new RoomChatLogEntry(playerEntity.getRoom().getId(), client.getPlayer().getId(), message));
             } catch (Exception ignored) {
 
             }
 
-            if(client.getPlayer().getEntity().getPrivateChatItemId() != 0) {
+            if(playerEntity.getPrivateChatItemId() != 0) {
                 // broadcast message only to players in the tent.
-                RoomItemFloor floorItem = client.getPlayer().getEntity().getRoom().getItems().getFloorItem(client.getPlayer().getEntity().getPrivateChatItemId());
+                RoomItemFloor floorItem = playerEntity.getRoom().getItems().getFloorItem(playerEntity.getPrivateChatItemId());
 
                 if(floorItem != null) {
-                    ((PrivateChatFloorItem) floorItem).broadcastMessage(new ShoutMessageComposer(client.getPlayer().getEntity().getId(), filteredMessage, RoomManager.getInstance().getEmotions().getEmotion(filteredMessage), colour));
+                    ((PrivateChatFloorItem) floorItem).broadcastMessage(new ShoutMessageComposer(playerEntity.getId(), filteredMessage, RoomManager.getInstance().getEmotions().getEmotion(filteredMessage), colour));
                 }
             } else {
-                client.getPlayer().getEntity().getRoom().getEntities().broadcastChatMessage(new ShoutMessageComposer(client.getPlayer().getEntity().getId(), filteredMessage, RoomManager.getInstance().getEmotions().getEmotion(filteredMessage), colour), client.getPlayer().getEntity());
+                playerEntity.getRoom().getEntities().broadcastChatMessage(new ShoutMessageComposer(playerEntity.getId(), filteredMessage, RoomManager.getInstance().getEmotions().getEmotion(filteredMessage), colour), client.getPlayer().getEntity());
             }
         }
 
-        client.getPlayer().getEntity().postChat(filteredMessage);
+        playerEntity.postChat(filteredMessage);
 
     }
 }

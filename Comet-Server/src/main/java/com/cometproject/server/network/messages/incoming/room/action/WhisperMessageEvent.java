@@ -60,6 +60,8 @@ public class WhisperMessageEvent implements Event {
             }
         }
 
+        final PlayerEntity playerEntity = client.getPlayer().getEntity();
+
         String filteredMessage = TalkMessageEvent.filterMessage(message);
 
         if (filteredMessage == null) {
@@ -78,8 +80,7 @@ public class WhisperMessageEvent implements Event {
             }
         }
 
-
-        if (client.getPlayer().getEntity().onChat(filteredMessage)) {
+        if (playerEntity.onChat(filteredMessage)) {
             try {
                 if (LogManager.ENABLED)
                     LogManager.getInstance().getStore().getLogEntryContainer().put(new RoomChatLogEntry(room.getId(), client.getPlayer().getId(), Locale.getOrDefault("game.logging.whisper", "<Whisper to %username%>").replace("%username%", user) + " " + message));
@@ -88,14 +89,14 @@ public class WhisperMessageEvent implements Event {
             }
 
             if (!((PlayerEntity) userTo).getPlayer().ignores(client.getPlayer().getId()))
-                ((PlayerEntity) userTo).getPlayer().getSession().send(new WhisperMessageComposer(client.getPlayer().getEntity().getId(), filteredMessage));
+                ((PlayerEntity) userTo).getPlayer().getSession().send(new WhisperMessageComposer(playerEntity.getId(), filteredMessage));
 
-            for (PlayerEntity entity : client.getPlayer().getEntity().getRoom().getEntities().getWhisperSeers()) {
+            for (PlayerEntity entity : playerEntity.getRoom().getEntities().getWhisperSeers()) {
                 if (entity.getPlayer().getId() != client.getPlayer().getId() && !user.equals(entity.getUsername()))
-                    entity.getPlayer().getSession().send(new WhisperMessageComposer(client.getPlayer().getEntity().getId(), "Whisper to " + user + ": " + filteredMessage));
+                    entity.getPlayer().getSession().send(new WhisperMessageComposer(playerEntity.getId(), "Whisper to " + user + ": " + filteredMessage));
             }
         }
 
-        client.send(new WhisperMessageComposer(client.getPlayer().getEntity().getId(), filteredMessage));
+        client.send(new WhisperMessageComposer(playerEntity.getId(), filteredMessage));
     }
 }

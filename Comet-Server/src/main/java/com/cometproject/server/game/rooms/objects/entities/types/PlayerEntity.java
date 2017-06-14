@@ -703,4 +703,8 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
     public void setPlacedPet(boolean hasPlacedPet) {
         this.hasPlacedPet = hasPlacedPet;
     }
+
+    public boolean hasRights() {
+        return this.getRoom().getRights().hasRights(this.playerId);
+    }
 }

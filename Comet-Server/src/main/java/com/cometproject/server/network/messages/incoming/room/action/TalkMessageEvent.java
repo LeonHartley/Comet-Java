@@ -90,6 +90,8 @@ public class TalkMessageEvent implements Event {
             } else if (filterResult.wasModified()) {
                 filteredMessage = filterResult.getMessage();
             }
+
+            message = playerEntity.getRoom().getFilter().filter(playerEntity, message);
         }
 
         if (playerEntity.onChat(filteredMessage)) {
