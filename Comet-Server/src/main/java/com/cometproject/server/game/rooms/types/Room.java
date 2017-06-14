@@ -55,6 +55,7 @@ public class Room implements Attributable, IRoom {
     private PetComponent pets;
     private GameComponent game;
     private EntityComponent entities;
+    private FilterComponent filter;
     private Group group;
 
     private Map<String, Object> attributes;
@@ -121,6 +122,7 @@ public class Room implements Attributable, IRoom {
         this.entities = new EntityComponent(this);
         this.bots = new RoomBotComponent(this);
         this.pets = new PetComponent(this);
+        this.filter = new FilterComponent(this);
 
         this.setAttribute("loadTime", System.currentTimeMillis());
 
@@ -416,5 +418,9 @@ public class Room implements Attributable, IRoom {
 
     public boolean isReloading() {
         return this.isReloading;
+    }
+
+    public FilterComponent getFilter() {
+        return filter;
     }
 }
