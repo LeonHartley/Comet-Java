@@ -1,6 +1,7 @@
 package com.cometproject.server.game.rooms.types.components.games;
 
 import com.cometproject.server.game.rooms.objects.entities.effects.UserEffectType;
+import com.cometproject.server.game.rooms.types.components.games.freeze.FreezeGame;
 
 
 public enum GameTeam {
@@ -19,6 +20,18 @@ public enum GameTeam {
     public int getTeamId() {
         return this.teamId;
     }
+
+    public int getEffect(GameType gameType) {
+        switch(gameType) {
+            case FREEZE:
+                return this.getFreezeEffect();
+
+            case BANZAI:
+                return this.getBanzaiEffect();
+        }
+
+        return 0;
+}
 
     public int getBanzaiEffect() {
         switch (teamId) {

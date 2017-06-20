@@ -2,6 +2,7 @@ package com.cometproject.server.game.rooms.types.components;
 
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.football.FootballScoreFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.games.AbstractGameGateFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerScoreAchieved;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.games.GameTeam;
@@ -10,10 +11,12 @@ import com.cometproject.server.game.rooms.types.components.games.RoomGame;
 import com.cometproject.server.game.rooms.types.components.games.banzai.BanzaiGame;
 import com.cometproject.server.game.rooms.types.components.games.freeze.FreezeGame;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 
@@ -24,12 +27,21 @@ public class GameComponent {
     private Map<GameTeam, List<Integer>> teams;
     private Map<GameTeam, Integer> scores;
 
+    private Map<GameTeam, Set<AbstractGameGateFloorItem>> gates;
+
     public GameComponent(Room room) {
         this.teams = new HashMap<GameTeam, List<Integer>>() {{
             put(GameTeam.BLUE, Lists.newArrayList());
             put(GameTeam.YELLOW, Lists.newArrayList());
             put(GameTeam.RED, Lists.newArrayList());
             put(GameTeam.GREEN, Lists.newArrayList());
+        }};
+
+        this.gates = new HashMap<GameTeam, Set<AbstractGameGateFloorItem>>() {{
+            put(GameTeam.BLUE, Sets.newHashSet());
+            put(GameTeam.YELLOW, Sets.newHashSet());
+            put(GameTeam.RED, Sets.newHashSet());
+            put(GameTeam.GREEN, Sets.newHashSet());
         }};
 
         this.resetScores();
@@ -53,7 +65,13 @@ public class GameComponent {
             entry.getValue().clear();
         }
 
+        for(Map.Entry<GameTeam, Set<AbstractGameGateFloorItem>> team : this.gates.entrySet()) {
+            team.getValue().clear();
+        }
+
+        this.gates.clear();
         this.teams.clear();
+        this.scores.clear();
     }
 
     public void stop() {
@@ -110,6 +128,10 @@ public class GameComponent {
         }
 
         WiredTriggerScoreAchieved.executeTriggers(this.getRoom().getGame().getScore(team), team, this.getRoom());
+    }
+
+    public Map<GameTeam, Set<AbstractGameGateFloorItem>> getGates() {
+        return this.gates;
     }
 
     public int getScore(GameTeam team) {

@@ -10,6 +10,9 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.games.banzai.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.boutique.MannequinFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.football.*;
+import com.cometproject.server.game.rooms.objects.items.types.floor.games.freeze.FreezeGateFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.games.freeze.FreezeTileFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.games.freeze.FreezeTimerFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupGateFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.hollywood.HaloTileFloorItem;
@@ -175,6 +178,10 @@ public class RoomItemFactory {
             put("cannon", CannonFloorItem.class);
 
             put("horse_jump", HorseJumpFloorItem.class);
+
+            put("freeze_timer", FreezeTimerFloorItem.class);
+            put("freeze_gate", FreezeGateFloorItem.class);
+            put("freeze_tile", FreezeTileFloorItem.class);
         }};
     }
 

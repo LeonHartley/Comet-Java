@@ -14,6 +14,10 @@ public class ItemDataCommand extends ChatCommand {
 
         RoomItemFloor floorItem = playerEntity.getTile().getTopItemInstance();
 
+        if(floorItem == null) {
+            return;
+        }
+
         client.send(new MotdNotificationMessageComposer(String.format("Item Data (%s)\n\nRotation: %s\nType: %s\nPosition: %s", floorItem.getId(), floorItem.getRotation(), floorItem.getClass().getSimpleName(), floorItem.getPosition())));
     }
 
