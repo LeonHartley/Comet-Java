@@ -51,7 +51,7 @@ public class PetAI extends AbstractBotAI {
 
     @Override
     public boolean onPlayerEnter(PlayerEntity entity) {
-        if(this.getPetEntity().getData() == null) {
+        if (this.getPetEntity().getData() == null) {
             return false;
         }
 
@@ -92,24 +92,34 @@ public class PetAI extends AbstractBotAI {
             return;
         }
 
-        PetAction petAction = possibleActions[RandomInteger.getRandom(0, possibleActions.length - 1)];
+        // check if we have enough energy, if not, send a hungry message & apply hunger gesture
+        if (this.getPetEntity().getData().getEnergy() <= 10) {
+            // we dont have enough energy, tell them we're hungry!
 
-        switch (petAction) {
-            case TALK:
-                this.say(this.getMessage(PetMessageType.GENERIC));
-                break;
+            // try find some food!
+            this.applyGesture("hng");
+            this.say(this.getMessage(PetMessageType.HUNGRY), ChatEmotion.SAD);
+        } else {
 
-            case LAY:
-                this.lay();
-                break;
+            PetAction petAction = possibleActions[RandomInteger.getRandom(0, possibleActions.length - 1)];
 
-            case SIT:
-                this.sit();
-                break;
+            switch (petAction) {
+                case TALK:
+                    this.say(this.getMessage(PetMessageType.GENERIC));
+                    break;
 
-            case PLAY:
-                this.play();
-                break;
+                case LAY:
+                    this.lay();
+                    break;
+
+                case SIT:
+                    this.sit();
+                    break;
+
+                case PLAY:
+                    this.play();
+                    break;
+            }
         }
 
         this.setTicksUntilCompleteInSeconds(25);
@@ -123,7 +133,7 @@ public class PetAI extends AbstractBotAI {
             this.playTimer--;
 
             if (this.playTimer == 0) {
-                if(this.toyItem != null) {
+                if (this.toyItem != null) {
                     this.toyItem.onEntityStepOff(this.getPetEntity());
                 }
 
@@ -144,7 +154,7 @@ public class PetAI extends AbstractBotAI {
         if (this.interactionTimer != 0) {
             this.interactionTimer--;
 
-            if(this.interactionTimer == 0) {
+            if (this.interactionTimer == 0) {
                 if (this.getPetEntity().hasStatus(RoomEntityStatus.PLAY_DEAD)) {
                     this.getPetEntity().removeStatus(RoomEntityStatus.PLAY_DEAD);
                     this.getPetEntity().markNeedsUpdate();
@@ -162,9 +172,21 @@ public class PetAI extends AbstractBotAI {
         if (message.startsWith(this.getPetEntity().getData().getName())) {
             String commandKey = message.replace(this.getPetEntity().getData().getName() + " ", "");
 
-            if (PetCommandManager.getInstance().executeCommand(commandKey.toLowerCase(), entity, this.getPetEntity())) {
-                // drain energy.
-                this.interactionTimer += 25;
+            // check if we have enough energy, if not, send a hungry message & apply hunger gesture
+            if (this.getPetEntity().getData().getEnergy() < 10) {
+                // we dont have enough energy, tell them we're hungry!
+                this.applyGesture("hng");
+                this.say(this.getMessage(PetMessageType.HUNGRY), ChatEmotion.SAD);
+            } else {
+                if (PetCommandManager.getInstance().executeCommand(commandKey.toLowerCase(), entity, this.getPetEntity())) {
+                    final boolean decreaseEnergy = RandomInteger.getRandom(0, 2) == 1;// 1 in 3 chance of decreasing hunger
+                    if (decreaseEnergy) {
+                        // drain energy.
+                        this.getPetEntity().getData().decreaseEnergy(10);
+                    }
+
+                    this.interactionTimer += 25;
+                }
             }
         }
 
@@ -190,8 +212,8 @@ public class PetAI extends AbstractBotAI {
         this.waitTimer = 0;
 
         PetEntity petEntity = this.getPetEntity();
-
         this.say(this.getMessage(PetMessageType.SCRATCHED), ChatEmotion.SMILE);
+
         this.getPetEntity().cancelWalk();
         this.applyGesture("sml");
 
@@ -208,17 +230,17 @@ public class PetAI extends AbstractBotAI {
         int level = 0;
         boolean levelled = false;
 
-        for(Integer levelBoundary : levelBoundaries) {
+        for (Integer levelBoundary : levelBoundaries) {
             level++;
 
-            if(this.getPetEntity().getData().getLevel() < level &&
+            if (this.getPetEntity().getData().getLevel() < level &&
                     this.getPetEntity().getData().getExperience() >= levelBoundary) {
                 this.getPetEntity().getData().setLevel(level);
                 levelled = true;
             }
         }
 
-        if(levelled) {
+        if (levelled) {
             this.applyGesture("lvl");
         }
     }
@@ -232,7 +254,7 @@ public class PetAI extends AbstractBotAI {
 
         this.getPetEntity().markNeedsUpdate();
 
-        if(this.followingPlayer != null) {
+        if (this.followingPlayer != null) {
             this.followingPlayer.getFollowingEntities().remove(this.getPetEntity());
             this.followingPlayer = null;
         }
@@ -259,13 +281,13 @@ public class PetAI extends AbstractBotAI {
         if (this.getPetEntity().hasStatus(RoomEntityStatus.PLAY)) {
             this.getPetEntity().removeStatus(RoomEntityStatus.PLAY);
         }
-    }
+        }
 
-    public void play() {
+        public void play() {
         // Find a random toy item
         final PetToyFloorItem floorItem = WiredUtil.getRandomElement(this.getPetEntity().getRoom().getItems().getByClass(PetToyFloorItem.class));
 
-        if(floorItem != null) {
+        if (floorItem != null) {
             this.toyItem = (PetToyFloorItem) floorItem;
 
             // 1 min play timer.
@@ -316,7 +338,7 @@ public class PetAI extends AbstractBotAI {
     }
 
     public void setFollowingPlayer(PlayerEntity followingPlayer) {
-        if(followingPlayer == null && this.followingPlayer != null) {
+        if (followingPlayer == null && this.followingPlayer != null) {
             this.followingPlayer.getFollowingEntities().remove(this.getPetEntity());
         }
 

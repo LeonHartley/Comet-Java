@@ -79,7 +79,7 @@ public abstract class AbstractGameTimerFloorItem extends RoomItemFloor {
             if (gameLength == 0) return true;
 
             if (this.getRoom().getGame().getInstance() == null) {
-                this.getRoom().getGame().createNew(GameType.BANZAI);
+                this.getRoom().getGame().createNew(this.getGameType());
                 this.getRoom().getGame().getInstance().startTimer(gameLength);
             }
         }

@@ -233,6 +233,10 @@ public class ProcessComponent implements CometTask {
                     }
                 }
 
+                if(entity.isWarped()) {
+                    entity.setWarped(false);
+                }
+
                 entity.markUpdateComplete();
                 entitiesToUpdate.add(entity);
             }
@@ -313,7 +317,7 @@ public class ProcessComponent implements CometTask {
                 entity.getFollowingEntities().forEach(e -> e.moveTo(oldPosition));
             }
 
-            if (newTile != null && newTile.getTopItem() != 0) {
+            if (newTile != null && newTile.getTopItem() != 0 && !entity.isWarped()) {
                 RoomItemFloor topItem = this.getRoom().getItems().getFloorItem(newTile.getTopItem());
 
                 if (topItem != null) {

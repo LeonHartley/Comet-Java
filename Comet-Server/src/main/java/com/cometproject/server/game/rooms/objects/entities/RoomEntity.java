@@ -75,6 +75,7 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
     private Position pendingWalk;
 
     private boolean fastWalkEnabled = false;
+    private boolean isWarped;
 
     public RoomEntity(int identifier, Position startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
         super(identifier, startPosition, roomInstance);
@@ -561,6 +562,7 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
 
         this.needsForcedUpdate = true;
 
+        this.isWarped = true;
         this.updateAndSetPosition(position);
         this.markNeedsUpdate();
 
@@ -710,5 +712,13 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
 
     public void setFastWalkEnabled(boolean fastWalkEnabled) {
         this.fastWalkEnabled = fastWalkEnabled;
+    }
+
+    public boolean isWarped() {
+        return isWarped;
+    }
+
+    public void setWarped(boolean warped) {
+        isWarped = warped;
     }
 }

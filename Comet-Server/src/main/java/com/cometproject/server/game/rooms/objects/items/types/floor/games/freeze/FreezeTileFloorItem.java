@@ -21,8 +21,11 @@ public class FreezeTileFloorItem extends RoomItemFloor {
             return false;
         }
 
+        if(entity.getTile() != this.getTile()) {
+            return false;
+        }
 
-        //REMOVED.
+        
         return true;
     }
 }

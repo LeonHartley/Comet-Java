@@ -31,7 +31,7 @@ public enum GameTeam {
         }
 
         return 0;
-}
+    }
 
     public int getBanzaiEffect() {
         switch (teamId) {
@@ -50,6 +50,25 @@ public enum GameTeam {
 
         return 0;
     }
+
+    public char getTeamLetter() {
+        switch (teamId) {
+            case 1:
+                return 'r';
+
+            case 2:
+                return 'g';
+
+            case 3:
+                return 'b';
+
+            case 4:
+                return 'y';
+        }
+
+        return 0;
+    }
+
 
     public int getFreezeEffect() {
         switch (teamId) {

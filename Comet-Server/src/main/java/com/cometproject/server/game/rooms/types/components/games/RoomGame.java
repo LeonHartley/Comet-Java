@@ -15,13 +15,14 @@ public abstract class RoomGame implements CometTask {
 
     protected int timer;
     protected int gameLength;
-    protected boolean active;
+
+    protected boolean active = false;
+
     protected boolean finished = false;
     protected Room room;
-
     private ScheduledFuture future;
-    private Logger log;
 
+    private Logger log;
     public RoomGame(Room room, GameType gameType) {
         this.type = gameType;
         this.log = Logger.getLogger("RoomGame [" + room.getData().getName() + "][" + room.getData().getId() + "][" + this.type + "]");
@@ -32,6 +33,7 @@ public abstract class RoomGame implements CometTask {
     public void run() {
         try {
             if (timer == 0) {
+                this.active = true;
                 onGameStarts();
             }
 
@@ -39,6 +41,7 @@ public abstract class RoomGame implements CometTask {
 
             if (timer >= gameLength) {
                 onGameEnds();
+                this.active = false;
                 room.getGame().stop();
             }
 
@@ -87,5 +90,9 @@ public abstract class RoomGame implements CometTask {
 
     public Logger getLog() {
         return this.log;
+    }
+
+    public boolean isActive() {
+        return active;
     }
 }

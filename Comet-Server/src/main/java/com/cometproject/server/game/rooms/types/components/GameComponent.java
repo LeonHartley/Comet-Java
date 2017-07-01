@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.types.components;
 
+import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.football.FootballScoreFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.games.AbstractGameGateFloorItem;
@@ -10,6 +11,7 @@ import com.cometproject.server.game.rooms.types.components.games.GameType;
 import com.cometproject.server.game.rooms.types.components.games.RoomGame;
 import com.cometproject.server.game.rooms.types.components.games.banzai.BanzaiGame;
 import com.cometproject.server.game.rooms.types.components.games.freeze.FreezeGame;
+import com.cometproject.server.utilities.collections.ConcurrentHashSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
@@ -29,6 +31,8 @@ public class GameComponent {
 
     private Map<GameTeam, Set<AbstractGameGateFloorItem>> gates;
 
+    private Set<PlayerEntity> players;
+
     public GameComponent(Room room) {
         this.teams = new HashMap<GameTeam, List<Integer>>() {{
             put(GameTeam.BLUE, Lists.newArrayList());
@@ -44,20 +48,10 @@ public class GameComponent {
             put(GameTeam.GREEN, Sets.newHashSet());
         }};
 
+        this.players = new ConcurrentHashSet<>();
+
         this.resetScores();
         this.room = room;
-    }
-
-    public void resetScores() {
-        if (this.scores != null)
-            this.scores.clear();
-
-        this.scores = new ConcurrentHashMap<GameTeam, Integer>() {{
-            put(GameTeam.BLUE, 0);
-            put(GameTeam.YELLOW, 0);
-            put(GameTeam.GREEN, 0);
-            put(GameTeam.RED, 0);
-        }};
     }
 
     public void dispose() {
@@ -94,9 +88,17 @@ public class GameComponent {
         return this.getTeam(id) != GameTeam.NONE;
     }
 
-    public void removeFromTeam(GameTeam team, Integer id) {
-        if (this.teams.get(team).contains(id))
-            this.teams.get(team).remove(id);
+    public void joinTeam(GameTeam team, PlayerEntity entity) {
+        this.teams.get(team).add(entity.getPlayerId());
+        this.players.add(entity);
+    }
+
+    public void removeFromTeam(GameTeam team, PlayerEntity entity) {
+        if (this.teams.get(team).contains(entity.getPlayerId())) {
+            this.teams.get(team).remove((Integer) entity.getPlayerId());
+        }
+
+        this.players.remove(entity);
     }
 
     public GameTeam getTeam(int userId) {
@@ -109,19 +111,54 @@ public class GameComponent {
         return GameTeam.NONE;
     }
 
+    public void decreaseScore(GameTeam team, int amount) {
+        if (!this.scores.containsKey(team)) {
+            return;
+        }
+
+        this.scores.replace(team, this.scores.get(team) - amount);
+        this.scoreUpdated(team);
+    }
+
     public void increaseScore(GameTeam team, int amount) {
         if (!this.scores.containsKey(team)) {
             return;
         }
 
         this.scores.replace(team, this.scores.get(team) + amount);
+        this.scoreUpdated(team);
+    }
 
+    public void resetScores() {
+        this.resetScores(false);
+    }
+
+    public void resetScores(boolean update) {
+        if (this.scores != null)
+            this.scores.clear();
+
+        this.scores = new ConcurrentHashMap<GameTeam, Integer>() {{
+            put(GameTeam.BLUE, 0);
+            put(GameTeam.YELLOW, 0);
+            put(GameTeam.GREEN, 0);
+            put(GameTeam.RED, 0);
+        }};
+
+        if(update) {
+            this.scoreUpdated(GameTeam.BLUE);
+            this.scoreUpdated(GameTeam.RED);
+            this.scoreUpdated(GameTeam.GREEN);
+            this.scoreUpdated(GameTeam.YELLOW);
+        }
+    }
+
+    private void scoreUpdated(GameTeam team) {
         for (RoomItemFloor scoreItem : this.getRoom().getItems().getByClass(FootballScoreFloorItem.class)) {
             scoreItem.sendUpdate();
         }
 
-        for (RoomItemFloor scoreboard : this.getRoom().getItems().getByInteraction("%_score")) {
-            if (team == null || scoreboard.getDefinition().getInteraction().toUpperCase().startsWith(team.name())) {
+        for (RoomItemFloor scoreboard : this.getRoom().getItems().getByInteraction("%_score%")) {
+            if (team == null || scoreboard.getDefinition().getInteraction().toUpperCase().startsWith(team.name()) || scoreboard.getDefinition().getItemName().endsWith("score_" + team.getTeamLetter())) {
                 scoreboard.setExtraData(team == null ? "0" : this.getScore(team) + "");
                 scoreboard.sendUpdate();
             }
@@ -138,10 +175,10 @@ public class GameComponent {
         return this.scores.get(team);
     }
 
+
     public Map<GameTeam, List<Integer>> getTeams() {
         return teams;
     }
-
 
     public RoomGame getInstance() {
         return this.instance;
@@ -153,5 +190,9 @@ public class GameComponent {
 
     public Map<GameTeam, Integer> getScores() {
         return scores;
+    }
+
+    public Set<PlayerEntity> getPlayers() {
+        return this.players;
     }
 }

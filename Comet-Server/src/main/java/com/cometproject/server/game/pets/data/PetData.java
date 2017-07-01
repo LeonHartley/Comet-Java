@@ -160,6 +160,14 @@ public class PetData {
         return energy;
     }
 
+    public void decreaseEnergy(int amount) {
+        this.energy -= amount;
+    }
+
+    public void increaseEnergy(int amount) {
+        this.energy += amount;
+    }
+
     public int getOwnerId() {
         return ownerId;
     }

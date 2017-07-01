@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.games;
 
+import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
@@ -38,7 +39,7 @@ public abstract class AbstractGameGateFloorItem extends DefaultFloorItem {
         if (playerEntity.getGameTeam() != GameTeam.NONE && playerEntity.getGameTeam() != this.getTeam()) {
             GameTeam oldTeam = playerEntity.getGameTeam();
 
-            this.getRoom().getGame().removeFromTeam(oldTeam, playerEntity.getPlayerId());
+            this.getRoom().getGame().removeFromTeam(oldTeam, playerEntity);
 
             for(AbstractGameGateFloorItem timer : this.getRoom().getGame().getGates().get(this.getTeam())) {
                 timer.setExtraData("" + this.getRoom().getGame().getTeams().get(oldTeam).size());
@@ -46,16 +47,16 @@ public abstract class AbstractGameGateFloorItem extends DefaultFloorItem {
             }
 
         } else if (playerEntity.getGameTeam() == this.getTeam()) {
-            this.getRoom().getGame().removeFromTeam(this.getTeam(), playerEntity.getPlayerId());
+            this.getRoom().getGame().removeFromTeam(this.getTeam(), playerEntity);
 
             isLeaveTeam = true;
         }
 
         if (!isLeaveTeam) {
-            this.getRoom().getGame().getTeams().get(this.getTeam()).add(playerEntity.getPlayerId());
+            this.getRoom().getGame().joinTeam(this.getTeam(), playerEntity);
 
             playerEntity.setGameTeam(this.getTeam());
-            playerEntity.applyEffect(new PlayerEffect(this.getTeam().getEffect(this.getRoom().getGame().getInstance().getType()), 0));
+            playerEntity.applyEffect(new PlayerEffect(this.getTeam().getEffect(this.gameType()), 0));
         } else {
             playerEntity.setGameTeam(GameTeam.NONE);
             playerEntity.applyEffect(null);
@@ -70,7 +71,7 @@ public abstract class AbstractGameGateFloorItem extends DefaultFloorItem {
             PlayerEntity playerEntity = ((PlayerEntity) entity);
 
             if (playerEntity.getGameTeam() == this.getTeam()) {
-                this.getRoom().getGame().removeFromTeam(this.getTeam(), playerEntity.getPlayerId());
+                this.getRoom().getGame().removeFromTeam(this.getTeam(), playerEntity);
                 this.updateTeamCount();
             }
         }
@@ -79,6 +80,25 @@ public abstract class AbstractGameGateFloorItem extends DefaultFloorItem {
     private void updateTeamCount() {
         this.setExtraData("" + this.getRoom().getGame().getTeams().get(this.getTeam()).size());
         this.sendUpdate();
+    }
+
+    @Override
+    public boolean isMovementCancelled(RoomEntity entity) {
+        if(!(entity instanceof PlayerEntity)) {
+            return true;
+        }
+
+        final PlayerEntity playerEntity = (PlayerEntity) entity;
+
+        if (this.getRoom().getGame().getInstance() != null && this.getRoom().getGame().getInstance().isActive()) {
+            if(playerEntity.getGameTeam() != null && playerEntity.getGameTeam() != GameTeam.NONE) {
+                return false;
+            }
+
+            return true;
+        }
+
+        return false;
     }
 
     public abstract GameType gameType();
