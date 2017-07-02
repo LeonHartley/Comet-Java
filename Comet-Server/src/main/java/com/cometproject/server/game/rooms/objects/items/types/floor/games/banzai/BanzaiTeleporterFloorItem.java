@@ -7,7 +7,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.RollableFloo
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorItemMessageComposer;
-import com.cometproject.server.utilities.RandomInteger;
+import com.cometproject.server.utilities.RandomUtil;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -100,7 +100,7 @@ public class BanzaiTeleporterFloorItem extends RoomItemFloor {
         if (teleporters.size() < 1)
             return null;
 
-        BanzaiTeleporterFloorItem randomTeleporter = (BanzaiTeleporterFloorItem) teleporters.toArray()[RandomInteger.getRandom(0, teleporters.size() - 1)];
+        BanzaiTeleporterFloorItem randomTeleporter = (BanzaiTeleporterFloorItem) teleporters.toArray()[RandomUtil.getRandomInt(0, teleporters.size() - 1)];
         teleporters.clear();
 
         return new Position(randomTeleporter.getPosition().getX(), randomTeleporter.getPosition().getY(), randomTeleporter.getTile().getWalkHeight());

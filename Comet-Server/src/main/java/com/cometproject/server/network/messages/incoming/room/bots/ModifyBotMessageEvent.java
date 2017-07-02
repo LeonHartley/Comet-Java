@@ -14,7 +14,7 @@ import com.cometproject.server.network.messages.outgoing.room.avatar.DanceMessag
 import com.cometproject.server.network.messages.outgoing.room.avatar.UpdateInfoMessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
-import com.cometproject.server.utilities.RandomInteger;
+import com.cometproject.server.utilities.RandomUtil;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.Arrays;
@@ -107,7 +107,7 @@ public class ModifyBotMessageEvent implements Event {
                     botEntity.setDanceId(0);
                 } else {
                     // Dance
-                    int danceId = RandomInteger.getRandom(1, 4);
+                    int danceId = RandomUtil.getRandomInt(1, 4);
 
                     botEntity.setDanceId(danceId);
                     room.getEntities().broadcastMessage(new DanceMessageComposer(botEntity.getId(), danceId));

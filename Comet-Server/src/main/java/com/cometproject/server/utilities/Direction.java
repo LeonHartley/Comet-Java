@@ -88,7 +88,7 @@ public enum Direction {
     }
 
     public static final Direction random() {
-        return VALUES[RandomInteger.getRandom(0, 7)];
+        return VALUES[RandomUtil.getRandomInt(0, 7)];
     }
 
     public static final Direction calculate(int x, int y, int x2, int y2) {

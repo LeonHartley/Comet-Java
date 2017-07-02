@@ -10,20 +10,16 @@ import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.ai.AbstractBotAI;
-import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.pet.PetToyFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredUtil;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.game.rooms.types.misc.ChatEmotion;
 import com.cometproject.server.network.messages.outgoing.room.pets.AddExperiencePointsMessageComposer;
-import com.cometproject.server.utilities.RandomInteger;
-import com.google.common.collect.Sets;
+import com.cometproject.server.utilities.RandomUtil;
 
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 
 public class PetAI extends AbstractBotAI {
@@ -101,7 +97,7 @@ public class PetAI extends AbstractBotAI {
             this.say(this.getMessage(PetMessageType.HUNGRY), ChatEmotion.SAD);
         } else {
 
-            PetAction petAction = possibleActions[RandomInteger.getRandom(0, possibleActions.length - 1)];
+            PetAction petAction = possibleActions[RandomUtil.getRandomInt(0, possibleActions.length - 1)];
 
             switch (petAction) {
                 case TALK:
@@ -179,7 +175,7 @@ public class PetAI extends AbstractBotAI {
                 this.say(this.getMessage(PetMessageType.HUNGRY), ChatEmotion.SAD);
             } else {
                 if (PetCommandManager.getInstance().executeCommand(commandKey.toLowerCase(), entity, this.getPetEntity())) {
-                    final boolean decreaseEnergy = RandomInteger.getRandom(0, 2) == 1;// 1 in 3 chance of decreasing hunger
+                    final boolean decreaseEnergy = RandomUtil.getRandomInt(0, 2) == 1;// 1 in 3 chance of decreasing hunger
                     if (decreaseEnergy) {
                         // drain energy.
                         this.getPetEntity().getData().decreaseEnergy(10);
@@ -205,7 +201,7 @@ public class PetAI extends AbstractBotAI {
     }
 
     public void stay() {
-        this.interactionTimer = RandomInteger.getRandom(40, 80);
+        this.interactionTimer = RandomUtil.getRandomInt(40, 80);
     }
 
     public void onScratched() {
@@ -291,7 +287,7 @@ public class PetAI extends AbstractBotAI {
             this.toyItem = (PetToyFloorItem) floorItem;
 
             // 1 min play timer.
-            this.playTimer = RandomInteger.getRandom(10, 50);
+            this.playTimer = RandomUtil.getRandomInt(10, 50);
 
             this.moveTo(floorItem.getPosition());
         }

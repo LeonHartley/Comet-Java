@@ -37,12 +37,17 @@ public abstract class RoomGame implements CometTask {
                 onGameStarts();
             }
 
-            tick();
+            try {
+
+                tick();
+            } catch (Exception e) {
+                log.error("Failed to process game tick", e);
+            }
 
             if (timer >= gameLength) {
                 onGameEnds();
-                this.active = false;
                 room.getGame().stop();
+                this.stop();
             }
 
             timer++;

@@ -6,7 +6,7 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.utilities.RandomInteger;
+import com.cometproject.server.utilities.RandomUtil;
 
 
 public class VendingMachineFloorItem extends RoomItemFloor {
@@ -64,7 +64,7 @@ public class VendingMachineFloorItem extends RoomItemFloor {
 
             case 1: {
                 if (this.getDefinition().getVendingIds().length != 0) {
-                    int vendingId = Integer.parseInt(this.getDefinition().getVendingIds()[RandomInteger.getRandom(0, this.getDefinition().getVendingIds().length - 1)].trim());
+                    int vendingId = Integer.parseInt(this.getDefinition().getVendingIds()[RandomUtil.getRandomInt(0, this.getDefinition().getVendingIds().length - 1)].trim());
                     vendingEntity.carryItem(vendingId);
                 }
 

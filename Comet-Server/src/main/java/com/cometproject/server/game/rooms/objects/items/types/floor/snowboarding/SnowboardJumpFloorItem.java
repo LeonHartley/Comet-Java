@@ -6,7 +6,7 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.avatar.ActionMessageComposer;
-import com.cometproject.server.utilities.RandomInteger;
+import com.cometproject.server.utilities.RandomUtil;
 
 
 public class SnowboardJumpFloorItem extends RoomItemFloor {
@@ -56,7 +56,7 @@ public class SnowboardJumpFloorItem extends RoomItemFloor {
         PlayerEntity playerEntity = ((PlayerEntity) entity);
 
         // Random!
-        int actionId = RandomInteger.getRandom(9, 10);
+        int actionId = RandomUtil.getRandomInt(9, 10);
         this.getRoom().getEntities().broadcastMessage(new ActionMessageComposer(playerEntity.getId(), actionId));
     }
 }

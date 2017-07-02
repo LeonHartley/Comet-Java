@@ -14,7 +14,7 @@ import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.game.rooms.types.misc.ChatEmotion;
 import com.cometproject.server.game.utilities.DistanceCalculator;
 import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessageComposer;
-import com.cometproject.server.utilities.RandomInteger;
+import com.cometproject.server.utilities.RandomUtil;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -43,7 +43,7 @@ public abstract class AbstractBotAI implements BotAI {
             }
         }
 
-        int chance = RandomInteger.getRandom(1, (this.getEntity().hasStatus(RoomEntityStatus.SIT) || this.getEntity().hasStatus(RoomEntityStatus.LAY)) ? 50 : 20);
+        int chance = RandomUtil.getRandomInt(1, (this.getEntity().hasStatus(RoomEntityStatus.SIT) || this.getEntity().hasStatus(RoomEntityStatus.LAY)) ? 50 : 20);
 
         if (!this.getEntity().hasMount()) {
             boolean newStep = true;

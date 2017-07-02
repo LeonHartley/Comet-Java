@@ -4,7 +4,12 @@ import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
+import com.cometproject.server.game.rooms.types.components.games.GameTeam;
+import com.cometproject.server.game.rooms.types.components.games.RoomGame;
+import com.cometproject.server.game.rooms.types.components.games.freeze.FreezeGame;
+import com.cometproject.server.game.rooms.types.components.games.freeze.types.FreezeBall;
+import com.cometproject.server.game.rooms.types.components.games.freeze.types.FreezePlayer;
+import com.cometproject.server.utilities.RandomUtil;
 
 public class FreezeTileFloorItem extends RoomItemFloor {
     public FreezeTileFloorItem(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
@@ -13,19 +18,39 @@ public class FreezeTileFloorItem extends RoomItemFloor {
 
     @Override
     public boolean onInteract(RoomEntity entity, int requestData, boolean isWiredTrigger) {
-        if(!(entity instanceof PlayerEntity)) {
+        if (!(entity instanceof PlayerEntity)) {
             return false;
         }
 
-        if(isWiredTrigger) {
+        if (isWiredTrigger) {
             return false;
         }
 
-        if(entity.getTile() != this.getTile()) {
+        if (entity.getTile() != this.getTile()) {
             return false;
         }
 
-        
+        final RoomGame game = this.getRoom().getGame().getInstance();
+
+        if (this.getRoom().getGame().getInstance() == null || !(game instanceof FreezeGame)) {
+            return false;
+        }
+
+        final PlayerEntity playerEntity = (PlayerEntity) entity;
+        final FreezeGame freezeGame = (FreezeGame) game;
+
+        if (playerEntity.getGameTeam() == null || playerEntity.getGameTeam() == GameTeam.NONE) {
+            return false;
+        }
+
+        final FreezePlayer freezePlayer = freezeGame.freezePlayer(playerEntity.getPlayerId());
+
+        if (freezePlayer.getBalls() < 1) {
+            return false;
+        }
+
+        freezePlayer.setBalls(freezePlayer.getBalls() - 1);
+        freezeGame.launchBall(this, freezePlayer);
         return true;
     }
 }

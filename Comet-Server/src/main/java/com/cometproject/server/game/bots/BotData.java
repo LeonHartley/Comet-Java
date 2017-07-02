@@ -2,7 +2,7 @@ package com.cometproject.server.game.bots;
 
 import com.cometproject.server.storage.queries.bots.RoomBotDao;
 import com.cometproject.server.utilities.JsonUtil;
-import com.cometproject.server.utilities.RandomInteger;
+import com.cometproject.server.utilities.RandomUtil;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -147,7 +147,7 @@ public abstract class BotData implements BotInformation {
      */
     public String getRandomMessage() {
         if (this.getMessages().length > 0) {
-            int index = RandomInteger.getRandom(0, (this.getMessages().length - 1));
+            int index = RandomUtil.getRandomInt(0, (this.getMessages().length - 1));
 
             return this.stripNonAlphanumeric(this.getMessages()[index]);
         }

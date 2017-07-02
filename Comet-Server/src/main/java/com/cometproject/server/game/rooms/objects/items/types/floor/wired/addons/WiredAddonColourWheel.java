@@ -4,7 +4,7 @@ import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.utilities.RandomInteger;
+import com.cometproject.server.utilities.RandomUtil;
 
 
 public class WiredAddonColourWheel extends RoomItemFloor {
@@ -32,7 +32,7 @@ public class WiredAddonColourWheel extends RoomItemFloor {
 
     @Override
     public void onTickComplete() {
-        final int randomInteger = RandomInteger.getRandom(1, 8);
+        final int randomInteger = RandomUtil.getRandomInt(1, 8);
 
         this.setExtraData(randomInteger + "");
         this.sendUpdate();

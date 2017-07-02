@@ -11,9 +11,8 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.trigge
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.wired.dialog.WiredTriggerMessageComposer;
-import com.cometproject.server.utilities.RandomInteger;
+import com.cometproject.server.utilities.RandomUtil;
 import com.google.common.collect.Lists;
-import com.sun.jna.platform.unix.X11;
 import org.apache.log4j.Logger;
 
 import java.util.HashMap;
@@ -119,7 +118,7 @@ public abstract class WiredTriggerItem extends WiredFloorItem {
                 boolean wasSuccess = false;
 
                 if (useRandomEffect) {
-                    int itemIndex = RandomInteger.getRandom(0, wiredActions.size() - 1);
+                    int itemIndex = RandomUtil.getRandomInt(0, wiredActions.size() - 1);
 
                     WiredActionItem actionItem = wiredActions.get(itemIndex);
 

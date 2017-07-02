@@ -9,6 +9,7 @@ import com.cometproject.server.game.rooms.objects.entities.pathfinding.types.Ite
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.games.AbstractGameGateFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.games.freeze.FreezeBlockFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupGateFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.snowboarding.SnowboardJumpFloorItem;
 import com.cometproject.server.game.rooms.objects.misc.Position;
@@ -170,6 +171,10 @@ public class RoomTile {
 
                 case "wf_pyramid":
                     movementNode = item.getExtraData().equals("1") ? RoomEntityMovementNode.OPEN : RoomEntityMovementNode.CLOSED;
+                    break;
+
+                case "freeze_block":
+                    movementNode = ((FreezeBlockFloorItem) item).isDestroyed() ? RoomEntityMovementNode.OPEN : RoomEntityMovementNode.CLOSED;
                     break;
             }
 

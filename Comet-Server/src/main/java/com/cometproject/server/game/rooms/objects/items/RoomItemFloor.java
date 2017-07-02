@@ -343,6 +343,23 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
         }
     }
 
+    private String coreState;
+    private boolean stateSwitched = false;
+
+    public void tempState(int state) {
+        this.stateSwitched = true;
+        this.coreState = this.extraData;
+        this.setExtraData(state);
+        this.sendUpdate();
+    }
+
+    public void restoreState() {
+        this.stateSwitched = false;
+
+        this.setExtraData(coreState);
+        this.sendUpdate();
+    }
+
     public List<RoomItemFloor> getItemsOnStack() {
         List<RoomItemFloor> floorItems = Lists.newArrayList();
 
@@ -418,11 +435,23 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
         this.extraData = data;
     }
 
+    public void setExtraData(Integer i) {
+        this.extraData = "" + i;
+    }
+
     public boolean hasQueuedSave() {
         return hasQueuedSave;
     }
 
     public void setHasQueuedSave(boolean hasQueuedSave) {
         this.hasQueuedSave = hasQueuedSave;
+    }
+
+    public boolean isStateSwitched() {
+        return stateSwitched;
+    }
+
+    public void setStateSwitched(boolean stateSwitched) {
+        this.stateSwitched = stateSwitched;
     }
 }

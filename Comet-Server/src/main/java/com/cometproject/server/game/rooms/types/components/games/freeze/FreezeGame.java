@@ -1,22 +1,39 @@
 package com.cometproject.server.game.rooms.types.components.games.freeze;
 
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
+import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.games.banzai.BanzaiTimerFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.games.freeze.FreezeBlockFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.games.freeze.FreezeExitFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.games.freeze.FreezeTileFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.games.freeze.FreezeTimerFloorItem;
+import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.games.GameType;
 import com.cometproject.server.game.rooms.types.components.games.RoomGame;
+import com.cometproject.server.game.rooms.types.components.games.freeze.types.FreezeBall;
+import com.cometproject.server.game.rooms.types.components.games.freeze.types.FreezePlayer;
+import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.network.messages.outgoing.room.freeze.UpdateFreezeLivesMessageComposer;
+import com.cometproject.server.utilities.Direction;
+import com.cometproject.server.utilities.RandomUtil;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class FreezeGame extends RoomGame {
 
-    private final Map<Integer, Integer> lives = Maps.newConcurrentMap();
+    private final Map<Integer, FreezePlayer> players = Maps.newConcurrentMap();
+
+    private final Set<FreezeBall> activeBalls = Sets.newConcurrentHashSet();
+
+    private static final Direction[] EXPLODE_NORMAL = new Direction[] { null, Direction.North, Direction.East, Direction.South, Direction.West };
+    private static final Direction[] EXPLODE_DIAGONAL = new Direction[] { null, Direction.NorthEast, Direction.SouthEast, Direction.SouthWest, Direction.NorthWest };
+    private static final Direction[] EXPLODE_MEGA = new Direction[] { null, Direction.North, Direction.NorthEast, Direction.East, Direction.SouthEast, Direction.South, Direction.SouthWest, Direction.West, Direction.NorthWest };
 
     public FreezeGame(Room room) {
         super(room, GameType.FREEZE);
@@ -24,44 +41,163 @@ public class FreezeGame extends RoomGame {
 
     @Override
     public void tick() {
-//        for(PlayerEntity playerEntity : this.room.getGame().getPlayers()) {
-//            playerEntity.getRoom().getEntities().broadcastMessage(new UpdateFreezeLivesMessageComposer(playerEntity.getId(), 3));
-//        }
-
         for (RoomItemFloor item : room.getItems().getByClass(FreezeTimerFloorItem.class)) {
             item.setExtraData((gameLength - timer) + "");
             item.sendUpdate();
         }
+
+        for(FreezePlayer freezePlayer : this.players.values()) {
+            if(freezePlayer.getFreezeTimer() > 0) {
+                freezePlayer.decrementFreezeTimer();
+
+                if (freezePlayer.getFreezeTimer() <= 0 && !freezePlayer.getEntity().canWalk()) {
+                    freezePlayer.getEntity().setCanWalk(true);
+                }
+            }
+        }
+
+        for(FreezeBall freezeBall : this.activeBalls) {
+            if(freezeBall.getTicksUntilExplode() == FreezeBall.START_TICKS) {
+                freezeBall.getSource().tempState(freezeBall.isMega() ? 6000 : (freezeBall.getRange() <= 4 ? freezeBall.getRange() : 4) * 1000);
+            }
+
+            if (freezeBall.getTicksUntilExplode() > 0) {
+                freezeBall.decrementTicksUntilExplode();
+                continue;
+            }
+
+            // kaboom
+            dir : for(Direction direction : freezeBall.isMega() ? EXPLODE_MEGA : (freezeBall.isDiagonal() ? EXPLODE_DIAGONAL : EXPLODE_NORMAL)) {
+                for(int i = 1; i <= (direction == null ? 1 : freezeBall.getRange()); i++) {
+                    final RoomTile tile = direction == null ? freezeBall.getSource().getTile() : freezeBall.getSource().getRoom().getMapping().getTile(freezeBall.getSource().getPosition().getX() + (i * direction.modX), freezeBall.getSource().getPosition().getY() + (i * direction.modY));
+
+                    if(tile != null) {
+                        boolean hasFreezeTile = false;
+
+                        for(RoomItemFloor floorItem : tile.getItems()) {
+                            if(floorItem instanceof FreezeTileFloorItem) {
+                                hasFreezeTile = true;
+
+                                floorItem.tempState(11000 + ((i > 10 ? 9 : i - 1) * 100));
+                            }
+                        }
+
+                        if(!hasFreezeTile) {
+                            continue dir;
+                        }
+
+                        final Set<FreezeBlockFloorItem> blocks = new HashSet<>();
+
+                        for(RoomItemFloor floorItem : tile.getItems()) {
+                            if(floorItem instanceof FreezeBlockFloorItem) {
+                                blocks.add(((FreezeBlockFloorItem) floorItem));
+                            }
+                        }
+
+                        for(RoomEntity entity : tile.getEntities()) {
+                            if(entity instanceof PlayerEntity) {
+                                final PlayerEntity playerEntity = ((PlayerEntity) entity);
+
+                                if(this.players.containsKey(playerEntity.getPlayerId())) {
+                                    entity.applyEffect(new PlayerEffect(12, 10));//5sec
+
+                                    entity.cancelWalk();
+                                    entity.setCanWalk(false);
+
+                                    // we lost 10 points!
+                                    this.getGameComponent().decreaseScore(playerEntity.getGameTeam(), 10);
+
+                                    if(this.getGameComponent().getScore(playerEntity.getGameTeam()) == 0) {
+                                        // all red players have lost!
+                                    }
+                                    this.freezePlayer(playerEntity.getPlayerId()).setFreezeTimer(5);
+                                }
+                            }
+                        }
+
+                        for(FreezeBlockFloorItem block : blocks) {
+                            block.explode();
+                        }
+
+                        blocks.clear();
+                    }
+                }
+            }
+
+            final int launcherId = freezeBall.getPlayerId();
+
+            if(this.players.containsKey(launcherId)) {
+                this.players.get(launcherId).incrementBalls();
+            }
+            this.activeBalls.remove(freezeBall);
+        }
+    }
+
+    public void launchBall(FreezeTileFloorItem freezeTile, FreezePlayer freezePlayer) {
+        int range = freezePlayer != null ? 2 : (RandomUtil.getRandomBool(0.10) ? 999 : RandomUtil.getRandomInt(1, 3));
+        boolean diagonal = freezePlayer == null && (RandomUtil.getRandomBool(0.5));
+        int playerId = freezePlayer == null ? -1 : freezePlayer.getEntity().getPlayerId();
+
+        if(freezePlayer != null) {
+            switch (freezePlayer.getPowerUp()) {
+                case ExtraRange:
+                    range += 2;
+                    break;
+
+                case DiagonalExplosion:
+                    diagonal = true;
+                    break;
+
+                case MegaExplosion:
+                    range = 999;
+            }
+        }
+
+        final FreezeBall freezeBall = new FreezeBall(playerId, freezeTile, range, diagonal);
+        this.activeBalls.add(freezeBall);
     }
 
     @Override
     public void onGameStarts() {
+        this.activeBalls.clear();
+
         // Everyone starts with 40 points & 3 lives.
         for(PlayerEntity playerEntity : this.room.getGame().getPlayers()) {
+            this.players.put(playerEntity.getPlayerId(), new FreezePlayer(playerEntity));
+
             this.getGameComponent().increaseScore(playerEntity.getGameTeam(), 40);
             playerEntity.getRoom().getEntities().broadcastMessage(new UpdateFreezeLivesMessageComposer(playerEntity.getId(), 3));
         }
+
+        for(FreezeBlockFloorItem blockItem : this.room.getItems().getByClass(FreezeBlockFloorItem.class)) {
+            blockItem.setExtraData("0");
+            blockItem.sendUpdate();
+        }
+
+        for(FreezeExitFloorItem exitItem : this.room.getItems().getByClass(FreezeExitFloorItem.class)) {
+            exitItem.setExtraData("1");
+            exitItem.sendUpdate();
+        }
     }
 
-    public int getLives(int playerId) {
-        return this.lives.get(playerId);
-    }
-
-    public void loseLife(int playerId) {
-        int lives = this.getLives(playerId);
-
-        this.lives.replace(playerId, lives, lives - 1);
-    }
-
-    public void gainLife(int playerId) {
-        int lives = this.getLives(playerId);
-
-        this.lives.replace(playerId, lives, lives + 1);
+    public FreezePlayer freezePlayer(final int playerId) {
+        return this.players.get(playerId);
     }
 
     @Override
     public void onGameEnds() {
+        for(FreezeBlockFloorItem blockItem : this.room.getItems().getByClass(FreezeBlockFloorItem.class)) {
+            blockItem.setExtraData("0");
+            blockItem.sendUpdate();
+        }
+
+        for(FreezeExitFloorItem exitItem : this.room.getItems().getByClass(FreezeExitFloorItem.class)) {
+            exitItem.setExtraData("0");
+            exitItem.sendUpdate();
+        }
+
         // reset all scores to 0
+        this.activeBalls.clear();
         this.getGameComponent().resetScores(true);
     }
 }

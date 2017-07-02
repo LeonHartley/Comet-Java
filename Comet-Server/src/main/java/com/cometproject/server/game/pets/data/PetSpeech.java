@@ -1,6 +1,6 @@
 package com.cometproject.server.game.pets.data;
 
-import com.cometproject.server.utilities.RandomInteger;
+import com.cometproject.server.utilities.RandomUtil;
 
 import java.util.HashMap;
 import java.util.List;
@@ -20,7 +20,7 @@ public class PetSpeech {
             return null;
         }
 
-        int index = RandomInteger.getRandom(0, availableMessages.size() - 1);
+        int index = RandomUtil.getRandomInt(0, availableMessages.size() - 1);
         return availableMessages.get(index);
     }
 

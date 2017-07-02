@@ -1,6 +1,5 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions;
 
-import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Pathfinder;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Square;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.types.ItemPathfinder;
@@ -13,7 +12,7 @@ import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.network.messages.outgoing.room.items.SlideObjectBundleMessageComposer;
-import com.cometproject.server.utilities.RandomInteger;
+import com.cometproject.server.utilities.RandomUtil;
 
 import java.util.List;
 
@@ -126,7 +125,7 @@ public class WiredActionChase extends WiredActionItem {
     }
 
     private Position random(RoomItemFloor floorItem, Position from) {
-        int randomDirection = RandomInteger.getRandom(0, 3) * 2;
+        int randomDirection = RandomUtil.getRandomInt(0, 3) * 2;
         Position newPosition = from.squareInFront(randomDirection);
         RoomTile tile = floorItem.getRoom().getMapping().getTile(newPosition.getX(), newPosition.getY());
 

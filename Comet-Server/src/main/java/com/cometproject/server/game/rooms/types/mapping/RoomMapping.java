@@ -8,7 +8,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.OneWayGateFl
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
-import com.cometproject.server.utilities.RandomInteger;
+import com.cometproject.server.utilities.RandomUtil;
 import com.google.common.collect.Lists;
 
 import java.util.ArrayList;
@@ -115,8 +115,8 @@ public class RoomMapping {
 
     public RoomTile getRandomReachableTile(RoomFloorObject roomFloorObject) {
         for (int tries = 0; tries < this.getModel().getSizeX() * this.getModel().getSizeY(); tries++) {
-            int randomX = RandomInteger.getRandom(0, this.getModel().getSizeX() - 1);
-            int randomY = RandomInteger.getRandom(0, this.getModel().getSizeY() - 1);
+            int randomX = RandomUtil.getRandomInt(0, this.getModel().getSizeX() - 1);
+            int randomY = RandomUtil.getRandomInt(0, this.getModel().getSizeY() - 1);
 
             final RoomTile tile = this.getTile(randomX, randomY);
             if (tile.isReachable(roomFloorObject)) {

@@ -9,7 +9,7 @@ import com.cometproject.server.game.rooms.objects.entities.types.ai.AbstractBotA
 import com.cometproject.server.game.rooms.types.misc.ChatEmotion;
 import com.cometproject.server.network.messages.outgoing.room.avatar.DanceMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessageComposer;
-import com.cometproject.server.utilities.RandomInteger;
+import com.cometproject.server.utilities.RandomUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +20,7 @@ public class MinionAI extends AbstractBotAI {
         put("minions leave", (entity) -> entity.leaveRoom(false, false, false));
 
         put("minions dance", (entity) -> {
-            int danceId = RandomInteger.getRandom(1, 4);
+            int danceId = RandomUtil.getRandomInt(1, 4);
 
             entity.setDanceId(danceId);
             entity.getRoom().getEntities().broadcastMessage(new DanceMessageComposer(entity.getId(), danceId));

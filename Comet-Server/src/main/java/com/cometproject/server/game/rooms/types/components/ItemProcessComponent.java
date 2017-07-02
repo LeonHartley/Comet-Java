@@ -102,7 +102,11 @@ public class ItemProcessComponent implements CometTask {
                             positionsWithPeriodicTrigger.add(posStr);
                         }
                     }
-                    
+
+                    if(item.isStateSwitched()) {
+                        item.restoreState();
+                    }
+
                     item.tick();
                 }
             } catch (Exception e) {

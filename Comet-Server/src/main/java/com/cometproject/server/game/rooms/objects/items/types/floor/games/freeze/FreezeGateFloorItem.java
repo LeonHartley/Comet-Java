@@ -14,6 +14,8 @@ public class FreezeGateFloorItem extends AbstractGameGateFloorItem {
 
         final String itemName = this.getDefinition().getItemName();
 
+        this.setExtraData("0");
+
         if(itemName.endsWith("y")) {
             this.gameTeam = GameTeam.YELLOW;
         } else if(itemName.endsWith("b")) {
@@ -21,7 +23,7 @@ public class FreezeGateFloorItem extends AbstractGameGateFloorItem {
         } else if(itemName.endsWith("r")) {
             this.gameTeam = GameTeam.RED;
         } else {
-            this.gameTeam = GameTeam.RED;
+            this.gameTeam = GameTeam.GREEN;
         }
     }
 
