@@ -60,7 +60,21 @@ public class FreezeBlockFloorItem extends RoomItemFloor {
         }
     }
 
+    public void reset() {
+        this.destroyed = false;
+        this.powerUp = null;
+
+        this.getTile().reload();
+
+        this.setExtraData("0");
+        this.sendUpdate();
+    }
+
     public void explode() {
+        if(this.destroyed) {
+            return;
+        }
+
         this.destroyed = true;
 
         this.setPowerUp(FreezePowerUp.getRandom());

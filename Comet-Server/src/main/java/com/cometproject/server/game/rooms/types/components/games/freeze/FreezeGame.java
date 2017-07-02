@@ -15,6 +15,7 @@ import com.cometproject.server.game.rooms.types.components.games.GameType;
 import com.cometproject.server.game.rooms.types.components.games.RoomGame;
 import com.cometproject.server.game.rooms.types.components.games.freeze.types.FreezeBall;
 import com.cometproject.server.game.rooms.types.components.games.freeze.types.FreezePlayer;
+import com.cometproject.server.game.rooms.types.components.games.freeze.types.FreezePowerUp;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.network.messages.outgoing.room.freeze.UpdateFreezeLivesMessageComposer;
 import com.cometproject.server.utilities.Direction;
@@ -99,18 +100,23 @@ public class FreezeGame extends RoomGame {
                                 final PlayerEntity playerEntity = ((PlayerEntity) entity);
 
                                 if(this.players.containsKey(playerEntity.getPlayerId())) {
+                                    // we lost 10 points!
+                                    this.getGameComponent().decreaseScore(playerEntity.getGameTeam(), 10);
+
+                                    final FreezePlayer freezePlayer = this.freezePlayer(playerEntity.getPlayerId());
+
+                                    if(freezePlayer.getLives() <= 0) {
+                                        this.playerLost(freezePlayer);
+                                        continue;
+                                    }
+
+                                    freezePlayer.decrementLives();
+                                    freezePlayer.setFreezeTimer(5);
+
                                     entity.applyEffect(new PlayerEffect(12, 10));//5sec
 
                                     entity.cancelWalk();
                                     entity.setCanWalk(false);
-
-                                    // we lost 10 points!
-                                    this.getGameComponent().decreaseScore(playerEntity.getGameTeam(), 10);
-
-                                    if(this.getGameComponent().getScore(playerEntity.getGameTeam()) == 0) {
-                                        // all red players have lost!
-                                    }
-                                    this.freezePlayer(playerEntity.getPlayerId()).setFreezeTimer(5);
                                 }
                             }
                         }
@@ -133,6 +139,16 @@ public class FreezeGame extends RoomGame {
         }
     }
 
+    private void playerLost(FreezePlayer freezePlayer) {
+        final FreezeExitFloorItem exitItem = this.getExitTile();
+        freezePlayer.getEntity().teleportToItem(exitItem);
+
+        this.players.remove(freezePlayer.getEntity().getPlayerId());
+
+        this.getGameComponent().getPlayers().remove(freezePlayer.getEntity());
+        this.getGameComponent().removeFromTeam(freezePlayer.getEntity());
+    }
+
     public void launchBall(FreezeTileFloorItem freezeTile, FreezePlayer freezePlayer) {
         int range = freezePlayer != null ? 2 : (RandomUtil.getRandomBool(0.10) ? 999 : RandomUtil.getRandomInt(1, 3));
         boolean diagonal = freezePlayer == null && (RandomUtil.getRandomBool(0.5));
@@ -151,6 +167,8 @@ public class FreezeGame extends RoomGame {
                 case MegaExplosion:
                     range = 999;
             }
+
+            freezePlayer.powerUp(FreezePowerUp.None);
         }
 
         final FreezeBall freezeBall = new FreezeBall(playerId, freezeTile, range, diagonal);
@@ -170,8 +188,7 @@ public class FreezeGame extends RoomGame {
         }
 
         for(FreezeBlockFloorItem blockItem : this.room.getItems().getByClass(FreezeBlockFloorItem.class)) {
-            blockItem.setExtraData("0");
-            blockItem.sendUpdate();
+            blockItem.reset();
         }
 
         for(FreezeExitFloorItem exitItem : this.room.getItems().getByClass(FreezeExitFloorItem.class)) {
@@ -196,8 +213,20 @@ public class FreezeGame extends RoomGame {
             exitItem.sendUpdate();
         }
 
+        for(PlayerEntity playerEntity : this.getGameComponent().getPlayers()) {
+            playerEntity.setCanWalk(true);
+        }
+
         // reset all scores to 0
         this.activeBalls.clear();
         this.getGameComponent().resetScores(true);
+    }
+
+    private FreezeExitFloorItem getExitTile() {
+        for(FreezeExitFloorItem exitItem : this.room.getItems().getByClass(FreezeExitFloorItem.class)) {
+            return exitItem;
+        }
+
+        return null;
     }
 }

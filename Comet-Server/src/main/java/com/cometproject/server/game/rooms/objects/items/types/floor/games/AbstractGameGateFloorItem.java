@@ -39,7 +39,7 @@ public abstract class AbstractGameGateFloorItem extends DefaultFloorItem {
         if (playerEntity.getGameTeam() != GameTeam.NONE && playerEntity.getGameTeam() != this.getTeam()) {
             GameTeam oldTeam = playerEntity.getGameTeam();
 
-            this.getRoom().getGame().removeFromTeam(oldTeam, playerEntity);
+            this.getRoom().getGame().removeFromTeam(playerEntity);
 
             for(AbstractGameGateFloorItem timer : this.getRoom().getGame().getGates().get(this.getTeam())) {
                 timer.setExtraData("" + this.getRoom().getGame().getTeams().get(oldTeam).size());
@@ -47,7 +47,7 @@ public abstract class AbstractGameGateFloorItem extends DefaultFloorItem {
             }
 
         } else if (playerEntity.getGameTeam() == this.getTeam()) {
-            this.getRoom().getGame().removeFromTeam(this.getTeam(), playerEntity);
+            this.getRoom().getGame().removeFromTeam(playerEntity);
 
             isLeaveTeam = true;
         }
@@ -71,7 +71,7 @@ public abstract class AbstractGameGateFloorItem extends DefaultFloorItem {
             PlayerEntity playerEntity = ((PlayerEntity) entity);
 
             if (playerEntity.getGameTeam() == this.getTeam()) {
-                this.getRoom().getGame().removeFromTeam(this.getTeam(), playerEntity);
+                this.getRoom().getGame().removeFromTeam(playerEntity);
                 this.updateTeamCount();
             }
         }

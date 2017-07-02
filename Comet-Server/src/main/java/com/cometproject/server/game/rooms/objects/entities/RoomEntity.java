@@ -8,6 +8,7 @@ import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.ai.BotAI;
+import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
@@ -551,6 +552,17 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
     public void cancelWalk() {
         this.setWalkCancelled(true);
         this.markNeedsUpdate();
+    }
+
+    public void teleportToItem(RoomItemFloor itemFloor) {
+        this.applyEffect(new PlayerEffect(4, 5));
+
+        final Position position = itemFloor.getPosition();
+
+        position.setZ(itemFloor.getTile().getWalkHeight());
+
+        this.cancelWalk();
+        this.warp(itemFloor.getPosition());
     }
 
     public void warp(Position position, boolean cancelNextUpdate) {

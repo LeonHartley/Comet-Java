@@ -93,9 +93,9 @@ public class GameComponent {
         this.players.add(entity);
     }
 
-    public void removeFromTeam(GameTeam team, PlayerEntity entity) {
-        if (this.teams.get(team).contains(entity.getPlayerId())) {
-            this.teams.get(team).remove((Integer) entity.getPlayerId());
+    public void removeFromTeam(PlayerEntity entity) {
+        if (this.teams.get(entity.getGameTeam()).contains(entity.getPlayerId())) {
+            this.teams.get(entity.getGameTeam()).remove((Integer) entity.getPlayerId());
         }
 
         this.players.remove(entity);

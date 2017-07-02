@@ -53,13 +53,7 @@ public class WiredActionTeleportPlayer extends WiredActionItem {
             return;
         }
 
-        Position position = new Position(item.getPosition().getX(), item.getPosition().getY(), item.getTile().getWalkHeight());
-
-        event.entity.applyEffect(new PlayerEffect(4, 5));
-
-        event.entity.cancelWalk();
-        event.entity.warp(position);
-
+        event.entity.teleportToItem(item);
         event.entity = null;
     }
 

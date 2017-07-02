@@ -8,7 +8,7 @@ public class FreezePlayer {
     private final PlayerEntity entity;
 
     private FreezePowerUp powerUp = FreezePowerUp.None;
-    private int lives;
+    private int lives = 3;
     private int balls = 1;
 
     private int shieldTimer = 0;
@@ -55,6 +55,10 @@ public class FreezePlayer {
 
     public void setLives(int lives) {
         this.lives = lives;
+    }
+
+    public void decrementLives() {
+        this.lives--;
     }
 
     public int getBalls() {

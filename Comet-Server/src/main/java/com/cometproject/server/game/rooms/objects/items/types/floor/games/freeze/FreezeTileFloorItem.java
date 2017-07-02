@@ -9,6 +9,7 @@ import com.cometproject.server.game.rooms.types.components.games.RoomGame;
 import com.cometproject.server.game.rooms.types.components.games.freeze.FreezeGame;
 import com.cometproject.server.game.rooms.types.components.games.freeze.types.FreezeBall;
 import com.cometproject.server.game.rooms.types.components.games.freeze.types.FreezePlayer;
+import com.cometproject.server.game.rooms.types.mapping.RoomEntityMovementNode;
 import com.cometproject.server.utilities.RandomUtil;
 
 public class FreezeTileFloorItem extends RoomItemFloor {
@@ -27,7 +28,13 @@ public class FreezeTileFloorItem extends RoomItemFloor {
         }
 
         if (entity.getTile() != this.getTile()) {
-            return false;
+            double distance = entity.getPosition().distanceTo(this.getPosition());
+
+            if(this.getTile().getMovementNode() != RoomEntityMovementNode.OPEN || distance > 1) {
+                return false;
+            }
+
+            entity.moveTo(this.getPosition());
         }
 
         final RoomGame game = this.getRoom().getGame().getInstance();

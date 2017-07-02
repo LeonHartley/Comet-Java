@@ -23,6 +23,7 @@ import com.cometproject.server.game.rooms.RoomQueue;
 import com.cometproject.server.game.rooms.objects.entities.PlayerEntityAccess;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
+import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
 import com.cometproject.server.game.rooms.objects.entities.types.ai.bots.WaiterAI;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerPlayerSaysKeyword;
