@@ -102,7 +102,7 @@ public class CatalogItem {
                 data.getString("catalog_name"),
                 data.getInt("cost_credits"),
                 data.getInt("cost_pixels"),
-                data.getInt("cost_snow"),
+                data.getInt("cost_diamonds"),
                 data.getInt("amount"),
                 data.getString("vip").equals("1"),
                 data.getInt("limited_stack"),

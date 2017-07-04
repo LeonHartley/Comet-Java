@@ -199,7 +199,11 @@ public class Player implements BasePlayer {
         this.getQuests().dispose();
         this.getNavigator().dispose();
 
-        PlayerManager.getInstance().getSsoTicketToPlayerId().remove(this.ssoTicket);
+        try {
+            PlayerManager.getInstance().getSsoTicketToPlayerId().remove(this.ssoTicket);
+        } catch (Exception e) {
+
+        }
 
         this.session.getLogger().debug(this.getData().getUsername() + " logged out");
 

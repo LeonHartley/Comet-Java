@@ -95,7 +95,7 @@ import com.cometproject.server.network.messages.incoming.user.wardrobe.WardrobeM
 import com.cometproject.server.network.messages.incoming.user.youtube.LoadPlaylistMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.youtube.NextVideoMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.youtube.PlayVideoMessageEvent;
-import com.cometproject.server.network.messages.outgoing.group.DeleteGroupMessageEvent;
+import com.cometproject.server.network.messages.incoming.group.DeleteGroupMessageEvent;
 import com.cometproject.server.network.messages.outgoing.handshake.ConfirmUsernameMessageEvent;
 import com.cometproject.server.network.messages.types.tasks.MessageEventTask;
 import com.cometproject.server.network.sessions.Session;
@@ -427,6 +427,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.DeclineGroupMembershipMessageEvent, new DeclineMembershipMessageEvent());
         this.getMessages().put(Events.RemoveGroupFavouriteMessageEvent, new ClearFavouriteGroupMessageEvent());
         this.getMessages().put(Events.DeleteGroupMessageEvent, new DeleteGroupMessageEvent());
+        this.getMessages().put(Events.GroupConfirmRemoveMemberMessageEvent, new GroupConfirmRemoveMemberMessageEvent());
     }
 
     //

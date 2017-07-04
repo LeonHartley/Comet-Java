@@ -43,6 +43,7 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
 
     private int danceId;
 
+    private PlayerEffect teamEffect;
     private PlayerEffect lastEffect;
     private PlayerEffect effect;
 
@@ -499,6 +500,11 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
     @Override
     public void applyEffect(PlayerEffect effect) {
         if (effect == null) {
+            if(this.teamEffect != null && this.effect != null) {
+                this.applyEffect(teamEffect);
+                return;
+            }
+
             this.getRoom().getEntities().broadcastMessage(new ApplyEffectMessageComposer(this.getId(), 0));
         } else {
             this.getRoom().getEntities().broadcastMessage(new ApplyEffectMessageComposer(this.getId(), effect.getEffectId()));
@@ -509,6 +515,12 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
         }
 
         this.effect = effect;
+    }
+
+    public void applyTeamEffect(PlayerEffect effect) {
+        this.teamEffect = effect;
+
+        this.applyEffect(effect);
     }
 
     public boolean isOverriden() {

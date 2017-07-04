@@ -26,6 +26,10 @@ public class RemovePetMessageEvent implements Event {
         if (entity == null) {
             final PlayerEntity playerEntity = client.getPlayer().getEntity().getRoom().getEntities().getEntityByPlayerId(petId);
 
+            if(playerEntity == null) {
+                return;
+            }
+
             if(playerEntity.hasAttribute("transformation")) {
                 if (!client.getPlayer().getEntity().getRoom().getRights().hasRights(client.getPlayer().getId())
                         && !client.getPlayer().getPermissions().getRank().roomFullControl() && client.getPlayer().getEntity().getRoom().getData().getKickState() != RoomKickState.EVERYONE) {

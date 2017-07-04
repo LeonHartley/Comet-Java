@@ -1,5 +1,7 @@
 package com.cometproject.server.game.commands;
 
+import com.cometproject.api.commands.CommandInfo;
+import com.cometproject.api.commands.ModuleChatCommand;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.development.*;
@@ -201,6 +203,7 @@ public class CommandManager implements Initialisable {
         this.addCommand(Locale.get("command.gotoroom.name"), new GotoRoomCommand());
         this.addCommand(Locale.get("command.notification.name"), new NotificationCommand());
         this.addCommand(Locale.get("command.quickpoll.name"), new QuickPollCommand());
+        this.addCommand(Locale.get("command.roomoption.name"), new RoomOptionCommand());
         
         // New
         this.addCommand(Locale.get("command.advban.name"), new AdvBanCommand());
@@ -271,7 +274,13 @@ public class CommandManager implements Initialisable {
         if(message.startsWith(" "))
             return false;
 
-        String commandName = chatCommand == null ? ModuleManager.getInstance().getEventHandler().getCommands().get(executor).getPermission() : chatCommand.getPermission();
+        final CommandInfo moduleCommandInfo = ModuleManager.getInstance().getEventHandler().getCommands().get(executor);
+
+        String commandName = chatCommand == null ? (moduleCommandInfo != null ? moduleCommandInfo.getPermission() : null) : chatCommand.getPermission();
+
+        if(commandName == null) {
+            return false;
+        }
 
         if (client.getPlayer().getPermissions().hasCommand(commandName) || commandName.equals("")) {
             if (client.getPlayer().getEntity().getRoom().getData().getDisabledCommands().contains(executor)) {

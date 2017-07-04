@@ -20,17 +20,16 @@ public class HorseJumpFloorItem extends DefaultFloorItem {
     @Override
     public void onEntityStepOn(RoomEntity entity) {
         final Position[] positions = this.getBarPositions();
+        entity.addStatus(RoomEntityStatus.JUMP, "0");
 
-        if(!positions[0].equals(entity.getPosition()) && !positions[1].equals(entity.getPosition()) || !this.entities.contains(entity)) {
+        if(positions[0].equals(entity.getPosition()) || positions[1].equals(entity.getPosition())) {
             if(entity instanceof PetEntity && ((PetEntity) entity).getData().getTypeId() == 15) {
-                entity.addStatus(RoomEntityStatus.JUMP, "0");
-
-                this.entities.add(entity);
+                entity.addStatus(RoomEntityStatus.JUMP, "1");
             }
         } else {
-            if(entity instanceof PetEntity && ((PetEntity) entity).getData().getTypeId() == 15) {
-                entity.removeStatus(RoomEntityStatus.JUMP);
-            }
+            //if(entity instanceof PetEntity && ((PetEntity) entity).getData().getTypeId() == 15) {
+           //     entity.removeStatus(RoomEntityStatus.JUMP);
+           // }
         }
     }
 

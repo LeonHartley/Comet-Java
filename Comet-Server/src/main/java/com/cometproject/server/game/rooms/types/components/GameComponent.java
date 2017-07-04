@@ -94,6 +94,10 @@ public class GameComponent {
     }
 
     public void removeFromTeam(PlayerEntity entity) {
+        if(entity.getGameTeam() == null || entity.getGameTeam() == GameTeam.NONE) {
+            return;
+        }
+
         if (this.teams.get(entity.getGameTeam()).contains(entity.getPlayerId())) {
             this.teams.get(entity.getGameTeam()).remove((Integer) entity.getPlayerId());
         }

@@ -1,4 +1,4 @@
-package com.cometproject.server.network.messages.outgoing.group;
+package com.cometproject.server.network.messages.incoming.group;
 
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.groups.GroupManager;

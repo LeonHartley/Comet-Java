@@ -42,7 +42,7 @@ public class MessengerComponent implements PlayerComponent {
     public void dispose() {
         this.sendStatus(false, false);
 
-        if(this.requests != null) {
+        if(this.getRequests() != null) {
             this.requests.clear();
         }
         
@@ -148,11 +148,7 @@ public class MessengerComponent implements PlayerComponent {
     public List<PlayerAvatar> getRequestAvatars() {
         List<PlayerAvatar> avatars = Lists.newArrayList();
 
-        if (this.requests == null) {
-            this.requests = MessengerDao.getRequestsByPlayerId(player.getId());
-        }
-
-        for (int playerId : this.requests) {
+        for (int playerId : this.getRequests()) {
             PlayerAvatar playerAvatar = PlayerManager.getInstance().getAvatarByPlayerId(playerId, PlayerAvatar.USERNAME_FIGURE);
 
             if (playerAvatar != null) {
@@ -201,6 +197,10 @@ public class MessengerComponent implements PlayerComponent {
     }
 
     public List<Integer> getRequests() {
+        if (this.requests == null) {
+            this.requests = MessengerDao.getRequestsByPlayerId(player.getId());
+        }
+
         return this.requests;
     }
 
@@ -209,7 +209,7 @@ public class MessengerComponent implements PlayerComponent {
     }
 
     public void removeRequest(Integer request) {
-        this.requests.remove(request);
+        this.getRequests().remove(request);
     }
 
     public void setInitialised(boolean initialised) {

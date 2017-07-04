@@ -64,10 +64,10 @@ public class FreezeBlockFloorItem extends RoomItemFloor {
         this.destroyed = false;
         this.powerUp = null;
 
-        this.getTile().reload();
-
         this.setExtraData("0");
         this.sendUpdate();
+
+        this.getTile().reload();
     }
 
     public void explode() {

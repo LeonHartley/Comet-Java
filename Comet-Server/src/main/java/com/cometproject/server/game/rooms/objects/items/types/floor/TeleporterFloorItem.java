@@ -13,6 +13,7 @@ import com.cometproject.server.game.rooms.objects.items.types.state.FloorItemEve
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
+import com.cometproject.server.network.messages.outgoing.room.avatar.ApplyEffectMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomForwardMessageComposer;
 
 public class TeleporterFloorItem extends AdvancedFloorItem<TeleporterFloorItem.TeleporterItemEvent> {
@@ -170,7 +171,9 @@ public class TeleporterFloorItem extends AdvancedFloorItem<TeleporterFloorItem.T
                         this.toggleDoor(true);
 
                     if (event.incomingEntity != null) {
-
+                        if(event.incomingEntity.getCurrentEffect() != null) {
+                            event.incomingEntity.applyEffect(event.incomingEntity.getCurrentEffect());
+                        }
                         event.incomingEntity.moveTo(this.getPosition().squareInFront(this.getRotation()).getX(), this.getPosition().squareInFront(this.getRotation()).getY());
                     }
 

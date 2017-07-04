@@ -15,5 +15,6 @@ public enum NavigatorCategoryType {
     MY_HISTORY_FREQ,
     TOP_PROMOTIONS,
     PROMOTION_CATEGORY,
-    MY_RIGHTS
+    MY_RIGHTS,
+    WITH_FRIENDS
 }

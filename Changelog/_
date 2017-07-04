@@ -1,0 +1,16 @@
+Comet 2
+----------
+- Freeze 100%
+- In-game room word filter 100%
+- Purchasable clothing 100%
+- Update to PRODUCTION-201705151314-310198720
+
+- Command :roomoption
+- Command :emptybots
+- Command :emptypets
+- Command :mutebots
+- Command :mutepets
+- Rank 4 or above can now pass through group gates
+- Wired bug: Teleport/Step On recursion fixed
+- Pets now gain experience and level up
+- Pets now lose hunger and must eat to continue playing/training

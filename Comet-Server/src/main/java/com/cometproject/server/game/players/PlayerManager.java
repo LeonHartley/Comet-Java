@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -173,7 +174,11 @@ public class PlayerManager implements Initialisable {
         }
 
         if (!this.ipAddressToPlayerIds.containsKey(ipAddress)) {
-            this.ipAddressToPlayerIds.put(ipAddress, Lists.newArrayList(playerId));
+            final List<Integer> list = new CopyOnWriteArrayList<Integer>() {{
+                add(playerId);
+            }};
+
+            this.ipAddressToPlayerIds.put(ipAddress, list);
         } else {
             this.ipAddressToPlayerIds.get(ipAddress).add(playerId);
         }

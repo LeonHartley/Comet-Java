@@ -122,7 +122,7 @@ public class PetDao {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        Map<Integer, PetData> data = new HashMap<>();
+        Map<Integer, PetData> data = new ConcurrentHashMap<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();

@@ -110,6 +110,10 @@ public class FreezeGame extends RoomGame {
                                         continue;
                                     }
 
+                                    if(freezePlayer.getFreezeTimer() != 0 || freezePlayer.getShieldTimer() != 0) {
+                                        continue;
+                                    }
+
                                     freezePlayer.decrementLives();
                                     freezePlayer.setFreezeTimer(5);
 

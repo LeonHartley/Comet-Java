@@ -56,10 +56,10 @@ public abstract class AbstractGameGateFloorItem extends DefaultFloorItem {
             this.getRoom().getGame().joinTeam(this.getTeam(), playerEntity);
 
             playerEntity.setGameTeam(this.getTeam());
-            playerEntity.applyEffect(new PlayerEffect(this.getTeam().getEffect(this.gameType()), 0));
+            playerEntity.applyTeamEffect(new PlayerEffect(this.getTeam().getEffect(this.gameType()), 0));
         } else {
             playerEntity.setGameTeam(GameTeam.NONE);
-            playerEntity.applyEffect(null);
+            playerEntity.applyTeamEffect(null);
         }
 
         this.updateTeamCount();

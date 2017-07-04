@@ -64,8 +64,8 @@ public class WiredTriggerPeriodically extends WiredTriggerItem {
     public int getTickCount() {
         int tickLength = this.getWiredData().getParams().get(PARAM_TICK_LENGTH);
 
-        if(tickLength < 1) {
-            tickLength = 1;
+        if(tickLength <= 1) {
+            tickLength = 2;
         }
 
         return tickLength;
