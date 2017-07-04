@@ -76,6 +76,10 @@ public class CometSettings {
     public static int hallOfFameRefreshMinutes = 5;
     public static String hallOfFameTextsKey = "";
 
+    public static int wiredMaxEffects = 10;
+    public static int wiredMaxTriggers = 10;
+    public static int wiredMaxExecuteStacks = 5;
+
     private static final Logger log = Logger.getLogger(CometSettings.class.getName());
 
     /**

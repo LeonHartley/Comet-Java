@@ -1,12 +1,15 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.base;
 
+import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions.WiredActionExecuteStacks;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions.WiredActionKickUser;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.addons.WiredAddonRandomEffect;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.addons.WiredAddonUnseenEffect;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerCollision;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerEnterRoom;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.composers.MessageComposer;
@@ -45,7 +48,7 @@ public abstract class WiredTriggerItem extends WiredFloorItem {
     public boolean evaluate(RoomEntity entity, Object data) {
         try {
             // if the trigger relies on an entity being provided and there wasn't one, ignore.
-            if(this.suppliesPlayer() && entity == null) {
+            if (this.suppliesPlayer() && entity == null) {
                 return false;
             }
 
@@ -54,6 +57,9 @@ public abstract class WiredTriggerItem extends WiredFloorItem {
 
             // create empty list for all wired conditions on current tile
             List<WiredConditionItem> wiredConditions = Lists.newArrayList();
+
+            // flood protection regarding wt_act_execute_stacks
+            int executeStacksCount = 0;
 
             // used by addons
             boolean useRandomEffect = false;
@@ -66,7 +72,15 @@ public abstract class WiredTriggerItem extends WiredFloorItem {
 
             // loop through all items on this tile
             for (RoomItemFloor floorItem : this.getItemsOnStack()) {
-                if (floorItem instanceof WiredActionItem) {
+                if (floorItem instanceof WiredActionItem && wiredActions.size() <= CometSettings.wiredMaxEffects) {
+                    // protect against mass usage of wired to cause lag & crashes.
+                    if (floorItem instanceof WiredActionExecuteStacks) {
+                        if (executeStacksCount >= CometSettings.wiredMaxExecuteStacks) {
+                            continue;
+                        }
+
+                        executeStacksCount++;
+                    }
 
                     // if the item is a wired action, add it to the list of actions
                     wiredActions.add(((WiredActionItem) floorItem));
@@ -92,7 +106,7 @@ public abstract class WiredTriggerItem extends WiredFloorItem {
             for (WiredConditionItem conditionItem : wiredConditions) {
                 conditionItem.flash();
 
-                if(!completedConditions.containsKey(conditionItem.getClass())) {
+                if (!completedConditions.containsKey(conditionItem.getClass())) {
                     completedConditions.put(conditionItem.getClass(), new AtomicBoolean(false));
                 }
 
@@ -101,8 +115,8 @@ public abstract class WiredTriggerItem extends WiredFloorItem {
                 }
             }
 
-            for(AtomicBoolean conditionState: completedConditions.values()) {
-                if(!conditionState.get()) {
+            for (AtomicBoolean conditionState : completedConditions.values()) {
+                if (!conditionState.get()) {
                     canExecute = false;
                 }
             }
@@ -157,6 +171,17 @@ public abstract class WiredTriggerItem extends WiredFloorItem {
 
         // tell the event that called the trigger that it was not a success!
         return false;
+    }
+
+    public static <T extends RoomItemFloor> List<T> getTriggers(Room room, Class<T> clazz) {
+        final List<T> triggers = Lists.newArrayList();
+
+        for (RoomItemFloor floorItem : room.getItems().getByClass(clazz)) {
+            if(triggers.size() <= CometSettings.wiredMaxTriggers)
+                triggers.add((T) floorItem);
+        }
+
+        return triggers;
     }
 
     private boolean executeEffect(WiredActionItem actionItem, RoomEntity entity, Object data) {

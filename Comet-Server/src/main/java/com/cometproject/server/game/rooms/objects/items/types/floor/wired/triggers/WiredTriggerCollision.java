@@ -37,7 +37,7 @@ public class WiredTriggerCollision extends WiredTriggerItem {
     public static boolean executeTriggers(RoomEntity entity) {
         boolean wasExecuted = false;
 
-        for (RoomItemFloor floorItem : entity.getRoom().getItems().getByClass(WiredTriggerCollision.class)) {
+        for (RoomItemFloor floorItem : getTriggers(entity.getRoom(), WiredTriggerCollision.class)) {
             WiredTriggerCollision trigger = ((WiredTriggerCollision) floorItem);
 
             wasExecuted = trigger.evaluate(entity, null);

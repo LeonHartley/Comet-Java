@@ -40,12 +40,26 @@ public class WiredActionExecuteStacks extends WiredActionItem {
             tilesToExecute.add(new Position(floorItem.getPosition().getX(), floorItem.getPosition().getY()));
         }
 
+        List<WiredActionItem> actions = Lists.newArrayList();
+
         for (Position tileToUpdate : tilesToExecute) {
             for(RoomItemFloor roomItemFloor : this.getRoom().getMapping().getTile(tileToUpdate).getItems()) {
                 if(roomItemFloor instanceof WiredActionItem && !(roomItemFloor instanceof WiredActionExecuteStacks)) {
-                    ((WiredActionItem) roomItemFloor).evaluate(event.entity, event.data);
+                    actions.add((WiredActionItem) roomItemFloor);
                 }
             }
+        }
+
+        final int max = 30;
+        int limiter = 0;
+
+        for(WiredActionItem actionItem : actions) {
+            if(limiter >= max) {
+                break;
+            }
+
+            limiter++;
+            actionItem.evaluate(event.entity, event.data);
         }
 
         tilesToExecute.clear();

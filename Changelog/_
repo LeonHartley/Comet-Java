@@ -1,5 +1,5 @@
 Comet 2
-----------
+------------------------------
 - Freeze 100%
 - In-game room word filter 100%
 - Purchasable clothing 100%
@@ -14,3 +14,8 @@ Comet 2
 - Wired bug: Teleport/Step On recursion fixed
 - Pets now gain experience and level up
 - Pets now lose hunger and must eat to continue playing/training
+
+SQL
+------------------------------
+ALTER TABLE `server_configuration`
+	ADD COLUMN `room_wired_max_effects` INT(11) NOT NULL DEFAULT '10' AFTER `group_chat_enabled`;

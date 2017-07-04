@@ -66,6 +66,11 @@ public class ConfigDao {
                 CometSettings.hallOfFameCurrency = config.getString("hall_of_fame_currency");
                 CometSettings.hallOfFameRefreshMinutes = config.getInt("hall_of_fame_refresh_minutes");
                 CometSettings.hallOfFameTextsKey = config.getString("hall_of_fame_texts_key");
+
+                CometSettings.wiredMaxEffects = config.getInt("room_wired_max_effects");
+                CometSettings.wiredMaxTriggers = config.getInt("room_wired_max_triggers");
+                CometSettings.wiredMaxExecuteStacks = config.getInt("room_wired_max_execute_stacks");
+
                 final String characters = config.getString("word_filter_strict_chars");
 
                 CometSettings.strictFilterCharacters.clear();

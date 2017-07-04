@@ -88,6 +88,9 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
 
     private boolean hasPlacedPet = false;
 
+    // BUILDER STUFF
+    private boolean builderFillFloor = false;
+
     public PlayerEntity(Player player, int identifier, Position startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
         super(identifier, startPosition, startBodyRotation, startHeadRotation, roomInstance);
 
@@ -707,5 +710,13 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
 
     public boolean hasRights() {
         return this.getRoom().getRights().hasRights(this.playerId);
+    }
+
+    public boolean isBuilderFillFloor() {
+        return builderFillFloor;
+    }
+
+    public void setBuilderFillFloor(boolean builderFillFloor) {
+        this.builderFillFloor = builderFillFloor;
     }
 }

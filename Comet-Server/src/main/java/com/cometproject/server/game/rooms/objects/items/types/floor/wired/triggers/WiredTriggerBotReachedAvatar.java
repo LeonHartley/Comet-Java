@@ -37,7 +37,7 @@ public class WiredTriggerBotReachedAvatar extends WiredTriggerItem {
     public static boolean executeTriggers(RoomEntity entity) {
         boolean wasExecuted = false;
 
-        for (RoomItemFloor floorItem : entity.getRoom().getItems().getByClass(WiredTriggerBotReachedAvatar.class)) {
+        for (RoomItemFloor floorItem : getTriggers(entity.getRoom(), WiredTriggerBotReachedAvatar.class)) {
             WiredTriggerBotReachedAvatar trigger = ((WiredTriggerBotReachedAvatar) floorItem);
 
             wasExecuted = trigger.evaluate(entity, null);

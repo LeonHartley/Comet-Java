@@ -48,7 +48,7 @@ public class WiredTriggerAtGivenTime extends WiredTriggerItem {
     public static boolean executeTriggers(Room room, int timer) {
         boolean wasExecuted = false;
 
-        for (RoomItemFloor wiredItem : room.getItems().getByClass(WiredTriggerAtGivenTime.class)) {
+        for (RoomItemFloor wiredItem : getTriggers(room, WiredTriggerAtGivenTime.class)) {
             WiredTriggerAtGivenTime trigger = ((WiredTriggerAtGivenTime) wiredItem);
 
             if (timer >= trigger.getTime() && !trigger.needsReset) {
