@@ -14,7 +14,12 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.games.freeze
 import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupGateFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.hollywood.HaloTileFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.pet.PetFoodFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.pet.PetToyFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.pet.breeding.types.CatBreedingBoxFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.pet.breeding.types.DogBreedingBoxFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.pet.breeding.types.PigBreedingBoxFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.pet.breeding.types.TerrierBreedingBoxFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.pet.horse.HorseJumpFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.snowboarding.SnowboardJumpFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.snowboarding.SnowboardSlopeFloorItem;
@@ -172,6 +177,12 @@ public class RoomItemFactory {
             put("totem_body", TotemBodyFloorItem.class);
 
             put("pet_toy", PetToyFloorItem.class);
+            put("pet_food", PetFoodFloorItem.class);
+
+            put("breeding_dog", DogBreedingBoxFloorItem.class);
+            put("breeding_cat", CatBreedingBoxFloorItem.class);
+            put("breeding_pig", PigBreedingBoxFloorItem.class);
+            put("breeding_terrier", TerrierBreedingBoxFloorItem.class);
 
             put("cannon", CannonFloorItem.class);
 

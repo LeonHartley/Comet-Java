@@ -3,6 +3,7 @@ package com.cometproject.server.game.rooms.objects.entities.types.ai.pets;
 import com.cometproject.server.game.pets.commands.PetCommandManager;
 import com.cometproject.server.game.pets.data.PetMessageType;
 import com.cometproject.server.game.pets.data.PetSpeech;
+import com.cometproject.server.game.pets.races.PetType;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.data.PlayerAvatar;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
@@ -10,7 +11,11 @@ import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.ai.AbstractBotAI;
+import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.objects.items.types.floor.pet.PetFoodFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.pet.PetToyFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.pet.breeding.BreedingBoxFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.pet.breeding.types.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredUtil;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
@@ -38,6 +43,8 @@ public class PetAI extends AbstractBotAI {
     private int waitTimer = 0;
 
     private PetToyFloorItem toyItem;
+
+    private PetFoodFloorItem foodItem;
 
     public PetAI(RoomEntity entity) {
         super(entity);
@@ -94,7 +101,11 @@ public class PetAI extends AbstractBotAI {
 
             // try find some food!
             this.applyGesture("hng");
+
             this.say(this.getMessage(PetMessageType.HUNGRY), ChatEmotion.SAD);
+
+            // attempt to eat food.
+            this.tryEat();
         } else {
 
             PetAction petAction = possibleActions[RandomUtil.getRandomInt(0, possibleActions.length - 1)];
@@ -173,6 +184,9 @@ public class PetAI extends AbstractBotAI {
                 // we dont have enough energy, tell them we're hungry!
                 this.applyGesture("hng");
                 this.say(this.getMessage(PetMessageType.HUNGRY), ChatEmotion.SAD);
+
+                // attempt to eat food.
+                this.tryEat();
             } else {
                 if (PetCommandManager.getInstance().executeCommand(commandKey.toLowerCase(), entity, this.getPetEntity())) {
                     final boolean decreaseEnergy = RandomUtil.getRandomInt(0, 2) == 1;// 1 in 3 chance of decreasing hunger
@@ -187,6 +201,20 @@ public class PetAI extends AbstractBotAI {
         }
 
         return false;
+    }
+
+    public void tryEat() {
+        this.waitTimer = 60;
+
+        final PetFoodFloorItem petFood = WiredUtil.getRandomElement(this.getPetEntity().getRoom().getItems().getByClass(PetFoodFloorItem.class));
+
+        if (petFood != null) {
+            if (petFood.getTile().getEntities().size() == 0) {
+                this.foodItem = petFood;
+
+                this.getPetEntity().moveTo(petFood.getPosition());
+            }
+        }
     }
 
     public void applyGesture(String gestureType) {
@@ -277,9 +305,9 @@ public class PetAI extends AbstractBotAI {
         if (this.getPetEntity().hasStatus(RoomEntityStatus.PLAY)) {
             this.getPetEntity().removeStatus(RoomEntityStatus.PLAY);
         }
-        }
+    }
 
-        public void play() {
+    public void play() {
         // Find a random toy item
         final PetToyFloorItem floorItem = WiredUtil.getRandomElement(this.getPetEntity().getRoom().getItems().getByClass(PetToyFloorItem.class));
 
@@ -339,5 +367,60 @@ public class PetAI extends AbstractBotAI {
         }
 
         this.followingPlayer = followingPlayer;
+    }
+
+    public void beginBreeding() {
+        final BreedingBoxFloorItem breedingBox = this.findBreedingBox();
+
+        if (breedingBox == null) {
+            return;
+        }
+
+        this.waitTimer = 60;
+        // if we've got one, move to it.
+        this.getPetEntity().moveTo(breedingBox.getPosition());
+    }
+
+    private BreedingBoxFloorItem findBreedingBox() {
+        List<? extends BreedingBoxFloorItem> availableBoxes = null;
+
+        switch (this.getPetEntity().getData().getTypeId()) {
+            case PetType.DOG: {
+                availableBoxes = this.getEntity().getRoom().getItems().getByClass(DogBreedingBoxFloorItem.class);
+                break;
+            }
+
+            case PetType.CAT: {
+                availableBoxes = this.getEntity().getRoom().getItems().getByClass(CatBreedingBoxFloorItem.class);
+                break;
+            }
+
+            case PetType.BEAR: {
+                availableBoxes = this.getEntity().getRoom().getItems().getByClass(BearBreedingBoxFloorItem.class);
+                break;
+            }
+
+            case PetType.TERRIER: {
+                availableBoxes = this.getEntity().getRoom().getItems().getByClass(TerrierBreedingBoxFloorItem.class);
+                break;
+            }
+
+            case PetType.PIG: {
+                availableBoxes = this.getEntity().getRoom().getItems().getByClass(PigBreedingBoxFloorItem.class);
+                break;
+            }
+        }
+
+        if(availableBoxes == null) {
+            return null;
+        }
+
+        for(BreedingBoxFloorItem box : availableBoxes) {
+            if(box.getTile().getEntities().size() <= 1) { // make sure there's either 1 or 0
+                return box;
+            }
+        }
+
+        return null;
     }
 }

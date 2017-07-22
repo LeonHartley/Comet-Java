@@ -39,6 +39,8 @@ public class PlayerSettings implements IPlayerSettings {
     private int navigatorWidth;
     private boolean navigatorShowSearches;
 
+    private boolean ignoreEvents;
+
     public PlayerSettings(ResultSet data, boolean isLogin) throws SQLException {
         if (isLogin) {
             String volumeData = data.getString("playerSettings_volume");
@@ -85,6 +87,8 @@ public class PlayerSettings implements IPlayerSettings {
             this.navigatorWidth = data.getInt("playerSettings_navigatorWidth");
 
             this.navigatorShowSearches = data.getString("playerSettings_navigatorShowSearches").equals("1");
+
+            this.ignoreEvents = data.getString("playerSettings_ignoreEvents").equalsIgnoreCase("1");
         } else {
             String volumeData = data.getString("volume");
 
@@ -130,6 +134,8 @@ public class PlayerSettings implements IPlayerSettings {
             this.navigatorWidth = data.getInt("navigator_width");
 
             this.navigatorShowSearches = data.getString("navigator_show_searches").equals("1");
+
+            this.ignoreEvents = data.getString("ignore_events").equals("1");
         }
     }
 
@@ -213,7 +219,7 @@ public class PlayerSettings implements IPlayerSettings {
         this.useOldChat = useOldChat;
     }
 
-    public boolean isIgnoreInvites() {
+    public boolean ignoreEvents() {
         return ignoreInvites;
     }
 

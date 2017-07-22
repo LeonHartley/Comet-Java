@@ -1,7 +1,6 @@
 package com.cometproject.server.game.commands;
 
 import com.cometproject.api.commands.CommandInfo;
-import com.cometproject.api.commands.ModuleChatCommand;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.development.*;
@@ -39,6 +38,7 @@ import com.cometproject.server.game.commands.user.room.SetMaxCommand;
 import com.cometproject.server.game.commands.user.room.SetSpeedCommand;
 import com.cometproject.server.game.commands.user.settings.DisableCommand;
 import com.cometproject.server.game.commands.user.settings.EnableCommand;
+import com.cometproject.server.game.commands.user.settings.ToggleEventsCommand;
 import com.cometproject.server.game.commands.user.settings.ToggleFriendsCommand;
 import com.cometproject.server.game.commands.vip.*;
 import com.cometproject.server.game.permissions.PermissionsManager;
@@ -137,6 +137,7 @@ public class CommandManager implements Initialisable {
         this.addCommand(Locale.get("command.emptybots.name"), new EmptyBotsCommand());
         this.addCommand(Locale.get("command.mutebots.name"), new MuteBotsCommand());
         this.addCommand(Locale.get("command.mutepets.name"), new MutePetsCommand());
+        this.addCommand(Locale.get("command.toggleevents.name"), new ToggleEventsCommand());
 
         // VIP commands
         this.addCommand(Locale.get("command.push.name"), new PushCommand());

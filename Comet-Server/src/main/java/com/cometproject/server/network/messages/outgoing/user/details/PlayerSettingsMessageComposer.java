@@ -24,7 +24,7 @@ public class PlayerSettingsMessageComposer extends MessageComposer {
         msg.writeInt(this.playerSettings.getVolumes().getFurniVolume());
         msg.writeInt(this.playerSettings.getVolumes().getTraxVolume());
         msg.writeBoolean(this.playerSettings.isUseOldChat()); // old chat enabled?
-        msg.writeBoolean(this.playerSettings.isIgnoreInvites()); // ignore room invites
+        msg.writeBoolean(this.playerSettings.ignoreEvents()); // ignore room invites
         msg.writeBoolean(false); //disable_room_camera_follow_checkbox
         msg.writeInt(0); //??
         msg.writeInt(0); //??

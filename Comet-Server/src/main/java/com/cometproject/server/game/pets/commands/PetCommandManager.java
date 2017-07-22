@@ -30,6 +30,7 @@ public class PetCommandManager {
             put(Locale.getOrDefault("game.pet.command.play", "play"), new PlayCommand());
             put(Locale.getOrDefault("game.pet.command.play_dead", "play dead"), new PlayDeadCommand());
             put(Locale.getOrDefault("game.pet.command.stay", "stay"), new StayCommand());
+            put(Locale.getOrDefault("game.pet.command.breed", "breed"), new BreedCommand());
         }};
     }
 

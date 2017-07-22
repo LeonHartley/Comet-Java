@@ -15,5 +15,4 @@ public class ConfirmUsernameMessageEvent implements Event {
             }
         }
     }
-
 }

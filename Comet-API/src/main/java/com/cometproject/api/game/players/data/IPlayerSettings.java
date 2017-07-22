@@ -38,7 +38,7 @@ public interface IPlayerSettings {
 
     void setUseOldChat(boolean useOldChat);
 
-    boolean isIgnoreInvites();
+    boolean ignoreEvents();
 
     void setIgnoreInvites(boolean ignoreInvites);
 }
