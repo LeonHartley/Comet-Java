@@ -381,6 +381,13 @@ public class PetAI extends AbstractBotAI {
         this.getPetEntity().moveTo(breedingBox.getPosition());
     }
 
+    public void breedComplete() {
+        this.waitTimer = 0;
+
+        this.applyGesture("sml");
+        this.increaseExperience(10);
+    }
+
     private BreedingBoxFloorItem findBreedingBox() {
         List<? extends BreedingBoxFloorItem> availableBoxes = null;
 

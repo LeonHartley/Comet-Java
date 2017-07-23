@@ -74,6 +74,20 @@ public class PetData {
         this.typeId = typeId;
     }
 
+    public PetData(int id, String name, int ownerId, String ownerName, int raceId, int typeId) {
+        this.id = id;
+        this.name = name;
+        this.ownerId = ownerId;
+        this.ownerName = ownerName;
+        this.raceId = raceId;
+        this.typeId = typeId;
+        this.colour = "FFFFFF";
+        this.level = StaticPetProperties.DEFAULT_LEVEL;
+        this.happiness = StaticPetProperties.DEFAULT_HAPPINESS;
+        this.experience = StaticPetProperties.DEFAULT_EXPERIENCE;
+        this.energy = StaticPetProperties.DEFAULT_ENERGY;
+    }
+
     public JsonObject toJsonObject() {
         final JsonObject jsonObject = new JsonObject();
 

@@ -41,6 +41,6 @@ public class BreedPetsMessageEvent implements com.cometproject.server.network.me
         }
 
         final BreedingBoxFloorItem breedingBoxFloorItem = (BreedingBoxFloorItem) father.getTile().getTopItemInstance();
-        breedingBoxFloorItem.begin();
+        breedingBoxFloorItem.begin(client.getPlayer(), name);
     }
 }

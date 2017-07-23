@@ -262,7 +262,8 @@ public class Composers {
     public static final short JoinGroupErrorMessageComposer = 1186;
     public static final short RoomActionMessageComposer = 2283;
     public static final short PetBreedingMessageComposer = 1561;
-    public static final short PetBreedingSuccessMessageComposer = 208;
+    public static final short PetBreedingCompleteMessageComposer = 208;
+    public static final short PetBreedingStartedMessageComposer = 713;
 
     private static Map<Short, String> composerPacketNames = new HashMap<>();
 

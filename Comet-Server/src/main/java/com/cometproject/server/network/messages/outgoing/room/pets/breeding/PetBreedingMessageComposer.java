@@ -1,4 +1,4 @@
-package com.cometproject.server.network.messages.outgoing.room.pets;
+package com.cometproject.server.network.messages.outgoing.room.pets.breeding;
 
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.pets.PetManager;
@@ -13,6 +13,7 @@ import java.util.Set;
 
 public class PetBreedingMessageComposer extends MessageComposer {
 
+    private final int itemId;
     private final int babyType;
 
     // pets have no gender but i thought these namings were better than pet1 & pet2 lols
@@ -20,7 +21,8 @@ public class PetBreedingMessageComposer extends MessageComposer {
 
     private final PetData father;
 
-    public PetBreedingMessageComposer(final int babyType, final PetData mother,final PetData father) {
+    public PetBreedingMessageComposer(final int itemId, final int babyType, final PetData mother,final PetData father) {
+        this.itemId = itemId;
         this.babyType = babyType;
         this.mother = mother;
         this.father = father;
@@ -33,7 +35,7 @@ public class PetBreedingMessageComposer extends MessageComposer {
 
     @Override
     public void compose(IComposer msg) {
-        msg.writeInt(this.mother.getTypeId());//?? result breed
+        msg.writeInt(this.itemId);//?? result breed
 
         msg.writeInt(this.mother.getId());
         msg.writeString(this.mother.getName());
