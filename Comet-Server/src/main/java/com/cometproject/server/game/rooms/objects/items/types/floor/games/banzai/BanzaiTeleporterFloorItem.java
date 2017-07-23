@@ -110,7 +110,7 @@ public class BanzaiTeleporterFloorItem extends RoomItemFloor {
     public void onTickComplete() {
         if (this.stage == 1) {
             if (this.entity != null) {
-                this.entity.warp(this.teleportPosition);
+                this.entity.warpImmediately(this.teleportPosition);
                 this.entity = null;
             }
 

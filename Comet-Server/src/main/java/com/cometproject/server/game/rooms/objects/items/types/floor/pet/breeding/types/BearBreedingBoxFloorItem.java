@@ -10,6 +10,11 @@ public class BearBreedingBoxFloorItem extends BreedingBoxFloorItem {
     }
 
     @Override
+    protected int getBabyType() {
+        return PetType.BABYBEAR;
+    }
+
+    @Override
     protected int getPetType() {
         return PetType.BEAR;
     }

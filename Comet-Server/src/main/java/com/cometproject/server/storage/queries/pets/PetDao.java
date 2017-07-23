@@ -5,7 +5,9 @@ import com.cometproject.server.game.pets.data.PetData;
 import com.cometproject.server.game.pets.data.PetSpeech;
 import com.cometproject.server.game.pets.data.PetMessageType;
 import com.cometproject.server.game.pets.data.StaticPetProperties;
+import com.cometproject.server.game.pets.races.PetBreedLevel;
 import com.cometproject.server.game.pets.races.PetRace;
+import com.cometproject.server.game.pets.races.PetType;
 import com.cometproject.server.storage.SqlHelper;
 import com.google.common.collect.Lists;
 
@@ -13,10 +15,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -66,13 +65,13 @@ public class PetDao {
                 int petType = resultSet.getInt("pet_type");
                 PetMessageType messageType = PetMessageType.valueOf(resultSet.getString("message_type"));
 
-                if(!data.containsKey(petType)) {
+                if (!data.containsKey(petType)) {
                     data.put(petType, new PetSpeech());
                 }
 
                 PetSpeech petSpeech = data.get(petType);
 
-                if(!petSpeech.getMessages().containsKey(messageType)) {
+                if (!petSpeech.getMessages().containsKey(messageType)) {
                     petSpeech.getMessages().put(messageType, Lists.newArrayList());
                 }
 
@@ -149,7 +148,7 @@ public class PetDao {
                     " FROM pet_data AS pet  " +
                     " RIGHT JOIN `players` AS player ON player.id = pet.owner_id " +
                     " WHERE pet.owner_id = ? AND pet.room_id = 0", sqlConnection);
-            
+
             preparedStatement.setInt(1, playerId);
 
             resultSet = preparedStatement.executeQuery();
@@ -298,5 +297,45 @@ public class PetDao {
             SqlHelper.closeSilently(preparedStatement);
             SqlHelper.closeSilently(sqlConnection);
         }
+    }
+
+    public static Map<Integer, Map<PetBreedLevel, Set<Integer>>> getPetBreedPallets() {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        Map<Integer, Map<PetBreedLevel, Set<Integer>>> data = new ConcurrentHashMap<>();
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("SELECT * FROM pet_breeds;", sqlConnection);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                final int petType = resultSet.getInt("pet_type");
+                final int palletId = resultSet.getInt("pallet_id");
+                final PetBreedLevel breedLevel = PetBreedLevel.valueOf(resultSet.getString("level"));
+
+                if (!data.containsKey(petType)) {
+                    data.put(petType, new ConcurrentHashMap<PetBreedLevel, Set<Integer>>() {{
+                        put(PetBreedLevel.EPIC, new HashSet<>());
+                        put(PetBreedLevel.RARE, new HashSet<>());
+                        put(PetBreedLevel.UNCOMMON, new HashSet<>());
+                        put(PetBreedLevel.COMMON, new HashSet<>());
+                    }});
+                }
+
+                data.get(petType).get(breedLevel).add(palletId);
+            }
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(resultSet);
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+
+        return data;
     }
 }

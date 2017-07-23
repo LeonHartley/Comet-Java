@@ -11,10 +11,12 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.games.AbstractGameGateFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.games.freeze.FreezeBlockFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupGateFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.pet.breeding.BreedingBoxFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.snowboarding.SnowboardJumpFloorItem;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.components.games.RoomGame;
 import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
+import com.cometproject.server.network.messages.outgoing.room.pets.PetBreedingMessageComposer;
 import com.cometproject.server.utilities.collections.ConcurrentHashSet;
 
 import java.util.ArrayList;
@@ -176,6 +178,10 @@ public class RoomTile {
                 case "freeze_block":
                     movementNode = ((FreezeBlockFloorItem) item).isDestroyed() ? RoomEntityMovementNode.OPEN : RoomEntityMovementNode.CLOSED;
                     break;
+            }
+
+            if(item instanceof BreedingBoxFloorItem) {
+                movementNode = RoomEntityMovementNode.END_OF_ROUTE;
             }
 
             if (item instanceof SnowboardJumpFloorItem) {

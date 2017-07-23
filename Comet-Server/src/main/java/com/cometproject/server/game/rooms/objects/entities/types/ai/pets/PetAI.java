@@ -376,7 +376,7 @@ public class PetAI extends AbstractBotAI {
             return;
         }
 
-        this.waitTimer = 60;
+        this.waitTimer = 120;
         // if we've got one, move to it.
         this.getPetEntity().moveTo(breedingBox.getPosition());
     }

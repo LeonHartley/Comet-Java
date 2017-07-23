@@ -261,6 +261,8 @@ public class Composers {
     public static final short GroupFavoritePlayerUpdateMessageComposer = 3669;
     public static final short JoinGroupErrorMessageComposer = 1186;
     public static final short RoomActionMessageComposer = 2283;
+    public static final short PetBreedingMessageComposer = 1561;
+    public static final short PetBreedingSuccessMessageComposer = 208;
 
     private static Map<Short, String> composerPacketNames = new HashMap<>();
 

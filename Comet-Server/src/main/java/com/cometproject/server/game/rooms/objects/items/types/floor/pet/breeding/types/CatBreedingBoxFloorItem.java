@@ -10,6 +10,11 @@ public class CatBreedingBoxFloorItem extends BreedingBoxFloorItem {
     }
 
     @Override
+    protected int getBabyType() {
+        return PetType.KITTEN;
+    }
+
+    @Override
     protected int getPetType() {
         return PetType.CAT;
     }

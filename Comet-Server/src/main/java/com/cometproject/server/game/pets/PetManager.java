@@ -1,6 +1,7 @@
 package com.cometproject.server.game.pets;
 
 import com.cometproject.server.game.pets.data.PetSpeech;
+import com.cometproject.server.game.pets.races.PetBreedLevel;
 import com.cometproject.server.game.pets.races.PetRace;
 import com.cometproject.server.storage.queries.pets.PetDao;
 import com.cometproject.server.utilities.Initialisable;
@@ -9,6 +10,7 @@ import org.apache.log4j.Logger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
@@ -22,6 +24,8 @@ public class PetManager implements Initialisable {
 
     private Map<String, String> transformablePets;
 
+    private Map<Integer, Map<PetBreedLevel, Set<Integer>>> petBreedPallets;
+
     public PetManager() {
 
     }
@@ -29,6 +33,7 @@ public class PetManager implements Initialisable {
     @Override
     public void initialize() {
         this.loadPetRaces();
+        this.loadPetBreedPallets();
         this.loadPetSpeech();
         this.loadTransformablePets();
 
@@ -53,6 +58,20 @@ public class PetManager implements Initialisable {
             log.info("Loaded " + this.petRaces.size() + " pet races");
         } catch (Exception e) {
             log.error("Error while loading pet races", e);
+        }
+    }
+
+    public void loadPetBreedPallets() {
+        if (this.petBreedPallets != null) {
+            this.petBreedPallets.clear();
+        }
+
+        try {
+            this.petBreedPallets = PetDao.getPetBreedPallets();
+
+            log.info("Loaded " + this.petRaces.size() + " pet breed pallet sets");
+        } catch (Exception e) {
+            log.error("Error while loading pet breed pallets", e);
         }
     }
 
@@ -132,7 +151,11 @@ public class PetManager implements Initialisable {
         return this.transformablePets.get(type);
     }
 
-//    public String[] getSpeech(int petType) {
+    public Map<Integer, Map<PetBreedLevel, Set<Integer>>> getPetBreedPallets() {
+        return petBreedPallets;
+    }
+
+    //    public String[] getSpeech(int petType) {
 //        return this.petSpeech.get(petType);
 //    }
 }

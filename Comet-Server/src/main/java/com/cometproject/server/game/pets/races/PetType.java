@@ -1,6 +1,7 @@
 package com.cometproject.server.game.pets.races;
 
 public class PetType {
+    //dog,cat,croco,terrier,bear,pig,lion,rhino,spider,turtle,chicken,frog,dragon,monster,monkey,horse,monsterplant,bunnyeaster,bunnyevil,bunnydepressed,bunnylove,pigeongood,pigeonevil,demonmonkey,bearbaby,terrierbaby,gnome,gnome,kittenbaby,puppybaby,pigletbaby,haloompa,fools,pterosaur,velociraptor
     public static final int DOG = 0;
     public static final int CAT = 1;
     public static final int CROCODILE = 2;
@@ -29,6 +30,11 @@ public class PetType {
     public static final int BABYTERRIER = 25;
     public static final int GNOME = 26;
     public static final int LEPRECHAUN = 27;
-
-    // TODO: Add the rest.
+    public static final int KITTEN = 28;
+    public static final int PUPPY = 29;
+    public static final int PIGLET = 28;
+    public static final int HALOOMPA = 29;
+    public static final int FOOLS = 30;
+    public static final int PTEROSAUR = 31;
+    public static final int VELOCIRAPTOR = 32;
 }
