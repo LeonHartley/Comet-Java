@@ -278,6 +278,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.RemoveSaddleFromHorseMessageEvent, new RemoveHorseSaddleMessageEvent());
         this.getMessages().put(Events.ModifyWhoCanRideHorseMessageEvent, new ModifyWhoCanRideHorseMessageEvent());
         this.getMessages().put(Events.BreedPetsMessageEvent, new BreedPetsMessageEvent());
+        this.getMessages().put(Events.OpenPetPackageMessageEvent, new OpenPetPackageMessageEvent());
     }
 
     public void registerRoom() {

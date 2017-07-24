@@ -1,5 +1,6 @@
 package com.cometproject.server.game.pets.data;
 
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.pets.PetManager;
 import com.cometproject.server.game.pets.races.PetRace;
 import com.cometproject.server.game.rooms.objects.entities.types.ai.pets.PetAI;
@@ -75,6 +76,7 @@ public class PetData {
         this.colour = colour;
         this.raceId = raceId;
         this.typeId = typeId;
+        this.birthday = (int) Comet.getTime();
     }
 
     public PetData(int id, String name, int ownerId, String ownerName, int raceId, int typeId) {

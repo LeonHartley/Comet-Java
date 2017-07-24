@@ -450,6 +450,7 @@ public class PetAI extends AbstractBotAI {
         this.getPetEntity().getData().decreaseEnergy(40);
         this.getPetEntity().getData().increaseHunger(40);
 
+        this.free();
         this.increaseExperience(10);
     }
 

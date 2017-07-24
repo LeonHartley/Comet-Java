@@ -260,6 +260,7 @@ public class Events {
     public static final short GetGroupPartsMessageEvent = 2451;
     public static final short SetRoomCameraFollowMessageEvent = 3279;
     public static final short BreedPetsMessageEvent = 2805;
+    public static final short OpenPetPackageMessageEvent = 2249;
 
 
     private static Map<Short, String> eventPacketNames = new HashMap<>();

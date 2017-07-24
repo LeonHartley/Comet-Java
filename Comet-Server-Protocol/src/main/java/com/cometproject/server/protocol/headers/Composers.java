@@ -264,6 +264,8 @@ public class Composers {
     public static final short PetBreedingMessageComposer = 1561;
     public static final short PetBreedingCompleteMessageComposer = 208;
     public static final short PetBreedingStartedMessageComposer = 713;
+    public static final short PetPackageMessageComposer = 3418;
+    public static final short PetPackageOpenedMessageComposer = 251;
 
     private static Map<Short, String> composerPacketNames = new HashMap<>();
 
