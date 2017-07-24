@@ -35,3 +35,6 @@ CREATE TABLE IF NOT EXISTS `pet_breeds` (
   PRIMARY KEY (`pet_type`,`pallet_id`),
   KEY `pet_type` (`pet_type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+ALTER TABLE `pet_data`
+	ADD COLUMN `hunger` INT(11) NOT NULL DEFAULT '0';
