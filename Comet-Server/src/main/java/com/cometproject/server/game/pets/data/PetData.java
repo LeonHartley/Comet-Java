@@ -22,6 +22,7 @@ public class PetData {
     private int happiness;
     private int experience;
     private int energy;
+    private int hunger;
     private int ownerId;
 
     private String ownerName;
@@ -45,6 +46,7 @@ public class PetData {
         this.happiness = data.getInt("happiness");
         this.experience = data.getInt("experience");
         this.energy = data.getInt("energy");
+        this.hunger = data.getInt("hunger");
         this.ownerId = data.getInt("owner_id");
         this.ownerName = data.getString("owner_name");
         this.colour = data.getString("colour");
@@ -59,7 +61,7 @@ public class PetData {
         this.roomPosition = new Position(data.getInt("x"), data.getInt("y"));
     }
 
-    public PetData(int id, String name, int scratches, int level, int happiness, int experience, int energy, int ownerId, String ownerName, String colour, int raceId, int typeId) {
+    public PetData(int id, String name, int scratches, int level, int happiness, int experience, int energy, int hunger, int ownerId, String ownerName, String colour, int raceId, int typeId) {
         this.id = id;
         this.name = name;
         this.scratches = scratches;
@@ -67,6 +69,7 @@ public class PetData {
         this.happiness = happiness;
         this.experience = experience;
         this.energy = energy;
+        this.hunger = hunger;
         this.ownerId = ownerId;
         this.ownerName = ownerName;
         this.colour = colour;
@@ -86,6 +89,7 @@ public class PetData {
         this.happiness = StaticPetProperties.DEFAULT_HAPPINESS;
         this.experience = StaticPetProperties.DEFAULT_EXPERIENCE;
         this.energy = StaticPetProperties.DEFAULT_ENERGY;
+        this.hunger = StaticPetProperties.DEFAULT_HUNGER;
     }
 
     public JsonObject toJsonObject() {
@@ -123,7 +127,7 @@ public class PetData {
     }
 
     public void saveStats() {
-        PetDao.saveStats(this.scratches, this.level, this.happiness, this.experience, this.energy, this.id);
+        PetDao.saveStats(this.scratches, this.level, this.happiness, this.experience, this.energy, this.hunger, this.id);
     }
 
     public void saveHorseData() {
@@ -136,6 +140,12 @@ public class PetData {
 
     public void increaseHappiness(int amount) {
         this.happiness += amount;
+
+        if(this.happiness > 100) {
+            this.happiness = 100;
+        } else if(this.happiness < 0) {
+            this.happiness = 0;
+        }
     }
 
     public void incrementLevel() {
@@ -176,6 +186,10 @@ public class PetData {
 
     public void decreaseEnergy(int amount) {
         this.energy -= amount;
+
+        if(this.energy < 0) {
+            this.energy = 0;
+        }
     }
 
     public void increaseEnergy(int amount) {
@@ -272,5 +286,19 @@ public class PetData {
 
     public void setLevel(int level) {
         this.level = level;
+    }
+
+    public void increaseHunger(int amount) {
+        this.hunger += amount;
+
+        if(this.hunger >= 100) {
+            this.hunger = 100;
+        } else if(this.hunger < 0) {
+            this.hunger = 0;
+        }
+    }
+
+    public int getHunger() {
+        return hunger;
     }
 }
