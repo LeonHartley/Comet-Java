@@ -30,6 +30,7 @@ public class RoomPetDao {
                     "pet.`happiness` AS happiness, " +
                     "pet.`experience` AS experience, " +
                     "pet.`energy` AS energy, " +
+                    "pet.`hunger` AS hunger, " +
                     "pet.`owner_id` AS owner_id, " +
                     "pet.`colour` AS colour, " +
                     "pet.`race_id` AS race_id, " +

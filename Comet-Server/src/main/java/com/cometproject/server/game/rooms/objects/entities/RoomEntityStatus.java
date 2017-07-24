@@ -11,7 +11,8 @@ public enum RoomEntityStatus {
     GESTURE("gst"),
     PLAY("pla"),
     PLAY_DEAD("ded"),
-    JUMP("jmp");
+    JUMP("jmp"),
+    EAT("eat");
 
     private final String statusCode;
 

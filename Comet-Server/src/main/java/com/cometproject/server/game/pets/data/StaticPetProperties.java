@@ -5,4 +5,5 @@ public class StaticPetProperties {
     public static final int DEFAULT_ENERGY = 100;
     public static final int DEFAULT_HAPPINESS = 100;
     public static final int DEFAULT_EXPERIENCE = 0;
+    public static final int DEFAULT_HUNGER = 0;
 }

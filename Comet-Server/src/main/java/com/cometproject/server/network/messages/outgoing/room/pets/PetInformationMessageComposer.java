@@ -8,6 +8,8 @@ import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
 
+import java.util.Calendar;
+
 
 public class PetInformationMessageComposer extends MessageComposer {
 
@@ -40,11 +42,11 @@ public class PetInformationMessageComposer extends MessageComposer {
             msg.writeInt(this.petEntity.getData().getExperienceGoal());
             msg.writeInt(this.petEntity.getData().getEnergy());
             msg.writeInt(100); // MAX_ENERGY
-            msg.writeInt(100); // NUTRITION
+            msg.writeInt(this.petEntity.getData().getHappiness()); // NUTRITION
             msg.writeInt(100); // MAX_NUTRITION
             msg.writeInt(this.petEntity.getData().getScratches()); // SCRATCHES
             msg.writeInt(this.petEntity.getData().getOwnerId());
-            msg.writeInt(0); // AGE
+            msg.writeInt(this.daysSinceBirthday(this.petEntity.getData().getBirthday())); // AGE
             msg.writeString(PlayerManager.getInstance().getAvatarByPlayerId(this.petEntity.getData().getOwnerId(), PlayerAvatar.USERNAME_FIGURE).getUsername());
             msg.writeInt(0);
             msg.writeBoolean(this.petEntity.getData().isSaddled()); // HAS_SADDLE
@@ -98,5 +100,15 @@ public class PetInformationMessageComposer extends MessageComposer {
             msg.writeBoolean(false);
 
         }
+    }
+
+    private int daysSinceBirthday(long birthday) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(birthday * 1000l);
+
+        Calendar newCalendar = Calendar.getInstance();
+        newCalendar.setTimeInMillis(System.currentTimeMillis());
+
+        return newCalendar.get(Calendar.DAY_OF_YEAR) - calendar.get(Calendar.DAY_OF_YEAR);
     }
 }

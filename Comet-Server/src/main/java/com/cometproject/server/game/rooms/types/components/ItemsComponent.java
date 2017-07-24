@@ -378,7 +378,7 @@ public class ItemsComponent {
             }
         }
 
-        this.getRoom().getEntities().broadcastMessage(new RemoveFloorItemMessageComposer(item.getVirtualId(), owner, !toInventory && item instanceof GiftFloorItem ? 5000 : 0));
+        this.getRoom().getEntities().broadcastMessage(new RemoveFloorItemMessageComposer(item.getVirtualId(), (session != null) ? owner : 0, !toInventory && item instanceof GiftFloorItem ? 5000 : 0));
         this.getFloorItems().remove(item.getId());
 
         RoomItemDao.removeItemFromRoom(item.getId(), owner, item.getDataObject());

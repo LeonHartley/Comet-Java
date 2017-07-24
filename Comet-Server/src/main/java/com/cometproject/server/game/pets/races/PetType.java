@@ -32,9 +32,9 @@ public class PetType {
     public static final int LEPRECHAUN = 27;
     public static final int KITTEN = 28;
     public static final int PUPPY = 29;
-    public static final int PIGLET = 28;
-    public static final int HALOOMPA = 29;
-    public static final int FOOLS = 30;
-    public static final int PTEROSAUR = 31;
-    public static final int VELOCIRAPTOR = 32;
+    public static final int PIGLET = 30;
+    public static final int HALOOMPA = 31;
+    public static final int FOOLS = 32;
+    public static final int PTEROSAUR = 33;
+    public static final int VELOCIRAPTOR = 34;
 }

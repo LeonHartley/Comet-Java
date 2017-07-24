@@ -16,10 +16,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.groups.Group
 import com.cometproject.server.game.rooms.objects.items.types.floor.hollywood.HaloTileFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.pet.PetFoodFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.pet.PetToyFloorItem;
-import com.cometproject.server.game.rooms.objects.items.types.floor.pet.breeding.types.CatBreedingBoxFloorItem;
-import com.cometproject.server.game.rooms.objects.items.types.floor.pet.breeding.types.DogBreedingBoxFloorItem;
-import com.cometproject.server.game.rooms.objects.items.types.floor.pet.breeding.types.PigBreedingBoxFloorItem;
-import com.cometproject.server.game.rooms.objects.items.types.floor.pet.breeding.types.TerrierBreedingBoxFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.pet.breeding.types.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.pet.horse.HorseJumpFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.snowboarding.SnowboardJumpFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.snowboarding.SnowboardSlopeFloorItem;
@@ -183,6 +180,7 @@ public class RoomItemFactory {
             put("breeding_cat", CatBreedingBoxFloorItem.class);
             put("breeding_pig", PigBreedingBoxFloorItem.class);
             put("breeding_terrier", TerrierBreedingBoxFloorItem.class);
+            put("breeding_bear", BearBreedingBoxFloorItem.class);
 
             put("cannon", CannonFloorItem.class);
 

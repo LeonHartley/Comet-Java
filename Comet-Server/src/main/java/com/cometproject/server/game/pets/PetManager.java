@@ -69,7 +69,7 @@ public class PetManager implements Initialisable {
         try {
             this.petBreedPallets = PetDao.getPetBreedPallets();
 
-            log.info("Loaded " + this.petRaces.size() + " pet breed pallet sets");
+            log.info("Loaded " + this.petBreedPallets.size() + " pet breed pallet sets");
         } catch (Exception e) {
             log.error("Error while loading pet breed pallets", e);
         }

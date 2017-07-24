@@ -133,6 +133,7 @@ public class PetDao {
                     "pet.`happiness` AS happiness, " +
                     "pet.`experience` AS experience, " +
                     "pet.`energy` AS energy, " +
+                    "pet.`hunger` AS hunger, " +
                     "pet.`owner_id` AS owner_id, " +
                     "pet.`colour` AS colour, " +
                     "pet.`race_id` AS race_id, " +
@@ -228,22 +229,23 @@ public class PetDao {
         }
     }
 
-    public static void saveStats(int scratches, int level, int happiness, int experience, int energy, int petId) {
+    public static void saveStats(int scratches, int level, int happiness, int experience, int energy, int hunger, int petId) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
 
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("UPDATE pet_data SET scratches = ?, level = ?, happiness = ?, experience = ?, energy = ? WHERE id = ?", sqlConnection);
+            preparedStatement = SqlHelper.prepare("UPDATE pet_data SET scratches = ?, level = ?, happiness = ?, experience = ?, energy = ?, hunger = ? WHERE id = ?", sqlConnection);
 
             preparedStatement.setInt(1, scratches);
             preparedStatement.setInt(2, level);
             preparedStatement.setInt(3, happiness);
             preparedStatement.setInt(4, experience);
             preparedStatement.setInt(5, energy);
+            preparedStatement.setInt(6, hunger);
 
-            preparedStatement.setInt(6, petId);
+            preparedStatement.setInt(7, petId);
 
             SqlHelper.executeStatementSilently(preparedStatement, false);
         } catch (SQLException e) {

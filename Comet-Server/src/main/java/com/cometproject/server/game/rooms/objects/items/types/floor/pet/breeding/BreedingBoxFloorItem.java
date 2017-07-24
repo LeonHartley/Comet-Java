@@ -65,6 +65,11 @@ public abstract class BreedingBoxFloorItem extends DefaultFloorItem {
             rarityLevel = PetBreedLevel.UNCOMMON;
         }
 
+        if(!PetManager.getInstance().getPetBreedPallets().containsKey(this.getBabyType())) {
+            // pet pallet doesnt exist
+            return;
+        }
+
         final Set<Integer> availableBreeds = PetManager.getInstance().getPetBreedPallets().get(this.getBabyType()).get(rarityLevel);
         int breed = WiredUtil.getRandomElement(availableBreeds);
 

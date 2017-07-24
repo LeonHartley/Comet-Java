@@ -96,9 +96,7 @@ public class PetAI extends AbstractBotAI {
         }
 
         // check if we have enough energy, if not, send a hungry message & apply hunger gesture
-        if (this.getPetEntity().getData().getEnergy() <= 10) {
-            // we dont have enough energy, tell them we're hungry!
-
+        if (this.getPetEntity().getData().getHunger() >= 65) {
             // try find some food!
             this.applyGesture("hng");
 
@@ -106,8 +104,9 @@ public class PetAI extends AbstractBotAI {
 
             // attempt to eat food.
             this.tryEat();
-        } else {
-
+        } else if(this.getPetEntity().getData().getEnergy() == 0) {
+            // nest!
+        }else {
             PetAction petAction = possibleActions[RandomUtil.getRandomInt(0, possibleActions.length - 1)];
 
             switch (petAction) {
@@ -129,6 +128,13 @@ public class PetAI extends AbstractBotAI {
             }
         }
 
+        this.getPetEntity().getData().saveStats();
+
+        if(RandomUtil.getRandomBool(0.5)) {
+            this.getPetEntity().getData().decreaseEnergy(5);
+        }
+
+        this.getPetEntity().getData().increaseHunger(1);
         this.setTicksUntilCompleteInSeconds(25);
     }
 
@@ -180,19 +186,27 @@ public class PetAI extends AbstractBotAI {
             String commandKey = message.replace(this.getPetEntity().getData().getName() + " ", "");
 
             // check if we have enough energy, if not, send a hungry message & apply hunger gesture
-            if (this.getPetEntity().getData().getEnergy() < 10) {
+            if (this.getPetEntity().getData().getHunger() == 100) {
                 // we dont have enough energy, tell them we're hungry!
                 this.applyGesture("hng");
                 this.say(this.getMessage(PetMessageType.HUNGRY), ChatEmotion.SAD);
 
                 // attempt to eat food.
                 this.tryEat();
+            } else if(this.getPetEntity().getData().getEnergy() < 10) {
+                //todo:nest!
             } else {
                 if (PetCommandManager.getInstance().executeCommand(commandKey.toLowerCase(), entity, this.getPetEntity())) {
-                    final boolean decreaseEnergy = RandomUtil.getRandomInt(0, 2) == 1;// 1 in 3 chance of decreasing hunger
+                    final boolean decreaseEnergy = RandomUtil.getRandomInt(0, 2) == 1;// 1 in 3 chance of decreasing energy
+                    final boolean increaseHunger = RandomUtil.getRandomInt(0, 2) == 1;// 1 in 3 chance of increasing hunger
+
                     if (decreaseEnergy) {
                         // drain energy.
                         this.getPetEntity().getData().decreaseEnergy(10);
+                    }
+
+                    if(increaseHunger) {
+                        this.getPetEntity().getData().increaseHunger(10);
                     }
 
                     this.interactionTimer += 25;
@@ -203,18 +217,34 @@ public class PetAI extends AbstractBotAI {
         return false;
     }
 
+    public void tryNest() {
+        this.waitTimer = 10;
+    }
+
     public void tryEat() {
-        this.waitTimer = 60;
+        this.waitTimer = 10;
 
         final PetFoodFloorItem petFood = WiredUtil.getRandomElement(this.getPetEntity().getRoom().getItems().getByClass(PetFoodFloorItem.class));
+
+        boolean decreaseHappiness = false;
 
         if (petFood != null) {
             if (petFood.getTile().getEntities().size() == 0) {
                 this.foodItem = petFood;
 
                 this.getPetEntity().moveTo(petFood.getPosition());
+            } else {
+                decreaseHappiness = true;
             }
+        } else {
+            decreaseHappiness = true;
         }
+
+        if(decreaseHappiness && RandomUtil.getRandomBool(0.5)) {
+            this.applyGesture("sad");
+            this.getPetEntity().getData().increaseHappiness(-10);
+        }
+
     }
 
     public void applyGesture(String gestureType) {
@@ -381,6 +411,12 @@ public class PetAI extends AbstractBotAI {
         this.getPetEntity().moveTo(breedingBox.getPosition());
     }
 
+    public void beginEating() {
+        this.getPetEntity().addStatus(RoomEntityStatus.EAT, "1");
+        this.getPetEntity().markNeedsUpdate();
+        this.waitTimer = 240;
+    }
+
     public void breedComplete() {
         this.waitTimer = 0;
 
@@ -429,5 +465,18 @@ public class PetAI extends AbstractBotAI {
         }
 
         return null;
+    }
+
+    public void eatingComplete() {
+        this.waitTimer = 0;
+
+        this.getPetEntity().getData().increaseHappiness(10);
+        this.applyGesture("sml");
+
+        this.free();
+
+        this.getPetEntity().getData().saveStats();
+        this.getPetEntity().removeStatus(RoomEntityStatus.EAT);
+        this.getPetEntity().markNeedsUpdate();
     }
 }

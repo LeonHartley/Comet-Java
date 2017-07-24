@@ -166,6 +166,8 @@ public class ReloadCommand extends ChatCommand {
                 PetManager.getInstance().loadPetRaces();
                 PetManager.getInstance().loadPetSpeech();
                 PetManager.getInstance().loadTransformablePets();
+                PetManager.getInstance().loadPetBreedPallets();
+
                 PetCommandManager.getInstance().initialize();
 
                 sendNotif(Locale.get("command.reload.pets"), client);
