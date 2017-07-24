@@ -15,6 +15,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.groups.Group
 import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupGateFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.hollywood.HaloTileFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.pet.PetFoodFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.pet.PetNestFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.pet.PetToyFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.pet.breeding.types.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.pet.horse.HorseJumpFloorItem;
@@ -175,6 +176,7 @@ public class RoomItemFactory {
 
             put("pet_toy", PetToyFloorItem.class);
             put("pet_food", PetFoodFloorItem.class);
+            put("pet_nest", PetNestFloorItem.class);
 
             put("breeding_dog", DogBreedingBoxFloorItem.class);
             put("breeding_cat", CatBreedingBoxFloorItem.class);

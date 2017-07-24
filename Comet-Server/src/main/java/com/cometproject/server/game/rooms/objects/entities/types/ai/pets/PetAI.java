@@ -13,6 +13,7 @@ import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.ai.AbstractBotAI;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.pet.PetFoodFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.pet.PetNestFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.pet.PetToyFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.pet.breeding.BreedingBoxFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.pet.breeding.types.*;
@@ -41,6 +42,7 @@ public class PetAI extends AbstractBotAI {
     private int gestureTimer = 0;
     private int interactionTimer = 0;
     private int waitTimer = 0;
+    private boolean nesting = false;
 
     private PetToyFloorItem toyItem;
 
@@ -106,6 +108,11 @@ public class PetAI extends AbstractBotAI {
             this.tryEat();
         } else if(this.getPetEntity().getData().getEnergy() == 0) {
             // nest!
+            if(this.nesting) {
+                this.say(this.getMessage(PetMessageType.SLEEPING));
+            } else {
+                this.tryNest();
+            }
         }else {
             PetAction petAction = possibleActions[RandomUtil.getRandomInt(0, possibleActions.length - 1)];
 
@@ -194,7 +201,7 @@ public class PetAI extends AbstractBotAI {
                 // attempt to eat food.
                 this.tryEat();
             } else if(this.getPetEntity().getData().getEnergy() < 10) {
-                //todo:nest!
+                this.tryNest();
             } else {
                 if (PetCommandManager.getInstance().executeCommand(commandKey.toLowerCase(), entity, this.getPetEntity())) {
                     final boolean decreaseEnergy = RandomUtil.getRandomInt(0, 2) == 1;// 1 in 3 chance of decreasing energy
@@ -219,6 +226,15 @@ public class PetAI extends AbstractBotAI {
 
     public void tryNest() {
         this.waitTimer = 10;
+        this.nesting = true;
+
+        final PetNestFloorItem petNest = WiredUtil.getRandomElement(this.getPetEntity().getRoom().getItems().getByClass(PetNestFloorItem.class));
+
+        if (petNest != null) {
+            if (petNest.getTile().getEntities().size() == 0) {
+                this.getPetEntity().moveTo(petNest.getPosition());
+            }
+        }
     }
 
     public void tryEat() {
@@ -327,13 +343,16 @@ public class PetAI extends AbstractBotAI {
             this.getPetEntity().removeStatus(RoomEntityStatus.SIT);
         }
 
-
         if (this.getPetEntity().hasStatus(RoomEntityStatus.PLAY_DEAD)) {
             this.getPetEntity().removeStatus(RoomEntityStatus.PLAY_DEAD);
         }
 
         if (this.getPetEntity().hasStatus(RoomEntityStatus.PLAY)) {
             this.getPetEntity().removeStatus(RoomEntityStatus.PLAY);
+        }
+
+        if(this.getPetEntity().hasStatus(RoomEntityStatus.EAT)) {
+            this.getPetEntity().removeStatus(RoomEntityStatus.EAT);
         }
     }
 
@@ -411,9 +430,15 @@ public class PetAI extends AbstractBotAI {
         this.getPetEntity().moveTo(breedingBox.getPosition());
     }
 
+    public void beginNesting() {
+        this.waitTimer = 62;
+        this.lay();
+    }
+
     public void beginEating() {
         this.getPetEntity().addStatus(RoomEntityStatus.EAT, "1");
         this.getPetEntity().markNeedsUpdate();
+
         this.waitTimer = 240;
     }
 
@@ -421,6 +446,10 @@ public class PetAI extends AbstractBotAI {
         this.waitTimer = 0;
 
         this.applyGesture("sml");
+
+        this.getPetEntity().getData().decreaseEnergy(40);
+        this.getPetEntity().getData().increaseHunger(40);
+
         this.increaseExperience(10);
     }
 
@@ -478,5 +507,13 @@ public class PetAI extends AbstractBotAI {
         this.getPetEntity().getData().saveStats();
         this.getPetEntity().removeStatus(RoomEntityStatus.EAT);
         this.getPetEntity().markNeedsUpdate();
+    }
+
+    public void nestingComplete() {
+        this.nesting = false;
+        this.waitTimer = 0;
+
+        this.getPetEntity().getData().increaseEnergy(100);
+        this.getPetEntity().getData().increaseHappiness(100);
     }
 }
