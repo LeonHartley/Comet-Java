@@ -2,8 +2,11 @@ Comet 2
 ------------------------------
 - Freeze 100%
 - In-game room word filter 100%
-- Purchasable clothing 100%
+- Purchasable clothing //not finished, not commited
 - Update to PRODUCTION-201705151314-310198720
+- Pet breeding 100%
+- Pets eat food
+- Pets sleep // not finished, not committed
 
 - Command :roomoption
 - Command :emptybots
@@ -13,9 +16,22 @@ Comet 2
 - Rank 4 or above can now pass through group gates
 - Wired bug: Teleport/Step On recursion fixed
 - Pets now gain experience and level up
-- Pets now lose hunger and must eat to continue playing/training
+- Pets now lose energy and must sleep to continue playing/training
+- Pets now gain hunger and must eat to continue playing/training
+- Pets now display their correct age
 
 SQL
 ------------------------------
 ALTER TABLE `server_configuration`
 	ADD COLUMN `room_wired_max_effects` INT(11) NOT NULL DEFAULT '10' AFTER `group_chat_enabled`;
+
+ALTER TABLE `player_settings`
+	ADD COLUMN `ignore_events` ENUM('1','0') NULL DEFAULT '0' AFTER `navigator_show_searches`;
+
+CREATE TABLE IF NOT EXISTS `pet_breeds` (
+  `pet_type` int(11) NOT NULL DEFAULT '1',
+  `pallet_id` int(11) NOT NULL DEFAULT '0',
+  `level` enum('EPIC','RARE','UNCOMMON','COMMON') DEFAULT 'COMMON',
+  PRIMARY KEY (`pet_type`,`pallet_id`),
+  KEY `pet_type` (`pet_type`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
