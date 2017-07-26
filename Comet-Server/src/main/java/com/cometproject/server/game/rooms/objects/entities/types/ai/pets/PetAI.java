@@ -288,6 +288,7 @@ public class PetAI extends AbstractBotAI {
         this.getPetEntity().cancelWalk();
         this.applyGesture("sml");
 
+        this.getPetEntity().getData().increaseHappiness(10);
         this.increaseExperience(10);
 
         petEntity.getData().incrementScratches();

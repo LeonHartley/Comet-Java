@@ -85,6 +85,11 @@ public class HorseJumpFloorItem extends DefaultFloorItem {
         }
 
         final PetEntity petEntity = (PetEntity) entity;
+
+        if(petEntity.getMountedEntity() == null) {
+            return;
+        }
+
         final Position[] positions = this.getBarPositions();
 
         int barToFace = 0;
