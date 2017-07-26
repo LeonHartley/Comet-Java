@@ -68,7 +68,6 @@ public class HorseJumpFloorItem extends DefaultFloorItem {
         if (this.getExtraData().equals("4")) {
             // success!
             this.petEntity.getPetAI().increaseExperience(5);
-
             this.petEntity.getPetAI().applyGesture("sml");
         } else {
             // failure!
@@ -134,18 +133,18 @@ public class HorseJumpFloorItem extends DefaultFloorItem {
         this.petEntity = null;
     }
 
-//    @Override
-//    public boolean isMovementCancelled(RoomEntity entity, Position position) {
-//        final Position[] barPos = this.getBarPositions();
-//        final boolean barPosEq = (barPos[0].getX() == position.getX() && barPos[0].getY() == position.getY()) ||
-//                (barPos[1].getX() == position.getX() && barPos[1].getY() == position.getY());
-//
-//        if (entity.getMountedEntity() == null && barPosEq) {
-//            return true;
-//        }
-//
-//        return false;
-//    }
+    @Override
+    public boolean isMovementCancelled(RoomEntity entity, Position position) {
+        final Position[] barPos = this.getBarPositions();
+        final boolean barPosEq = (barPos[0].getX() == position.getX() && barPos[0].getY() == position.getY()) ||
+                (barPos[1].getX() == position.getX() && barPos[1].getY() == position.getY());
+
+        if (entity.getMountedEntity() == null && barPosEq) {
+            return true;
+        }
+
+        return false;
+    }
 
     private Position[] getBarPositions() {
         Position a = this.getPosition().copy();
