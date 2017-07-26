@@ -313,12 +313,6 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
 
     @Override
     public void addStatus(RoomEntityStatus key, String value) {
-        if(this.statuses.containsKey(RoomEntityStatus.JUMP)) {
-            if(key == RoomEntityStatus.MOVE) {
-                return;
-            }
-        }
-
         if (this.statuses.containsKey(key)) {
             this.statuses.replace(key, value);
         } else {

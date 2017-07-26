@@ -94,7 +94,7 @@ public class PetAI extends AbstractBotAI {
 
     @Override
     public void onTickComplete() {
-        if (this.playTimer != 0 || this.getPetEntity().getData().isSaddled()) {
+        if (this.playTimer != 0 || this.getPetEntity().hasMount()) {
             return;
         }
 

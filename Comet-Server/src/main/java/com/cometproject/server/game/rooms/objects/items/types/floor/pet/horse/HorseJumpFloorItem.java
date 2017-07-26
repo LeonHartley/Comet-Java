@@ -100,12 +100,12 @@ public class HorseJumpFloorItem extends DefaultFloorItem {
 
         final Position bar = this.getBarPositions()[barToFace];
 
-        entity.lookTo(bar.getX(), bar.getY());
-
         if (!entity.hasStatus(RoomEntityStatus.JUMP) && this.petEntity != entity) {
             entity.lookTo(bar.getX(), bar.getY());
-            entity.getMountedEntity().moveTo(entity.getPosition().squareInFront(entity.getBodyRotation(), 3));
-            entity.addStatus(RoomEntityStatus.JUMP, "1");
+
+            entity.getMountedEntity().moveTo(entity.getPosition().squareInFront(entity.getBodyRotation(), 4));
+            entity.addStatus(RoomEntityStatus.JUMP, "1.1");
+            entity.markNeedsUpdate();
 
             this.petEntity = petEntity;
         }
@@ -113,6 +113,7 @@ public class HorseJumpFloorItem extends DefaultFloorItem {
         if (positions[0].equals(entity.getPosition()) || positions[1].equals(entity.getPosition())) {
             if (petEntity.getData().getTypeId() == PetType.HORSE) {
                 entity.removeStatus(RoomEntityStatus.JUMP);
+                entity.markNeedsUpdate();
 
                 this.setTicks(RoomItemFactory.getProcessTime(0.5));
             }
@@ -133,18 +134,18 @@ public class HorseJumpFloorItem extends DefaultFloorItem {
         this.petEntity = null;
     }
 
-    @Override
-    public boolean isMovementCancelled(RoomEntity entity, Position position) {
-        final Position[] barPos = this.getBarPositions();
-        final boolean barPosEq = (barPos[0].getX() == position.getX() && barPos[0].getY() == position.getY()) ||
-                (barPos[1].getX() == position.getX() && barPos[1].getY() == position.getY());
-
-        if (entity.getMountedEntity() == null && barPosEq) {
-            return true;
-        }
-
-        return false;
-    }
+//    @Override
+//    public boolean isMovementCancelled(RoomEntity entity, Position position) {
+//        final Position[] barPos = this.getBarPositions();
+//        final boolean barPosEq = (barPos[0].getX() == position.getX() && barPos[0].getY() == position.getY()) ||
+//                (barPos[1].getX() == position.getX() && barPos[1].getY() == position.getY());
+//
+//        if (entity.getMountedEntity() == null && barPosEq) {
+//            return true;
+//        }
+//
+//        return false;
+//    }
 
     private Position[] getBarPositions() {
         Position a = this.getPosition().copy();

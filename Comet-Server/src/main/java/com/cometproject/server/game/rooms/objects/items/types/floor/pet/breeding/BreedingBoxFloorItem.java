@@ -124,9 +124,12 @@ public abstract class BreedingBoxFloorItem extends DefaultFloorItem {
             }
         }
 
-        if(this.getTile().getEntities().size() == 2) {
+        if(this.getTile().getEntities().size() == 2 && this.mother != null && this.father != null) {
             final PlayerEntity playerEntity = this.getRoom().getEntities().getEntityByPlayerId(this.getOwner());
-            playerEntity.getPlayer().getSession().send(new PetBreedingMessageComposer(this.getVirtualId(), this.getBabyType(), this.mother.getData(), this.father.getData()));
+
+            if(playerEntity != null) {
+                playerEntity.getPlayer().getSession().send(new PetBreedingMessageComposer(this.getVirtualId(), this.getBabyType(), this.mother.getData(), this.father.getData()));
+            }
         }
     }
 
