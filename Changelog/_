@@ -2,12 +2,12 @@ Comet 2
 ------------------------------
 - Freeze 100%
 - In-game room word filter 100%
-- Purchasable clothing //not finished, not commited
 - Update to PRODUCTION-201705151314-310198720
 - Pet breeding 100%
 - Pets eat food
-- Pets sleep // not finished, not committed
+- Pets sleep
 - Pet pterodactyl & velociraptor eggs
+- Horse jump
 
 - Command :roomoption
 - Command :emptybots
@@ -20,6 +20,11 @@ Comet 2
 - Pets now lose energy and must sleep to continue playing/training
 - Pets now gain hunger and must eat to continue playing/training
 - Pets now display their correct age
+- Items with "step-on/off" effects (e.g water patches) now function as intended
+- Freeze shields are now functional
+- Scratching pets from a distance is now more reliable
+- Banzai teleporters are now fixed
+
 
 SQL
 ------------------------------

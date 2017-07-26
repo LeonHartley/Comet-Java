@@ -120,60 +120,64 @@ public class Position implements IPosition {
     }
 
     public Position squareInFront(int angle) {
-        return calculatePosition(this.x, this.y, angle, false);
+        return calculatePosition(this.x, this.y, angle, false, 1);
+    }
+
+    public Position squareInFront(int angle, int distance) {
+        return calculatePosition(this.x, this.y, angle, false, distance);
     }
 
     public Position squareBehind(int angle) {
-        return calculatePosition(this.x, this.y, angle, true);
+        return calculatePosition(this.x, this.y, angle, true, 1);
     }
 
-    public static Position calculatePosition(int x, int y, int angle, boolean isReversed) {
+    public static Position calculatePosition(int x, int y, int angle, boolean isReversed, int distance) {
         switch (angle) {
             case 0:
                 if (!isReversed)
-                    y--;
+                    y -= distance;
                 else
-                    y++;
+                    y += distance;
                 break;
 
             case 1:
                 if (!isReversed) {
-                    x++;
-                    y--;
+                    x += distance;
+                    y -= distance;
                 } else {
-                    x--;
-                    y++;
+                    x -= distance;
+                    y += distance;
                 }
                 break;
 
             case 2:
                 if (!isReversed)
-                    x++;
+                    x += distance;
                 else
-                    x--;
+                    x -= distance;
                 break;
 
             case 3:
                 if (!isReversed) {
-                    x++;
-                    y++;
+                    x += distance;
+                    y += distance;
                 } else {
-                    x--;
-                    y--;
+                    x -= distance;
+                    y -= distance;
                 }
                 break;
 
             case 4:
                 if (!isReversed)
-                    y++;
+                    y += distance;
                 else
-                    y--;
+                    y -= distance;
                 break;
 
             case 5:
                 if (!isReversed) {
-                    x--;
-                    y++;
+                    x -= distance;
+                    y += distance;
                 } else {
                     x++;
                     y--;
@@ -182,18 +186,18 @@ public class Position implements IPosition {
 
             case 6:
                 if (!isReversed)
-                    x--;
+                    x -= distance;
                 else
-                    x++;
+                    x += distance;
                 break;
 
             case 7:
                 if (!isReversed) {
-                    x--;
-                    y--;
+                    x -= distance;
+                    y -= distance;
                 } else {
-                    x++;
-                    y++;
+                    x += distance;
+                    y += distance;
                 }
                 break;
         }
@@ -248,6 +252,14 @@ public class Position implements IPosition {
 
     public void setX(int x) {
         this.x = x;
+    }
+
+    public void incrementX(int amount) {
+        this.x += amount;
+    }
+
+    public void incrementY(int amount) {
+        this.y += amount;
     }
 
     public void setY(int y) {

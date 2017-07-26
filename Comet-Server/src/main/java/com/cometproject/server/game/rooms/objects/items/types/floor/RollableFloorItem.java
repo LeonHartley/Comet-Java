@@ -36,7 +36,7 @@ public abstract class RollableFloorItem extends RoomItemFloor {
     }
 
     public static Position calculatePosition(int x, int y, int playerRotation) {
-        return Position.calculatePosition(x, y, playerRotation, false);
+        return Position.calculatePosition(x, y, playerRotation, false, 1);
     }
 
     @Override
@@ -161,7 +161,7 @@ public abstract class RollableFloorItem extends RoomItemFloor {
         if (this.isValidRoll(this.getNextPosition(currentPosition, false))) {
             newPosition = calculatePosition(this.getPosition().getX(), this.getPosition().getY(), entity.getBodyRotation());
         } else {
-            newPosition = Position.calculatePosition(this.getPosition().getX(), this.getPosition().getY(), entity.getBodyRotation(), true);
+            newPosition = Position.calculatePosition(this.getPosition().getX(), this.getPosition().getY(), entity.getBodyRotation(), true, 1);
             this.setRotation(Direction.get(this.getRotation()).invert().num);
         }
 

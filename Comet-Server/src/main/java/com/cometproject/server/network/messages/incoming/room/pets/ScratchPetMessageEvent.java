@@ -36,10 +36,10 @@ public class ScratchPetMessageEvent implements Event {
             }
 
             if(tile != null) {
-                if(!tile.isReachable(playerEntity)) {
-                    petEntity.getPetAI().waitForInteraction();
-                    petEntity.cancelWalk();
+                petEntity.getPetAI().waitForInteraction();
+                petEntity.cancelWalk();
 
+                if(!tile.isReachable(playerEntity)) {
                     scratch(client, petEntity);
                 } else {
                     playerEntity.moveTo(position);

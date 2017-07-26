@@ -77,6 +77,10 @@ public class FreezePlayer {
         return shieldTimer;
     }
 
+    public void decrementShieldTimer() {
+        this.shieldTimer--;
+    }
+
     public int getFreezeTimer() {
         return freezeTimer;
     }

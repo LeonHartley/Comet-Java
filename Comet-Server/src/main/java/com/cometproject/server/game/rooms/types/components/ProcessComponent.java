@@ -11,6 +11,7 @@ import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.objects.items.types.floor.EffectFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.TeleportPadFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.pet.breeding.BreedingBoxFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerWalksOffFurni;
@@ -323,7 +324,9 @@ public class ProcessComponent implements CometTask {
                 RoomItemFloor topItem = this.getRoom().getItems().getFloorItem(newTile.getTopItem());
 
                 if (topItem != null) {
-                    if (topItem.getDefinition().getEffectId() != 0) {
+                    final int itemEffectId = topItem.getDefinition().getEffectId();
+
+                    if (!(topItem instanceof EffectFloorItem) && itemEffectId != 0 && (entity.getCurrentEffect() == null || entity.getCurrentEffect().getEffectId() != itemEffectId)) {
                         entity.applyEffect(new PlayerEffect(topItem.getDefinition().getEffectId(), true));
                     }
 
@@ -432,13 +435,13 @@ public class ProcessComponent implements CometTask {
 
                 for (RoomItemFloor item : preItems) {
                     if (item != null) {
-                        if (entity.getCurrentEffect() != null && entity.getCurrentEffect().getEffectId() == item.getDefinition().getEffectId()) {
+                        if (!(item instanceof EffectFloorItem) && entity.getCurrentEffect() != null && entity.getCurrentEffect().getEffectId() == item.getDefinition().getEffectId()) {
                             if (item.getId() == tile.getTopItem()) {
                                 effectNeedsRemove = false;
                             }
                         }
 
-                        if (item.isMovementCancelled(entity)) {
+                        if (item.isMovementCancelled(entity, new Position(nextSq.x, nextSq.y))) {
                             isCancelled = true;
                         }
 

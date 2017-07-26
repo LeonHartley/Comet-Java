@@ -283,6 +283,10 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
         return false;
     }
 
+    public boolean isMovementCancelled(RoomEntity entity, Position position) {
+        return this.isMovementCancelled(entity);
+    }
+
     @Override
     public boolean toggleInteract(boolean state) {
         if (!state) {

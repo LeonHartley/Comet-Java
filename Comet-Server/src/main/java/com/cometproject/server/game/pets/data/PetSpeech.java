@@ -17,14 +17,16 @@ public class PetSpeech {
     public String getMessageByType(PetMessageType type) {
         final List<String> availableMessages = messages.get(type);
 
-        if(availableMessages.size() == 0) {
-            final String genericPetMsg = PetManager.getInstance().getSpeech(-1).getMessageByType(type);
-
-            if (genericPetMsg != null) {
-                return genericPetMsg;
-            }
-
+        if(availableMessages == null || availableMessages.size() == 0) {
             return null;
+//
+//            final String genericPetMsg = PetManager.getInstance().getSpeech(-1).getMessageByType(type);
+//
+//            if (genericPetMsg != null) {
+//                return genericPetMsg;
+//            }
+//
+//            return null;
         }
 
         int index = RandomUtil.getRandomInt(0, availableMessages.size() - 1);

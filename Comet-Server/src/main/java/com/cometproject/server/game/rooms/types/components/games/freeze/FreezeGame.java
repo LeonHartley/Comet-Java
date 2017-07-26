@@ -11,6 +11,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.games.freeze
 import com.cometproject.server.game.rooms.objects.items.types.floor.games.freeze.FreezeTimerFloorItem;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.game.rooms.types.components.games.GameTeam;
 import com.cometproject.server.game.rooms.types.components.games.GameType;
 import com.cometproject.server.game.rooms.types.components.games.RoomGame;
 import com.cometproject.server.game.rooms.types.components.games.freeze.types.FreezeBall;
@@ -54,6 +55,10 @@ public class FreezeGame extends RoomGame {
                 if (freezePlayer.getFreezeTimer() <= 0 && !freezePlayer.getEntity().canWalk()) {
                     freezePlayer.getEntity().setCanWalk(true);
                 }
+            }
+
+            if(freezePlayer.getShieldTimer() > 0) {
+                freezePlayer.decrementShieldTimer();
             }
         }
 

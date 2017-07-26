@@ -38,6 +38,7 @@ import com.cometproject.server.game.rooms.objects.items.types.wall.PostItWallIte
 import com.cometproject.server.game.rooms.objects.items.types.wall.WheelWallItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.storage.queue.types.ItemStorageQueue;
+import javafx.scene.effect.Effect;
 import org.apache.log4j.Logger;
 
 import java.util.HashMap;
@@ -192,6 +193,9 @@ public class RoomItemFactory {
             put("cannon", CannonFloorItem.class);
 
             put("horse_jump", HorseJumpFloorItem.class);
+
+            put("water", WaterFloorItem.class);
+            put("effect", EffectFloorItem.class);
 
             put("freeze_timer", FreezeTimerFloorItem.class);
             put("freeze_gate", FreezeGateFloorItem.class);

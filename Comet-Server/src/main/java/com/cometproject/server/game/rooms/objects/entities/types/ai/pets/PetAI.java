@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.objects.entities.types.ai.pets;
 
+import com.cometproject.server.game.pets.PetManager;
 import com.cometproject.server.game.pets.commands.PetCommandManager;
 import com.cometproject.server.game.pets.data.PetMessageType;
 import com.cometproject.server.game.pets.data.PetSpeech;
@@ -51,7 +52,7 @@ public class PetAI extends AbstractBotAI {
     public PetAI(RoomEntity entity) {
         super(entity);
 
-        this.setTicksUntilCompleteInSeconds(25);
+        this.setTicksUntilCompleteInSeconds(RandomUtil.getRandomInt(0,50));
     }
 
     @Override
@@ -380,7 +381,13 @@ public class PetAI extends AbstractBotAI {
     }
 
     private PetSpeech getPetSpeech() {
-        return this.getPetEntity().getData().getSpeech();
+        final PetSpeech petSpeech = this.getPetEntity().getData().getSpeech();
+
+        if(petSpeech == null) {
+            return PetManager.getInstance().getSpeech(-1);
+        }
+
+        return petSpeech;
     }
 
     private String getMessage(PetMessageType type) {
@@ -389,6 +396,10 @@ public class PetAI extends AbstractBotAI {
         }
 
         String message = this.getPetSpeech().getMessageByType(type);
+
+        if(message == null) {
+            return null;
+        }
 
         if (message.contains("%ownerName%")) {
             if (this.ownerName.isEmpty()) {
