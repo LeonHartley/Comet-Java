@@ -84,7 +84,7 @@ public class PlayerLoginRequest implements CometTask {
 
         Session cloneSession = NetworkManager.getInstance().getSessions().getByPlayerId(player.getId());
 
-        if (cloneSession != null && cloneSession.getPlayer() != null && cloneSession.getPlayer().getSession() != null) {
+        if (cloneSession != null && cloneSession.getPlayer() != null && cloneSession.getPlayer().getData() != null) {
             player.setData(cloneSession.getPlayer().getData());
             cloneSession.disconnect();
         }
