@@ -814,4 +814,8 @@ public class Player implements BasePlayer {
     public void setBotsMuted(boolean botsMuted) {
         this.botsMuted = botsMuted;
     }
+
+    public void setData(PlayerData playerData) {
+        this.data = playerData;
+    }
 }
