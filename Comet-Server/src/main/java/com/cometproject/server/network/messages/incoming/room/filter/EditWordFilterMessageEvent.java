@@ -26,6 +26,8 @@ public class EditWordFilterMessageEvent implements Event {
         final boolean add = msg.readBoolean();
         final String word = msg.readString();
 
+        // todo: word filter word max length 25
+
         if(!add) {
             room.getFilter().remove(word);
         } else {

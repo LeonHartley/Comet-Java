@@ -36,7 +36,7 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
 
     private Square futureSquare;
 
-    private int stepsToGoal;
+    private int previousSteps = 0;
 
     private int idleTime;
     private int signTime;
@@ -108,8 +108,6 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
 
         this.doorbellAnswered = false;
 
-        this.stepsToGoal = 0;
-
         if (this.getRoom().hasRoomMute()) {
             this.isRoomMuted = true;
         }
@@ -150,6 +148,8 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
             return;
         }
 
+        this.previousSteps = 0;
+
         // reassign the position values if they're set to redirect
         if (tile.getRedirect() != null) {
             x = tile.getRedirect().getX();
@@ -187,25 +187,23 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
                 return;
             }
         }
-
-        if(this.isFastWalkEnabled()) {
-            List<Square> newPath = new ArrayList<>();
-
-            boolean add = false;
-            for(Square square : path) {
-                if(add) {
-                    newPath.add(square);
-                    add = false;
-                } else {
-                    add = true;
-                }
-            }
-
-            path.clear();
-            path = newPath;
-        }
-
-        this.stepsToGoal = path.size();
+//
+//        if(this.isFastWalkEnabled()) {
+//            List<Square> newPath = new ArrayList<>();
+//
+//            boolean add = false;
+//            for(Square square : path) {
+//                if(add) {
+//                    newPath.add(square);
+//                    add = false;
+//                } else {
+//                    add = true;
+//                }
+//            }
+//
+//            path.clear();
+//            path = newPath;
+//        }
 
         // UnIdle the user and set the path (if the path has nodes it will mean the user is walking)
         this.unIdle();
@@ -748,5 +746,13 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
 
     public void setWarped(boolean warped) {
         isWarped = warped;
+    }
+
+    public int getPreviousSteps() {
+        return previousSteps;
+    }
+
+    public void incrementPreviousSteps() {
+        this.previousSteps++;
     }
 }

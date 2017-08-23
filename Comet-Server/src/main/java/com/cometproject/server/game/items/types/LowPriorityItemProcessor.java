@@ -14,14 +14,14 @@ import java.util.concurrent.TimeUnit;
 
 public class LowPriorityItemProcessor implements CometTask {
     private final ScheduledExecutorService asyncItemEventQueue;
-    private static final int processTime = 50;
+    private static final int processTime = 25;
 
     private List<RoomItemFloor> itemsToProcess;
 
     private final Logger log = Logger.getLogger(LowPriorityItemProcessor.class);
 
     public LowPriorityItemProcessor() {
-        this.asyncItemEventQueue = Executors.newScheduledThreadPool(2, new NamedThreadFactory("LowPriorityItemProcessor-%d"));
+        this.asyncItemEventQueue = Executors.newScheduledThreadPool(4, new NamedThreadFactory("LowPriorityItemProcessor-%d"));
         this.itemsToProcess = new CopyOnWriteArrayList<>();
 
         this.asyncItemEventQueue.scheduleWithFixedDelay(this, processTime, processTime, TimeUnit.MILLISECONDS);

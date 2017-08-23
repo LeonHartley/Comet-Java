@@ -22,6 +22,8 @@ public abstract class Pathfinder {
     public List<Square> makePath(RoomObject roomFloorObject, Position end, byte pathfinderMode, boolean isRetry) {
         List<Square> squares = new CopyOnWriteArrayList<>();
 
+        final long startTime = System.currentTimeMillis();
+
         PathfinderNode nodes = makePathReversed(roomFloorObject, end, pathfinderMode, isRetry);
 
         if (nodes != null) {
@@ -30,6 +32,8 @@ public abstract class Pathfinder {
                 nodes = nodes.getNextNode();
             }
         }
+
+        System.out.println("pathfinding took " + (System.currentTimeMillis() - startTime) + "ms");
 
         return Lists.reverse(squares);
     }

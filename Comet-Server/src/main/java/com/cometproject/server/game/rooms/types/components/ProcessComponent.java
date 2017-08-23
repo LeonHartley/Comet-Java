@@ -50,6 +50,8 @@ public class ProcessComponent implements CometTask {
     private List<PlayerEntity> playersToRemove;
     private List<RoomEntity> entitiesToUpdate;
 
+    private boolean update = false;
+
     public ProcessComponent(Room room) {
         this.room = room;
         this.log = Logger.getLogger("Room Process [" + room.getData().getName() + ", #" + room.getId() + "]");
@@ -66,6 +68,8 @@ public class ProcessComponent implements CometTask {
 
         this.isProcessing = true;
 
+        update = !update;
+
         long timeSinceLastProcess = this.lastProcess == 0 ? 0 : (System.currentTimeMillis() - this.lastProcess);
         this.lastProcess = System.currentTimeMillis();
 
@@ -76,7 +80,8 @@ public class ProcessComponent implements CometTask {
         long timeStart = System.currentTimeMillis();
 
         try {
-            this.getRoom().tick();
+            if(this.update)
+                this.getRoom().tick();
         } catch (Exception e) {
             log.error("Error while cycling room: " + room.getData().getId() + ", " + room.getData().getName(), e);
         }
@@ -88,7 +93,8 @@ public class ProcessComponent implements CometTask {
             entitiesToUpdate = new ArrayList<>();
 
             for (RoomEntity entity : entities.values()) {
-               this.startProcessing(entity);
+                if(entity.isFastWalkEnabled() || this.update)
+                    this.startProcessing(entity);
             }
 
             // only send the updates if we need to
@@ -144,9 +150,9 @@ public class ProcessComponent implements CometTask {
         }
 
         if (this.adaptiveProcessTimes) {
-            CometThreadManager.getInstance().executeSchedule(this, 500, TimeUnit.MILLISECONDS);
+            CometThreadManager.getInstance().executeSchedule(this, 250, TimeUnit.MILLISECONDS);
         } else {
-            this.processFuture = CometThreadManager.getInstance().executePeriodic(this, 500, 500, TimeUnit.MILLISECONDS);
+            this.processFuture = CometThreadManager.getInstance().executePeriodic(this, 250, 250, TimeUnit.MILLISECONDS);
         }
 
         this.active = true;
@@ -304,14 +310,9 @@ public class ProcessComponent implements CometTask {
             }
 
             // Step-on
-            RoomItemFloor oldItem = null;
             int index = 0;
 
             for (RoomItemFloor item : itemsOnSq) {
-                if (itemsOnOldSq.size() > index) {
-                    oldItem = itemsOnOldSq.get(index);
-                }
-
                 index++;
 
                 if (entity instanceof PlayerEntity) {
@@ -405,6 +406,7 @@ public class ProcessComponent implements CometTask {
 
         if (entity.isWalking()) {
             Square nextSq = entity.getProcessingPath().get(0);
+            entity.incrementPreviousSteps();
 
             if (entity.getProcessingPath().size() > 1)
                 entity.setFutureSquare(entity.getProcessingPath().get(1));

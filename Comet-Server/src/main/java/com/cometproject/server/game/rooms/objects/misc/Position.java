@@ -6,9 +6,20 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 
 
 public class Position implements IPosition {
+    public static final int NORTH = 0;
+    public static final int NORTH_EAST = 1;
+    public static final int EAST = 2;
+    public static final int SOUTH_EAST = 3;
+    public static final int SOUTH = 4;
+    public static final int SOUTH_WEST = 5;
+    public static final int WEST = 6;
+    public static final int NORTH_WEST = 7;
+
     private int x;
     private int y;
     private double z;
+
+    private int flag = -1;
 
     public Position(int x, int y, double z) {
         this.x = x;
@@ -129,6 +140,29 @@ public class Position implements IPosition {
 
     public Position squareBehind(int angle) {
         return calculatePosition(this.x, this.y, angle, true, 1);
+    }
+
+    public static int getInvertedRotation(int currentRotation) {
+        switch (currentRotation) {
+            case NORTH_EAST:
+                return NORTH_WEST;
+            case NORTH_WEST:
+                return SOUTH_WEST;
+            case SOUTH_WEST:
+                return NORTH_WEST;
+            case SOUTH_EAST:
+                return NORTH_EAST;
+            case NORTH:
+                return SOUTH;
+            case SOUTH:
+                return NORTH;
+            case EAST:
+                return WEST;
+            case WEST:
+                return EAST;
+        }
+
+        return currentRotation;
     }
 
     public static Position calculatePosition(int x, int y, int angle, boolean isReversed, int distance) {
@@ -282,5 +316,13 @@ public class Position implements IPosition {
     @Override
     public int hashCode() {
         return 0;
+    }
+
+    public int getFlag() {
+        return flag;
+    }
+
+    public void setFlag(int flag) {
+        this.flag = flag;
     }
 }
