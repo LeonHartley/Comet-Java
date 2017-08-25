@@ -1,11 +1,16 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.games.banzai;
 
+import com.cometproject.server.game.items.types.LowPriorityItemProcessor;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.objects.items.events.AbstractItemEvent;
+import com.cometproject.server.game.rooms.objects.items.types.AdvancedFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.RollableFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.state.FloorItemEvent;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorItemMessageComposer;
 import com.cometproject.server.utilities.RandomUtil;
 
@@ -23,6 +28,11 @@ public class BanzaiTeleporterFloorItem extends RoomItemFloor {
     public BanzaiTeleporterFloorItem(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
     }
+
+//    @Override
+//    protected void onEventComplete(BanzaiTeleportEvent event) {
+//
+//    }
 
     @Override
     public void onItemAddedToStack(RoomItemFloor floorItem) {
@@ -84,7 +94,7 @@ public class BanzaiTeleporterFloorItem extends RoomItemFloor {
         this.stage = 1;
 
         entity.cancelWalk();
-        this.setTicks(RoomItemFactory.getProcessTime(0.5));
+        this.setTicks(LowPriorityItemProcessor.getProcessTime(0.5));
     }
 
     private Position findPosition() {
@@ -121,21 +131,44 @@ public class BanzaiTeleporterFloorItem extends RoomItemFloor {
                 this.getRoom().getEntities().broadcastMessage(new UpdateFloorItemMessageComposer(floorItem));
             }
 
+            if(this.entity != null) {
+//                final RoomTile tile = this.getRoom().getMapping().getTile(this.teleportPosition);
+
+                this.entity.warp(this.teleportPosition.copy(), false);
+//                tile.getTopItemInstance().onEntityStepOn(this.entity);
+
+                this.entity = null;
+            }
+
             this.teleportPosition = null;
 
-            this.setTicks(RoomItemFactory.getProcessTime(0.5));
+            this.setTicks(LowPriorityItemProcessor.getProcessTime(0.5));
             this.stage = 0;
             return;
         } else if (this.stage == 2) {
             this.setExtraData("1");
             this.sendUpdate();
 
-            this.setTicks(RoomItemFactory.getProcessTime(0.5));
+            this.setTicks(LowPriorityItemProcessor.getProcessTime(0.5));
             this.stage = 0;
             return;
         }
 
         this.setExtraData("0");
         this.sendUpdate();
+    }
+
+    public class BanzaiTeleportEvent extends FloorItemEvent {
+
+        protected static final int OUTGOING = 2;
+        protected static final int INCOMING = 1;
+
+        private final int event;
+
+        protected BanzaiTeleportEvent(int event) {
+            super(1);
+
+            this.event = event;
+        }
     }
 }

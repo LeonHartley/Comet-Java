@@ -142,8 +142,19 @@ delay: 169ms
 
         this.rollStage++;
 
+        System.out.println(rollStage);
         boolean isStart = this.rollStage == 1;
         boolean isLast = this.rollStage >= KICK_POWER;
+//
+//        int maxSteps = isStart ? 3 : 2;
+//        int stepsTaken = 1;
+//
+//        Position position = this.getNextPosition();
+//
+//        for (int i = this.rollStage; i < KICK_POWER; i++) {
+//
+//
+//        }
 
         if (isStart) {
             // the first roll... let's do some magic.
@@ -151,17 +162,17 @@ delay: 169ms
             int tiles = 1;
             Position position = this.getNextPosition();
 
-            int count = isStart ? 3 : 2;
+            int count = isStart ? 2 : 2;
 
             // can we skip some tiles?
-            for (int i = 0; i < count; i++) {
+            for (int i = 0; i < count && (this.rollStage + i < KICK_POWER); i++) {
                 Position nextPosition = this.getNextPosition(position.getFlag(), position.squareInFront(position.getFlag()));
 
-                if(!this.isValidRoll(nextPosition)) {
+                if (!this.isValidRoll(nextPosition)) {
                     break;
                 }
 
-                if (nextPosition.getFlag() != this.getRotation() || (this.rollStage + tiles) > KICK_POWER) {
+                if (nextPosition.getFlag() != this.getRotation() || (this.rollStage + i) > KICK_POWER) {
                     // we hit a snag
                     break;
                 }
@@ -174,16 +185,15 @@ delay: 169ms
                 position.setFlag(kickerEntity.getBodyRotation());
             }
 
-            this.rollStage += position.distanceTo(this.getPosition());
+            double distanceMoved = position.distanceTo(this.getPosition());
+            this.rollStage += distanceMoved;
 
-//            if (position.getFlag() == this.getRotation()) {
+            this.setExtraData("55");
+            this.sendUpdate();
 
-                this.setExtraData("55");
-                this.sendUpdate();
-
-                this.moveTo(position, position.getFlag());
-                this.setTicks(LowPriorityItemProcessor.getProcessTime(this.getDelay(this.rollStage) * tiles));
-//            }
+            this.moveTo(position, position.getFlag());
+            System.out.println(tiles);
+            this.setTicks(LowPriorityItemProcessor.getProcessTime(tiles == 1 ? 0.45 : 0.55 * tiles));
         } else {
             Position nextPosition = this.getNextPosition();
             Position newPosition;
@@ -195,7 +205,6 @@ delay: 169ms
             }
 
             if (!this.isValidRoll(newPosition)) {
-                System.out.println("this position is not valid " + newPosition.toString());
                 return;
             }
 
@@ -203,7 +212,8 @@ delay: 169ms
                 newPosition.setFlag(kickerEntity.getBodyRotation());
             }
 
-            this.setExtraData("11");
+            this.setExtraData((KICK_POWER - (this.rollStage - 1) == 0 ? 3 : (KICK_POWER - (this.rollStage - 1)) * 11));
+            System.out.println("setting extradata " + this.getExtraData());
             this.sendUpdate();
 
             this.moveTo(newPosition, newPosition.getFlag());
@@ -291,10 +301,10 @@ delay: 169ms
                         break;
 
                     case Position.NORTH_WEST:
-                        rotation = Position.SOUTH_EAST;
+                        rotation = Position.SOUTH_WEST;
 
                         if (!this.isValidRoll(position.squareInFront(rotation))) {
-                            rotation = Position.SOUTH_WEST;
+                            rotation = Position.SOUTH_EAST;
                         }
                         break;
                 }
@@ -397,7 +407,14 @@ delay: 169ms
     }
 
     private double getDelay(int i) {
-        return 0.2;
+        if (i == 5) {
+            return 0.85;
+        } else if (i == 6) {
+            return 1.2;
+        }
+
+//        System.out.println(i);
+        return 0.35;
     }
 
     public RoomEntity getPusher() {

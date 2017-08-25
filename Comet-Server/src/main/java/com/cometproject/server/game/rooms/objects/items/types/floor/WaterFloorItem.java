@@ -17,7 +17,7 @@ public class WaterFloorItem extends RoomItemFloor {
             return;
         }
 
-        entity.addStatus(RoomEntityStatus.SWIM, "");
+        entity.addStatus(RoomEntityStatus.SWIM, "0");
         entity.markNeedsUpdate();
     }
 

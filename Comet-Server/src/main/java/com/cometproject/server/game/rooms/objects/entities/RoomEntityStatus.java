@@ -13,7 +13,7 @@ public enum RoomEntityStatus {
     PLAY_DEAD("ded"),
     JUMP("jmp"),
     EAT("eat"),
-    SWIM("swm");
+    SWIM("dip");
 
     private final String statusCode;
 
