@@ -41,18 +41,11 @@ public abstract class RollableFloorItem extends RoomItemFloor {
     public static void roll(RoomItemFloor item, Position from, Position to, Room room) {
         final RollableFloorItem rollableFloorItem = (RollableFloorItem) item;
 
-        if (rollableFloorItem.animationMode > 1) {
-            rollableFloorItem.animationMode -= 1;
-
-            item.setExtraData(rollableFloorItem.animationMode * 11);
-        }
-
         final Map<Integer, Double> items = new HashMap<>();
 
         items.put(item.getVirtualId(), item.getPosition().getZ());
-
         room.getEntities().broadcastMessage(new SlideObjectBundleMessageComposer(from.copy(), to.copy(), item.getVirtualId(), 0, items));
-        item.sendUpdate();
+//        item.sendUpdate();
 
         /*
 [1503332665217] Incoming: [1092]: [0][0][0][11][4]D[2][1][0][0][2]@[0]
@@ -149,28 +142,73 @@ delay: 169ms
 
         this.rollStage++;
 
-        Position currentPosition = new Position(this.getPosition().getX(), this.getPosition().getY(), this.getPosition().getZ());
+        boolean isStart = this.rollStage == 1;
+        boolean isLast = this.rollStage >= KICK_POWER;
 
-        Position nextPosition = this.getNextPosition();
-        Position newPosition;
+        if (isStart) {
+            // the first roll... let's do some magic.
 
-        if (this.isValidRoll(nextPosition)) {
-            newPosition = nextPosition;
+            int tiles = 1;
+            Position position = this.getNextPosition();
+
+            int count = isStart ? 3 : 2;
+
+            // can we skip some tiles?
+            for (int i = 0; i < count; i++) {
+                Position nextPosition = this.getNextPosition(position.getFlag(), position.squareInFront(position.getFlag()));
+
+                if(!this.isValidRoll(nextPosition)) {
+                    break;
+                }
+
+                if (nextPosition.getFlag() != this.getRotation() || (this.rollStage + tiles) > KICK_POWER) {
+                    // we hit a snag
+                    break;
+                }
+
+                tiles = i;
+                position = nextPosition;
+            }
+
+            if (position.getFlag() == -1) {
+                position.setFlag(kickerEntity.getBodyRotation());
+            }
+
+            this.rollStage += position.distanceTo(this.getPosition());
+
+//            if (position.getFlag() == this.getRotation()) {
+
+                this.setExtraData("55");
+                this.sendUpdate();
+
+                this.moveTo(position, position.getFlag());
+                this.setTicks(LowPriorityItemProcessor.getProcessTime(this.getDelay(this.rollStage) * tiles));
+//            }
         } else {
-            newPosition = this.getNextPosition();
-        }
+            Position nextPosition = this.getNextPosition();
+            Position newPosition;
 
-        if (!this.isValidRoll(newPosition)) {
-            System.out.println("this position is not valid " + newPosition.toString());
-            return;
-        }
+            if (this.isValidRoll(nextPosition)) {
+                newPosition = nextPosition;
+            } else {
+                newPosition = this.getNextPosition();
+            }
 
-        if (newPosition.getFlag() == -1) {
-            newPosition.setFlag(kickerEntity.getBodyRotation());
-        }
+            if (!this.isValidRoll(newPosition)) {
+                System.out.println("this position is not valid " + newPosition.toString());
+                return;
+            }
 
-        this.moveTo(newPosition, newPosition.getFlag());
-        this.setTicks(LowPriorityItemProcessor.getProcessTime(this.getDelay(this.rollStage)));
+            if (newPosition.getFlag() == -1) {
+                newPosition.setFlag(kickerEntity.getBodyRotation());
+            }
+
+            this.setExtraData("11");
+            this.sendUpdate();
+
+            this.moveTo(newPosition, newPosition.getFlag());
+            this.setTicks(LowPriorityItemProcessor.getProcessTime(this.getDelay(this.rollStage)));
+        }
     }
 
     private boolean isValidRoll(int x, int y) {
@@ -193,10 +231,11 @@ delay: 169ms
         return false;
     }
 
-    private Position getNextPosition() {
-        int rotation = this.getRotation();
-        Position position = this.getPosition().squareInFront(rotation);
+    public Position getNextPosition() {
+        return this.getNextPosition(this.getRotation(), this.getPosition().squareInFront(this.getRotation()));
+    }
 
+    private Position getNextPosition(int rotation, Position position) {
         if (!this.isValidRoll(position)) {
             rotation = Position.getInvertedRotation(rotation);
             position = this.getPosition().squareInFront(rotation);
@@ -211,10 +250,10 @@ delay: 169ms
                         break;
 
                     case Position.NORTH_EAST:
-                        rotation = Position.NORTH_WEST;
+                        rotation = Position.SOUTH_EAST;
 
                         if (!this.isValidRoll(position.squareInFront(rotation))) {
-                            rotation = Position.SOUTH_EAST;
+                            rotation = Position.SOUTH_WEST;
                         }
 
                         break;
@@ -242,7 +281,7 @@ delay: 169ms
                     case Position.SOUTH_WEST:
                         rotation = Position.NORTH_WEST;
 
-                        if(!this.isValidRoll(position.squareInFront(rotation))) {
+                        if (!this.isValidRoll(position.squareInFront(rotation))) {
                             rotation = Position.SOUTH_EAST;
                         }
                         break;
@@ -252,10 +291,10 @@ delay: 169ms
                         break;
 
                     case Position.NORTH_WEST:
-                        rotation =  Position.SOUTH_WEST;
+                        rotation = Position.SOUTH_EAST;
 
                         if (!this.isValidRoll(position.squareInFront(rotation))) {
-                            rotation = Position.NORTH_EAST;
+                            rotation = Position.SOUTH_WEST;
                         }
                         break;
                 }
@@ -282,8 +321,6 @@ delay: 169ms
         }
 
         this.isRolling = true;
-
-        Position currentPosition = new Position(this.getPosition().getX(), this.getPosition().getY(), this.getPosition().getZ());
 
         Position newPosition;
 
@@ -360,12 +397,7 @@ delay: 169ms
     }
 
     private double getDelay(int i) {
-        /*if(i < 2) {
-            return 0.125;
-        }*/
-
-        // slow it down so we can see where exactly the ball is going
-        return 0.3;
+        return 0.2;
     }
 
     public RoomEntity getPusher() {
