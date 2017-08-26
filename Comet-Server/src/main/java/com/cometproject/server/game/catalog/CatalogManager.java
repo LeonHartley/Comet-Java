@@ -1,10 +1,7 @@
 package com.cometproject.server.game.catalog;
 
 import com.cometproject.server.game.catalog.purchase.OldCatalogPurchaseHandler;
-import com.cometproject.server.game.catalog.types.CatalogFrontPageEntry;
-import com.cometproject.server.game.catalog.types.CatalogItem;
-import com.cometproject.server.game.catalog.types.CatalogOffer;
-import com.cometproject.server.game.catalog.types.CatalogPage;
+import com.cometproject.server.game.catalog.types.*;
 import com.cometproject.server.storage.queries.catalog.CatalogDao;
 import com.cometproject.server.utilities.Initialisable;
 import com.google.common.collect.Lists;
@@ -56,7 +53,10 @@ public class CatalogManager implements Initialisable {
      */
     private final List<CatalogFrontPageEntry> frontPageEntries = new ArrayList<>();
 
-
+    /**
+     * Redeemable clothing items
+     */
+    private final Map<String, ClothingItem> clothingItems = Maps.newConcurrentMap();
 
     /**
      * The handler of everything catalog-purchase related
@@ -86,6 +86,7 @@ public class CatalogManager implements Initialisable {
 
         this.loadItemsAndPages();
         this.loadGiftBoxes();
+        this.loadClothingItems();
 
         log.info("CatalogManager initialized");
     }
@@ -149,6 +150,15 @@ public class CatalogManager implements Initialisable {
 
         CatalogDao.loadGiftBoxes(this.giftBoxesOld, this.giftBoxesNew);
         log.info("Loaded " + (this.giftBoxesNew.size() + this.giftBoxesOld.size()) + " gift wrappings");
+    }
+
+    private void loadClothingItems() {
+        if(this.clothingItems.size() >= 1) {
+            this.clothingItems.clear();
+        }
+
+        CatalogDao.getClothing(this.clothingItems);
+        log.info("Loaded " + clothingItems.size() + " clothing items");
     }
 
     /**
@@ -289,7 +299,15 @@ public class CatalogManager implements Initialisable {
         return giftBoxesOld;
     }
 
+    /**
+     * List all front page entries
+     * @return List of all front page entries
+     */
     public List<CatalogFrontPageEntry> getFrontPageEntries() {
         return this.frontPageEntries;
+    }
+
+    public Map<String, ClothingItem> getClothingItems() {
+        return this.clothingItems;
     }
 }

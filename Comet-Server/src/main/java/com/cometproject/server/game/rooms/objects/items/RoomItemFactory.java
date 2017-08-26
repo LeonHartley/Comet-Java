@@ -202,6 +202,8 @@ public class RoomItemFactory {
             put("freeze_tile", FreezeTileFloorItem.class);
             put("freeze_block", FreezeBlockFloorItem.class);
             put("freeze_exit", FreezeExitFloorItem.class);
+
+            put("clothing", ClothingFloorItem.class);
         }};
     }
 

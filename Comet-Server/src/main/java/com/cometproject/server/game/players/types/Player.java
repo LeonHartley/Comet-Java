@@ -63,6 +63,7 @@ public class Player implements BasePlayer {
     private final QuestComponent quests;
     private final AchievementComponent achievements;
     private final NavigatorComponent navigator;
+    private final WardrobeComponent wardrobe;
 
     private List<Integer> rooms = new ArrayList<>();
     private List<Integer> enteredRooms = new ArrayList<>();
@@ -163,6 +164,7 @@ public class Player implements BasePlayer {
         this.quests = new QuestComponent(this);
         this.achievements = new AchievementComponent(this);
         this.navigator = new NavigatorComponent(this);
+        this.wardrobe = new WardrobeComponent(this);
 
         this.groups = GroupDao.getIdsByPlayerId(this.id);
 
@@ -817,5 +819,9 @@ public class Player implements BasePlayer {
 
     public void setData(PlayerData playerData) {
         this.data = playerData;
+    }
+
+    public WardrobeComponent getWardrobe() {
+        return wardrobe;
     }
 }

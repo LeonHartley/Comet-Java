@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.objects.entities.pathfinding;
 
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.rooms.objects.RoomObject;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
@@ -33,7 +34,7 @@ public abstract class Pathfinder {
             }
         }
 
-        System.out.println("pathfinding took " + (System.currentTimeMillis() - startTime) + "ms");
+        //("pathfinding took " + (System.currentTimeMillis() - startTime) + "ms");
 
         return Lists.reverse(squares);
     }

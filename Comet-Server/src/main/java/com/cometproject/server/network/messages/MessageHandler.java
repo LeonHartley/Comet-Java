@@ -90,6 +90,7 @@ import com.cometproject.server.network.messages.incoming.user.details.*;
 import com.cometproject.server.network.messages.incoming.user.inventory.*;
 import com.cometproject.server.network.messages.incoming.user.profile.*;
 import com.cometproject.server.network.messages.incoming.user.wardrobe.ChangeLooksMessageEvent;
+import com.cometproject.server.network.messages.incoming.user.wardrobe.RedeemClothingMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.wardrobe.SaveWardrobeMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.wardrobe.WardrobeMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.youtube.LoadPlaylistMessageEvent;
@@ -256,6 +257,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.SetMessengerInviteStatusMessageEvent, new IgnoreInvitationsMessageEvent());
         this.getMessages().put(Events.ChangeNameMessageEvent, new ChangeNameMessageEvent());
         this.getMessages().put(Events.CheckValidNameMessageEvent, new CheckValidNameMessageEvent());
+        this.getMessages().put(Events.RedeemClothingMessageEvent, new RedeemClothingMessageEvent());
     }
 
     public void registerBots() {

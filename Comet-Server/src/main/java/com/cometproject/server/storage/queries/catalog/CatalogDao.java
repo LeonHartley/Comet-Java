@@ -6,6 +6,7 @@ import com.cometproject.server.game.catalog.purchase.OldCatalogPurchaseHandler;
 import com.cometproject.server.game.catalog.types.CatalogFrontPageEntry;
 import com.cometproject.server.game.catalog.types.CatalogItem;
 import com.cometproject.server.game.catalog.types.CatalogPage;
+import com.cometproject.server.game.catalog.types.ClothingItem;
 import com.cometproject.server.storage.SqlHelper;
 
 import java.sql.Connection;
@@ -193,6 +194,43 @@ public class CatalogDao {
             while (resultSet.next()) {
                 frontPageEntries.add(new CatalogFrontPageEntry(resultSet.getInt("id"), resultSet.getString("caption"),
                         resultSet.getString("image"), resultSet.getString("page_link"), resultSet.getInt("page_id")));
+            }
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(resultSet);
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+    }
+
+    public static void getClothing(Map<String, ClothingItem> clothingItems) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("SELECT * FROM catalog_clothing", sqlConnection);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                final String itemsStr = resultSet.getString("clothing_items").replace(" ", "");
+
+                if(itemsStr.equals("")) {
+                    continue;
+                }
+
+                final String itemName = resultSet.getString("item_name");
+                final String[] itemsStrArray = itemsStr.split(",");
+                int[] items = new int[itemsStrArray.length];
+
+                for(int i = 0; i < itemsStrArray.length; i++) {
+                    items[i] = Integer.parseInt(itemsStrArray[i]);
+                }
+
+                clothingItems.put(itemName, new ClothingItem(itemName, items));
             }
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);
