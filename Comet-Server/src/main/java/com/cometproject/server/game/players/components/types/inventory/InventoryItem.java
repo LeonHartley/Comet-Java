@@ -10,6 +10,7 @@ import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.items.rares.LimitedEditionItemData;
 import com.cometproject.server.game.items.types.ItemDefinition;
+import com.cometproject.server.game.items.types.ItemType;
 import com.cometproject.server.utilities.JsonUtil;
 import org.apache.commons.lang.StringUtils;
 
@@ -61,6 +62,35 @@ public class InventoryItem implements PlayerItem {
     }
 
     public void compose(IComposer msg) {
+        if(this.getDefinition().getItemType() == ItemType.WALL) {
+            msg.writeInt(this.getVirtualId());
+            msg.writeString(this.getDefinition().getType().toUpperCase());
+            msg.writeInt(this.getVirtualId());
+            msg.writeInt(this.getDefinition().getSpriteId());
+
+            if (this.getDefinition().getItemName().contains("a2")) {
+                msg.writeInt(3);
+            } else if (this.getDefinition().getItemName().contains("wallpaper")) {
+                msg.writeInt(2);
+            } else if (this.getDefinition().getItemName().contains("landscape")) {
+                msg.writeInt(4);
+            } else {
+                msg.writeInt(1);
+            }
+
+            msg.writeInt(0);
+            msg.writeString(this.getExtraData());
+
+            msg.writeBoolean(this.getDefinition().canRecycle());
+            msg.writeBoolean(this.getDefinition().canTrade());
+            msg.writeBoolean(this.getDefinition().canInventoryStack());
+            msg.writeBoolean(this.getDefinition().canMarket());
+            msg.writeInt(-1);
+            msg.writeBoolean(false);
+            msg.writeInt(-1);
+            return;
+        }
+
         final boolean isGift = this.getGiftData() != null;
         final boolean isGroupItem = this.getDefinition().getInteraction().equals("group_item") || this.getDefinition().getInteraction().equals("group_gate");
         final boolean isLimited = this.getLimitedEditionItem() != null;

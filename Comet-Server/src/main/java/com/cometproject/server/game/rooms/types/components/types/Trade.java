@@ -68,8 +68,8 @@ public class Trade {
             user2.markNeedsUpdate();
         }
 
-        user1.getPlayer().getSession().send(new InventoryMessageComposer(user1.getPlayer().getInventory()));
-        user2.getPlayer().getSession().send(new InventoryMessageComposer(user2.getPlayer().getInventory()));
+        user1.getPlayer().getSession().getPlayer().getInventory().send();//send(new InventoryMessageComposer(user1.getPlayer().getInventory()));
+        user2.getPlayer().getSession().getPlayer().getInventory().send();//new InventoryMessageComposer(user2.getPlayer().getInventory()));
 
         sendToUsers(new TradeStartMessageComposer(user1.getPlayer().getId(), user2.getPlayer().getId()));
     }

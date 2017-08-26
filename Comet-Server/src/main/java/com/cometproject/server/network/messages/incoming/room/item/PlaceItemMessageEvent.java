@@ -56,7 +56,7 @@ public class PlaceItemMessageEvent implements Event {
                     return;
                 }
 
-                PlayerItem item = client.getPlayer().getInventory().getWallItem(itemId);
+                PlayerItem item = client.getPlayer().getInventory().getItem(itemId);
 
                 if (item == null) {
                     return;
@@ -74,7 +74,7 @@ public class PlaceItemMessageEvent implements Event {
                     return;
                 }
 
-                PlayerItem item = client.getPlayer().getInventory().getFloorItem(itemId);
+                PlayerItem item = client.getPlayer().getInventory().getItem(itemId);
 
                 if (item == null) {
                     return;

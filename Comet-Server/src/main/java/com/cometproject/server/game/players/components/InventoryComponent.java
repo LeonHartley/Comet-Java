@@ -15,6 +15,7 @@ import com.cometproject.server.network.messages.outgoing.catalog.UnseenItemsMess
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.wired.WiredRewardMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.BadgeInventoryMessageComposer;
+import com.cometproject.server.network.messages.outgoing.user.inventory.InventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.RemoveObjectFromInventoryMessageComposer;
 import com.cometproject.server.storage.queries.achievements.PlayerAchievementDao;
 import com.cometproject.server.storage.queries.player.inventory.InventoryDao;
@@ -28,8 +29,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public class InventoryComponent implements PlayerInventory {
     private Player player;
 
-    private Map<Long, PlayerItem> floorItems;
-    private Map<Long, PlayerItem> wallItems;
+    private Map<Long, PlayerItem> inventoryItems;
+
     private Map<String, Integer> badges;
 
     private boolean itemsLoaded = false;
@@ -39,8 +40,8 @@ public class InventoryComponent implements PlayerInventory {
     public InventoryComponent(Player player) {
         this.player = player;
 
-        this.floorItems = new ConcurrentHashMap<>();
-        this.wallItems = new ConcurrentHashMap<>();
+        this.inventoryItems = new ConcurrentHashMap<>();
+
         this.badges = new ConcurrentHashMap<>();
 
         this.loadBadges();
@@ -50,24 +51,15 @@ public class InventoryComponent implements PlayerInventory {
     public void loadItems() {
         this.itemsLoaded = true;
 
-        if (this.getWallItems().size() >= 1) {
-            this.getWallItems().clear();
-        }
-        if (this.getFloorItems().size() >= 1) {
-            this.getFloorItems().clear();
+        if(this.inventoryItems.size() >= 1) {
+            this.inventoryItems.clear();
         }
 
         try {
             Map<Long, PlayerItem> inventoryItems = InventoryDao.getInventoryByPlayerId(this.player.getId());
 
             for (Map.Entry<Long, PlayerItem> item : inventoryItems.entrySet()) {
-                if (item.getValue().getDefinition().getType().equals("s")) {
-                    this.getFloorItems().put(item.getKey(), item.getValue());
-                }
-
-                if (item.getValue().getDefinition().getType().equals("i")) {
-                    this.getWallItems().put(item.getKey(), item.getValue());
-                }
+                this.inventoryItems.put(item.getKey(), item.getValue());
             }
         } catch (Exception e) {
             log.error("Error while loading user inventory", e);
@@ -108,6 +100,26 @@ public class InventoryComponent implements PlayerInventory {
                 this.player.getSession().send(new WiredRewardMessageComposer(7));
             }
 
+        }
+    }
+
+    public void send() {
+        int totalPages = (int) Math.ceil(this.inventoryItems.size() / InventoryMessageComposer.ITEMS_PER_PAGE);
+
+        int totalSent = 0;
+        int currentPage = 0;
+        Map<Long, PlayerItem> inventoryItems = new HashMap<>();
+
+        for(Map.Entry<Long, PlayerItem> item : this.getInventoryItems().entrySet()) {
+            totalSent++;
+            inventoryItems.put(item.getKey(), item.getValue());
+
+            if(inventoryItems.size() >= InventoryMessageComposer.ITEMS_PER_PAGE || totalSent == this.inventoryItems.size()) {
+                this.player.getSession().send(new InventoryMessageComposer(totalPages + 1, currentPage, inventoryItems));
+
+                inventoryItems = new HashMap<>();
+                currentPage++;
+            }
         }
     }
 
@@ -185,14 +197,7 @@ public class InventoryComponent implements PlayerInventory {
     public PlayerItem add(long id, int itemId, String extraData, GiftItemData giftData, LimitedEditionItem limitedEditionItem) {
         PlayerItem item = new InventoryItem(id, itemId, extraData, giftData, limitedEditionItem);
 
-        if (item.getDefinition().getType().equals("s")) {
-            this.getFloorItems().put(id, item);
-        }
-
-        if (item.getDefinition().getType().equals("i")) {
-            this.getWallItems().put(id, item);
-        }
-
+        this.inventoryItems.put(id, item);
         return item;
     }
 
@@ -200,7 +205,7 @@ public class InventoryComponent implements PlayerInventory {
     public List<SongItem> getSongs() {
         List<SongItem> songItems = Lists.newArrayList();
 
-        for (PlayerItem inventoryItem : this.floorItems.values()) {
+        for (PlayerItem inventoryItem : this.inventoryItems.values()) {
             if (inventoryItem.getDefinition().isSong()) {
                 songItems.add(new SongItemData((InventoryItemSnapshot) inventoryItem.createSnapshot(), inventoryItem.getDefinition().getSongId()));
             }
@@ -216,104 +221,37 @@ public class InventoryComponent implements PlayerInventory {
 
     @Override
     public void addItem(PlayerItem item) {
-        if ((this.floorItems.size() + this.wallItems.size()) >= 5000) {
-            this.getPlayer().sendNotif("Notice", Locale.getOrDefault("game.inventory.limitExceeded", "You have over 5,000 items in your inventory. The next time you login, you will only see the first 5000 items."));
-        }
-
-        if (item.getDefinition().getType().equals("s"))
-            floorItems.put(item.getId(), (InventoryItem) item);
-        else if (item.getDefinition().getType().equals("i"))
-            wallItems.put(item.getId(), (InventoryItem) item);
+        this.inventoryItems.put(item.getId(), item);
     }
 
     @Override
     public void removeItem(PlayerItem item) {
-        if (item.getDefinition().getType().equals("s"))
-            floorItems.remove(item.getId());
-        else if (item.getDefinition().getType().equals("i"))
-            wallItems.remove(item.getId());
+        this.inventoryItems.remove(item.getId());
     }
 
     @Override
-    public void removeFloorItem(long itemId) {
-        if (this.getFloorItems() == null) {
-            return;
-        }
-
-        this.getFloorItems().remove(itemId);
-        this.getPlayer().getSession().send(new RemoveObjectFromInventoryMessageComposer(ItemManager.getInstance().getItemVirtualId(itemId)));
+    public void removeItem(long itemId) {
+        this.inventoryItems.remove(itemId);
     }
 
     @Override
-    public void removeWallItem(long itemId) {
-        this.getWallItems().remove(itemId);
-        this.getPlayer().getSession().send(new RemoveObjectFromInventoryMessageComposer(ItemManager.getInstance().getItemVirtualId(itemId)));
-    }
-
-    @Override
-    public boolean hasFloorItem(long id) {
-        return this.getFloorItems().containsKey(id);
-    }
-
-    @Override
-    public PlayerItem getFloorItem(long id) {
-        if (!this.hasFloorItem(id)) {
-            return null;
-        }
-        return this.getFloorItems().get(id);
-    }
-
-    @Override
-    public boolean hasWallItem(long id) {
-        return this.getWallItems().containsKey(id);
-    }
-
-    @Override
-    @Deprecated
-    public PlayerItem getWallItem(int id) {
-        return getWallItem(ItemManager.getInstance().getItemIdByVirtualId(id));
-    }
-
-    @Override
-    @Deprecated
-    public PlayerItem getFloorItem(int id) {
-        return getFloorItem(ItemManager.getInstance().getItemIdByVirtualId(id));
-    }
-
-    @Override
-    public PlayerItem getWallItem(long id) {
-        if (!this.hasWallItem(id)) {
-            return null;
-        }
-        return this.getWallItems().get(id);
+    public boolean hasItem(long id) {
+        return this.getInventoryItems().containsKey(id);
     }
 
     @Override
     public PlayerItem getItem(long id) {
-        PlayerItem item = getFloorItem(id);
-
-        if (item != null) {
-            return item;
-        }
-
-        return getWallItem(id);
+        return this.inventoryItems.get(id);
     }
 
     @Override
     public void dispose() {
-        for(PlayerItem floorItem : this.floorItems.values()) {
-            ItemManager.getInstance().disposeItemVirtualId(floorItem.getId());
+        for(PlayerItem inventoryItem : this.inventoryItems.values()) {
+            ItemManager.getInstance().disposeItemVirtualId(inventoryItem.getId());
         }
 
-        for(PlayerItem wallItem : this.wallItems.values()) {
-            ItemManager.getInstance().disposeItemVirtualId(wallItem.getId());
-        }
-
-        this.floorItems.clear();
-        this.floorItems = null;
-
-        this.wallItems.clear();
-        this.wallItems = null;
+        this.inventoryItems.clear();
+        this.inventoryItems = null;
 
         this.badges.clear();
         this.badges = null;
@@ -321,17 +259,12 @@ public class InventoryComponent implements PlayerInventory {
 
     @Override
     public int getTotalSize() {
-        return this.getWallItems().size() + this.getFloorItems().size();
+        return this.inventoryItems.size();
     }
 
     @Override
-    public Map<Long, PlayerItem> getWallItems() {
-        return this.wallItems;
-    }
-
-    @Override
-    public Map<Long, PlayerItem> getFloorItems() {
-        return this.floorItems;
+    public Map<Long, PlayerItem> getInventoryItems() {
+        return this.inventoryItems;
     }
 
     @Override

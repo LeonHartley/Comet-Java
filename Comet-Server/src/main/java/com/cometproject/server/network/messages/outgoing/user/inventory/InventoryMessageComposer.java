@@ -10,10 +10,16 @@ import java.util.Map;
 
 
 public class InventoryMessageComposer extends MessageComposer {
-    private final PlayerInventory inventoryComponent;
+    public static final int ITEMS_PER_PAGE = 2000;
 
-    public InventoryMessageComposer(final PlayerInventory inventoryComponent) {
-        this.inventoryComponent = inventoryComponent;
+    private final int pageCount;
+    private final int currentPage;
+    private final Map<Long, PlayerItem> inventoryItems;
+
+    public InventoryMessageComposer(int pageCount, int currentPage, Map<Long, PlayerItem> inventoryItems) {
+        this.pageCount = pageCount;
+        this.currentPage = currentPage;
+        this.inventoryItems = inventoryItems;
     }
 
     @Override
@@ -23,41 +29,12 @@ public class InventoryMessageComposer extends MessageComposer {
 
     @Override
     public void compose(IComposer msg) {
-        msg.writeInt(1); // how many pages page
-        msg.writeInt(0); // index of current page
-        msg.writeInt(inventoryComponent.getTotalSize());
+        msg.writeInt(this.pageCount); // how many pages
+        msg.writeInt(this.currentPage); // index of current page
+        msg.writeInt(this.inventoryItems.size());
 
-        for (Map.Entry<Long, PlayerItem>  inventoryItem : inventoryComponent.getFloorItems().entrySet()) {
+        for (Map.Entry<Long, PlayerItem>  inventoryItem : this.inventoryItems.entrySet()) {
             inventoryItem.getValue().compose(msg);
-        }
-
-        // Wall items
-        for (Map.Entry<Long, PlayerItem> item : inventoryComponent.getWallItems().entrySet()) {
-            msg.writeInt(item.getValue().getVirtualId());
-            msg.writeString(item.getValue().getDefinition().getType().toUpperCase());
-            msg.writeInt(item.getValue().getVirtualId());
-            msg.writeInt(item.getValue().getDefinition().getSpriteId());
-
-            if (item.getValue().getDefinition().getItemName().contains("a2")) {
-                msg.writeInt(3);
-            } else if (item.getValue().getDefinition().getItemName().contains("wallpaper")) {
-                msg.writeInt(2);
-            } else if (item.getValue().getDefinition().getItemName().contains("landscape")) {
-                msg.writeInt(4);
-            } else {
-                msg.writeInt(1);
-            }
-
-            msg.writeInt(0);
-            msg.writeString(item.getValue().getExtraData());
-
-            msg.writeBoolean(item.getValue().getDefinition().canRecycle());
-            msg.writeBoolean(item.getValue().getDefinition().canTrade());
-            msg.writeBoolean(item.getValue().getDefinition().canInventoryStack());
-            msg.writeBoolean(item.getValue().getDefinition().canMarket());
-            msg.writeInt(-1);
-            msg.writeBoolean(false);
-            msg.writeInt(-1);
         }
     }
 }

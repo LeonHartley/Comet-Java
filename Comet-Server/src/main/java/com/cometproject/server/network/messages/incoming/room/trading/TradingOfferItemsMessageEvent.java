@@ -18,22 +18,13 @@ public class TradingOfferItemsMessageEvent implements Event {
 
         final long itemId = ItemManager.getInstance().getItemIdByVirtualId(msg.readInt());
 
-        PlayerItem item = client.getPlayer().getInventory().getFloorItem(itemId);
-
-        if (item == null) {
-            item = client.getPlayer().getInventory().getWallItem(itemId);
-
-            if (item == null) {
-                return;
-            }
-        }
-
+        PlayerItem item = client.getPlayer().getInventory().getItem(itemId);
         Trade trade = client.getPlayer().getEntity().getRoom().getTrade().get(client.getPlayer().getEntity());
         if (trade == null) return;
 
         int i = 0;
 
-        for(PlayerItem playerItem : client.getPlayer().getInventory().getFloorItems().values()) {
+        for(PlayerItem playerItem : client.getPlayer().getInventory().getInventoryItems().values()) {
             if(i >= amount)
                 break;
 

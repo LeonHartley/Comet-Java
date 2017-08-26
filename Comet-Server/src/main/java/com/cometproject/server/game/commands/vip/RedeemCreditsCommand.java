@@ -24,7 +24,7 @@ public class RedeemCreditsCommand extends ChatCommand {
             return;
         }
 
-        for (PlayerItem playerItem : client.getPlayer().getInventory().getFloorItems().values()) {
+        for (PlayerItem playerItem : client.getPlayer().getInventory().getInventoryItems().values()) {
             if (playerItem == null || playerItem.getDefinition() == null) continue;
 
             String itemName = playerItem.getDefinition().getItemName();
@@ -51,7 +51,7 @@ public class RedeemCreditsCommand extends ChatCommand {
         }
 
         for (long itemId : itemsToRemove) {
-            client.getPlayer().getInventory().removeFloorItem(itemId);
+            client.getPlayer().getInventory().removeItem(itemId);
         }
 
         itemsToRemove.clear();

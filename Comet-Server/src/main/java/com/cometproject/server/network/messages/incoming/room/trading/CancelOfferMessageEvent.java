@@ -12,11 +12,7 @@ public class CancelOfferMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) {
         long itemId = ItemManager.getInstance().getItemIdByVirtualId(msg.readInt());
 
-        PlayerItem item = client.getPlayer().getInventory().getFloorItem(itemId);
-
-        if (item == null) {
-            item = client.getPlayer().getInventory().getWallItem(itemId);
-        }
+        PlayerItem item = client.getPlayer().getInventory().getItem(itemId);
 
         Trade trade = client.getPlayer().getEntity().getRoom().getTrade().get(client.getPlayer().getEntity());
         if (trade == null) return;

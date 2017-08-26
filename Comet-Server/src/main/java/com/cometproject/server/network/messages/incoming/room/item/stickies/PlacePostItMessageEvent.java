@@ -31,7 +31,7 @@ public class PlacePostItMessageEvent implements Event {
             return;
         }
 
-        PlayerItem item = client.getPlayer().getInventory().getWallItem(itemId);
+        PlayerItem item = client.getPlayer().getInventory().getItem(itemId);
 
         if (item == null) {
             return;

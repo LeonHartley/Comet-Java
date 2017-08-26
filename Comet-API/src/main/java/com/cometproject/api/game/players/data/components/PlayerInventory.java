@@ -14,6 +14,8 @@ public interface PlayerInventory extends PlayerComponent {
 
     void loadBadges();
 
+    void send();
+
     void addBadge(String code, boolean insert);
 
     void addBadge(String code, boolean insert, boolean sendAlert);
@@ -42,31 +44,15 @@ public interface PlayerInventory extends PlayerComponent {
 
     void removeItem(PlayerItem item);
 
-    void removeFloorItem(long itemId);
+    void removeItem(long itemId);
 
-    void removeWallItem(long itemId);
-
-    boolean hasFloorItem(long id);
-
-    PlayerItem getFloorItem(long id);
-
-    boolean hasWallItem(long id);
-
-    @Deprecated
-    PlayerItem getWallItem(int id);
-
-    @Deprecated
-    PlayerItem getFloorItem(int id);
-
-    PlayerItem getWallItem(long id);
+    boolean hasItem(long id);
 
     PlayerItem getItem(long id);
 
     int getTotalSize();
 
-    Map<Long, PlayerItem> getWallItems();
-
-    Map<Long, PlayerItem> getFloorItems();
+    Map<Long, PlayerItem> getInventoryItems();
 
     Map<String, Integer> getBadges();
 

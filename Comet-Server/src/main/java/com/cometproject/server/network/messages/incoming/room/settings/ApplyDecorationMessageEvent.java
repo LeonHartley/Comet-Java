@@ -20,7 +20,7 @@ public class ApplyDecorationMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) {
         long itemId = ItemManager.getInstance().getItemIdByVirtualId(msg.readInt());
 
-        PlayerItem item = client.getPlayer().getInventory().getWallItem(itemId);
+        PlayerItem item = client.getPlayer().getInventory().getItem(itemId);
 
         if (item == null) {
             return;

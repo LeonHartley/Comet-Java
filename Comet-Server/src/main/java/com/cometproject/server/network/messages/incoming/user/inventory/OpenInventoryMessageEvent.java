@@ -14,7 +14,8 @@ public class OpenInventoryMessageEvent implements Event {
                 client.getPlayer().getInventory().loadItems();
             }
 
-            client.send(new InventoryMessageComposer(client.getPlayer().getInventory()));
+            client.getPlayer().getInventory().send();
+//            (new InventoryMessageComposer(client.getPlayer().getInventory()));
         });
     }
 }
