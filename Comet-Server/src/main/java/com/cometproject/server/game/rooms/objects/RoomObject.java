@@ -80,9 +80,9 @@ public abstract class RoomObject implements IRoomObject, Positionable {
         Collections.sort(nearestEntities, positionComporator);
 
         for (PlayerEntity playerEntity : nearestEntities) {
-            if (playerEntity.getTile().isReachable(this)) {
+//            if (playerEntity.getTile().isReachable(this)) {
                 return playerEntity;
-            }
+//            }
         }
 
         return null;
