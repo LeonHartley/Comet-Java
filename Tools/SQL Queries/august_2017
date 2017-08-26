@@ -1,0 +1,93 @@
+-- --------------------------------------------------------
+-- Host:                         localhost
+-- Server version:               5.6.16 - MySQL Community Server (GPL)
+-- Server OS:                    Win32
+-- HeidiSQL Version:             9.1.0.4867
+-- --------------------------------------------------------
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET NAMES utf8mb4 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+
+-- Dumping structure for table cometsrv.catalog_clothing
+CREATE TABLE IF NOT EXISTS `catalog_clothing` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `item_name` varchar(255) NOT NULL,
+  `clothing_items` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `item_name` (`item_name`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- Dumping data for table cometsrv.catalog_clothing: 0 rows
+/*!40000 ALTER TABLE `catalog_clothing` DISABLE KEYS */;
+INSERT INTO `catalog_clothing` (`id`, `item_name`, `clothing_items`) VALUES
+	(1, 'clothing_squid', '3356'),
+	(2, 'clothing_party1', '3362'),
+	(3, 'clothing_meowtfit', '3331,3334,3335,3337,3338'),
+	(4, 'clothing_geometricskirt', '3341'),
+	(5, 'clothing_waistcoatsuit', '3327'),
+	(6, 'clothing_gatsby', '3322'),
+	(7, 'clothing_bow', '3358'),
+	(8, 'clothing_baldy', '3357'),
+	(9, 'clothing_wavy2', '3339'),
+	(10, 'clothing_mutton1', '3345'),
+	(11, 'clothing_straw2', '3347'),
+	(12, 'clothing_fishhat', '3349'),
+	(13, 'clothing_rolled_jeans', '3320'),
+	(14, 'clothing_birdshoes', '3348'),
+	(15, 'clothing_mermaidoutfit', '3332,3333'),
+	(16, 'clothing_droopycollar', '3336,3340'),
+	(17, 'clothing_headband', '3352'),
+	(18, 'clothing_flowercrown', '3329'),
+	(19, 'clothing_hheadphones', '3324'),
+	(20, 'clothing_mutton2', '3346'),
+	(21, 'clothing_floralskirt', '3355'),
+	(22, 'clothing_nightvision', '3318'),
+	(23, 'clothing_mockymouse', '3359,3360,3361'),
+	(24, 'clothing_xmas1', '3321'),
+	(25, 'clothing_shavedside', '3325'),
+	(26, 'clothing_geometricjumper', '3342'),
+	(27, 'clothing_beard1', '3344'),
+	(28, 'clothing_beads', '3343'),
+	(29, 'clothing_twotonecardi', '3326'),
+	(30, 'clothing_animalprint', '3353'),
+	(31, 'clothing_party2', '3363'),
+	(32, 'clothing_tshirt_rolled', '3323,335'),
+	(33, 'clothing_rippedjeans', '3328'),
+	(34, 'clothing_shoestights', '3354'),
+	(35, 'clothing_kimono1', '3366,3367,3368,3369,3364'),
+	(36, 'clothing_kimono2', '3365,3371,3372,3370'),
+	(37, 'clothing_cyleather', '3373,3374'),
+	(38, 'clothing_cystrapboots', '3383'),
+	(39, 'clothing_cyphones', '3379'),
+	(40, 'clothing_cyhair', '3377'),
+	(41, 'clothing_cymask', '3378'),
+	(42, 'clothing_cycircuit', '3385'),
+	(43, 'clothing_cyhood', '3382'),
+	(44, 'clothing_cyskirt', '3387'),
+	(45, 'clothing_goggles', '3376'),
+	(46, 'clothing_cystraphood', '3380,3381,3382,3383,3384'),
+	(47, 'clothing_cystrappants', '3384'),
+	(48, 'clothing_cyboots', '3375'),
+	(50, 'clothing_cygirl', '3373,3374, 3375,3376,3377,3387'),
+	(51, 'clothing_cyglass', '3388'),
+	(52, 'clothing_cyquif', '3386');
+/*!40000 ALTER TABLE `catalog_clothing` ENABLE KEYS */;
+
+
+-- Dumping structure for table cometsrv.player_clothing
+CREATE TABLE IF NOT EXISTS `player_clothing` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `player_id` int(11) DEFAULT NULL,
+  `item_name` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `player_id` (`player_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Dumping data for table cometsrv.player_clothing: ~0 rows (approximately)
+/*!40000 ALTER TABLE `player_clothing` DISABLE KEYS */;
+/*!40000 ALTER TABLE `player_clothing` ENABLE KEYS */;
+/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
+/*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
