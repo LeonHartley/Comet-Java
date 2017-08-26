@@ -44,7 +44,7 @@ public class BanzaiTeleporterFloorItem extends RoomItemFloor {
 
         if (floorItem.hasAttribute("warp")) {
             this.stage = 2;
-            this.setTicks(RoomItemFactory.getProcessTime(0.5));
+            this.setTicks(RoomItemFactory.getProcessTime(0.25));
 
             floorItem.removeAttribute("warp");
             return;
@@ -61,7 +61,7 @@ public class BanzaiTeleporterFloorItem extends RoomItemFloor {
         this.floorItem = floorItem;
         this.floorItem.setAttribute("warp", true);
 
-        this.setTicks(RoomItemFactory.getProcessTime(0.5));
+        this.setTicks(LowPriorityItemProcessor.getProcessTime(0.25));
     }
 
     @Override
@@ -70,7 +70,7 @@ public class BanzaiTeleporterFloorItem extends RoomItemFloor {
 
         if (entity.hasAttribute("warp")) {
             this.stage = 2;
-            this.setTicks(RoomItemFactory.getProcessTime(0.5));
+            this.setTicks(LowPriorityItemProcessor.getProcessTime(0.25));
 
             entity.removeAttribute("warp");
             return;
@@ -94,7 +94,7 @@ public class BanzaiTeleporterFloorItem extends RoomItemFloor {
         this.stage = 1;
 
         entity.cancelWalk();
-        this.setTicks(LowPriorityItemProcessor.getProcessTime(0.5));
+        this.setTicks(LowPriorityItemProcessor.getProcessTime(0.25));
     }
 
     private Position findPosition() {
