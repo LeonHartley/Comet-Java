@@ -535,6 +535,8 @@ public class ItemsComponent {
                     if (!this.verifyItemTilePosition(item, floor, roomTile, rotation)) {
                         return false;
                     }
+                } else {
+                    return false;
                 }
             }
         } else {

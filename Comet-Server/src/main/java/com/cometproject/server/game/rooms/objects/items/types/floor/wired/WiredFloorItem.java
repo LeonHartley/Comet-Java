@@ -122,14 +122,26 @@ public abstract class WiredFloorItem extends AdvancedFloorItem<WiredItemEvent> i
         this.save();
     }
 
+    private boolean isFlashing = false;
+
     public void flash() {
+        if(this.isFlashing) {
+            return;
+        }
+
         this.switchState();
+
+        this.isFlashing = true;
 
         final WiredItemFlashEvent flashEvent = new WiredItemFlashEvent();
         this.queueEvent(flashEvent);
     }
 
     public void switchState() {
+        if(this.isFlashing) {
+            this.isFlashing = false;
+        }
+
         this.state = !this.state;
         this.sendUpdate();
     }

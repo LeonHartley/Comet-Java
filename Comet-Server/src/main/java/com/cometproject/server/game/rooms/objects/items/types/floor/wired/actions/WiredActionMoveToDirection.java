@@ -12,6 +12,7 @@ import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorI
 import com.cometproject.server.utilities.Direction;
 
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class WiredActionMoveToDirection extends WiredActionItem {
     private static final int PARAM_START_DIR = 0;
@@ -70,14 +71,29 @@ public class WiredActionMoveToDirection extends WiredActionItem {
                     floorItem.setMoveDirection(startDir);
                 }
 
-                this.moveItem(floorItem, false);
+                this.moveItem(floorItem, new AtomicInteger(0));
             }
         }
 
         return;
     }
 
-    private void attemptBlockedAction(RoomItemFloor floorItem) {
+    private void moveItem(RoomItemFloor floorItem, AtomicInteger tries) {
+        final Position currentPosition = floorItem.getPosition().copy();
+        final Position nextPosition = floorItem.getPosition().squareInFront(floorItem.getMoveDirection());
+
+        if (this.getRoom().getItems().moveFloorItem(floorItem.getId(), floorItem.getPosition().squareInFront(floorItem.getMoveDirection()), floorItem.getRotation(), true)) {
+            nextPosition.setZ(floorItem.getPosition().getZ());
+            this.getRoom().getEntities().broadcastMessage(new SlideObjectBundleMessageComposer(currentPosition, nextPosition, this.getVirtualId(), 0, floorItem.getVirtualId()));
+        } else {
+            tries.incrementAndGet();
+
+            if (tries.get() < 4)
+                this.attemptBlockedAction(floorItem, tries);
+        }
+    }
+
+    private void attemptBlockedAction(RoomItemFloor floorItem, AtomicInteger tries) {
         final int actionWhenBlocked = this.getWiredData().getParams().get(PARAM_ACTION_WHEN_BLOCKED);
 
         if (actionWhenBlocked == 0) {
@@ -114,20 +130,7 @@ public class WiredActionMoveToDirection extends WiredActionItem {
         }
 
         floorItem.setMoveDirection(movementDirection);
-        this.moveItem(floorItem, true);
-    }
-
-    private void moveItem(RoomItemFloor floorItem, boolean secondAttempt) {
-        final Position currentPosition = floorItem.getPosition().copy();
-        final Position nextPosition = floorItem.getPosition().squareInFront(floorItem.getMoveDirection());
-
-        if (this.getRoom().getItems().moveFloorItem(floorItem.getId(), floorItem.getPosition().squareInFront(floorItem.getMoveDirection()), floorItem.getRotation(), true)) {
-            nextPosition.setZ(floorItem.getPosition().getZ());
-            this.getRoom().getEntities().broadcastMessage(new SlideObjectBundleMessageComposer(currentPosition, nextPosition, this.getVirtualId(), 0, floorItem.getVirtualId()));
-        } else {
-            if (!secondAttempt)
-                this.attemptBlockedAction(floorItem);
-        }
+        this.moveItem(floorItem, tries);
     }
 
     private int clockwise(int movementDirection, int times) {
