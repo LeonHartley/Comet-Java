@@ -96,7 +96,7 @@ public class WiredActionMoveToDirection extends WiredActionItem {
                 break;
 
             case ACTION_TURN_RIGHT_45:
-                movementDirection = this.getNextDirection(movementDirection);//this.advancePosition();
+                movementDirection = this.getNextDirection(movementDirection);
                 break;
 
             case ACTION_TURN_RIGHT_90:

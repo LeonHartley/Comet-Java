@@ -226,12 +226,13 @@ public class InventoryComponent implements PlayerInventory {
 
     @Override
     public void removeItem(PlayerItem item) {
-        this.inventoryItems.remove(item.getId());
+        this.removeItem(item.getId());
     }
 
     @Override
     public void removeItem(long itemId) {
         this.inventoryItems.remove(itemId);
+        this.getPlayer().getSession().send(new RemoveObjectFromInventoryMessageComposer(ItemManager.getInstance().getItemVirtualId(itemId)));
     }
 
     @Override
