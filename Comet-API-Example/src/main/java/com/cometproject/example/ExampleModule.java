@@ -41,14 +41,7 @@ public class ExampleModule extends BaseModule {
 
         Map<String, AtomicInteger> inventoryItemsAndQuantity = new HashMap<>();
 
-        for (PlayerItem item : session.getPlayer().getInventory().getFloorItems().values()) {
-            if (inventoryItemsAndQuantity.containsKey(item.getDefinition().getPublicName()))
-                inventoryItemsAndQuantity.get(item.getDefinition().getPublicName()).incrementAndGet();
-            else
-                inventoryItemsAndQuantity.put(item.getDefinition().getPublicName(), new AtomicInteger(1));
-        }
-
-        for (PlayerItem item : session.getPlayer().getInventory().getWallItems().values()) {
+        for (PlayerItem item : session.getPlayer().getInventory().getInventoryItems().values()) {
             if (inventoryItemsAndQuantity.containsKey(item.getDefinition().getPublicName()))
                 inventoryItemsAndQuantity.get(item.getDefinition().getPublicName()).incrementAndGet();
             else

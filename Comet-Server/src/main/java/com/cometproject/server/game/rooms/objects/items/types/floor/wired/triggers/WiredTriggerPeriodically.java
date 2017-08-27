@@ -46,6 +46,7 @@ public class WiredTriggerPeriodically extends WiredTriggerItem {
     public void onEventComplete(WiredItemEvent event) {
         this.evaluate(null, null);
 
+        Comet.getServer().getLogger().debug("ticking periodically");
         // loop
         this.event.setTotalTicks(this.getTickCount());
         this.queueEvent(this.event);
@@ -64,7 +65,7 @@ public class WiredTriggerPeriodically extends WiredTriggerItem {
     public int getTickCount() {
         int tickLength = this.getWiredData().getParams().get(PARAM_TICK_LENGTH);
 
-        if(tickLength <= 1) {
+        if(tickLength <= 0) {
             tickLength = 2;
         }
 

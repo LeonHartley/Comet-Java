@@ -36,6 +36,8 @@ public abstract class RoomItem extends BigRoomFloorObject implements Attributabl
     private LimitedEditionItemData limitedEditionItemData;
     private Map<String, Object> attributes;
 
+    private int moveDirection = -1;
+
     public RoomItem(long id, Position position, Room room) {
         super(id, position, room);
         this.ticksTimer = -1;
@@ -193,5 +195,13 @@ public abstract class RoomItem extends BigRoomFloorObject implements Attributabl
 
     public String getOwnerName() {
         return this.ownerName;
+    }
+
+    public int getMoveDirection() {
+        return moveDirection;
+    }
+
+    public void setMoveDirection(int moveDirection) {
+        this.moveDirection = moveDirection;
     }
 }
