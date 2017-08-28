@@ -19,6 +19,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.GiftFloorIte
 import com.cometproject.server.game.rooms.objects.items.types.floor.MagicStackFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.SoundMachineFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerCollision;
 import com.cometproject.server.game.rooms.objects.items.types.wall.MoodlightWallItem;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
@@ -114,7 +115,7 @@ public class ItemsComponent {
                     }
                 }
 
-                for(long itemId : itemsToRemove) {
+                for (long itemId : itemsToRemove) {
                     ((WiredFloorItem) floorItem).getWiredData().getSelectedIds().remove(itemId);
                 }
 
@@ -298,7 +299,7 @@ public class ItemsComponent {
 
                 if (floorItem == null || floorItem.getDefinition() == null) continue;
 
-                if(!floorItem.getClass().equals(clazz)) {
+                if (!floorItem.getClass().equals(clazz)) {
                     continue;
                 }
 
@@ -335,7 +336,7 @@ public class ItemsComponent {
             for (long wiredItem : item.getWiredItems()) {
                 final WiredFloorItem floorItem = (WiredFloorItem) this.getFloorItem(wiredItem);
 
-                if(floorItem != null) {
+                if (floorItem != null) {
                     floorItem.getWiredData().getSelectedIds().remove(item.getId());
                 }
             }
@@ -454,6 +455,19 @@ public class ItemsComponent {
         }
 
         item.onPositionChanged(newPosition);
+
+        for (int collisionDirection : Position.COLLIDE_TILES) {
+            final Position collisionPosition = newPosition.squareInFront(collisionDirection);
+            final RoomTile collisionTile = this.getRoom().getMapping().getTile(collisionPosition);
+
+            if (collisionTile != null) {
+                final RoomEntity entity = collisionTile.getEntity();
+
+                if (entity != null) {
+                    WiredTriggerCollision.executeTriggers(entity);
+                }
+            }
+        }
 
         List<RoomEntity> affectEntities0 = room.getEntities().getEntitiesAt(item.getPosition());
 

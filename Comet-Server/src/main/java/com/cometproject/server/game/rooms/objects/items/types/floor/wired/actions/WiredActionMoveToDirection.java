@@ -7,6 +7,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.W
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.events.WiredItemEvent;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.network.messages.outgoing.room.items.SlideObjectBundleMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorItemMessageComposer;
 import com.cometproject.server.utilities.Direction;
@@ -101,6 +102,14 @@ public class WiredActionMoveToDirection extends WiredActionItem {
         }
 
         int movementDirection = floorItem.getMoveDirection();
+        final Position position = floorItem.getPosition().squareInFront(floorItem.getMoveDirection());
+        final RoomTile roomTile = this.getRoom().getMapping().getTile(position);
+
+        if (roomTile != null) {
+            if(roomTile.getEntity() != null) {
+                return;
+            }
+        }
 
         switch (actionWhenBlocked) {
             case ACTION_TURN_BACK:
@@ -134,7 +143,7 @@ public class WiredActionMoveToDirection extends WiredActionItem {
     }
 
     private int clockwise(int movementDirection, int times) {
-        for(int i = 0; i < times; i++) {
+        for (int i = 0; i < times; i++) {
             movementDirection = this.getNextDirection(movementDirection);
         }
 
@@ -142,7 +151,7 @@ public class WiredActionMoveToDirection extends WiredActionItem {
     }
 
     private int antiClockwise(int movementDirection, int times) {
-        for(int i = 0; i < times; i++) {
+        for (int i = 0; i < times; i++) {
             movementDirection = this.getPreviousDirection(movementDirection);
         }
 
@@ -150,7 +159,7 @@ public class WiredActionMoveToDirection extends WiredActionItem {
     }
 
     private int getNextDirection(int movementDirection) {
-        if(movementDirection == 7) {
+        if (movementDirection == 7) {
             return 0;
         }
 
@@ -158,10 +167,10 @@ public class WiredActionMoveToDirection extends WiredActionItem {
     }
 
     private int getPreviousDirection(int movementDirection) {
-        if(movementDirection == 0) {
+        if (movementDirection == 0) {
             return 7;
         }
 
-        return movementDirection -1;
+        return movementDirection - 1;
     }
 }

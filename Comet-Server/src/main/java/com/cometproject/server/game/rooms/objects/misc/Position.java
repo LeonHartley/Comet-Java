@@ -15,6 +15,10 @@ public class Position implements IPosition {
     public static final int WEST = 6;
     public static final int NORTH_WEST = 7;
 
+    public static final int[] COLLIDE_TILES = new int[] {
+            NORTH, EAST, SOUTH, WEST
+    };
+
     private int x;
     private int y;
     private double z;

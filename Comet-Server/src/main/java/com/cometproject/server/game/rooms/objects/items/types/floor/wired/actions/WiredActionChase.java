@@ -14,6 +14,7 @@ import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.network.messages.outgoing.room.items.SlideObjectBundleMessageComposer;
 import com.cometproject.server.utilities.RandomUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -64,14 +65,21 @@ public class WiredActionChase extends WiredActionItem {
                     if (floorItem.getCollision() != nearestEntity) {
                         floorItem.setCollision(nearestEntity);
 
-                        WiredTriggerCollision.executeTriggers(nearestEntity);
+//                        WiredTriggerCollision.executeTriggers(nearestEntity);
                     }
 
                     continue;
                 }
 
                 this.targetId = nearestEntity.getId();
-                List<Square> tilesToEntity = ItemPathfinder.getInstance().makePath(floorItem, nearestEntity.getPosition(), Pathfinder.DISABLE_DIAGONAL, false);
+                List<Square> tilesToEntity = new ArrayList<>();
+
+                for(int direction : Position.COLLIDE_TILES) {
+                    if(tilesToEntity.size() == 0) {
+                        tilesToEntity = ItemPathfinder.getInstance().makePath(floorItem, nearestEntity.getPosition().squareInFront(direction), Pathfinder.DISABLE_DIAGONAL, false);
+                        break;
+                    }
+                }
 
                 if (tilesToEntity != null && tilesToEntity.size() != 0) {
                     Position positionTo = new Position(tilesToEntity.get(0).x, tilesToEntity.get(0).y);
