@@ -74,7 +74,7 @@ public abstract class RoomItem extends BigRoomFloorObject implements Attributabl
     protected final void setTicks(int time) {
         this.ticksTimer = time;
 
-        if (this instanceof RollableFloorItem || this instanceof BanzaiTeleporterFloorItem) {
+        if (this instanceof BanzaiTeleporterFloorItem) {
             LowPriorityItemProcessor.getInstance().submit(((RoomItemFloor) this));
         }
     }

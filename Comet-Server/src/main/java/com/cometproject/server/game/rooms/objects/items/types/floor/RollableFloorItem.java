@@ -5,12 +5,15 @@ import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Square;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.types.ItemPathfinder;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
+import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.games.banzai.BanzaiPuckFloorItem;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.game.rooms.types.components.ItemProcessComponent;
 import com.cometproject.server.game.rooms.types.mapping.RoomEntityMovementNode;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
+import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
 import com.cometproject.server.game.utilities.DistanceCalculator;
 import com.cometproject.server.network.messages.outgoing.room.items.SlideObjectBundleMessageComposer;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
@@ -162,6 +165,10 @@ delay: 169ms
             int tiles = 1;
             Position position = this.getNextPosition();
 
+            if(!this.isValidRoll(position)) {
+                position = this.getNextPosition(position.getFlag(), position.squareBehind(position.getFlag()));
+            }
+
             int count = isStart ? 2 : 2;
 
             // can we skip some tiles?
@@ -193,7 +200,7 @@ delay: 169ms
 
             this.moveTo(position, position.getFlag());
             System.out.println(tiles);
-            this.setTicks(LowPriorityItemProcessor.getProcessTime(0.5));
+            this.setTicks(RoomItemFactory.getProcessTime(tiles * 0.5));
         } else {
             Position nextPosition = this.getNextPosition();
             Position newPosition;
@@ -217,7 +224,7 @@ delay: 169ms
             this.sendUpdate();
 
             this.moveTo(newPosition, newPosition.getFlag());
-            this.setTicks(LowPriorityItemProcessor.getProcessTime(this.getDelay(this.rollStage)));
+            this.setTicks(RoomItemFactory.getProcessTime(this.getDelay(this.rollStage)));
         }
     }
 
@@ -229,7 +236,7 @@ delay: 169ms
         RoomTile tile = this.getRoom().getMapping().getTile(position.getX(), position.getY());
 
         if (tile != null) {
-            if (tile.canPlaceItemHere() && tile.getMovementNode() == RoomEntityMovementNode.OPEN) {
+            if (tile.canPlaceItemHere() && tile.getMovementNode() == RoomEntityMovementNode.OPEN && tile.getState() == RoomTileState.VALID) {
                 if (tile.getEntities().size() != 0) {
                     return false;
                 }
@@ -408,13 +415,13 @@ delay: 169ms
 
     private double getDelay(int i) {
         if (i == 5) {
-            return 0.85;
+            return 0.5;
         } else if (i == 6) {
-            return 1.2;
+            return 1.0;
         }
 
 //        System.out.println(i);
-        return 0.35;
+        return 0.5;
     }
 
     public RoomEntity getPusher() {

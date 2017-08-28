@@ -92,7 +92,7 @@ public class ItemProcessComponent implements CometTask {
         
         for (RoomItemFloor item : this.getRoom().getItems().getFloorItems().values()) {
             try {
-                if (item != null && !(item instanceof RollableFloorItem) && item.requiresTick() || item instanceof RollerFloorItem) {
+                if (item != null && item.requiresTick() || item instanceof RollerFloorItem) {
                     if(item instanceof WiredTriggerPeriodically) {
                         final String posStr = item.getPosition().getX() + "_" + item.getPosition().getY();
                         
