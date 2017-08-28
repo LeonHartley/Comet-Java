@@ -235,6 +235,8 @@ public final class MessageHandler {
         this.getMessages().put(Events.SaveNavigatorSearchMessageEvent, new SaveNavigatorSearchMessageEvent());
         this.getMessages().put(Events.DeleteNavigatorSavedSearchMessageEvent, new DeleteNavigatorSavedSearchMessageEvent());
         this.getMessages().put(Events.FindRandomFriendingRoomMessageEvent, new FindRandomFriendingRoomMessageEvent());
+        this.getMessages().put(Events.AddFavouriteRoomMessageEvent, new ToggleFavouriteRoomMessageEvent());
+        this.getMessages().put(Events.DeleteFavouriteRoomMessageEvent, new ToggleFavouriteRoomMessageEvent());
     }
 
     public void registerUser() {

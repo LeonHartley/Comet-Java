@@ -182,6 +182,26 @@ public class NavigatorSearchService implements CometTask {
                 rooms.addAll(order(friendsRooms, expanded ? category.getRoomCountExpanded() : category.getRoomCount()));
                 friendsRooms.clear();
                 break;
+
+            case MY_FAVORITES:
+                List<RoomData> favouriteRooms = Lists.newArrayList();
+
+                if(player.getNavigator() == null) {
+                    return rooms;
+                }
+
+                for(Integer roomId : player.getNavigator().getFavouriteRooms()) {
+                    if(favouriteRooms.size() == 50) break;
+
+                    final RoomData roomData = RoomManager.getInstance().getRoomData(roomId);
+
+                    if(roomData != null) {
+                        favouriteRooms.add(roomData);
+                    }
+                }
+
+                rooms.addAll(order(favouriteRooms, expanded ? category.getRoomCountExpanded() : category.getRoomCount()));
+                favouriteRooms.clear();
         }
 
         return rooms;

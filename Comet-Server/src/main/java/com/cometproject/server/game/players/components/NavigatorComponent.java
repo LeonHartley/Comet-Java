@@ -7,17 +7,20 @@ import com.cometproject.server.storage.queries.player.PlayerDao;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class NavigatorComponent {
     private final Player player;
 
     private final Map<Integer, SavedSearch> savedSearches;
+    private final Set<Integer> favouriteRooms;
 
     public NavigatorComponent(final Player player) {
         this.player = player;
 
         this.savedSearches = PlayerDao.getSavedSearches(this.player.getId());
+        this.favouriteRooms = PlayerDao.getFavouriteRooms(this.player.getId());
     }
 
     public void dispose() {
@@ -31,6 +34,10 @@ public class NavigatorComponent {
         }
 
         return false;
+    }
+
+    public Set<Integer> getFavouriteRooms() {
+        return this.favouriteRooms;
     }
 
     public Map<Integer, SavedSearch> getSavedSearches() {

@@ -12,12 +12,14 @@ import com.cometproject.server.game.players.types.PlayerSettings;
 import com.cometproject.server.game.players.types.PlayerStatistics;
 import com.cometproject.server.storage.SqlHelper;
 import com.cometproject.server.storage.cache.CacheManager;
+import com.cometproject.server.utilities.collections.ConcurrentHashSet;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 
@@ -619,7 +621,7 @@ public class PlayerDao {
             sqlConnection = SqlHelper.getConnection();
 
             preparedStatement = SqlHelper.prepare("UPDATE player_settings SET ignore_events = ? WHERE player_id = ?", sqlConnection);
-            preparedStatement.setString(1, ignoreEvents? "1" : "0");
+            preparedStatement.setString(1, ignoreEvents ? "1" : "0");
             preparedStatement.setInt(2, userId);
 
             SqlHelper.executeStatementSilently(preparedStatement, false);
@@ -905,6 +907,76 @@ public class PlayerDao {
         }
     }
 
+    public static Set<Integer> getFavouriteRooms(int playerId) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        final Set<Integer> data = new ConcurrentHashSet<>();
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("SELECT `room_id` FROM `player_favourite_rooms` WHERE `player_id` = ?", sqlConnection);
+            preparedStatement.setInt(1, playerId);
+
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                data.add(resultSet.getInt("room_id"));
+            }
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+
+        return data;
+    }
+
+    public static void saveFavouriteRoom(int playerId, int roomId) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("INSERT into player_favourite_rooms (player_id, room_id) VALUES(?, ?);", sqlConnection);
+
+            preparedStatement.setInt(1, playerId);
+            preparedStatement.setInt(2, roomId);
+            preparedStatement.execute();
+
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+    }
+
+    public static void deleteFavouriteRoom(int playerId, int roomId) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("DELETE FROM player_favourite_rooms WHERE player_id = ? AND room_id = ?", sqlConnection);
+
+            preparedStatement.setInt(1, playerId);
+            preparedStatement.setInt(2, roomId);
+            preparedStatement.execute();
+
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+    }
+
     public static Map<Integer, SavedSearch> getSavedSearches(int playerId) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
@@ -915,7 +987,7 @@ public class PlayerDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("SELECT `id`, `view`, `search_query` FROM player_saved_searches WHERE player_id = ?", sqlConnection);
+            preparedStatement = SqlHelper.prepare("SELECT `id`, `view`, `search_query` FROM player_saved_searches WHERE player_id = ? LIMIT 50;", sqlConnection);
             preparedStatement.setInt(1, playerId);
 
             resultSet = preparedStatement.executeQuery();
