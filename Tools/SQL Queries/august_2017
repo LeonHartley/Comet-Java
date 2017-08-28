@@ -1,16 +1,3 @@
--- --------------------------------------------------------
--- Host:                         localhost
--- Server version:               5.6.16 - MySQL Community Server (GPL)
--- Server OS:                    Win32
--- HeidiSQL Version:             9.1.0.4867
--- --------------------------------------------------------
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET NAMES utf8mb4 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-
--- Dumping structure for table cometsrv.catalog_clothing
 CREATE TABLE IF NOT EXISTS `catalog_clothing` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `item_name` varchar(255) NOT NULL,
@@ -19,8 +6,6 @@ CREATE TABLE IF NOT EXISTS `catalog_clothing` (
   UNIQUE KEY `item_name` (`item_name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
--- Dumping data for table cometsrv.catalog_clothing: 0 rows
-/*!40000 ALTER TABLE `catalog_clothing` DISABLE KEYS */;
 INSERT INTO `catalog_clothing` (`id`, `item_name`, `clothing_items`) VALUES
 	(1, 'clothing_squid', '3356'),
 	(2, 'clothing_party1', '3362'),
@@ -73,10 +58,7 @@ INSERT INTO `catalog_clothing` (`id`, `item_name`, `clothing_items`) VALUES
 	(50, 'clothing_cygirl', '3373,3374, 3375,3376,3377,3387'),
 	(51, 'clothing_cyglass', '3388'),
 	(52, 'clothing_cyquif', '3386');
-/*!40000 ALTER TABLE `catalog_clothing` ENABLE KEYS */;
 
-
--- Dumping structure for table cometsrv.player_clothing
 CREATE TABLE IF NOT EXISTS `player_clothing` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `player_id` int(11) DEFAULT NULL,
@@ -85,9 +67,8 @@ CREATE TABLE IF NOT EXISTS `player_clothing` (
   KEY `player_id` (`player_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table cometsrv.player_clothing: ~0 rows (approximately)
-/*!40000 ALTER TABLE `player_clothing` DISABLE KEYS */;
-/*!40000 ALTER TABLE `player_clothing` ENABLE KEYS */;
-/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
-/*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+CREATE TABLE IF NOT EXISTS `player_favourite_rooms` (
+  `player_id` int(11) NOT NULL,
+  `room_id` int(11) NOT NULL,
+  PRIMARY KEY (`player_id`,`room_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
