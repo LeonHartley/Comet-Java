@@ -124,7 +124,7 @@ public class WiredActionFlee extends WiredActionItem {
         if ((nearestEntity != null) &&
                 (isCollided(nearestEntity, floorItem))) {
             floorItem.setCollision(nearestEntity);
-            WiredTriggerCollision.executeTriggers(nearestEntity);
+//            WiredTriggerCollision.executeTriggers(nearestEntity);
         }
 
         floorItem.nullifyCollision();

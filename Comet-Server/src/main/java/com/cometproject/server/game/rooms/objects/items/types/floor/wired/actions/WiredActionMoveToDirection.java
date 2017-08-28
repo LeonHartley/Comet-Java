@@ -5,6 +5,7 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.DiceFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.events.WiredItemEvent;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerCollision;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
@@ -106,7 +107,9 @@ public class WiredActionMoveToDirection extends WiredActionItem {
         final RoomTile roomTile = this.getRoom().getMapping().getTile(position);
 
         if (roomTile != null) {
-            if(roomTile.getEntity() != null) {
+            if (roomTile.getEntity() != null) {
+
+                WiredTriggerCollision.executeTriggers(roomTile.getEntity());
                 return;
             }
         }
