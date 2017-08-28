@@ -193,7 +193,7 @@ delay: 169ms
 
             this.moveTo(position, position.getFlag());
             System.out.println(tiles);
-            this.setTicks(LowPriorityItemProcessor.getProcessTime(tiles == 1 ? 0.45 : 0.55 * tiles));
+            this.setTicks(LowPriorityItemProcessor.getProcessTime(0.5));
         } else {
             Position nextPosition = this.getNextPosition();
             Position newPosition;
@@ -382,7 +382,7 @@ delay: 169ms
 
         pos.setZ(newTile.getStackHeight());
 
-        roll(this, this.getPosition(), pos, this.getRoom());
+        roll(this, this.getPosition().copy(), pos.copy(), this.getRoom());
 
         RoomTile tile = this.getRoom().getMapping().getTile(this.getPosition());
 
