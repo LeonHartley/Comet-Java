@@ -20,6 +20,7 @@ import com.cometproject.server.network.messages.outgoing.user.inventory.RemoveOb
 import com.cometproject.server.storage.queries.achievements.PlayerAchievementDao;
 import com.cometproject.server.storage.queries.player.inventory.InventoryDao;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import org.apache.log4j.Logger;
 
 import java.util.*;
@@ -104,6 +105,11 @@ public class InventoryComponent implements PlayerInventory {
     }
 
     public void send() {
+        if(this.inventoryItems.size() == 0) {
+            this.player.getSession().send(new InventoryMessageComposer(1, 0, Maps.newHashMap()));
+            return;
+        }
+
         int totalPages = (int) Math.ceil(this.inventoryItems.size() / InventoryMessageComposer.ITEMS_PER_PAGE);
 
         int totalSent = 0;
