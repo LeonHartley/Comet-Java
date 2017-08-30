@@ -456,19 +456,6 @@ public class ItemsComponent {
 
         item.onPositionChanged(newPosition);
 
-        for (int collisionDirection : Position.COLLIDE_TILES) {
-            final Position collisionPosition = newPosition.squareInFront(collisionDirection);
-            final RoomTile collisionTile = this.getRoom().getMapping().getTile(collisionPosition);
-
-            if (collisionTile != null) {
-                final RoomEntity entity = collisionTile.getEntity();
-
-                if (entity != null) {
-                    WiredTriggerCollision.executeTriggers(entity);
-                }
-            }
-        }
-
         List<RoomEntity> affectEntities0 = room.getEntities().getEntitiesAt(item.getPosition());
 
         for (RoomEntity entity0 : affectEntities0) {

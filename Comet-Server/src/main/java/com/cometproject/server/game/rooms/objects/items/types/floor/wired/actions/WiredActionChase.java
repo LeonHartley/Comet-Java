@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions;
 
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Pathfinder;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Square;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.types.ItemPathfinder;
@@ -65,7 +66,7 @@ public class WiredActionChase extends WiredActionItem {
                     if (floorItem.getCollision() != nearestEntity) {
                         floorItem.setCollision(nearestEntity);
 
-//                        WiredTriggerCollision.executeTriggers(nearestEntity);
+                        WiredTriggerCollision.executeTriggers(nearestEntity, floorItem);
                     }
 
                     continue;
@@ -130,6 +131,20 @@ public class WiredActionChase extends WiredActionItem {
         }
 
         floorItem.nullifyCollision();
+
+        for (int collisionDirection : Position.COLLIDE_TILES) {
+            final Position collisionPosition = floorItem.getPosition().squareInFront(collisionDirection);
+            final RoomTile collisionTile = this.getRoom().getMapping().getTile(collisionPosition);
+
+            if (collisionTile != null) {
+                final RoomEntity entity = collisionTile.getEntity();
+
+                if (entity != null) {
+                    WiredTriggerCollision.executeTriggers(entity, floorItem);
+                }
+            }
+        }
+
     }
 
     private Position random(RoomItemFloor floorItem, Position from) {

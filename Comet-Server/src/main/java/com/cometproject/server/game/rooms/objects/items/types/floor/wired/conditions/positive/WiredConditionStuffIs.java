@@ -1,6 +1,7 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.conditions.positive;
 
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
+import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredConditionItem;
 import com.cometproject.server.game.rooms.types.Room;
 
@@ -12,7 +13,7 @@ public class WiredConditionStuffIs extends WiredConditionItem {
      * @param itemId    The ID of the item definition
      * @param room      The instance of the room
      * @param owner     The ID of the owner
-     * @param ownerName
+     * @param ownerName The name of the owner
      * @param x         The position of the item on the X axis
      * @param y         The position of the item on the Y axis
      * @param z         The position of the item on the z axis
@@ -30,6 +31,12 @@ public class WiredConditionStuffIs extends WiredConditionItem {
 
     @Override
     public boolean evaluate(RoomEntity entity, Object data) {
-        return false;
+        if(data == null || !(data instanceof RoomItemFloor)) {
+            return false;
+        }
+
+        final RoomItemFloor floor = ((RoomItemFloor) data);
+
+        return this.getWiredData().getSelectedIds().contains(floor.getId());
     }
 }

@@ -67,7 +67,7 @@ public class WiredActionMoveToDirection extends WiredActionItem {
             for (long itemId : this.getWiredData().getSelectedIds()) {
                 RoomItemFloor floorItem = this.getRoom().getItems().getFloorItem(itemId);
 
-                if (floorItem == null || floorItem instanceof DiceFloorItem) continue;
+                if (floorItem == null) continue;
 
                 if (floorItem.getMoveDirection() == -1) {
                     floorItem.setMoveDirection(startDir);
@@ -109,7 +109,7 @@ public class WiredActionMoveToDirection extends WiredActionItem {
         if (roomTile != null) {
             if (roomTile.getEntity() != null) {
 
-                WiredTriggerCollision.executeTriggers(roomTile.getEntity());
+                WiredTriggerCollision.executeTriggers(roomTile.getEntity(), floorItem);
                 return;
             }
         }

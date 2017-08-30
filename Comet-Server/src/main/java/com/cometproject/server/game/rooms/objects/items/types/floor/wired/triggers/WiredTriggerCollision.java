@@ -34,13 +34,13 @@ public class WiredTriggerCollision extends WiredTriggerItem {
         return 9;
     }
 
-    public static boolean executeTriggers(RoomEntity entity) {
+    public static boolean executeTriggers(RoomEntity entity, RoomItemFloor collidingItem) {
         boolean wasExecuted = false;
 
         for (RoomItemFloor floorItem : getTriggers(entity.getRoom(), WiredTriggerCollision.class)) {
             WiredTriggerCollision trigger = ((WiredTriggerCollision) floorItem);
 
-            wasExecuted = trigger.evaluate(entity, null);
+            wasExecuted = trigger.evaluate(entity, collidingItem);
         }
 
         return wasExecuted;

@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions;
 
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Square;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.types.ItemPathfinder;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
@@ -120,12 +121,27 @@ public class WiredActionFlee extends WiredActionItem {
             getRoom().getEntities().broadcastMessage(new SlideObjectBundleMessageComposer(from, to, 0, 0, items));
         }
 
-        PlayerEntity nearestEntity = floorItem.nearestPlayerEntity();
-        if ((nearestEntity != null) &&
-                (isCollided(nearestEntity, floorItem))) {
-            floorItem.setCollision(nearestEntity);
-//            WiredTriggerCollision.executeTriggers(nearestEntity);
+
+        for (int collisionDirection : Position.COLLIDE_TILES) {
+            final Position collisionPosition = floorItem.getPosition().squareInFront(collisionDirection);
+            final RoomTile collisionTile = this.getRoom().getMapping().getTile(collisionPosition);
+
+            if (collisionTile != null) {
+                final RoomEntity entity = collisionTile.getEntity();
+
+                if (entity != null) {
+                    floorItem.setCollision(entity);
+                    WiredTriggerCollision.executeTriggers(entity, floorItem);
+                }
+            }
         }
+//
+//        PlayerEntity nearestEntity = floorItem.nearestPlayerEntity();
+//        if ((nearestEntity != null) &&
+//                (isCollided(nearestEntity, floorItem))) {
+//            floorItem.setCollision(nearestEntity);
+//            WiredTriggerCollision.executeTriggers(nearestEntity, floorItem);
+//        }
 
         floorItem.nullifyCollision();
     }
