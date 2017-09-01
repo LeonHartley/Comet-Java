@@ -477,6 +477,8 @@ public class ItemsComponent {
                 for (RoomEntity entity1 : affectEntities1) {
                     item.onEntityStepOff(entity1);
                 }
+
+                // update their height!
             }
 
             for (AffectedTile affectedTile : AffectedTile.getAffectedTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), newPosition.getX(), newPosition.getY(), rotation)) {

@@ -15,8 +15,10 @@ import com.cometproject.server.network.messages.outgoing.room.items.SlideObjectB
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import com.cometproject.server.utilities.Direction;
 import com.cometproject.server.utilities.collections.ConcurrentHashSet;
+import com.google.common.collect.Maps;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -216,6 +218,9 @@ public class RollerFloorItem extends AdvancedFloorItem<RollerFloorItemEvent> {
 
         boolean noItemsOnNext = false;
 
+        Position position = null;
+        final Map<Integer, Double> slidingItems = Maps.newHashMap();
+
         for (RoomItemFloor floor : floorItems) {
             if (floor.getPosition().getX() != this.getPosition().getX() && floor.getPosition().getY() != this.getPosition().getY()) {
                 continue;
@@ -228,6 +233,10 @@ public class RollerFloorItem extends AdvancedFloorItem<RollerFloorItemEvent> {
             if (!floor.getDefinition().canStack() && !(floor instanceof RollableFloorItem)) {
                 if (floor.getTile().getTopItem() != floor.getId())
                     continue;
+            }
+
+            if(position == null) {
+                position = floor.getPosition().copy();
             }
 
             double height = floor.getPosition().getZ();
@@ -276,7 +285,7 @@ public class RollerFloorItem extends AdvancedFloorItem<RollerFloorItemEvent> {
                 return;
             }
 
-            this.getRoom().getEntities().broadcastMessage(new SlideObjectBundleMessageComposer(new Position(floor.getPosition().getX(), floor.getPosition().getY(), floor.getPosition().getZ()), new Position(sqInfront.getX(), sqInfront.getY(), height), this.getVirtualId(), 0, floor.getVirtualId()));
+            slidingItems.put(floor.getVirtualId(), height);
 
             floor.getPosition().setX(sqInfront.getX());
             floor.getPosition().setY(sqInfront.getY());
@@ -284,6 +293,8 @@ public class RollerFloorItem extends AdvancedFloorItem<RollerFloorItemEvent> {
 
             RoomItemDao.saveItemPosition(floor.getPosition().getX(), floor.getPosition().getY(), floor.getPosition().getZ(), floor.getRotation(), floor.getId());
         }
+
+        this.getRoom().getEntities().broadcastMessage(new SlideObjectBundleMessageComposer(position, sqInfront.copy(), this.getVirtualId(), 0, slidingItems));
 
         this.getRoom().getMapping().updateTile(this.getPosition().getX(), this.getPosition().getY());
         this.getRoom().getMapping().updateTile(sqInfront.getX(), sqInfront.getY());
