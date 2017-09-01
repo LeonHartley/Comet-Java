@@ -27,6 +27,7 @@ import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.outgoing.catalog.UnseenItemsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.NotificationMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.UpdateStackMapMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.RemoveFloorItemMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.RemoveWallItemMessageComposer;
@@ -469,19 +470,23 @@ public class ItemsComponent {
 
         // Catch this so the item still updates!
         try {
-            for (AffectedTile affectedTile : AffectedTile.getAffectedTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), item.getPosition().getX(), item.getPosition().getY(), item.getRotation())) {
+            for (AffectedTile affectedTile : AffectedTile.getAffectedBothTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), item.getPosition().getX(), item.getPosition().getY(), item.getRotation())) {
                 tilesToUpdate.add(new Position(affectedTile.x, affectedTile.y));
 
                 List<RoomEntity> affectEntities1 = room.getEntities().getEntitiesAt(new Position(affectedTile.x, affectedTile.y));
 
                 for (RoomEntity entity1 : affectEntities1) {
                     item.onEntityStepOff(entity1);
-                }
 
-                // update their height!
+                    // update their height!
+                    if(tile.getWalkHeight() != entity1.getPosition().getZ()) {
+                        entity1.getPosition().setZ(tile.getWalkHeight());
+                        this.getRoom().getEntities().broadcastMessage(new AvatarUpdateMessageComposer(entity1));
+                    }
+                }
             }
 
-            for (AffectedTile affectedTile : AffectedTile.getAffectedTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), newPosition.getX(), newPosition.getY(), rotation)) {
+            for (AffectedTile affectedTile : AffectedTile.getAffectedBothTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), newPosition.getX(), newPosition.getY(), rotation)) {
                 tilesToUpdate.add(new Position(affectedTile.x, affectedTile.y));
 
                 List<RoomEntity> affectEntities2 = room.getEntities().getEntitiesAt(new Position(affectedTile.x, affectedTile.y));

@@ -276,7 +276,7 @@ public class RoomTile {
 
         RoomItemFloor roomItemFloor = this.mappingInstance.getRoom().getItems().getFloorItem(this.topItem);
 
-        if (roomItemFloor != null && (roomItemFloor.getDefinition().canSit() || roomItemFloor instanceof BedFloorItem || roomItemFloor instanceof SnowboardJumpFloorItem)) {
+        if (roomItemFloor != null) {// &&(roomItemFloor.getDefinition().canSit() || roomItemFloor instanceof BedFloorItem || roomItemFloor instanceof SnowboardJumpFloorItem)) {
             if (roomItemFloor instanceof SnowboardJumpFloorItem) {
                 height += 1.0;
             } else {
