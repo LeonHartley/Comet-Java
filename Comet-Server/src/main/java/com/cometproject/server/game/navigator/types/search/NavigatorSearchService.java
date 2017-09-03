@@ -1,6 +1,8 @@
 package com.cometproject.server.game.navigator.types.search;
 
+import com.cometproject.api.game.rooms.settings.RoomAccessType;
 import com.cometproject.server.game.groups.GroupManager;
+import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.game.navigator.NavigatorManager;
 import com.cometproject.server.game.navigator.types.Category;
@@ -12,7 +14,6 @@ import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.game.rooms.types.RoomPromotion;
 import com.cometproject.server.network.messages.outgoing.navigator.updated.NavigatorSearchResultSetMessageComposer;
-import com.cometproject.server.storage.queries.groups.GroupDao;
 import com.cometproject.server.tasks.CometTask;
 import com.google.common.collect.Lists;
 
@@ -43,9 +44,109 @@ public class NavigatorSearchService implements CometTask {
                 List<Category> categoryList = Lists.newArrayList();
 
                 for(Category navigatorCategory : NavigatorManager.getInstance().getCategories().values()) {
-                    if(navigatorCategory.getCategory().equals(category)) {
-                        if(navigatorCategory.isVisible())
+                    if (navigatorCategory.getCategory().equals(category)) {
+                        if (navigatorCategory.isVisible() && !navigatorCategory.getCategoryType().toString().toLowerCase().equals("my_favorites") && !navigatorCategory.getCategoryType().toString().toLowerCase().equals("with_rights") && !navigatorCategory.getCategoryType().toString().toLowerCase().equals("with_friends") && !navigatorCategory.getCategoryType().toString().toLowerCase().equals("my_groups") && !navigatorCategory.getCategoryType().toString().toLowerCase().equals("my_friends_rooms"))
                             categoryList.add(navigatorCategory);
+                    }
+
+                    if (category.equals("myworld_view")) {
+                        if (navigatorCategory.getCategoryType().toString().toLowerCase().equals("my_friends_rooms")) {
+                            boolean friendsRoomsNotEmpty = false;
+
+                            for (MessengerFriend messengerFriend : player.getMessenger().getFriends().values()) {
+                                if (friendsRoomsNotEmpty) {
+                                    continue;
+                                }
+
+                                if (messengerFriend.isInRoom()) {
+                                    PlayerEntity playerEntity = messengerFriend.getSession().getPlayer().getEntity();
+
+                                    if (playerEntity != null) {
+                                        if (playerEntity.getRoom().getData().getOwnerId() == playerEntity.getPlayerId()) {
+                                            if (playerEntity.getRoom().getData().getAccess() == RoomAccessType.INVISIBLE && player.getData().getRank() < 3) {
+                                                if (playerEntity.getRoom().getGroup() != null) {
+                                                    continue;
+                                                } else {
+                                                    if (!playerEntity.getRoom().getRights().hasRights(player.getId())) {
+                                                        continue;
+                                                    }
+                                                }
+                                            }
+
+                                            friendsRoomsNotEmpty = true;
+                                        }
+                                    }
+                                }
+                            }
+
+                            if (friendsRoomsNotEmpty) {
+                                categoryList.add(navigatorCategory);
+                            }
+                        }
+
+                        if (navigatorCategory.getCategoryType().toString().toLowerCase().equals("with_friends")) {
+                            boolean withFriendsRoomsNotEmpty = false;
+
+                            for (MessengerFriend messengerFriend : player.getMessenger().getFriends().values()) {
+                                if (withFriendsRoomsNotEmpty) {
+                                    continue;
+                                }
+
+                                if (messengerFriend.isInRoom()) {
+                                    PlayerEntity playerEntity = messengerFriend.getSession().getPlayer().getEntity();
+
+                                    if (playerEntity != null && !playerEntity.getPlayer().getSettings().getHideOnline()) {
+                                        if (playerEntity.getRoom().getData().getAccess() == RoomAccessType.INVISIBLE && player.getData().getRank() < 3) {
+                                            final Group group = GroupManager.getInstance().getGroupByRoomId(playerEntity.getRoom().getId());
+
+                                            if (playerEntity.getRoom().getGroup() != null) {
+                                                if (!player.getGroups().contains(group.getId())) {
+                                                    continue;
+                                                }
+                                            } else {
+                                                if (!playerEntity.getRoom().getRights().hasRights(player.getId())) {
+                                                    continue;
+                                                }
+                                            }
+                                        }
+
+                                        withFriendsRoomsNotEmpty = true;
+                                    }
+                                }
+                            }
+
+                            if (withFriendsRoomsNotEmpty) {
+                                categoryList.add(navigatorCategory);
+                            }
+                        }
+
+                        if (navigatorCategory.getCategoryType().toString().toLowerCase().equals("my_groups")) {
+                            boolean groupHomeRoomsNotEmpty = false;
+
+                            for (int groupId : player.getGroups()) {
+                                if (groupHomeRoomsNotEmpty) {
+                                    continue;
+                                }
+
+                                GroupData groupData = GroupManager.getInstance().getData(groupId);
+
+                                if (groupData != null) {
+                                    RoomData roomData = RoomManager.getInstance().getRoomData(groupData.getRoomId());
+
+                                    if (roomData != null) {
+                                        groupHomeRoomsNotEmpty = true;
+                                    }
+                                }
+                            }
+
+                            if (groupHomeRoomsNotEmpty) {
+                                categoryList.add(navigatorCategory);
+                            }
+                        }
+
+                        if (navigatorCategory.getCategoryType().toString().toLowerCase().equals("with_rights") && player.getRoomsWithRights().size() > 0) {
+                            categoryList.add(navigatorCategory);
+                        }
                     }
                 }
 
@@ -77,7 +178,7 @@ public class NavigatorSearchService implements CometTask {
 
         switch (category.getCategoryType()) {
             case MY_ROOMS:
-                if(player.getRooms() == null) {
+                if (player.getRooms() == null) {
                     break;
                 }
 
@@ -88,15 +189,33 @@ public class NavigatorSearchService implements CometTask {
                 }
                 break;
 
+            case MY_FAVORITES:
+                List<RoomData> favouriteRooms = Lists.newArrayList();
+
+                if(player.getNavigator() == null) {
+                    return rooms;
+                }
+
+                for(Integer roomId : player.getNavigator().getFavouriteRooms()) {
+                    if(favouriteRooms.size() == 50) break;
+
+                    final RoomData roomData = RoomManager.getInstance().getRoomData(roomId);
+
+                    if(roomData != null) {
+                        favouriteRooms.add(roomData);
+                    }
+                }
+
+                rooms.addAll(order(favouriteRooms, expanded ? category.getRoomCountExpanded() : category.getRoomCount()));
+                favouriteRooms.clear();
+                break;
+
             case POPULAR:
-
-                rooms.addAll(order(RoomManager.getInstance().getRoomsByCategory(-1, 1), expanded ? category.getRoomCountExpanded() : category.getRoomCount()));
-
-
+                rooms.addAll(order(RoomManager.getInstance().getRoomsByCategory(-1, 1, player), expanded ? category.getRoomCountExpanded() : category.getRoomCount()));
                 break;
 
             case CATEGORY:
-                rooms.addAll(order(RoomManager.getInstance().getRoomsByCategory(category.getId()), expanded ? category.getRoomCountExpanded() : category.getRoomCount()));
+                rooms.addAll(order(RoomManager.getInstance().getRoomsByCategory(category.getId(), player), expanded ? category.getRoomCountExpanded() : category.getRoomCount()));
                 break;
 
             case TOP_PROMOTIONS:
@@ -144,13 +263,13 @@ public class NavigatorSearchService implements CometTask {
             case MY_GROUPS:
                 List<RoomData> groupHomeRooms = Lists.newArrayList();
 
-                for(int groupId : player.getGroups()) {
+                for (int groupId : player.getGroups()) {
                     GroupData groupData = GroupManager.getInstance().getData(groupId);
 
-                    if(groupData != null) {
+                    if (groupData != null) {
                         RoomData roomData = RoomManager.getInstance().getRoomData(groupData.getRoomId());
 
-                        if(roomData != null) {
+                        if (roomData != null) {
                             groupHomeRooms.add(roomData);
                         }
                     }
@@ -163,17 +282,29 @@ public class NavigatorSearchService implements CometTask {
             case MY_FRIENDS_ROOMS:
                 List<RoomData> friendsRooms = Lists.newArrayList();
 
-                if(player.getMessenger() == null) {
+                if (player.getMessenger() == null) {
                     return rooms;
                 }
 
-                for(MessengerFriend messengerFriend : player.getMessenger().getFriends().values()) {
-                    if(messengerFriend.isInRoom()) {
+                for (MessengerFriend messengerFriend : player.getMessenger().getFriends().values()) {
+                    if (messengerFriend.isInRoom()) {
                         PlayerEntity playerEntity = messengerFriend.getSession().getPlayer().getEntity();
 
-                        if(playerEntity != null) {
-                            if(!friendsRooms.contains(playerEntity.getRoom().getData())) {
-                                friendsRooms.add(playerEntity.getRoom().getData());
+                        if (playerEntity != null) {
+                            if (!friendsRooms.contains(playerEntity.getRoom().getData())) {
+                                if (playerEntity.getRoom().getData().getOwnerId() == playerEntity.getPlayerId()) {
+                                    if (playerEntity.getRoom().getData().getAccess() == RoomAccessType.INVISIBLE && player.getData().getRank() < 3) {
+                                        if (playerEntity.getRoom().getGroup() != null) {
+                                            continue;
+                                        } else {
+                                            if (!playerEntity.getRoom().getRights().hasRights(player.getId())) {
+                                                continue;
+                                            }
+                                        }
+                                    }
+
+                                    friendsRooms.add(playerEntity.getRoom().getData());
+                                }
                             }
                         }
                     }
@@ -183,25 +314,54 @@ public class NavigatorSearchService implements CometTask {
                 friendsRooms.clear();
                 break;
 
-            case MY_FAVORITES:
-                List<RoomData> favouriteRooms = Lists.newArrayList();
+            case WITH_FRIENDS:
+                List<RoomData> withFriendsRooms = Lists.newArrayList();
 
-                if(player.getNavigator() == null) {
+                if(player.getMessenger() == null) {
                     return rooms;
                 }
 
-                for(Integer roomId : player.getNavigator().getFavouriteRooms()) {
-                    if(favouriteRooms.size() == 50) break;
+                for(MessengerFriend messengerFriend : player.getMessenger().getFriends().values()) {
+                    if (messengerFriend.isInRoom()) {
+                        PlayerEntity playerEntity = messengerFriend.getSession().getPlayer().getEntity();
 
-                    final RoomData roomData = RoomManager.getInstance().getRoomData(roomId);
+                        if (playerEntity != null && !playerEntity.getPlayer().getSettings().getHideOnline()) {
+                            if (!withFriendsRooms.contains(playerEntity.getRoom().getData())) {
+                                if (playerEntity.getRoom().getData().getAccess() == RoomAccessType.INVISIBLE && player.getData().getRank() < 3) {
+                                    final Group group = GroupManager.getInstance().getGroupByRoomId(playerEntity.getRoom().getId());
 
-                    if(roomData != null) {
-                        favouriteRooms.add(roomData);
+                                    if (playerEntity.getRoom().getGroup() != null) {
+                                        if (!player.getGroups().contains(group.getId())) {
+                                            continue;
+                                        }
+                                    } else {
+                                        if (!playerEntity.getRoom().getRights().hasRights(player.getId())) {
+                                            continue;
+                                        }
+                                    }
+                                }
+
+                                withFriendsRooms.add(playerEntity.getRoom().getData());
+                            }
+                        }
                     }
                 }
 
-                rooms.addAll(order(favouriteRooms, expanded ? category.getRoomCountExpanded() : category.getRoomCount()));
-                favouriteRooms.clear();
+                rooms.addAll(order(withFriendsRooms, expanded ? category.getRoomCountExpanded() : category.getRoomCount()));
+                withFriendsRooms.clear();
+                break;
+
+            case WITH_RIGHTS:
+                if(player.getRoomsWithRights() == null) {
+                    break;
+                }
+
+                for (Integer roomId : new LinkedList<>(player.getRoomsWithRights())) {
+                    if (RoomManager.getInstance().getRoomData(roomId) == null) continue;
+
+                    rooms.add(RoomManager.getInstance().getRoomData(roomId));
+                }
+                break;
         }
 
         return rooms;

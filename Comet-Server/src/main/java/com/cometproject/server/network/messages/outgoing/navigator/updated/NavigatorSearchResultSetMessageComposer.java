@@ -1,12 +1,16 @@
 package com.cometproject.server.network.messages.outgoing.navigator.updated;
 
+import com.cometproject.api.game.rooms.settings.RoomAccessType;
 import com.cometproject.api.networking.messages.IComposer;
+import com.cometproject.server.game.groups.GroupManager;
+import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.navigator.types.Category;
 import com.cometproject.server.game.navigator.types.categories.NavigatorSearchAllowance;
 import com.cometproject.server.game.navigator.types.categories.NavigatorViewMode;
 import com.cometproject.server.game.navigator.types.search.NavigatorSearchService;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.rooms.RoomManager;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.game.rooms.types.RoomWriter;
 import com.cometproject.server.network.messages.composers.MessageComposer;
@@ -20,12 +24,14 @@ public class NavigatorSearchResultSetMessageComposer extends MessageComposer {
     private final String data;
     private final List<Category> categories;
     private final Player player;
+    private int invisibleRooms;
 
     public NavigatorSearchResultSetMessageComposer(String category, String data, List<Category> categories, Player player) {
         this.category = category;
         this.data = data;
         this.categories = categories;
         this.player = player;
+        this.invisibleRooms = 0;
     }
 
     @Override
@@ -49,9 +55,43 @@ public class NavigatorSearchResultSetMessageComposer extends MessageComposer {
 
             List<RoomData> rooms = NavigatorSearchService.order(RoomManager.getInstance().getRoomsByQuery(this.data), 50);
 
-            msg.writeInt(rooms.size());
+            for (RoomData roomData : rooms) {
+                if (roomData.getAccess() == RoomAccessType.INVISIBLE && player.getData().getRank() < 3) {
+                    Room room = RoomManager.getInstance().get(roomData.getId());
+
+                    final Group group = GroupManager.getInstance().getGroupByRoomId(room.getId());
+
+                    if (room.getGroup() != null) {
+                        if (!player.getGroups().contains(group.getId())) {
+                            invisibleRooms++;
+                        }
+                    } else {
+                        if (!room.getRights().hasRights(player.getId())) {
+                            invisibleRooms++;
+                        }
+                    }
+                }
+            }
+
+            msg.writeInt(rooms.size() - invisibleRooms);
 
             for (RoomData roomData : rooms) {
+                if (roomData.getAccess() == RoomAccessType.INVISIBLE && player.getData().getRank() < 3) {
+                    Room room = RoomManager.getInstance().get(roomData.getId());
+
+                    final Group group = GroupManager.getInstance().getGroupByRoomId(room.getId());
+
+                    if (room.getGroup() != null) {
+                        if (!player.getGroups().contains(group.getId())) {
+                            continue;
+                        }
+                    } else {
+                        if (!room.getRights().hasRights(player.getId())) {
+                            continue;
+                        }
+                    }
+                }
+
                 RoomWriter.write(roomData, msg);
             }
 

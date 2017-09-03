@@ -1,13 +1,15 @@
 package com.cometproject.server.network.messages.incoming.room.moderation;
 
+import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.incoming.Event;
-import com.cometproject.server.network.messages.outgoing.room.permissions.YouAreControllerMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.permissions.GiveRoomRightsMessageComposer;
-import com.cometproject.server.protocol.messages.MessageEvent;
+import com.cometproject.server.network.messages.outgoing.room.permissions.YouAreControllerMessageComposer;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 
 
@@ -30,6 +32,13 @@ public class GiveRightsMessageEvent implements Event {
         }
 
         room.getRights().addRights(playerId);
+
+        Session rightsSession = NetworkManager.getInstance().getSessions().getByPlayerId(playerId);
+
+        if (rightsSession != null) {
+            RoomManager.getInstance().rightsRoomsUpdate(rightsSession);
+        }
+
         client.send(new GiveRoomRightsMessageComposer(room.getId(), playerId, playerEntity != null ? playerEntity.getUsername() : PlayerDao.getUsernameByPlayerId(playerId)));
 
         if (playerEntity != null) {

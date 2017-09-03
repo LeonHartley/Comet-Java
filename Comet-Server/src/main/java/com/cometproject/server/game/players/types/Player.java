@@ -66,6 +66,7 @@ public class Player implements BasePlayer {
     private final WardrobeComponent wardrobe;
 
     private List<Integer> rooms = new ArrayList<>();
+    private List<Integer> roomsWithRights = new ArrayList<>();
     private List<Integer> enteredRooms = new ArrayList<>();
 
     private List<Integer> groups = new ArrayList<>();
@@ -214,6 +215,9 @@ public class Player implements BasePlayer {
         this.rooms.clear();
         this.rooms = null;
 
+        this.roomsWithRights.clear();
+        this.roomsWithRights = null;
+
         this.groups.clear();
         this.groups = null;
 
@@ -352,6 +356,11 @@ public class Player implements BasePlayer {
     @Override
     public List<Integer> getRooms() {
         return rooms;
+    }
+
+    @Override
+    public List<Integer> getRoomsWithRights() {
+        return roomsWithRights;
     }
 
     @Override

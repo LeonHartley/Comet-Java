@@ -1,10 +1,11 @@
 package com.cometproject.server.network.messages.incoming.room.moderation;
 
+import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.room.permissions.YouAreControllerMessageComposer;
-import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.protocol.messages.MessageEvent;
 
 public class RemoveOwnRightsMessageEvent implements Event {
     @Override
@@ -15,6 +16,7 @@ public class RemoveOwnRightsMessageEvent implements Event {
 
         if (client.getPlayer().getEntity().getRoom().getRights().hasRights(client.getPlayer().getId())) {
             client.getPlayer().getEntity().getRoom().getRights().removeRights(client.getPlayer().getId());
+            RoomManager.getInstance().rightsRoomsUpdate(client);
 
             client.send(new YouAreControllerMessageComposer(0));
 

@@ -4,6 +4,8 @@ import com.cometproject.api.game.rooms.settings.RoomAccessType;
 import com.cometproject.api.game.rooms.settings.RoomTradeState;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Configuration;
+import com.cometproject.server.game.groups.GroupManager;
+import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.rooms.filter.WordFilter;
 import com.cometproject.server.game.rooms.models.CustomFloorMapData;
@@ -20,17 +22,16 @@ import com.cometproject.server.storage.cache.CacheManager;
 import com.cometproject.server.storage.cache.objects.RoomDataObject;
 import com.cometproject.server.storage.queries.rooms.RoomDao;
 import com.cometproject.server.utilities.Initialisable;
-import com.google.common.collect.Lists;
-import org.apache.commons.collections4.ListUtils;
-import org.apache.commons.fileupload.util.Streams;
 import org.apache.log4j.Logger;
 import org.apache.solr.util.ConcurrentLRUCache;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.function.BiConsumer;
 
 
 public class RoomManager implements Initialisable {
@@ -250,11 +251,21 @@ public class RoomManager implements Initialisable {
 
     public void loadRoomsForUser(Player player) {
         player.getRooms().clear();
+        player.getRoomsWithRights().clear();
 
         Map<Integer, RoomData> rooms = RoomDao.getRoomsByPlayerId(player.getId());
+        Map<Integer, RoomData> roomsWithRights = RoomDao.getRoomsWithRightsByPlayerId(player.getId());
 
         for (Map.Entry<Integer, RoomData> roomEntry : rooms.entrySet()) {
             player.getRooms().add(roomEntry.getKey());
+
+            if (!this.getRoomDataInstances().getMap().containsKey(roomEntry.getKey())) {
+                this.getRoomDataInstances().put(roomEntry.getKey(), roomEntry.getValue());
+            }
+        }
+
+        for (Map.Entry<Integer, RoomData> roomEntry : roomsWithRights.entrySet()) {
+            player.getRoomsWithRights().add(roomEntry.getKey());
 
             if (!this.getRoomDataInstances().getMap().containsKey(roomEntry.getKey())) {
                 this.getRoomDataInstances().put(roomEntry.getKey(), roomEntry.getValue());
@@ -266,6 +277,8 @@ public class RoomManager implements Initialisable {
         ArrayList<RoomData> rooms = new ArrayList<>();
 
         if (query.equals("tag:")) return rooms;
+
+        if (query.equals("group:")) return rooms;
 
         if (query.startsWith("roomname:")) {
             query = query.substring(9);
@@ -308,6 +321,10 @@ public class RoomManager implements Initialisable {
         return roomId;
     }
 
+    public void rightsRoomsUpdate(Session client) {
+        this.loadRoomsForUser(client.getPlayer());
+    }
+
     private List<Integer> getActiveAvailableRooms() {
         final List<Integer> rooms = new ArrayList<>();
 
@@ -338,11 +355,11 @@ public class RoomManager implements Initialisable {
         return -1;
     }
 
-    public List<RoomData> getRoomsByCategory(int category) {
-        return this.getRoomsByCategory(category, 0);
+    public List<RoomData> getRoomsByCategory(int category, Player player) {
+        return this.getRoomsByCategory(category, 0, player);
     }
 
-    public List<RoomData> getRoomsByCategory(int category, int minimumPlayers) {
+    public List<RoomData> getRoomsByCategory(int category, int minimumPlayers, Player player) {
         List<RoomData> rooms = new ArrayList<>();
 
         for (Room room : this.getRoomInstances().values()) {
@@ -351,6 +368,20 @@ public class RoomManager implements Initialisable {
             }
 
             if (room.getEntities() != null && room.getEntities().playerCount() < minimumPlayers) continue;
+
+            if (room.getData().getAccess() == RoomAccessType.INVISIBLE && player.getData().getRank() < 3) {
+                final Group group = GroupManager.getInstance().getGroupByRoomId(room.getId());
+
+                if (room.getGroup() != null) {
+                    if (!player.getGroups().contains(group.getId())) {
+                        continue;
+                    }
+                } else {
+                    if (!room.getRights().hasRights(player.getId())) {
+                        continue;
+                    }
+                }
+            }
 
             rooms.add(room.getData());
         }

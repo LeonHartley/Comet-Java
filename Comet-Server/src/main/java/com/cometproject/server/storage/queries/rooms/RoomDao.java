@@ -109,6 +109,36 @@ public class RoomDao {
         return rooms;
     }
 
+    public static Map<Integer, RoomData> getRoomsWithRightsByPlayerId(int playerId) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        Map<Integer, RoomData> rooms = new ListOrderedMap<>();
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("SELECT * FROM rooms WHERE id IN (SELECT room_id FROM room_rights WHERE player_id = ?) AND group_id = 0 ORDER BY SUBSTRING(users_now FROM 1 FOR 1) DESC, name ASC LIMIT 50", sqlConnection);
+            preparedStatement.setInt(1, playerId);
+
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                rooms.put(resultSet.getInt("id"), new RoomData(resultSet));
+            }
+
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(resultSet);
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+
+        return rooms;
+    }
+
     public static List<RoomData> getRoomsByQuery(String query) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
@@ -122,19 +152,25 @@ public class RoomDao {
             if(query.equals("owner:")) return rooms;
 
             if (query.startsWith("owner:")) {
-                preparedStatement = SqlHelper.prepare("SELECT * FROM rooms WHERE owner = ?", sqlConnection);
+                preparedStatement = SqlHelper.prepare("SELECT * FROM rooms WHERE owner = ? ORDER BY name ASC", sqlConnection);
                 preparedStatement.setString(1, query.split("owner:")[1]);
             } else if (query.startsWith("tag:")) {
-                preparedStatement = SqlHelper.prepare("SELECT * FROM rooms WHERE tags LIKE ? LIMIT 50", sqlConnection);
+                preparedStatement = SqlHelper.prepare("SELECT * FROM rooms WHERE tags LIKE ? ORDER BY SUBSTRING(users_now FROM 1 FOR 1) DESC, name ASC LIMIT 50", sqlConnection);
 
                 String tagName = SqlHelper.escapeWildcards(query.split("tag:")[1]);
-                preparedStatement.setString(1, "%" + tagName + "%");
+                preparedStatement.setString(1,  tagName + "%");
+            } else if (query.startsWith("group:")) {
+                preparedStatement = SqlHelper.prepare("SELECT * FROM rooms WHERE group_id IN (SELECT id FROM groups WHERE name LIKE ?) ORDER BY SUBSTRING(users_now FROM 1 FOR 1) DESC, name ASC LIMIT 50", sqlConnection);
+
+                String groupName = SqlHelper.escapeWildcards(query.split("group:")[1]);
+                preparedStatement.setString(1, groupName + "%");
             } else {
                 // escape wildcard characters
                 query = SqlHelper.escapeWildcards(query);
 
-                preparedStatement = SqlHelper.prepare("SELECT * FROM rooms WHERE name LIKE ? LIMIT 50", sqlConnection);
-                preparedStatement.setString(1, query + "%");
+                preparedStatement = SqlHelper.prepare("(SELECT * FROM rooms WHERE owner = ? ORDER BY users_now DESC LIMIT 50) UNION (SELECT * FROM rooms WHERE name LIKE ? ORDER BY SUBSTRING(users_now FROM 1 FOR 1) DESC, name ASC LIMIT 50)", sqlConnection);
+                preparedStatement.setString(1, query);
+                preparedStatement.setString(2, query + "%");
             }
 
             resultSet = preparedStatement.executeQuery();

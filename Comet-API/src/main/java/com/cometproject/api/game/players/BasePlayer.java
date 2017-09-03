@@ -35,6 +35,8 @@ public interface BasePlayer {
 
     List<Integer> getRooms();
 
+    List<Integer> getRoomsWithRights();
+
     void setRooms(List<Integer> rooms);
 
     void setSession(BaseSession client);
