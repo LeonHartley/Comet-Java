@@ -8,6 +8,12 @@ Comet 2
 - Pets sleep
 - Pet pterodactyl & velociraptor eggs
 - Horse jump
+- Favourite rooms
+- Football 100%
+- Wired: wf_act_move_to_dir
+- Wired: wf_cnd_stuff_is / wf_cnd_not_stuff_is
+- Purchasable clothing 100%
+- Paginated inventory packet (basically: infinite sized inventory without crash)
 
 - Command :roomoption
 - Command :emptybots
@@ -24,7 +30,10 @@ Comet 2
 - Freeze shields are now functional
 - Scratching pets from a distance is now more reliable
 - Banzai teleporters are now fixed
-
+- Entity height is now updated when furni is moved from beneath them
+- Wired: wf_trg_collision is fixed
+- Pets increase in happiness when scratched
+- So many more pet improvements (pets can turn on tvs, so many more misc. stuff)
 
 SQL
 ------------------------------
