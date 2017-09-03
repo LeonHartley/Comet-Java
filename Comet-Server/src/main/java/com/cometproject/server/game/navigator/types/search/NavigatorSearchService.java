@@ -45,7 +45,7 @@ public class NavigatorSearchService implements CometTask {
 
                 for(Category navigatorCategory : NavigatorManager.getInstance().getCategories().values()) {
                     if (navigatorCategory.getCategory().equals(category)) {
-                        if (navigatorCategory.isVisible() && !navigatorCategory.getCategoryType().toString().toLowerCase().equals("my_favorites") && !navigatorCategory.getCategoryType().toString().toLowerCase().equals("with_rights") && !navigatorCategory.getCategoryType().toString().toLowerCase().equals("with_friends") && !navigatorCategory.getCategoryType().toString().toLowerCase().equals("my_groups") && !navigatorCategory.getCategoryType().toString().toLowerCase().equals("my_friends_rooms"))
+                        if (navigatorCategory.isVisible() && !navigatorCategory.getCategoryType().toString().toLowerCase().equals("with_rights") && !navigatorCategory.getCategoryType().toString().toLowerCase().equals("with_friends") && !navigatorCategory.getCategoryType().toString().toLowerCase().equals("my_groups") && !navigatorCategory.getCategoryType().toString().toLowerCase().equals("my_friends_rooms"))
                             categoryList.add(navigatorCategory);
                     }
 
