@@ -8,11 +8,14 @@ import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public interface PlayerInventory extends PlayerComponent {
     void loadItems();
 
     void loadBadges();
+
+    void loadEffects();
 
     void send();
 
@@ -55,6 +58,14 @@ public interface PlayerInventory extends PlayerComponent {
     Map<Long, PlayerItem> getInventoryItems();
 
     Map<String, Integer> getBadges();
+
+    boolean hasEffect(int effectId);
+
+    Set<Integer> getEffects();
+
+    int getEquippedEffect();
+
+    void setEquippedEffect(int effectId);
 
     boolean itemsLoaded();
 }

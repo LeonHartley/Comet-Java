@@ -18,7 +18,9 @@ import com.cometproject.server.network.messages.outgoing.user.inventory.BadgeInv
 import com.cometproject.server.network.messages.outgoing.user.inventory.InventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.RemoveObjectFromInventoryMessageComposer;
 import com.cometproject.server.storage.queries.achievements.PlayerAchievementDao;
+import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.storage.queries.player.inventory.InventoryDao;
+import com.cometproject.server.utilities.collections.ConcurrentHashSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.log4j.Logger;
@@ -36,6 +38,9 @@ public class InventoryComponent implements PlayerInventory {
 
     private boolean itemsLoaded = false;
 
+    private int equippedEffect = -1;
+    private Set<Integer> effects;
+
     private Logger log = Logger.getLogger(InventoryComponent.class.getName());
 
     public InventoryComponent(Player player) {
@@ -45,7 +50,17 @@ public class InventoryComponent implements PlayerInventory {
 
         this.badges = new ConcurrentHashMap<>();
 
+        this.loadEffects();
         this.loadBadges();
+    }
+
+    public void loadEffects() {
+        if(this.effects != null) {
+            this.effects.clear();
+            this.effects = null;
+        }
+
+        this.effects = PlayerDao.getEffects(this.player.getId());
     }
 
     @Override
@@ -260,6 +275,9 @@ public class InventoryComponent implements PlayerInventory {
         this.inventoryItems.clear();
         this.inventoryItems = null;
 
+        this.effects.clear();
+        this.effects = null;
+
         this.badges.clear();
         this.badges = null;
     }
@@ -280,6 +298,16 @@ public class InventoryComponent implements PlayerInventory {
     }
 
     @Override
+    public boolean hasEffect(int effectId) {
+        return this.effects.contains(effectId);
+    }
+
+    @Override
+    public Set<Integer> getEffects() {
+        return this.effects;
+    }
+
+    @Override
     public Player getPlayer() {
         return this.player;
     }
@@ -287,5 +315,13 @@ public class InventoryComponent implements PlayerInventory {
     @Override
     public boolean itemsLoaded() {
         return itemsLoaded;
+    }
+
+    public int getEquippedEffect() {
+        return this.equippedEffect;
+    }
+
+    public void setEquippedEffect(int equippedEffect) {
+        this.equippedEffect = equippedEffect;
     }
 }

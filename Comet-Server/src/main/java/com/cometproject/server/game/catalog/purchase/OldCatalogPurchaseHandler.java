@@ -17,6 +17,7 @@ import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.items.music.MusicData;
 import com.cometproject.server.game.items.rares.LimitedEditionItemData;
 import com.cometproject.server.game.items.types.ItemDefinition;
+import com.cometproject.server.game.items.types.ItemType;
 import com.cometproject.server.game.pets.data.PetData;
 import com.cometproject.server.game.pets.data.StaticPetProperties;
 import com.cometproject.server.game.players.components.types.inventory.InventoryBot;
@@ -32,6 +33,7 @@ import com.cometproject.server.network.messages.outgoing.notification.*;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomForwardMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.settings.EnforceRoomCategoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.BotInventoryMessageComposer;
+import com.cometproject.server.network.messages.outgoing.user.inventory.EffectsInventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.PetInventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
 import com.cometproject.server.network.sessions.Session;
@@ -49,6 +51,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.apache.lucene.util.packed.EliasFanoEncoder;
 import org.joda.time.DateTime;
 
 import java.util.*;
@@ -209,7 +212,7 @@ public class OldCatalogPurchaseHandler {
                 return;
             }
 
-            if(item.getLimitedTotal() > 0) {
+            if (item.getLimitedTotal() > 0) {
                 item.increaseLimitedSells(amount);
                 CatalogDao.updateLimitSellsForItem(item.getId(), amount);
             }
@@ -259,7 +262,20 @@ public class OldCatalogPurchaseHandler {
 
                 boolean isTeleport = false;
 
-                if (def.getInteraction().equals("trophy")) {
+                if (def.getItemType() == ItemType.EFFECT) {
+                    int effectId = def.getSpriteId();
+
+                    // deliver effect
+
+                    if(!client.getPlayer().getInventory().hasEffect(effectId)) {
+                        client.getPlayer().getInventory().getEffects().add(effectId);
+                        PlayerDao.saveEffect(client.getPlayer().getId(), effectId);
+
+                        client.send(new EffectsInventoryMessageComposer(client.getPlayer().getInventory().getEffects(), client.getPlayer().getInventory().getEquippedEffect()));
+                    }
+
+                    return;
+                } else if (def.getInteraction().equals("trophy")) {
                     extraData +=
                             client.getPlayer().getData().getUsername() + Character.toChars(9)[0] + DateTime.now().getDayOfMonth() + "-" + DateTime.now().getMonthOfYear() + "-" + DateTime.now().getYear() + Character.toChars(9)[0] + data;
                 } else if (def.isTeleporter()) {

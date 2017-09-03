@@ -260,6 +260,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.ChangeNameMessageEvent, new ChangeNameMessageEvent());
         this.getMessages().put(Events.CheckValidNameMessageEvent, new CheckValidNameMessageEvent());
         this.getMessages().put(Events.RedeemClothingMessageEvent, new RedeemClothingMessageEvent());
+        this.getMessages().put(Events.EquipEffectMessageEvent, new EquipEffectMessageEvent());
     }
 
     public void registerBots() {

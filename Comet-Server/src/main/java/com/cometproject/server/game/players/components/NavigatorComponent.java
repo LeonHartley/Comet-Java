@@ -25,6 +25,7 @@ public class NavigatorComponent {
 
     public void dispose() {
         this.savedSearches.clear();
+        this.favouriteRooms.clear();
     }
 
     public boolean isSearchSaved(SavedSearch newSearch) {

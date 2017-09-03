@@ -85,7 +85,7 @@ public class ItemDefinition implements FurnitureDefinition {
             this.variableHeights = null;
         }
 
-        if (height == 0.0) {
+        if (height == 0.0 || height == 0) {
             this.height = 0.001;
         } else {
             this.height = height;
