@@ -262,6 +262,7 @@ public class Events {
     public static final short BreedPetsMessageEvent = 2805;
     public static final short OpenPetPackageMessageEvent = 2249;
     public static final short RedeemClothingMessageEvent = 2699;
+    public static final short EquipEffectMessageEvent = 295;
 
 
     private static Map<Short, String> eventPacketNames = new HashMap<>();

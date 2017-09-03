@@ -5,6 +5,7 @@ import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.game.polls.PollManager;
 import com.cometproject.server.game.polls.types.Poll;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
+import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerEnterRoom;
@@ -73,6 +74,10 @@ public class AddUserToRoomMessageEvent implements Event {
         client.sendQueue(new GroupBadgesMessageComposer(groupsInRoom));
         client.sendQueue(new RoomEntryInfoMessageComposer(room.getId(), room.getData().getOwnerId() == client.getPlayer().getId() || client.getPlayer().getPermissions().getRank().roomFullControl()));
         client.sendQueue(new AvatarsMessageComposer(room));
+
+        if(client.getPlayer().getInventory().getEquippedEffect() != -1) {
+            client.getPlayer().getEntity().applyEffect(new PlayerEffect(client.getPlayer().getInventory().getEquippedEffect(), false));
+        }
 
         if (room.getEntities().getAllEntities().size() > 0)
             client.sendQueue(new AvatarUpdateMessageComposer(room.getEntities().getAllEntities().values()));

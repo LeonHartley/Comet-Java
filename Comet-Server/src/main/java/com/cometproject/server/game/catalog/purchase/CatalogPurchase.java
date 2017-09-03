@@ -20,6 +20,10 @@ public class CatalogPurchase {
     private String data;
 
     /**
+     *
+     */
+
+    /**
      * Initialize the catalog purchase object
      *
      * @param playerId   The ID of the player who purchased the item

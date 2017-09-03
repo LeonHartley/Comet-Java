@@ -2,7 +2,8 @@ package com.cometproject.server.game.items.types;
 
 public enum ItemType {
     WALL("i"),
-    FLOOR("s");
+    FLOOR("s"),
+    EFFECT("e");
 
     private String type;
 
@@ -17,6 +18,8 @@ public enum ItemType {
     public static ItemType forString(final String str) {
         if(str.equals("i")) {
             return WALL;
+        } else if(str.equals("e")) {
+            return EFFECT;
         }
 
         return FLOOR;

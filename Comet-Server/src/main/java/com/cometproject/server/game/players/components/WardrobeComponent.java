@@ -23,6 +23,10 @@ public class WardrobeComponent {
         PlayerClothingDao.getClothing(this.player.getId(), this.purchasedClothing);
     }
 
+    public void dispose() {
+        this.purchasedClothing.clear();
+    }
+
     public Set<String> getClothing() {
         return purchasedClothing;
     }

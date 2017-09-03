@@ -201,6 +201,7 @@ public class Player implements BasePlayer {
         this.getRelationships().dispose();
         this.getQuests().dispose();
         this.getNavigator().dispose();
+        this.getWardrobe().dispose();
 
         try {
             PlayerManager.getInstance().getSsoTicketToPlayerId().remove(this.ssoTicket);
