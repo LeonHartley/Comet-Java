@@ -294,7 +294,8 @@ public class RollerFloorItem extends AdvancedFloorItem<RollerFloorItemEvent> {
             RoomItemDao.saveItemPosition(floor.getPosition().getX(), floor.getPosition().getY(), floor.getPosition().getZ(), floor.getRotation(), floor.getId());
         }
 
-        this.getRoom().getEntities().broadcastMessage(new SlideObjectBundleMessageComposer(position, sqInfront.copy(), this.getVirtualId(), 0, slidingItems));
+        if(slidingItems.size() != 0)
+            this.getRoom().getEntities().broadcastMessage(new SlideObjectBundleMessageComposer(position, sqInfront.copy(), this.getVirtualId(), 0, slidingItems));
 
         this.getRoom().getMapping().updateTile(this.getPosition().getX(), this.getPosition().getY());
         this.getRoom().getMapping().updateTile(sqInfront.getX(), sqInfront.getY());
