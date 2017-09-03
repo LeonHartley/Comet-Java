@@ -90,7 +90,7 @@ public class NavigatorSearchService implements CometTask {
 
             case POPULAR:
 
-                rooms.addAll(order(RoomManager.getInstance().getRoomsByCategory(-1), expanded ? category.getRoomCountExpanded() : category.getRoomCount()));
+                rooms.addAll(order(RoomManager.getInstance().getRoomsByCategory(-1, 1), expanded ? category.getRoomCountExpanded() : category.getRoomCount()));
 
 
                 break;

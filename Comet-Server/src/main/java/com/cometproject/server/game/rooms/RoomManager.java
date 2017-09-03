@@ -199,11 +199,11 @@ public class RoomManager implements Initialisable {
             this.executorService.submit(() -> {
                 room.dispose();
 
-                if(room.isReloading()) {
+                if (room.isReloading()) {
                     Room newRoom = this.get(room.getId());
 
-                    if(newRoom != null) {
-                        if(this.reloadListeners.containsKey(room.getId())) {
+                    if (newRoom != null) {
+                        if (this.reloadListeners.containsKey(room.getId())) {
                             final RoomReloadListener reloadListener = this.reloadListeners.get(newRoom.getId());
 
                             reloadListener.onReloaded(newRoom);
@@ -311,11 +311,11 @@ public class RoomManager implements Initialisable {
     private List<Integer> getActiveAvailableRooms() {
         final List<Integer> rooms = new ArrayList<>();
 
-        for(Room activeRoom : this.loadedRoomInstances.values()) {
-            if(!this.unloadingRoomInstances.containsKey(activeRoom.getId())) {
+        for (Room activeRoom : this.loadedRoomInstances.values()) {
+            if (!this.unloadingRoomInstances.containsKey(activeRoom.getId())) {
                 final int playerCount = activeRoom.getEntities().playerCount();
 
-                if(playerCount != 0 && playerCount < activeRoom.getData().getMaxUsers() &&
+                if (playerCount != 0 && playerCount < activeRoom.getData().getMaxUsers() &&
                         activeRoom.getData().getAccess() == RoomAccessType.OPEN) {
                     rooms.add(activeRoom.getId());
                 }
@@ -331,7 +331,7 @@ public class RoomManager implements Initialisable {
 
         rooms.clear();
 
-        if(roomId != null) {
+        if (roomId != null) {
             return roomId;
         }
 
@@ -339,12 +339,18 @@ public class RoomManager implements Initialisable {
     }
 
     public List<RoomData> getRoomsByCategory(int category) {
+        return this.getRoomsByCategory(category, 0);
+    }
+
+    public List<RoomData> getRoomsByCategory(int category, int minimumPlayers) {
         List<RoomData> rooms = new ArrayList<>();
 
         for (Room room : this.getRoomInstances().values()) {
             if (category != -1 && (room.getData().getCategory() == null || room.getData().getCategory().getId() != category)) {
                 continue;
             }
+
+            if (room.getEntities() != null && room.getEntities().playerCount() < minimumPlayers) continue;
 
             rooms.add(room.getData());
         }
