@@ -147,6 +147,7 @@ public class RoomItemFactory {
             put("wf_ringplate", WiredAddonPressurePlate.class);//new
             put("wf_pyramid", WiredAddonPyramid.class);//new
             put("wf_visual_timer", WiredAddonVisualTimer.class);//new
+            put("wf_blob", WiredAddonBlob.class);//new
 
             put("highscore_classic", HighscoreClassicFloorItem.class);
 
@@ -206,6 +207,7 @@ public class RoomItemFactory {
             put("freeze_exit", FreezeExitFloorItem.class);
 
             put("clothing", ClothingFloorItem.class);
+            put("crackable", CrackableFloorItem.class);
         }};
     }
 

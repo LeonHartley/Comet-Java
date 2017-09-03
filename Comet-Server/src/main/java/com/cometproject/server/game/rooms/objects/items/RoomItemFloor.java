@@ -13,10 +13,7 @@ import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.AffectedTile;
 import com.cometproject.server.game.rooms.objects.items.data.BackgroundTonerData;
 import com.cometproject.server.game.rooms.objects.items.types.DefaultFloorItem;
-import com.cometproject.server.game.rooms.objects.items.types.floor.AdjustableHeightFloorItem;
-import com.cometproject.server.game.rooms.objects.items.types.floor.GiftFloorItem;
-import com.cometproject.server.game.rooms.objects.items.types.floor.MagicStackFloorItem;
-import com.cometproject.server.game.rooms.objects.items.types.floor.SoundMachineFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.boutique.MannequinFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.football.FootballGateFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupFloorItem;
@@ -215,6 +212,10 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
             msg.writeInt(0);
 
             ((HighscoreClassicFloorItem) this).composeHighscoreData(msg);
+        } else if (this instanceof CrackableFloorItem) {
+            msg.writeInt(0);
+
+            ((CrackableFloorItem) this).composeData(msg);
         } else if (this.getLimitedEditionItemData() != null) {
             msg.writeInt(0);
             msg.writeString("");
@@ -229,7 +230,7 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
             msg.writeInt(0);
 
             //msg.writeString(isGift ? giftData.toString() : this.getExtraData());
-            msg.writeString((this instanceof FootballGateFloorItem) ? "" : (this instanceof WiredFloorItem) ? ((WiredFloorItem) this).getState()? "1" : "0" : (this instanceof SoundMachineFloorItem) ? ((SoundMachineFloorItem) this).getState() ? "1" : "0" : this.getExtraData());
+            msg.writeString((this instanceof FootballGateFloorItem) ? "" : (this instanceof WiredFloorItem) ? ((WiredFloorItem) this).getState() ? "1" : "0" : (this instanceof SoundMachineFloorItem) ? ((SoundMachineFloorItem) this).getState() ? "1" : "0" : this.getExtraData());
         }
 
         msg.writeInt(-1);
