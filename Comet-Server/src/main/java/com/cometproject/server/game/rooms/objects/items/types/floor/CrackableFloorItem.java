@@ -30,7 +30,9 @@ public class CrackableFloorItem extends RoomItemFloor {
         return true;
     }
 
-    public void composeData(IComposer msg) {
+    @Override
+    public void composeItemData(IComposer msg) {
+        msg.writeInt(0);
         msg.writeInt(7);
 
         int state = Integer.parseInt(this.getExtraData());

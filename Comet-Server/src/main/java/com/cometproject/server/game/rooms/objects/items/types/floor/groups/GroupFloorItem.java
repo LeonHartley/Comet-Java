@@ -1,5 +1,8 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.groups;
 
+import com.cometproject.api.networking.messages.IComposer;
+import com.cometproject.server.game.groups.GroupManager;
+import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
@@ -19,6 +22,29 @@ public class GroupFloorItem extends RoomItemFloor {
             this.groupId = 0;
         else
             this.groupId = Integer.parseInt(data);
+    }
+
+    @Override
+    public void composeItemData(IComposer msg) {
+        GroupData groupData = GroupManager.getInstance().getData(this.getGroupId());
+
+        msg.writeInt(0);
+        if (groupData == null) {
+            msg.writeInt(2);
+            msg.writeInt(0);
+        } else {
+            msg.writeInt(2);
+            msg.writeInt(5);
+            msg.writeString(this instanceof GroupGateFloorItem ? ((GroupGateFloorItem) this).isOpen ? "1" : "0" : "0");
+            msg.writeString(this.getExtraData());
+            msg.writeString(groupData.getBadge());
+
+            String colourA = GroupManager.getInstance().getGroupItems().getSymbolColours().get(groupData.getColourA()) != null ? GroupManager.getInstance().getGroupItems().getSymbolColours().get(groupData.getColourA()).getColour() : "ffffff";
+            String colourB = GroupManager.getInstance().getGroupItems().getBackgroundColours().get(groupData.getColourB()) != null ? GroupManager.getInstance().getGroupItems().getBackgroundColours().get(groupData.getColourB()).getColour() : "ffffff";
+
+            msg.writeString(colourA);
+            msg.writeString(colourB);
+        }
     }
 
     public void onEntityStepOn(RoomEntity entity, boolean instantUpdate) {
