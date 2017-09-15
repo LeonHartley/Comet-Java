@@ -49,6 +49,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 
 public class ItemsComponent {
+
     private Room room;
     private final Logger log;
 

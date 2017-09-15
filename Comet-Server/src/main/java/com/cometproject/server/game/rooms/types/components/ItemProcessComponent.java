@@ -1,6 +1,7 @@
 package com.cometproject.server.game.rooms.types.components;
 
 import com.cometproject.server.boot.Comet;
+import com.cometproject.server.game.rooms.objects.entities.WiredTriggerExecutor;
 import com.cometproject.server.game.rooms.objects.items.RoomItem;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
@@ -14,6 +15,9 @@ import com.cometproject.server.tasks.CometThreadManager;
 import com.cometproject.server.utilities.TimeSpan;
 import org.apache.log4j.Logger;
 
+import java.util.Queue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.Set;
@@ -21,6 +25,7 @@ import java.util.HashSet;
 
 
 public class ItemProcessComponent implements CometTask {
+
     //    private final int INTERVAL = Integer.parseInt(Configuration.currentConfig().get("comet.system.item_process.interval"));
     private static final int INTERVAL = 500;
     private static final int FLAG = 400;
@@ -31,6 +36,8 @@ public class ItemProcessComponent implements CometTask {
     private ScheduledFuture myFuture;
 
     private boolean active = false;
+
+    private final ExecutorService executorService = Executors.newFixedThreadPool(4);
 
     // TODO: Finish the item event queue.
     private RoomItemEventQueue eventQueue;// = new RoomItemEventQueue();
@@ -141,6 +148,10 @@ public class ItemProcessComponent implements CometTask {
     @Override
     public void run() {
         this.tick();
+    }
+
+    public void queueAction(WiredTriggerExecutor action) {
+        this.executorService.execute(action);
     }
 
     protected void handleException(RoomItem item, Exception e) {

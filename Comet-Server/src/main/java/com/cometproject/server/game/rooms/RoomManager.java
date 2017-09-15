@@ -35,6 +35,7 @@ import java.util.concurrent.Executors;
 
 
 public class RoomManager implements Initialisable {
+    
     private static RoomManager roomManagerInstance;
     public static final Logger log = Logger.getLogger(RoomManager.class.getName());
 
@@ -81,7 +82,7 @@ public class RoomManager implements Initialisable {
 
         this.globalCycle.start();
 
-        this.executorService = Executors.newFixedThreadPool(4, r -> {
+        this.executorService = Executors.newFixedThreadPool(8, r -> {
             final Thread roomThread = new Thread(r, "Room-Worker-" + UUID.randomUUID());
 
             roomThread.setUncaughtExceptionHandler((t, e) -> e.printStackTrace());

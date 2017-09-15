@@ -601,7 +601,7 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
 
     @Override
     public void warp(Position position) {
-        if (this.needsForcedUpdate) return;
+//        if (this.needsForcedUpdate) return;
 
         this.warp(position, true);
     }

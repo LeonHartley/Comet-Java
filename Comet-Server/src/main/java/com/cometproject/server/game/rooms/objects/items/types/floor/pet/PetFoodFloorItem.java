@@ -84,5 +84,7 @@ public class PetFoodFloorItem extends RoomItemFloor {
         if(entity == this.pet) {
             this.pet = null;
         }
+
+        ((PetEntity) entity).getPetAI().eatingComplete(false);
     }
 }

@@ -55,7 +55,7 @@ public class PlayerManager implements Initialisable {
         this.ipAddressToPlayerIds = new ConcurrentHashMap<>();
         this.ssoTicketToPlayerId = new ConcurrentHashMap<>();
 
-        this.playerLoginService = Executors.newFixedThreadPool(16);// TODO: configure this.
+        this.playerLoginService = Executors.newFixedThreadPool(4);// TODO: configure this.
 
         // Configure player cache
         if ((boolean) Configuration.currentConfig().getOrDefault("comet.cache.players.enabled", true)) {
@@ -190,6 +190,16 @@ public class PlayerManager implements Initialisable {
     public void remove(int playerId, String username, int sessionId, String ipAddress) {
         if (this.getSessionIdByPlayerId(playerId) != sessionId) {
             return;
+        }
+
+        final List<Integer> playerIds = this.ipAddressToPlayerIds.get(ipAddress);
+
+        if(playerIds != null && playerIds.contains(playerId)) {
+            playerIds.remove(playerId);
+
+            if(playerIds.size() == 0) {
+                this.ipAddressToPlayerIds.remove(ipAddress);
+            }
         }
 
         this.playerIdToSessionId.remove(playerId);
