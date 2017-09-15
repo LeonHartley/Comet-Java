@@ -1,9 +1,13 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.highscore;
 
 import com.cometproject.api.networking.messages.IComposer;
+import com.cometproject.server.game.groups.GroupManager;
+import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupGateFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.data.ScoreboardItemData;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.utilities.JsonUtil;
@@ -26,6 +30,12 @@ public class HighscoreClassicFloorItem extends RoomItemFloor {
             this.state = false;
             this.itemData = new ScoreboardItemData(1, 0, Lists.newArrayList());
         }
+    }
+
+    @Override
+    public void composeItemData(IComposer msg) {
+        msg.writeInt(0);
+        this.composeHighscoreData(msg);
     }
 
     @Override

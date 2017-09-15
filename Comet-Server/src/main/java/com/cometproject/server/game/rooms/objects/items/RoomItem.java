@@ -9,7 +9,9 @@ import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.items.types.AdvancedFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.RollableFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.RollerFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.SoundMachineFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.football.BallFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.football.FootballGateFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.games.banzai.BanzaiTeleporterFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredFloorItem;
 import com.cometproject.server.game.rooms.objects.misc.Position;
@@ -127,6 +129,17 @@ public abstract class RoomItem extends BigRoomFloorObject implements Attributabl
 
     public void onEntityLeaveRoom(RoomEntity entity) {
         // Override this
+    }
+
+    public void composeItemData(IComposer msg) {
+        msg.writeInt(1);
+        msg.writeInt(0);
+
+        //msg.writeString(isGift ? giftData.toString() : this.getExtraData());
+        msg.writeString((this instanceof FootballGateFloorItem) ? "" :
+                (this instanceof WiredFloorItem) ? ((WiredFloorItem) this).getState() ? "1" : "0" :
+                (this instanceof SoundMachineFloorItem) ? ((SoundMachineFloorItem) this).getState() ? "1" : "0" :
+                        this.getExtraData());
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.boutique;
 
+import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
@@ -25,16 +26,29 @@ public class MannequinFloorItem extends RoomItemFloor {
             this.gender = splitData[2];
 
             String[] figureParts = this.figure.split("\\.");
-            String finalFigure = "";
+            StringBuilder finalFigure = new StringBuilder();
 
             for (String figurePart : figureParts) {
                 if (!figurePart.contains("hr") && !figurePart.contains("hd") && !figurePart.contains("he") && !figurePart.contains("ha")) {
-                    finalFigure += figurePart + ".";
+                    finalFigure.append(figurePart).append(".");
                 }
             }
 
             this.figure = finalFigure.substring(0, finalFigure.length() - 1);
         }
+    }
+
+    public void composeItemData(IComposer msg) {
+        msg.writeInt(0);
+        msg.writeInt(1);
+        msg.writeInt(3);
+
+        msg.writeString("GENDER");
+        msg.writeString(this.getGender());
+        msg.writeString("FIGURE");
+        msg.writeString(this.getFigure());
+        msg.writeString("OUTFIT_NAME");
+        msg.writeString(this.getName());
     }
 
     @Override

@@ -74,6 +74,7 @@ public class RoomItemFactory {
             put("lovelock", LoveLockFloorItem.class);
             put("soundmachine", SoundMachineFloorItem.class);
             put("privatechat", PrivateChatFloorItem.class);
+            put("badge_display", BadgeDisplayFloorItem.class);
 
             put("wf_act_flee", WiredActionFlee.class);//todo: this
             put("wf_act_match_to_sshot", WiredActionMatchToSnapshot.class);//new
@@ -211,7 +212,7 @@ public class RoomItemFactory {
         }};
     }
 
-    public static RoomItemFloor createFloor(long id, int baseId, Room room, int ownerId, String ownerName, int x, int y, double height, int rot, String data, LimitedEditionItemData limitedEditionItemData) {
+    public static RoomItemFloor createFloor(long id, int baseId, Room room, int ownerId, String ownerName, int x, int y, double height, int rotation, String data, LimitedEditionItemData limitedEditionItemData) {
         ItemDefinition def = ItemManager.getInstance().getDefinition(baseId);
 
         if(CometSettings.storageItemQueueEnabled) {
@@ -229,16 +230,24 @@ public class RoomItemFactory {
         }
 
         if (def.canSit()) {
-            floorItem = new SeatFloorItem(id, baseId, room, ownerId, ownerName, x, y, height, rot, data);
+            floorItem = new SeatFloorItem(id, baseId, room, ownerId, ownerName, x, y, height, rotation, data);
         }
 
         if (def.getItemName().startsWith(STACK_TOOL)) {
-            floorItem = new MagicStackFloorItem(id, baseId, room, ownerId, ownerName, x, y, height, rot, data);
+            floorItem = new MagicStackFloorItem(id, baseId, room, ownerId, ownerName, x, y, height, rotation, data);
+        }
+
+        if(def.isAdFurni()) {
+            floorItem = new AdsFloorItem(id, baseId, room, ownerId, ownerName, x, y, height, rotation, data);
+        }
+
+        if(def.getItemName().contains("yttv")) {
+            floorItem = new VideoPlayerFloorItem(id, baseId, room, ownerId, ownerName, x, y, height, rotation, data);
         }
 
         if (data.startsWith(GIFT_DATA)) {
             try {
-                floorItem = new GiftFloorItem(id, baseId, room, ownerId, ownerName, x, y, height, rot, data);
+                floorItem = new GiftFloorItem(id, baseId, room, ownerId, ownerName, x, y, height, rotation, data);
             } catch (Exception e) {
                 return null;
 //                floorItem = new DefaultFloorItem(id, baseId, room, ownerId, x, y, height, rot, "");
@@ -247,7 +256,7 @@ public class RoomItemFactory {
             if (itemDefinitionMap.containsKey(def.getInteraction())) {
                 try {
                     floorItem = itemDefinitionMap.get(def.getInteraction()).getConstructor(long.class, int.class, Room.class, int.class, String.class, int.class, int.class, double.class, int.class, String.class)
-                            .newInstance(id, baseId, room, ownerId, ownerName, x, y, height, rot, data);
+                            .newInstance(id, baseId, room, ownerId, ownerName, x, y, height, rotation, data);
                 } catch (Exception e) {
                     log.warn("Failed to create instance for item: " + id + ", type: " + def.getInteraction(), e);
                 }
@@ -255,7 +264,7 @@ public class RoomItemFactory {
         }
 
         if (floorItem == null) {
-            floorItem = new DefaultFloorItem(id, baseId, room, ownerId, ownerName, x, y, height, rot, data);
+            floorItem = new DefaultFloorItem(id, baseId, room, ownerId, ownerName, x, y, height, rotation, data);
         }
 
         if (limitedEditionItemData != null) {
