@@ -48,7 +48,7 @@ public class OpenGiftMessageEvent implements Event {
 
         final ItemDefinition itemDefinition = ItemManager.getInstance().getDefinition(catalogItem.getItems().get(0).getItemId());
 
-        floorItem.onInteract(client.getPlayer().getEntity(), 0, false);
+//        floorItem.onInteract(client.getPlayer().getEntity(), 0, false);
 
         room.getItems().removeItem(floorItem, client, false);
 

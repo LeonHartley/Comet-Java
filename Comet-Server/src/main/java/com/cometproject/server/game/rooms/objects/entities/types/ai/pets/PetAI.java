@@ -509,7 +509,7 @@ public class PetAI extends AbstractBotAI {
         return null;
     }
 
-    public void eatingComplete() {
+    public void eatingComplete(boolean awardHappiness) {
         this.waitTimer = 0;
 
         this.getPetEntity().getData().increaseHappiness(10);
@@ -520,6 +520,10 @@ public class PetAI extends AbstractBotAI {
         this.getPetEntity().getData().saveStats();
         this.getPetEntity().removeStatus(RoomEntityStatus.EAT);
         this.getPetEntity().markNeedsUpdate();
+    }
+
+    public void eatingComplete() {
+        this.eatingComplete(true);
     }
 
     public void nestingComplete() {

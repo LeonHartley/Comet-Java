@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 public class RoomQueue {
+
     private static RoomQueue instance;
 
     private final Map<Integer, List<Integer>> roomQueues;

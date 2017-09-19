@@ -8,6 +8,7 @@ import com.cometproject.server.storage.queries.pets.RoomPetDao;
 
 
 public class PetComponent {
+
     private Room room;
 
     public PetComponent(Room room) {
