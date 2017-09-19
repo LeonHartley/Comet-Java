@@ -3,6 +3,7 @@ package com.cometproject.website.website.routes.admin;
 import com.cometproject.website.players.Player;
 import com.cometproject.website.players.items.PlayerItem;
 import com.cometproject.website.storage.dao.players.PlayerDao;
+import com.cometproject.website.utilities.PasswordUtil;
 import com.cometproject.website.website.WebsiteManager;
 import com.google.gson.Gson;
 import org.apache.commons.lang.StringUtils;
@@ -20,6 +21,16 @@ public class PlayersRoute {
     public static ModelAndView index(Request req, Response res) {
         Map<String, Object> model = new HashMap<>();
 
+        if(req.session().attribute("message") != null) {
+            model.put("message", req.session().attribute("message"));
+            req.session().removeAttribute("message");
+        }
+
+        if(req.session().attribute("error") != null) {
+            model.put("error", req.session().attribute("error"));
+            req.session().removeAttribute("error");
+        }
+
         return new ModelAndView(WebsiteManager.applyGlobals(model), "./templates/admin/players.vm");
     }
 
@@ -36,6 +47,29 @@ public class PlayersRoute {
         data.put("players", players);
 
         return gson.toJson(data);
+    }
+
+    public static Object password(Request req, Response res) {
+        final int playerId = Integer.parseInt(req.params("playerId"));
+        final String password = req.queryParams("password");
+        final String confirmPassword = req.queryParams("password-confirm");
+
+        if(!password.equals(confirmPassword)) {
+            req.session().attribute("error", "The passwords you entered do not match!");
+            res.redirect("/admin/players");
+            return null;
+        }
+
+        final Player player = PlayerDao.getById(playerId);
+
+        if(player != null) {
+            player.setPassword(PasswordUtil.hash(password));
+            player.save();
+        }
+
+        req.session().attribute("message", "Password saved successfully");
+        res.redirect("/admin/players");
+        return null;
     }
 
     public static String inventory(Request req, Response res) {

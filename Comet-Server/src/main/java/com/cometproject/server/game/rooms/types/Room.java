@@ -24,6 +24,7 @@ import com.cometproject.server.storage.cache.CacheManager;
 import com.cometproject.server.storage.cache.objects.RoomDataObject;
 import com.cometproject.server.storage.cache.objects.items.FloorItemDataObject;
 import com.cometproject.server.storage.cache.objects.items.WallItemDataObject;
+import com.cometproject.server.storage.queries.rooms.RoomDao;
 import com.cometproject.server.utilities.JsonUtil;
 import com.cometproject.server.utilities.attributes.Attributable;
 import com.google.common.collect.Sets;
@@ -248,6 +249,8 @@ public class Room implements Attributable, IRoom {
         if (timeTaken >= 250) {
             this.log.warn("Room [" + this.getData().getId() + "][" + this.getData().getName() + "] took " + timeTaken + "ms to dispose");
         }
+
+        RoomDao.saveUserCount(this.getId(), 0);
 
         this.log.debug("Room has been disposed");
     }

@@ -466,4 +466,50 @@ public class RoomDao {
             SqlHelper.closeSilently(sqlConnection);
         }
     }
+
+    public static void saveUserCounts(Map<Integer, Integer> roomStatuses) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("UPDATE `rooms` SET users_now = ? WHERE `id` = ?;", sqlConnection);
+
+            for(Map.Entry<Integer, Integer> room : roomStatuses.entrySet()) {
+                preparedStatement.setInt(1, room.getValue());
+                preparedStatement.setInt(2, room.getKey());
+
+                preparedStatement.addBatch();
+            }
+
+            preparedStatement.executeBatch();
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+    }
+
+    public static void saveUserCount(int roomId, int userCount) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("UPDATE `rooms` SET users_now = ? WHERE `id` = ?", sqlConnection);
+
+            preparedStatement.setInt(1, userCount);
+            preparedStatement.setInt(2, roomId);
+
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+    }
 }

@@ -63,6 +63,14 @@ public class WebsiteManager {
     private void registerRoutes() {
         VelocityTemplateEngine velocityTemplateEngine = new VelocityTemplateEngine(new VelocityEngine("./config/velocity.properties"));
 
+//        before("*", (req, res) -> {
+//            System.out.println(req.url());
+//           if(!req.url().startsWith("https:")) {
+//               final String url = req.url().replace("http:", "https:");
+//               res.redirect(url);
+//           }
+//        });
+
         get("/", IndexRoute::index, velocityTemplateEngine);
         post("/", IndexRoute::postLogin);
         get("/facebook", FacebookRoute::facebookLogin);
@@ -118,6 +126,7 @@ public class WebsiteManager {
         get("/admin/players", PlayersRoute::index, velocityTemplateEngine);
         post("/admin/players/search", PlayersRoute::search);
         post("/admin/players/inventory", PlayersRoute::inventory);
+        post("/admin/players/password/:playerId", PlayersRoute::password);
 
         get("/admin/settings", SettingsRoute::index, velocityTemplateEngine);
         post("/admin/settings/save", SettingsRoute::save);

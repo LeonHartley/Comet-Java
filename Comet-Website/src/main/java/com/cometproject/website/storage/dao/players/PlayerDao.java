@@ -67,7 +67,6 @@ public class PlayerDao {
         return null;
     }
 
-
     public static List<Player> searchByUsername(String username) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
@@ -112,6 +111,7 @@ public class PlayerDao {
             preparedStatement = sqlConnection.prepareStatement(
                     "SELECT i.id, f.item_name, count(`item_name`) as amount FROM items AS i RIGHT JOIN furniture f ON f.id = i.base_item WHERE i.user_id = ? AND i.room_id = 0 GROUP BY `item_name`"
             );
+
             preparedStatement.setInt(1, playerId);
 
             resultSet = preparedStatement.executeQuery();
@@ -135,7 +135,6 @@ public class PlayerDao {
 
         return data;
     }
-
 
     public static int getRankByPlayerId(Integer id) {
         if (id == null)
