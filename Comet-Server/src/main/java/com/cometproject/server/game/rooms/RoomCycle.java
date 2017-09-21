@@ -63,7 +63,7 @@ public class RoomCycle implements CometTask {
                 expiredPromotedRooms.clear();
             }
 
-            final Map<Integer, Integer> userCount = Maps.newHashMap();
+            /*final Map<Integer, Integer> userCount = Maps.newHashMap();
 
             for(Room room : RoomManager.getInstance().getRoomInstances().values()) {
                 final int playerCount = room.getEntities().playerCount();
@@ -74,7 +74,7 @@ public class RoomCycle implements CometTask {
             }
 
             RoomDao.saveUserCounts(userCount);
-            userCount.clear();
+            userCount.clear();*/
 
             TimeSpan span = new TimeSpan(start, System.currentTimeMillis());
 
