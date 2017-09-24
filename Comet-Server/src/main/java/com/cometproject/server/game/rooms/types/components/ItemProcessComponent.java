@@ -37,7 +37,7 @@ public class ItemProcessComponent implements CometTask {
 
     private boolean active = false;
 
-    private final ExecutorService executorService = Executors.newFixedThreadPool(4);
+    private static final ExecutorService executorService = Executors.newFixedThreadPool(4);
 
     // TODO: Finish the item event queue.
     private RoomItemEventQueue eventQueue;// = new RoomItemEventQueue();
@@ -151,7 +151,7 @@ public class ItemProcessComponent implements CometTask {
     }
 
     public void queueAction(WiredTriggerExecutor action) {
-        this.executorService.execute(action);
+        executorService.execute(action);
     }
 
     protected void handleException(RoomItem item, Exception e) {
