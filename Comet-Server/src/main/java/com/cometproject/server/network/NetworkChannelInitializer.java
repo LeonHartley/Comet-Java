@@ -38,6 +38,7 @@ public class NetworkChannelInitializer extends ChannelInitializer<SocketChannel>
 
             if(log.isSuspicious()) {
                 ch.disconnect();
+                System.out.println(String.format("Client denied, address: %s", ipAddress));
                 return;
             }
 
