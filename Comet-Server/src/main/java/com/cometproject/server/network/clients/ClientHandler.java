@@ -37,6 +37,10 @@ public class ClientHandler extends SimpleChannelInboundHandler<MessageEvent> {
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        if(ctx.attr(SessionManager.SESSION_ATTR).get() == null) {
+            return;
+        }
+
         try {
             Session session = ctx.attr(SessionManager.SESSION_ATTR).get();
             session.onDisconnect();

@@ -25,7 +25,7 @@ public class Session implements BaseSession {
     public static int CLIENT_VERSION = 0;
 
     private final ChannelHandlerContext channel;
-    private final SessionEventHandler eventHandler;
+    private SessionEventHandler eventHandler;
 
     private boolean isClone = false;
     private String uniqueId = "";
@@ -40,7 +40,9 @@ public class Session implements BaseSession {
 
     public Session(ChannelHandlerContext channel) {
         this.channel = channel;
-        this.channel.attr(SessionManager.SESSION_ATTR).set(this);
+    }
+
+    public void initialise() {
         this.eventHandler = new SessionEventHandler(this);
     }
 
@@ -71,24 +73,28 @@ public class Session implements BaseSession {
         this.disconnectCalled = true;
 
         PlayerManager.getInstance().getPlayerLoadExecutionService().submit(() -> {
-            if (player != null && player.getData() != null)
-                PlayerManager.getInstance().remove(player.getId(), player.getData().getUsername(), this.channel.attr(SessionManager.CHANNEL_ID_ATTR).get(), this.getIpAddress());
+            try {
+                if (player != null && player.getData() != null)
+                    PlayerManager.getInstance().remove(player.getId(), player.getData().getUsername(), this.channel.attr(SessionManager.CHANNEL_ID_ATTR).get(), this.getIpAddress());
 
-            this.eventHandler.dispose();
+                this.eventHandler.dispose();
 
-            if (this.player != null) {
-                if (this.getPlayer().getPermissions().getRank().modTool()) {
-                    ModerationManager.getInstance().removeModerator(this);
+                if (this.player != null) {
+                    if (this.getPlayer().getPermissions().getRank().modTool()) {
+                        ModerationManager.getInstance().removeModerator(this);
+                    }
+
+                    try {
+                        this.getPlayer().dispose();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
 
-                try {
-                    this.getPlayer().dispose();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                this.setPlayer(null);
+            } catch(Exception e) {
+                e.printStackTrace();
             }
-
-            this.setPlayer(null);
         });
     }
 
@@ -101,7 +107,7 @@ public class Session implements BaseSession {
     public String getIpAddress() {
         String ipAddress = "0.0.0.0";
 
-        if (!CometSettings.useDatabaseIp) {
+        if (this.player == null || !CometSettings.useDatabaseIp) {
             return ((InetSocketAddress) this.getChannel().channel().remoteAddress()).getAddress().getHostAddress();
         } else {
             if (this.getPlayer() != null) {

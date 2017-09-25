@@ -195,7 +195,7 @@ public class PlayerManager implements Initialisable {
         final List<Integer> playerIds = this.ipAddressToPlayerIds.get(ipAddress);
 
         if(playerIds != null && playerIds.contains(playerId)) {
-            playerIds.remove(playerId);
+            playerIds.remove((Integer) playerId);
 
             if(playerIds.size() == 0) {
                 this.ipAddressToPlayerIds.remove(ipAddress);

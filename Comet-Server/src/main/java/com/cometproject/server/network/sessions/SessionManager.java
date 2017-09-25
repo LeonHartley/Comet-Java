@@ -27,6 +27,8 @@ public final class SessionManager implements ISessionManager {
     private final AtomicInteger idGenerator = new AtomicInteger();
     private final Map<Integer, BaseSession> sessions = new ConcurrentHashMap<>();
 
+    private final Map<String, SessionAccessLog> accessLog = new ConcurrentHashMap<>();
+
     private final ChannelGroup channelGroup = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
 
     public static boolean isLocked = false;
@@ -38,6 +40,9 @@ public final class SessionManager implements ISessionManager {
     public boolean add(ChannelHandlerContext channel) {
         Session session = new Session(channel);
 
+        session.initialise();
+
+        channel.attr(SessionManager.SESSION_ATTR).set(session);
         this.channelGroup.add(channel.channel());
         channel.attr(CHANNEL_ID_ATTR).set(this.idGenerator.incrementAndGet());
 
@@ -45,6 +50,10 @@ public final class SessionManager implements ISessionManager {
     }
 
     public boolean remove(ChannelHandlerContext channel) {
+        if(channel.attr(CHANNEL_ID_ATTR).get() == null) {
+            return false;
+        }
+
         if (this.sessions.containsKey(channel.attr(CHANNEL_ID_ATTR).get())) {
             this.channelGroup.remove(channel.channel());
             this.sessions.remove(channel.attr(CHANNEL_ID_ATTR).get());
@@ -165,5 +174,9 @@ public final class SessionManager implements ISessionManager {
         } else {
             ctx.disconnect();
         }
+    }
+
+    public Map<String, SessionAccessLog> getAccessLog() {
+        return accessLog;
     }
 }
