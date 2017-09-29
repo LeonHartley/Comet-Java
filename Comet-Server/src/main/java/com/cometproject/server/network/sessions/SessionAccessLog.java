@@ -22,6 +22,6 @@ public class SessionAccessLog {
     }
 
     public boolean isSuspicious() {
-        return this.counter.get() >= 10 && ((System.currentTimeMillis() - this.lastConnection) < 2000);
+        return this.counter.get() >= 1000 && ((System.currentTimeMillis() - this.lastConnection) < 2000); // Value 1000 TESTED and wont down
     }
 }
