@@ -1,6 +1,8 @@
 package com.cometproject.server.api;
 
-import com.ning.http.client.*;
+import com.cometproject.server.config.CometSettings;
+import com.ning.http.client.AsyncHttpClient;
+import com.ning.http.client.Response;
 
 import java.util.concurrent.Future;
 
@@ -21,8 +23,12 @@ public class ApiClient {
     }
 
     public String saveThumbnail(final byte[] data, int roomId) {
+        return savePhoto(data, roomId + "");
+    }
+
+    public String savePhoto(final byte[] data, String photoId) {
         try {
-            Future<Response> responseFuture = asyncHttpClient.preparePost("http://localhost:8080/camera/upload/" + roomId)
+            Future<Response> responseFuture = asyncHttpClient.preparePost(CometSettings.cameraPhotoUrl.replace("%photoId%", photoId))
                     .addHeader("Content-Type", "application/octet-stream")
                     .setBody(data)
                     .execute();

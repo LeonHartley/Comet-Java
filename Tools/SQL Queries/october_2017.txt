@@ -1,0 +1,2 @@
+ALTER TABLE `server_configuration`
+	CHANGE COLUMN `camera_photo_upload_url` `camera_photo_upload_url` VARCHAR(255) NOT NULL DEFAULT 'http://localhost:8080/camera/upload/%photoId%' AFTER `camera_photo_itemid`;

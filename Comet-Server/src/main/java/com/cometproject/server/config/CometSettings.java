@@ -48,14 +48,15 @@ public class CometSettings {
 
     public static final Map<String, String> strictFilterCharacters = Maps.newHashMap();
     public static boolean playerFigureValidation = false;
-
     public static int playerChangeFigureCooldown = 5;
+
     public static int messengerMaxFriends = 1100;
-
     public static boolean messengerLogMessages = false;
-    public static int cameraPhotoItemId = 50001;
 
-    public static String cameraPhotoUrl = "http://localhost/photos/photos/%photoId%.png";
+    public static int cameraPhotoItemId = 50001;
+    public static String cameraPhotoUrl = "http://localhost/photos/photos/%photoId%";
+    public static String cameraUploadUrl = "http://localhost:8080/camera/upload/%photoId%";
+
     public static int roomWiredRewardMinimumRank = 7;
     public static boolean asyncCatalogPurchase = false;
 
