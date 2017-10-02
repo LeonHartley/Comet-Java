@@ -10,7 +10,8 @@ public class UniqueIdMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) throws Exception {
         String deviceId = msg.readString();
         String fingerprint = msg.readString();
-
+        if(fingerprint == null) { return; } // Mandoe & Ryan fix
+        
 //        if(deviceId == null)
 //            deviceId = fingerprint;
 
