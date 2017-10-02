@@ -72,6 +72,36 @@ public class PlayersRoute {
         return null;
     }
 
+    public static Object data(Request req, Response res) {
+        final int playerId = Integer.parseInt(req.params("playerId"));
+        final String username = req.queryParams("username");
+        final String figure = req.queryParams("figure");
+        final String email = req.queryParams("email");
+        final int rank = Integer.parseInt(req.queryParams("rank"));
+        final int credits= Integer.parseInt(req.queryParams("credits"));
+        final int vipPoints = Integer.parseInt(req.queryParams("vipPoints"));
+        final int activityPoints = Integer.parseInt(req.queryParams("activityPoints"));
+
+        final Player player = PlayerDao.getById(playerId);
+
+        if(player != null) {
+            player.setUsername(username);
+            player.setFigure(figure);
+            player.setEmail(email);
+            player.setRank(rank);
+            player.setCredits(credits);
+            player.setVipPoints(vipPoints);
+            player.setActivityPoints(activityPoints);
+
+            player.save();
+        }
+
+        req.session().attribute("message", "Player saved successfully");
+        res.redirect("/admin/players");
+        return null;
+    }
+
+
     public static String inventory(Request req, Response res) {
         final Map<String, Object> data = new HashMap<>();
         final String playerId = req.queryParams("playerId");

@@ -16,12 +16,11 @@ public class CameraRoute {
     public static String upload(final Request request, final Response response) {
         try {
             final byte[] imageData = IOUtil.toByteArray(request.raw().getInputStream());
-            final String ssoTicket = request.params("ssoTicket");
-            final UUID imageId = UUID.randomUUID();
+            final String imageName = request.params("photoId");
 
             // Create the image file.
             try {
-                final FileOutputStream outputStream = new FileOutputStream("./camera-images/" + imageId.toString() + ".png");
+                final FileOutputStream outputStream = new FileOutputStream("C:\\Websites\\Libbo\\cdn\\swf\\c_images\\navigator-thumbnail\\" + imageName + ".png");
 
                 outputStream.write(imageData);
                 outputStream.close();
@@ -30,14 +29,7 @@ public class CameraRoute {
                 return "error.img_save";
             }
 
-            // Submit the API request to the emulator with the new image data!
-            final Map<String, String> parameters = new HashMap<String, String>() {{
-                put("ssoTicket", ssoTicket);
-                put("photoId", imageId.toString());
-            }};
-
-            ApiClient.getInstance().execute("/camera/purchase", parameters);
-            return "OK";
+            return "OK";// imageId.toString();
         } catch (Exception e) {
             e.printStackTrace();
             return "error.img_save";
@@ -46,13 +38,17 @@ public class CameraRoute {
 
     public static Object photo(final Request request, final Response response) {
         final String photoIdParam = request.params("photoId");
-        final UUID photoId = UUID.fromString(photoIdParam.replace("_small", "").split("\\.")[0]);
+        final String photoId = photoIdParam.replace("_small", "").split("\\.")[0];
 
         response.status(200);
         response.type("image/png");
 
+        response.header("Cache-Control", "no-cache, no-store, must-revalidate");
+        response.header("Pragma", "no-cache");
+        response.header("Expires", "0");
+
         try {
-            final byte[] imageData = Files.readAllBytes(Paths.get("./camera-images/" + photoId.toString() + ".png"));
+            final byte[] imageData = Files.readAllBytes(Paths.get("./camera-images/" + photoId + ".png"));
 
             IOUtil.copy(imageData, response.raw().getOutputStream());
             return "";

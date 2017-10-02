@@ -72,6 +72,15 @@ public class WebsiteManager {
 //        });
 
         get("/", IndexRoute::index, velocityTemplateEngine);
+        get("/crossdomain.xml", (req, res) -> {
+            res.header("Content-Type", "application/xml");
+
+            return "<?xml version=\"1.0\" ?>\n" +
+                    "<cross-domain-policy>\n" +
+                    "<allow-access-from domain=\"*\" />\n" +
+                    "</cross-domain-policy>";
+        });
+
         post("/", IndexRoute::postLogin);
         get("/facebook", FacebookRoute::facebookLogin);
 
@@ -136,7 +145,7 @@ public class WebsiteManager {
 
         get("/admin/catalog", CatalogRoute::index, velocityTemplateEngine);
 
-        post("/camera/upload/:ssoTicket", CameraRoute::upload);
+        post("/camera/upload/:photoId", CameraRoute::upload);
         get("/camera/photo/:photoId", CameraRoute::photo);
     }
 

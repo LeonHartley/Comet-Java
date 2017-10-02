@@ -72,27 +72,32 @@ public class RoomWriter {
 
         int specialsType = 0;
 
-        if(group != null)
+        if (group != null)
             specialsType += 2;
 
-        if(promotion != null)
+        if (promotion != null)
             specialsType += 4;
 
-        if(roomData.isAllowPets()) {
+        if (roomData.isAllowPets()) {
             specialsType += 16;
         }
 
         PublicRoom publicRoom = NavigatorManager.getInstance().getPublicRoom(roomData.getId());
+        final boolean thumbnail = roomData.getThumbnail() != null && !roomData.getThumbnail().isEmpty();
 
-        if(publicRoom != null)
+        if (publicRoom != null)
             specialsType += 1;
         else
             specialsType += 8;
 
-        msg.writeInt(specialsType);
+        msg.writeInt(specialsType + (thumbnail ? 1 : 0));
 
-        if(publicRoom != null) {
+        if (publicRoom != null) {
             msg.writeString(publicRoom.getImageUrl());
+        } else {
+            if (roomData.getThumbnail() != null && !roomData.getThumbnail().isEmpty()) {
+                msg.writeString(roomData.getThumbnail());
+            }
         }
 
         if (composeGroup) {

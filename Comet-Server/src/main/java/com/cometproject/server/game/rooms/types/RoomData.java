@@ -65,6 +65,7 @@ public class RoomData implements IRoomData {
     private long lastReferenced = Comet.getTime();
 
     private String requiredBadge;
+    private String thumbnail;
 
     public RoomData(ResultSet room) throws SQLException {
         this.id = room.getInt("id");
@@ -75,6 +76,7 @@ public class RoomData implements IRoomData {
         this.owner = room.getString("owner");
         this.category = room.getInt("category");
         this.maxUsers = room.getInt("max_users");
+        this.thumbnail = room.getString("thumbnail");
 
         String accessType = room.getString("access_type");
         if (!accessType.equals("open") && !accessType.equals("doorbell") && !accessType.equals("password")) {
@@ -194,7 +196,8 @@ public class RoomData implements IRoomData {
         RoomDao.updateRoom(id, name, StringUtils.abbreviate(description, 255), ownerId, owner, category, maxUsers, access, password, score,
                 tagString, decorString.equals("") ? "" : decorString.substring(0, decorString.length() - 1),
                 model, hideWalls, thicknessWall, thicknessFloor, allowWalkthrough, allowPets, heightmap, tradeState,
-                muteState, kickState, banState, bubbleMode, bubbleType, bubbleScroll, chatDistance, antiFloodSettings, this.disabledCommands.isEmpty() ? "" : StringUtils.join(this.disabledCommands, ","), this.groupId, this.requiredBadge
+                muteState, kickState, banState, bubbleMode, bubbleType, bubbleScroll, chatDistance, antiFloodSettings,
+                this.disabledCommands.isEmpty() ? "" : StringUtils.join(this.disabledCommands, ","), this.groupId, this.requiredBadge, this.thumbnail
         );
     }
 
@@ -465,5 +468,13 @@ public class RoomData implements IRoomData {
 
     public String getRequiredBadge() {
         return this.requiredBadge;
+    }
+
+    public String getThumbnail() {
+        return thumbnail;
+    }
+
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
     }
 }

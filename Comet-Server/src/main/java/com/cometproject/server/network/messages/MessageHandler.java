@@ -85,6 +85,7 @@ import com.cometproject.server.network.messages.incoming.room.pets.horse.RideHor
 import com.cometproject.server.network.messages.incoming.room.settings.*;
 import com.cometproject.server.network.messages.incoming.room.trading.*;
 import com.cometproject.server.network.messages.incoming.user.achievements.AchievementsListMessageEvent;
+import com.cometproject.server.network.messages.incoming.user.camera.ThumbnailMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.club.ClubStatusMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.details.*;
 import com.cometproject.server.network.messages.incoming.user.inventory.*;
@@ -476,7 +477,7 @@ public final class MessageHandler {
     }
 
     private void registerCamera() {
-//        this.getMessages().put(Events.TakePhotoMessageEvent, new TakePhotoMessageEvent());
+        this.getMessages().put(Events.ThumbnailMessageEvent, new ThumbnailMessageEvent());
     }
 
     public void registerGuideTool() {

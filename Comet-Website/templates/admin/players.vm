@@ -14,6 +14,8 @@
         $(this).tab('show')
     })
 
+    var playerStore = []
+
 
     $(document).ready(function () {
         var playerTemplate = Handlebars.compile($('#player-template').html());
@@ -41,9 +43,11 @@
 
         function listPlayers(players) {
             $('#playerList').empty()
+            playerStore = []
 
             for (var i = 0; i < players.length; i++) {
-                console.log(players[i])
+                playerStore[players[i].id] = players[i]
+
                 $('#playerList').append(playerTemplate(players[i]))
             }
         }
@@ -69,6 +73,17 @@
         $('#modal-title').html("Change Password");
         $('#modal-view').html(template({
             id: playerId
+        }));
+
+        $('#modalWindow').modal();
+    }
+
+    function showModifyPlayer(playerId) {
+        var template = Handlebars.compile($('#player-modify').html());
+
+        $('#modal-title').html("Modify Player");
+        $('#modal-view').html(template({
+            player: playerStore[playerId]
         }));
 
         $('#modalWindow').modal();
@@ -113,6 +128,50 @@
             </form>
 </script>
 
+<script id="player-modify" type="text/x-handlebars-template">
+    <form action="/admin/players/data/{{id}}" method="post">
+              <div class="form-group">
+                <label for="username" class="form-control-label">Username:</label>
+                <input type="text" name="username" class="form-control" id="username" value="{{player.username}}">
+              </div>
+
+              <div class="form-group">
+                <label for="figure" class="form-control-label">Figure:</label>
+                <input type="text" name="figure" class="form-control" id="figure" value="{{player.figure}}">
+              </div>
+
+              <div class="form-group">
+                <label for="rank" class="form-control-label">Rank:</label>
+                <input type="text" name="rank" class="form-control" id="rank" value="{{player.rank}}">
+              </div>
+
+              <div class="form-group">
+                <label for="credits" class="form-control-label">Credits:</label>
+                <input type="text" name="credits" class="form-control" id="credits" value="{{player.credits}}">
+              </div>
+
+              <div class="form-group">
+                <label for="vipPoints" class="form-control-label">VIP Points:</label>
+                <input type="text" name="vipPoints" class="form-control" id="vipPoints" value="{{player.vipPoints}}">
+              </div>
+
+              <div class="form-group">
+                <label for="activityPoints" class="form-control-label">Activity Points:</label>
+                <input type="text" name="activityPoints" class="form-control" id="activityPoints" value="{{player.activityPoints}}">
+              </div>
+
+              <div class="form-group">
+                <label for="email" class="form-control-label">Email:</label>
+                <input type="text" name="activityPoints" class="form-control" id="email" value="{{player.email}}">
+              </div>
+
+              <div class="form-group">
+                <input type="submit" class="btn btn-secondary"  value="Save" />
+              </div>
+            </form>
+</script>
+
+
 <script id="player-template" type="text/x-handlebars-template">
     <div class="list-group-item list-group-item-action flex-column align-items-start" style="min-height: 150px;">
         <span style="width: 64px; height: 110px; position: absolute; left: 10px; right: 10px; background: url('https://www.habbo.nl/habbo-imaging/avatarimage?figure={{figure}}');"></span>
@@ -127,7 +186,7 @@
             <br />
             <div class="btn-group" role="group">
                 <button type="button" class="btn btn-secondary" onclick="showPasswordModal({{id}})">Password</button>
-                <button type="button" class="btn btn-secondary">Modify</button>
+                <button type="button" class="btn btn-secondary" onclick="showModifyPlayer({{id}})">Modify</button>
                 <button type="button" class="btn btn-secondary" onclick="showInventory({{id}})">Inventory</button>
                 <button type="button" class="btn btn-secondary">Chatlog</button>
                 <button type="button" class="btn btn-secondary">Bans</button>

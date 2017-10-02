@@ -272,7 +272,7 @@ public class RoomDao {
                                   String password, int score, String tags, String decor, String model, boolean hideWalls, int thicknessWall,
                                   int thicknessFloor, boolean allowWalkthrough, boolean allowPets, String heightmap, RoomTradeState tradeState, RoomMuteState whoCanMute,
                                   RoomKickState whoCanKick, RoomBanState whoCanBan, int bubbleMode, int bubbleType, int bubbleScroll,
-                                  int chatDistance, int antiFloodSettings, String disabledCommands, int groupId, String requiredBadge) {
+                                  int chatDistance, int antiFloodSettings, String disabledCommands, int groupId, String requiredBadge,  String thumbnail) {
 
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
@@ -282,7 +282,7 @@ public class RoomDao {
             preparedStatement = SqlHelper.prepare("UPDATE rooms SET name = ?, description = ?, owner_id = ?, owner = ?, category = ?," +
                             " max_users = ?, access_type = ?, password = ?, score = ?, tags = ?, decorations = ?, model = ?, hide_walls = ?, thickness_wall = ?," +
                             " thickness_floor = ?, allow_walkthrough = ?, allow_pets = ?, heightmap = ?, mute_state = ?, ban_state = ?, kick_state = ?," +
-                            "bubble_mode = ?, bubble_type = ?, bubble_scroll = ?, chat_distance = ?, flood_level = ?, trade_state = ?, disabled_commands = ?, group_id = ?, required_badge = ? WHERE id = ?",
+                            "bubble_mode = ?, bubble_type = ?, bubble_scroll = ?, chat_distance = ?, flood_level = ?, trade_state = ?, disabled_commands = ?, group_id = ?, required_badge = ?, thumbnail = ? WHERE id = ?",
                     sqlConnection);
 
             preparedStatement.setString(1, name);
@@ -315,8 +315,9 @@ public class RoomDao {
             preparedStatement.setString(28, disabledCommands);
             preparedStatement.setInt(29, groupId);
             preparedStatement.setString(30, requiredBadge);
+            preparedStatement.setString(31, thumbnail);
 
-            preparedStatement.setInt(31, roomId);
+            preparedStatement.setInt(32, roomId);
 
             preparedStatement.execute();
         } catch (SQLException e) {

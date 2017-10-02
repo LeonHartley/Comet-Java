@@ -4,12 +4,15 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 
 import java.nio.charset.Charset;
+import java.util.Arrays;
 
 public final class MessageEvent {
     private final short id;
+    private final int length;
     private final ByteBuf buffer;
 
-    public MessageEvent(ByteBuf buf) {
+    public MessageEvent(int length, ByteBuf buf) {
+        this.length = length;
         this.buffer = (buf != null) && (buf.readableBytes() > 0) ? buf : Unpooled.EMPTY_BUFFER;
 
         if (this.content().readableBytes() >= 2) {
@@ -42,6 +45,22 @@ public final class MessageEvent {
         return new String(data);
     }
 
+    public byte[] readBytes(int length) {
+        final byte[] bytes = new byte[length];
+
+        for (int i = 0; i < length; i++) {
+            bytes[i] = this.buffer.readByte();
+        }
+
+//        byte[] data = this.content().readBytes((length)).array();
+        return bytes;
+    }
+
+    public byte[] toRawBytes() {
+        byte[] complete = this.buffer.array();
+        return Arrays.copyOfRange(complete, 6, complete.length);
+    }
+
     public String toString() {
         String body = this.content().toString((Charset.defaultCharset()));
 
@@ -58,5 +77,9 @@ public final class MessageEvent {
 
     private ByteBuf content() {
         return this.buffer;
+    }
+
+    public int getLength() {
+        return length;
     }
 }

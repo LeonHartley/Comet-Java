@@ -18,7 +18,7 @@
         <meta name="twitter:creator" content="@$siteSettings.twitterUsername">
     #end
 
-    <meta property="og:title" content="$siteSettings Hotel"/>
+    <meta property="og:title" content="$siteSettings.hotelName Hotel"/>
     <meta property="og:type" content="gaming"/>
     <meta property="og:url" content="$config.siteUrl"/>
     <meta property="og:image" content="$config.assetsUrl/web-gallery/v2/images/logo.gif"/>
