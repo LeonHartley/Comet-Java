@@ -85,6 +85,9 @@ import com.cometproject.server.network.messages.incoming.room.pets.horse.RideHor
 import com.cometproject.server.network.messages.incoming.room.settings.*;
 import com.cometproject.server.network.messages.incoming.room.trading.*;
 import com.cometproject.server.network.messages.incoming.user.achievements.AchievementsListMessageEvent;
+import com.cometproject.server.network.messages.incoming.user.camera.PhotoPricingMessageEvent;
+import com.cometproject.server.network.messages.incoming.user.camera.RenderRoomMessageEvent;
+import com.cometproject.server.network.messages.incoming.user.camera.PurchasePhotoMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.camera.ThumbnailMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.club.ClubStatusMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.details.*;
@@ -478,6 +481,9 @@ public final class MessageHandler {
 
     private void registerCamera() {
         this.getMessages().put(Events.ThumbnailMessageEvent, new ThumbnailMessageEvent());
+        this.getMessages().put(Events.RenderRoomMessageEvent, new RenderRoomMessageEvent());
+        this.getMessages().put(Events.PurchasePhotoMessageEvent, new PurchasePhotoMessageEvent());
+        this.getMessages().put(Events.PhotoPricingMessageEvent, new PhotoPricingMessageEvent());
     }
 
     public void registerGuideTool() {

@@ -28,7 +28,7 @@ public class ApiClient {
 
     public String savePhoto(final byte[] data, String photoId) {
         try {
-            Future<Response> responseFuture = asyncHttpClient.preparePost(CometSettings.cameraPhotoUrl.replace("%photoId%", photoId))
+            Future<Response> responseFuture = asyncHttpClient.preparePost(CometSettings.cameraUploadUrl.replace("%photoId%", photoId))
                     .addHeader("Content-Type", "application/octet-stream")
                     .setBody(data)
                     .execute();

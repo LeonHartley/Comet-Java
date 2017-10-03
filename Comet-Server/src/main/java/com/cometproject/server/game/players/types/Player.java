@@ -138,6 +138,8 @@ public class Player implements BasePlayer {
     private boolean petsMuted;
     private boolean botsMuted;
 
+    private String lastPhoto = null;
+
     public Player(ResultSet data, boolean isFallback) throws SQLException {
         this.id = data.getInt("playerId");
 
@@ -833,5 +835,13 @@ public class Player implements BasePlayer {
 
     public WardrobeComponent getWardrobe() {
         return wardrobe;
+    }
+
+    public String getLastPhoto() {
+        return lastPhoto;
+    }
+
+    public void setLastPhoto(String lastPhoto) {
+        this.lastPhoto = lastPhoto;
     }
 }

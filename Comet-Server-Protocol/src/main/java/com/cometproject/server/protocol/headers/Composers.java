@@ -268,6 +268,10 @@ public class Composers {
     public static final short PetPackageOpenedMessageComposer = 1278;//251
     public static final short FigureSetIdsMessageComposer = 745;//1982
     public static final short ThumbnailSavedMessageComposer = 1101;
+    public static final short PhotoPreviewMessageComposer = 3115;
+    public static final short PhotoPriceMessageComposer = 953;
+    public static final short PurchasedPhotoMessageComposer = 3859;
+
 
 
     private static Map<Short, String> composerPacketNames = new HashMap<>();

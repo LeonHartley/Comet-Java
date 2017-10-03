@@ -1,16 +1,13 @@
 package com.cometproject.website.website.routes;
 
-import com.cometproject.website.api.ApiClient;
 import org.apache.commons.io.IOUtil;
+import org.apache.commons.lang.StringUtils;
 import spark.Request;
 import spark.Response;
 
 import java.io.FileOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 
 public class CameraRoute {
     public static String upload(final Request request, final Response response) {
@@ -20,7 +17,13 @@ public class CameraRoute {
 
             // Create the image file.
             try {
-                final FileOutputStream outputStream = new FileOutputStream("C:\\Websites\\Libbo\\cdn\\swf\\c_images\\navigator-thumbnail\\" + imageName + ".png");
+                String location = "./camera-images/" + imageName + ".png";
+
+                if (StringUtils.isNumeric(imageName)) {
+                    location = "C:\\Websites\\Libbo\\cdn\\swf\\c_images\\navigator-thumbnail\\" + imageName + ".png";
+                }
+
+                final FileOutputStream outputStream = new FileOutputStream(location);
 
                 outputStream.write(imageData);
                 outputStream.close();
