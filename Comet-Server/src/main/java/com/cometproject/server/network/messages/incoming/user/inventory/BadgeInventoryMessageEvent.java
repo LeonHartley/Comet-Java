@@ -24,7 +24,7 @@ public class BadgeInventoryMessageEvent implements Event {
             final Session session = NetworkManager.getInstance().getSessions().getByPlayerId(userId);
 
             if(session != null && session.getPlayer() != null && session.getPlayer().getInventory() != null) {
-                client.send(new UserBadgesMessageComposer(userId, session.getPlayer().getInventory().getBadges()));
+                client.send(new UserBadgesMessageComposer(userId, session.getPlayer().getInventory().equippedBadges()));
                 return;
             }
         }

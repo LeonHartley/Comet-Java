@@ -182,7 +182,7 @@ public class Events {
     public static final short MoveObjectMessageEvent = 2955;//2104
     public static final short StartTypingMessageEvent = 1266;//1147
     public static final short GoToHotelViewMessageEvent = 2644;//882
-    public static final short GetExtendedProfileMessageEvent = -3596;//3596
+    public static final short GetExtendedProfileMessageEvent = 3455;//3596
     public static final short SendMsgMessageEvent = 1750;//779
     public static final short CancelTypingMessageEvent = 978;//2045
     public static final short GetGroupFurniConfigMessageEvent = 2183;//38

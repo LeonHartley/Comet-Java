@@ -155,11 +155,6 @@ public class InventoryComponent implements PlayerInventory {
     }
 
     @Override
-    public void removebadge(String code, boolean delete, boolean sendAlert) {
-        this.removeBadge(code, delete, sendAlert, true);
-    }
-
-    @Override
     public void removeBadge(String code, boolean delete, boolean sendAlert, boolean sendUpdate) {
         if (badges.containsKey(code)) {
             if (delete) {
@@ -203,15 +198,19 @@ public class InventoryComponent implements PlayerInventory {
     }
 
     @Override
-    public Map<String, Integer> equippedBadges() {
-        Map<String, Integer> badges = new ConcurrentHashMap<>();
+    public String[] equippedBadges() {
+        final String[] badges = new String[5];
+
+       // Map<String, Integer> badges = new ConcurrentHashMap<>();
 
         for (Map.Entry<String, Integer> badge : this.getBadges().entrySet()) {
             if (badge.getValue() > 0)
-                badges.put(badge.getKey(), badge.getValue());
+                badges[badge.getValue()] = badge.getKey();
+                //badges.put(badge.getKey(), badge.getValue());
         }
 
         return badges;
+        //return Collections.sortbadges;
     }
 
     @Override

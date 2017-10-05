@@ -27,15 +27,13 @@ public interface PlayerInventory extends PlayerComponent {
 
     void removeBadge(String code, boolean delete);
 
-    void removebadge(String code, boolean delete, boolean sendAlert);
-
     void removeBadge(String code, boolean delete, boolean sendAlert, boolean sendUpdate);
 
     void achievementBadge(String achievement, int level);
 
     void resetBadgeSlots();
 
-    Map<String, Integer> equippedBadges();
+    String[] equippedBadges();
 
     PlayerItem add(long id, int itemId, String extraData, GiftItemData giftData, LimitedEditionItem limitedEditionItem);
 
