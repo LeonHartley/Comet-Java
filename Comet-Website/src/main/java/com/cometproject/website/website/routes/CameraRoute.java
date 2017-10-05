@@ -18,7 +18,7 @@ public class CameraRoute {
             // Create the image file.
             try {
                 String location = "./camera-images/" + imageName + ".png";
-
+//todo: put this in config
                 if (StringUtils.isNumeric(imageName)) {
                     location = "C:\\Websites\\Libbo\\cdn\\swf\\c_images\\navigator-thumbnail\\" + imageName + ".png";
                 }
