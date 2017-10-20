@@ -12,10 +12,17 @@ public class RemoveBadgeCommand extends ChatCommand {
         if (params.length < 2)
             return;
 
+        final String username = params[0];
+        final String badge = params[1];
+
         Session session = NetworkManager.getInstance().getSessions().getByPlayerUsername(params[0]);
 
-        if (session != null)
+        if (session != null) {
             session.getPlayer().getInventory().removeBadge(params[1], true);
+            sendNotif(Locale.get("command.removebadge.success").replace("%username%", username).replace("%badge%", badge), client);
+        } else {
+            sendNotif(Locale.getOrDefault("command.removebadge.userisoff", "This user is not online, you can only remove badges from online users"), client);
+        }
     }
 
     @Override
