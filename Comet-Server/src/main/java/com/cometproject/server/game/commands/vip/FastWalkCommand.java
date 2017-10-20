@@ -30,4 +30,9 @@ public class FastWalkCommand extends ChatCommand {
     public String getDescription() {
         return Locale.get("command.fastwalk.description");
     }
+    
+    @Override
+    public boolean canDisable() {
+        return true;
+    }
 }
