@@ -84,6 +84,25 @@ public class RelationshipDao {
         }
     }
 
+    public static void emptyRelationship(int playerId) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("DELETE FROM player_relationships WHERE player_id = ?", sqlConnection);
+            preparedStatement.setInt(1, playerId);
+
+            SqlHelper.executeStatementSilently(preparedStatement, false);
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+    }
+
     public static void createRelationship(int playerId, int partner, String status) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
