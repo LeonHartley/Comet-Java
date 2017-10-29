@@ -52,6 +52,7 @@ public class RedeemVoucherMessageEvent implements Event {
         // redeem the voucher
         switch (voucher.getType()) {
             case COINS: {
+                // fixed for both options :))
                 if (!StringUtils.isNumeric(voucher.getData())) {
                     failure = true;
                     break;
@@ -60,7 +61,44 @@ public class RedeemVoucherMessageEvent implements Event {
                 final int coinAmount = Integer.parseInt(voucher.getData());
 
                 client.getPlayer().getData().increaseCredits(coinAmount);
+                client.getPlayer().getData().save();
+                client.send(client.getPlayer().composeCreditBalance());
                 client.send(new AdvancedAlertMessageComposer(Locale.get("command.coins.title"), Locale.get("command.coins.received").replace("%amount%", String.valueOf(coinAmount))));
+                break;
+            }
+
+            case DUCKETS: {
+                if(!StringUtils.isNumeric(voucher.getData())) {
+                    failure = true;
+                    break;
+                }
+
+                final int ducketAmount = Integer.parseInt(voucher.getData());
+
+                client.getPlayer().getData().increaseDuckets(ducketAmount);
+                client.getPlayer().getData().save();
+                client.send(client.getPlayer().composeCurrenciesBalance());
+                client.send(new AdvancedAlertMessageComposer(Locale.get("command.duckets.successtitle"),
+                        Locale.get("command.duckets.successmessage").replace("%amount%", String.valueOf(ducketAmount))
+                ));
+                break;
+            }
+
+            case VIP_POINTS: {
+                if(!StringUtils.isNumeric(voucher.getData())) {
+                    failure = true;
+                    break;
+                }
+
+                final int vipPointAmount = Integer.parseInt(voucher.getData());
+
+                client.getPlayer().getData().increasePoints(vipPointAmount);
+                client.getPlayer().getData().save();
+                client.send(client.getPlayer().composeCurrenciesBalance());
+                client.send(new AdvancedAlertMessageComposer(
+                        Locale.get("command.points.successtitle"),
+                        Locale.get("command.points.successmessage").replace("%amount%", String.valueOf(vipPointAmount))
+                ));
                 break;
             }
 
