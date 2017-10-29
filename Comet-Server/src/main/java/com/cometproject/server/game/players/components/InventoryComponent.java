@@ -199,7 +199,7 @@ public class InventoryComponent implements PlayerInventory {
 
     @Override
     public String[] equippedBadges() {
-        final String[] badges = new String[5];
+        final String[] badges = new String[6];
 
        // Map<String, Integer> badges = new ConcurrentHashMap<>();
 
