@@ -36,7 +36,7 @@ public class RoomMapping {
 
         this.tiles = new RoomTile[sizeX][sizeY];
 
-        System.out.print("\n");
+        //System.out.print("\n");
         for (int x = 0; x < sizeX; x++) {
             RoomTile[] xArray = new RoomTile[sizeY];
 
@@ -46,11 +46,11 @@ public class RoomMapping {
 
                 xArray[y] = instance;
 
-                System.out.printf("[%s, %s] ", x, y);
+                //System.out.printf("[%s, %s] ", x, y);
             }
 
             this.tiles[x] = xArray;
-            System.out.print("\n");
+            //System.out.print("\n");
         }
     }
 

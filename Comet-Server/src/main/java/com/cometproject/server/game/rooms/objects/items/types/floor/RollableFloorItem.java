@@ -199,7 +199,7 @@ delay: 169ms
             this.sendUpdate();
 
             this.moveTo(position, position.getFlag());
-            System.out.println(tiles);
+            //System.out.println(tiles);
             this.setTicks(RoomItemFactory.getProcessTime(tiles * 0.5));
         } else {
             Position nextPosition = this.getNextPosition();
