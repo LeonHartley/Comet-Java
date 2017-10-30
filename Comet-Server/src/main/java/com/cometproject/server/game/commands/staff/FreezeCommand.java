@@ -12,6 +12,8 @@ public class FreezeCommand extends ChatCommand {
         if (params.length != 1) {
             sendNotif(Locale.getOrDefault("command.freeze.none", "Who do you want to freeze?"), client);
             return;
+
+            // test
         }
 
         String username = params[0];
