@@ -75,7 +75,7 @@ public class RedeemVoucherMessageEvent implements Event {
 
                 final int ducketAmount = Integer.parseInt(voucher.getData());
 
-                client.getPlayer().getData().increaseDuckets(ducketAmount);
+                client.getPlayer().getData().increaseActivityPoints(ducketAmount);
                 client.getPlayer().getData().save();
                 client.send(client.getPlayer().composeCurrenciesBalance());
                 client.send(new AdvancedAlertMessageComposer(Locale.get("command.duckets.successtitle"),
