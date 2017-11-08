@@ -1,10 +1,9 @@
 package com.cometproject.server.game;
 
-import com.cometproject.api.networking.sessions.BaseSession;
+import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
-import com.cometproject.server.game.achievements.types.AchievementType;
-import com.cometproject.server.game.guides.GuideManager;
+import com.cometproject.api.game.achievements.types.AchievementType;
 import com.cometproject.server.game.moderation.BanManager;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.network.NetworkManager;
@@ -14,7 +13,7 @@ import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.storage.queries.system.StatisticsDao;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManager;
-import com.cometproject.server.utilities.Initialisable;
+import com.cometproject.api.utilities.Initialisable;
 import org.apache.log4j.Logger;
 
 import java.util.Calendar;
@@ -102,7 +101,7 @@ public class GameCycle implements CometTask, Initialisable {
         final int dailyScratches = 3;
 
         if (CometSettings.onlineRewardEnabled || updateDaily) {
-            for (BaseSession client : NetworkManager.getInstance().getSessions().getSessions().values()) {
+            for (ISession client : NetworkManager.getInstance().getSessions().getSessions().values()) {
                 try {
                     if (!(client instanceof Session) || client.getPlayer() == null || client.getPlayer().getData() == null) {
                         continue;

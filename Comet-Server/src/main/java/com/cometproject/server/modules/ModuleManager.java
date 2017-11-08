@@ -5,7 +5,7 @@ import com.cometproject.api.events.EventHandler;
 import com.cometproject.api.modules.BaseModule;
 import com.cometproject.api.server.IGameService;
 import com.cometproject.server.modules.events.EventHandlerService;
-import com.cometproject.server.utilities.Initialisable;
+import com.cometproject.api.utilities.Initialisable;
 import com.cometproject.server.utilities.JsonUtil;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;

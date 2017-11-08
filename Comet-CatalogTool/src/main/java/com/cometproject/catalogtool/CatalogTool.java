@@ -2,7 +2,7 @@ package com.cometproject.catalogtool;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Configuration;
-import com.cometproject.server.game.catalog.CatalogManager;
+import com.cometproject.api.game.catalog.ICatalogService;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.storage.StorageManager;
 import org.apache.log4j.Logger;
@@ -32,7 +32,7 @@ public class CatalogTool {
 
         StorageManager.getInstance().initialize();
         ItemManager.getInstance().initialize();
-        CatalogManager.getInstance().initialize();
+        ICatalogService.getInstance().initialize();
 
         //parse xml
         // loop through every item with furniline = furniline and create definitions where needed

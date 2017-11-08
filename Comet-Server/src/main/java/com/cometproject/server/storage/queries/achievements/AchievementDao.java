@@ -1,9 +1,10 @@
 package com.cometproject.server.storage.queries.achievements;
 
+import com.cometproject.api.game.achievements.types.IAchievementGroup;
 import com.cometproject.server.game.achievements.AchievementGroup;
 import com.cometproject.server.game.achievements.types.Achievement;
-import com.cometproject.server.game.achievements.types.AchievementCategory;
-import com.cometproject.server.game.achievements.types.AchievementType;
+import com.cometproject.api.game.achievements.types.AchievementCategory;
+import com.cometproject.api.game.achievements.types.AchievementType;
 import com.cometproject.server.storage.SqlHelper;
 
 import java.sql.Connection;
@@ -15,7 +16,7 @@ import java.util.Map;
 
 public class AchievementDao {
 
-    public static int getAchievements(Map<AchievementType, AchievementGroup> achievementGroups) {
+    public static int getAchievements(Map<AchievementType, IAchievementGroup> achievementGroups) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;

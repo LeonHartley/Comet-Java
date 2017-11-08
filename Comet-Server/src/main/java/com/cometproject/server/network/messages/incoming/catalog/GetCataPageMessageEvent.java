@@ -1,6 +1,6 @@
 package com.cometproject.server.network.messages.incoming.catalog;
 
-import com.cometproject.server.game.catalog.CatalogManager;
+import com.cometproject.api.game.catalog.ICatalogService;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.catalog.CatalogPageMessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;
@@ -16,8 +16,8 @@ public class GetCataPageMessageEvent implements Event {
             return;
         }
 
-        if (CatalogManager.getInstance().pageExists(pageId) && CatalogManager.getInstance().getPage(pageId).isEnabled()) {
-            client.send(new CatalogPageMessageComposer("NORMAL", CatalogManager.getInstance().getPage(pageId), client.getPlayer()));
+        if (ICatalogService.getInstance().pageExists(pageId) && ICatalogService.getInstance().getPage(pageId).isEnabled()) {
+            client.send(new CatalogPageMessageComposer("NORMAL", ICatalogService.getInstance().getPage(pageId), client.getPlayer()));
         }
     }
 }

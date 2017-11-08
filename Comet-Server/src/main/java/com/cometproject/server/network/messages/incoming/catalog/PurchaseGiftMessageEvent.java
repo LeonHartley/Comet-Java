@@ -1,7 +1,6 @@
 package com.cometproject.server.network.messages.incoming.catalog;
 
-import com.cometproject.server.game.achievements.types.AchievementType;
-import com.cometproject.server.game.catalog.CatalogManager;
+import com.cometproject.api.game.catalog.ICatalogService;
 import com.cometproject.server.game.catalog.types.CatalogOffer;
 import com.cometproject.server.game.catalog.types.gifts.GiftData;
 import com.cometproject.server.network.messages.incoming.Event;
@@ -16,7 +15,7 @@ public class PurchaseGiftMessageEvent implements Event {
         int itemId = msg.readInt();
 
         if(pageId <= 0) {
-            final CatalogOffer catalogOffer = CatalogManager.getCatalogOffers().get(itemId);
+            final CatalogOffer catalogOffer = ICatalogService.getCatalogOffers().get(itemId);
 
             if(catalogOffer == null) {
                 return;
@@ -35,13 +34,13 @@ public class PurchaseGiftMessageEvent implements Event {
         int decorationType = msg.readInt();
         boolean showUsername = msg.readBoolean();
 
-        if(!CatalogManager.getInstance().getGiftBoxesNew().contains(spriteId) && !CatalogManager.getInstance().getGiftBoxesOld().contains(spriteId)) {
+        if(!ICatalogService.getInstance().getGiftBoxesNew().contains(spriteId) && !ICatalogService.getInstance().getGiftBoxesOld().contains(spriteId)) {
             client.disconnect();
             return;
         }
 
         GiftData data = new GiftData(pageId, itemId, client.getPlayer().getId(), sendingUser, message, spriteId, wrappingPaper, decorationType, showUsername, extraData);
 
-        CatalogManager.getInstance().getPurchaseHandler().purchaseItem(client, pageId, itemId, extraData, 1, data);
+        ICatalogService.getInstance().getPurchaseHandler().purchaseItem(client, pageId, itemId, extraData, 1, data);
     }
 }

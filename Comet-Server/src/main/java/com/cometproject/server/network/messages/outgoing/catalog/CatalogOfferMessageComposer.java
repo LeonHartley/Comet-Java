@@ -1,15 +1,15 @@
 package com.cometproject.server.network.messages.outgoing.catalog;
 
 import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.server.game.catalog.types.CatalogItem;
+import com.cometproject.api.game.catalog.types.ICatalogItem;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
 
 
 public class CatalogOfferMessageComposer extends MessageComposer {
-    private final CatalogItem catalogItem;
+    private final ICatalogItem catalogItem;
 
-    public CatalogOfferMessageComposer(final CatalogItem catalogItem) {
+    public CatalogOfferMessageComposer(final ICatalogItem catalogItem) {
         this.catalogItem = catalogItem;
     }
 

@@ -1,18 +1,19 @@
 package com.cometproject.server.game.achievements;
 
-import com.cometproject.server.game.achievements.types.AchievementType;
+import com.cometproject.api.game.achievements.types.AchievementType;
+import com.cometproject.api.game.achievements.types.IAchievementGroup;
+import com.cometproject.api.game.achievements.IAchievementsService;
 import com.cometproject.server.storage.queries.achievements.AchievementDao;
-import com.cometproject.server.utilities.Initialisable;
 import org.apache.log4j.Logger;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class AchievementManager implements Initialisable {
+public class AchievementManager implements IAchievementsService {
     private static AchievementManager achievementManager;
     private static final Logger log = Logger.getLogger(AchievementManager.class.getName());
 
-    private final Map<AchievementType, AchievementGroup> achievementGroups;
+    private final Map<AchievementType, IAchievementGroup> achievementGroups;
 
     public AchievementManager() {
         this.achievementGroups = new ConcurrentHashMap<>();
@@ -25,9 +26,10 @@ public class AchievementManager implements Initialisable {
         log.info("AchievementManager initialized");
     }
 
+    @Override
     public void loadAchievements() {
         if (this.achievementGroups.size() != 0) {
-            for (AchievementGroup achievementGroup : this.achievementGroups.values()) {
+            for (IAchievementGroup achievementGroup : this.achievementGroups.values()) {
                 if (achievementGroup.getAchievements().size() != 0) {
                     achievementGroup.getAchievements().clear();
                 }
@@ -42,11 +44,13 @@ public class AchievementManager implements Initialisable {
 
     }
 
-    public AchievementGroup getAchievementGroup(AchievementType groupName) {
+    @Override
+    public IAchievementGroup getAchievementGroup(AchievementType groupName) {
         return this.achievementGroups.get(groupName);
     }
 
-    public Map<AchievementType, AchievementGroup> getAchievementGroups() {
+    @Override
+    public Map<AchievementType, IAchievementGroup> getAchievementGroups() {
         return this.achievementGroups;
     }
 

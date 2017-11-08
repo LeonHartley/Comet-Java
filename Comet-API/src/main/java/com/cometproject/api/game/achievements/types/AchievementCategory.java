@@ -1,4 +1,4 @@
-package com.cometproject.server.game.achievements.types;
+package com.cometproject.api.game.achievements.types;
 
 public enum AchievementCategory {
     IDENTITY,

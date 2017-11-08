@@ -4,7 +4,7 @@ import com.cometproject.api.commands.CommandInfo;
 import com.cometproject.api.config.ModuleConfig;
 import com.cometproject.api.events.Event;
 import com.cometproject.api.events.EventListenerContainer;
-import com.cometproject.api.networking.sessions.BaseSession;
+import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.api.server.IGameService;
 
 import java.util.Map;
@@ -50,7 +50,7 @@ public abstract class BaseModule implements EventListenerContainer {
      * @param commandExecutor The command name
      * @param consumer The consumer of the command
      */
-    protected void registerChatCommand(String commandExecutor, BiConsumer<BaseSession, String[]> consumer) {
+    protected void registerChatCommand(String commandExecutor, BiConsumer<ISession, String[]> consumer) {
         this.getGameService().getEventHandler().registerChatCommand(commandExecutor, consumer);
     }
 

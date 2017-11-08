@@ -1,11 +1,10 @@
 package com.cometproject.server.network.messages.outgoing.catalog;
 
+import com.cometproject.api.game.catalog.types.CatalogPageType;
+import com.cometproject.api.game.catalog.types.ICatalogItem;
 import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.server.game.catalog.CatalogManager;
-import com.cometproject.server.game.catalog.types.CatalogFrontPageEntry;
-import com.cometproject.server.game.catalog.types.CatalogItem;
-import com.cometproject.server.game.catalog.types.CatalogPage;
-import com.cometproject.server.game.catalog.types.CatalogPageType;
+import com.cometproject.api.game.catalog.ICatalogService;
+import com.cometproject.server.game.catalog.types.*;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
@@ -49,13 +48,13 @@ public class CatalogPageMessageComposer extends MessageComposer {
         if (this.catalogPage.getType() == CatalogPageType.RECENT_PURCHASES) {
             msg.writeInt(player.getRecentPurchases().size());
 
-            for(CatalogItem item : player.getRecentPurchases()) {
+            for(ICatalogItem item : player.getRecentPurchases()) {
                 item.compose(msg);
             }
         } else if(!this.catalogPage.getTemplate().equals("frontpage") && !this.catalogPage.getTemplate().equals("club_buy")) {
             msg.writeInt(this.catalogPage.getItems().size());
 
-            for (CatalogItem item : this.catalogPage.getItems().values()) {
+            for (ICatalogItem item : this.catalogPage.getItems().values()) {
                 item.compose(msg);
             }
         } else {
@@ -66,9 +65,9 @@ public class CatalogPageMessageComposer extends MessageComposer {
         msg.writeBoolean(false); // allow seasonal currency as credits
 
         if(this.catalogPage.getTemplate().equals("frontpage4")) {
-            msg.writeInt(CatalogManager.getInstance().getFrontPageEntries().size());
+            msg.writeInt(ICatalogService.getInstance().getFrontPageEntries().size());
 
-            for(CatalogFrontPageEntry entry : CatalogManager.getInstance().getFrontPageEntries()) {
+            for(CatalogFrontPageEntry entry : ICatalogService.getInstance().getFrontPageEntries()) {
                 msg.writeInt(entry.getId());
                 msg.writeString(entry.getCaption());
                 msg.writeString(entry.getImage());

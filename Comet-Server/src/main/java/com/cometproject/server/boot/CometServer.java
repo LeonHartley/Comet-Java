@@ -7,7 +7,7 @@ import com.cometproject.server.config.Configuration;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.GameCycle;
 import com.cometproject.server.game.achievements.AchievementManager;
-import com.cometproject.server.game.catalog.CatalogManager;
+import com.cometproject.api.game.catalog.ICatalogService;
 import com.cometproject.server.game.commands.CommandManager;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.guides.GuideManager;
@@ -72,7 +72,7 @@ public class CometServer {
         PermissionsManager.getInstance().initialize();
         RoomBundleManager.getInstance().initialize();
         ItemManager.getInstance().initialize();
-        CatalogManager.getInstance().initialize();
+        ICatalogService.getInstance().initialize();
         RoomManager.getInstance().initialize();
         NavigatorManager.getInstance().initialize();
         CommandManager.getInstance().initialize();

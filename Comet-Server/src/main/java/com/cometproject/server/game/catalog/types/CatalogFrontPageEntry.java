@@ -1,6 +1,8 @@
 package com.cometproject.server.game.catalog.types;
 
-public class CatalogFrontPageEntry {
+import com.cometproject.api.game.catalog.types.ICatalogFrontPageEntry;
+
+public class CatalogFrontPageEntry implements ICatalogFrontPageEntry {
     private final int id;
     private final String caption;
     private final String image;
@@ -15,22 +17,27 @@ public class CatalogFrontPageEntry {
         this.pageId = pageId;
     }
 
+    @Override
     public int getId() {
         return id;
     }
 
+    @Override
     public String getCaption() {
         return caption;
     }
 
+    @Override
     public String getImage() {
         return image;
     }
 
+    @Override
     public String getPageLink() {
         return pageLink;
     }
 
+    @Override
     public int getPageId() {
         return pageId;
     }

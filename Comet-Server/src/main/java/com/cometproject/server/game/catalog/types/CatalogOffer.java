@@ -1,6 +1,8 @@
 package com.cometproject.server.game.catalog.types;
 
-public class CatalogOffer {
+import com.cometproject.api.game.catalog.types.ICatalogOffer;
+
+public class CatalogOffer implements ICatalogOffer {
     private int offerId;
     private int catalogPageId;
     private int catalogItemId;

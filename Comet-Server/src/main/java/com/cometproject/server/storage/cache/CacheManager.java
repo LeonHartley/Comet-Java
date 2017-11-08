@@ -1,8 +1,7 @@
 package com.cometproject.server.storage.cache;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Configuration;
-import com.cometproject.server.utilities.Initialisable;
+import com.cometproject.api.utilities.Initialisable;
 import com.cometproject.server.utilities.JsonUtil;
 import org.apache.log4j.Logger;
 import redis.clients.jedis.Jedis;

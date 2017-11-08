@@ -1,6 +1,6 @@
 package com.cometproject.server.game.players.components.types.inventory;
 
-import com.cometproject.api.game.furniture.types.GiftItemData;
+import com.cometproject.api.game.furniture.types.IGiftData;
 import com.cometproject.api.game.furniture.types.LimitedEditionItem;
 import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
 import com.cometproject.api.networking.messages.IComposer;
@@ -44,7 +44,7 @@ public class InventoryItem implements PlayerItem {
         }
     }
 
-    public InventoryItem(long id, int baseId, String extraData, GiftItemData giftData, LimitedEditionItem limitEditionItem) {
+    public InventoryItem(long id, int baseId, String extraData, IGiftData giftData, LimitedEditionItem limitEditionItem) {
         this.init(id, baseId, extraData, (GiftData) giftData);
 
         this.limitedEditionItem = limitEditionItem;

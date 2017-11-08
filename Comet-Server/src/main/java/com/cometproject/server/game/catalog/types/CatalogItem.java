@@ -1,8 +1,10 @@
 package com.cometproject.server.game.catalog.types;
 
+import com.cometproject.api.game.catalog.types.ICatalogBundledItem;
+import com.cometproject.api.game.catalog.types.ICatalogItem;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.game.catalog.CatalogManager;
+import com.cometproject.api.game.catalog.ICatalogService;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.items.types.ItemDefinition;
 
@@ -12,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class CatalogItem {
+public class CatalogItem implements ICatalogItem {
     /**
      * The ID of the catalog item
      */
@@ -56,7 +58,7 @@ public class CatalogItem {
     /**
      * The items (if this is a bundle)
      */
-    private List<CatalogBundledItem> items;
+    private List<ICatalogBundledItem> items;
 
     /**
      * If this item is limited edition, how many items are available
@@ -90,7 +92,7 @@ public class CatalogItem {
 
 
     /**
- * Initialize the catalog item with data from the database
+     * Initialize the catalog item with data from the database
      *
      * @param data Data from the database
      * @throws SQLException
@@ -117,7 +119,7 @@ public class CatalogItem {
         this(id, itemId, null, displayName, costCredits, costActivityPoints, costOther, amount, vip, limitedTotal, limitedSells, allowOffer, badgeId, presetData, pageId);
     }
 
-    public CatalogItem(int id, String itemId, List<CatalogBundledItem> bundledItems, String displayName, int costCredits, int costActivityPoints, int costOther, int amount, boolean vip, int limitedTotal, int limitedSells, boolean allowOffer, String badgeId, String presetData, int pageId) {
+    public CatalogItem(int id, String itemId, List<ICatalogBundledItem> bundledItems, String displayName, int costCredits, int costActivityPoints, int costOther, int amount, boolean vip, int limitedTotal, int limitedSells, boolean allowOffer, String badgeId, String presetData, int pageId) {
         this.id = id;
         this.itemId = itemId;
         this.displayName = displayName;
@@ -168,9 +170,9 @@ public class CatalogItem {
 
             if (this.getItems().size() == 0) return;
 
-            List<CatalogBundledItem> itemsToRemove = new ArrayList<>();
+            List<ICatalogBundledItem> itemsToRemove = new ArrayList<>();
 
-            for (CatalogBundledItem catalogBundledItem : this.items) {
+            for (ICatalogBundledItem catalogBundledItem : this.items) {
                 final ItemDefinition itemDefinition = ItemManager.getInstance().getDefinition(catalogBundledItem.getItemId());
 
                 if (itemDefinition == null) {
@@ -178,25 +180,23 @@ public class CatalogItem {
                 }
             }
 
-            for(CatalogBundledItem itemToRemove : itemsToRemove) {
-                this.items.remove(itemToRemove);
-            }
-
+            this.items.removeAll(itemsToRemove);
             itemsToRemove.clear();
 
-            if(this.items.size() == 0) {
+            if (this.items.size() == 0) {
                 return;
             }
 
             if (ItemManager.getInstance().getDefinition(this.getItems().get(0).getItemId()) == null) return;
             int offerId = ItemManager.getInstance().getDefinition(this.getItems().get(0).getItemId()).getOfferId();
 
-            if (!CatalogManager.getCatalogOffers().containsKey(offerId)) {
-                CatalogManager.getCatalogOffers().put(offerId, new CatalogOffer(offerId, this.getPageId(), this.getId()));
+            if (!ICatalogService.getCatalogOffers().containsKey(offerId)) {
+                ICatalogService.getCatalogOffers().put(offerId, new CatalogOffer(offerId, this.getPageId(), this.getId()));
             }
         }
     }
 
+    @Override
     public void compose(IComposer msg) {
         final ItemDefinition firstItem = this.itemId.equals("-1") ? null : ItemManager.getInstance().getDefinition(this.getItems().get(0).getItemId());
 
@@ -228,7 +228,7 @@ public class CatalogItem {
         }
 
         if (!this.isBadgeOnly()) {
-            for (CatalogBundledItem bundledItem : this.getItems()) {
+            for (ICatalogBundledItem bundledItem : this.getItems()) {
                 ItemDefinition def = ItemManager.getInstance().getDefinition(bundledItem.getItemId());
 
                 msg.writeString(def.getType());
@@ -257,74 +257,92 @@ public class CatalogItem {
         msg.writeString("");
     }
 
+    @Override
     public int getId() {
         return this.id;
     }
 
+    @Override
     public String getItemId() {
         return itemId;
     }
 
-    public List<CatalogBundledItem> getItems() {
+    @Override
+    public List<ICatalogBundledItem> getItems() {
         return this.items;
     }
 
+    @Override
     public String getDisplayName() {
         return displayName;
     }
 
+    @Override
     public int getCostCredits() {
         return costCredits;
     }
 
+    @Override
     public int getCostActivityPoints() {
         return costActivityPoints;
     }
 
+    @Override
     public int getCostOther() {
         return costOther;
     }
 
+    @Override
     public int getAmount() {
         return amount;
     }
 
+    @Override
     public boolean isVip() {
         return vip;
     }
 
+    @Override
     public int getLimitedTotal() {
         return this.limitedTotal;
     }
 
+    @Override
     public int getLimitedSells() {
         return this.limitedSells;
     }
 
+    @Override
     public boolean allowOffer() {
         return this.allowOffer;
     }
 
+    @Override
     public void increaseLimitedSells(int amount) {
         this.limitedSells += amount;
     }
 
+    @Override
     public boolean hasBadge() {
         return !(this.badgeId.isEmpty());
     }
 
+    @Override
     public boolean isBadgeOnly() {
         return this.items.size() == 0 && this.hasBadge();
     }
 
+    @Override
     public String getBadgeId() {
         return this.badgeId;
     }
 
+    @Override
     public String getPresetData() {
         return presetData;
     }
 
+    @Override
     public int getPageId() {
         return pageId;
     }

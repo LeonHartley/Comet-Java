@@ -1,9 +1,9 @@
 package com.cometproject.api.commands;
 
-import com.cometproject.api.networking.sessions.BaseSession;
+import com.cometproject.api.networking.sessions.ISession;
 
 public abstract class ModuleChatCommand {
-    public abstract void execute(BaseSession client, String[] args);
+    public abstract void execute(ISession client, String[] args);
 
     public abstract String getDescription();
 

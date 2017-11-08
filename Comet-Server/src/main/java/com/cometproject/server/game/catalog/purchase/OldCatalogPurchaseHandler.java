@@ -1,16 +1,19 @@
 package com.cometproject.server.game.catalog.purchase;
 
+import com.cometproject.api.game.catalog.types.ICatalogPage;
+import com.cometproject.api.game.catalog.types.purchase.ICatalogPurchaseHandler;
+import com.cometproject.api.game.furniture.types.IGiftData;
 import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
+import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
-import com.cometproject.server.game.achievements.types.AchievementType;
-import com.cometproject.server.game.catalog.CatalogManager;
+import com.cometproject.api.game.achievements.types.AchievementType;
+import com.cometproject.api.game.catalog.ICatalogService;
 import com.cometproject.server.game.catalog.types.CatalogBundledItem;
 import com.cometproject.server.game.catalog.types.CatalogItem;
 import com.cometproject.server.game.catalog.types.CatalogPage;
-import com.cometproject.server.game.catalog.types.CatalogPageType;
-import com.cometproject.server.game.catalog.types.gifts.GiftData;
+import com.cometproject.api.game.catalog.types.CatalogPageType;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.items.ItemManager;
@@ -51,7 +54,6 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.apache.lucene.util.packed.EliasFanoEncoder;
 import org.joda.time.DateTime;
 
 import java.util.*;
@@ -59,14 +61,15 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 
-public class OldCatalogPurchaseHandler {
+public class OldCatalogPurchaseHandler implements ICatalogPurchaseHandler {
     private final Logger log = Logger.getLogger(OldCatalogPurchaseHandler.class.getName());
     private ExecutorService executorService;
 
     public OldCatalogPurchaseHandler() {
     }
 
-    public void purchaseItem(Session client, int pageId, int itemId, String data, int amount, GiftData giftData) {
+    @Override
+    public void purchaseItem(ISession client, int pageId, int itemId, String data, int amount, IGiftData giftData) {
         if (CometSettings.asyncCatalogPurchase) {
             if (this.executorService == null) {
                 this.executorService = Executors.newFixedThreadPool(2);
@@ -88,7 +91,8 @@ public class OldCatalogPurchaseHandler {
      * @param amount   The amount of items we're purchasing
      * @param giftData Gift data (if-any)
      */
-    private void handle(Session client, int pageId, int itemId, String data, int amount, GiftData giftData) {
+    @Override
+    public void handle(ISession client, int pageId, int itemId, String data, int amount, IGiftData giftData) {
         if (client == null || client.getPlayer() == null) return;
 
         // TODO: redo all of this, it sucks so bad ;P, maybe add purchase handlers for each item or some crap
@@ -109,14 +113,14 @@ public class OldCatalogPurchaseHandler {
         }
 
         Set<PlayerItem> unseenItems = Sets.newHashSet();
-        CatalogPage page = CatalogManager.getInstance().getPage(pageId);
+        CatalogPage page = ICatalogService.getInstance().getPage(pageId);
 
         try {
             CatalogItem item;
 
             try {
                 if (page == null || page.getType() == CatalogPageType.RECENT_PURCHASES) {
-                    page = CatalogManager.getInstance().getCatalogPageByCatalogItemId(itemId);
+                    page = ICatalogService.getInstance().getCatalogPageByCatalogItemId(itemId);
 
                     if (page.getMinRank() > client.getPlayer().getData().getRank() || !page.getItems().containsKey(itemId)) {
                         //y u do dis.
@@ -187,7 +191,7 @@ public class OldCatalogPurchaseHandler {
             }
 
             try {
-                if (CatalogManager.getInstance().getPage(item.getPageId()).getMinRank() > client.getPlayer().getData().getRank()) {
+                if (ICatalogService.getInstance().getPage(item.getPageId()).getMinRank() > client.getPlayer().getData().getRank()) {
                     client.disconnect();
                     return;
                 }
@@ -407,7 +411,7 @@ public class OldCatalogPurchaseHandler {
 
                     ItemDefinition itemDefinition = ItemManager.getInstance().getBySpriteId(giftData.getSpriteId());
 
-                    purchases.add(new CatalogPurchase(playerIdToDeliver, itemDefinition == null ? CatalogManager.getInstance().getGiftBoxesOld().get(0) : itemDefinition.getId(), "GIFT::##" + JsonUtil.getInstance().toJson(giftData)));
+                    purchases.add(new CatalogPurchase(playerIdToDeliver, itemDefinition == null ? ICatalogService.getInstance().getGiftBoxesOld().get(0) : itemDefinition.getId(), "GIFT::##" + JsonUtil.getInstance().toJson(giftData)));
                 } else {
                     for (int purchaseCount = 0; purchaseCount < amount; purchaseCount++) {
                         for (int itemCount = 0; itemCount != bundledItem.getAmount(); itemCount++) {
@@ -479,7 +483,8 @@ public class OldCatalogPurchaseHandler {
      * @param giftData The data of the gift
      * @param newItems List of items to deliver
      */
-    private void deliverGift(int playerId, GiftData giftData, List<Long> newItems, String senderUsername) {
+    @Override
+    public void deliverGift(int playerId, IGiftData giftData, List<Long> newItems, String senderUsername) {
         Session client = NetworkManager.getInstance().getSessions().getByPlayerId(playerId);
 
         if (client != null) {
@@ -504,7 +509,8 @@ public class OldCatalogPurchaseHandler {
         }
     }
 
-    private void purchaseBundle(CatalogPage page, Session client) {
+    @Override
+    public void purchaseBundle(ICatalogPage page, ISession client) {
         RoomBundle roomBundle = RoomBundleManager.getInstance().getBundle(page.getExtraData());
 
         try {

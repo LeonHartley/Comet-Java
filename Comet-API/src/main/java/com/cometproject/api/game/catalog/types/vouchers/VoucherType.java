@@ -1,4 +1,4 @@
-package com.cometproject.server.game.catalog.types;
+package com.cometproject.api.game.catalog.types.vouchers;
 
 public enum VoucherType {
     COINS,

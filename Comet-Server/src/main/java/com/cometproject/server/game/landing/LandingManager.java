@@ -5,8 +5,7 @@ import com.cometproject.server.game.landing.types.PromoArticle;
 import com.cometproject.server.game.players.data.PlayerAvatar;
 import com.cometproject.server.storage.queries.landing.LandingDao;
 import com.cometproject.server.tasks.CometThreadManager;
-import com.cometproject.server.utilities.Initialisable;
-import com.google.common.collect.Maps;
+import com.cometproject.api.utilities.Initialisable;
 import org.apache.log4j.Logger;
 
 import java.util.Map;

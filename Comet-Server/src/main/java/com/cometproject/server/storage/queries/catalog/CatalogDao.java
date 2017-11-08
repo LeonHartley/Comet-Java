@@ -1,12 +1,9 @@
 package com.cometproject.server.storage.queries.catalog;
 
+import com.cometproject.api.game.catalog.types.ICatalogItem;
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.game.catalog.CatalogManager;
-import com.cometproject.server.game.catalog.purchase.OldCatalogPurchaseHandler;
-import com.cometproject.server.game.catalog.types.CatalogFrontPageEntry;
-import com.cometproject.server.game.catalog.types.CatalogItem;
-import com.cometproject.server.game.catalog.types.CatalogPage;
-import com.cometproject.server.game.catalog.types.ClothingItem;
+import com.cometproject.api.game.catalog.ICatalogService;
+import com.cometproject.server.game.catalog.types.*;
 import com.cometproject.server.storage.SqlHelper;
 
 import java.sql.Connection;
@@ -31,7 +28,7 @@ public class CatalogDao {
             while (resultSet.next()) {
                 try {
                     int pageId = resultSet.getInt("id");
-                    pages.put(pageId, new CatalogPage(resultSet, CatalogManager.getInstance().getItemsForPage(pageId)));
+                    pages.put(pageId, new CatalogPage(resultSet, ICatalogService.getInstance().getItemsForPage(pageId)));
                 } catch (Exception exception) {
                     exception.printStackTrace();
                     Comet.getServer().getLogger().warn("Failed to load catalog page: " + resultSet.getInt("id"));
@@ -46,7 +43,7 @@ public class CatalogDao {
         }
     }
 
-    public static void getItems(Map<Integer, CatalogItem> items) {
+    public static void getItems(Map<Integer, ICatalogItem> items) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -59,7 +56,7 @@ public class CatalogDao {
 
             while (resultSet.next()) {
                 try {
-                    final CatalogItem catalogItem = new CatalogItem(resultSet);
+                    final ICatalogItem catalogItem = new CatalogItem(resultSet);
 
                     if (!catalogItem.getItemId().equals("-1") && catalogItem.getItems().size() == 0) {
                         Comet.getServer().getLogger().warn(String.format("Catalog Item with ID: %s and name: %s has invalid item data! (Data: %s)", catalogItem.getId(), catalogItem.getDisplayName(), catalogItem.getItemId()));
@@ -82,12 +79,12 @@ public class CatalogDao {
     }
 
 
-    private static Map<Integer, CatalogItem> getItemsByPage(int pageId) {
+    private static Map<Integer, ICatalogItem> getItemsByPage(int pageId) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        Map<Integer, CatalogItem> data = new HashMap<>();
+        Map<Integer, ICatalogItem> data = new HashMap<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();
@@ -109,7 +106,7 @@ public class CatalogDao {
 //                }
 
                 try {
-                    final CatalogItem catalogItem = new CatalogItem(resultSet);
+                    final ICatalogItem catalogItem = new CatalogItem(resultSet);
 
                     if (!catalogItem.getItemId().equals("-1") && catalogItem.getItems().size() == 0) {
                         Comet.getServer().getLogger().warn(String.format("Catalog Item with ID: %s and name: %s has invalid item data! (Data: %s)", catalogItem.getId(), catalogItem.getDisplayName(), catalogItem.getItemId()));
@@ -264,12 +261,12 @@ public class CatalogDao {
         }
     }
 
-    public static Set<CatalogItem> findRecentPurchases(final int count, final int playerId) {
+    public static Set<ICatalogItem> findRecentPurchases(final int count, final int playerId) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        final Set<CatalogItem> recentPurchases = new HashSet<>();
+        final Set<ICatalogItem> recentPurchases = new HashSet<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();
@@ -281,7 +278,7 @@ public class CatalogDao {
 
             while (resultSet.next()) {
                 final int catalogItemId = resultSet.getInt("catalog_item");
-                final CatalogItem catalogItem = CatalogManager.getInstance().getCatalogItem(catalogItemId);
+                final ICatalogItem catalogItem = ICatalogService.getInstance().getCatalogItem(catalogItemId);
 
                 if(catalogItem != null) {
                     recentPurchases.add(catalogItem);

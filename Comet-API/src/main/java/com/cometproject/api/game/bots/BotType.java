@@ -1,4 +1,4 @@
-package com.cometproject.server.game.bots;
+package com.cometproject.api.game.bots;
 
 public enum BotType {
     GENERIC,

@@ -1,7 +1,7 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
 import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.server.game.catalog.CatalogManager;
+import com.cometproject.api.game.catalog.ICatalogService;
 import com.cometproject.server.game.catalog.types.gifts.GiftData;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.data.PlayerAvatar;
@@ -21,7 +21,7 @@ public class GiftFloorItem extends RoomItemFloor {
 
         this.giftData = JsonUtil.getInstance().fromJson(data.split("GIFT::##")[1], GiftData.class);
 
-        if (!CatalogManager.getInstance().getGiftBoxesNew().contains(giftData.getSpriteId()) && !CatalogManager.getInstance().getGiftBoxesOld().contains(giftData.getSpriteId())) {
+        if (!ICatalogService.getInstance().getGiftBoxesNew().contains(giftData.getSpriteId()) && !ICatalogService.getInstance().getGiftBoxesOld().contains(giftData.getSpriteId())) {
             throw new Exception("some sad fucker used an exploit, bye bye gift.");
         }
     }

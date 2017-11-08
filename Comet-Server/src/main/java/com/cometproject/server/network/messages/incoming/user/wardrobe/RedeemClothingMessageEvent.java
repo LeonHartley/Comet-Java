@@ -1,6 +1,6 @@
 package com.cometproject.server.network.messages.incoming.user.wardrobe;
 
-import com.cometproject.server.game.catalog.CatalogManager;
+import com.cometproject.api.game.catalog.ICatalogService;
 import com.cometproject.server.game.catalog.types.ClothingItem;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
@@ -35,7 +35,7 @@ public class RedeemClothingMessageEvent implements Event {
         }
 
         final ClothingItem clothingItem =
-                CatalogManager.getInstance().getClothingItems().get(floorItem.getDefinition().getItemName());
+                ICatalogService.getInstance().getClothingItems().get(floorItem.getDefinition().getItemName());
 
         if(clothingItem == null) {
             return;

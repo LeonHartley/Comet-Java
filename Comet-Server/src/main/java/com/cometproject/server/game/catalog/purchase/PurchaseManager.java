@@ -1,7 +1,7 @@
 package com.cometproject.server.game.catalog.purchase;
 
 import com.cometproject.server.config.Locale;
-import com.cometproject.server.game.achievements.types.AchievementType;
+import com.cometproject.api.game.achievements.types.AchievementType;
 import com.cometproject.server.game.catalog.purchase.handlers.BotPurchaseHandler;
 import com.cometproject.server.game.catalog.purchase.handlers.PetPurchaseHandler;
 import com.cometproject.server.game.catalog.purchase.handlers.StickiesPurchaseHandler;

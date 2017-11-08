@@ -1,9 +1,8 @@
 package com.cometproject.server.game.commands.staff.bundles;
 
 import com.cometproject.server.config.Locale;
-import com.cometproject.server.game.catalog.CatalogManager;
+import com.cometproject.api.game.catalog.ICatalogService;
 import com.cometproject.server.game.commands.ChatCommand;
-import com.cometproject.server.game.commands.staff.TeleportCommand;
 import com.cometproject.server.game.rooms.bundles.RoomBundleManager;
 import com.cometproject.server.game.rooms.bundles.types.RoomBundle;
 import com.cometproject.server.game.rooms.bundles.types.RoomBundleConfig;
@@ -77,7 +76,7 @@ public class BundleCommand extends ChatCommand {
                 RoomBundleManager.getInstance().addBundle(roomBundle);
 
                 if(updateCatalog) {
-                    CatalogManager.getInstance().loadItemsAndPages();
+                    ICatalogService.getInstance().loadItemsAndPages();
 
                     NetworkManager.getInstance().getSessions().broadcast(new CatalogPublishMessageComposer(true));
                 }

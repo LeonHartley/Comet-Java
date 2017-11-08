@@ -4,7 +4,7 @@ import com.cometproject.server.network.websocket.listeners.AuthListener;
 import com.cometproject.server.network.websocket.listeners.DisconnectionListener;
 import com.cometproject.server.network.websocket.listeners.MessageListener;
 import com.cometproject.server.network.websocket.listeners.types.AuthenticationRequest;
-import com.cometproject.server.utilities.Initialisable;
+import com.cometproject.api.utilities.Initialisable;
 import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketIOServer;
 import org.apache.log4j.Logger;

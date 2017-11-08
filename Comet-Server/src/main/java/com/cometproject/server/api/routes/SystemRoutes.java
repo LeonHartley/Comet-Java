@@ -1,11 +1,11 @@
 package com.cometproject.server.api.routes;
 
-import com.cometproject.api.networking.sessions.BaseSession;
+import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.boot.utils.ShutdownProcess;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
-import com.cometproject.server.game.catalog.CatalogManager;
+import com.cometproject.api.game.catalog.ICatalogService;
 import com.cometproject.server.game.commands.CommandManager;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.landing.LandingManager;
@@ -63,8 +63,8 @@ public class SystemRoutes {
                 break;
 
             case "catalog":
-                CatalogManager.getInstance().loadItemsAndPages();
-                CatalogManager.getInstance().loadGiftBoxes();
+                ICatalogService.getInstance().loadItemsAndPages();
+                ICatalogService.getInstance().loadGiftBoxes();
 
                 NetworkManager.getInstance().getSessions().broadcast(new CatalogPublishMessageComposer(true));
                 break;
@@ -104,7 +104,7 @@ public class SystemRoutes {
             case "modpresets":
                 ModerationManager.getInstance().loadPresets();
 
-                for (BaseSession session : NetworkManager.getInstance().getSessions().getByPlayerPermission("mod_tool")) {
+                for (ISession session : NetworkManager.getInstance().getSessions().getByPlayerPermission("mod_tool")) {
                     session.send(new ModToolMessageComposer());
                 }
 

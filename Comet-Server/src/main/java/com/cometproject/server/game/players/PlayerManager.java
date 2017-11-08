@@ -1,6 +1,5 @@
 package com.cometproject.server.game.players;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Configuration;
 import com.cometproject.server.game.players.data.PlayerAvatar;
 import com.cometproject.server.game.players.data.PlayerData;
@@ -8,8 +7,7 @@ import com.cometproject.server.game.players.login.PlayerLoginRequest;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.player.PlayerDao;
-import com.cometproject.server.utilities.Initialisable;
-import com.google.common.collect.Lists;
+import com.cometproject.api.utilities.Initialisable;
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;

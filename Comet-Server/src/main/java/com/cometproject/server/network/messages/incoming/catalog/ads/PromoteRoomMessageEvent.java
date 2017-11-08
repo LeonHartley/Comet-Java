@@ -3,7 +3,7 @@ package com.cometproject.server.network.messages.incoming.catalog.ads;
 import com.cometproject.api.game.rooms.settings.RoomAccessType;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
-import com.cometproject.server.game.catalog.CatalogManager;
+import com.cometproject.api.game.catalog.ICatalogService;
 import com.cometproject.server.game.catalog.types.CatalogItem;
 import com.cometproject.server.game.catalog.types.CatalogPage;
 import com.cometproject.server.game.rooms.RoomManager;
@@ -14,8 +14,6 @@ import com.cometproject.server.network.messages.outgoing.notification.AlertMessa
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 
-import javax.naming.OperationNotSupportedException;
-
 
 public class PromoteRoomMessageEvent implements Event {
 
@@ -24,7 +22,7 @@ public class PromoteRoomMessageEvent implements Event {
         int pageId = msg.readInt();
         int itemId = msg.readInt();
 
-        CatalogPage page = CatalogManager.getInstance().getPage(pageId);
+        CatalogPage page = ICatalogService.getInstance().getPage(pageId);
 
         if (page == null || page.getItems().get(itemId) == null) return;
 

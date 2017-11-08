@@ -1,6 +1,8 @@
 package com.cometproject.server.game.catalog.types;
 
-public class CatalogBundledItem {
+import com.cometproject.api.game.catalog.types.ICatalogBundledItem;
+
+public class CatalogBundledItem implements ICatalogBundledItem {
 
     private final int itemId;
     private final int amount;
@@ -12,14 +14,17 @@ public class CatalogBundledItem {
         this.itemId = itemId;
     }
 
+    @Override
     public int getItemId() {
         return itemId;
     }
 
+    @Override
     public int getAmount() {
         return amount;
     }
 
+    @Override
     public String getPresetData() {
         return presetData;
     }

@@ -1,6 +1,6 @@
 package com.cometproject.server.game.commands.staff.rewards.mass;
 
-import com.cometproject.api.networking.sessions.BaseSession;
+import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.game.players.types.Player;
@@ -21,7 +21,7 @@ public class MassBadgeCommand extends ChatCommand {
         final String badgeCode = params[0];
         List<Integer> playersToInsertBadge = Lists.newArrayList();
 
-        for (BaseSession session : NetworkManager.getInstance().getSessions().getSessions().values()) {
+        for (ISession session : NetworkManager.getInstance().getSessions().getSessions().values()) {
             try {
                 ((Player) session.getPlayer()).getInventory().addBadge(badgeCode, false);
                 playersToInsertBadge.add(session.getPlayer().getId());

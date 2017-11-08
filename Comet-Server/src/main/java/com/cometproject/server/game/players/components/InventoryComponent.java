@@ -1,6 +1,6 @@
 package com.cometproject.server.game.players.components;
 
-import com.cometproject.api.game.furniture.types.GiftItemData;
+import com.cometproject.api.game.furniture.types.IGiftData;
 import com.cometproject.api.game.furniture.types.LimitedEditionItem;
 import com.cometproject.api.game.furniture.types.SongItem;
 import com.cometproject.api.game.players.data.components.PlayerInventory;
@@ -20,7 +20,6 @@ import com.cometproject.server.network.messages.outgoing.user.inventory.RemoveOb
 import com.cometproject.server.storage.queries.achievements.PlayerAchievementDao;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.storage.queries.player.inventory.InventoryDao;
-import com.cometproject.server.utilities.collections.ConcurrentHashSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.log4j.Logger;
@@ -214,7 +213,7 @@ public class InventoryComponent implements PlayerInventory {
     }
 
     @Override
-    public PlayerItem add(long id, int itemId, String extraData, GiftItemData giftData, LimitedEditionItem limitedEditionItem) {
+    public PlayerItem add(long id, int itemId, String extraData, IGiftData giftData, LimitedEditionItem limitedEditionItem) {
         PlayerItem item = new InventoryItem(id, itemId, extraData, giftData, limitedEditionItem);
 
         this.inventoryItems.put(id, item);

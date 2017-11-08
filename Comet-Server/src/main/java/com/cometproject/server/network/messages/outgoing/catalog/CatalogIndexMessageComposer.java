@@ -1,9 +1,9 @@
 package com.cometproject.server.network.messages.outgoing.catalog;
 
 import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.server.game.catalog.CatalogManager;
-import com.cometproject.server.game.catalog.types.CatalogItem;
+import com.cometproject.api.game.catalog.ICatalogService;
 import com.cometproject.server.game.catalog.types.CatalogPage;
+import com.cometproject.api.game.catalog.types.ICatalogItem;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.network.messages.composers.MessageComposer;
@@ -28,9 +28,9 @@ public class CatalogIndexMessageComposer extends MessageComposer {
 
     @Override
     public void compose(final IComposer msg) {
-        final List<CatalogPage> pages = CatalogManager.getInstance().getPagesForRank(this.playerRank);
-        final List<CatalogPage> pagesTwo = CatalogManager.getInstance().getPagesForRank(this.playerRank);
-        final List<CatalogPage> subPages = CatalogManager.getInstance().getPagesForRank(this.playerRank);
+        final List<CatalogPage> pages = ICatalogService.getInstance().getPagesForRank(this.playerRank);
+        final List<CatalogPage> pagesTwo = ICatalogService.getInstance().getPagesForRank(this.playerRank);
+        final List<CatalogPage> subPages = ICatalogService.getInstance().getPagesForRank(this.playerRank);
 
         Collections.sort(subPages, new Comparator<CatalogPage>() {
             @Override
@@ -72,7 +72,7 @@ public class CatalogIndexMessageComposer extends MessageComposer {
                 msg.writeString(child.getCaption());
                 msg.writeInt(child.getOfferSize());
 
-                for (CatalogItem item : child.getItems().values()) {
+                for (ICatalogItem item : child.getItems().values()) {
                     if(item.getItemId().equals("-1")) continue;
 
                     ItemDefinition itemDefinition = ItemManager.getInstance().getDefinition(item.getItems().get(0).getItemId());
@@ -99,7 +99,7 @@ public class CatalogIndexMessageComposer extends MessageComposer {
                     msg.writeString(childTwo.getCaption());
                     msg.writeInt(childTwo.getOfferSize());
 
-                    for (CatalogItem item : childTwo.getItems().values()) {
+                    for (ICatalogItem item : childTwo.getItems().values()) {
                         if(item.getItemId().equals("-1")) continue;
 
                         ItemDefinition itemDefinition = ItemManager.getInstance().getDefinition(item.getItems().get(0).getItemId());

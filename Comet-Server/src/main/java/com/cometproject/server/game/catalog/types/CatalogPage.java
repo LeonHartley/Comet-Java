@@ -1,5 +1,9 @@
 package com.cometproject.server.game.catalog.types;
 
+import com.cometproject.api.game.catalog.types.CatalogPageType;
+import com.cometproject.api.game.catalog.types.ICatalogBundledItem;
+import com.cometproject.api.game.catalog.types.ICatalogItem;
+import com.cometproject.api.game.catalog.types.ICatalogPage;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.rooms.bundles.RoomBundleManager;
 import com.cometproject.server.game.rooms.bundles.types.RoomBundle;
@@ -17,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class CatalogPage {
+public class CatalogPage implements ICatalogPage {
     private static final Type listType = new TypeToken<List<String>>() {}.getType();
 
     private int id;
@@ -34,10 +38,10 @@ public class CatalogPage {
     private List<String> images;
     private List<String> texts;
 
-    private Map<Integer, CatalogItem> items;
+    private Map<Integer, ICatalogItem> items;
     private String extraData;
 
-    public CatalogPage(ResultSet data, Map<Integer, CatalogItem> items) throws SQLException {
+    public CatalogPage(ResultSet data, Map<Integer, ICatalogItem> items) throws SQLException {
 
         this.id = data.getInt("id");
         this.caption = data.getString("caption");
@@ -69,7 +73,7 @@ public class CatalogPage {
             RoomBundle roomBundle = RoomBundleManager.getInstance().getBundle(bundleAlias);
 
             if(roomBundle != null) {
-                List<CatalogBundledItem> bundledItems = new ArrayList<>();
+                List<ICatalogBundledItem> bundledItems = new ArrayList<>();
                 Map<Integer, List<RoomBundleItem>> bundleItems = new HashMap<>();
 
                 for (RoomBundleItem bundleItem : roomBundle.getRoomBundleData()) {
@@ -84,7 +88,7 @@ public class CatalogPage {
                     bundledItems.add(new CatalogBundledItem("0", bundledItem.getValue().size(), bundledItem.getKey()));
                 }
 
-                final CatalogItem catalogItem = new CatalogItem(roomBundle.getId(), "-1", bundledItems, "single_bundle",
+                final ICatalogItem catalogItem = new CatalogItem(roomBundle.getId(), "-1", bundledItems, "single_bundle",
                         roomBundle.getCostCredits(), roomBundle.getCostSeasonal(), roomBundle.getCostVip(), 1, false, 0, 0, false, "", "", this.id);
 
                 this.items = new HashMap<>();
@@ -97,10 +101,11 @@ public class CatalogPage {
         }
     }
 
+    @Override
     public int getOfferSize() {
         int size = 0;
 
-        for (CatalogItem item : this.items.values()) {
+        for (ICatalogItem item : this.items.values()) {
             if(item.getItemId().equals("-1")) continue;
 
             if (ItemManager.getInstance().getDefinition(item.getItems().get(0).getItemId()) != null) {
@@ -113,54 +118,67 @@ public class CatalogPage {
         return size;
     }
 
+    @Override
     public int getId() {
         return id;
     }
 
+    @Override
     public String getCaption() {
         return caption;
     }
 
+    @Override
     public int getIcon() {
         return icon;
     }
 
+    @Override
     public int getMinRank() {
         return minRank;
     }
 
+    @Override
     public String getTemplate() {
         return template;
     }
 
+    @Override
     public int getParentId() {
         return parentId;
     }
 
+    @Override
     public boolean isEnabled() {
         return enabled;
     }
 
-    public Map<Integer, CatalogItem> getItems() {
+    @Override
+    public Map<Integer, ICatalogItem> getItems() {
         return items;
     }
 
+    @Override
     public List<String> getImages() {
         return images;
     }
 
+    @Override
     public List<String> getTexts() {
         return texts;
     }
 
+    @Override
     public String getLinkName() {
         return linkName;
     }
 
+    @Override
     public String getExtraData() {
         return extraData;
     }
 
+    @Override
     public CatalogPageType getType() {
         return type;
     }

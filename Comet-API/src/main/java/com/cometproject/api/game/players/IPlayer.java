@@ -8,11 +8,11 @@ import com.cometproject.api.game.players.data.components.PlayerInventory;
 import com.cometproject.api.game.players.data.components.PlayerPermissions;
 import com.cometproject.api.game.rooms.entities.PlayerRoomEntity;
 import com.cometproject.api.networking.messages.IMessageComposer;
-import com.cometproject.api.networking.sessions.BaseSession;
+import com.cometproject.api.networking.sessions.ISession;
 
 import java.util.List;
 
-public interface BasePlayer {
+public interface IPlayer {
     int INFINITE_BALANCE = 999999;
 
     void dispose();
@@ -39,11 +39,11 @@ public interface BasePlayer {
 
     void setRooms(List<Integer> rooms);
 
-    void setSession(BaseSession client);
+    void setSession(ISession client);
 
     PlayerRoomEntity getEntity();
 
-    BaseSession getSession();
+    ISession getSession();
 
     IPlayerData getData();
 

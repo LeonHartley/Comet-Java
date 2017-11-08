@@ -1,10 +1,10 @@
 package com.cometproject.api.game.players.data;
 
 
-import com.cometproject.api.game.players.BasePlayer;
+import com.cometproject.api.game.players.IPlayer;
 
 public interface PlayerComponent {
-    BasePlayer getPlayer();
+    IPlayer getPlayer();
 
     void dispose();
 }

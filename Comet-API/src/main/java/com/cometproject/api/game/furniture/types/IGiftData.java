@@ -1,6 +1,6 @@
 package com.cometproject.api.game.furniture.types;
 
-public interface GiftItemData {
+public interface IGiftData {
     int getPageId();
 
     int getItemId();

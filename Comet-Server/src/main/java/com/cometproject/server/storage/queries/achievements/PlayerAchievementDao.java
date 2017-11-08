@@ -1,6 +1,6 @@
 package com.cometproject.server.storage.queries.achievements;
 
-import com.cometproject.server.game.achievements.types.AchievementType;
+import com.cometproject.api.game.achievements.types.AchievementType;
 import com.cometproject.server.game.players.components.types.achievements.AchievementProgress;
 import com.cometproject.server.storage.SqlHelper;
 

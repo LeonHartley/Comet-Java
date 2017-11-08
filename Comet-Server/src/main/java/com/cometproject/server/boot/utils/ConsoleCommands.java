@@ -4,7 +4,7 @@ import com.cometproject.api.stats.CometStats;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
-import com.cometproject.server.game.catalog.CatalogManager;
+import com.cometproject.api.game.catalog.ICatalogService;
 import com.cometproject.server.game.moderation.BanManager;
 import com.cometproject.server.game.navigator.NavigatorManager;
 import com.cometproject.server.game.permissions.PermissionsManager;
@@ -107,8 +107,8 @@ public class ConsoleCommands {
                     break;
 
                 case "/reload_catalog":
-                    CatalogManager.getInstance().loadItemsAndPages();
-                    CatalogManager.getInstance().loadGiftBoxes();
+                    ICatalogService.getInstance().loadItemsAndPages();
+                    ICatalogService.getInstance().loadGiftBoxes();
                     log.info("Catalog cache was reloaded.");
                     break;
 

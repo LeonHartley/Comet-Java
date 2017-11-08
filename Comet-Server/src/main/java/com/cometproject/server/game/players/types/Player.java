@@ -1,11 +1,11 @@
 package com.cometproject.server.game.players.types;
 
-import com.cometproject.api.game.players.BasePlayer;
+import com.cometproject.api.game.players.IPlayer;
 import com.cometproject.api.game.players.data.components.PlayerInventory;
-import com.cometproject.api.networking.sessions.BaseSession;
+import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
-import com.cometproject.server.game.catalog.types.CatalogItem;
+import com.cometproject.api.game.catalog.types.ICatalogItem;
 import com.cometproject.server.game.guides.GuideManager;
 import com.cometproject.server.game.guides.types.HelpRequest;
 import com.cometproject.server.game.guides.types.HelperSession;
@@ -40,7 +40,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
-public class Player implements BasePlayer {
+public class Player implements IPlayer {
 
     private int id;
 
@@ -127,7 +127,7 @@ public class Player implements BasePlayer {
 
     public int lastBannedListRequest = 0;
 
-    private Set<CatalogItem> recentPurchases;
+    private Set<ICatalogItem> recentPurchases;
 
     private Set<String> eventLogCategories = Sets.newConcurrentHashSet();
 
@@ -372,7 +372,7 @@ public class Player implements BasePlayer {
     }
 
     @Override
-    public void setSession(BaseSession client) {
+    public void setSession(ISession client) {
         this.session = ((Session) client);
     }
 
@@ -799,7 +799,7 @@ public class Player implements BasePlayer {
         this.helpRequest = helpRequest;
     }
 
-    public Set<CatalogItem> getRecentPurchases() {
+    public Set<ICatalogItem> getRecentPurchases() {
         if(this.recentPurchases == null) {
             this.recentPurchases = new ConcurrentHashSet<>();
 

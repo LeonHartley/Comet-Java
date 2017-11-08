@@ -1,6 +1,6 @@
 package com.cometproject.api.game.players.data.components;
 
-import com.cometproject.api.game.furniture.types.GiftItemData;
+import com.cometproject.api.game.furniture.types.IGiftData;
 import com.cometproject.api.game.furniture.types.LimitedEditionItem;
 import com.cometproject.api.game.furniture.types.SongItem;
 import com.cometproject.api.game.players.data.PlayerComponent;
@@ -35,7 +35,7 @@ public interface PlayerInventory extends PlayerComponent {
 
     String[] equippedBadges();
 
-    PlayerItem add(long id, int itemId, String extraData, GiftItemData giftData, LimitedEditionItem limitedEditionItem);
+    PlayerItem add(long id, int itemId, String extraData, IGiftData giftData, LimitedEditionItem limitedEditionItem);
 
     List<SongItem> getSongs();
 

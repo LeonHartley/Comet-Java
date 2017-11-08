@@ -1,7 +1,7 @@
 package com.cometproject.server.network.messages.outgoing.catalog.data;
 
 import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.server.game.catalog.CatalogManager;
+import com.cometproject.api.game.catalog.ICatalogService;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
 
@@ -28,9 +28,9 @@ public class GiftWrappingConfigurationMessageComposer extends MessageComposer {
     public void compose(IComposer msg) {
         msg.writeBoolean(true);//?
         msg.writeInt(1);//?
-        msg.writeInt(CatalogManager.getInstance().getGiftBoxesNew().size());
+        msg.writeInt(ICatalogService.getInstance().getGiftBoxesNew().size());
 
-        for (int spriteId : CatalogManager.getInstance().getGiftBoxesNew()) {
+        for (int spriteId : ICatalogService.getInstance().getGiftBoxesNew()) {
             msg.writeInt(spriteId);
         }
 
@@ -46,9 +46,9 @@ public class GiftWrappingConfigurationMessageComposer extends MessageComposer {
             msg.writeInt(giftDecoration);
         }
 
-        msg.writeInt(CatalogManager.getInstance().getGiftBoxesOld().size());
+        msg.writeInt(ICatalogService.getInstance().getGiftBoxesOld().size());
 
-        for (int spriteId : CatalogManager.getInstance().getGiftBoxesOld()) {
+        for (int spriteId : ICatalogService.getInstance().getGiftBoxesOld()) {
             msg.writeInt(spriteId);
         }
     }

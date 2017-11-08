@@ -2,25 +2,25 @@ package com.cometproject.server.network.messages.outgoing.catalog;
 
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.config.CometSettings;
-import com.cometproject.server.game.catalog.types.CatalogItem;
+import com.cometproject.api.game.catalog.types.ICatalogItem;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
 
 
 public class BoughtItemMessageComposer extends MessageComposer {
-    private final CatalogItem catalogItem;
+    private final ICatalogItem catalogItem;
     private final ItemDefinition itemDefinition;
 
     private final boolean isGroup;
 
-    private BoughtItemMessageComposer(final CatalogItem catalogItem, final ItemDefinition itemDefinition, final boolean isGroup) {
+    private BoughtItemMessageComposer(final ICatalogItem catalogItem, final ItemDefinition itemDefinition, final boolean isGroup) {
         this.catalogItem = catalogItem;
         this.itemDefinition = itemDefinition;
         this.isGroup = isGroup;
     }
 
-    public BoughtItemMessageComposer(final CatalogItem catalogItem, final ItemDefinition itemDefinition) {
+    public BoughtItemMessageComposer(final ICatalogItem catalogItem, final ItemDefinition itemDefinition) {
         this(catalogItem, itemDefinition, false);
     }
 

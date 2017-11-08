@@ -1,7 +1,7 @@
 package com.cometproject.server.network.messages.incoming.room.bots;
 
 import com.cometproject.server.config.Locale;
-import com.cometproject.server.game.bots.BotMode;
+import com.cometproject.api.game.bots.BotMode;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.filter.FilterResult;
 import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
