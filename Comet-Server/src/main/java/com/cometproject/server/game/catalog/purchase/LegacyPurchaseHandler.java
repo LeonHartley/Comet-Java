@@ -470,7 +470,7 @@ public class LegacyPurchaseHandler implements ICatalogPurchaseHandler {
                         CatalogDao.saveRecentPurchase(client.getPlayer().getId(), item.getId(), amount, extraData);
                     }
 
-                    client.getPlayer().getRecentPurchases().add(item);
+                    client.getPlayer().getRecentPurchases().add(item.getId());
                 }
             }
         } catch (Exception e) {
@@ -535,6 +535,7 @@ public class LegacyPurchaseHandler implements ICatalogPurchaseHandler {
             client.send(new RoomForwardMessageComposer(roomId));
             client.send(new EnforceRoomCategoryMessageComposer());
             client.send(new BoughtItemMessageComposer(BoughtItemMessageComposer.PurchaseType.BADGE));
+
             client.getPlayer().setLastRoomCreated((int) Comet.getTime());
         } catch (Exception e) {
             client.send(new MotdNotificationMessageComposer("Invalid room bundle data, please contact an administrator."));

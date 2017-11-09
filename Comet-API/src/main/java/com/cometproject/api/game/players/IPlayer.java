@@ -9,6 +9,7 @@ import com.cometproject.api.networking.messages.IMessageComposer;
 import com.cometproject.api.networking.sessions.ISession;
 
 import java.util.List;
+import java.util.Set;
 
 public interface IPlayer {
     int INFINITE_BALANCE = 999999;
@@ -140,4 +141,11 @@ public interface IPlayer {
     long getLastReward();
 
     void setLastReward(long lastReward);
+
+    Set<Integer> getRecentPurchases();
+
+    int getLastRoomCreated();
+
+    void setLastRoomCreated(int lastRoomCreated);
+
 }

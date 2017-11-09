@@ -1,5 +1,6 @@
 package com.cometproject.api.game.players.data.components;
 
+import com.cometproject.api.game.bots.IBotData;
 import com.cometproject.api.game.players.data.components.bots.IPlayerBot;
 
 import java.util.Map;
@@ -9,11 +10,11 @@ public interface PlayerBots {
 
     boolean isBot(int id);
 
-    IPlayerBot getBot(int id);
+    IBotData getBot(int id);
 
-    void addBot(IPlayerBot bot);
+    void addBot(IBotData bot);
 
-    Map<Integer, IPlayerBot> getBots();
+    Map<Integer, IBotData> getBots();
 
     void clearBots();
 }

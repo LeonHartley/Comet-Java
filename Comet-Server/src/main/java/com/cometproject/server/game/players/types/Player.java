@@ -799,7 +799,7 @@ public class Player implements IPlayer {
         this.helpRequest = helpRequest;
     }
 
-    public Set<ICatalogItem> getRecentPurchases() {
+    public Set<Integer> getRecentPurchases() {
         if(this.recentPurchases == null) {
             this.recentPurchases = new ConcurrentHashSet<>();
 
