@@ -101,6 +101,15 @@ public abstract class BotData implements IBotData {
         this.isAutomaticChat = automaticChat;
     }
 
+    public BotData(int id, String botName, String ownerName, String botFigure, String botGender, String botMotto, BotType type) {
+        this.id = id;
+        this.username = botName;
+        this.figure = botFigure;
+        this.gender = botGender;
+        this.motto = botMotto;
+        this.botType = type;
+    }
+
     @Override
     public JsonObject toJsonObject() {
         final JsonObject jsonObject = new JsonObject();

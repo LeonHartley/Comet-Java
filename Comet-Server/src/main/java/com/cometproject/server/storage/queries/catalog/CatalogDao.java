@@ -1,8 +1,12 @@
 package com.cometproject.server.storage.queries.catalog;
 
+import com.cometproject.api.game.catalog.types.ICatalogFrontPageEntry;
 import com.cometproject.api.game.catalog.types.ICatalogItem;
+import com.cometproject.api.game.catalog.types.ICatalogPage;
+import com.cometproject.api.game.catalog.types.IClothingItem;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.api.game.catalog.ICatalogService;
+import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.catalog.types.*;
 import com.cometproject.server.storage.SqlHelper;
 
@@ -14,7 +18,7 @@ import java.util.*;
 
 
 public class CatalogDao {
-    public static void getPages(Map<Integer, CatalogPage> pages) {
+    public static void getPages(Map<Integer, ICatalogPage> pages) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -177,7 +181,7 @@ public class CatalogDao {
         }
     }
 
-    public static void getFeaturedPages(List<CatalogFrontPageEntry> frontPageEntries) {
+    public static void getFeaturedPages(List<ICatalogFrontPageEntry> frontPageEntries) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -201,7 +205,7 @@ public class CatalogDao {
         }
     }
 
-    public static void getClothing(Map<String, ClothingItem> clothingItems) {
+    public static void getClothing(Map<String, IClothingItem> clothingItems) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -261,12 +265,12 @@ public class CatalogDao {
         }
     }
 
-    public static Set<ICatalogItem> findRecentPurchases(final int count, final int playerId) {
+    public static Set<Integer> findRecentPurchases(final int count, final int playerId) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        final Set<ICatalogItem> recentPurchases = new HashSet<>();
+        final Set<Integer> recentPurchases = new HashSet<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();
@@ -278,11 +282,8 @@ public class CatalogDao {
 
             while (resultSet.next()) {
                 final int catalogItemId = resultSet.getInt("catalog_item");
-                final ICatalogItem catalogItem = CatalogManager.getInstance().getCatalogItem(catalogItemId);
 
-                if(catalogItem != null) {
-                    recentPurchases.add(catalogItem);
-                }
+                recentPurchases.add(catalogItemId);
             }
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);

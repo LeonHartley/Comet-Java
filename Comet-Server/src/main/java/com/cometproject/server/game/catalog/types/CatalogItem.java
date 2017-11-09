@@ -91,31 +91,6 @@ public class CatalogItem implements ICatalogItem {
      */
     private int pageId;
 
-
-    /**
-     * Initialize the catalog item with data from the database
-     *
-     * @param data Data from the database
-     * @throws SQLException
-     */
-    public CatalogItem(ResultSet data) throws Exception {
-        this(
-                data.getInt("id"),
-                data.getString("item_ids"),
-                data.getString("catalog_name"),
-                data.getInt("cost_credits"),
-                data.getInt("cost_pixels"),
-                data.getInt("cost_diamonds"),
-                data.getInt("amount"),
-                data.getString("vip").equals("1"),
-                data.getInt("limited_stack"),
-                data.getInt("limited_sells"),
-                data.getString("offer_active").equals("1"),
-                data.getString("badge_id"),
-                data.getString("extradata"),
-                data.getInt("page_id"));
-    }
-
     public CatalogItem(int id, String itemId, String displayName, int costCredits, int costActivityPoints, int costOther, int amount, boolean vip, int limitedTotal, int limitedSells, boolean allowOffer, String badgeId, String presetData, int pageId) {
         this(id, itemId, null, displayName, costCredits, costActivityPoints, costOther, amount, vip, limitedTotal, limitedSells, allowOffer, badgeId, presetData, pageId);
     }

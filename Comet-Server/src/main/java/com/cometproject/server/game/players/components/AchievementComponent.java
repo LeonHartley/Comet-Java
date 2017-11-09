@@ -18,7 +18,7 @@ import com.cometproject.server.storage.queries.achievements.PlayerAchievementDao
 import java.util.Map;
 
 public class AchievementComponent extends PlayerComponent implements PlayerAchievements {
-    private Map<AchievementType, AchievementProgress> progression;
+    private Map<AchievementType, IAchievementProgress> progression;
 
     public AchievementComponent(IPlayer player) {
         super(player);
@@ -43,7 +43,7 @@ public class AchievementComponent extends PlayerComponent implements PlayerAchie
             return;
         }
 
-        AchievementProgress progress;
+        IAchievementProgress progress;
 
         if (this.progression.containsKey(type)) {
             progress = this.progression.get(type);

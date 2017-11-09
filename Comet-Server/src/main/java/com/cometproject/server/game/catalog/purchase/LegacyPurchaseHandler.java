@@ -1,6 +1,7 @@
 package com.cometproject.server.game.catalog.purchase;
 
 import com.cometproject.api.game.bots.BotType;
+import com.cometproject.api.game.bots.IBotData;
 import com.cometproject.api.game.catalog.types.ICatalogBundledItem;
 import com.cometproject.api.game.catalog.types.ICatalogItem;
 import com.cometproject.api.game.catalog.types.ICatalogPage;
@@ -27,6 +28,7 @@ import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.bundles.RoomBundleManager;
 import com.cometproject.server.game.rooms.bundles.types.RoomBundle;
 import com.cometproject.server.game.rooms.bundles.types.RoomBundleItem;
+import com.cometproject.server.game.rooms.objects.entities.types.data.PlayerBotData;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.outgoing.catalog.BoughtItemMessageComposer;
 import com.cometproject.server.network.messages.outgoing.catalog.GiftUserNotFoundMessageComposer;
@@ -337,7 +339,11 @@ public class LegacyPurchaseHandler implements ICatalogPurchaseHandler {
                             break;
                     }
 
-                    int botId = PlayerBotDao.createBot(client.getPlayer().getId(), botName, botFigure, botGender, botMotto, type);
+                    final int botId = PlayerBotDao.createBot(client.getPlayer().getId(), botName, botFigure, botGender, botMotto, type);
+                    //int id, String username, String motto, String figure, String gender, String ownerName, int ownerId, String messages,
+                    // boolean automaticChat, int chatDelay, BotType botType, BotMode mode, String data
+
+                    final IBotData botData = new PlayerBotData(botId, botName, botFigure)
 
                     client.getPlayer().getBots().addBot(new PlayerBot(botData));
                     client.send(new BotInventoryMessageComposer(client.getPlayer().getBots().getBots()));

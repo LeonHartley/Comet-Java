@@ -1,6 +1,7 @@
 package com.cometproject.server.game.players.components;
 
 import com.cometproject.api.game.pets.IPetData;
+import com.cometproject.api.game.players.IPlayer;
 import com.cometproject.api.game.players.data.components.PlayerPets;
 import com.cometproject.server.game.pets.data.PetData;
 import com.cometproject.server.game.players.types.Player;
@@ -12,15 +13,16 @@ import java.util.Map;
 
 public class PetComponent extends PlayerComponent implements PlayerPets {
     private Player player;
-    private Map<Integer, PetData> pets;
+    private Map<Integer, IPetData> pets;
 
-    public PetComponent(Player player) {
-        this.player = player;
+    public PetComponent(IPlayer player) {
+        super(player);
 
         this.pets = PetDao.getPetsByPlayerId(player.getId());
     }
 
-    public PetData getPet(int id) {
+    @Override
+    public IPetData getPet(int id) {
         if (this.getPets().containsKey(id)) {
             return this.getPets().get(id);
         }
@@ -32,7 +34,7 @@ public class PetComponent extends PlayerComponent implements PlayerPets {
         this.pets.clear();
     }
 
-    public void addPet(PetData petData) {
+    public void addPet(IPetData petData) {
         this.pets.put(petData.getId(), petData);
     }
 

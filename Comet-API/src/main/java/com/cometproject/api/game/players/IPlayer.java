@@ -3,10 +3,7 @@ package com.cometproject.api.game.players;
 import com.cometproject.api.game.players.data.IPlayerData;
 import com.cometproject.api.game.players.data.IPlayerSettings;
 import com.cometproject.api.game.players.data.IPlayerStatistics;
-import com.cometproject.api.game.players.data.components.PlayerAchievements;
-import com.cometproject.api.game.players.data.components.PlayerBots;
-import com.cometproject.api.game.players.data.components.PlayerInventory;
-import com.cometproject.api.game.players.data.components.PlayerPermissions;
+import com.cometproject.api.game.players.data.components.*;
 import com.cometproject.api.game.rooms.entities.PlayerRoomEntity;
 import com.cometproject.api.networking.messages.IMessageComposer;
 import com.cometproject.api.networking.sessions.ISession;
@@ -57,17 +54,17 @@ public interface IPlayer {
     PlayerAchievements getAchievements();
 
 //    MessengerComponent getMessenger();
-//
+
     PlayerInventory getInventory();
-//
+
 //    SubscriptionComponent getSubscription();
-//
+
 //    RelationshipComponent getRelationships();
-//
+
     PlayerBots getBots();
-//
-//    PetComponent getPets();
-//
+
+    PlayerPets getPets();
+
 //    QuestComponent getQuests();
 
     int getId();

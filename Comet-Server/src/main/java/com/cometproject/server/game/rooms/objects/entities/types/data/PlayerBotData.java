@@ -8,8 +8,6 @@ import org.apache.log4j.Logger;
 
 
 public class PlayerBotData extends BotData {
-    private Logger log = Logger.getLogger(PlayerBotData.class.getName());
-
     private Position position;
 
     public PlayerBotData(int id, String username, String motto, String figure, String gender, String ownerName, int ownerId, String messages, boolean automaticChat, int chatDelay, BotType botType, BotMode mode, String data) {
