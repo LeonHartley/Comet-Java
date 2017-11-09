@@ -1,7 +1,7 @@
 package com.cometproject.server.storage.cache.objects.items;
 
 import com.cometproject.server.game.items.rares.LimitedEditionItemData;
-import com.cometproject.server.game.rooms.objects.misc.Position;
+import com.cometproject.api.game.utilities.Position;
 import com.google.gson.JsonObject;
 
 public class FloorItemDataObject extends RoomItemDataObject {

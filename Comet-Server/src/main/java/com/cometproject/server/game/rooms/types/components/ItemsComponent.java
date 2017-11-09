@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms.types.components;
 
-import com.cometproject.api.game.furniture.types.FurnitureDefinition;
+import com.cometproject.api.game.furniture.types.IFurnitureDefinition;
 import com.cometproject.api.game.furniture.types.LimitedEditionItem;
 import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
 import com.cometproject.server.config.CometSettings;
@@ -19,9 +19,8 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.GiftFloorIte
 import com.cometproject.server.game.rooms.objects.items.types.floor.MagicStackFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.SoundMachineFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredFloorItem;
-import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerCollision;
 import com.cometproject.server.game.rooms.objects.items.types.wall.MoodlightWallItem;
-import com.cometproject.server.game.rooms.objects.misc.Position;
+import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.network.NetworkManager;
@@ -529,7 +528,7 @@ public class ItemsComponent {
         return true;
     }
 
-    private boolean verifyItemPosition(FurnitureDefinition item, RoomItemFloor floor, RoomTile tile, Position currentPosition, int rotation) {
+    private boolean verifyItemPosition(IFurnitureDefinition item, RoomItemFloor floor, RoomTile tile, Position currentPosition, int rotation) {
         if (tile != null) {
             if (currentPosition != null && currentPosition.getX() == tile.getPosition().getX() && currentPosition.getY() == tile.getPosition().getY())
                 return true;
@@ -555,7 +554,7 @@ public class ItemsComponent {
         return true;
     }
 
-    private boolean verifyItemTilePosition(FurnitureDefinition item, RoomItemFloor floorItem, RoomTile tile, int rotation) {
+    private boolean verifyItemTilePosition(IFurnitureDefinition item, RoomItemFloor floorItem, RoomTile tile, int rotation) {
         if (!tile.canPlaceItemHere()) {
             return false;
         }

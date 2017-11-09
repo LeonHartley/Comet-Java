@@ -1,7 +1,7 @@
 package com.cometproject.server.storage.queries.pets;
 
 import com.cometproject.server.game.pets.data.PetData;
-import com.cometproject.server.game.rooms.objects.misc.Position;
+import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.storage.SqlHelper;
 
 import java.sql.Connection;

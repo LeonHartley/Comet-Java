@@ -1,8 +1,8 @@
 package com.cometproject.server.game.catalog.purchase;
 
 import com.cometproject.api.game.bots.BotType;
-import com.cometproject.api.game.bots.IBotData;
 import com.cometproject.api.game.catalog.types.ICatalogBundledItem;
+import com.cometproject.api.game.catalog.types.ICatalogItem;
 import com.cometproject.api.game.catalog.types.ICatalogPage;
 import com.cometproject.api.game.catalog.types.purchase.ICatalogPurchaseHandler;
 import com.cometproject.api.game.furniture.types.IGiftData;
@@ -12,8 +12,6 @@ import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
 import com.cometproject.api.game.achievements.types.AchievementType;
-import com.cometproject.server.game.catalog.types.CatalogItem;
-import com.cometproject.server.game.catalog.types.CatalogPage;
 import com.cometproject.api.game.catalog.types.CatalogPageType;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
@@ -29,7 +27,6 @@ import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.bundles.RoomBundleManager;
 import com.cometproject.server.game.rooms.bundles.types.RoomBundle;
 import com.cometproject.server.game.rooms.bundles.types.RoomBundleItem;
-import com.cometproject.server.game.rooms.objects.entities.types.data.PlayerBotData;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.outgoing.catalog.BoughtItemMessageComposer;
 import com.cometproject.server.network.messages.outgoing.catalog.GiftUserNotFoundMessageComposer;
@@ -63,11 +60,11 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 
-public class OldCatalogPurchaseHandler implements ICatalogPurchaseHandler {
-    private final Logger log = Logger.getLogger(OldCatalogPurchaseHandler.class.getName());
+public class LegacyPurchaseHandler implements ICatalogPurchaseHandler {
+    private final Logger log = Logger.getLogger(LegacyPurchaseHandler.class.getName());
     private ExecutorService executorService;
 
-    public OldCatalogPurchaseHandler() {
+    public LegacyPurchaseHandler() {
     }
 
     @Override
@@ -115,10 +112,10 @@ public class OldCatalogPurchaseHandler implements ICatalogPurchaseHandler {
         }
 
         Set<PlayerItem> unseenItems = Sets.newHashSet();
-        CatalogPage page = CatalogManager.getInstance().getPage(pageId);
+        ICatalogPage page = CatalogManager.getInstance().getPage(pageId);
 
         try {
-            CatalogItem item;
+            ICatalogItem item;
 
             try {
                 if (page == null || page.getType() == CatalogPageType.RECENT_PURCHASES) {
@@ -329,22 +326,18 @@ public class OldCatalogPurchaseHandler implements ICatalogPurchaseHandler {
                     String botFigure = item.getPresetData();
                     String botGender = "m";
                     String botMotto = "Beeb beeb boop beep!";
-                    String type = "generic";
+                    BotType type = BotType.GENERIC;
 
                     switch (item.getDisplayName()) {
                         case "bot_bartender":
-                            type = "waiter";
+                            type = BotType.WAITER;
                             break;
-
-
-                            type = "spy";
+                        case "bot_spy":
+                            type = BotType.SPY;
                             break;
                     }
 
-
                     int botId = PlayerBotDao.createBot(client.getPlayer().getId(), botName, botFigure, botGender, botMotto, type);
-                    final IBotData botData = new PlayerBotData(botId, client.getPlayer().getId(), client.getPlayer().getData().getUsername(), botName, botFigure, botGender, botMotto, BotType.valueOf(type));
-
 
                     client.getPlayer().getBots().addBot(new PlayerBot(botData));
                     client.send(new BotInventoryMessageComposer(client.getPlayer().getBots().getBots()));

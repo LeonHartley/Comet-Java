@@ -1,18 +1,17 @@
 package com.cometproject.server.game.players.components;
 
+import com.cometproject.api.game.players.IPlayer;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.players.types.PlayerComponent;
 
 
-public class SubscriptionComponent implements PlayerComponent {
-    private Player player;
-
+public class SubscriptionComponent extends PlayerComponent {
     private boolean hasSub;
     private int expire;
 
-    public SubscriptionComponent(Player player) {
-        this.player = player;
+    public SubscriptionComponent(IPlayer player) {
+        super(player);
 
         this.load();
     }
@@ -33,11 +32,6 @@ public class SubscriptionComponent implements PlayerComponent {
         this.expire = 0;
     }
 
-    @Override
-    public void dispose() {
-
-    }
-
     public boolean isValid() {
         if (this.getExpire() <= Comet.getTime()) {
             return false;
@@ -52,9 +46,5 @@ public class SubscriptionComponent implements PlayerComponent {
 
     public int getExpire() {
         return this.expire;
-    }
-
-    public Player getPlayer() {
-        return this.player;
     }
 }

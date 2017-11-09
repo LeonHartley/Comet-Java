@@ -1,4 +1,4 @@
-package com.cometproject.server.game.rooms.objects.misc;
+package com.cometproject.api.game.utilities;
 
 public interface Positionable {
     Position getPosition();

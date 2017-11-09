@@ -1,5 +1,6 @@
 package com.cometproject.server.storage.queries.bots;
 
+import com.cometproject.api.game.bots.BotType;
 import com.cometproject.api.game.players.data.components.bots.IPlayerBot;
 import com.cometproject.server.game.players.components.types.inventory.PlayerBot;
 import com.cometproject.server.storage.SqlHelper;
@@ -42,7 +43,7 @@ public class PlayerBotDao {
         return data;
     }
 
-    public static int createBot(int playerId, String name, String figure, String gender, String motto, String type) {
+    public static int createBot(int playerId, String name, String figure, String gender, String motto, BotType type) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -58,7 +59,7 @@ public class PlayerBotDao {
             preparedStatement.setString(3, figure);
             preparedStatement.setString(4, gender);
             preparedStatement.setString(5, motto);
-            preparedStatement.setString(6, type);
+            preparedStatement.setString(6, type.toString().toLowerCase());
 
             preparedStatement.execute();
 

@@ -1,5 +1,7 @@
 package com.cometproject.server.game.players.components;
 
+import com.cometproject.api.game.pets.IPetData;
+import com.cometproject.api.game.players.data.components.PlayerPets;
 import com.cometproject.server.game.pets.data.PetData;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.players.types.PlayerComponent;
@@ -8,7 +10,7 @@ import com.cometproject.server.storage.queries.pets.PetDao;
 import java.util.Map;
 
 
-public class PetComponent implements PlayerComponent {
+public class PetComponent extends PlayerComponent implements PlayerPets {
     private Player player;
     private Map<Integer, PetData> pets;
 
@@ -49,7 +51,8 @@ public class PetComponent implements PlayerComponent {
         this.player = null;
     }
 
-    public Map<Integer, PetData> getPets() {
+    @Override
+    public Map<Integer, IPetData> getPets() {
         return this.pets;
     }
 }

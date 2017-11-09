@@ -10,7 +10,7 @@ import com.cometproject.server.game.rooms.objects.entities.types.ai.bots.SpyAI;
 import com.cometproject.server.game.rooms.objects.entities.types.ai.bots.WaiterAI;
 import com.cometproject.server.game.rooms.objects.entities.types.data.BotDataObject;
 import com.cometproject.server.game.rooms.objects.entities.types.data.types.SpyBotData;
-import com.cometproject.server.game.rooms.objects.misc.Position;
+import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.misc.ChatEmotion;
 import com.cometproject.server.network.messages.outgoing.room.avatar.LeaveRoomMessageComposer;

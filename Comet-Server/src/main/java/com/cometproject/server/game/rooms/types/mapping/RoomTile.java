@@ -12,7 +12,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.games.freeze
 import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupGateFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.pet.breeding.BreedingBoxFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.snowboarding.SnowboardJumpFloorItem;
-import com.cometproject.server.game.rooms.objects.misc.Position;
+import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
 import com.cometproject.server.utilities.collections.ConcurrentHashSet;
 

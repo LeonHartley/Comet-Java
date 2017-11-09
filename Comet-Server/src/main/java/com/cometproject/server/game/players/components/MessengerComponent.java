@@ -1,6 +1,7 @@
 package com.cometproject.server.game.players.components;
 
 import com.cometproject.api.game.achievements.types.AchievementType;
+import com.cometproject.api.game.players.IPlayer;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.components.types.messenger.MessengerFriend;
 import com.cometproject.server.game.players.components.types.messenger.MessengerSearchResult;
@@ -21,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class MessengerComponent implements PlayerComponent {
+public class MessengerComponent extends PlayerComponent {
     private Player player;
 
     private Map<Integer, MessengerFriend> friends;
@@ -29,8 +30,8 @@ public class MessengerComponent implements PlayerComponent {
     private List<Integer> requests;
     private boolean initialised;
 
-    public MessengerComponent(Player player) {
-        this.player = player;
+    public MessengerComponent(IPlayer player) {
+        super(player);
 
         try {
             this.friends = MessengerDao.getFriendsByPlayerId(player.getId());

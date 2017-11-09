@@ -3,7 +3,7 @@ package com.cometproject.server.game.rooms.objects.entities.types.data;
 import com.cometproject.api.game.bots.BotMode;
 import com.cometproject.api.game.bots.BotType;
 import com.cometproject.server.game.bots.BotData;
-import com.cometproject.server.game.rooms.objects.misc.Position;
+import com.cometproject.api.game.utilities.Position;
 import org.apache.log4j.Logger;
 
 

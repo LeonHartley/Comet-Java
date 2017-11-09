@@ -3,7 +3,7 @@ package com.cometproject.server.game.catalog;
 import com.cometproject.api.game.catalog.*;
 import com.cometproject.api.game.catalog.types.*;
 import com.cometproject.api.game.catalog.types.purchase.ICatalogPurchaseHandler;
-import com.cometproject.server.game.catalog.purchase.OldCatalogPurchaseHandler;
+import com.cometproject.server.game.catalog.purchase.LegacyPurchaseHandler;
 import com.cometproject.server.storage.queries.catalog.CatalogDao;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -17,8 +17,6 @@ import java.util.Map;
 
 
 public class CatalogManager implements ICatalogService {
-    private static CatalogManager catalogManagerInstance;
-
     /**
      * The pages within the catalog
      */
@@ -37,7 +35,7 @@ public class CatalogManager implements ICatalogService {
     /**
      * Maps the offer ID of an item to the page ID.
      */
-    private static final Map<Integer, ICatalogOffer> catalogOffers = new HashMap<>();
+    private final Map<Integer, ICatalogOffer> catalogOffers = new HashMap<>();
 
     /**
      * The new style of gift boxes
@@ -83,7 +81,7 @@ public class CatalogManager implements ICatalogService {
 
         this.catalogItemIdToPageId = new HashMap<>();
 
-        this.purchaseHandler = new OldCatalogPurchaseHandler();
+        this.purchaseHandler = new LegacyPurchaseHandler();
 
         this.loadItemsAndPages();
         this.loadGiftBoxes();
@@ -311,5 +309,10 @@ public class CatalogManager implements ICatalogService {
     @Override
     public Map<String, IClothingItem> getClothingItems() {
         return this.clothingItems;
+    }
+
+    @Override
+    public Map<Integer, ICatalogOffer> getCatalogOffers() {
+        return catalogOffers;
     }
 }

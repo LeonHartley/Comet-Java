@@ -1,7 +1,6 @@
 package com.cometproject.server.storage.queries.items;
 
 import com.cometproject.server.game.catalog.purchase.CatalogPurchase;
-import com.cometproject.server.game.catalog.purchase.OldCatalogPurchaseHandler;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.storage.SqlHelper;

@@ -1,9 +1,8 @@
 package com.cometproject.server.game.rooms.objects;
 
 import com.cometproject.server.game.items.ItemManager;
-import com.cometproject.server.game.rooms.objects.misc.Position;
+import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 
 public abstract class BigRoomFloorObject extends RoomObject {
     /**

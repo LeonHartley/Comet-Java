@@ -1,11 +1,9 @@
-package com.cometproject.server.game.rooms.objects.misc;
+package com.cometproject.api.game.utilities;
 
-import com.cometproject.api.game.rooms.util.IPosition;
-import com.cometproject.server.game.rooms.objects.RoomFloorObject;
-import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
+import com.cometproject.api.game.furniture.types.IFurnitureDefinition;
 
 
-public class Position implements IPosition {
+public class Position {
     public static final int NORTH = 0;
     public static final int NORTH_EAST = 1;
     public static final int EAST = 2;
@@ -15,7 +13,7 @@ public class Position implements IPosition {
     public static final int WEST = 6;
     public static final int NORTH_WEST = 7;
 
-    public static final int[] COLLIDE_TILES = new int[] {
+    public static final int[] COLLIDE_TILES = new int[]{
             NORTH, EAST, SOUTH, WEST
     };
 
@@ -89,14 +87,14 @@ public class Position implements IPosition {
         return null;
     }
 
-    public static double calculateHeight(RoomItemFloor item) {
-        if (item.getDefinition().getInteraction().equals("gate")) {
+    public static double calculateHeight(IFurnitureDefinition definition) {
+        if (definition.getInteraction().equals("gate")) {
             return 0;
-        } else if (item.getDefinition().canSit()) {
+        } else if (definition.canSit()) {
             return 0;
         }
 
-        return item.getDefinition().getHeight();
+        return definition.getHeight();
     }
 
     public static int calculateRotation(Position from, Position to) {
@@ -243,12 +241,8 @@ public class Position implements IPosition {
         return new Position(x, y);
     }
 
-    public double distanceTo(IPosition pos) {
+    public double distanceTo(Position pos) {
         return Math.abs(this.getX() - pos.getX()) + Math.abs(this.getY() - pos.getY());
-    }
-
-    public double distanceTo(RoomFloorObject roomFloorObject) {
-        return distanceTo(roomFloorObject.getPosition());
     }
 
     public boolean touching(Position pos) {
@@ -261,10 +255,6 @@ public class Position implements IPosition {
         }
 
         return false;
-    }
-
-    public boolean touching(RoomFloorObject roomFloorObject) {
-        return this.touching(roomFloorObject.getPosition());
     }
 
     public Position copy() {

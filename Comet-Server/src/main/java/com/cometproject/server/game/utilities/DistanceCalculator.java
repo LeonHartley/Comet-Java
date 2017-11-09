@@ -1,7 +1,6 @@
 package com.cometproject.server.game.utilities;
 
-import com.cometproject.server.game.rooms.objects.misc.Position;
-import javafx.geometry.Pos;
+import com.cometproject.api.game.utilities.Position;
 
 
 public class DistanceCalculator {

@@ -1,6 +1,6 @@
 package com.cometproject.test;
 
-import com.cometproject.server.game.rooms.objects.misc.Position;
+import com.cometproject.api.game.utilities.Position;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 

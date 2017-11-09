@@ -1,6 +1,6 @@
 package com.cometproject.api.game.furniture.types;
 
-public interface FurnitureDefinition {
+public interface IFurnitureDefinition {
 
    boolean isAdFurni();
 
