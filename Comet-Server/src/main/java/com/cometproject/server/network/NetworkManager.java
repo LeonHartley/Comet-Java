@@ -16,6 +16,7 @@ import com.cometproject.server.network.monitor.MonitorClient;
 import com.cometproject.server.network.sessions.SessionManager;
 import com.cometproject.server.protocol.security.exchange.RSA;
 import com.cometproject.server.storage.SqlHelper;
+import com.cometproject.server.utilities.CometThreadFactory;
 import com.fasterxml.jackson.databind.ser.std.InetAddressSerializer;
 import io.coerce.commons.config.CoerceConfiguration;
 import io.coerce.services.messaging.client.MessagingClient;
@@ -149,9 +150,9 @@ public class NetworkManager {
 
         if (isEpollAvailable && isEpollEnabled) {
             log.info("Epoll is enabled");
-            acceptGroup = new EpollEventLoopGroup(Integer.parseInt((String) Configuration.currentConfig().getOrDefault("comet.network.acceptGroupThreads", defaultThreadCount)));
-            ioGroup = new EpollEventLoopGroup(Integer.parseInt((String) Configuration.currentConfig().getOrDefault("comet.network.ioGroupThreads", defaultThreadCount)));
-            channelGroup = new EpollEventLoopGroup(Integer.parseInt((String) Configuration.currentConfig().getOrDefault("comet.network.channelGroupThreads", defaultThreadCount)));
+            acceptGroup = new EpollEventLoopGroup(Integer.parseInt((String) Configuration.currentConfig().getOrDefault("comet.network.acceptGroupThreads", defaultThreadCount)), new CometThreadFactory("acceptGroup"));
+            ioGroup = new EpollEventLoopGroup(Integer.parseInt((String) Configuration.currentConfig().getOrDefault("comet.network.ioGroupThreads", defaultThreadCount)), new CometThreadFactory("ioGroup"));
+            channelGroup = new EpollEventLoopGroup(Integer.parseInt((String) Configuration.currentConfig().getOrDefault("comet.network.channelGroupThreads", defaultThreadCount)), new CometThreadFactory("channelGroup"));
         } else {
             if (isEpollAvailable) {
                 log.info("Epoll is available but not enabled");
@@ -159,9 +160,9 @@ public class NetworkManager {
                 log.info("Epoll is not available");
             }
 
-            acceptGroup = new NioEventLoopGroup(Integer.parseInt((String) Configuration.currentConfig().getOrDefault("comet.network.acceptGroupThreads", defaultThreadCount)));
-            ioGroup = new NioEventLoopGroup(Integer.parseInt((String) Configuration.currentConfig().getOrDefault("comet.network.ioGroupThreads", defaultThreadCount)));
-            channelGroup = new NioEventLoopGroup(Integer.parseInt((String) Configuration.currentConfig().getOrDefault("comet.network.channelGroupThreads", defaultThreadCount)));
+            acceptGroup = new NioEventLoopGroup(Integer.parseInt((String) Configuration.currentConfig().getOrDefault("comet.network.acceptGroupThreads", defaultThreadCount)), new CometThreadFactory("acceptGroup"));
+            ioGroup = new NioEventLoopGroup(Integer.parseInt((String) Configuration.currentConfig().getOrDefault("comet.network.ioGroupThreads", defaultThreadCount)), new CometThreadFactory("ioGroup"));
+            channelGroup = new NioEventLoopGroup(Integer.parseInt((String) Configuration.currentConfig().getOrDefault("comet.network.channelGroupThreads", defaultThreadCount)), new CometThreadFactory("channelGroup"));
         }
 
         ServerBootstrap bootstrap = new ServerBootstrap()

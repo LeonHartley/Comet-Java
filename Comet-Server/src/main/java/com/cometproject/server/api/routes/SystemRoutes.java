@@ -104,10 +104,10 @@ public class SystemRoutes {
             case "modpresets":
                 ModerationManager.getInstance().loadPresets();
 
-                for (BaseSession session : NetworkManager.getInstance().getSessions().getByPlayerPermission("mod_tool")) {
-                    session.send(new ModToolMessageComposer());
-                }
 
+                ModerationManager.getInstance().getModerators().forEach((session -> {
+                    session.send(new ModToolMessageComposer());
+                }));
                 break;
         }
 

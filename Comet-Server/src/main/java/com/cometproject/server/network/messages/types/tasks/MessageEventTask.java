@@ -32,7 +32,7 @@ public class MessageEventTask implements CometTask {
             long timeTakenSinceCreation = ((System.currentTimeMillis() - this.start));
 
             // If the packet took more than 750ms to be handled, red flag!
-            if (timeTakenSinceCreation >= 750) {
+            if (timeTakenSinceCreation >= 100) {
                 if (session.getPlayer() != null && session.getPlayer().getData() != null)
                     log.trace("[" + this.messageEvent.getClass().getSimpleName() + "][" + messageEventData.getId() + "][" + session.getPlayer().getId() + "][" + session.getPlayer().getData().getUsername() + "] Packet took " + timeTakenSinceCreation + "ms to execute");
                 else

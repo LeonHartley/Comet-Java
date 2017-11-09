@@ -13,6 +13,7 @@ import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorI
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.protocol.security.exchange.DiffieHellman;
 import com.cometproject.server.storage.queries.player.PlayerDao;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import org.apache.log4j.Logger;
 
@@ -148,7 +149,7 @@ public class Session implements BaseSession {
             logger.debug("Sent message: " + msg.getClass().getSimpleName() + " / " + msg.getId());
 
         if (!queue) {
-            this.channel.writeAndFlush(msg);
+            this.channel.writeAndFlush(msg, channel.voidPromise());
         } else {
             this.channel.write(msg);
         }
