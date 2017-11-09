@@ -63,8 +63,8 @@ public class SystemRoutes {
                 break;
 
             case "catalog":
-                ICatalogService.getInstance().loadItemsAndPages();
-                ICatalogService.getInstance().loadGiftBoxes();
+                CatalogManager.getInstance().loadItemsAndPages();
+                CatalogManager.getInstance().loadGiftBoxes();
 
                 NetworkManager.getInstance().getSessions().broadcast(new CatalogPublishMessageComposer(true));
                 break;

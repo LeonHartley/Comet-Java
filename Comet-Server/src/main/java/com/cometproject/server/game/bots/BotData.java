@@ -83,9 +83,9 @@ public abstract class BotData implements IBotData {
      * @param chatDelay     How long before the bot will next talk
      * @param botType       The type of the bot
      * @param mode          The mode of which the bot will perform actions (e.g walk & talk)
-     * @param data
+     * @param data          JSON object of any additional data attached to the bot
      */
-    public BotData(int id, String username, String motto, String figure, String gender, String ownerName, int ownerId, String messages, boolean automaticChat, int chatDelay, String botType, String mode, String data) {
+    public BotData(int id, String username, String motto, String figure, String gender, String ownerName, int ownerId, String messages, boolean automaticChat, int chatDelay, BotType botType, BotMode mode, String data) {
         this.id = id;
         this.username = username;
         this.motto = motto;
@@ -93,26 +93,10 @@ public abstract class BotData implements IBotData {
         this.gender = gender;
         this.ownerId = ownerId;
         this.ownerName = ownerName;
-        this.botType = BotType.valueOf(botType.toUpperCase());
-        this.mode = BotMode.valueOf(mode.toUpperCase());
+        this.botType = botType;
+        this.mode = mode;
         this.data = data;
         this.messages = (messages == null || messages.isEmpty()) ? new String[0] : JsonUtil.getInstance().fromJson(messages, String[].class);
-        this.chatDelay = chatDelay;
-        this.isAutomaticChat = automaticChat;
-    }
-
-    public BotData(int id, String username, String motto, String figure, String gender, String ownerName, int ownerId, String[] messages, boolean automaticChat, int chatDelay, String botType, String mode, String data) {
-        this.id = id;
-        this.username = username;
-        this.motto = motto;
-        this.figure = figure;
-        this.gender = gender;
-        this.ownerId = ownerId;
-        this.ownerName = ownerName;
-        this.botType = BotType.valueOf(botType.toUpperCase());
-        this.mode = BotMode.valueOf(mode.toUpperCase());
-        this.data = data;
-        this.messages = messages;
         this.chatDelay = chatDelay;
         this.isAutomaticChat = automaticChat;
     }

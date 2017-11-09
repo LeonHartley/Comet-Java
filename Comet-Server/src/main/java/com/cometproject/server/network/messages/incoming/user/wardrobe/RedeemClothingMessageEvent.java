@@ -35,7 +35,7 @@ public class RedeemClothingMessageEvent implements Event {
         }
 
         final ClothingItem clothingItem =
-                ICatalogService.getInstance().getClothingItems().get(floorItem.getDefinition().getItemName());
+                CatalogManager.getInstance().getClothingItems().get(floorItem.getDefinition().getItemName());
 
         if(clothingItem == null) {
             return;

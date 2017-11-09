@@ -3,14 +3,14 @@ package com.cometproject.api.game.players.data.components;
 import com.cometproject.api.game.furniture.types.IGiftData;
 import com.cometproject.api.game.furniture.types.LimitedEditionItem;
 import com.cometproject.api.game.furniture.types.SongItem;
-import com.cometproject.api.game.players.data.PlayerComponent;
+import com.cometproject.api.game.players.data.IPlayerComponent;
 import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public interface PlayerInventory extends PlayerComponent {
+public interface PlayerInventory extends IPlayerComponent {
     void loadItems();
 
     void loadBadges();

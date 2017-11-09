@@ -65,9 +65,9 @@ public class CatalogPageMessageComposer extends MessageComposer {
         msg.writeBoolean(false); // allow seasonal currency as credits
 
         if(this.catalogPage.getTemplate().equals("frontpage4")) {
-            msg.writeInt(ICatalogService.getInstance().getFrontPageEntries().size());
+            msg.writeInt(CatalogManager.getInstance().getFrontPageEntries().size());
 
-            for(CatalogFrontPageEntry entry : ICatalogService.getInstance().getFrontPageEntries()) {
+            for(CatalogFrontPageEntry entry : CatalogManager.getInstance().getFrontPageEntries()) {
                 msg.writeInt(entry.getId());
                 msg.writeString(entry.getCaption());
                 msg.writeString(entry.getImage());

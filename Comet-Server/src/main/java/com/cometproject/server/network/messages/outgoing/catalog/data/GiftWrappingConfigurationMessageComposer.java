@@ -28,9 +28,9 @@ public class GiftWrappingConfigurationMessageComposer extends MessageComposer {
     public void compose(IComposer msg) {
         msg.writeBoolean(true);//?
         msg.writeInt(1);//?
-        msg.writeInt(ICatalogService.getInstance().getGiftBoxesNew().size());
+        msg.writeInt(CatalogManager.getInstance().getGiftBoxesNew().size());
 
-        for (int spriteId : ICatalogService.getInstance().getGiftBoxesNew()) {
+        for (int spriteId : CatalogManager.getInstance().getGiftBoxesNew()) {
             msg.writeInt(spriteId);
         }
 
@@ -46,9 +46,9 @@ public class GiftWrappingConfigurationMessageComposer extends MessageComposer {
             msg.writeInt(giftDecoration);
         }
 
-        msg.writeInt(ICatalogService.getInstance().getGiftBoxesOld().size());
+        msg.writeInt(CatalogManager.getInstance().getGiftBoxesOld().size());
 
-        for (int spriteId : ICatalogService.getInstance().getGiftBoxesOld()) {
+        for (int spriteId : CatalogManager.getInstance().getGiftBoxesOld()) {
             msg.writeInt(spriteId);
         }
     }

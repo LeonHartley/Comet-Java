@@ -40,7 +40,7 @@ public class OpenGiftMessageEvent implements Event {
 
         final GiftData giftData = ((GiftFloorItem) floorItem).getGiftData();
 
-        final CatalogPage catalogPage = ICatalogService.getInstance().getPage(giftData.getPageId());
+        final CatalogPage catalogPage = CatalogManager.getInstance().getPage(giftData.getPageId());
         if (catalogPage == null) return;
 
         final ICatalogItem catalogItem = catalogPage.getItems().get(giftData.getItemId());

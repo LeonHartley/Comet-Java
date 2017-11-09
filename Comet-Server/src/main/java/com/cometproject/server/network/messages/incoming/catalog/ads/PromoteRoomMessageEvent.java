@@ -22,7 +22,7 @@ public class PromoteRoomMessageEvent implements Event {
         int pageId = msg.readInt();
         int itemId = msg.readInt();
 
-        CatalogPage page = ICatalogService.getInstance().getPage(pageId);
+        CatalogPage page = CatalogManager.getInstance().getPage(pageId);
 
         if (page == null || page.getItems().get(itemId) == null) return;
 

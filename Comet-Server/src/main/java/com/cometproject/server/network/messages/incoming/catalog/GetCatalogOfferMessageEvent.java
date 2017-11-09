@@ -16,7 +16,7 @@ public class GetCatalogOfferMessageEvent implements Event {
         if (offerId == -1)
             return;
 
-        ICatalogItem catalogItem = ICatalogService.getInstance().getCatalogItemByOfferId(offerId);
+        ICatalogItem catalogItem = CatalogManager.getInstance().getCatalogItemByOfferId(offerId);
 
         if (catalogItem != null) {
             client.send(new CatalogOfferMessageComposer(catalogItem));

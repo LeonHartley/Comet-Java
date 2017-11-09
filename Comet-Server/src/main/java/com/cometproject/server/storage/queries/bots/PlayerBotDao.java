@@ -1,7 +1,7 @@
 package com.cometproject.server.storage.queries.bots;
 
-import com.cometproject.api.game.players.data.components.bots.PlayerBot;
-import com.cometproject.server.game.players.components.types.inventory.InventoryBot;
+import com.cometproject.api.game.players.data.components.bots.IPlayerBot;
+import com.cometproject.server.game.players.components.types.inventory.PlayerBot;
 import com.cometproject.server.storage.SqlHelper;
 
 import java.sql.Connection;
@@ -13,12 +13,12 @@ import java.util.concurrent.ConcurrentHashMap;
 
 
 public class PlayerBotDao {
-    public static Map<Integer, PlayerBot> getBotsByPlayerId(int playerId) {
+    public static Map<Integer, IPlayerBot> getBotsByPlayerId(int playerId) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        Map<Integer, PlayerBot> data = new ConcurrentHashMap<>();
+        Map<Integer, IPlayerBot> data = new ConcurrentHashMap<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();
@@ -29,7 +29,7 @@ public class PlayerBotDao {
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                data.put(resultSet.getInt("id"), new InventoryBot(resultSet));
+                data.put(resultSet.getInt("id"), new PlayerBot(resultSet));
             }
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);

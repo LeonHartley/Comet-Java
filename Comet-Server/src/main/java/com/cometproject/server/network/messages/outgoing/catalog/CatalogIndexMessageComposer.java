@@ -28,9 +28,9 @@ public class CatalogIndexMessageComposer extends MessageComposer {
 
     @Override
     public void compose(final IComposer msg) {
-        final List<CatalogPage> pages = ICatalogService.getInstance().getPagesForRank(this.playerRank);
-        final List<CatalogPage> pagesTwo = ICatalogService.getInstance().getPagesForRank(this.playerRank);
-        final List<CatalogPage> subPages = ICatalogService.getInstance().getPagesForRank(this.playerRank);
+        final List<CatalogPage> pages = CatalogManager.getInstance().getPagesForRank(this.playerRank);
+        final List<CatalogPage> pagesTwo = CatalogManager.getInstance().getPagesForRank(this.playerRank);
+        final List<CatalogPage> subPages = CatalogManager.getInstance().getPagesForRank(this.playerRank);
 
         Collections.sort(subPages, new Comparator<CatalogPage>() {
             @Override

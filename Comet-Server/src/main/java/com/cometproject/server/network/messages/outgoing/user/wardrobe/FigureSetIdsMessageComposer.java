@@ -27,7 +27,7 @@ public class FigureSetIdsMessageComposer extends MessageComposer {
         final Set<Integer> parts = new HashSet<>();
 
         for (String clothing : this.clothing) {
-            final ClothingItem clothingItem = ICatalogService.getInstance().getClothingItems().get(clothing);
+            final ClothingItem clothingItem = CatalogManager.getInstance().getClothingItems().get(clothing);
 
             if (clothingItem != null) {
                 for (int part : clothingItem.getParts()) {

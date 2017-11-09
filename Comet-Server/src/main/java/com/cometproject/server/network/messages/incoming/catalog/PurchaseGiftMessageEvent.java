@@ -15,7 +15,7 @@ public class PurchaseGiftMessageEvent implements Event {
         int itemId = msg.readInt();
 
         if(pageId <= 0) {
-            final CatalogOffer catalogOffer = ICatalogService.getCatalogOffers().get(itemId);
+            final CatalogOffer catalogOffer = CatalogManager.getCatalogOffers().get(itemId);
 
             if(catalogOffer == null) {
                 return;
@@ -34,13 +34,13 @@ public class PurchaseGiftMessageEvent implements Event {
         int decorationType = msg.readInt();
         boolean showUsername = msg.readBoolean();
 
-        if(!ICatalogService.getInstance().getGiftBoxesNew().contains(spriteId) && !ICatalogService.getInstance().getGiftBoxesOld().contains(spriteId)) {
+        if(!CatalogManager.getInstance().getGiftBoxesNew().contains(spriteId) && !CatalogManager.getInstance().getGiftBoxesOld().contains(spriteId)) {
             client.disconnect();
             return;
         }
 
         GiftData data = new GiftData(pageId, itemId, client.getPlayer().getId(), sendingUser, message, spriteId, wrappingPaper, decorationType, showUsername, extraData);
 
-        ICatalogService.getInstance().getPurchaseHandler().purchaseItem(client, pageId, itemId, extraData, 1, data);
+        CatalogManager.getInstance().getPurchaseHandler().purchaseItem(client, pageId, itemId, extraData, 1, data);
     }
 }

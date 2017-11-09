@@ -3,6 +3,7 @@ package com.cometproject.api.game.players;
 import com.cometproject.api.game.players.data.IPlayerData;
 import com.cometproject.api.game.players.data.IPlayerSettings;
 import com.cometproject.api.game.players.data.IPlayerStatistics;
+import com.cometproject.api.game.players.data.components.PlayerAchievements;
 import com.cometproject.api.game.players.data.components.PlayerBots;
 import com.cometproject.api.game.players.data.components.PlayerInventory;
 import com.cometproject.api.game.players.data.components.PlayerPermissions;
@@ -52,6 +53,8 @@ public interface IPlayer {
     IPlayerStatistics getStats();
 
     PlayerPermissions getPermissions();
+
+    PlayerAchievements getAchievements();
 
 //    MessengerComponent getMessenger();
 //

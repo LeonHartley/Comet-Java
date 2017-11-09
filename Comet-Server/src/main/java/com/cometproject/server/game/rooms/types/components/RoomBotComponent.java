@@ -1,7 +1,7 @@
 package com.cometproject.server.game.rooms.types.components;
 
 import com.cometproject.server.game.bots.BotData;
-import com.cometproject.server.game.players.components.types.inventory.InventoryBot;
+import com.cometproject.server.game.players.components.types.inventory.PlayerBot;
 import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.data.PlayerBotData;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
@@ -70,7 +70,7 @@ public class RoomBotComponent {
         return name + usedCount;
     }
 
-    public BotEntity addBot(InventoryBot bot, int x, int y, double height) {
+    public BotEntity addBot(PlayerBot bot, int x, int y, double height) {
         int virtualId = room.getEntities().getFreeId();
         String name;
 

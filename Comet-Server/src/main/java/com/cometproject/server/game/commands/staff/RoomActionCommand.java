@@ -2,7 +2,7 @@ package com.cometproject.server.game.commands.staff;
 
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
-import com.cometproject.server.game.players.components.types.inventory.InventoryBot;
+import com.cometproject.server.game.players.components.types.inventory.PlayerBot;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
@@ -93,7 +93,7 @@ public class RoomActionCommand extends ChatCommand {
                 List<RoomEntity> addedEntities = Lists.newArrayList();
 
                 for (int i = 0; i < count; i++) {
-                    final BotEntity botEntity = client.getPlayer().getEntity().getRoom().getBots().addBot(new InventoryBot(0 - (i + 1), client.getPlayer().getId(), client.getPlayer().getData().getUsername(), client.getPlayer().getData().getUsername() + "Minion" + i, client.getPlayer().getData().getFigure(), client.getPlayer().getData().getGender(), client.getPlayer().getData().getMotto(), "mimic"), entityPosition.getX(), entityPosition.getY(), entityPosition.getZ());
+                    final BotEntity botEntity = client.getPlayer().getEntity().getRoom().getBots().addBot(new PlayerBot(0 - (i + 1), client.getPlayer().getId(), client.getPlayer().getData().getUsername(), client.getPlayer().getData().getUsername() + "Minion" + i, client.getPlayer().getData().getFigure(), client.getPlayer().getData().getGender(), client.getPlayer().getData().getMotto(), "mimic"), entityPosition.getX(), entityPosition.getY(), entityPosition.getZ());
 
                     if(botEntity != null) {
                         addedEntities.add(botEntity);

@@ -28,7 +28,7 @@ public class CatalogDao {
             while (resultSet.next()) {
                 try {
                     int pageId = resultSet.getInt("id");
-                    pages.put(pageId, new CatalogPage(resultSet, ICatalogService.getInstance().getItemsForPage(pageId)));
+                    pages.put(pageId, new CatalogPage(resultSet, CatalogManager.getInstance().getItemsForPage(pageId)));
                 } catch (Exception exception) {
                     exception.printStackTrace();
                     Comet.getServer().getLogger().warn("Failed to load catalog page: " + resultSet.getInt("id"));
@@ -278,7 +278,7 @@ public class CatalogDao {
 
             while (resultSet.next()) {
                 final int catalogItemId = resultSet.getInt("catalog_item");
-                final ICatalogItem catalogItem = ICatalogService.getInstance().getCatalogItem(catalogItemId);
+                final ICatalogItem catalogItem = CatalogManager.getInstance().getCatalogItem(catalogItemId);
 
                 if(catalogItem != null) {
                     recentPurchases.add(catalogItem);

@@ -76,7 +76,7 @@ public class BundleCommand extends ChatCommand {
                 RoomBundleManager.getInstance().addBundle(roomBundle);
 
                 if(updateCatalog) {
-                    ICatalogService.getInstance().loadItemsAndPages();
+                    CatalogManager.getInstance().loadItemsAndPages();
 
                     NetworkManager.getInstance().getSessions().broadcast(new CatalogPublishMessageComposer(true));
                 }

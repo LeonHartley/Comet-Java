@@ -72,7 +72,7 @@ public class CometServer {
         PermissionsManager.getInstance().initialize();
         RoomBundleManager.getInstance().initialize();
         ItemManager.getInstance().initialize();
-        ICatalogService.getInstance().initialize();
+        CatalogManager.getInstance().initialize();
         RoomManager.getInstance().initialize();
         NavigatorManager.getInstance().initialize();
         CommandManager.getInstance().initialize();

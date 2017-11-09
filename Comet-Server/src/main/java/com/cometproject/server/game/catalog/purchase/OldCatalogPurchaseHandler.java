@@ -1,5 +1,8 @@
 package com.cometproject.server.game.catalog.purchase;
 
+import com.cometproject.api.game.bots.BotType;
+import com.cometproject.api.game.bots.IBotData;
+import com.cometproject.api.game.catalog.types.ICatalogBundledItem;
 import com.cometproject.api.game.catalog.types.ICatalogPage;
 import com.cometproject.api.game.catalog.types.purchase.ICatalogPurchaseHandler;
 import com.cometproject.api.game.furniture.types.IGiftData;
@@ -9,8 +12,6 @@ import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
 import com.cometproject.api.game.achievements.types.AchievementType;
-import com.cometproject.api.game.catalog.ICatalogService;
-import com.cometproject.server.game.catalog.types.CatalogBundledItem;
 import com.cometproject.server.game.catalog.types.CatalogItem;
 import com.cometproject.server.game.catalog.types.CatalogPage;
 import com.cometproject.api.game.catalog.types.CatalogPageType;
@@ -23,11 +24,12 @@ import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.items.types.ItemType;
 import com.cometproject.server.game.pets.data.PetData;
 import com.cometproject.server.game.pets.data.StaticPetProperties;
-import com.cometproject.server.game.players.components.types.inventory.InventoryBot;
+import com.cometproject.server.game.players.components.types.inventory.PlayerBot;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.bundles.RoomBundleManager;
 import com.cometproject.server.game.rooms.bundles.types.RoomBundle;
 import com.cometproject.server.game.rooms.bundles.types.RoomBundleItem;
+import com.cometproject.server.game.rooms.objects.entities.types.data.PlayerBotData;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.outgoing.catalog.BoughtItemMessageComposer;
 import com.cometproject.server.network.messages.outgoing.catalog.GiftUserNotFoundMessageComposer;
@@ -113,14 +115,14 @@ public class OldCatalogPurchaseHandler implements ICatalogPurchaseHandler {
         }
 
         Set<PlayerItem> unseenItems = Sets.newHashSet();
-        CatalogPage page = ICatalogService.getInstance().getPage(pageId);
+        CatalogPage page = CatalogManager.getInstance().getPage(pageId);
 
         try {
             CatalogItem item;
 
             try {
                 if (page == null || page.getType() == CatalogPageType.RECENT_PURCHASES) {
-                    page = ICatalogService.getInstance().getCatalogPageByCatalogItemId(itemId);
+                    page = CatalogManager.getInstance().getCatalogPageByCatalogItemId(itemId);
 
                     if (page.getMinRank() > client.getPlayer().getData().getRank() || !page.getItems().containsKey(itemId)) {
                         //y u do dis.
@@ -191,7 +193,7 @@ public class OldCatalogPurchaseHandler implements ICatalogPurchaseHandler {
             }
 
             try {
-                if (ICatalogService.getInstance().getPage(item.getPageId()).getMinRank() > client.getPlayer().getData().getRank()) {
+                if (CatalogManager.getInstance().getPage(item.getPageId()).getMinRank() > client.getPlayer().getData().getRank()) {
                     client.disconnect();
                     return;
                 }
@@ -248,7 +250,7 @@ public class OldCatalogPurchaseHandler implements ICatalogPurchaseHandler {
                 return;
             }
 
-            for (CatalogBundledItem bundledItem : item.getItems()) {
+            for (ICatalogBundledItem bundledItem : item.getItems()) {
                 ItemDefinition def = ItemManager.getInstance().getDefinition(bundledItem.getItemId());
 
                 if (def == null) {
@@ -334,13 +336,17 @@ public class OldCatalogPurchaseHandler implements ICatalogPurchaseHandler {
                             type = "waiter";
                             break;
 
-                        case "bot_spy":
+
                             type = "spy";
                             break;
                     }
 
+
                     int botId = PlayerBotDao.createBot(client.getPlayer().getId(), botName, botFigure, botGender, botMotto, type);
-                    client.getPlayer().getBots().addBot(new InventoryBot(botId, client.getPlayer().getId(), client.getPlayer().getData().getUsername(), botName, botFigure, botGender, botMotto, type));
+                    final IBotData botData = new PlayerBotData(botId, client.getPlayer().getId(), client.getPlayer().getData().getUsername(), botName, botFigure, botGender, botMotto, BotType.valueOf(type));
+
+
+                    client.getPlayer().getBots().addBot(new PlayerBot(botData));
                     client.send(new BotInventoryMessageComposer(client.getPlayer().getBots().getBots()));
 
                     client.send(new UnseenItemsMessageComposer(new HashMap<Integer, List<Integer>>() {{
@@ -411,7 +417,7 @@ public class OldCatalogPurchaseHandler implements ICatalogPurchaseHandler {
 
                     ItemDefinition itemDefinition = ItemManager.getInstance().getBySpriteId(giftData.getSpriteId());
 
-                    purchases.add(new CatalogPurchase(playerIdToDeliver, itemDefinition == null ? ICatalogService.getInstance().getGiftBoxesOld().get(0) : itemDefinition.getId(), "GIFT::##" + JsonUtil.getInstance().toJson(giftData)));
+                    purchases.add(new CatalogPurchase(playerIdToDeliver, itemDefinition == null ? CatalogManager.getInstance().getGiftBoxesOld().get(0) : itemDefinition.getId(), "GIFT::##" + JsonUtil.getInstance().toJson(giftData)));
                 } else {
                     for (int purchaseCount = 0; purchaseCount < amount; purchaseCount++) {
                         for (int itemCount = 0; itemCount != bundledItem.getAmount(); itemCount++) {

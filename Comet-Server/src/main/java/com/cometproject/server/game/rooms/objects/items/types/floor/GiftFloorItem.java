@@ -21,7 +21,7 @@ public class GiftFloorItem extends RoomItemFloor {
 
         this.giftData = JsonUtil.getInstance().fromJson(data.split("GIFT::##")[1], GiftData.class);
 
-        if (!ICatalogService.getInstance().getGiftBoxesNew().contains(giftData.getSpriteId()) && !ICatalogService.getInstance().getGiftBoxesOld().contains(giftData.getSpriteId())) {
+        if (!CatalogManager.getInstance().getGiftBoxesNew().contains(giftData.getSpriteId()) && !CatalogManager.getInstance().getGiftBoxesOld().contains(giftData.getSpriteId())) {
             throw new Exception("some sad fucker used an exploit, bye bye gift.");
         }
     }

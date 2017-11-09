@@ -28,6 +28,8 @@ public interface IPlayerData {
 
     int getAchievementPoints();
 
+    void increaseAchievementPoints(int amount);
+
     String getMotto();
 
     void setMotto(String motto);
