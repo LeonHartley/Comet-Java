@@ -1,7 +1,9 @@
 package com.cometproject.server.game.rooms;
 
+import com.cometproject.api.game.players.IPlayer;
 import com.cometproject.api.game.rooms.settings.RoomAccessType;
 import com.cometproject.api.game.rooms.settings.RoomTradeState;
+import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Configuration;
 import com.cometproject.server.game.groups.GroupManager;
@@ -35,7 +37,7 @@ import java.util.concurrent.Executors;
 
 
 public class RoomManager implements Initialisable {
-    
+
     private static RoomManager roomManagerInstance;
     public static final Logger log = Logger.getLogger(RoomManager.class.getName());
 
@@ -250,7 +252,7 @@ public class RoomManager implements Initialisable {
         this.reloadListeners.put(roomId, listener);
     }
 
-    public void loadRoomsForUser(Player player) {
+    public void loadRoomsForUser(IPlayer player) {
         player.getRooms().clear();
         player.getRoomsWithRights().clear();
 
@@ -306,7 +308,7 @@ public class RoomManager implements Initialisable {
         return this.getRoomInstances().containsKey(id);
     }
 
-    public int createRoom(String name, String description, CustomFloorMapData model, int category, int maxVisitors, int tradeState, Session client, int wallTickness, int floorThickness, String decorations, boolean hideWalls) {
+    public int createRoom(String name, String description, CustomFloorMapData model, int category, int maxVisitors, int tradeState, ISession client, int wallTickness, int floorThickness, String decorations, boolean hideWalls) {
         int roomId = RoomDao.createRoom(name, model, description, category, maxVisitors, RoomTradeState.valueOf(tradeState), client.getPlayer().getId(), client.getPlayer().getData().getUsername(), wallTickness, floorThickness, decorations, hideWalls);
 
         this.loadRoomsForUser(client.getPlayer());

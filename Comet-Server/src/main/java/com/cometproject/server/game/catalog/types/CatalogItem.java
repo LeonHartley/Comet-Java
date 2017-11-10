@@ -166,8 +166,8 @@ public class CatalogItem implements ICatalogItem {
             if (ItemManager.getInstance().getDefinition(this.getItems().get(0).getItemId()) == null) return;
             int offerId = ItemManager.getInstance().getDefinition(this.getItems().get(0).getItemId()).getOfferId();
 
-            if (!CatalogManager.getCatalogOffers().containsKey(offerId)) {
-                CatalogManager.getCatalogOffers().put(offerId, new CatalogOffer(offerId, this.getPageId(), this.getId()));
+            if (!CatalogManager.getInstance().getCatalogOffers().containsKey(offerId)) {
+                CatalogManager.getInstance().getCatalogOffers().put(offerId, new CatalogOffer(offerId, this.getPageId(), this.getId()));
             }
         }
     }

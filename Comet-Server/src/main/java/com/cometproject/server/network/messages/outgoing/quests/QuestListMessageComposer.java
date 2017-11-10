@@ -1,5 +1,7 @@
 package com.cometproject.server.network.messages.outgoing.quests;
 
+import com.cometproject.api.game.players.IPlayer;
+import com.cometproject.api.game.quests.IQuest;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.quests.types.Quest;
@@ -13,11 +15,11 @@ import java.util.List;
 import java.util.Map;
 
 public class QuestListMessageComposer extends MessageComposer {
-    private final Map<String, Quest> quests;
-    private final Player player;
+    private final Map<String, IQuest> quests;
+    private final IPlayer player;
     private boolean isWindow;
 
-    public QuestListMessageComposer(final Map<String, Quest> quests, Player player, boolean isWindow) {
+    public QuestListMessageComposer(final Map<String, IQuest> quests, IPlayer player, boolean isWindow) {
         this.quests = quests;
         this.player = player;
         this.isWindow = isWindow;
@@ -30,13 +32,13 @@ public class QuestListMessageComposer extends MessageComposer {
 
     @Override
     public void compose(IComposer msg) {
-        Map<String, Quest> categoryCounters = Maps.newHashMap();
+        Map<String, IQuest> categoryCounters = Maps.newHashMap();
 
-        List<Quest> activeQuests = Lists.newArrayList();
-        List<Quest> inactiveQuests = Lists.newArrayList();
+        List<IQuest> activeQuests = Lists.newArrayList();
+        List<IQuest> inactiveQuests = Lists.newArrayList();
 
         try {
-            for (Quest quest : this.quests.values()) {
+            for (IQuest quest : this.quests.values()) {
                 if (categoryCounters.containsKey(quest.getCategory())) {
                     if (!this.player.getQuests().hasCompletedQuest(quest.getId())) {
                         if (!this.player.getQuests().hasCompletedQuest(categoryCounters.get(quest.getCategory()).getId())) {
@@ -58,7 +60,7 @@ public class QuestListMessageComposer extends MessageComposer {
                 }
             }
 
-            for (Quest quest : categoryCounters.values()) {
+            for (IQuest quest : categoryCounters.values()) {
                 if (this.player.getQuests().hasCompletedQuest(quest.getId())) {
                     inactiveQuests.add(quest);
                 } else {
@@ -68,11 +70,11 @@ public class QuestListMessageComposer extends MessageComposer {
 
             msg.writeInt(activeQuests.size() + inactiveQuests.size());
 
-            for (Quest activeQuest : activeQuests) {
+            for (IQuest activeQuest : activeQuests) {
                 composeQuest(activeQuest.getCategory(), activeQuest, msg);
             }
 
-            for (Quest inactiveQuest : inactiveQuests) {
+            for (IQuest inactiveQuest : inactiveQuests) {
                 composeQuest(inactiveQuest.getCategory(), null, msg);
             }
 
@@ -85,7 +87,7 @@ public class QuestListMessageComposer extends MessageComposer {
         }
     }
 
-    private void composeQuest(final String category, final Quest quest, final IComposer msg) {
+    private void composeQuest(final String category, final IQuest quest, final IComposer msg) {
         int amountInCategory = QuestManager.getInstance().getAmountOfQuestsInCategory(category);
 
         if (quest == null) {

@@ -2,6 +2,7 @@ package com.cometproject.server.game.commands.staff.bundles;
 
 import com.cometproject.server.config.Locale;
 import com.cometproject.api.game.catalog.ICatalogService;
+import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.game.rooms.bundles.RoomBundleManager;
 import com.cometproject.server.game.rooms.bundles.types.RoomBundle;

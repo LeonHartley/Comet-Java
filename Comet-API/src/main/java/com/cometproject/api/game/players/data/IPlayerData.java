@@ -87,4 +87,6 @@ public interface IPlayerData {
     void setTemporaryFigure(String temporaryFigure);
 
     int getQuestId();
+
+    void setQuestId(int questId);
 }

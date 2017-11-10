@@ -1,7 +1,7 @@
 package com.cometproject.server.network.messages.incoming.room.item;
 
 import com.cometproject.server.game.items.ItemManager;
-import com.cometproject.server.game.quests.types.QuestType;
+import com.cometproject.api.game.quests.QuestType;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.AffectedTile;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerStateChanged;

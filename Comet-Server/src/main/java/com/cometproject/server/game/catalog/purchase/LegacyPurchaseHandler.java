@@ -1,5 +1,6 @@
 package com.cometproject.server.game.catalog.purchase;
 
+import com.cometproject.api.game.bots.BotMode;
 import com.cometproject.api.game.bots.BotType;
 import com.cometproject.api.game.bots.IBotData;
 import com.cometproject.api.game.catalog.types.ICatalogBundledItem;
@@ -14,6 +15,7 @@ import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
 import com.cometproject.api.game.achievements.types.AchievementType;
 import com.cometproject.api.game.catalog.types.CatalogPageType;
+import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.items.ItemManager;
@@ -329,6 +331,7 @@ public class LegacyPurchaseHandler implements ICatalogPurchaseHandler {
                     String botGender = "m";
                     String botMotto = "Beeb beeb boop beep!";
                     BotType type = BotType.GENERIC;
+                    BotMode mode = BotMode.DEFAULT;
 
                     switch (item.getDisplayName()) {
                         case "bot_bartender":
@@ -343,14 +346,29 @@ public class LegacyPurchaseHandler implements ICatalogPurchaseHandler {
                     //int id, String username, String motto, String figure, String gender, String ownerName, int ownerId, String messages,
                     // boolean automaticChat, int chatDelay, BotType botType, BotMode mode, String data
 
-                    final IBotData botData = new PlayerBotData(botId, botName, botFigure)
+                    final IBotData botData = new PlayerBotData(
+                            botId,
+                            botName,
+                            botMotto,
+                            botFigure,
+                            botGender,
+                            client.getPlayer().getData().getUsername(),
+                            client.getPlayer().getId(),
+                            "",
+                            true,
+                            7,
+                            type,
+                            mode,
+                            ""
+                    );
 
-                    client.getPlayer().getBots().addBot(new PlayerBot(botData));
+                    client.getPlayer().getBots().addBot(botData);
                     client.send(new BotInventoryMessageComposer(client.getPlayer().getBots().getBots()));
 
                     client.send(new UnseenItemsMessageComposer(new HashMap<Integer, List<Integer>>() {{
                         put(5, Lists.newArrayList(botId));
                     }}));
+
                     return;
                 } else if (def.getInteraction().equals("badge_display")) {
                     if (client.getPlayer().getInventory().getBadges().get(data) == null) {

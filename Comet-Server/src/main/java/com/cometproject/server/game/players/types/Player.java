@@ -14,7 +14,7 @@ import com.cometproject.server.game.players.components.*;
 import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.game.quests.QuestManager;
 import com.cometproject.server.game.quests.types.Quest;
-import com.cometproject.server.game.quests.types.QuestType;
+import com.cometproject.api.game.quests.QuestType;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.Room;

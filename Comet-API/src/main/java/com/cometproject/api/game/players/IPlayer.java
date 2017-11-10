@@ -66,7 +66,7 @@ public interface IPlayer {
 
     PlayerPets getPets();
 
-//    QuestComponent getQuests();
+    PlayerQuests getQuests();
 
     int getId();
 

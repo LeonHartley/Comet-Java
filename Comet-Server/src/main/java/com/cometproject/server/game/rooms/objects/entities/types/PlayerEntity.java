@@ -17,7 +17,7 @@ import com.cometproject.server.game.moderation.BanManager;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.game.players.types.Player;
-import com.cometproject.server.game.quests.types.QuestType;
+import com.cometproject.api.game.quests.QuestType;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.RoomQueue;
 import com.cometproject.server.game.rooms.objects.entities.PlayerEntityAccess;

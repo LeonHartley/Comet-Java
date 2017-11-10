@@ -5,6 +5,7 @@ import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.achievements.AchievementManager;
 import com.cometproject.api.game.catalog.ICatalogService;
+import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.game.commands.CommandManager;
 import com.cometproject.server.game.groups.GroupManager;

@@ -17,6 +17,8 @@ import java.util.Map;
 
 
 public class CatalogManager implements ICatalogService {
+    private static CatalogManager catalogManagerInstance;
+
     /**
      * The pages within the catalog
      */
@@ -314,5 +316,13 @@ public class CatalogManager implements ICatalogService {
     @Override
     public Map<Integer, ICatalogOffer> getCatalogOffers() {
         return catalogOffers;
+    }
+
+    public static CatalogManager getInstance() {
+        if(catalogManagerInstance == null) {
+            catalogManagerInstance = new CatalogManager();
+        }
+
+        return catalogManagerInstance;
     }
 }

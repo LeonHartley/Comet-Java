@@ -1,5 +1,7 @@
 package com.cometproject.server.storage.queries.pets;
 
+import com.cometproject.api.game.pets.IPetData;
+import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.pets.data.PetData;
 import com.cometproject.server.game.pets.data.PetSpeech;
@@ -116,12 +118,12 @@ public class PetDao {
         return data;
     }
 
-    public static Map<Integer, PetData> getPetsByPlayerId(int playerId) {
+    public static Map<Integer, IPetData> getPetsByPlayerId(int playerId) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        Map<Integer, PetData> data = new ConcurrentHashMap<>();
+        Map<Integer, IPetData> data = new ConcurrentHashMap<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();
@@ -155,7 +157,28 @@ public class PetDao {
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                data.put(resultSet.getInt("id"), new PetData(resultSet));
+                final int id = resultSet.getInt("id");
+                final String name = resultSet.getString("pet_name");
+                final int level = resultSet.getInt("level");
+                final int scratches = resultSet.getInt("scratches");
+                final int happiness = resultSet.getInt("happiness");
+                final int experience = resultSet.getInt("experience");
+                final int energy = resultSet.getInt("energy");
+                final int hunger = resultSet.getInt("hunger");
+                final int ownerId = resultSet.getInt("owner_id");
+                final String ownerName = resultSet.getString("owner_name");
+                final String colour = resultSet.getString("colour");
+                final int raceId = resultSet.getInt("race_id");
+                final int typeId = resultSet.getInt("type");
+                final boolean saddled = resultSet.getBoolean("saddled");
+                final int hairDye = resultSet.getInt("hair_colour");
+                final int hair = resultSet.getInt("hair_style");
+                final boolean anyRider = resultSet.getBoolean("any_rider");
+                final int birthday = resultSet.getInt("birthday");
+
+                final Position position = new Position(resultSet.getInt("x"), resultSet.getInt("y"));
+                data.put(id, new PetData(id, name, scratches, level, happiness, experience, energy, hunger, ownerId,
+                        ownerName, colour, raceId, typeId, hairDye, hair, anyRider, saddled, birthday, position));
             }
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);

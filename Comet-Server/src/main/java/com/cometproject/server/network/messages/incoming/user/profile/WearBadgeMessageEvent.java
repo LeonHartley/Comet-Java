@@ -1,6 +1,6 @@
 package com.cometproject.server.network.messages.incoming.user.profile;
 
-import com.cometproject.server.game.quests.types.QuestType;
+import com.cometproject.api.game.quests.QuestType;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.user.profile.UserBadgesMessageComposer;
 import com.cometproject.server.network.sessions.Session;

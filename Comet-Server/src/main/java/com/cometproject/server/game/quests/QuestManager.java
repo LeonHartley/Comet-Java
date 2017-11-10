@@ -1,18 +1,19 @@
 package com.cometproject.server.game.quests;
 
-import com.cometproject.server.game.quests.types.Quest;
+import com.cometproject.api.game.quests.IQuest;
+import com.cometproject.api.game.quests.IQuestService;
 import com.cometproject.server.storage.queries.quests.QuestsDao;
 import com.cometproject.api.utilities.Initialisable;
 import org.apache.log4j.Logger;
 
 import java.util.Map;
 
-public class QuestManager implements Initialisable {
+public class QuestManager implements Initialisable, IQuestService {
     private static final Logger log = Logger.getLogger(QuestManager.class.getName());
 
     private static QuestManager questManagerInstance;
 
-    private Map<String, Quest> quests;
+    private Map<String, IQuest> quests;
 
     public QuestManager() {
 
@@ -23,6 +24,7 @@ public class QuestManager implements Initialisable {
         this.loadQuests();
     }
 
+    @Override
     public void loadQuests() {
         if (this.quests != null) {
             this.quests.clear();
@@ -41,8 +43,9 @@ public class QuestManager implements Initialisable {
         return questManagerInstance;
     }
 
-    public Quest getById(int questId) {
-        for (Quest quest : this.quests.values()) {
+    @Override
+    public IQuest getById(int questId) {
+        for (IQuest quest : this.quests.values()) {
             if (quest.getId() == questId)
                 return quest;
         }
@@ -50,10 +53,11 @@ public class QuestManager implements Initialisable {
         return null;
     }
 
+    @Override
     public int getAmountOfQuestsInCategory(String category) {
         int count = 0;
 
-        for (Quest quest : this.quests.values()) {
+        for (IQuest quest : this.quests.values()) {
             if (quest.getCategory().equals(category)) {
                 count++;
             }
@@ -62,8 +66,9 @@ public class QuestManager implements Initialisable {
         return count;
     }
 
-    public Quest getNextQuestInSeries(Quest lastQuest) {
-        for (Quest quest : this.quests.values()) {
+    @Override
+    public IQuest getNextQuestInSeries(IQuest lastQuest) {
+        for (IQuest quest : this.quests.values()) {
             if (quest.getCategory().equals(lastQuest.getCategory()) &&
                     quest.getSeriesNumber() == (lastQuest.getSeriesNumber() + 1)) {
                 return quest;
@@ -73,7 +78,8 @@ public class QuestManager implements Initialisable {
         return null;
     }
 
-    public Map<String, Quest> getQuests() {
+    @Override
+    public Map<String, IQuest> getQuests() {
         return quests;
     }
 }

@@ -1,4 +1,4 @@
-package com.cometproject.server.game.quests.types;
+package com.cometproject.api.game.quests;
 
 public enum QuestType {
 

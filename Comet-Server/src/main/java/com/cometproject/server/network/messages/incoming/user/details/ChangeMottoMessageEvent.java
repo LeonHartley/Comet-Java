@@ -3,7 +3,7 @@ package com.cometproject.server.network.messages.incoming.user.details;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
 import com.cometproject.api.game.achievements.types.AchievementType;
-import com.cometproject.server.game.quests.types.QuestType;
+import com.cometproject.api.game.quests.QuestType;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.filter.FilterResult;
 import com.cometproject.server.network.messages.incoming.Event;
