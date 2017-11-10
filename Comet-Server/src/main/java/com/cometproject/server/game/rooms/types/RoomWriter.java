@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.types;
 
+import com.cometproject.api.game.rooms.IRoomData;
 import com.cometproject.api.game.rooms.RoomType;
 import com.cometproject.api.game.rooms.settings.RoomAccessType;
 import com.cometproject.api.networking.messages.IComposer;
@@ -11,11 +12,11 @@ import com.cometproject.server.game.rooms.RoomManager;
 
 
 public class RoomWriter {
-    public static void write(RoomData room, IComposer msg) {
+    public static void write(IRoomData room, IComposer msg) {
         write(room, msg, false);
     }
 
-    public static void write(RoomData room, IComposer msg, boolean skipAuth) {
+    public static void write(IRoomData room, IComposer msg, boolean skipAuth) {
         boolean isActive = RoomManager.getInstance().isActive(room.getId());
         PublicRoom publicRoom = NavigatorManager.getInstance().getPublicRoom(room.getId());
 
@@ -44,7 +45,7 @@ public class RoomWriter {
         composeRoomSpecials(msg, room, promotion, group, room.getType());
     }
 
-    public static void entryData(RoomData room, IComposer msg, boolean isLoading, boolean checkEntry, boolean skipAuth, boolean canMute) {
+    public static void entryData(IRoomData room, IComposer msg, boolean isLoading, boolean checkEntry, boolean skipAuth, boolean canMute) {
         msg.writeBoolean(isLoading); // is loading
 
         write(room, msg, skipAuth);
@@ -67,7 +68,7 @@ public class RoomWriter {
         msg.writeInt(room.getAntiFloodSettings());
     }
 
-    public static void composeRoomSpecials(IComposer msg, RoomData roomData, RoomPromotion promotion, Group group, RoomType roomType) {
+    public static void composeRoomSpecials(IComposer msg, IRoomData roomData, RoomPromotion promotion, Group group, RoomType roomType) {
         boolean composeGroup = group != null && group.getData() != null;
         boolean composePromo = promotion != null;
 

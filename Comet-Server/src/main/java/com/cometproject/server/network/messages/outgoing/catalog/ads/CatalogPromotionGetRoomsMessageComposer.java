@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.outgoing.catalog.ads;
 
+import com.cometproject.api.game.rooms.IRoomData;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.network.messages.composers.MessageComposer;
@@ -9,9 +10,9 @@ import java.util.List;
 
 
 public class CatalogPromotionGetRoomsMessageComposer extends MessageComposer {
-    private final List<RoomData> promotableRooms;
+    private final List<IRoomData> promotableRooms;
 
-    public CatalogPromotionGetRoomsMessageComposer(final List<RoomData> rooms) {
+    public CatalogPromotionGetRoomsMessageComposer(final List<IRoomData> rooms) {
         this.promotableRooms = rooms;
     }
 
@@ -25,7 +26,7 @@ public class CatalogPromotionGetRoomsMessageComposer extends MessageComposer {
         msg.writeBoolean(false);
         msg.writeInt(this.promotableRooms.size());
 
-        for (RoomData data : this.promotableRooms) {
+        for (IRoomData data : this.promotableRooms) {
             msg.writeInt(data.getId());
             msg.writeString(data.getName());
             msg.writeBoolean(false);

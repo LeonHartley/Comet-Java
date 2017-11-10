@@ -130,4 +130,14 @@ public interface IRoomData {
     String getRequiredBadge();
 
     RoomType getType();
+
+    String getThumbnail();
+
+    void setGroupId(int groupId);
+
+    IRoomData setLastReferenced(long time);
+
+    String getDecorationString();
+
+    void setThumbnail(String thumbnail);
 }

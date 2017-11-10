@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.settings;
 
+import com.cometproject.api.game.rooms.IRoomData;
 import com.cometproject.api.game.rooms.settings.RoomBanState;
 import com.cometproject.api.game.rooms.settings.RoomKickState;
 import com.cometproject.api.game.rooms.settings.RoomMuteState;
@@ -32,7 +33,7 @@ public class SaveRoomDataMessageEvent implements Event {
         }
 
         Room room = null;
-        RoomData data = null;
+        IRoomData data = null;
 
         if (RoomManager.getInstance().isActive(id)) {
             room = RoomManager.getInstance().get(id);

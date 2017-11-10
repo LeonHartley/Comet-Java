@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.user.camera;
 
+import com.cometproject.api.game.rooms.IRoomData;
 import com.cometproject.server.api.ApiClient;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.rooms.types.RoomData;
@@ -19,7 +20,7 @@ public class ThumbnailMessageEvent implements Event {
         final byte[] payload = msg.readBytes(length);
 
         final UUID imageId = UUID.randomUUID();
-        final RoomData roomData = client.getPlayer().getEntity().getRoom().getData();
+        final IRoomData roomData = client.getPlayer().getEntity().getRoom().getData();
 
         final String response = ApiClient.getInstance().saveThumbnail(payload, roomData.getId());
 

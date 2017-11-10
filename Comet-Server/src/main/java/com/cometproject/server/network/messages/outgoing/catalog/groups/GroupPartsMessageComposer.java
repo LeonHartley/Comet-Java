@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.outgoing.catalog.groups;
 
+import com.cometproject.api.game.rooms.IRoomData;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.groups.GroupManager;
@@ -36,7 +37,7 @@ public class GroupPartsMessageComposer extends MessageComposer {
         msg.writeInt(availableRooms.size());
 
         for (Integer room : availableRooms) {
-            RoomData roomData = RoomManager.getInstance().getRoomData(room);
+            IRoomData roomData = RoomManager.getInstance().getRoomData(room);
             if (GroupManager.getInstance().getGroupByRoomId(room) == null) {
                 if(roomData == null) {
                     msg.writeInt(room);

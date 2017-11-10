@@ -1,6 +1,7 @@
 package com.cometproject.server.game.rooms;
 
 import com.cometproject.api.game.players.IPlayer;
+import com.cometproject.api.game.rooms.IRoomData;
 import com.cometproject.api.game.rooms.settings.RoomAccessType;
 import com.cometproject.api.game.rooms.settings.RoomTradeState;
 import com.cometproject.api.networking.sessions.ISession;
@@ -44,7 +45,7 @@ public class RoomManager implements Initialisable {
     public static final int LRU_MAX_ENTRIES = Integer.parseInt(Configuration.currentConfig().getProperty("comet.game.rooms.data.max"));
     public static final int LRU_MAX_LOWER_WATERMARK = Integer.parseInt(Configuration.currentConfig().getProperty("comet.game.rooms.data.lowerWatermark"));
 
-    private ConcurrentLRUCache<Integer, RoomData> roomDataInstances;
+    private ConcurrentLRUCache<Integer, IRoomData> roomDataInstances;
 
     private Map<Integer, Room> loadedRoomInstances;
     private Map<Integer, Room> unloadingRoomInstances;
@@ -159,7 +160,7 @@ public class RoomManager implements Initialisable {
         }
 
         if (room == null) {
-            RoomData data = this.getRoomData(id);
+            IRoomData data = this.getRoomData(id);
 
             if (data == null) {
                 return null;
@@ -184,12 +185,12 @@ public class RoomManager implements Initialisable {
         room.getItems().onLoaded();
     }
 
-    public RoomData getRoomData(int id) {
+    public IRoomData getRoomData(int id) {
         if (this.getRoomDataInstances().getMap().containsKey(id)) {
             return this.getRoomDataInstances().get(id).setLastReferenced(Comet.getTime());
         }
 
-        RoomData roomData = RoomDao.getRoomDataById(id);
+        IRoomData roomData = RoomDao.getRoomDataById(id);
 
         if (roomData != null) {
             this.getRoomDataInstances().put(id, roomData);
@@ -256,10 +257,10 @@ public class RoomManager implements Initialisable {
         player.getRooms().clear();
         player.getRoomsWithRights().clear();
 
-        Map<Integer, RoomData> rooms = RoomDao.getRoomsByPlayerId(player.getId());
-        Map<Integer, RoomData> roomsWithRights = RoomDao.getRoomsWithRightsByPlayerId(player.getId());
+        Map<Integer, IRoomData> rooms = RoomDao.getRoomsByPlayerId(player.getId());
+        Map<Integer, IRoomData> roomsWithRights = RoomDao.getRoomsWithRightsByPlayerId(player.getId());
 
-        for (Map.Entry<Integer, RoomData> roomEntry : rooms.entrySet()) {
+        for (Map.Entry<Integer, IRoomData> roomEntry : rooms.entrySet()) {
             player.getRooms().add(roomEntry.getKey());
 
             if (!this.getRoomDataInstances().getMap().containsKey(roomEntry.getKey())) {
@@ -267,7 +268,7 @@ public class RoomManager implements Initialisable {
             }
         }
 
-        for (Map.Entry<Integer, RoomData> roomEntry : roomsWithRights.entrySet()) {
+        for (Map.Entry<Integer, IRoomData> roomEntry : roomsWithRights.entrySet()) {
             player.getRoomsWithRights().add(roomEntry.getKey());
 
             if (!this.getRoomDataInstances().getMap().containsKey(roomEntry.getKey())) {
@@ -276,8 +277,8 @@ public class RoomManager implements Initialisable {
         }
     }
 
-    public List<RoomData> getRoomsByQuery(String query) {
-        ArrayList<RoomData> rooms = new ArrayList<>();
+    public List<IRoomData> getRoomsByQuery(String query) {
+        List<IRoomData> rooms = new ArrayList<>();
 
         if (query.equals("tag:")) return rooms;
 
@@ -287,9 +288,9 @@ public class RoomManager implements Initialisable {
             query = query.substring(9);
         }
 
-        List<RoomData> roomSearchResults = RoomDao.getRoomsByQuery(query);
+        List<IRoomData> roomSearchResults = RoomDao.getRoomsByQuery(query);
 
-        for (RoomData data : roomSearchResults) {
+        for (IRoomData data : roomSearchResults) {
             if (!this.getRoomDataInstances().getMap().containsKey(data.getId())) {
                 this.getRoomDataInstances().put(data.getId(), data);
             }
@@ -358,12 +359,12 @@ public class RoomManager implements Initialisable {
         return -1;
     }
 
-    public List<RoomData> getRoomsByCategory(int category, Player player) {
+    public List<IRoomData> getRoomsByCategory(int category, Player player) {
         return this.getRoomsByCategory(category, 0, player);
     }
 
-    public List<RoomData> getRoomsByCategory(int category, int minimumPlayers, Player player) {
-        List<RoomData> rooms = new ArrayList<>();
+    public List<IRoomData> getRoomsByCategory(int category, int minimumPlayers, Player player) {
+        List<IRoomData> rooms = new ArrayList<>();
 
         for (Room room : this.getRoomInstances().values()) {
             if (category != -1 && (room.getData().getCategory() == null || room.getData().getCategory().getId() != category)) {
@@ -426,7 +427,7 @@ public class RoomManager implements Initialisable {
         return this.loadedRoomInstances;
     }
 
-    private ConcurrentLRUCache<Integer, RoomData> getRoomDataInstances() {
+    private ConcurrentLRUCache<Integer, IRoomData> getRoomDataInstances() {
         return this.roomDataInstances;
     }
 

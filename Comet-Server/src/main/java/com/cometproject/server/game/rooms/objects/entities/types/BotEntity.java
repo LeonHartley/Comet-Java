@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.objects.entities.types;
 
+import com.cometproject.api.game.bots.IBotData;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.bots.BotData;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
@@ -23,7 +24,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 
 public class BotEntity extends RoomEntity {
-    private BotData data;
+    private IBotData data;
     private int cycleCount = 0;
     private BotAI ai;
 
@@ -31,7 +32,7 @@ public class BotEntity extends RoomEntity {
 
     private Map<String, Object> attributes = new ConcurrentHashMap<>();
 
-    public BotEntity(BotData data, int identifier, Position startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
+    public BotEntity(IBotData data, int identifier, Position startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
         super(identifier, startPosition, startBodyRotation, startHeadRotation, roomInstance);
 
         this.data = data;
@@ -173,7 +174,7 @@ public class BotEntity extends RoomEntity {
     }
 
     public BotData getData() {
-        return this.data;
+        return (BotData) this.data;
     }
 
     public int getCycleCount() {

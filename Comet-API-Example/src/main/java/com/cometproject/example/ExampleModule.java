@@ -51,9 +51,7 @@ public class ExampleModule extends BaseModule {
         for (Map.Entry<String, AtomicInteger> item : inventoryItemsAndQuantity.entrySet()) {
             inventoryStr.append(item.getValue().get() + " x " + item.getKey() + "\n");
         }
-
-
-
+        
         session.getPlayer().sendMotd(inventoryStr.toString());
     }
 

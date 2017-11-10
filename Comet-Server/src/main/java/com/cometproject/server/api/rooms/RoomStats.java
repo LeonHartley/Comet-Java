@@ -1,5 +1,6 @@
 package com.cometproject.server.api.rooms;
 
+import com.cometproject.api.game.rooms.IRoomData;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.RoomData;
 
@@ -8,7 +9,7 @@ public class RoomStats {
     /**
      * The data of the room
      */
-    private RoomData data;
+    private IRoomData data;
 
     /**
      * The amount of players in the room
@@ -49,7 +50,7 @@ public class RoomStats {
      *
      * @return The data of the room
      */
-    public RoomData getData() {
+    public IRoomData getData() {
         return data;
     }
 

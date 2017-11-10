@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.moderation;
 
+import com.cometproject.api.game.rooms.IRoomData;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.logging.LogManager;
@@ -26,7 +27,7 @@ public class ModToolRoomChatlogMessageEvent implements Event {
             return;
         }
 
-        RoomData roomData = RoomManager.getInstance().getRoomData(roomId);
+        IRoomData roomData = RoomManager.getInstance().getRoomData(roomId);
 
         if (roomData != null) {
             client.send(new ModToolRoomChatlogMessageComposer(roomData.getId(), roomData.getName(), LogQueries.getChatlogsForRoom(roomData.getId())));
