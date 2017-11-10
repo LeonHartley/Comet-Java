@@ -2,8 +2,8 @@ package com.cometproject.server.network.messages.outgoing.user.profile;
 
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.players.PlayerManager;
-import com.cometproject.server.game.players.components.RelationshipComponent;
-import com.cometproject.server.game.players.components.types.messenger.RelationshipLevel;
+import com.cometproject.api.game.players.data.components.PlayerRelationships;
+import com.cometproject.api.game.players.data.components.messenger.RelationshipLevel;
 import com.cometproject.server.game.players.data.PlayerAvatar;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
@@ -44,9 +44,9 @@ public class RelationshipsMessageComposer extends MessageComposer {
 
         msg.writeInt(relationships.size());
 
-        int hearts = RelationshipComponent.countByLevel(RelationshipLevel.HEART, relationships);
-        int smiles = RelationshipComponent.countByLevel(RelationshipLevel.SMILE, relationships);
-        int bobbas = RelationshipComponent.countByLevel(RelationshipLevel.BOBBA, relationships);
+        int hearts = PlayerRelationships.countByLevel(RelationshipLevel.HEART, relationships);
+        int smiles = PlayerRelationships.countByLevel(RelationshipLevel.SMILE, relationships);
+        int bobbas = PlayerRelationships.countByLevel(RelationshipLevel.BOBBA, relationships);
 
         List<Integer> relationshipKeys = Lists.newArrayList(relationships.keySet());
         Collections.shuffle(relationshipKeys);

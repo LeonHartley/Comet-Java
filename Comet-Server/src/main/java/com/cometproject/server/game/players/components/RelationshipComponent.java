@@ -1,15 +1,15 @@
 package com.cometproject.server.game.players.components;
 
 import com.cometproject.api.game.players.IPlayer;
-import com.cometproject.server.game.players.components.types.messenger.RelationshipLevel;
-import com.cometproject.server.game.players.types.Player;
+import com.cometproject.api.game.players.data.components.PlayerRelationships;
+import com.cometproject.api.game.players.data.components.messenger.RelationshipLevel;
 import com.cometproject.server.game.players.types.PlayerComponent;
 import com.cometproject.server.storage.queries.player.relationships.RelationshipDao;
 
 import java.util.Map;
 
 
-public class RelationshipComponent extends PlayerComponent {
+public class RelationshipComponent extends PlayerComponent implements PlayerRelationships {
     private Map<Integer, RelationshipLevel> relationships;
 
     public RelationshipComponent(IPlayer player) {
@@ -23,29 +23,24 @@ public class RelationshipComponent extends PlayerComponent {
         this.relationships = null;
     }
 
+    @Override
     public RelationshipLevel get(int playerId) {
         return this.relationships.get(playerId);
     }
 
+    @Override
     public void remove(int playerId) {
         this.getRelationships().remove(playerId);
     }
 
+    @Override
     public int count() {
         return this.relationships.size();
     }
 
+    @Override
     public Map<Integer, RelationshipLevel> getRelationships() {
         return this.relationships;
     }
 
-    public static int countByLevel(RelationshipLevel level, Map<Integer, RelationshipLevel> relationships) {
-        int levelCount = 0;
-
-        for (RelationshipLevel relationship : relationships.values()) {
-            if (relationship == level) levelCount++;
-        }
-
-        return levelCount;
-    }
 }

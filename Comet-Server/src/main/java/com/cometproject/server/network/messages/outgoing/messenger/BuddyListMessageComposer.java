@@ -5,7 +5,7 @@ import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.players.components.types.messenger.MessengerFriend;
-import com.cometproject.server.game.players.components.types.messenger.RelationshipLevel;
+import com.cometproject.api.game.players.data.components.messenger.RelationshipLevel;
 import com.cometproject.server.game.players.data.PlayerAvatar;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.network.NetworkManager;
@@ -15,7 +15,6 @@ import com.cometproject.server.network.sessions.Session;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

@@ -422,7 +422,7 @@ public class Player implements IPlayer {
         return this.subscription;
     }
 
-    //    @Override
+    @Override
     public RelationshipComponent getRelationships() {
         return this.relationships;
     }
