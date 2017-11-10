@@ -17,7 +17,7 @@ public class WiredAddonColourWheel extends RoomItemFloor {
     @Override
     public boolean onInteract(RoomEntity entity, int requestData, boolean isWiredTrigger) {
         if (!isWiredTrigger && entity != null) {
-            if (!this.getPosition().touching(entity)) {
+            if (!this.getPosition().touching(entity.getPosition())) {
                 entity.moveTo(this.getPosition().squareBehind(this.getRotation()).getX(), this.getPosition().squareBehind(this.rotation).getY());
                 return true;
             }

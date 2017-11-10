@@ -52,6 +52,8 @@ public class ExampleModule extends BaseModule {
             inventoryStr.append(item.getValue().get() + " x " + item.getKey() + "\n");
         }
 
+
+
         session.getPlayer().sendMotd(inventoryStr.toString());
     }
 

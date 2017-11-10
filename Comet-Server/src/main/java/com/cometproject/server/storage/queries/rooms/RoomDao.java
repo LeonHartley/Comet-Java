@@ -1,5 +1,7 @@
 package com.cometproject.server.storage.queries.rooms;
 
+import com.cometproject.api.game.rooms.IRoomData;
+import com.cometproject.api.game.rooms.RoomType;
 import com.cometproject.api.game.rooms.settings.*;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.rooms.models.CustomFloorMapData;
@@ -511,6 +513,72 @@ public class RoomDao {
         } finally {
             SqlHelper.closeSilently(preparedStatement);
             SqlHelper.closeSilently(sqlConnection);
+        }
+    }
+
+    private static IRoomData roomDataFromResultSet(final ResultSet room) throws SQLException {
+        final int id = room.getInt("id");
+        final RoomType type = RoomType.valueOf(room.getString("type"));
+        final String name = room.getString("name");
+        final String description = room.getString("description");
+        final int ownerId = room.getInt("owner_id");
+        final String owner = room.getString("owner");
+        final int category = room.getInt("category");
+        final int maxUsers = room.getInt("max_users");
+        final String thumbnail = room.getString("thumbnail");
+
+        String accessTypeString = room.getString("access_type");
+
+        if (!accessTypeString.equals("open") && !accessTypeString.equals("doorbell") && !accessTypeString.equals("password")) {
+            accessTypeString = "open";
+        }
+
+        final String password = room.getString("password");
+        final RoomAccessType access = RoomAccessType.valueOf(accessTypeString.toUpperCase());
+        final String originalPassword = password;
+
+        final int score = room.getInt("score");
+
+        final String[] tags = room.getString("tags").isEmpty() ? new String[0] : room.getString("tags").split(",");
+        final Map<String, String> decorations = new HashMap<>();
+
+        String[] decorationsArray = room.getString("decorations").split(",");
+
+        fillDecorations(decorations, decorationsArray);
+
+        final String model = room.getString("model");
+
+        final boolean hideWalls = room.getString("hide_walls").equals("1");
+        final int thicknessWall = room.getInt("thickness_wall");
+        final int thicknessFloor = room.getInt("thickness_floor");
+        final boolean allowWalkthrough = room.getString("allow_walkthrough").equals("1");
+        final boolean allowPets = room.getString("allow_pets").equals("1");
+        final String heightmap = room.getString("heightmap");
+        final RoomTradeState tradeState = RoomTradeState.valueOf(room.getString("trade_state"));
+
+        final RoomKickState kickState = RoomKickState.valueOf(room.getString("kick_state"));
+        final RoomBanState banState = RoomBanState.valueOf(room.getString("ban_state"));
+        final RoomMuteState muteState = RoomMuteState.valueOf(room.getString("mute_state"));
+
+        final int bubbleMode = room.getInt("bubble_mode");
+        final int bubbleScroll = room.getInt("bubble_scroll");
+        final int bubbleType = room.getInt("bubble_type");
+        final int antiFloodSettings = room.getInt("flood_level");
+        final int chatDistance = room.getInt("chat_distance");
+
+        final List<String> disabledCommands = Lists.newArrayList(room.getString("disabled_commands").split(","));
+        final int groupId = room.getInt("group_id");
+        final String requiredBadge = room.getString("required_badge");
+
+        return new RoomData(id, type, name, description, ownerId, owner, category, maxUsers, access, password, originalPassword, tradeState, score, tags, )
+    }
+
+    private static void fillDecorations(Map<String, String> decorations, String[] decorationsArray) {
+        for (int i = 0; i < decorationsArray.length; i++) {
+            String[] decoration = decorationsArray[i].split("=");
+
+            if (decoration.length == 2)
+                decorations.put(decoration[0], decoration[1]);
         }
     }
 }

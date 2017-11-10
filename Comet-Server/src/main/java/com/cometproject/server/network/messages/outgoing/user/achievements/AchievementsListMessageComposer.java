@@ -1,5 +1,8 @@
 package com.cometproject.server.network.messages.outgoing.user.achievements;
 
+import com.cometproject.api.game.achievements.types.IAchievement;
+import com.cometproject.api.game.achievements.types.IAchievementGroup;
+import com.cometproject.api.game.players.data.components.achievements.IAchievementProgress;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.achievements.AchievementGroup;
 import com.cometproject.server.game.achievements.AchievementManager;
@@ -29,9 +32,9 @@ public class AchievementsListMessageComposer extends MessageComposer {
     public void compose(IComposer msg) {
         msg.writeInt(AchievementManager.getInstance().getAchievementGroups().size());
 
-        for (Map.Entry<AchievementType, AchievementGroup> entry : AchievementManager.getInstance().getAchievementGroups().entrySet()) {
-            AchievementProgress achievementProgress = this.achievementComponent.getProgress(entry.getKey());
-            Achievement achievement = achievementProgress == null ? entry.getValue().getAchievement(1) : entry.getValue().getAchievement(achievementProgress.getLevel());
+        for (Map.Entry<AchievementType, IAchievementGroup> entry : AchievementManager.getInstance().getAchievementGroups().entrySet()) {
+            IAchievementProgress achievementProgress = this.achievementComponent.getProgress(entry.getKey());
+            IAchievement achievement = achievementProgress == null ? entry.getValue().getAchievement(1) : entry.getValue().getAchievement(achievementProgress.getLevel());
 
             msg.writeInt(entry.getValue().getId());
             msg.writeInt(achievement == null ? 0 : achievement.getLevel());

@@ -1,5 +1,8 @@
 package com.cometproject.server.storage.queries.bots;
 
+import com.cometproject.api.game.bots.BotMode;
+import com.cometproject.api.game.bots.BotType;
+import com.cometproject.api.game.bots.IBotData;
 import com.cometproject.server.game.bots.BotData;
 import com.cometproject.server.game.rooms.objects.entities.types.data.PlayerBotData;
 import com.cometproject.api.game.utilities.Position;
@@ -15,12 +18,12 @@ import java.util.List;
 
 
 public class RoomBotDao {
-    public static List<BotData> getBotsByRoomId(int roomId) {
+    public static List<IBotData> getBotsByRoomId(int roomId) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        List<BotData> data = new ArrayList<>();
+        List<IBotData> data = new ArrayList<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();
@@ -31,7 +34,21 @@ public class RoomBotDao {
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                PlayerBotData botData = new PlayerBotData(resultSet.getInt("id"), resultSet.getString("name"), resultSet.getString("motto"), resultSet.getString("figure"), resultSet.getString("gender"), resultSet.getString("owner"), resultSet.getInt("owner_id"), resultSet.getString("messages"), resultSet.getString("automatic_chat").equals("1"), resultSet.getInt("chat_delay"), resultSet.getString("type"), resultSet.getString("mode"), resultSet.getString("data"));
+                final int id = resultSet.getInt("id");
+                final String username = resultSet.getString("username");
+                final String motto = resultSet.getString("motto");
+                final String figure = resultSet.getString("figure");
+                final String gender = resultSet.getString("owner_name");
+                final String ownerName = resultSet.getString("owner");
+                final int ownerId = resultSet.getInt("owner_id");
+                final String messages = resultSet.getString("messages");
+                final boolean automaticChat = resultSet.getBoolean("automatic_chat");
+                final int chatDelay = resultSet.getInt("chat_delay");
+                final BotType botType = BotType.valueOf(resultSet.getString("type").toUpperCase());
+                final BotMode mode = BotMode.valueOf(resultSet.getString("mode").toUpperCase());
+                final String storedData = resultSet.getString("data");
+
+                PlayerBotData botData = new PlayerBotData(id, username, motto, figure, gender, ownerName, ownerId, messages, automaticChat, chatDelay, botType, mode, storedData);
                 botData.setPosition(new Position(resultSet.getInt("x"), resultSet.getInt("y")));
 
                 data.add(botData);

@@ -1,4 +1,4 @@
-package com.cometproject.server.game.rooms.types;
+package com.cometproject.api.game.rooms;
 
 public enum RoomType {
     PUBLIC,

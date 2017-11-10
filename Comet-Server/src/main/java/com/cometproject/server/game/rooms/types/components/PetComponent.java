@@ -19,13 +19,13 @@ public class PetComponent {
     }
 
     public void load() {
-        for (PetData data : this.room.getCachedData() != null ? this.room.getCachedData().getPets() :
+        for (IPetData data : this.room.getCachedData() != null ? this.room.getCachedData().getPets() :
                 RoomPetDao.getPetsByRoomId(this.room.getId())) {
             this.loadPet(data);
         }
     }
 
-    private void loadPet(PetData petData) {
+    private void loadPet(IPetData petData) {
         PetEntity petEntity = new PetEntity(petData, room.getEntities().getFreeId(), petData.getRoomPosition(), 3, 3, room);
         this.getRoom().getEntities().addEntity(petEntity);
     }

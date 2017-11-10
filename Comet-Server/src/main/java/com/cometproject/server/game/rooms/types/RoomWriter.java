@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.types;
 
+import com.cometproject.api.game.rooms.RoomType;
 import com.cometproject.api.game.rooms.settings.RoomAccessType;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.groups.GroupManager;

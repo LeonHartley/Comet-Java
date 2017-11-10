@@ -1,7 +1,9 @@
 package com.cometproject.server.network.messages.outgoing.catalog;
 
+import com.cometproject.api.game.catalog.types.ICatalogPage;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.api.game.catalog.ICatalogService;
+import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.catalog.types.CatalogPage;
 import com.cometproject.api.game.catalog.types.ICatalogItem;
 import com.cometproject.server.game.items.ItemManager;
@@ -28,16 +30,11 @@ public class CatalogIndexMessageComposer extends MessageComposer {
 
     @Override
     public void compose(final IComposer msg) {
-        final List<CatalogPage> pages = CatalogManager.getInstance().getPagesForRank(this.playerRank);
-        final List<CatalogPage> pagesTwo = CatalogManager.getInstance().getPagesForRank(this.playerRank);
-        final List<CatalogPage> subPages = CatalogManager.getInstance().getPagesForRank(this.playerRank);
+        final List<ICatalogPage> pages = CatalogManager.getInstance().getPagesForRank(this.playerRank);
+        final List<ICatalogPage> pagesTwo = CatalogManager.getInstance().getPagesForRank(this.playerRank);
+        final List<ICatalogPage> subPages = CatalogManager.getInstance().getPagesForRank(this.playerRank);
 
-        Collections.sort(subPages, new Comparator<CatalogPage>() {
-            @Override
-            public int compare(final CatalogPage o1, final CatalogPage o2) {
-                return o1.getCaption().compareTo(o2.getCaption());
-            }
-        });
+        Collections.sort(subPages, Comparator.comparing(ICatalogPage::getCaption));
 
         msg.writeBoolean(true);
         msg.writeInt(0);
@@ -47,7 +44,7 @@ public class CatalogIndexMessageComposer extends MessageComposer {
         msg.writeInt(0);
         msg.writeInt(this.count(-1, pages));
 
-        for (final CatalogPage page : pages.stream().filter(x -> x.getParentId() == -1).collect(Collectors.toList())) {
+        for (final ICatalogPage page : pages.stream().filter(x -> x.getParentId() == -1).collect(Collectors.toList())) {
             if (page.getParentId() != -1) {
                 continue;
             }
@@ -60,7 +57,7 @@ public class CatalogIndexMessageComposer extends MessageComposer {
             msg.writeInt(0);
             msg.writeInt(this.count(page.getId(), pages));
 
-            for (final CatalogPage child : pagesTwo.stream().filter(x -> x.getParentId() == page.getId()).collect(Collectors.toList())) {
+            for (final ICatalogPage child : pagesTwo.stream().filter(x -> x.getParentId() == page.getId()).collect(Collectors.toList())) {
                 if (child.getParentId() != page.getId()) {
                     continue;
                 }
@@ -73,7 +70,7 @@ public class CatalogIndexMessageComposer extends MessageComposer {
                 msg.writeInt(child.getOfferSize());
 
                 for (ICatalogItem item : child.getItems().values()) {
-                    if(item.getItemId().equals("-1")) continue;
+                    if (item.getItemId().equals("-1")) continue;
 
                     ItemDefinition itemDefinition = ItemManager.getInstance().getDefinition(item.getItems().get(0).getItemId());
 
@@ -86,12 +83,12 @@ public class CatalogIndexMessageComposer extends MessageComposer {
                         }
                     }
                 }
-                
+
                 msg.writeInt(this.count(child.getId(), pagesTwo));
-                
-                for (final CatalogPage childTwo : subPages.stream().filter(x -> x.getParentId() == child.getId()).collect(Collectors.toList())) {
+
+                for (final ICatalogPage childTwo : subPages.stream().filter(x -> x.getParentId() == child.getId()).collect(Collectors.toList())) {
                     if (childTwo.getParentId() != child.getId()) continue;
-                    
+
                     msg.writeBoolean(true);
                     msg.writeInt(childTwo.getIcon());
                     msg.writeInt(childTwo.isEnabled() ? childTwo.getId() : -1);
@@ -100,7 +97,7 @@ public class CatalogIndexMessageComposer extends MessageComposer {
                     msg.writeInt(childTwo.getOfferSize());
 
                     for (ICatalogItem item : childTwo.getItems().values()) {
-                        if(item.getItemId().equals("-1")) continue;
+                        if (item.getItemId().equals("-1")) continue;
 
                         ItemDefinition itemDefinition = ItemManager.getInstance().getDefinition(item.getItems().get(0).getItemId());
 
@@ -108,7 +105,7 @@ public class CatalogIndexMessageComposer extends MessageComposer {
                             msg.writeInt(itemDefinition.getOfferId());
                         }
                     }
-                    
+
                     msg.writeInt(0);
                 }
             }
@@ -118,10 +115,10 @@ public class CatalogIndexMessageComposer extends MessageComposer {
         msg.writeString("NORMAL");
     }
 
-    private int count(final int index, final List<CatalogPage> pages) {
+    private int count(final int index, final List<ICatalogPage> pages) {
         int i = 0;
 
-        for (final CatalogPage page : pages) {
+        for (final ICatalogPage page : pages) {
             if (page.getParentId() == index) {
                 ++i;
             }

@@ -55,7 +55,7 @@ public class PullCommand extends ChatCommand {
             return;
         }
 
-        if (pulledEntity.getPosition().distanceTo(client.getPlayer().getEntity()) != 2) {
+        if (pulledEntity.getPosition().distanceTo(client.getPlayer().getEntity().getPosition()) != 2) {
             client.getPlayer().getSession().send(new WhisperMessageComposer(client.getPlayer().getEntity().getId(), Locale.getOrDefault("command.notaround", "Oops! %playername% is not near, walk to this player.").replace("%playername%", pulledEntity.getUsername()), 34));
             return;
         }

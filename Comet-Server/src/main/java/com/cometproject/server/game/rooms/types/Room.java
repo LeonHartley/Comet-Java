@@ -1,12 +1,12 @@
 package com.cometproject.server.game.rooms.types;
 
+import com.cometproject.api.game.rooms.IRoomData;
+import com.cometproject.api.game.rooms.RoomType;
 import com.cometproject.api.game.bots.IBotData;
 import com.cometproject.api.game.pets.IPetData;
 import com.cometproject.api.game.rooms.IRoom;
-import com.cometproject.server.game.bots.BotData;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
-import com.cometproject.server.game.pets.data.PetData;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.RoomQueue;
 import com.cometproject.server.game.rooms.models.CustomFloorMapData;
@@ -42,7 +42,7 @@ public class Room implements Attributable, IRoom {
 
     public final Logger log;
 
-    private final RoomData data;
+    private final IRoomData data;
 
     private final RoomDataObject cachedData;
 
@@ -74,7 +74,7 @@ public class Room implements Attributable, IRoom {
 
     private boolean isReloading = false;
 
-    public Room(RoomData data) {
+    public Room(IRoomData data) {
         this.data = data;
         this.log = Logger.getLogger("Room \"" + this.getData().getName() + "\"");
         this.cachedData = null;
@@ -329,7 +329,7 @@ public class Room implements Attributable, IRoom {
         return this.data.getId();
     }
 
-    public RoomData getData() {
+    public IRoomData getData() {
         return this.data;
     }
 

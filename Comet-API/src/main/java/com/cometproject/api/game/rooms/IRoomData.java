@@ -125,7 +125,9 @@ public interface IRoomData {
 
     List<String> getDisabledCommands();
 
-    String getGroupId();
+    int getGroupId();
 
     String getRequiredBadge();
+
+    RoomType getType();
 }
