@@ -2,6 +2,7 @@ package com.cometproject.server.game.players.types;
 
 import com.cometproject.api.game.players.IPlayer;
 import com.cometproject.api.game.players.data.components.PlayerInventory;
+import com.cometproject.api.game.quests.IQuest;
 import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
@@ -127,7 +128,7 @@ public class Player implements IPlayer {
 
     public int lastBannedListRequest = 0;
 
-    private Set<ICatalogItem> recentPurchases;
+    private Set<Integer> recentPurchases;
 
     private Set<String> eventLogCategories = Sets.newConcurrentHashSet();
 
@@ -311,7 +312,7 @@ public class Player implements IPlayer {
         }
 
         if (this.getData().getQuestId() != 0) {
-            Quest quest = QuestManager.getInstance().getById(this.getData().getQuestId());
+            IQuest quest = QuestManager.getInstance().getById(this.getData().getQuestId());
 
             if (quest != null && this.getQuests().hasStartedQuest(quest.getId()) && !this.getQuests().hasCompletedQuest(quest.getId())) {
                 this.getSession().send(new QuestStartedMessageComposer(quest, this));

@@ -2,6 +2,7 @@ package com.cometproject.server.network.messages.incoming.catalog;
 
 import com.cometproject.api.game.catalog.types.ICatalogItem;
 import com.cometproject.api.game.catalog.ICatalogService;
+import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.catalog.CatalogOfferMessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;

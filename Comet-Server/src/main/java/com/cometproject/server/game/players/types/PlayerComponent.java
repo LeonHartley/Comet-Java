@@ -11,7 +11,6 @@ public abstract class PlayerComponent implements IPlayerComponent {
     }
 
     public void dispose() {
-        
     }
 
     public IPlayer getPlayer() {

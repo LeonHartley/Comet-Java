@@ -1,22 +1,29 @@
 package com.cometproject.server.network.messages.outgoing.catalog;
 
 import com.cometproject.api.game.catalog.types.CatalogPageType;
+import com.cometproject.api.game.catalog.types.ICatalogFrontPageEntry;
 import com.cometproject.api.game.catalog.types.ICatalogItem;
+import com.cometproject.api.game.catalog.types.ICatalogPage;
+import com.cometproject.api.game.players.IPlayer;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.api.game.catalog.ICatalogService;
+import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.catalog.types.*;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
+import com.google.common.collect.Sets;
+
+import java.util.Set;
 
 
 public class CatalogPageMessageComposer extends MessageComposer {
 
     private final String catalogType;
-    private final CatalogPage catalogPage;
-    private final Player player;
+    private final ICatalogPage catalogPage;
+    private final IPlayer player;
 
-    public CatalogPageMessageComposer(final String catalogType, final CatalogPage catalogPage, final Player player) {
+    public CatalogPageMessageComposer(final String catalogType, final ICatalogPage catalogPage, final Player player) {
         this.catalogType = catalogType;
         this.catalogPage = catalogPage;
         this.player = player;
@@ -46,12 +53,24 @@ public class CatalogPageMessageComposer extends MessageComposer {
         }
 
         if (this.catalogPage.getType() == CatalogPageType.RECENT_PURCHASES) {
-            msg.writeInt(player.getRecentPurchases().size());
+            final Set<ICatalogItem> recentPurchaes = Sets.newHashSet();
 
-            for(ICatalogItem item : player.getRecentPurchases()) {
+            for (Integer catalogItemId : player.getRecentPurchases()) {
+                final ICatalogItem catalogItem = CatalogManager.getInstance().getCatalogItem(catalogItemId);
+
+                if (catalogItem != null) {
+                    recentPurchaes.add(catalogItem);
+                }
+            }
+
+            msg.writeInt(recentPurchaes.size());
+
+            for (ICatalogItem item : recentPurchaes) {
                 item.compose(msg);
             }
-        } else if(!this.catalogPage.getTemplate().equals("frontpage") && !this.catalogPage.getTemplate().equals("club_buy")) {
+
+            recentPurchaes.clear();
+        } else if (!this.catalogPage.getTemplate().equals("frontpage") && !this.catalogPage.getTemplate().equals("club_buy")) {
             msg.writeInt(this.catalogPage.getItems().size());
 
             for (ICatalogItem item : this.catalogPage.getItems().values()) {
@@ -64,10 +83,10 @@ public class CatalogPageMessageComposer extends MessageComposer {
         msg.writeInt(0);
         msg.writeBoolean(false); // allow seasonal currency as credits
 
-        if(this.catalogPage.getTemplate().equals("frontpage4")) {
+        if (this.catalogPage.getTemplate().equals("frontpage4")) {
             msg.writeInt(CatalogManager.getInstance().getFrontPageEntries().size());
 
-            for(CatalogFrontPageEntry entry : CatalogManager.getInstance().getFrontPageEntries()) {
+            for (ICatalogFrontPageEntry entry : CatalogManager.getInstance().getFrontPageEntries()) {
                 msg.writeInt(entry.getId());
                 msg.writeString(entry.getCaption());
                 msg.writeString(entry.getImage());

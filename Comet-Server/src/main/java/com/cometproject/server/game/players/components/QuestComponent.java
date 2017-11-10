@@ -1,9 +1,9 @@
 package com.cometproject.server.game.players.components;
 
+import com.cometproject.api.game.players.IPlayer;
 import com.cometproject.api.game.players.data.components.PlayerQuests;
 import com.cometproject.api.game.quests.IQuest;
 import com.cometproject.server.config.Locale;
-import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.players.types.PlayerComponent;
 import com.cometproject.server.game.quests.QuestManager;
 import com.cometproject.api.game.quests.QuestType;
@@ -19,10 +19,9 @@ import java.util.Map;
 public class QuestComponent extends PlayerComponent implements PlayerQuests {
     private static final Logger log = Logger.getLogger(QuestComponent.class.getName());
 
-    private Player player;
     private Map<Integer, Integer> questProgression;
 
-    public QuestComponent(Player player) {
+    public QuestComponent(IPlayer player) {
         super(player);
 
         this.loadQuestProgression();
@@ -61,7 +60,7 @@ public class QuestComponent extends PlayerComponent implements PlayerQuests {
         }
 
         this.questProgression.put(quest.getId(), 0);
-        PlayerQuestsDao.saveProgression(true, this.player.getId(), quest.getId(), 0);
+        PlayerQuestsDao.saveProgression(true, this.getPlayer().getId(), quest.getId(), 0);
 
         this.getPlayer().getSession().send(new QuestStartedMessageComposer(quest, this.getPlayer()));
         this.getPlayer().getSession().send(new QuestListMessageComposer(QuestManager.getInstance().getQuests(), this.getPlayer(), false));
@@ -72,7 +71,7 @@ public class QuestComponent extends PlayerComponent implements PlayerQuests {
 
     @Override
     public void cancelQuest(int questId) {
-        PlayerQuestsDao.cancelQuest(questId, this.player.getId());
+        PlayerQuestsDao.cancelQuest(questId, this.getPlayer().getId());
         this.questProgression.remove(questId);
     }
 
@@ -137,7 +136,7 @@ public class QuestComponent extends PlayerComponent implements PlayerQuests {
                         break;
 
                     case VIP_POINTS:
-                        this.player.getData().increasePoints(quest.getReward());
+                        this.getPlayer().getData().increasePoints(quest.getReward());
                         refreshCurrenciesBalance = true;
                         break;
 
@@ -149,7 +148,7 @@ public class QuestComponent extends PlayerComponent implements PlayerQuests {
 
                 if (!quest.getBadgeId().isEmpty()) {
                     // Deliver badge
-                    this.player.getInventory().addBadge(quest.getBadgeId(), true);
+                    this.getPlayer().getInventory().addBadge(quest.getBadgeId(), true);
                 }
             } catch (Exception e) {
                 log.error("Failed to deliver reward to player: " + this.getPlayer().getData().getUsername());
@@ -169,10 +168,10 @@ public class QuestComponent extends PlayerComponent implements PlayerQuests {
             this.questProgression.replace(questId, newProgressValue);
         }
 
-        PlayerQuestsDao.saveProgression(false, this.player.getId(), questId, newProgressValue);
+        PlayerQuestsDao.saveProgression(false, this.getPlayer().getId(), questId, newProgressValue);
 
-        this.getPlayer().getSession().send(new QuestCompletedMessageComposer(quest, this.player));
-        this.getPlayer().getSession().send(new QuestListMessageComposer(QuestManager.getInstance().getQuests(), this.player, false));
+        this.getPlayer().getSession().send(new QuestCompletedMessageComposer(quest, this.getPlayer()));
+        this.getPlayer().getSession().send(new QuestListMessageComposer(QuestManager.getInstance().getQuests(), this.getPlayer(), false));
     }
 
     @Override
@@ -190,7 +189,5 @@ public class QuestComponent extends PlayerComponent implements PlayerQuests {
 
         this.questProgression.clear();
         this.questProgression = null;
-
-        this.player = null;
     }
 }

@@ -1,9 +1,12 @@
 package com.cometproject.server.network.messages.incoming.catalog.ads;
 
+import com.cometproject.api.game.catalog.types.ICatalogItem;
+import com.cometproject.api.game.catalog.types.ICatalogPage;
 import com.cometproject.api.game.rooms.settings.RoomAccessType;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
 import com.cometproject.api.game.catalog.ICatalogService;
+import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.catalog.types.CatalogItem;
 import com.cometproject.server.game.catalog.types.CatalogPage;
 import com.cometproject.server.game.rooms.RoomManager;
@@ -22,11 +25,11 @@ public class PromoteRoomMessageEvent implements Event {
         int pageId = msg.readInt();
         int itemId = msg.readInt();
 
-        CatalogPage page = CatalogManager.getInstance().getPage(pageId);
+        ICatalogPage page = CatalogManager.getInstance().getPage(pageId);
 
         if (page == null || page.getItems().get(itemId) == null) return;
 
-        CatalogItem item = page.getItems().get(itemId);
+        ICatalogItem item = page.getItems().get(itemId);
 
         if (item == null) return;
 

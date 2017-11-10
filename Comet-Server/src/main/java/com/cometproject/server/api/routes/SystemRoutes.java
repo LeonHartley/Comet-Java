@@ -6,6 +6,7 @@ import com.cometproject.server.boot.utils.ShutdownProcess;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
 import com.cometproject.api.game.catalog.ICatalogService;
+import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.commands.CommandManager;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.landing.LandingManager;
