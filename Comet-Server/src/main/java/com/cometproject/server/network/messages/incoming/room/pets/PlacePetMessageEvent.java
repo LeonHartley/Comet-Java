@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.pets;
 
+import com.cometproject.api.game.pets.IPetData;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.pets.data.PetData;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
@@ -38,7 +39,7 @@ public class PlacePetMessageEvent implements Event {
 
         Room room = client.getPlayer().getEntity().getRoom();
 
-        PetData pet = client.getPlayer().getPets().getPet(petId);
+        IPetData pet = client.getPlayer().getPets().getPet(petId);
 
         boolean isOwner = client.getPlayer().getId() == room.getData().getOwnerId();
 
