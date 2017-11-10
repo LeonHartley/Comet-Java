@@ -124,4 +124,8 @@ public interface IRoomData {
     void setBanState(RoomBanState banState);
 
     List<String> getDisabledCommands();
+
+    String getGroupId();
+
+    String getRequiredBadge();
 }

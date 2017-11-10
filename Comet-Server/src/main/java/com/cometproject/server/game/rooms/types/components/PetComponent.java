@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.types.components;
 
+import com.cometproject.api.game.pets.IPetData;
 import com.cometproject.server.game.pets.data.PetData;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.api.game.utilities.Position;
@@ -29,7 +30,7 @@ public class PetComponent {
         this.getRoom().getEntities().addEntity(petEntity);
     }
 
-    public PetEntity addPet(PetData pet, Position position) {
+    public PetEntity addPet(IPetData pet, Position position) {
         RoomPetDao.updatePet(this.room.getId(), position.getX(), position.getY(), pet.getId());
 
         int virtualId = room.getEntities().getFreeId();
