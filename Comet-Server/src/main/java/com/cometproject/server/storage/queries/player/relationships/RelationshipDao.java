@@ -1,13 +1,12 @@
 package com.cometproject.server.storage.queries.player.relationships;
 
-import com.cometproject.server.game.players.components.types.messenger.RelationshipLevel;
+import com.cometproject.api.game.players.data.components.messenger.RelationshipLevel;
 import com.cometproject.server.storage.SqlHelper;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 

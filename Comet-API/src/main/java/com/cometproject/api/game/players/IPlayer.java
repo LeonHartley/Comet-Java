@@ -60,7 +60,7 @@ public interface IPlayer {
 
 //    SubscriptionComponent getSubscription();
 
-//    RelationshipComponent getRelationships();
+    PlayerRelationships getRelationships();
 
     PlayerBots getBots();
 
