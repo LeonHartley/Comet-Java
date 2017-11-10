@@ -381,7 +381,7 @@ public class PetAI extends AbstractBotAI {
     }
 
     private PetSpeech getPetSpeech() {
-        final PetSpeech petSpeech = this.getPetEntity().getData().getSpeech();
+        final PetSpeech petSpeech = PetManager.getInstance().getSpeech(this.getPetEntity().getData().getTypeId());
 
         if(petSpeech == null) {
             return PetManager.getInstance().getSpeech(-1);

@@ -112,7 +112,7 @@ public abstract class RoomObject implements IRoomObject, Positionable {
         Collections.sort(bots, positionComparator);
 
         for(BotEntity botEntity : bots) {
-            if(this.getPosition().distanceTo(botEntity) < 4) {
+            if(this.getPosition().distanceTo(botEntity.getPosition()) < 4) {
                 return botEntity;
             }
         }

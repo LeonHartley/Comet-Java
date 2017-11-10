@@ -23,9 +23,7 @@ public class RemoveBotMessageEvent implements Event {
         }
 
         if (entity.getBotId() > 0) {
-            PlayerBot bot = new PlayerBot(entity.getBotId(), entity.getData().getOwnerId(), entity.getData().getOwnerName(), entity.getUsername(), entity.getFigure(), entity.getGender(), entity.getMotto(), entity.getData().getBotType().toString());
-
-            client.getPlayer().getBots().addBot(bot);
+            client.getPlayer().getBots().addBot(entity.getData());
 
             RoomBotDao.setRoomId(0, entity.getBotId());
             client.send(new BotInventoryMessageComposer(client.getPlayer().getBots().getBots()));
