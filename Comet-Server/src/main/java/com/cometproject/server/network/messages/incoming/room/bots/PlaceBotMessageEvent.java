@@ -1,9 +1,11 @@
 package com.cometproject.server.network.messages.incoming.room.bots;
 
+import com.cometproject.api.game.bots.IBotData;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.players.components.types.inventory.PlayerBot;
 import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
+import com.cometproject.server.game.rooms.objects.entities.types.data.PlayerBotData;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.types.Room;
@@ -15,6 +17,7 @@ import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarsMess
 import com.cometproject.server.network.messages.outgoing.user.inventory.BotInventoryMessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.storage.queries.bots.PlayerBotDao;
 import com.cometproject.server.storage.queries.bots.RoomBotDao;
 
 
@@ -25,7 +28,7 @@ public class PlaceBotMessageEvent implements Event {
         int y = msg.readInt();
 
         Room room = client.getPlayer().getEntity().getRoom();
-        PlayerBot bot = (PlayerBot) client.getPlayer().getBots().getBot(botId);
+        IBotData bot = client.getPlayer().getBots().getBot(botId);
 
         if (room == null || bot == null || (!room.getRights().hasRights(client.getPlayer().getId()) && !client.getPlayer().getPermissions().getRank().roomFullControl())) {
             return;

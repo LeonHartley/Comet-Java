@@ -1,7 +1,9 @@
 package com.cometproject.server.network.messages.incoming.room.item.gifts;
 
+import com.cometproject.api.game.catalog.types.ICatalogPage;
 import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
 import com.cometproject.api.game.catalog.ICatalogService;
+import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.catalog.types.CatalogPage;
 import com.cometproject.api.game.catalog.types.ICatalogItem;
 import com.cometproject.server.game.catalog.types.gifts.GiftData;
@@ -40,7 +42,7 @@ public class OpenGiftMessageEvent implements Event {
 
         final GiftData giftData = ((GiftFloorItem) floorItem).getGiftData();
 
-        final CatalogPage catalogPage = CatalogManager.getInstance().getPage(giftData.getPageId());
+        final ICatalogPage catalogPage = CatalogManager.getInstance().getPage(giftData.getPageId());
         if (catalogPage == null) return;
 
         final ICatalogItem catalogItem = catalogPage.getItems().get(giftData.getItemId());
