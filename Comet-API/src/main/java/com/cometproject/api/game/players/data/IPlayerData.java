@@ -1,6 +1,6 @@
 package com.cometproject.api.game.players.data;
 
-public interface IPlayerData {
+public interface IPlayerData extends PlayerAvatar {
 
     void save();
 

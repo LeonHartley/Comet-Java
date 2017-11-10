@@ -1,11 +1,10 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
 import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.api.game.catalog.ICatalogService;
 import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.catalog.types.gifts.GiftData;
 import com.cometproject.server.game.players.PlayerManager;
-import com.cometproject.server.game.players.data.PlayerAvatar;
+import com.cometproject.api.game.players.data.PlayerAvatar;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;

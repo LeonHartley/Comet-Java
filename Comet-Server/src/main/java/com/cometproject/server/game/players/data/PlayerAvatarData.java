@@ -1,5 +1,6 @@
 package com.cometproject.server.game.players.data;
 
+import com.cometproject.api.game.players.data.PlayerAvatar;
 import com.cometproject.server.game.utilities.validator.PlayerFigureValidator;
 
 public class PlayerAvatarData implements PlayerAvatar {

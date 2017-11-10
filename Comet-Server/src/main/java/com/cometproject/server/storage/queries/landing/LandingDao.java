@@ -1,9 +1,8 @@
 package com.cometproject.server.storage.queries.landing;
 
 import com.cometproject.server.game.landing.types.PromoArticle;
-import com.cometproject.server.game.players.data.PlayerAvatar;
+import com.cometproject.api.game.players.data.PlayerAvatar;
 import com.cometproject.server.game.players.data.PlayerAvatarData;
-import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.storage.SqlHelper;
 
 import java.sql.Connection;

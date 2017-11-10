@@ -1,6 +1,7 @@
 package com.cometproject.server.game.players.data;
 
 import com.cometproject.api.game.players.data.IPlayerData;
+import com.cometproject.api.game.players.data.PlayerAvatar;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.utilities.validator.PlayerFigureValidator;
 import com.cometproject.server.storage.queries.player.PlayerDao;
@@ -10,7 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
-public class PlayerData implements PlayerAvatar, IPlayerData {
+public class PlayerData implements IPlayerData {
     public static final String DEFAULT_FIGURE = "hr-100-61.hd-180-2.sh-290-91.ch-210-66.lg-270-82";
 
     private int id;

@@ -5,8 +5,7 @@ import com.cometproject.api.game.players.IPlayer;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.components.types.messenger.MessengerFriend;
 import com.cometproject.server.game.players.components.types.messenger.MessengerSearchResult;
-import com.cometproject.server.game.players.data.PlayerAvatar;
-import com.cometproject.server.game.players.types.Player;
+import com.cometproject.api.game.players.data.PlayerAvatar;
 import com.cometproject.server.game.players.types.PlayerComponent;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.composers.MessageComposer;
@@ -23,8 +22,6 @@ import java.util.Map;
 
 
 public class MessengerComponent extends PlayerComponent {
-    private Player player;
-
     private Map<Integer, MessengerFriend> friends;
 
     private List<Integer> requests;
@@ -50,7 +47,6 @@ public class MessengerComponent extends PlayerComponent {
         this.friends.clear();
         this.requests = null;
         this.friends = null;
-        this.player = null;
     }
 
     public MessageComposer search(String query) {
@@ -66,7 +62,7 @@ public class MessengerComponent extends PlayerComponent {
                 }
             }
         } catch (Exception e) {
-            player.getSession().getLogger().error("Error while searching for players", e);
+            this.getPlayer().getSession().getLogger().error("Error while searching for players", e);
         }
 
         return new MessengerSearchResultsMessageComposer(currentFriends, otherPeople);
@@ -89,8 +85,8 @@ public class MessengerComponent extends PlayerComponent {
 
         this.friends.remove(userId);
 
-        MessengerDao.deleteFriendship(this.player.getId(), userId);
-        this.player.getSession().send(new UpdateFriendStateMessageComposer(-1, userId));
+        MessengerDao.deleteFriendship(this.getPlayer().getId(), userId);
+        this.getPlayer().getSession().send(new UpdateFriendStateMessageComposer(-1, userId));
     }
 
     public Integer getRequestBySender(int sender) {
@@ -118,7 +114,7 @@ public class MessengerComponent extends PlayerComponent {
 
     public void broadcast(List<Integer> friends, MessageComposer msg) {
         for (int friendId : friends) {
-            if (friendId == this.player.getId() || !this.friends.containsKey(friendId) || !this.friends.get(friendId).isOnline()) {
+            if (friendId == this.getPlayer().getId() || !this.friends.containsKey(friendId) || !this.friends.get(friendId).isOnline()) {
                 continue;
             }
 
@@ -199,14 +195,10 @@ public class MessengerComponent extends PlayerComponent {
 
     public List<Integer> getRequests() {
         if (this.requests == null) {
-            this.requests = MessengerDao.getRequestsByPlayerId(player.getId());
+            this.requests = MessengerDao.getRequestsByPlayerId(this.getPlayer().getId());
         }
 
         return this.requests;
-    }
-
-    public Player getPlayer() {
-        return this.player;
     }
 
     public void removeRequest(Integer request) {

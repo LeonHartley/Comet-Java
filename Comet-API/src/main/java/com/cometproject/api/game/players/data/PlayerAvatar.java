@@ -1,4 +1,4 @@
-package com.cometproject.server.game.players.data;
+package com.cometproject.api.game.players.data;
 
 public interface PlayerAvatar {
     byte USERNAME_FIGURE = 0;

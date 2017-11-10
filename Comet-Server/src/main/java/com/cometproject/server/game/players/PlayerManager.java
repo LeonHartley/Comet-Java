@@ -1,7 +1,7 @@
 package com.cometproject.server.game.players;
 
 import com.cometproject.server.config.Configuration;
-import com.cometproject.server.game.players.data.PlayerAvatar;
+import com.cometproject.api.game.players.data.PlayerAvatar;
 import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.game.players.login.PlayerLoginRequest;
 import com.cometproject.server.network.NetworkManager;

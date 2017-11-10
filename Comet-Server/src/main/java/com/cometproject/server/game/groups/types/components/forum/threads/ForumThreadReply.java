@@ -3,7 +3,7 @@ package com.cometproject.server.game.groups.types.components.forum.threads;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.players.PlayerManager;
-import com.cometproject.server.game.players.data.PlayerAvatar;
+import com.cometproject.api.game.players.data.PlayerAvatar;
 import com.cometproject.server.storage.queries.groups.GroupForumThreadDao;
 
 public class ForumThreadReply {
