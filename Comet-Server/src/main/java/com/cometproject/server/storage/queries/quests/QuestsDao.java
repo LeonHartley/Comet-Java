@@ -17,7 +17,7 @@ public class QuestsDao {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        Map<String, Quest> quests = new HashMap<>();
+        Map<String, IQuest> quests = new HashMap<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();

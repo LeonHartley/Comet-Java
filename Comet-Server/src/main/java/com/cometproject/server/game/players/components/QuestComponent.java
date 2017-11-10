@@ -5,7 +5,6 @@ import com.cometproject.api.game.quests.IQuest;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.players.types.PlayerComponent;
-import com.cometproject.server.game.quests.types.Quest;
 import com.cometproject.server.game.quests.QuestManager;
 import com.cometproject.api.game.quests.QuestType;
 import com.cometproject.server.network.messages.outgoing.quests.QuestCompletedMessageComposer;

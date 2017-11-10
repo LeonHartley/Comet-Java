@@ -1,5 +1,7 @@
 package com.cometproject.server.game.commands.staff;
 
+import com.cometproject.api.game.bots.BotMode;
+import com.cometproject.api.game.bots.BotType;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.bots.BotData;
 import com.cometproject.server.game.commands.ChatCommand;
@@ -95,7 +97,26 @@ public class RoomActionCommand extends ChatCommand {
                 List<RoomEntity> addedEntities = Lists.newArrayList();
 
                 for (int i = 0; i < count; i++) {
-                    final BotEntity botEntity = client.getPlayer().getEntity().getRoom().getBots().addBot(new PlayerBotData(0 - (i + 1), client.getPlayer().getId(), client.getPlayer().getData().getUsername(), client.getPlayer().getData().getUsername() + "Minion" + i, client.getPlayer().getData().getFigure(), client.getPlayer().getData().getGender(), client.getPlayer().getData().getMotto(), "mimic"), entityPosition.getX(), entityPosition.getY(), entityPosition.getZ());
+                    final int id = 0 - (i + 1);
+                    final String username = client.getPlayer().getData().getUsername() + "Minion" + i;
+                    final String motto = "";
+
+                     BotData botData = new PlayerBotData(
+                             id,
+                             username,
+                             motto,
+                             client.getPlayer().getData().getFigure(),
+                             client.getPlayer().getData().getGender(),
+                             client.getPlayer().getData().getUsername(),
+                             client.getPlayer().getId(),
+                             "[]",
+                             true,
+                             7,
+                             BotType.MIMIC,
+                             BotMode.DEFAULT, "");
+
+                    final BotEntity botEntity = client.getPlayer().getEntity().getRoom().getBots().addBot(botData,
+                            entityPosition.getX(), entityPosition.getY(), entityPosition.getZ());
 
                     if(botEntity != null) {
                         addedEntities.add(botEntity);
