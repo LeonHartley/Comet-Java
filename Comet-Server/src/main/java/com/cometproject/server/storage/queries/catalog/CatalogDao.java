@@ -5,7 +5,6 @@ import com.cometproject.api.game.catalog.types.ICatalogItem;
 import com.cometproject.api.game.catalog.types.ICatalogPage;
 import com.cometproject.api.game.catalog.types.IClothingItem;
 import com.cometproject.server.boot.Comet;
-import com.cometproject.api.game.catalog.ICatalogService;
 import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.catalog.types.*;
 import com.cometproject.server.storage.SqlHelper;
@@ -60,7 +59,7 @@ public class CatalogDao {
 
             while (resultSet.next()) {
                 try {
-                    final ICatalogItem catalogItem = new CatalogItem(resultSet);
+                    final ICatalogItem catalogItem = itemFromResultSet(resultSet);
 
                     if (!catalogItem.getItemId().equals("-1") && catalogItem.getItems().size() == 0) {
                         Comet.getServer().getLogger().warn(String.format("Catalog Item with ID: %s and name: %s has invalid item data! (Data: %s)", catalogItem.getId(), catalogItem.getDisplayName(), catalogItem.getItemId()));
@@ -110,7 +109,7 @@ public class CatalogDao {
 //                }
 
                 try {
-                    final ICatalogItem catalogItem = new CatalogItem(resultSet);
+                    final ICatalogItem catalogItem = itemFromResultSet(resultSet);
 
                     if (!catalogItem.getItemId().equals("-1") && catalogItem.getItems().size() == 0) {
                         Comet.getServer().getLogger().warn(String.format("Catalog Item with ID: %s and name: %s has invalid item data! (Data: %s)", catalogItem.getId(), catalogItem.getDisplayName(), catalogItem.getItemId()));
@@ -219,7 +218,7 @@ public class CatalogDao {
             while (resultSet.next()) {
                 final String itemsStr = resultSet.getString("clothing_items").replace(" ", "");
 
-                if(itemsStr.equals("")) {
+                if (itemsStr.equals("")) {
                     continue;
                 }
 
@@ -227,7 +226,7 @@ public class CatalogDao {
                 final String[] itemsStrArray = itemsStr.split(",");
                 int[] items = new int[itemsStrArray.length];
 
-                for(int i = 0; i < itemsStrArray.length; i++) {
+                for (int i = 0; i < itemsStrArray.length; i++) {
                     items[i] = Integer.parseInt(itemsStrArray[i]);
                 }
 
@@ -294,5 +293,26 @@ public class CatalogDao {
         }
 
         return recentPurchases;
+    }
+
+    private static ICatalogItem itemFromResultSet(ResultSet resultSet) throws SQLException {
+        final int id = resultSet.getInt("id");
+        final String itemIds = resultSet.getString("item_ids");
+        final String catalogName = resultSet.getString("catalog_name");
+        final int costCredits = resultSet.getInt("cost_credits");
+        final int costPixels = resultSet.getInt("cost_pixels");
+        final int costDiamonds = resultSet.getInt("cost_diamonds");
+        final int amount = resultSet.getInt("amount");
+        final boolean vip = resultSet.getBoolean("vip");
+        final int limitedStack = resultSet.getInt("limited_stack");
+        final int limitedSells = resultSet.getInt("limited_sells");
+        final boolean offerActive = resultSet.getBoolean("offer_active");
+        final String badgeId = resultSet.getString("badge_id");
+        final String extraData = resultSet.getString("catalog_name");
+        final int pageId = resultSet.getInt("page_id");
+
+        return new CatalogItem(id, itemIds, catalogName, costCredits, costPixels,
+                costDiamonds, amount, vip, limitedStack, limitedSells, offerActive, badgeId,
+                extraData, pageId);
     }
 }
