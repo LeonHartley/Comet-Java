@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.types.components;
 
+import com.cometproject.api.game.bots.IBotData;
 import com.cometproject.server.game.bots.BotData;
 import com.cometproject.server.game.players.components.types.inventory.PlayerBot;
 import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
@@ -70,19 +71,19 @@ public class RoomBotComponent {
         return name + usedCount;
     }
 
-    public BotEntity addBot(PlayerBot bot, int x, int y, double height) {
+    public BotEntity addBot(IBotData bot, int x, int y, double height) {
         int virtualId = room.getEntities().getFreeId();
         String name;
 
-        if (this.botNameToId.containsKey(bot.getName())) {
-            name = this.getAvailableName(bot.getName());
+        if (this.botNameToId.containsKey(bot.getUsername())) {
+            name = this.getAvailableName(bot.getUsername());
         } else {
-            name = bot.getName();
+            name = bot.getUsername();
         }
 
-        this.botNameToId.put(bot.getName(), bot.getId());
+        this.botNameToId.put(bot.getUsername(), bot.getId());
 
-        BotData botData = new PlayerBotData(bot.getId(), name, bot.getMotto(), bot.getFigure(), bot.getGender(), bot.getOwnerName(), bot.getOwnerId(), "[]", true, 7, bot.getType(), bot.getMode(), null);
+        BotData botData = new PlayerBotData(bot.getId(), name, bot.getMotto(), bot.getFigure(), bot.getGender(), bot.getOwnerName(), bot.getOwnerId(), "[]", true, 7, bot.getBotType(), bot.getMode(), null);
         BotEntity botEntity = new BotEntity(botData, virtualId, new Position(x, y, height), 1, 1, room);
 
         if (botEntity.getPosition().getZ() < this.getRoom().getModel().getSquareHeight()[x][y]) {
