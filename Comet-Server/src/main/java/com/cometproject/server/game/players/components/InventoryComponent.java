@@ -11,6 +11,7 @@ import com.cometproject.server.game.items.music.SongItemData;
 import com.cometproject.server.game.players.components.types.inventory.InventoryItem;
 import com.cometproject.server.game.players.components.types.inventory.InventoryItemSnapshot;
 import com.cometproject.server.game.players.types.Player;
+import com.cometproject.server.game.players.types.PlayerComponent;
 import com.cometproject.server.network.messages.outgoing.catalog.UnseenItemsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.wired.WiredRewardMessageComposer;
@@ -28,9 +29,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 
-public class InventoryComponent implements PlayerInventory {
-    private Player player;
-
+public class InventoryComponent extends PlayerComponent implements PlayerInventory {
     private Map<Long, PlayerItem> inventoryItems;
 
     private Map<String, Integer> badges;
@@ -43,7 +42,7 @@ public class InventoryComponent implements PlayerInventory {
     private Logger log = Logger.getLogger(InventoryComponent.class.getName());
 
     public InventoryComponent(Player player) {
-        this.player = player;
+        super(player);
 
         this.inventoryItems = new ConcurrentHashMap<>();
 
@@ -59,7 +58,7 @@ public class InventoryComponent implements PlayerInventory {
             this.effects = null;
         }
 
-        this.effects = PlayerDao.getEffects(this.player.getId());
+        this.effects = PlayerDao.getEffects(this.getPlayer().getId());
     }
 
     @Override
@@ -71,7 +70,7 @@ public class InventoryComponent implements PlayerInventory {
         }
 
         try {
-            Map<Long, PlayerItem> inventoryItems = InventoryDao.getInventoryByPlayerId(this.player.getId());
+            Map<Long, PlayerItem> inventoryItems = InventoryDao.getInventoryByPlayerId(this.getPlayer().getId());
 
             for (Map.Entry<Long, PlayerItem> item : inventoryItems.entrySet()) {
                 this.inventoryItems.put(item.getKey(), item.getValue());
@@ -85,7 +84,7 @@ public class InventoryComponent implements PlayerInventory {
     public void loadBadges() {
         try {
             // TODO: redo this so we can seperate achievement badges to other badges. Maybe a "badge type" or something.
-            this.badges = InventoryDao.getBadgesByPlayerId(player.getId());
+            this.badges = InventoryDao.getBadgesByPlayerId(this.getPlayer().getId());
         } catch (Exception e) {
             log.error("Error while loading user badges");
         }
@@ -100,19 +99,19 @@ public class InventoryComponent implements PlayerInventory {
     public void addBadge(String code, boolean insert, boolean sendAlert) {
         if (!badges.containsKey(code)) {
             if (insert) {
-                InventoryDao.addBadge(code, this.player.getId());
+                InventoryDao.addBadge(code, this.getPlayer().getId());
             }
 
             this.badges.put(code, 0);
 
-            this.player.getSession().
+            this.getPlayer().getSession().
                     send(new BadgeInventoryMessageComposer(this.getBadges())).
                     send(new UnseenItemsMessageComposer(new HashMap<Integer, List<Integer>>() {{
                         put(4, Lists.newArrayList(1));
                     }}));
             
             if (sendAlert) {
-                this.player.getSession().send(new WiredRewardMessageComposer(7));
+                this.getPlayer().getSession().send(new WiredRewardMessageComposer(7));
             }
 
         }
@@ -120,7 +119,7 @@ public class InventoryComponent implements PlayerInventory {
 
     public void send() {
         if(this.inventoryItems.size() == 0) {
-            this.player.getSession().send(new InventoryMessageComposer(1, 0, Maps.newHashMap()));
+            this.getPlayer().getSession().send(new InventoryMessageComposer(1, 0, Maps.newHashMap()));
             return;
         }
 
@@ -135,7 +134,7 @@ public class InventoryComponent implements PlayerInventory {
             inventoryItems.put(item.getKey(), item.getValue());
 
             if(inventoryItems.size() >= InventoryMessageComposer.ITEMS_PER_PAGE || totalSent == this.inventoryItems.size()) {
-                this.player.getSession().send(new InventoryMessageComposer(totalPages + 1, currentPage, inventoryItems));
+                this.getPlayer().getSession().send(new InventoryMessageComposer(totalPages + 1, currentPage, inventoryItems));
 
                 inventoryItems = new HashMap<>();
                 currentPage++;
@@ -157,16 +156,16 @@ public class InventoryComponent implements PlayerInventory {
     public void removeBadge(String code, boolean delete, boolean sendAlert, boolean sendUpdate) {
         if (badges.containsKey(code)) {
             if (delete) {
-                InventoryDao.removeBadge(code, player.getId());
+                InventoryDao.removeBadge(code, this.getPlayer().getId());
             }
 
             this.badges.remove(code);
 
             if (sendAlert) {
-                this.player.getSession().send(new AlertMessageComposer(Locale.get("badge.deleted")));
+                this.getPlayer().getSession().send(new AlertMessageComposer(Locale.get("badge.deleted")));
             }
 
-            this.player.getSession().send(new BadgeInventoryMessageComposer(this.badges));
+            this.getPlayer().getSession().send(new BadgeInventoryMessageComposer(this.badges));
         }
     }
 
@@ -180,7 +179,7 @@ public class InventoryComponent implements PlayerInventory {
         if (this.badges.containsKey(oldBadge)) {
             this.removeBadge(oldBadge, false, false, false);
 
-            PlayerAchievementDao.updateBadge(oldBadge, newBadge, this.player.getId());
+            PlayerAchievementDao.updateBadge(oldBadge, newBadge, this.getPlayer().getId());
             isUpdated = true;
         }
 
@@ -307,7 +306,7 @@ public class InventoryComponent implements PlayerInventory {
 
     @Override
     public Player getPlayer() {
-        return this.player;
+        return this.getPlayer();
     }
 
     @Override
