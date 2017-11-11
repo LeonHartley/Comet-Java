@@ -1,6 +1,7 @@
 package com.cometproject.server.network.messages.outgoing.messenger;
 
 import com.cometproject.api.game.players.data.PlayerAvatar;
+import com.cometproject.api.game.players.data.components.messenger.IMessengerFriend;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.groups.GroupManager;
@@ -20,20 +21,20 @@ import java.util.Map;
 
 public class BuddyListMessageComposer extends MessageComposer {
     private final Player player;
-    private final Map<Integer, MessengerFriend> friends;
+    private final Map<Integer, IMessengerFriend> friends;
     private final List<PlayerAvatar> avatars;
     private final List<Integer> groups;
 
     private final boolean hasStaffChat;
 
-    public BuddyListMessageComposer(final Player player, Map<Integer, MessengerFriend> friends, final boolean hasStaffChat, final List<Integer> groups) {
+    public BuddyListMessageComposer(final Player player, Map<Integer, IMessengerFriend> friends, final boolean hasStaffChat, final List<Integer> groups) {
         this.hasStaffChat = hasStaffChat;
 
         this.player = player;
         this.friends = Maps.newHashMap(friends);
         this.avatars = Lists.newArrayList();
 
-        for (Map.Entry<Integer, MessengerFriend> friend : friends.entrySet()) {
+        for (Map.Entry<Integer, IMessengerFriend> friend : friends.entrySet()) {
             if (friend.getValue() != null) {
                 final PlayerAvatar playerAvatar = friend.getValue().getAvatar();
 

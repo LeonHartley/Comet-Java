@@ -41,6 +41,7 @@ public class RoomPetDao {
                     "pet.`hair_colour` AS hair_colour, " +
                     "pet.`any_rider` AS any_rider, " +
                     "pet.`birthday` AS birthday, " +
+                    "pet.`scratches` AS scratches, " +
                     "pet.`x` AS `x`,  " +
                     "pet.`y` AS `y`, " +
                     "player.username AS owner_name " +

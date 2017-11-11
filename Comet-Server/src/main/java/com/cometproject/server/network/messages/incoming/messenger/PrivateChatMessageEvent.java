@@ -1,5 +1,7 @@
 package com.cometproject.server.network.messages.incoming.messenger;
 
+import com.cometproject.api.game.players.data.components.messenger.IMessengerFriend;
+import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
@@ -89,13 +91,13 @@ public class PrivateChatMessageEvent implements Event {
             return;
         }
 
-        MessengerFriend friend = client.getPlayer().getMessenger().getFriendById(userId);
+        IMessengerFriend friend = client.getPlayer().getMessenger().getFriendById(userId);
 
         if (friend == null) {
             return;
         }
 
-        Session friendClient = friend.getSession();
+        ISession friendClient = friend.getSession();
 
         if (friendClient == null) {
             return;

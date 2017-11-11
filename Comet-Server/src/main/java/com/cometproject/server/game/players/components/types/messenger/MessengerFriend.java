@@ -1,5 +1,7 @@
 package com.cometproject.server.game.players.components.types.messenger;
 
+import com.cometproject.api.game.players.data.components.messenger.IMessengerFriend;
+import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.api.game.players.data.PlayerAvatar;
 import com.cometproject.server.game.players.data.PlayerAvatarData;
@@ -10,7 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
-public class MessengerFriend {
+public class MessengerFriend implements IMessengerFriend {
     private int userId;
     private PlayerAvatar playerAvatar;
 
@@ -23,6 +25,7 @@ public class MessengerFriend {
         this.userId = userId;
     }
 
+    @Override
     public boolean isInRoom() {
         if (!isOnline()) {
             return false;
@@ -41,6 +44,7 @@ public class MessengerFriend {
         return true;
     }
 
+    @Override
     public PlayerAvatar getAvatar() {
         if (this.getSession() != null && this.getSession().getPlayer() != null) {
             return this.getSession().getPlayer().getData();
@@ -49,15 +53,18 @@ public class MessengerFriend {
         return this.playerAvatar;
     }
 
+    @Override
     public int getUserId() {
         return this.userId;
     }
 
+    @Override
     public boolean isOnline() {
         return PlayerManager.getInstance().isOnline(userId);
     }
 
-    public Session getSession() {
+    @Override
+    public ISession getSession() {
         return NetworkManager.getInstance().getSessions().getByPlayerId(this.userId);
     }
 }

@@ -54,7 +54,7 @@ public interface IPlayer {
 
     PlayerAchievements getAchievements();
 
-//    MessengerComponent getMessenger();
+    PlayerMessenger getMessenger();
 
     PlayerInventory getInventory();
 

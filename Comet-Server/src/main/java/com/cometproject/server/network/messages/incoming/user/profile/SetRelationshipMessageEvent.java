@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.user.profile;
 
+import com.cometproject.api.game.players.data.components.messenger.IMessengerFriend;
 import com.cometproject.server.game.players.components.RelationshipComponent;
 import com.cometproject.server.game.players.components.types.messenger.MessengerFriend;
 import com.cometproject.api.game.players.data.components.messenger.RelationshipLevel;
@@ -19,7 +20,7 @@ public class SetRelationshipMessageEvent implements Event {
             return;
         }
 
-        final MessengerFriend friend = client.getPlayer().getMessenger().getFriendById(user);
+        final IMessengerFriend friend = client.getPlayer().getMessenger().getFriendById(user);
 
         RelationshipComponent relationships = client.getPlayer().getRelationships();
 

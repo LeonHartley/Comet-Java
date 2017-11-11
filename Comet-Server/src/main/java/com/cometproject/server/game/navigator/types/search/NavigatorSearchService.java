@@ -1,5 +1,6 @@
 package com.cometproject.server.game.navigator.types.search;
 
+import com.cometproject.api.game.players.data.components.messenger.IMessengerFriend;
 import com.cometproject.api.game.rooms.IRoomData;
 import com.cometproject.api.game.rooms.settings.RoomAccessType;
 import com.cometproject.server.game.groups.GroupManager;
@@ -54,13 +55,13 @@ public class NavigatorSearchService implements CometTask {
                         if (navigatorCategory.getCategoryType().toString().toLowerCase().equals("my_friends_rooms")) {
                             boolean friendsRoomsNotEmpty = false;
 
-                            for (MessengerFriend messengerFriend : player.getMessenger().getFriends().values()) {
+                            for (IMessengerFriend messengerFriend : player.getMessenger().getFriends().values()) {
                                 if (friendsRoomsNotEmpty) {
                                     continue;
                                 }
 
                                 if (messengerFriend.isInRoom()) {
-                                    PlayerEntity playerEntity = messengerFriend.getSession().getPlayer().getEntity();
+                                    PlayerEntity playerEntity = (PlayerEntity) messengerFriend.getSession().getPlayer().getEntity();
 
                                     if (playerEntity != null) {
                                         if (playerEntity.getRoom().getData().getOwnerId() == playerEntity.getPlayerId()) {
@@ -88,13 +89,13 @@ public class NavigatorSearchService implements CometTask {
                         if (navigatorCategory.getCategoryType().toString().toLowerCase().equals("with_friends")) {
                             boolean withFriendsRoomsNotEmpty = false;
 
-                            for (MessengerFriend messengerFriend : player.getMessenger().getFriends().values()) {
+                            for (IMessengerFriend messengerFriend : player.getMessenger().getFriends().values()) {
                                 if (withFriendsRoomsNotEmpty) {
                                     continue;
                                 }
 
                                 if (messengerFriend.isInRoom()) {
-                                    PlayerEntity playerEntity = messengerFriend.getSession().getPlayer().getEntity();
+                                    PlayerEntity playerEntity = (PlayerEntity) messengerFriend.getSession().getPlayer().getEntity();
 
                                     if (playerEntity != null && !playerEntity.getPlayer().getSettings().getHideOnline()) {
                                         if (playerEntity.getRoom().getData().getAccess() == RoomAccessType.INVISIBLE && player.getData().getRank() < 3) {
@@ -287,9 +288,9 @@ public class NavigatorSearchService implements CometTask {
                     return rooms;
                 }
 
-                for (MessengerFriend messengerFriend : player.getMessenger().getFriends().values()) {
+                for (IMessengerFriend messengerFriend : player.getMessenger().getFriends().values()) {
                     if (messengerFriend.isInRoom()) {
-                        PlayerEntity playerEntity = messengerFriend.getSession().getPlayer().getEntity();
+                        PlayerEntity playerEntity = (PlayerEntity) messengerFriend.getSession().getPlayer().getEntity();
 
                         if (playerEntity != null) {
                             if (!friendsRooms.contains(playerEntity.getRoom().getData())) {
@@ -322,9 +323,9 @@ public class NavigatorSearchService implements CometTask {
                     return rooms;
                 }
 
-                for(MessengerFriend messengerFriend : player.getMessenger().getFriends().values()) {
+                for(IMessengerFriend messengerFriend : player.getMessenger().getFriends().values()) {
                     if (messengerFriend.isInRoom()) {
-                        PlayerEntity playerEntity = messengerFriend.getSession().getPlayer().getEntity();
+                        PlayerEntity playerEntity = (PlayerEntity) messengerFriend.getSession().getPlayer().getEntity();
 
                         if (playerEntity != null && !playerEntity.getPlayer().getSettings().getHideOnline()) {
                             if (!withFriendsRooms.contains(playerEntity.getRoom().getData())) {

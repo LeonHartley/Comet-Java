@@ -1,5 +1,6 @@
 package com.cometproject.server.storage.queries.player.messenger;
 
+import com.cometproject.api.game.players.data.components.messenger.IMessengerFriend;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.players.components.types.messenger.MessengerFriend;
 import com.cometproject.server.storage.SqlHelper;
@@ -15,12 +16,12 @@ import java.util.Map;
 
 
 public class MessengerDao {
-    public static Map<Integer, MessengerFriend> getFriendsByPlayerId(int playerId) {
+    public static Map<Integer, IMessengerFriend> getFriendsByPlayerId(int playerId) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        Map<Integer, MessengerFriend> data = new HashMap<>();
+        Map<Integer, IMessengerFriend> data = new HashMap<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();
