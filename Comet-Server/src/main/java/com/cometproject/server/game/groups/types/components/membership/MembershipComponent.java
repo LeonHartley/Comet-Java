@@ -60,7 +60,7 @@ public class MembershipComponent implements IMembershipComponent, GroupComponent
      */
     @Override
     public void loadMemberships() {
-        for (GroupMember groupMember : this.group.getGroupDataObject() != null ? this.group.getGroupDataObject().getGroupMembers() : GroupMemberDao.getAllByGroupId(this.group.getId())) {
+        for (IGroupMember groupMember : this.group.getGroupDataObject() != null ? this.group.getGroupDataObject().getGroupMembers() : GroupMemberDao.getAllByGroupId(this.group.getId())) {
             this.createMembership(groupMember);
         }
 

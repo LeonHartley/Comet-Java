@@ -25,7 +25,7 @@ import java.util.List;
 public abstract class RoomItemFloor extends RoomItem implements Collidable {
     private String extraData;
 
-    private ItemDefinition itemDefinition;
+    private IFurnitureDefinition itemDefinition;
     private RoomEntity collidedEntity;
     private boolean hasQueuedSave;
     private String coreState;

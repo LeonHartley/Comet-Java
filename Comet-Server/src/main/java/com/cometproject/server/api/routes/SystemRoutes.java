@@ -17,6 +17,7 @@ import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.composers.catalog.CatalogPublishMessageComposer;
 import com.cometproject.server.network.messages.outgoing.moderation.ModToolMessageComposer;
+import com.cometproject.server.storage.queries.config.ConfigDao;
 import spark.Request;
 import spark.Response;
 
@@ -81,7 +82,7 @@ public class SystemRoutes {
                 break;
 
             case "config":
-                CometSettings.initialize();
+                ConfigDao.getAll();
                 break;
 
             case "news":
