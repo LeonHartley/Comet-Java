@@ -1,10 +1,10 @@
 package com.cometproject.api.game.groups.types;
 
+import com.cometproject.api.game.groups.types.components.IForumComponent;
+import com.cometproject.api.game.groups.types.components.IMembershipComponent;
 import com.cometproject.api.networking.messages.IMessageComposer;
 
 public interface IGroup {
-    GroupDataObject getCacheObject();
-
     IMessageComposer composeInformation(boolean flag, int playerId);
 
     void initializeForum();
@@ -17,9 +17,7 @@ public interface IGroup {
 
     IGroupData getData();
 
-    MembershipComponent getMembershipComponent();
+    IMembershipComponent getMembershipComponent();
 
-    ForumComponent getForumComponent();
-
-    GroupDataObject getGroupDataObject();
+    IForumComponent getForumComponent();
 }

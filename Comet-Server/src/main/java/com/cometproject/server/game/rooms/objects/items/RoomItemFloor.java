@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items;
 
+import com.cometproject.api.game.furniture.types.IFurnitureDefinition;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.api.config.CometSettings;
 import com.cometproject.server.game.items.ItemManager;
@@ -88,7 +89,7 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
         this.serialize(msg, false);
     }
 
-    public ItemDefinition getDefinition() {
+    public IFurnitureDefinition getDefinition() {
         if (this.itemDefinition == null) {
             this.itemDefinition = ItemManager.getInstance().getDefinition(this.getItemId());
         }

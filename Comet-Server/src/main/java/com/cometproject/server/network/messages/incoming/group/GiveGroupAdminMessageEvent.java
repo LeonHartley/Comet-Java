@@ -2,7 +2,7 @@ package com.cometproject.server.network.messages.incoming.group;
 
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
-import com.cometproject.server.game.groups.types.GroupAccessLevel;
+import com.cometproject.api.game.groups.types.components.membership.GroupAccessLevel;
 import com.cometproject.server.game.groups.types.GroupMember;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.network.NetworkManager;

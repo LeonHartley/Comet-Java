@@ -1,4 +1,4 @@
-package com.cometproject.server.game.groups.types.components.forum.settings;
+package com.cometproject.api.game.groups.types.components.forum;
 
 public enum ForumPermission {
     EVERYBODY(0),
@@ -28,3 +28,4 @@ public enum ForumPermission {
     }
 }
 
+    

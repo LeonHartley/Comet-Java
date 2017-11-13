@@ -1,6 +1,6 @@
 package com.cometproject.server.storage.queries.groups;
 
-import com.cometproject.server.game.groups.types.components.forum.settings.ForumPermission;
+import com.cometproject.api.game.groups.types.components.forum.ForumPermission;
 import com.cometproject.server.game.groups.types.components.forum.settings.ForumSettings;
 import com.cometproject.server.storage.SqlHelper;
 

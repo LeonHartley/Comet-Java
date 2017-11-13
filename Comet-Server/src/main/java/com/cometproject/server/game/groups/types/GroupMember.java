@@ -1,5 +1,7 @@
 package com.cometproject.server.game.groups.types;
 
+import com.cometproject.api.game.groups.types.components.membership.GroupAccessLevel;
+import com.cometproject.api.game.groups.types.components.membership.IGroupMember;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.storage.queries.groups.GroupMemberDao;
 
@@ -7,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
-public class GroupMember {
+public class GroupMember implements IGroupMember {
     /**
      * The ID of the membership
      */
@@ -75,6 +77,7 @@ public class GroupMember {
      *
      * @return The ID of the membership
      */
+    @Override
     public int getMembershipId() {
         return membershipId;
     }
@@ -84,6 +87,7 @@ public class GroupMember {
      *
      * @param membershipId The ID of the membership1
      */
+    @Override
     public void setMembershipId(int membershipId) {
         this.membershipId = membershipId;
     }
@@ -93,10 +97,12 @@ public class GroupMember {
      *
      * @return Get the ID of the member
      */
+    @Override
     public int getPlayerId() {
         return this.playerId;
     }
 
+    @Override
     public int getGroupId() {
         return groupId;
     }
@@ -106,6 +112,7 @@ public class GroupMember {
      *
      * @return The level of access the member has
      */
+    @Override
     public GroupAccessLevel getAccessLevel() {
         return this.accessLevel;
     }
@@ -115,6 +122,7 @@ public class GroupMember {
      *
      * @param accessLevel The level of access the member has
      */
+    @Override
     public void setAccessLevel(GroupAccessLevel accessLevel) {
         this.accessLevel = accessLevel;
     }
@@ -124,6 +132,7 @@ public class GroupMember {
      *
      * @return The date the user joined the group
      */
+    @Override
     public int getDateJoined() {
         return dateJoined;
     }
@@ -131,6 +140,7 @@ public class GroupMember {
     /**
      * Save this membership object to the database
      */
+    @Override
     public void save() {
         GroupMemberDao.save(this);
     }

@@ -5,22 +5,16 @@ import com.cometproject.api.game.rooms.IRoomData;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.protocol.headers.Composers;
 import com.cometproject.server.protocol.messages.MessageComposer;
-import com.google.common.collect.Lists;
 
 import java.util.List;
 
 
 public class GroupPartsMessageComposer extends MessageComposer {
 
-    private final List<Integer> availableRooms;
+    private final List<IRoomData> availableRooms;
 
-    public GroupPartsMessageComposer(final List<Integer> rooms) {
-        this.availableRooms = Lists.newArrayList();
-
-        for (Integer room : rooms) {
-            if (GroupManager.getInstance().getGroupByRoomId(room) == null)
-                availableRooms.add(room);
-        }
+    public GroupPartsMessageComposer(final List<IRoomData> rooms) {
+        this.availableRooms = rooms;
     }
 
     @Override
@@ -33,20 +27,12 @@ public class GroupPartsMessageComposer extends MessageComposer {
         msg.writeInt(CometSettings.groupCost);
         msg.writeInt(availableRooms.size());
 
-        for (Integer room : availableRooms) {
-            IRoomData roomData = RoomManager.getInstance().getRoomData(room);
-            if (GroupManager.getInstance().getGroupByRoomId(room) == null) {
-                if(roomData == null) {
-                    msg.writeInt(room);
-                    msg.writeString("Unavailable");
-                    msg.writeBoolean(false);
-                } else {
-                    msg.writeInt(roomData.getId());
-                    msg.writeString(roomData.getName());
-                    msg.writeBoolean(false);
-                }
-            }
+        for (IRoomData roomData : availableRooms) {
+            msg.writeInt(roomData.getId());
+            msg.writeString(roomData.getName());
+            msg.writeBoolean(false);
         }
+
 
         // TODO: Stop hardcoding this
         msg.writeInt(5);

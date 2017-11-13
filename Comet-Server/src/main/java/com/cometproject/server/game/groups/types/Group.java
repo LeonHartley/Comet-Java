@@ -1,6 +1,10 @@
 package com.cometproject.server.game.groups.types;
 
 import com.cometproject.api.game.groups.types.IGroup;
+import com.cometproject.api.game.groups.types.IGroupData;
+import com.cometproject.api.game.groups.types.components.IForumComponent;
+import com.cometproject.api.game.groups.types.components.IMembershipComponent;
+import com.cometproject.api.game.groups.types.components.forum.IForumSettings;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.components.forum.ForumComponent;
 import com.cometproject.server.game.groups.types.components.forum.settings.ForumSettings;
@@ -27,17 +31,17 @@ public class Group implements IGroup {
     /**
      * The component which will handle everything member-related
      */
-    private MembershipComponent membershipComponent;
+    private IMembershipComponent membershipComponent;
 
     /**
      * The component which will handle the group forum data
      */
-    private ForumComponent forumComponent;
+    private IForumComponent forumComponent;
 
     /**
      * The data of the group
      */
-    private final GroupData groupData;
+    private final IGroupData groupData;
 
     /**
      * Initialize the group instance
@@ -64,13 +68,10 @@ public class Group implements IGroup {
         }
     }
 
-    @Override
     public GroupDataObject getCacheObject() {
         final List<Integer> requests = new ArrayList<>();
 
-        for (Integer request : this.getMembershipComponent().getMembershipRequests()) {
-            requests.add(request);
-        }
+        requests.addAll(this.getMembershipComponent().getMembershipRequests());
 
         return new GroupDataObject(this.id, this.getData(),
                 this.getMembershipComponent().getMembersAsList(),
@@ -98,7 +99,7 @@ public class Group implements IGroup {
             return;
         }
 
-        ForumSettings forumSettings = this.getGroupDataObject() != null ? this.getGroupDataObject().getForumSettings() : GroupForumDao.getSettings(this.id);
+        IForumSettings forumSettings = this.getGroupDataObject() != null ? this.getGroupDataObject().getForumSettings() : GroupForumDao.getSettings(this.id);
 
         if (forumSettings == null) {
             forumSettings = GroupForumDao.createSettings(this.id);
@@ -156,7 +157,7 @@ public class Group implements IGroup {
      * @return The data object
      */
     @Override
-    public GroupData getData() {
+    public IGroupData getData() {
         return this.groupData;
     }
 
@@ -166,7 +167,7 @@ public class Group implements IGroup {
      * @return The component which will handle everything member-related
      */
     @Override
-    public MembershipComponent getMembershipComponent() {
+    public IMembershipComponent getMembershipComponent() {
         return membershipComponent;
     }
 
@@ -176,11 +177,10 @@ public class Group implements IGroup {
      * @return The group forumc component
      */
     @Override
-    public ForumComponent getForumComponent() {
+    public IForumComponent getForumComponent() {
         return forumComponent;
     }
 
-    @Override
     public GroupDataObject getGroupDataObject() {
         return groupDataObject;
     }

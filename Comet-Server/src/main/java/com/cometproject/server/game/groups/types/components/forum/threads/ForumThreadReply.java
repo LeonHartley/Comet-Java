@@ -1,12 +1,14 @@
 package com.cometproject.server.game.groups.types.components.forum.threads;
 
+import com.cometproject.api.game.groups.types.components.forum.IForumThread;
+import com.cometproject.api.game.groups.types.components.forum.IForumThreadReply;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.api.game.players.data.PlayerAvatar;
 import com.cometproject.server.storage.queries.groups.GroupForumThreadDao;
 
-public class ForumThreadReply {
+public class ForumThreadReply implements IForumThreadReply {
     private int id;
     private int index;
 
@@ -32,6 +34,7 @@ public class ForumThreadReply {
         this.adminUsername = adminUsername;
     }
     
+    @Override
     public void compose(IComposer msg) {
         final PlayerAvatar playerAvatar = PlayerManager.getInstance().getAvatarByPlayerId(this.getAuthorId(),
                 PlayerAvatar.USERNAME_FIGURE);
@@ -53,70 +56,87 @@ public class ForumThreadReply {
         msg.writeInt(GroupForumThreadDao.getPlayerMessageCount(playerAvatar.getId())); // messages by author todo: optimise if needed
     }
 
+    @Override
     public int getId() {
         return id;
     }
 
+    @Override
     public void setId(int id) {
         this.id = id;
     }
 
+    @Override
     public String getMessage() {
         return message;
     }
 
+    @Override
     public void setMessage(String message) {
         this.message = message;
     }
 
+    @Override
     public int getAuthorId() {
         return authorId;
     }
 
+    @Override
     public void setAuthorId(int authorId) {
         this.authorId = authorId;
     }
 
+    @Override
     public int getAuthorTimestamp() {
         return authorTimestamp;
     }
 
+    @Override
     public void setAuthorTimestamp(int authorTimestamp) {
         this.authorTimestamp = authorTimestamp;
     }
 
+    @Override
     public int getThreadId() {
         return threadId;
     }
 
+    @Override
     public int getIndex() {
         return index;
     }
 
+    @Override
     public void setIndex(int index) {
         this.index = index;
     }
 
+    @Override
     public int getState() {
         return state;
     }
 
+    @Override
     public void setState(int state) {
         this.state = state;
     }
 
+    @Override
     public int getAdminId() {
         return adminId;
     }
 
+    @Override
     public void setAdminId(int adminId) {
         this.adminId = adminId;
     }
 
+    @Override
     public String getAdminUsername() {
         return adminUsername;
     }
 
+    @Override
     public void setAdminUsername(String adminUsername) {
         this.adminUsername = adminUsername;
     }

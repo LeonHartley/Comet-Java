@@ -1,4 +1,4 @@
-package com.cometproject.server.game.groups.types;
+package com.cometproject.api.game.groups.types.components.membership;
 
 public enum GroupAccessLevel {
     MEMBER, ADMIN, OWNER;

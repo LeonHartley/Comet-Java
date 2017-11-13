@@ -1,41 +1,43 @@
 package com.cometproject.server.game.groups.types.components.forum;
 
+import com.cometproject.api.game.groups.types.components.IForumComponent;
+import com.cometproject.api.game.groups.types.components.forum.IForumThread;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.groups.types.Group;
-import com.cometproject.server.game.groups.types.components.GroupComponent;
+import com.cometproject.api.game.groups.types.GroupComponent;
 import com.cometproject.server.game.groups.types.components.forum.settings.ForumSettings;
-import com.cometproject.server.game.groups.types.components.forum.threads.ForumThread;
+import com.cometproject.api.game.groups.types.components.forum.IForumSettings;
 import com.cometproject.server.storage.queries.groups.GroupForumThreadDao;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class ForumComponent implements GroupComponent {
+public class ForumComponent implements IForumComponent, GroupComponent {
     public static final int MAX_MESSAGES_PER_PAGE = 20;
 
     private Group group;
 
-    private ForumSettings forumSettings;
+    private IForumSettings forumSettings;
 
     private List<Integer> pinnedThreads;
-    private Map<Integer, ForumThread> forumThreads;
+    private Map<Integer, IForumThread> forumThreads;
 
-    public ForumComponent(Group group, ForumSettings forumSettings) {
+    public ForumComponent(Group group, IForumSettings forumSettings) {
         this.group = group;
         this.forumSettings = forumSettings;
         this.forumThreads = group.getGroupDataObject() != null ? group.getGroupDataObject().getForumThreads() : GroupForumThreadDao.getAllMessagesForGroup(this.group.getId());
         this.pinnedThreads = new ArrayList<>();
 
-        for (ForumThread forumThread : forumThreads.values()) {
+        for (IForumThread forumThread : forumThreads.values()) {
             if (forumThread.isPinned()) {
                 this.pinnedThreads.add(forumThread.getId());
             }
         }
     }
 
+    @Override
     public void composeData(IComposer msg) {
         msg.writeInt(group.getId());
         msg.writeString(group.getData().getTitle());
@@ -53,19 +55,20 @@ public class ForumComponent implements GroupComponent {
         msg.writeInt(0);//last message time
     }
 
-    public List<ForumThread> getForumThreads(int start) {
-        List<ForumThread> threads = Lists.newArrayList();
+    @Override
+    public List<IForumThread> getForumThreads(int start) {
+        List<IForumThread> threads = Lists.newArrayList();
 
         if(start == 0) {
             for(int pinnedThread : this.pinnedThreads) {
-                ForumThread forumThread = this.getForumThreads().get(pinnedThread);
+                IForumThread forumThread = this.getForumThreads().get(pinnedThread);
 
                 if(forumThread != null && threads.size() < MAX_MESSAGES_PER_PAGE) {
                     threads.add(forumThread);
                 }
             }
 
-            for (ForumThread forumThread : this.group.getForumComponent().getForumThreads().values()) {
+            for (IForumThread forumThread : this.group.getForumComponent().getForumThreads().values()) {
                 if (forumThread.isPinned() || threads.size() >= MAX_MESSAGES_PER_PAGE) continue;
 
                 threads.add(forumThread);
@@ -76,7 +79,7 @@ public class ForumComponent implements GroupComponent {
 
         int currentThreadIndex = 0;
 
-        for(ForumThread forumThread : this.forumThreads.values()) {
+        for(IForumThread forumThread : this.forumThreads.values()) {
             if(currentThreadIndex >= start && threads.size() < MAX_MESSAGES_PER_PAGE) {
                 threads.add(forumThread);
             }
@@ -89,7 +92,7 @@ public class ForumComponent implements GroupComponent {
 
     @Override
     public void dispose() {
-        for (ForumThread forumThread : this.forumThreads.values()) {
+        for (IForumThread forumThread : this.forumThreads.values()) {
             forumThread.dispose();
         }
 
@@ -102,14 +105,17 @@ public class ForumComponent implements GroupComponent {
         return this.group;
     }
 
-    public ForumSettings getForumSettings() {
+    @Override
+    public IForumSettings getForumSettings() {
         return this.forumSettings;
     }
 
-    public Map<Integer, ForumThread> getForumThreads() {
+    @Override
+    public Map<Integer, IForumThread> getForumThreads() {
         return forumThreads;
     }
 
+    @Override
     public List<Integer> getPinnedThreads() {
         return pinnedThreads;
     }

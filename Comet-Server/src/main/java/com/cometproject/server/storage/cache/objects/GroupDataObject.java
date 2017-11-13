@@ -1,9 +1,9 @@
 package com.cometproject.server.storage.cache.objects;
 
-import com.cometproject.server.game.groups.types.GroupData;
-import com.cometproject.server.game.groups.types.GroupMember;
-import com.cometproject.server.game.groups.types.components.forum.settings.ForumSettings;
-import com.cometproject.server.game.groups.types.components.forum.threads.ForumThread;
+import com.cometproject.api.game.groups.types.IGroupData;
+import com.cometproject.api.game.groups.types.components.forum.IForumSettings;
+import com.cometproject.api.game.groups.types.components.forum.IForumThread;
+import com.cometproject.api.game.groups.types.components.membership.IGroupMember;
 import com.cometproject.server.storage.cache.CachableObject;
 
 import java.util.List;
@@ -11,14 +11,14 @@ import java.util.Map;
 
 public class GroupDataObject extends CachableObject {
     private final int id;
-    private final GroupData groupData;
-    private final List<GroupMember> groupMembers;
+    private final IGroupData groupData;
+    private final List<IGroupMember> groupMembers;
     private final List<Integer> groupRequests;
 
-    private final ForumSettings forumSettings;
-    private final Map<Integer, ForumThread> forumThreads;
+    private final IForumSettings forumSettings;
+    private final Map<Integer, IForumThread> forumThreads;
 
-    public GroupDataObject(int id, GroupData groupData, List<GroupMember> groupMembers, List<Integer> groupRequests, ForumSettings forumSettings, Map<Integer, ForumThread> forumThreads) {
+    public GroupDataObject(int id, IGroupData groupData, List<IGroupMember> groupMembers, List<Integer> groupRequests, IForumSettings forumSettings, Map<Integer, IForumThread> forumThreads) {
         this.id = id;
         this.groupData = groupData;
         this.groupMembers = groupMembers;
@@ -31,19 +31,19 @@ public class GroupDataObject extends CachableObject {
         return id;
     }
 
-    public GroupData getGroupData() {
+    public IGroupData getGroupData() {
         return groupData;
     }
 
-    public List<GroupMember> getGroupMembers() {
+    public List<IGroupMember> getGroupMembers() {
         return groupMembers;
     }
 
-    public ForumSettings getForumSettings() {
+    public IForumSettings getForumSettings() {
         return forumSettings;
     }
 
-    public Map<Integer, ForumThread> getForumThreads() {
+    public Map<Integer, IForumThread> getForumThreads() {
         return forumThreads;
     }
 

@@ -1,5 +1,6 @@
 package com.cometproject.server.storage.queries.groups;
 
+import com.cometproject.api.game.groups.types.components.membership.IGroupMember;
 import com.cometproject.server.game.groups.types.GroupMember;
 import com.cometproject.server.storage.SqlHelper;
 
@@ -61,7 +62,7 @@ public class GroupMemberDao {
         }
     }
 
-    public static int create(GroupMember groupMember) {
+    public static int create(IGroupMember groupMember) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
