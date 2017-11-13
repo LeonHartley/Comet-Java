@@ -1,6 +1,6 @@
 package com.cometproject.server.utilities;
 
-import com.cometproject.server.config.CometSettings;
+import com.cometproject.api.config.CometSettings;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;

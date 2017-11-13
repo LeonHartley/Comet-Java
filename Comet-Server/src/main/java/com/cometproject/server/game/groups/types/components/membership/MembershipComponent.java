@@ -1,13 +1,12 @@
 package com.cometproject.server.game.groups.types.components.membership;
 
+import com.cometproject.api.game.groups.types.components.IMembershipComponent;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.groups.types.GroupMember;
 import com.cometproject.server.game.groups.types.components.GroupComponent;
 import com.cometproject.server.network.NetworkManager;
-import com.cometproject.server.network.messages.composers.MessageComposer;
+import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.network.sessions.Session;
-import com.cometproject.server.network.sessions.SessionManager;
-import com.cometproject.server.storage.cache.CacheManager;
 import com.cometproject.server.storage.queries.groups.GroupMemberDao;
 import org.apache.commons.collections4.map.ListOrderedMap;
 import org.apache.commons.collections4.set.ListOrderedSet;
@@ -18,7 +17,7 @@ import java.util.Map;
 import java.util.Set;
 
 
-public class MembershipComponent implements GroupComponent {
+public class MembershipComponent implements IMembershipComponent, GroupComponent {
     /**
      * The instance of the group
      */

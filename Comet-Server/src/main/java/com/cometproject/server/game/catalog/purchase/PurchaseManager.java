@@ -7,7 +7,7 @@ import com.cometproject.server.game.catalog.purchase.handlers.PetPurchaseHandler
 import com.cometproject.server.game.catalog.purchase.handlers.StickiesPurchaseHandler;
 import com.cometproject.server.game.catalog.purchase.handlers.TrophyPurchaseHandler;
 import com.cometproject.server.game.catalog.types.gifts.GiftData;
-import com.cometproject.server.network.messages.outgoing.catalog.GiftUserNotFoundMessageComposer;
+import com.cometproject.server.composers.catalog.GiftUserNotFoundMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.player.PlayerDao;

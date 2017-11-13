@@ -1,7 +1,7 @@
 package com.cometproject.server.game.rooms.objects.items;
 
 import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.server.config.CometSettings;
+import com.cometproject.api.config.CometSettings;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;

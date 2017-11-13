@@ -1,8 +1,8 @@
 package com.cometproject.server.network.messages.incoming.catalog.data;
 
 import com.cometproject.server.network.messages.incoming.Event;
-import com.cometproject.server.network.messages.outgoing.catalog.data.CatalogOfferConfigMessageComposer;
-import com.cometproject.server.network.messages.outgoing.catalog.data.GiftWrappingConfigurationMessageComposer;
+import com.cometproject.server.composers.catalog.data.CatalogOfferConfigMessageComposer;
+import com.cometproject.server.composers.catalog.data.GiftWrappingConfigurationMessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 

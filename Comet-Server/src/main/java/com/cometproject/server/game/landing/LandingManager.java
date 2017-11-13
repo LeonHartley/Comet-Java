@@ -1,6 +1,6 @@
 package com.cometproject.server.game.landing;
 
-import com.cometproject.server.config.CometSettings;
+import com.cometproject.api.config.CometSettings;
 import com.cometproject.server.game.landing.types.PromoArticle;
 import com.cometproject.api.game.players.data.PlayerAvatar;
 import com.cometproject.server.storage.queries.landing.LandingDao;

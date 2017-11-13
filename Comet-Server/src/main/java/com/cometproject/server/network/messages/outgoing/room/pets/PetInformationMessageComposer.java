@@ -5,7 +5,7 @@ import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.api.game.players.data.PlayerAvatar;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
-import com.cometproject.server.network.messages.composers.MessageComposer;
+import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
 
 import java.util.Calendar;

@@ -2,7 +2,7 @@ package com.cometproject.server.network.messages.outgoing.group.forums;
 
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.groups.types.components.forum.threads.ForumThread;
-import com.cometproject.server.network.messages.composers.MessageComposer;
+import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
 
 import java.util.List;

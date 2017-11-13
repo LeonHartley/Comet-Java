@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items;
 
-import com.cometproject.server.config.CometSettings;
+import com.cometproject.api.config.CometSettings;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.items.rares.LimitedEditionItemData;
 import com.cometproject.server.game.items.types.ItemDefinition;
@@ -38,7 +38,6 @@ import com.cometproject.server.game.rooms.objects.items.types.wall.PostItWallIte
 import com.cometproject.server.game.rooms.objects.items.types.wall.WheelWallItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.storage.queue.types.ItemStorageQueue;
-import javafx.scene.effect.Effect;
 import org.apache.log4j.Logger;
 
 import java.util.HashMap;

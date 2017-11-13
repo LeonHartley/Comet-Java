@@ -6,7 +6,7 @@ import com.cometproject.server.game.groups.types.GroupMember;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.api.game.players.data.PlayerAvatar;
 import com.cometproject.server.network.NetworkManager;
-import com.cometproject.server.network.messages.composers.MessageComposer;
+import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
 import com.cometproject.server.network.sessions.Session;
 

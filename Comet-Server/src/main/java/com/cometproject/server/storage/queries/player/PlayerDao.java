@@ -1,5 +1,6 @@
 package com.cometproject.server.storage.queries.player;
 
+import com.cometproject.api.game.players.data.components.navigator.ISavedSearch;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.components.types.navigator.SavedSearch;
@@ -812,6 +813,7 @@ public class PlayerDao {
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);
         } finally {
+            SqlHelper.closeSilently(resultSet);
             SqlHelper.closeSilently(preparedStatement);
             SqlHelper.closeSilently(sqlConnection);
         }
@@ -927,6 +929,7 @@ public class PlayerDao {
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);
         } finally {
+            SqlHelper.closeSilently(resultSet);
             SqlHelper.closeSilently(preparedStatement);
             SqlHelper.closeSilently(sqlConnection);
         }
@@ -976,12 +979,12 @@ public class PlayerDao {
         }
     }
 
-    public static Map<Integer, SavedSearch> getSavedSearches(int playerId) {
+    public static Map<Integer, ISavedSearch> getSavedSearches(int playerId) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        final Map<Integer, SavedSearch> data = new ConcurrentHashMap<>();
+        final Map<Integer, ISavedSearch> data = new ConcurrentHashMap<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();
@@ -997,6 +1000,7 @@ public class PlayerDao {
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);
         } finally {
+            SqlHelper.closeSilently(resultSet);
             SqlHelper.closeSilently(preparedStatement);
             SqlHelper.closeSilently(sqlConnection);
         }

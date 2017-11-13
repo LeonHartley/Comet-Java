@@ -2,7 +2,7 @@ package com.cometproject.server.network.messages.outgoing.user.wardrobe;
 
 import com.cometproject.api.game.players.data.types.IWardrobeItem;
 import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.server.network.messages.composers.MessageComposer;
+import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
 
 import java.util.List;

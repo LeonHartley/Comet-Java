@@ -1,6 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.floor;
 
-import com.cometproject.server.config.CometSettings;
+import com.cometproject.api.config.CometSettings;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.rooms.RoomManager;
@@ -14,9 +14,6 @@ import com.cometproject.server.network.messages.outgoing.room.engine.RoomForward
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.utilities.JsonUtil;
-
-import java.util.Set;
-import java.util.function.BiConsumer;
 
 
 public class SaveFloorMessageEvent implements Event {

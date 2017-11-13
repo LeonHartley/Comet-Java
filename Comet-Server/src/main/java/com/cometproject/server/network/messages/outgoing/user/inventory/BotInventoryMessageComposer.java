@@ -1,9 +1,8 @@
 package com.cometproject.server.network.messages.outgoing.user.inventory;
 
 import com.cometproject.api.game.bots.IBotData;
-import com.cometproject.api.game.players.data.components.bots.IPlayerBot;
 import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.server.network.messages.composers.MessageComposer;
+import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
 
 import java.util.Map;

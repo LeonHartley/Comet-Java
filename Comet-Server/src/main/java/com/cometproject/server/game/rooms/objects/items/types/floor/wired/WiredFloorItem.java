@@ -1,6 +1,5 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired;
 
-import com.cometproject.server.game.rooms.objects.RoomObject;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
@@ -10,9 +9,8 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.data.W
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.data.WiredItemData;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.events.WiredItemEvent;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.events.WiredItemFlashEvent;
-import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerPeriodically;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.network.messages.composers.MessageComposer;
+import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.utilities.JsonUtil;
 import com.cometproject.server.utilities.attributes.Stateable;
 import com.google.common.collect.Lists;

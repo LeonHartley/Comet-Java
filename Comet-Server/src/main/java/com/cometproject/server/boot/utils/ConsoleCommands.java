@@ -2,9 +2,8 @@ package com.cometproject.server.boot.utils;
 
 import com.cometproject.api.stats.CometStats;
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.config.CometSettings;
+import com.cometproject.api.config.CometSettings;
 import com.cometproject.server.config.Locale;
-import com.cometproject.api.game.catalog.ICatalogService;
 import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.moderation.BanManager;
 import com.cometproject.server.game.navigator.NavigatorManager;

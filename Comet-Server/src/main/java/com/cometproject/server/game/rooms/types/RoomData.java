@@ -5,7 +5,7 @@ import com.cometproject.api.game.rooms.IRoomData;
 import com.cometproject.api.game.rooms.RoomCategory;
 import com.cometproject.api.game.rooms.settings.*;
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.config.CometSettings;
+import com.cometproject.api.config.CometSettings;
 import com.cometproject.server.game.navigator.NavigatorManager;
 import com.cometproject.server.storage.queries.rooms.RoomDao;
 import org.apache.commons.lang3.StringUtils;

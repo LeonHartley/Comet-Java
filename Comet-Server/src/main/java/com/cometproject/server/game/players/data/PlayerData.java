@@ -1,8 +1,7 @@
 package com.cometproject.server.game.players.data;
 
 import com.cometproject.api.game.players.data.IPlayerData;
-import com.cometproject.api.game.players.data.PlayerAvatar;
-import com.cometproject.server.config.CometSettings;
+import com.cometproject.api.config.CometSettings;
 import com.cometproject.server.game.utilities.validator.PlayerFigureValidator;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.storage.queue.types.PlayerDataStorageQueue;

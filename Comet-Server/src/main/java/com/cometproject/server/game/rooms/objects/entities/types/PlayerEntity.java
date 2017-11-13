@@ -4,7 +4,7 @@ import com.cometproject.api.game.rooms.entities.PlayerRoomEntity;
 import com.cometproject.api.game.rooms.settings.RoomAccessType;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.config.CometSettings;
+import com.cometproject.api.config.CometSettings;
 import com.cometproject.server.config.Locale;
 import com.cometproject.api.game.achievements.types.AchievementType;
 import com.cometproject.api.game.bots.BotMode;

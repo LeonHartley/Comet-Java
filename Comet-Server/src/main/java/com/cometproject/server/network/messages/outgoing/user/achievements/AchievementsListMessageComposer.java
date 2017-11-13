@@ -4,13 +4,10 @@ import com.cometproject.api.game.achievements.types.IAchievement;
 import com.cometproject.api.game.achievements.types.IAchievementGroup;
 import com.cometproject.api.game.players.data.components.achievements.IAchievementProgress;
 import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.server.game.achievements.AchievementGroup;
 import com.cometproject.server.game.achievements.AchievementManager;
-import com.cometproject.server.game.achievements.types.Achievement;
 import com.cometproject.api.game.achievements.types.AchievementType;
 import com.cometproject.server.game.players.components.AchievementComponent;
-import com.cometproject.server.game.players.components.types.achievements.AchievementProgress;
-import com.cometproject.server.network.messages.composers.MessageComposer;
+import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
 
 import java.util.Map;

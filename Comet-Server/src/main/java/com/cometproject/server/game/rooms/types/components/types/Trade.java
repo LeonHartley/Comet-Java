@@ -5,14 +5,12 @@ import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.components.TradeComponent;
-import com.cometproject.server.network.messages.composers.MessageComposer;
-import com.cometproject.server.network.messages.outgoing.catalog.UnseenItemsMessageComposer;
+import com.cometproject.server.protocol.messages.MessageComposer;
+import com.cometproject.server.composers.catalog.UnseenItemsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.trading.*;
-import com.cometproject.server.network.messages.outgoing.user.inventory.InventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
 import com.cometproject.server.storage.queries.items.TradeDao;
-import com.cometproject.server.storage.queue.types.ItemStorageQueue;
 import com.cometproject.server.tasks.CometThreadManager;
 import com.cometproject.server.utilities.collections.ConcurrentHashSet;
 

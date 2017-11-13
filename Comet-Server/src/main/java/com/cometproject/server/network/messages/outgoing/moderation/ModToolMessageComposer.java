@@ -2,10 +2,8 @@ package com.cometproject.server.network.messages.outgoing.moderation;
 
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.moderation.ModerationManager;
-import com.cometproject.server.game.moderation.types.actions.ActionCategory;
-import com.cometproject.server.game.moderation.types.actions.ActionPreset;
 import com.cometproject.server.game.moderation.types.tickets.HelpTicket;
-import com.cometproject.server.network.messages.composers.MessageComposer;
+import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
 
 

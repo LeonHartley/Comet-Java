@@ -1,6 +1,8 @@
 package com.cometproject.server.game.rooms.filter;
 
-public class FilterResult {
+import com.cometproject.api.game.rooms.filter.IFilterResult;
+
+public class FilterResult implements IFilterResult {
     private boolean isBlocked;
     private boolean wasModified;
     private String message;
@@ -23,14 +25,17 @@ public class FilterResult {
         this.message = chatMessage;
     }
 
+    @Override
     public boolean isBlocked() {
         return isBlocked;
     }
 
+    @Override
     public String getMessage() {
         return message;
     }
 
+    @Override
     public boolean wasModified() {
         return wasModified;
     }

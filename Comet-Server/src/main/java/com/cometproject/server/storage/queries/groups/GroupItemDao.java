@@ -1,5 +1,6 @@
 package com.cometproject.server.storage.queries.groups;
 
+import com.cometproject.api.game.groups.items.IGroupBadgeItem;
 import com.cometproject.server.game.groups.items.types.*;
 import com.cometproject.server.storage.SqlHelper;
 
@@ -12,8 +13,8 @@ import java.util.Map;
 
 
 public class GroupItemDao {
-    public static int loadGroupItems(List<GroupBase> bases, List<GroupSymbol> symbols, List<GroupBaseColour> baseColours,
-                                     Map<Integer, GroupSymbolColour> symbolColours, Map<Integer, GroupBackgroundColour> backgroundColours) {
+    public static int loadGroupItems(List<IGroupBadgeItem> bases, List<IGroupBadgeItem> symbols, List<IGroupBadgeItem> baseColours,
+                                     Map<Integer, IGroupBadgeItem> symbolColours, Map<Integer, IGroupBadgeItem> backgroundColours) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;

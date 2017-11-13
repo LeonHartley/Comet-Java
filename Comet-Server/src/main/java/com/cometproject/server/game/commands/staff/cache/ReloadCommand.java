@@ -1,10 +1,9 @@
 package com.cometproject.server.game.commands.staff.cache;
 
 import com.cometproject.api.networking.sessions.ISession;
-import com.cometproject.server.config.CometSettings;
+import com.cometproject.api.config.CometSettings;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.achievements.AchievementManager;
-import com.cometproject.api.game.catalog.ICatalogService;
 import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.game.commands.CommandManager;
@@ -25,7 +24,7 @@ import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.RoomReloadListener;
 import com.cometproject.server.network.NetworkManager;
-import com.cometproject.server.network.messages.outgoing.catalog.CatalogPublishMessageComposer;
+import com.cometproject.server.composers.catalog.CatalogPublishMessageComposer;
 import com.cometproject.server.network.messages.outgoing.moderation.ModToolMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.MotdNotificationMessageComposer;

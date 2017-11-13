@@ -1,7 +1,7 @@
 package com.cometproject.server.network.messages.incoming.catalog;
 
 import com.cometproject.server.network.messages.incoming.Event;
-import com.cometproject.server.network.messages.outgoing.catalog.CatalogIndexMessageComposer;
+import com.cometproject.server.composers.catalog.CatalogIndexMessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 

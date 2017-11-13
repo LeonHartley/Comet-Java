@@ -2,10 +2,8 @@ package com.cometproject.server.network.messages.outgoing.user.wardrobe;
 
 import com.cometproject.api.game.catalog.types.IClothingItem;
 import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.api.game.catalog.ICatalogService;
 import com.cometproject.server.game.catalog.CatalogManager;
-import com.cometproject.server.game.catalog.types.ClothingItem;
-import com.cometproject.server.network.messages.composers.MessageComposer;
+import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
 
 import java.util.HashSet;

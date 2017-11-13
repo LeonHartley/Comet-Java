@@ -1,7 +1,7 @@
 package com.cometproject.server.network.messages.outgoing.room.polls;
 
 import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.server.network.messages.composers.MessageComposer;
+import com.cometproject.server.protocol.messages.MessageComposer;
 
 public class QuickPollResultsMessageComposer extends MessageComposer {
 

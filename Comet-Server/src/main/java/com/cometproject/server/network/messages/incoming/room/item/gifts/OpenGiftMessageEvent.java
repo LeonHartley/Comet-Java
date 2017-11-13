@@ -2,9 +2,7 @@ package com.cometproject.server.network.messages.incoming.room.item.gifts;
 
 import com.cometproject.api.game.catalog.types.ICatalogPage;
 import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
-import com.cometproject.api.game.catalog.ICatalogService;
 import com.cometproject.server.game.catalog.CatalogManager;
-import com.cometproject.server.game.catalog.types.CatalogPage;
 import com.cometproject.api.game.catalog.types.ICatalogItem;
 import com.cometproject.server.game.catalog.types.gifts.GiftData;
 import com.cometproject.server.game.items.ItemManager;
@@ -15,7 +13,7 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.GiftFloorItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.Event;
-import com.cometproject.server.network.messages.outgoing.catalog.UnseenItemsMessageComposer;
+import com.cometproject.server.composers.catalog.UnseenItemsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.gifts.OpenGiftMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;

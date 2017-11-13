@@ -1,6 +1,7 @@
 package com.cometproject.server.network.messages.incoming.catalog;
 
 import com.cometproject.server.boot.Comet;
+import com.cometproject.server.composers.catalog.BoughtItemMessageComposer;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.catalog.types.Voucher;
 import com.cometproject.api.game.catalog.types.vouchers.VoucherStatus;
@@ -9,7 +10,6 @@ import com.cometproject.server.game.rooms.bundles.RoomBundleManager;
 import com.cometproject.server.game.rooms.bundles.types.RoomBundle;
 import com.cometproject.server.game.rooms.bundles.types.RoomBundleItem;
 import com.cometproject.server.network.messages.incoming.Event;
-import com.cometproject.server.network.messages.outgoing.catalog.BoughtItemMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.MotdNotificationMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomForwardMessageComposer;

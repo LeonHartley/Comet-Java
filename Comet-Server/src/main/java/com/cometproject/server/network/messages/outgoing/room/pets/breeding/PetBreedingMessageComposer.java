@@ -3,11 +3,9 @@ package com.cometproject.server.network.messages.outgoing.room.pets.breeding;
 import com.cometproject.api.game.pets.IPetData;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.pets.PetManager;
-import com.cometproject.server.game.pets.data.PetData;
 import com.cometproject.server.game.pets.races.PetBreedLevel;
-import com.cometproject.server.network.messages.composers.MessageComposer;
+import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
-import com.cometproject.server.storage.queries.pets.PetDao;
 
 import java.util.Map;
 import java.util.Set;

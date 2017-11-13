@@ -1,10 +1,12 @@
 package com.cometproject.server.game.groups.items.types;
 
+import com.cometproject.api.game.groups.items.IGroupBadgeItem;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
-public class GroupBackgroundColour {
+public class GroupBackgroundColour implements IGroupBadgeItem {
     private int id;
     private String colour;
 
@@ -17,7 +19,13 @@ public class GroupBackgroundColour {
         return id;
     }
 
-    public String getColour() {
+    @Override
+    public String getFirstValue() {
         return colour;
+    }
+
+    @Override
+    public String getSecondValue() {
+        return null;
     }
 }

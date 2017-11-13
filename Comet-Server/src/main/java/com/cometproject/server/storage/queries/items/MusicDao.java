@@ -1,5 +1,6 @@
 package com.cometproject.server.storage.queries.items;
 
+import com.cometproject.api.game.furniture.types.IMusicData;
 import com.cometproject.server.game.items.music.MusicData;
 import com.cometproject.server.storage.SqlHelper;
 
@@ -10,7 +11,7 @@ import java.sql.SQLException;
 import java.util.Map;
 
 public class MusicDao {
-    public static void getMusicData(Map<Integer, MusicData> musicData) {
+    public static void getMusicData(Map<Integer, IMusicData> musicData) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
