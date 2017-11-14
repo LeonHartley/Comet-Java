@@ -31,6 +31,7 @@ import com.cometproject.server.network.messages.outgoing.notification.MotdNotifi
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomForwardMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.polls.InitializePollMessageComposer;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.storage.queries.config.ConfigDao;
 
 
 public class ReloadCommand extends ChatCommand {
@@ -96,7 +97,7 @@ public class ReloadCommand extends ChatCommand {
                 break;
 
             case "config":
-                CometSettings.initialize();
+                ConfigDao.getAll();
 
                 sendNotif(Locale.get("command.reload.config"), client);
                 break;

@@ -1,5 +1,6 @@
 package com.cometproject.server.game.items.types;
 
+import com.cometproject.api.game.furniture.types.ItemType;
 import com.cometproject.api.game.furniture.types.IFurnitureDefinition;
 
 import java.sql.ResultSet;

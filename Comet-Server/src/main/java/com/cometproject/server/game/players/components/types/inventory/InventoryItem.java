@@ -1,5 +1,6 @@
 package com.cometproject.server.game.players.components.types.inventory;
 
+import com.cometproject.api.game.furniture.types.IFurnitureDefinition;
 import com.cometproject.api.game.furniture.types.IGiftData;
 import com.cometproject.api.game.furniture.types.LimitedEditionItem;
 import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
@@ -10,7 +11,7 @@ import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.items.rares.LimitedEditionItemData;
 import com.cometproject.server.game.items.types.ItemDefinition;
-import com.cometproject.server.game.items.types.ItemType;
+import com.cometproject.api.game.furniture.types.ItemType;
 import com.cometproject.server.utilities.JsonUtil;
 import org.apache.commons.lang.StringUtils;
 
@@ -126,8 +127,8 @@ public class InventoryItem implements PlayerItem {
                 msg.writeString(groupId);
                 msg.writeString(groupData.getBadge());
 
-                String colourA = GroupManager.getInstance().getGroupItems().getSymbolColours().get(groupData.getColourA()) != null ? GroupManager.getInstance().getGroupItems().getSymbolColours().get(groupData.getColourA()).getColour() : "ffffff";
-                String colourB = GroupManager.getInstance().getGroupItems().getBackgroundColours().get(groupData.getColourB()) != null ? GroupManager.getInstance().getGroupItems().getBackgroundColours().get(groupData.getColourB()).getColour() : "ffffff";
+                String colourA = GroupManager.getInstance().getGroupItems().getSymbolColours().get(groupData.getColourA()) != null ? GroupManager.getInstance().getGroupItems().getSymbolColours().get(groupData.getColourA()).getFirstValue() : "ffffff";
+                String colourB = GroupManager.getInstance().getGroupItems().getBackgroundColours().get(groupData.getColourB()) != null ? GroupManager.getInstance().getGroupItems().getBackgroundColours().get(groupData.getColourB()).getFirstValue() : "ffffff";
 
                 msg.writeString(colourA);
                 msg.writeString(colourB);
@@ -220,8 +221,8 @@ public class InventoryItem implements PlayerItem {
                 msg.writeString(groupId);
                 msg.writeString(groupData.getBadge());
 
-                String colourA = GroupManager.getInstance().getGroupItems().getSymbolColours().get(groupData.getColourA()) != null ? GroupManager.getInstance().getGroupItems().getSymbolColours().get(groupData.getColourA()).getColour() : "ffffff";
-                String colourB = GroupManager.getInstance().getGroupItems().getBackgroundColours().get(groupData.getColourB()) != null ? GroupManager.getInstance().getGroupItems().getBackgroundColours().get(groupData.getColourB()).getColour() : "ffffff";
+                String colourA = GroupManager.getInstance().getGroupItems().getSymbolColours().get(groupData.getColourA()) != null ? GroupManager.getInstance().getGroupItems().getSymbolColours().get(groupData.getColourA()).getFirstValue() : "ffffff";
+                String colourB = GroupManager.getInstance().getGroupItems().getBackgroundColours().get(groupData.getColourB()) != null ? GroupManager.getInstance().getGroupItems().getBackgroundColours().get(groupData.getColourB()).getFirstValue() : "ffffff";
 
                 msg.writeString(colourA);
                 msg.writeString(colourB);
@@ -269,7 +270,7 @@ public class InventoryItem implements PlayerItem {
     }
 
     @Override
-    public ItemDefinition getDefinition() {
+    public IFurnitureDefinition getDefinition() {
         return ItemManager.getInstance().getDefinition(this.getBaseId());
     }
 

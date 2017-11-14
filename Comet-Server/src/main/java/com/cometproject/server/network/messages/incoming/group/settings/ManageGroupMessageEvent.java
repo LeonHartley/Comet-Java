@@ -19,7 +19,7 @@ public class ManageGroupMessageEvent implements Event {
         if (group == null || client.getPlayer().getId() != group.getData().getOwnerId())
             return;
 
-        client.send(new GroupElementsMessageComposer()); // TODO: Send this once
+        client.send(new GroupElementsMessageComposer(GroupManager.getInstance().getGroupItems())); // TODO: Send this once
         client.send(new ManageGroupMessageComposer(group));
     }
 }

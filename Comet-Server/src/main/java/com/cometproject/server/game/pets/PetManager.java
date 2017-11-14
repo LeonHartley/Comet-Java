@@ -1,5 +1,6 @@
 package com.cometproject.server.game.pets;
 
+import com.cometproject.api.game.pets.IPetRace;
 import com.cometproject.server.game.pets.data.PetSpeech;
 import com.cometproject.server.game.pets.races.PetBreedLevel;
 import com.cometproject.server.game.pets.races.PetRace;
@@ -124,8 +125,8 @@ public class PetManager implements Initialisable {
         return 0;
     }
 
-    public List<PetRace> getRacesByRaceId(int raceId) {
-        List<PetRace> races = new ArrayList<>();
+    public List<IPetRace> getRacesByRaceId(int raceId) {
+        List<IPetRace> races = new ArrayList<>();
 
         for (PetRace race : this.getPetRaces()) {
             if (raceId == race.getRaceId())

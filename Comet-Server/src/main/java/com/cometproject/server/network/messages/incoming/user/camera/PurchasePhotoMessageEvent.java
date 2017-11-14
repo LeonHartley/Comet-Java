@@ -4,6 +4,7 @@ import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
 import com.cometproject.api.config.CometSettings;
 import com.cometproject.server.config.Locale;
 import com.cometproject.api.game.achievements.types.AchievementType;
+import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.players.components.types.inventory.InventoryItem;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.camera.PurchasedPhotoMessageComposer;
@@ -32,7 +33,7 @@ public class PurchasePhotoMessageEvent implements Event {
         client.send(new NotificationMessageComposer("generic", Locale.getOrDefault("camera.photoTaken", "You successfully took a photo!")));
         client.send(new UpdateInventoryMessageComposer());
 
-        client.send(new UnseenItemsMessageComposer(Sets.newHashSet(playerItem)));
+        client.send(new UnseenItemsMessageComposer(Sets.newHashSet(playerItem), ItemManager.getInstance()));
         client.send(new PurchasedPhotoMessageComposer());
 
         client.getPlayer().getAchievements().progressAchievement(AchievementType.CAMERA_PHOTO, 1);

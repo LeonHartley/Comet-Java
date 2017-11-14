@@ -7,7 +7,9 @@ import com.cometproject.api.game.catalog.types.ICatalogBundledItem;
 import com.cometproject.api.game.catalog.types.ICatalogItem;
 import com.cometproject.api.game.catalog.types.ICatalogPage;
 import com.cometproject.api.game.catalog.types.purchase.ICatalogPurchaseHandler;
+import com.cometproject.api.game.furniture.types.IFurnitureDefinition;
 import com.cometproject.api.game.furniture.types.IGiftData;
+import com.cometproject.api.game.furniture.types.IMusicData;
 import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
 import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.server.boot.Comet;
@@ -22,7 +24,7 @@ import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.items.music.MusicData;
 import com.cometproject.server.game.items.rares.LimitedEditionItemData;
 import com.cometproject.server.game.items.types.ItemDefinition;
-import com.cometproject.server.game.items.types.ItemType;
+import com.cometproject.api.game.furniture.types.ItemType;
 import com.cometproject.server.game.pets.data.PetData;
 import com.cometproject.server.game.pets.data.StaticPetProperties;
 import com.cometproject.server.game.rooms.RoomManager;
@@ -143,7 +145,7 @@ public class LegacyPurchaseHandler implements ICatalogPurchaseHandler {
 
             if (giftData != null) {
                 try {
-                    final ItemDefinition itemDefinition = ItemManager.getInstance().getDefinition(item.getItems().get(0).getItemId());
+                    final IFurnitureDefinition itemDefinition = ItemManager.getInstance().getDefinition(item.getItems().get(0).getItemId());
 
                     if (itemDefinition == null) {
                         return;
@@ -251,7 +253,7 @@ public class LegacyPurchaseHandler implements ICatalogPurchaseHandler {
             }
 
             for (ICatalogBundledItem bundledItem : item.getItems()) {
-                ItemDefinition def = ItemManager.getInstance().getDefinition(bundledItem.getItemId());
+                IFurnitureDefinition def = ItemManager.getInstance().getDefinition(bundledItem.getItemId());
 
                 if (def == null) {
                     continue;
@@ -406,7 +408,7 @@ public class LegacyPurchaseHandler implements ICatalogPurchaseHandler {
                     final String songName = item.getPresetData();
 
                     if (songName != null && !songName.isEmpty()) {
-                        MusicData musicData = ItemManager.getInstance().getMusicDataByName(songName);
+                        IMusicData musicData = ItemManager.getInstance().getMusicDataByName(songName);
 
                         if (musicData != null) {
                             extraData = String.format("%s\n%s\n%s\n%s\n%s\n%s",
@@ -431,7 +433,7 @@ public class LegacyPurchaseHandler implements ICatalogPurchaseHandler {
                 if (giftData != null) {
                     giftData.setExtraData(extraData);
 
-                    ItemDefinition itemDefinition = ItemManager.getInstance().getBySpriteId(giftData.getSpriteId());
+                    IFurnitureDefinition itemDefinition = ItemManager.getInstance().getBySpriteId(giftData.getSpriteId());
 
                     purchases.add(new CatalogPurchase(playerIdToDeliver, itemDefinition == null ? CatalogManager.getInstance().getGiftBoxesOld().get(0) : itemDefinition.getId(), "GIFT::##" + JsonUtil.getInstance().toJson(giftData)));
                 } else {
@@ -480,7 +482,7 @@ public class LegacyPurchaseHandler implements ICatalogPurchaseHandler {
                         client.getPlayer().getInventory().addBadge(item.getBadgeId(), true);
                     }
 
-                    client.send(new UnseenItemsMessageComposer(unseenItems));
+                    client.send(new UnseenItemsMessageComposer(unseenItems, ItemManager.getInstance()));
                     client.send(new UpdateInventoryMessageComposer());
 
                     if (CometSettings.logCatalogPurchases) {
@@ -524,7 +526,7 @@ public class LegacyPurchaseHandler implements ICatalogPurchaseHandler {
                 }
             }
 
-            client.send(new UnseenItemsMessageComposer(unseenItems));
+            client.send(new UnseenItemsMessageComposer(unseenItems, ItemManager.getInstance()));
             client.send(new UpdateInventoryMessageComposer());
             client.send(new NotificationMessageComposer("gift_received", Locale.getOrDefault("notification.gift_received", "You have just received a gift from %username%!").replace("%username%", senderUsername)));
 

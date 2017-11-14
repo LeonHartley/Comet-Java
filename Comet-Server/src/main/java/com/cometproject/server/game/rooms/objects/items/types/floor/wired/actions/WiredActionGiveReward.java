@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions;
 
+import com.cometproject.api.game.furniture.types.IFurnitureDefinition;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.api.config.CometSettings;
 import com.cometproject.server.config.Locale;
@@ -235,7 +236,7 @@ public class WiredActionGiveReward extends WiredActionItem {
 
                         int itemId = Integer.parseInt(itemData[0]);
 
-                        ItemDefinition itemDefinition = ItemManager.getInstance().getDefinition(itemId);
+                        IFurnitureDefinition itemDefinition = ItemManager.getInstance().getDefinition(itemId);
 
                         if (itemDefinition != null) {
                             long newItem = ItemDao.createItem(playerEntity.getPlayerId(), itemId, extraData);
@@ -245,7 +246,7 @@ public class WiredActionGiveReward extends WiredActionItem {
                             playerEntity.getPlayer().getInventory().addItem(playerItem);
 
                             playerEntity.getPlayer().getSession().send(new UpdateInventoryMessageComposer());
-                            playerEntity.getPlayer().getSession().send(new UnseenItemsMessageComposer(Sets.newHashSet(playerItem)));
+                            playerEntity.getPlayer().getSession().send(new UnseenItemsMessageComposer(Sets.newHashSet(playerItem), ItemManager.getInstance()));
                         }
                     }
                 }

@@ -1,4 +1,4 @@
-package com.cometproject.server.game.items.types;
+package com.cometproject.api.game.furniture.types;
 
 public enum ItemType {
     WALL("i"),

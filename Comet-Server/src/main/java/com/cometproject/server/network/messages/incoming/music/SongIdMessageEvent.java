@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.music;
 
+import com.cometproject.api.game.furniture.types.IMusicData;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.items.music.MusicData;
 import com.cometproject.server.network.messages.incoming.Event;
@@ -12,7 +13,7 @@ public class SongIdMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) throws Exception {
         String songName = msg.readString();
 
-        MusicData musicData = ItemManager.getInstance().getMusicDataByName(songName);
+        IMusicData musicData = ItemManager.getInstance().getMusicDataByName(songName);
 
         if (musicData != null) {
             client.send(new SongIdMessageComposer(musicData.getName(), musicData.getSongId()));

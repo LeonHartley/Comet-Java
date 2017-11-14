@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.group.settings;
 
+import com.cometproject.api.game.groups.types.components.membership.IGroupMember;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.api.game.groups.types.components.membership.GroupAccessLevel;
@@ -27,7 +28,7 @@ public class ModifyGroupTitleMessageEvent implements Event {
         if (group == null)
             return;
 
-        GroupMember groupMember = group.getMembershipComponent().getMembers().get(client.getPlayer().getId());
+        IGroupMember groupMember = group.getMembershipComponent().getMembers().get(client.getPlayer().getId());
 
         if (groupMember.getAccessLevel() != GroupAccessLevel.OWNER)
             return;

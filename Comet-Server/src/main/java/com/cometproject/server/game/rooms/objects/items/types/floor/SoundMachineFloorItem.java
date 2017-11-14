@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
+import com.cometproject.api.game.furniture.types.IMusicData;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.items.music.MusicData;
@@ -96,7 +97,7 @@ public class SoundMachineFloorItem extends RoomItemFloor implements Stateable {
                 SongItemData songItemData = this.getSongs().get(this.currentPlayingIndex);
 
                 if (songItemData != null) {
-                    MusicData musicData = ItemManager.getInstance().getMusicData(songItemData.getSongId());
+                    IMusicData musicData = ItemManager.getInstance().getMusicData(songItemData.getSongId());
 
                     if (musicData != null) {
                         if (this.timePlaying() >= (musicData.getLengthSeconds() + 1.0)) {
@@ -209,7 +210,7 @@ public class SoundMachineFloorItem extends RoomItemFloor implements Stateable {
         SongItemData songItemData = this.getSongs().get(this.currentPlayingIndex);
 
         if (songItemData != null) {
-            MusicData musicData = ItemManager.getInstance().getMusicData(songItemData.getSongId());
+            IMusicData musicData = ItemManager.getInstance().getMusicData(songItemData.getSongId());
 
             if (musicData != null) {
                 if (this.timePlaying() >= musicData.getLengthSeconds())

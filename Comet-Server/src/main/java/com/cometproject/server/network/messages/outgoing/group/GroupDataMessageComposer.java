@@ -41,8 +41,8 @@ public class GroupDataMessageComposer extends MessageComposer {
                 msg.writeString(group.getTitle());
                 msg.writeString(group.getBadge());
 
-                String colourA = GroupManager.getInstance().getGroupItems().getSymbolColours().get(group.getColourA()) != null ? GroupManager.getInstance().getGroupItems().getSymbolColours().get(group.getColourA()).getColour() : "ffffff";
-                String colourB = GroupManager.getInstance().getGroupItems().getBackgroundColours().get(group.getColourB()) != null ? GroupManager.getInstance().getGroupItems().getBackgroundColours().get(group.getColourB()).getColour() : "ffffff";
+                String colourA = GroupManager.getInstance().getGroupItems().getSymbolColours().get(group.getColourA()) != null ? GroupManager.getInstance().getGroupItems().getSymbolColours().get(group.getColourA()).getFirstValue() : "ffffff";
+                String colourB = GroupManager.getInstance().getGroupItems().getBackgroundColours().get(group.getColourB()) != null ? GroupManager.getInstance().getGroupItems().getBackgroundColours().get(group.getColourB()).getFirstValue() : "ffffff";
 
                 msg.writeString(colourA);
                 msg.writeString(colourB);

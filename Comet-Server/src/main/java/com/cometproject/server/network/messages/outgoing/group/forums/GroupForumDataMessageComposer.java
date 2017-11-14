@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.outgoing.group.forums;
 
+import com.cometproject.api.game.groups.types.components.forum.IForumSettings;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.api.game.groups.types.components.forum.ForumPermission;
@@ -25,7 +26,7 @@ public class GroupForumDataMessageComposer extends MessageComposer {
     public void compose(IComposer msg) {
         this.group.getForumComponent().composeData(msg);
 
-        final ForumSettings forumSettings = this.group.getForumComponent().getForumSettings();
+        final IForumSettings forumSettings = this.group.getForumComponent().getForumSettings();
 
         msg.writeInt(forumSettings.getReadPermission().getPermissionId());
         msg.writeInt(forumSettings.getPostPermission().getPermissionId());

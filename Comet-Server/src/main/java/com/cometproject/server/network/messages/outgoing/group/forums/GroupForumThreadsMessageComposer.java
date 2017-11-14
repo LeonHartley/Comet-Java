@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.outgoing.group.forums;
 
+import com.cometproject.api.game.groups.types.components.forum.IForumThread;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.groups.types.components.forum.threads.ForumThread;
 import com.cometproject.server.protocol.messages.MessageComposer;
@@ -11,10 +12,10 @@ import java.util.List;
 public class GroupForumThreadsMessageComposer extends MessageComposer {
 
     private final int groupId;
-    private final List<ForumThread> threads;
+    private final List<IForumThread> threads;
     private final int start;
 
-    public GroupForumThreadsMessageComposer(int groupId, List<ForumThread> threads, int start) {
+    public GroupForumThreadsMessageComposer(int groupId, List<IForumThread> threads, int start) {
         this.groupId = groupId;
         this.threads = threads;
 
@@ -33,7 +34,7 @@ public class GroupForumThreadsMessageComposer extends MessageComposer {
 
         msg.writeInt(this.threads.size());
 
-        for(ForumThread forumThread : this.threads) {
+        for(IForumThread forumThread : this.threads) {
             forumThread.compose(msg);
         }
     }

@@ -57,4 +57,6 @@ public interface IFurnitureDefinition {
    boolean requiresRights();
 
    int getSongId();
+
+    ItemType getItemType();
 }
