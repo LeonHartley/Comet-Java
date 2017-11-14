@@ -305,11 +305,6 @@ public class InventoryComponent extends PlayerComponent implements PlayerInvento
     }
 
     @Override
-    public Player getPlayer() {
-        return this.getPlayer();
-    }
-
-    @Override
     public boolean itemsLoaded() {
         return itemsLoaded;
     }
