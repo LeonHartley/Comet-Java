@@ -267,6 +267,7 @@ public class RoomItemFactory {
                         constructor = itemConstructorCache.get(def.getInteraction());
                     } else {
                         constructor = itemDefinitionMap.get(def.getInteraction()).getConstructor(long.class, int.class, Room.class, int.class, String.class, int.class, int.class, double.class, int.class, String.class);
+                        itemConstructorCache.put(def.getInteraction(), constructor);
                     }
 
                     if (constructor != null)
