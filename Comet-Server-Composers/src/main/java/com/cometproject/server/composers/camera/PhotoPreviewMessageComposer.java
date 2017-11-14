@@ -1,4 +1,4 @@
-package com.cometproject.server.network.messages.outgoing.camera;
+package com.cometproject.server.composers.camera;
 
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.protocol.messages.MessageComposer;
