@@ -35,10 +35,10 @@ public class RoomBotDao {
 
             while (resultSet.next()) {
                 final int id = resultSet.getInt("id");
-                final String username = resultSet.getString("username");
+                final String username = resultSet.getString("name");
                 final String motto = resultSet.getString("motto");
                 final String figure = resultSet.getString("figure");
-                final String gender = resultSet.getString("owner_name");
+                final String gender = resultSet.getString("gender");
                 final String ownerName = resultSet.getString("owner");
                 final int ownerId = resultSet.getInt("owner_id");
                 final String messages = resultSet.getString("messages");

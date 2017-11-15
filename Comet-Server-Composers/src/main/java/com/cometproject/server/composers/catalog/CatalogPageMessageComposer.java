@@ -53,23 +53,23 @@ public class CatalogPageMessageComposer extends MessageComposer {
         }
 
         if (this.catalogPage.getType() == CatalogPageType.RECENT_PURCHASES) {
-            final Set<ICatalogItem> recentPurchaes = Sets.newHashSet();
+            final Set<ICatalogItem> recentPurchases = Sets.newHashSet();
 
             for (Integer catalogItemId : player.getRecentPurchases()) {
                 final ICatalogItem catalogItem = this.catalogService.getCatalogItem(catalogItemId);
 
                 if (catalogItem != null) {
-                    recentPurchaes.add(catalogItem);
+                    recentPurchases.add(catalogItem);
                 }
             }
 
-            msg.writeInt(recentPurchaes.size());
+            msg.writeInt(recentPurchases.size());
 
-            for (ICatalogItem item : recentPurchaes) {
+            for (ICatalogItem item : recentPurchases) {
                 item.compose(msg);
             }
 
-            recentPurchaes.clear();
+            recentPurchases.clear();
         } else if (!this.catalogPage.getTemplate().equals("frontpage") && !this.catalogPage.getTemplate().equals("club_buy")) {
             msg.writeInt(this.catalogPage.getItems().size());
 

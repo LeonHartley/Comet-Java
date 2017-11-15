@@ -34,10 +34,10 @@ public class PlayerBotDao {
 
             while (resultSet.next()) {
                 final int id = resultSet.getInt("id");
-                final String username = resultSet.getString("username");
+                final String username = resultSet.getString("name");
                 final String motto = resultSet.getString("motto");
                 final String figure = resultSet.getString("figure");
-                final String gender = resultSet.getString("owner_name");
+                final String gender = resultSet.getString("gender");
                 final String ownerName = resultSet.getString("owner");
                 final int ownerId = resultSet.getInt("owner_id");
                 final String messages = resultSet.getString("messages");
@@ -47,7 +47,7 @@ public class PlayerBotDao {
                 final BotMode mode = BotMode.valueOf(resultSet.getString("mode").toUpperCase());
                 final String storedData = resultSet.getString("data");
 
-                data.put(resultSet.getInt("id"), new PlayerBotData(id, username, motto, figure, gender,
+                data.put(id, new PlayerBotData(id, username, motto, figure, gender,
                         ownerName, ownerId, messages, automaticChat, chatDelay, botType, mode, storedData));
             }
         } catch (SQLException e) {
