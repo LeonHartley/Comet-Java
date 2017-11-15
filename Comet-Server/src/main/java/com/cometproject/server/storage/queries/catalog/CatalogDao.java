@@ -308,7 +308,7 @@ public class CatalogDao {
         final int limitedSells = resultSet.getInt("limited_sells");
         final boolean offerActive = resultSet.getBoolean("offer_active");
         final String badgeId = resultSet.getString("badge_id");
-        final String extraData = resultSet.getString("catalog_name");
+        final String extraData = resultSet.getString("extradata");
         final int pageId = resultSet.getInt("page_id");
 
         return new CatalogItem(id, itemIds, catalogName, costCredits, costPixels,
