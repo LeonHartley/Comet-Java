@@ -59,7 +59,7 @@ public class Events {
     public static final short YouTubeGetNextVideo = 1294;//1202
     public static final short SetObjectDataMessageEvent = 2194;//1429
     public static final short MessengerInitMessageEvent = 1186;//958
-    public static final short PickUpBotMessageEvent = -2790;//2790
+    public static final short PickUpBotMessageEvent = 2856;//2790
     public static final short ActionMessageEvent = 3017;//2234
     public static final short LookToMessageEvent = 3557;//2187
     public static final short ToggleMoodlightMessageEvent = 3146;//3440
