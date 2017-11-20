@@ -2,6 +2,7 @@ package com.cometproject.server.game.items.types;
 
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.tasks.CometTask;
+import com.cometproject.server.tasks.CometThreadManager;
 import org.apache.log4j.Logger;
 import org.apache.lucene.util.NamedThreadFactory;
 
@@ -13,7 +14,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class LowPriorityItemProcessor implements CometTask {
-    private final ScheduledExecutorService asyncItemEventQueue;
     private static final int processTime = 25;
 
     private List<RoomItemFloor> itemsToProcess;
@@ -21,10 +21,9 @@ public class LowPriorityItemProcessor implements CometTask {
     private final Logger log = Logger.getLogger(LowPriorityItemProcessor.class);
 
     public LowPriorityItemProcessor() {
-        this.asyncItemEventQueue = Executors.newScheduledThreadPool(4, new NamedThreadFactory("LowPriorityItemProcessor-%d"));
         this.itemsToProcess = new CopyOnWriteArrayList<>();
 
-        this.asyncItemEventQueue.scheduleWithFixedDelay(this, processTime, processTime, TimeUnit.MILLISECONDS);
+        CometThreadManager.getInstance().executePeriodic(this, processTime, processTime, TimeUnit.MILLISECONDS);
     }
 
     @Override
@@ -43,9 +42,7 @@ public class LowPriorityItemProcessor implements CometTask {
             }
         }
 
-        for (RoomItemFloor roomItemFloor : itemsToRemove) {
-            this.itemsToProcess.remove(roomItemFloor);
-        }
+        this.itemsToProcess.removeAll(itemsToRemove);
 
         itemsToRemove.clear();
     }

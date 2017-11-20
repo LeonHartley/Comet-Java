@@ -25,6 +25,7 @@ import com.cometproject.server.storage.cache.CacheManager;
 import com.cometproject.server.storage.cache.objects.RoomDataObject;
 import com.cometproject.server.storage.queries.rooms.RoomDao;
 import com.cometproject.api.utilities.Initialisable;
+import com.cometproject.server.tasks.CometThreadManager;
 import org.apache.log4j.Logger;
 import org.apache.solr.util.ConcurrentLRUCache;
 
@@ -33,6 +34,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -85,14 +87,13 @@ public class RoomManager implements Initialisable {
 
         this.globalCycle.start();
 
-        this.executorService = Executors.newFixedThreadPool(8, r -> {
-            final Thread roomThread = new Thread(r, "Room-Worker-" + UUID.randomUUID());
+        this.executorService = Executors.newFixedThreadPool(2, r -> {
+            final Thread roomThread = new Thread(r, "Room-Load-Worker-" + UUID.randomUUID());
 
             roomThread.setUncaughtExceptionHandler((t, e) -> e.printStackTrace());
 
             return roomThread;
         });
-
 
         log.info("RoomManager initialized");
     }
@@ -112,7 +113,7 @@ public class RoomManager implements Initialisable {
     }
 
     public void initializeRoom(Session initializer, int roomId, String password) {
-        this.executorService.submit(() -> {
+        CometThreadManager.getInstance().executeOnce(() -> {
             if (initializer != null && initializer.getPlayer() != null) {
                 initializer.getPlayer().loadRoom(roomId, password);
             }

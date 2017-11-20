@@ -68,7 +68,7 @@ public class ProcessComponent implements CometTask {
 
         this.isProcessing = true;
 
-        update = !update;
+        // update = !update;
 
         long timeSinceLastProcess = this.lastProcess == 0 ? 0 : (System.currentTimeMillis() - this.lastProcess);
         this.lastProcess = System.currentTimeMillis();
@@ -80,8 +80,8 @@ public class ProcessComponent implements CometTask {
         long timeStart = System.currentTimeMillis();
 
         try {
-            if(this.update)
-                this.getRoom().tick();
+            //     if(this.update)
+            this.getRoom().tick();
         } catch (Exception e) {
             log.error("Error while cycling room: " + room.getData().getId() + ", " + room.getData().getName(), e);
         }
@@ -93,8 +93,8 @@ public class ProcessComponent implements CometTask {
             entitiesToUpdate = new ArrayList<>();
 
             for (RoomEntity entity : entities.values()) {
-                if(entity.isFastWalkEnabled() || this.update)
-                    this.startProcessing(entity);
+                //if(entity.isFastWalkEnabled() || this.update)
+                this.startProcessing(entity);
             }
 
             // only send the updates if we need to
@@ -152,7 +152,7 @@ public class ProcessComponent implements CometTask {
         if (this.adaptiveProcessTimes) {
             CometThreadManager.getInstance().executeSchedule(this, 250, TimeUnit.MILLISECONDS);
         } else {
-            this.processFuture = CometThreadManager.getInstance().executePeriodic(this, 250, 250, TimeUnit.MILLISECONDS);
+            this.processFuture = CometThreadManager.getInstance().executePeriodic(this, 500, 500, TimeUnit.MILLISECONDS);
         }
 
         this.active = true;
@@ -248,7 +248,7 @@ public class ProcessComponent implements CometTask {
                     }
                 }
 
-                if(entity.isWarped()) {
+                if (entity.isWarped()) {
                     entity.setWarped(false);
                 }
 
@@ -297,7 +297,7 @@ public class ProcessComponent implements CometTask {
             entity.updateAndSetPosition(null);
             entity.setPosition(newPosition);
 
-            if(entity instanceof BotEntity) {
+            if (entity instanceof BotEntity) {
                 entity.getAI().onReachedTile(newTile);
             }
 
@@ -475,8 +475,8 @@ public class ProcessComponent implements CometTask {
                         isCancelled = false;
                     }
 
-                    if(entityOnTile instanceof PetEntity && entity instanceof PetEntity) {
-                        if(entityOnTile.getTile().getTopItemInstance() instanceof BreedingBoxFloorItem) {
+                    if (entityOnTile instanceof PetEntity && entity instanceof PetEntity) {
+                        if (entityOnTile.getTile().getTopItemInstance() instanceof BreedingBoxFloorItem) {
                             isCancelled = false;
                         }
                     }

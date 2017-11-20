@@ -3,7 +3,7 @@ package com.cometproject.api.game.pets;
 import com.cometproject.api.game.utilities.Position;
 import com.google.gson.JsonObject;
 
-public interface IPetData {
+public interface IPetData extends IPetStats {
 
     JsonObject toJsonObject();
 
@@ -32,6 +32,8 @@ public interface IPetData {
     int getExperienceGoal();
 
     int getEnergy();
+
+    int getHunger();
 
     void decreaseEnergy(int amount);
 
@@ -82,6 +84,4 @@ public interface IPetData {
     void setLevel(int level);
 
     void increaseHunger(int amount);
-
-    int getHunger();
 }

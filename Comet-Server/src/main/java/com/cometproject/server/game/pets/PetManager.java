@@ -1,17 +1,23 @@
 package com.cometproject.server.game.pets;
 
+import com.cometproject.api.game.pets.IPetData;
 import com.cometproject.api.game.pets.IPetRace;
+import com.cometproject.api.game.pets.IPetStats;
 import com.cometproject.server.game.pets.data.PetSpeech;
 import com.cometproject.server.game.pets.races.PetBreedLevel;
 import com.cometproject.server.game.pets.races.PetRace;
 import com.cometproject.server.storage.queries.pets.PetDao;
 import com.cometproject.api.utilities.Initialisable;
+import com.cometproject.server.tasks.CometThreadManager;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
@@ -24,8 +30,9 @@ public class PetManager implements Initialisable {
     private Map<Integer, PetSpeech> petMessages;
 
     private Map<String, String> transformablePets;
-
     private Map<Integer, Map<PetBreedLevel, Set<Integer>>> petBreedPallets;
+
+    private final Map<Integer, IPetData> pendingPetDataSaves = Maps.newConcurrentMap();
 
     public PetManager() {
 
@@ -38,7 +45,28 @@ public class PetManager implements Initialisable {
         this.loadPetSpeech();
         this.loadTransformablePets();
 
+        // Set up the queue for saving pet data
+        CometThreadManager.getInstance().executePeriodic(this::savePetStats, 1000, 1000, TimeUnit.MILLISECONDS);
+
         log.info("PetManager initialized");
+    }
+
+    private void savePetStats() {
+        final Set<IPetStats> petStats = Sets.newHashSet();
+
+        petStats.addAll(this.pendingPetDataSaves.values());
+
+        PetDao.saveStatsBatch(petStats);
+        this.pendingPetDataSaves.clear();
+        petStats.clear();
+    }
+
+    public void savePet(IPetData petData) {
+        if(this.pendingPetDataSaves.containsKey(petData.getId())) {
+            this.pendingPetDataSaves.replace(petData.getId(), petData);
+        } else {
+            this.pendingPetDataSaves.put(petData.getId(), petData);
+        }
     }
 
     public static PetManager getInstance() {
@@ -46,6 +74,10 @@ public class PetManager implements Initialisable {
             petManagerInstance = new PetManager();
 
         return petManagerInstance;
+    }
+
+    public void initialisePetSaveQueue() {
+
     }
 
     public void loadPetRaces() {

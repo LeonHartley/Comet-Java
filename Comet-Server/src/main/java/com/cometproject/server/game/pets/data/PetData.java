@@ -2,6 +2,7 @@ package com.cometproject.server.game.pets.data;
 
 import com.cometproject.api.game.pets.IPetData;
 import com.cometproject.server.boot.Comet;
+import com.cometproject.server.game.pets.PetManager;
 import com.cometproject.server.game.rooms.objects.entities.types.ai.pets.PetAI;
 import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.storage.queries.pets.PetDao;
@@ -130,7 +131,8 @@ public class PetData implements IPetData {
 
     @Override
     public void saveStats() {
-        PetDao.saveStats(this.scratches, this.level, this.happiness, this.experience, this.energy, this.hunger, this.id);
+        PetManager.getInstance().savePet(this);
+        //PetDao.saveStats(this.scratches, this.level, this.happiness, this.experience, this.energy, this.hunger, this.id);
     }
 
     @Override

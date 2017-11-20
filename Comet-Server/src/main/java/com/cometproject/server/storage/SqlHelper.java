@@ -99,6 +99,9 @@ public class SqlHelper {
     }
 
     public static PreparedStatement prepare(String query, Connection con) throws SQLException {
+        if(Thread.currentThread().getName().startsWith("Room-Processor"))
+            log.trace("Executing query from room processor: " + query);
+
         return prepare(query, con, false);
     }
 

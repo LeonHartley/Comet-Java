@@ -1,6 +1,7 @@
 package com.cometproject.server.storage.queries.pets;
 
 import com.cometproject.api.game.pets.IPetData;
+import com.cometproject.api.game.pets.IPetStats;
 import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.pets.data.PetData;
@@ -278,6 +279,39 @@ public class PetDao {
             SqlHelper.closeSilently(sqlConnection);
         }
     }
+
+
+    public static void saveStatsBatch(final Set<IPetStats> petStats) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("UPDATE pet_data SET scratches = ?, level = ?, happiness = ?, experience = ?, energy = ?, hunger = ? WHERE id = ?;", sqlConnection);
+
+            for(IPetStats pet : petStats) {
+                preparedStatement.setInt(1, pet.getScratches());
+                preparedStatement.setInt(2, pet.getLevel());
+                preparedStatement.setInt(3, pet.getHappiness());
+                preparedStatement.setInt(4, pet.getExperience());
+                preparedStatement.setInt(5, pet.getEnergy());
+                preparedStatement.setInt(6, pet.getHunger());
+
+                preparedStatement.setInt(7, pet.getId());
+
+                preparedStatement.addBatch();
+            }
+
+            preparedStatement.executeBatch();
+      } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+    }
+
 
     public static void deletePets(int playerId) {
         Connection sqlConnection = null;

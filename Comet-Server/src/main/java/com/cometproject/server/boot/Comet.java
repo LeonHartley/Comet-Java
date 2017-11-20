@@ -114,7 +114,7 @@ public class Comet {
 
             for (String arg : arguments) {
                 if (arg.equals("--debug-logging")) {
-                    logLevel = Level.DEBUG;
+                    logLevel = Level.TRACE;
                 }
 
                 if (arg.equals("--gui")) {
