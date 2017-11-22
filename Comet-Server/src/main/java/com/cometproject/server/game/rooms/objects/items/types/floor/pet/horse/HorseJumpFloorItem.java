@@ -6,14 +6,9 @@ import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.types.DefaultFloorItem;
-import com.cometproject.server.game.rooms.objects.misc.Position;
+import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer;
 import com.cometproject.server.utilities.RandomUtil;
-
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
 
 public class HorseJumpFloorItem extends DefaultFloorItem {
     public HorseJumpFloorItem(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {

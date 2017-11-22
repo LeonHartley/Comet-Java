@@ -1,7 +1,10 @@
 package com.cometproject.server.game.rooms;
 
+import com.cometproject.api.game.players.IPlayer;
+import com.cometproject.api.game.rooms.IRoomData;
 import com.cometproject.api.game.rooms.settings.RoomAccessType;
 import com.cometproject.api.game.rooms.settings.RoomTradeState;
+import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Configuration;
 import com.cometproject.server.game.groups.GroupManager;
@@ -21,7 +24,8 @@ import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.cache.CacheManager;
 import com.cometproject.server.storage.cache.objects.RoomDataObject;
 import com.cometproject.server.storage.queries.rooms.RoomDao;
-import com.cometproject.server.utilities.Initialisable;
+import com.cometproject.api.utilities.Initialisable;
+import com.cometproject.server.tasks.CometThreadManager;
 import org.apache.log4j.Logger;
 import org.apache.solr.util.ConcurrentLRUCache;
 
@@ -30,19 +34,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 
 public class RoomManager implements Initialisable {
-    
+
     private static RoomManager roomManagerInstance;
     public static final Logger log = Logger.getLogger(RoomManager.class.getName());
 
     public static final int LRU_MAX_ENTRIES = Integer.parseInt(Configuration.currentConfig().getProperty("comet.game.rooms.data.max"));
     public static final int LRU_MAX_LOWER_WATERMARK = Integer.parseInt(Configuration.currentConfig().getProperty("comet.game.rooms.data.lowerWatermark"));
 
-    private ConcurrentLRUCache<Integer, RoomData> roomDataInstances;
+    private ConcurrentLRUCache<Integer, IRoomData> roomDataInstances;
 
     private Map<Integer, Room> loadedRoomInstances;
     private Map<Integer, Room> unloadingRoomInstances;
@@ -82,14 +87,13 @@ public class RoomManager implements Initialisable {
 
         this.globalCycle.start();
 
-        this.executorService = Executors.newFixedThreadPool(8, r -> {
-            final Thread roomThread = new Thread(r, "Room-Worker-" + UUID.randomUUID());
+        this.executorService = Executors.newFixedThreadPool(2, r -> {
+            final Thread roomThread = new Thread(r, "Room-Load-Worker-" + UUID.randomUUID());
 
             roomThread.setUncaughtExceptionHandler((t, e) -> e.printStackTrace());
 
             return roomThread;
         });
-
 
         log.info("RoomManager initialized");
     }
@@ -157,7 +161,7 @@ public class RoomManager implements Initialisable {
         }
 
         if (room == null) {
-            RoomData data = this.getRoomData(id);
+            IRoomData data = this.getRoomData(id);
 
             if (data == null) {
                 return null;
@@ -182,12 +186,12 @@ public class RoomManager implements Initialisable {
         room.getItems().onLoaded();
     }
 
-    public RoomData getRoomData(int id) {
+    public IRoomData getRoomData(int id) {
         if (this.getRoomDataInstances().getMap().containsKey(id)) {
             return this.getRoomDataInstances().get(id).setLastReferenced(Comet.getTime());
         }
 
-        RoomData roomData = RoomDao.getRoomDataById(id);
+        IRoomData roomData = RoomDao.getRoomDataById(id);
 
         if (roomData != null) {
             this.getRoomDataInstances().put(id, roomData);
@@ -250,14 +254,14 @@ public class RoomManager implements Initialisable {
         this.reloadListeners.put(roomId, listener);
     }
 
-    public void loadRoomsForUser(Player player) {
+    public void loadRoomsForUser(IPlayer player) {
         player.getRooms().clear();
         player.getRoomsWithRights().clear();
 
-        Map<Integer, RoomData> rooms = RoomDao.getRoomsByPlayerId(player.getId());
-        Map<Integer, RoomData> roomsWithRights = RoomDao.getRoomsWithRightsByPlayerId(player.getId());
+        Map<Integer, IRoomData> rooms = RoomDao.getRoomsByPlayerId(player.getId());
+        Map<Integer, IRoomData> roomsWithRights = RoomDao.getRoomsWithRightsByPlayerId(player.getId());
 
-        for (Map.Entry<Integer, RoomData> roomEntry : rooms.entrySet()) {
+        for (Map.Entry<Integer, IRoomData> roomEntry : rooms.entrySet()) {
             player.getRooms().add(roomEntry.getKey());
 
             if (!this.getRoomDataInstances().getMap().containsKey(roomEntry.getKey())) {
@@ -265,7 +269,7 @@ public class RoomManager implements Initialisable {
             }
         }
 
-        for (Map.Entry<Integer, RoomData> roomEntry : roomsWithRights.entrySet()) {
+        for (Map.Entry<Integer, IRoomData> roomEntry : roomsWithRights.entrySet()) {
             player.getRoomsWithRights().add(roomEntry.getKey());
 
             if (!this.getRoomDataInstances().getMap().containsKey(roomEntry.getKey())) {
@@ -274,8 +278,8 @@ public class RoomManager implements Initialisable {
         }
     }
 
-    public List<RoomData> getRoomsByQuery(String query) {
-        ArrayList<RoomData> rooms = new ArrayList<>();
+    public List<IRoomData> getRoomsByQuery(String query) {
+        List<IRoomData> rooms = new ArrayList<>();
 
         if (query.equals("tag:")) return rooms;
 
@@ -285,9 +289,9 @@ public class RoomManager implements Initialisable {
             query = query.substring(9);
         }
 
-        List<RoomData> roomSearchResults = RoomDao.getRoomsByQuery(query);
+        List<IRoomData> roomSearchResults = RoomDao.getRoomsByQuery(query);
 
-        for (RoomData data : roomSearchResults) {
+        for (IRoomData data : roomSearchResults) {
             if (!this.getRoomDataInstances().getMap().containsKey(data.getId())) {
                 this.getRoomDataInstances().put(data.getId(), data);
             }
@@ -306,7 +310,7 @@ public class RoomManager implements Initialisable {
         return this.getRoomInstances().containsKey(id);
     }
 
-    public int createRoom(String name, String description, CustomFloorMapData model, int category, int maxVisitors, int tradeState, Session client, int wallTickness, int floorThickness, String decorations, boolean hideWalls) {
+    public int createRoom(String name, String description, CustomFloorMapData model, int category, int maxVisitors, int tradeState, ISession client, int wallTickness, int floorThickness, String decorations, boolean hideWalls) {
         int roomId = RoomDao.createRoom(name, model, description, category, maxVisitors, RoomTradeState.valueOf(tradeState), client.getPlayer().getId(), client.getPlayer().getData().getUsername(), wallTickness, floorThickness, decorations, hideWalls);
 
         this.loadRoomsForUser(client.getPlayer());
@@ -356,12 +360,12 @@ public class RoomManager implements Initialisable {
         return -1;
     }
 
-    public List<RoomData> getRoomsByCategory(int category, Player player) {
+    public List<IRoomData> getRoomsByCategory(int category, Player player) {
         return this.getRoomsByCategory(category, 0, player);
     }
 
-    public List<RoomData> getRoomsByCategory(int category, int minimumPlayers, Player player) {
-        List<RoomData> rooms = new ArrayList<>();
+    public List<IRoomData> getRoomsByCategory(int category, int minimumPlayers, Player player) {
+        List<IRoomData> rooms = new ArrayList<>();
 
         for (Room room : this.getRoomInstances().values()) {
             if (category != -1 && (room.getData().getCategory() == null || room.getData().getCategory().getId() != category)) {
@@ -424,7 +428,7 @@ public class RoomManager implements Initialisable {
         return this.loadedRoomInstances;
     }
 
-    private ConcurrentLRUCache<Integer, RoomData> getRoomDataInstances() {
+    private ConcurrentLRUCache<Integer, IRoomData> getRoomDataInstances() {
         return this.roomDataInstances;
     }
 

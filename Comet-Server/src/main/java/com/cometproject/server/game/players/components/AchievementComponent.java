@@ -1,11 +1,13 @@
 package com.cometproject.server.game.players.components;
 
-import com.cometproject.server.game.achievements.AchievementGroup;
+import com.cometproject.api.game.achievements.types.IAchievement;
+import com.cometproject.api.game.achievements.types.IAchievementGroup;
+import com.cometproject.api.game.players.IPlayer;
+import com.cometproject.api.game.players.data.components.PlayerAchievements;
+import com.cometproject.api.game.players.data.components.achievements.IAchievementProgress;
 import com.cometproject.server.game.achievements.AchievementManager;
-import com.cometproject.server.game.achievements.types.Achievement;
-import com.cometproject.server.game.achievements.types.AchievementType;
+import com.cometproject.api.game.achievements.types.AchievementType;
 import com.cometproject.server.game.players.components.types.achievements.AchievementProgress;
-import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.players.types.PlayerComponent;
 import com.cometproject.server.network.messages.outgoing.user.achievements.AchievementPointsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.achievements.AchievementProgressMessageComposer;
@@ -15,32 +17,33 @@ import com.cometproject.server.storage.queries.achievements.PlayerAchievementDao
 
 import java.util.Map;
 
-public class AchievementComponent implements PlayerComponent {
-    private final Player player;
-    private Map<AchievementType, AchievementProgress> progression;
+public class AchievementComponent extends PlayerComponent implements PlayerAchievements {
+    private Map<AchievementType, IAchievementProgress> progression;
 
-    public AchievementComponent(Player player) {
-        this.player = player;
+    public AchievementComponent(IPlayer player) {
+        super(player);
 
         this.loadAchievements();
     }
 
+    @Override
     public void loadAchievements() {
         if (this.progression != null) {
             this.progression.clear();
         }
 
-        this.progression = PlayerAchievementDao.getAchievementProgress(this.player.getId());
+        this.progression = PlayerAchievementDao.getAchievementProgress(this.getPlayer().getId());
     }
 
+    @Override
     public void progressAchievement(AchievementType type, int data) {
-        AchievementGroup achievementGroup = AchievementManager.getInstance().getAchievementGroup(type);
+        IAchievementGroup achievementGroup = AchievementManager.getInstance().getAchievementGroup(type);
 
         if (achievementGroup == null) {
             return;
         }
 
-        AchievementProgress progress;
+        IAchievementProgress progress;
 
         if (this.progression.containsKey(type)) {
             progress = this.progression.get(type);
@@ -60,16 +63,15 @@ public class AchievementComponent implements PlayerComponent {
         }
 
         final int targetLevel = progress.getLevel() + 1;
-        final Achievement currentAchievement = achievementGroup.getAchievement(progress.getLevel());
-        final Achievement targetAchievement = achievementGroup.getAchievement(targetLevel);
+        final IAchievement currentAchievement = achievementGroup.getAchievement(progress.getLevel());
+        final IAchievement targetAchievement = achievementGroup.getAchievement(targetLevel);
 
         if (targetAchievement == null && achievementGroup.getLevelCount() != 1) {
-
             progress.setProgress(currentAchievement.getProgressNeeded());
-            PlayerAchievementDao.saveProgress(this.player.getId(), type, progress);
+            PlayerAchievementDao.saveProgress(this.getPlayer().getId(), type, progress);
 
-            this.player.getData().save();
-            this.player.getInventory().achievementBadge(type.getGroupName(), currentAchievement.getLevel());
+            this.getPlayer().getData().save();
+            this.getPlayer().getInventory().achievementBadge(type.getGroupName(), currentAchievement.getLevel());
             return;
         }
 
@@ -87,31 +89,14 @@ public class AchievementComponent implements PlayerComponent {
         }
 
         if (currentAchievement.getProgressNeeded() <= progress.getProgress()) {
-            this.player.getData().increaseAchievementPoints(currentAchievement.getRewardAchievement());
-            this.player.getData().increaseActivityPoints(currentAchievement.getRewardActivityPoints());
-
-            this.player.poof();
-
-            this.getPlayer().getSession().send(this.getPlayer().composeCurrenciesBalance());
-            this.getPlayer().getSession().send(new UpdateActivityPointsMessageComposer(this.getPlayer().getData().getActivityPoints(), currentAchievement.getRewardAchievement()));
-
-            if (achievementGroup.getAchievement(targetLevel) != null) {
-                progress.increaseLevel();
-            }
-
-            // Achievement unlocked!
-            this.player.getSession().send(new AchievementPointsMessageComposer(this.getPlayer().getData().getAchievementPoints()));
-            this.player.getSession().send(new AchievementProgressMessageComposer(progress, achievementGroup));
-            this.player.getSession().send(new AchievementUnlockedMessageComposer(achievementGroup.getCategory().toString(), achievementGroup.getGroupName(), achievementGroup.getId(), targetAchievement));
-
-            this.player.getInventory().achievementBadge(type.getGroupName(), currentAchievement.getLevel());
+            this.processUnlock(currentAchievement, targetAchievement, achievementGroup, progress, targetLevel, type);
         } else {
-            this.player.getSession().send(new AchievementProgressMessageComposer(progress, achievementGroup));
+            this.getPlayer().getSession().send(new AchievementProgressMessageComposer(progress, achievementGroup));
         }
 
         boolean hasFinishedGroup = false;
 
-        if(progress.getLevel() >= achievementGroup.getLevelCount() && progress.getProgress() >= achievementGroup.getAchievement(achievementGroup.getLevelCount()).getProgressNeeded()) {
+        if (progress.getLevel() >= achievementGroup.getLevelCount() && progress.getProgress() >= achievementGroup.getAchievement(achievementGroup.getLevelCount()).getProgressNeeded()) {
             hasFinishedGroup = true;
         }
 
@@ -120,21 +105,39 @@ public class AchievementComponent implements PlayerComponent {
             return;
         }
 
-        this.player.getData().save();
-        PlayerAchievementDao.saveProgress(this.player.getId(), type, progress);
+        this.getPlayer().getData().save();
+        PlayerAchievementDao.saveProgress(this.getPlayer().getId(), type, progress);
     }
 
+    private void processUnlock(IAchievement currentAchievement, IAchievement targetAchievement, IAchievementGroup achievementGroup, IAchievementProgress progress, int targetLevel, AchievementType type) {
+        this.getPlayer().getData().increaseAchievementPoints(currentAchievement.getRewardAchievement());
+        this.getPlayer().getData().increaseActivityPoints(currentAchievement.getRewardActivityPoints());
+
+        this.getPlayer().poof();
+
+        this.getPlayer().getSession().send(this.getPlayer().composeCurrenciesBalance());
+        this.getPlayer().getSession().send(new UpdateActivityPointsMessageComposer(this.getPlayer().getData().getActivityPoints(), currentAchievement.getRewardAchievement()));
+
+        if (achievementGroup.getAchievement(targetLevel) != null) {
+            progress.increaseLevel();
+        }
+
+        // Achievement unlocked!
+        this.getPlayer().getSession().send(new AchievementPointsMessageComposer(this.getPlayer().getData().getAchievementPoints()));
+        this.getPlayer().getSession().send(new AchievementProgressMessageComposer(progress, achievementGroup));
+        this.getPlayer().getSession().send(new AchievementUnlockedMessageComposer(achievementGroup.getCategory().toString(), achievementGroup.getGroupName(), achievementGroup.getId(), targetAchievement));
+
+        this.getPlayer().getInventory().achievementBadge(type.getGroupName(), currentAchievement.getLevel());
+    }
+
+    @Override
     public boolean hasStartedAchievement(AchievementType achievementType) {
         return this.progression.containsKey(achievementType);
     }
 
-    public AchievementProgress getProgress(AchievementType achievementType) {
-        return this.progression.get(achievementType);
-    }
-
     @Override
-    public Player getPlayer() {
-        return this.player;
+    public IAchievementProgress getProgress(AchievementType achievementType) {
+        return this.progression.get(achievementType);
     }
 
     @Override

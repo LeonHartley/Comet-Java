@@ -1,11 +1,12 @@
 package com.cometproject.server.game.rooms.objects.entities.types;
 
+import com.cometproject.api.game.pets.IPetData;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.pets.data.PetData;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.ai.BotAI;
 import com.cometproject.server.game.rooms.objects.entities.types.ai.pets.PetAI;
-import com.cometproject.server.game.rooms.objects.misc.Position;
+import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.avatar.LeaveRoomMessageComposer;
 import com.cometproject.server.storage.queries.pets.PetDao;
@@ -15,14 +16,14 @@ import java.util.concurrent.ConcurrentHashMap;
 
 
 public class PetEntity extends RoomEntity {
-    private PetData data;
+    private IPetData data;
     private PetAI ai;
 
     private int cycleCount = 0;
 
     private Map<String, Object> attributes = new ConcurrentHashMap<>();
 
-    public PetEntity(PetData data, int identifier, Position startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
+    public PetEntity(IPetData data, int identifier, Position startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
         super(identifier, startPosition, startBodyRotation, startHeadRotation, roomInstance);
 
         this.data = data;
@@ -145,7 +146,7 @@ public class PetEntity extends RoomEntity {
         msg.writeString("");
     }
 
-    public PetData getData() {
+    public IPetData getData() {
         return data;
     }
 

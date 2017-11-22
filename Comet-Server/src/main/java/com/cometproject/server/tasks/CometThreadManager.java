@@ -1,12 +1,12 @@
 package com.cometproject.server.tasks;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Configuration;
 import com.cometproject.server.game.rooms.types.components.ProcessComponent;
-import com.cometproject.server.utilities.Initialisable;
+import com.cometproject.api.utilities.Initialisable;
 import org.apache.log4j.Logger;
 
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class CometThreadManager implements Initialisable {
@@ -45,12 +45,13 @@ public class CometThreadManager implements Initialisable {
         });
 
         final int roomProcessingPool = 8;
+        final AtomicInteger counter = new AtomicInteger();
 
         this.roomProcessingExecutor = Executors.newScheduledThreadPool(roomProcessingPool, r -> {
             Thread scheduledThread = new Thread(r);
-            scheduledThread.setName("Comet-Room-Scheduler-Thread-" + POOL_SIZE);
+            scheduledThread.setName("Room-Processor-" + counter.incrementAndGet());
 
-            final Logger log = Logger.getLogger("Comet-Room-Scheduler-Thread-" + POOL_SIZE);
+            final Logger log = Logger.getLogger(scheduledThread.getName());
             scheduledThread.setUncaughtExceptionHandler((t, e) -> log.error("Exception in room worker thread", e));
 
             return scheduledThread;

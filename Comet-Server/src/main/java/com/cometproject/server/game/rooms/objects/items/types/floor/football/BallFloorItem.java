@@ -1,9 +1,8 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.football;
 
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
-import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
-import com.cometproject.server.game.rooms.objects.misc.Position;
+import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.types.Room;
 
 public class BallFloorItem extends RoomItemFloor {

@@ -1,10 +1,12 @@
 package com.cometproject.server.game.groups.items.types;
 
+import com.cometproject.api.game.groups.items.IGroupBadgeItem;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
-public class GroupBase {
+public class GroupBase implements IGroupBadgeItem {
     private int id;
     private String valueA;
     private String valueB;
@@ -19,11 +21,13 @@ public class GroupBase {
         return id;
     }
 
-    public String getValueA() {
+    @Override
+    public String getFirstValue() {
         return valueA;
     }
 
-    public String getValueB() {
+    @Override
+    public String getSecondValue() {
         return valueB;
     }
 }

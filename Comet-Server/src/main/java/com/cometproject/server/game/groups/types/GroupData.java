@@ -1,14 +1,15 @@
 package com.cometproject.server.game.groups.types;
 
+import com.cometproject.api.game.groups.types.GroupType;
+import com.cometproject.api.game.groups.types.IGroupData;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.storage.queries.groups.GroupDao;
-import com.google.gson.Gson;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
-public class GroupData {
+public class GroupData implements IGroupData {
     /**
      * The ID of the group1
      */
@@ -137,6 +138,7 @@ public class GroupData {
      * Save the group data to the database
      * TODO: Queue saving
      */
+    @Override
     public void save() {
         GroupDao.save(this);
     }
@@ -146,6 +148,7 @@ public class GroupData {
      *
      * @return The ID of the group
      */
+    @Override
     public int getId() {
         return this.id;
     }
@@ -155,6 +158,7 @@ public class GroupData {
      *
      * @param id The ID of the group
      */
+    @Override
     public void setId(int id) {
         this.id = id;
     }
@@ -164,6 +168,7 @@ public class GroupData {
      *
      * @return The title of the group
      */
+    @Override
     public String getTitle() {
         return this.title;
     }
@@ -173,6 +178,7 @@ public class GroupData {
      *
      * @param title The title of the group
      */
+    @Override
     public void setTitle(String title) {
         this.title = title;
     }
@@ -182,6 +188,7 @@ public class GroupData {
      *
      * @return The description of the group
      */
+    @Override
     public String getDescription() {
         return this.description;
     }
@@ -191,6 +198,7 @@ public class GroupData {
      *
      * @param description The description of the group
      */
+    @Override
     public void setDescription(String description) {
         this.description = description;
     }
@@ -200,6 +208,7 @@ public class GroupData {
      *
      * @return The ID of the owner of the group
      */
+    @Override
     public int getOwnerId() {
         return this.ownerId;
     }
@@ -209,6 +218,7 @@ public class GroupData {
      *
      * @param id The ID of the group
      */
+    @Override
     public void setOwnerId(int id) {
         this.ownerId = id;
     }
@@ -218,6 +228,7 @@ public class GroupData {
      *
      * @return The badge created by the group owner
      */
+    @Override
     public String getBadge() {
         return badge;
     }
@@ -227,6 +238,7 @@ public class GroupData {
      *
      * @param badge The badge created by the group owner
      */
+    @Override
     public void setBadge(String badge) {
         this.badge = badge.replace("s00000", "");
     }
@@ -236,6 +248,7 @@ public class GroupData {
      *
      * @return The room ID assigned to the group
      */
+    @Override
     public int getRoomId() {
         return roomId;
     }
@@ -245,6 +258,7 @@ public class GroupData {
      *
      * @param roomId The room ID assigned to the group
      */
+    @Override
     public void setRoomId(int roomId) {
         this.roomId = roomId;
     }
@@ -254,6 +268,7 @@ public class GroupData {
      *
      * @return The time the group was created
      */
+    @Override
     public int getCreatedTimestamp() {
         return created;
     }
@@ -263,6 +278,7 @@ public class GroupData {
      *
      * @return Can the group members decorate the room?
      */
+    @Override
     public boolean canMembersDecorate() {
         return canMembersDecorate;
     }
@@ -272,6 +288,7 @@ public class GroupData {
      *
      * @param canMembersDecorate Can the group administrators decorate the room?
      */
+    @Override
     public void setCanMembersDecorate(boolean canMembersDecorate) {
         this.canMembersDecorate = canMembersDecorate;
     }
@@ -281,6 +298,7 @@ public class GroupData {
      *
      * @return The membership type of the group
      */
+    @Override
     public GroupType getType() {
         return type;
     }
@@ -290,6 +308,7 @@ public class GroupData {
      *
      * @param type The membership type of the group
      */
+    @Override
     public void setType(GroupType type) {
         this.type = type;
     }
@@ -299,6 +318,7 @@ public class GroupData {
      *
      * @return The first colour of the group
      */
+    @Override
     public int getColourA() {
         return colourA;
     }
@@ -308,6 +328,7 @@ public class GroupData {
      *
      * @param colourA The first colour of the group
      */
+    @Override
     public void setColourA(int colourA) {
         this.colourA = colourA;
     }
@@ -317,6 +338,7 @@ public class GroupData {
      *
      * @return The second colour of the group
      */
+    @Override
     public int getColourB() {
         return colourB;
     }
@@ -326,6 +348,7 @@ public class GroupData {
      *
      * @param colourB The second colour of the group
      */
+    @Override
     public void setColourB(int colourB) {
         this.colourB = colourB;
     }
@@ -335,10 +358,12 @@ public class GroupData {
      *
      * @return Whether or not the group has a forum
      */
+    @Override
     public boolean hasForum() {
         return this.hasForum;
     }
 
+    @Override
     public void setHasForum(boolean hasForum) {
         this.hasForum = hasForum;
     }

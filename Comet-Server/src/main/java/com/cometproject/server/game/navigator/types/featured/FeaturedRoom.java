@@ -1,5 +1,6 @@
 package com.cometproject.server.game.navigator.types.featured;
 
+import com.cometproject.api.game.rooms.IRoomData;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.types.RoomData;
@@ -22,7 +23,7 @@ public class FeaturedRoom {
     private boolean enabled;
     private boolean recommended;
 
-    private RoomData room;
+    private IRoomData room;
 
     public FeaturedRoom(ResultSet data) throws SQLException {
         this.id = data.getInt("id");

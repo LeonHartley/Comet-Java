@@ -1,18 +1,19 @@
 package com.cometproject.server.network.messages.outgoing.user.achievements;
 
+import com.cometproject.api.game.achievements.types.IAchievement;
+import com.cometproject.api.game.achievements.types.IAchievementGroup;
+import com.cometproject.api.game.players.data.components.achievements.IAchievementProgress;
 import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.server.game.achievements.AchievementGroup;
-import com.cometproject.server.game.achievements.types.Achievement;
 import com.cometproject.server.game.players.components.types.achievements.AchievementProgress;
-import com.cometproject.server.network.messages.composers.MessageComposer;
+import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
 
 public class AchievementProgressMessageComposer extends MessageComposer {
 
-    private final AchievementGroup achievementGroup;
-    private final AchievementProgress achievementProgress;
+    private final IAchievementGroup achievementGroup;
+    private final IAchievementProgress achievementProgress;
 
-    public AchievementProgressMessageComposer(AchievementProgress achievementProgress, AchievementGroup achievementGroup) {
+    public AchievementProgressMessageComposer(IAchievementProgress achievementProgress, IAchievementGroup achievementGroup) {
         this.achievementProgress = achievementProgress == null ? null : new AchievementProgress(achievementProgress.getLevel(), achievementProgress.getProgress());
         this.achievementGroup = achievementGroup;
     }
@@ -24,7 +25,7 @@ public class AchievementProgressMessageComposer extends MessageComposer {
 
     @Override
     public void compose(IComposer msg) {
-        final Achievement achievement = this.achievementGroup.getAchievement(this.achievementProgress.getLevel());
+        final IAchievement achievement = this.achievementGroup.getAchievement(this.achievementProgress.getLevel());
 
         msg.writeInt(achievementGroup.getId());
         msg.writeInt(achievement.getLevel());

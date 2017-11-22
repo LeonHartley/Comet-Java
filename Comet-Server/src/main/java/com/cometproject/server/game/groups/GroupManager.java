@@ -6,16 +6,10 @@ import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.storage.queries.groups.GroupDao;
-import com.cometproject.server.utilities.Initialisable;
+import com.cometproject.api.utilities.Initialisable;
 import net.sf.ehcache.*;
-import net.sf.ehcache.event.CacheEventListener;
-import net.sf.ehcache.extension.CacheExtension;
 import org.apache.log4j.Logger;
-import org.apache.solr.util.ConcurrentLRUCache;
 
-import javax.swing.text.AbstractDocument;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 

@@ -1,10 +1,10 @@
 package com.cometproject.server.storage.queries.player;
 
+import com.cometproject.api.game.players.data.components.navigator.ISavedSearch;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.components.types.navigator.SavedSearch;
-import com.cometproject.server.game.players.components.types.wardrobe.WardrobeClothing;
-import com.cometproject.server.game.players.data.PlayerAvatar;
+import com.cometproject.api.game.players.data.PlayerAvatar;
 import com.cometproject.server.game.players.data.PlayerAvatarData;
 import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.game.players.types.Player;
@@ -726,7 +726,7 @@ public class PlayerDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("UPDATE players SET username = ?, motto = ?, figure = ?, credits = ?, vip_points = ?, gender = ?, favourite_group = ?, activity_points = ?, quest_id = ?, achievement_points = ? WHERE id = ?", sqlConnection);
+            preparedStatement = SqlHelper.prepare("UPDATE players SET username = ?, motto = ?, figure = ?, credits = ?, vip_points = ?, gender = ?, favourite_group = ?, activity_points = ?, quest_id = ?, achievement_points = ? WHERE id = ?;", sqlConnection);
 
             for (PlayerData playerDataInstance : playerData.values()) {
                 preparedStatement.setString(1, playerDataInstance.getUsername());
@@ -813,6 +813,7 @@ public class PlayerDao {
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);
         } finally {
+            SqlHelper.closeSilently(resultSet);
             SqlHelper.closeSilently(preparedStatement);
             SqlHelper.closeSilently(sqlConnection);
         }
@@ -928,6 +929,7 @@ public class PlayerDao {
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);
         } finally {
+            SqlHelper.closeSilently(resultSet);
             SqlHelper.closeSilently(preparedStatement);
             SqlHelper.closeSilently(sqlConnection);
         }
@@ -977,12 +979,12 @@ public class PlayerDao {
         }
     }
 
-    public static Map<Integer, SavedSearch> getSavedSearches(int playerId) {
+    public static Map<Integer, ISavedSearch> getSavedSearches(int playerId) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        final Map<Integer, SavedSearch> data = new ConcurrentHashMap<>();
+        final Map<Integer, ISavedSearch> data = new ConcurrentHashMap<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();
@@ -998,6 +1000,7 @@ public class PlayerDao {
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);
         } finally {
+            SqlHelper.closeSilently(resultSet);
             SqlHelper.closeSilently(preparedStatement);
             SqlHelper.closeSilently(sqlConnection);
         }

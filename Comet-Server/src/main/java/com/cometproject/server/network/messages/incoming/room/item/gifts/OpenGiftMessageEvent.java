@@ -1,19 +1,20 @@
 package com.cometproject.server.network.messages.incoming.room.item.gifts;
 
+import com.cometproject.api.game.catalog.types.ICatalogPage;
+import com.cometproject.api.game.furniture.types.IFurnitureDefinition;
 import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
 import com.cometproject.server.game.catalog.CatalogManager;
-import com.cometproject.server.game.catalog.types.CatalogItem;
-import com.cometproject.server.game.catalog.types.CatalogPage;
+import com.cometproject.api.game.catalog.types.ICatalogItem;
 import com.cometproject.server.game.catalog.types.gifts.GiftData;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.items.types.ItemDefinition;
-import com.cometproject.server.game.items.types.ItemType;
+import com.cometproject.api.game.furniture.types.ItemType;
 import com.cometproject.server.game.players.components.types.inventory.InventoryItem;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.GiftFloorItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.Event;
-import com.cometproject.server.network.messages.outgoing.catalog.UnseenItemsMessageComposer;
+import com.cometproject.server.composers.catalog.UnseenItemsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.gifts.OpenGiftMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;
@@ -40,13 +41,13 @@ public class OpenGiftMessageEvent implements Event {
 
         final GiftData giftData = ((GiftFloorItem) floorItem).getGiftData();
 
-        final CatalogPage catalogPage = CatalogManager.getInstance().getPage(giftData.getPageId());
+        final ICatalogPage catalogPage = CatalogManager.getInstance().getPage(giftData.getPageId());
         if (catalogPage == null) return;
 
-        final CatalogItem catalogItem = catalogPage.getItems().get(giftData.getItemId());
+        final ICatalogItem catalogItem = catalogPage.getItems().get(giftData.getItemId());
         if (catalogItem == null) return;
 
-        final ItemDefinition itemDefinition = ItemManager.getInstance().getDefinition(catalogItem.getItems().get(0).getItemId());
+        final IFurnitureDefinition itemDefinition = ItemManager.getInstance().getDefinition(catalogItem.getItems().get(0).getItemId());
 
 //        floorItem.onInteract(client.getPlayer().getEntity(), 0, false);
 
@@ -57,7 +58,7 @@ public class OpenGiftMessageEvent implements Event {
             client.getPlayer().getInventory().addItem(item);
 
             client.sendQueue(new UpdateInventoryMessageComposer());
-            client.sendQueue(new UnseenItemsMessageComposer(Sets.newHashSet(item)));
+            client.sendQueue(new UnseenItemsMessageComposer(Sets.newHashSet(item), ItemManager.getInstance()));
             client.sendQueue(new OpenGiftMessageComposer(ItemManager.getInstance().getItemVirtualId(floorItemId), floorItem.getDefinition().getType(), ((GiftFloorItem) floorItem).getGiftData(), ItemManager.getInstance().getDefinition(catalogItem.getItems().get(0).getItemId())));
             client.flush();
 

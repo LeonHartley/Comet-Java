@@ -1,20 +1,18 @@
 package com.cometproject.server.network.messages.incoming.catalog.ads;
 
+import com.cometproject.api.game.catalog.types.ICatalogItem;
+import com.cometproject.api.game.catalog.types.ICatalogPage;
+import com.cometproject.api.game.rooms.IRoomData;
 import com.cometproject.api.game.rooms.settings.RoomAccessType;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.catalog.CatalogManager;
-import com.cometproject.server.game.catalog.types.CatalogItem;
-import com.cometproject.server.game.catalog.types.CatalogPage;
 import com.cometproject.server.game.rooms.RoomManager;
-import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.network.messages.incoming.Event;
-import com.cometproject.server.network.messages.outgoing.catalog.BoughtItemMessageComposer;
+import com.cometproject.server.composers.catalog.BoughtItemMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
-
-import javax.naming.OperationNotSupportedException;
 
 
 public class PromoteRoomMessageEvent implements Event {
@@ -24,15 +22,15 @@ public class PromoteRoomMessageEvent implements Event {
         int pageId = msg.readInt();
         int itemId = msg.readInt();
 
-        CatalogPage page = CatalogManager.getInstance().getPage(pageId);
+        ICatalogPage page = CatalogManager.getInstance().getPage(pageId);
 
         if (page == null || page.getItems().get(itemId) == null) return;
 
-        CatalogItem item = page.getItems().get(itemId);
+        ICatalogItem item = page.getItems().get(itemId);
 
         if (item == null) return;
 
-        RoomData roomData = RoomManager.getInstance().getRoomData(msg.readInt());
+        IRoomData roomData = RoomManager.getInstance().getRoomData(msg.readInt());
 
         if (roomData == null || roomData.getOwnerId() != client.getPlayer().getId() || roomData.getAccess() != RoomAccessType.OPEN) {
             return;
@@ -59,7 +57,7 @@ public class PromoteRoomMessageEvent implements Event {
         boolean bool = msg.readBoolean();
         String promotionDescription = msg.readString();
 
-        if (promotionName == null || promotionDescription == null || promotionName.isEmpty() || promotionDescription.isEmpty()) {
+        if (promotionName.isEmpty() || promotionDescription.isEmpty()) {
             return;
         }
 

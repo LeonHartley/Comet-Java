@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.outgoing.navigator.updated;
 
+import com.cometproject.api.game.rooms.IRoomData;
 import com.cometproject.api.game.rooms.settings.RoomAccessType;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.groups.GroupManager;
@@ -11,9 +12,8 @@ import com.cometproject.server.game.navigator.types.search.NavigatorSearchServic
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.game.rooms.types.RoomWriter;
-import com.cometproject.server.network.messages.composers.MessageComposer;
+import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
 
 import java.util.List;
@@ -53,9 +53,9 @@ public class NavigatorSearchResultSetMessageComposer extends MessageComposer {
             msg.writeBoolean(false);
             msg.writeInt(0);
 
-            List<RoomData> rooms = NavigatorSearchService.order(RoomManager.getInstance().getRoomsByQuery(this.data), 50);
+            List<IRoomData> rooms = NavigatorSearchService.order(RoomManager.getInstance().getRoomsByQuery(this.data), 50);
 
-            for (RoomData roomData : rooms) {
+            for (IRoomData roomData : rooms) {
                 if (roomData.getAccess() == RoomAccessType.INVISIBLE && player.getData().getRank() < 3) {
                     Room room = RoomManager.getInstance().get(roomData.getId());
 
@@ -75,7 +75,7 @@ public class NavigatorSearchResultSetMessageComposer extends MessageComposer {
 
             msg.writeInt(rooms.size() - invisibleRooms);
 
-            for (RoomData roomData : rooms) {
+            for (IRoomData roomData : rooms) {
                 if (roomData.getAccess() == RoomAccessType.INVISIBLE && player.getData().getRank() < 3) {
                     Room room = RoomManager.getInstance().get(roomData.getId());
 
@@ -107,11 +107,11 @@ public class NavigatorSearchResultSetMessageComposer extends MessageComposer {
                 msg.writeBoolean(false);//is minimised
                 msg.writeInt(category.getViewMode() == NavigatorViewMode.REGULAR ? 0 : category.getViewMode() == NavigatorViewMode.THUMBNAIL ? 1 : 0);
 
-                List<RoomData> rooms = NavigatorSearchService.getInstance().search(category, this.player, this.categories.size() == 1);
+                List<IRoomData> rooms = NavigatorSearchService.getInstance().search(category, this.player, this.categories.size() == 1);
 
                 msg.writeInt(rooms.size());// size of rooms found.
 
-                for (RoomData roomData : rooms) {
+                for (IRoomData roomData : rooms) {
                     RoomWriter.write(roomData, msg);
                 }
 

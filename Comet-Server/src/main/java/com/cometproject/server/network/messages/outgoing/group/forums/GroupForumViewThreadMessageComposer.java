@@ -1,22 +1,23 @@
 package com.cometproject.server.network.messages.outgoing.group.forums;
 
+import com.cometproject.api.game.groups.types.IGroupData;
+import com.cometproject.api.game.groups.types.components.forum.IForumThreadReply;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.groups.types.GroupData;
-import com.cometproject.server.game.groups.types.components.forum.threads.ForumThread;
 import com.cometproject.server.game.groups.types.components.forum.threads.ForumThreadReply;
-import com.cometproject.server.network.messages.composers.MessageComposer;
+import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
 
 import java.util.List;
 
 public class GroupForumViewThreadMessageComposer extends MessageComposer {
 
-    private GroupData groupData;
+    private IGroupData groupData;
     private final int threadId;
-    private List<ForumThreadReply> replies;
+    private List<IForumThreadReply> replies;
     private int start;
 
-    public GroupForumViewThreadMessageComposer(GroupData groupData, int threadId, List<ForumThreadReply> threadReplies, int start) {
+    public GroupForumViewThreadMessageComposer(IGroupData groupData, int threadId, List<IForumThreadReply> threadReplies, int start) {
         this.groupData = groupData;
         this.threadId = threadId;
         this.replies = threadReplies;
@@ -35,7 +36,7 @@ public class GroupForumViewThreadMessageComposer extends MessageComposer {
         msg.writeInt(this.start);
         msg.writeInt(this.replies.size());
 
-        for(ForumThreadReply reply : this.replies) {
+        for(IForumThreadReply reply : this.replies) {
             reply.compose(msg);
         }
     }

@@ -3,7 +3,7 @@ package com.cometproject.server.game.catalog.purchase.handlers;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.catalog.purchase.PurchaseHandler;
 import com.cometproject.server.game.catalog.purchase.PurchaseResult;
-import com.cometproject.server.game.catalog.types.CatalogItem;
+import com.cometproject.api.game.catalog.types.ICatalogItem;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.filter.FilterResult;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
@@ -12,7 +12,7 @@ import org.joda.time.DateTime;
 
 public class TrophyPurchaseHandler implements PurchaseHandler {
     @Override
-    public PurchaseResult handlePurchaseData(Session session, String purchaseData, CatalogItem catalogItem, int amount) {
+    public PurchaseResult handlePurchaseData(Session session, String purchaseData, ICatalogItem catalogItem, int amount) {
 
         if (!session.getPlayer().getPermissions().getRank().roomFilterBypass()) {
             FilterResult filterResult = RoomManager.getInstance().getFilter().filter(purchaseData);

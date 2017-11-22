@@ -1,8 +1,9 @@
 package com.cometproject.server.game.rooms.types.components;
 
+import com.cometproject.api.game.pets.IPetData;
 import com.cometproject.server.game.pets.data.PetData;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
-import com.cometproject.server.game.rooms.objects.misc.Position;
+import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.storage.queries.pets.RoomPetDao;
 
@@ -18,18 +19,18 @@ public class PetComponent {
     }
 
     public void load() {
-        for (PetData data : this.room.getCachedData() != null ? this.room.getCachedData().getPets() :
+        for (IPetData data : this.room.getCachedData() != null ? this.room.getCachedData().getPets() :
                 RoomPetDao.getPetsByRoomId(this.room.getId())) {
             this.loadPet(data);
         }
     }
 
-    private void loadPet(PetData petData) {
+    private void loadPet(IPetData petData) {
         PetEntity petEntity = new PetEntity(petData, room.getEntities().getFreeId(), petData.getRoomPosition(), 3, 3, room);
         this.getRoom().getEntities().addEntity(petEntity);
     }
 
-    public PetEntity addPet(PetData pet, Position position) {
+    public PetEntity addPet(IPetData pet, Position position) {
         RoomPetDao.updatePet(this.room.getId(), position.getX(), position.getY(), pet.getId());
 
         int virtualId = room.getEntities().getFreeId();

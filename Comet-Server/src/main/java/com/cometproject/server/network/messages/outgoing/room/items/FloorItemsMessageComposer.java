@@ -1,13 +1,10 @@
 package com.cometproject.server.network.messages.outgoing.room.items;
 
 import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.server.game.groups.types.Group;
-import com.cometproject.server.game.groups.types.GroupMember;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.network.messages.composers.MessageComposer;
+import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
-import com.cometproject.server.storage.queries.player.PlayerDao;
 
 import java.util.Map;
 

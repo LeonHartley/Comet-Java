@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.user.details;
 
+import com.cometproject.server.game.achievements.AchievementManager;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.messenger.MessengerConfigMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.achievements.AchievementPointsMessageComposer;
@@ -27,7 +28,8 @@ public class InfoRetrieveMessageEvent implements Event {
         client.send(new MessengerConfigMessageComposer());
 
         client.send(new BadgeInventoryMessageComposer(client.getPlayer().getInventory().getBadges()));
-        client.send(new AchievementRequirementsMessageComposer());
+        client.send(new AchievementRequirementsMessageComposer(
+                AchievementManager.getInstance().getAchievementGroups().values()));
 
         client.send(new FigureSetIdsMessageComposer(client.getPlayer().getWardrobe().getClothing()));
         client.getPlayer().getMessenger().sendStatus(true, client.getPlayer().getEntity() != null);

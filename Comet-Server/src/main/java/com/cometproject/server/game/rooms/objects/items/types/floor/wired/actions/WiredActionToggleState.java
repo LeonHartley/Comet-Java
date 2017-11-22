@@ -1,16 +1,13 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions;
 
-import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
-import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.DiceFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.events.WiredItemEvent;
-import com.cometproject.server.game.rooms.objects.misc.Position;
+import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.google.common.collect.Lists;
-import org.apache.http.impl.conn.Wire;
 
 import java.util.List;
 

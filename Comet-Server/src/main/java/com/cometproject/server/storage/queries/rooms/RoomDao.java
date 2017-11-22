@@ -1,5 +1,7 @@
 package com.cometproject.server.storage.queries.rooms;
 
+import com.cometproject.api.game.rooms.IRoomData;
+import com.cometproject.api.game.rooms.RoomType;
 import com.cometproject.api.game.rooms.settings.*;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.rooms.models.CustomFloorMapData;
@@ -51,7 +53,7 @@ public class RoomDao {
         return data;
     }
 
-    public static RoomData getRoomDataById(int id) {
+    public static IRoomData getRoomDataById(int id) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -65,7 +67,7 @@ public class RoomDao {
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                return new RoomData(resultSet);
+                return roomDataFromResultSet(resultSet);
             }
 
         } catch (SQLException e) {
@@ -79,12 +81,12 @@ public class RoomDao {
         return null;
     }
 
-    public static Map<Integer, RoomData> getRoomsByPlayerId(int playerId) {
+    public static Map<Integer, IRoomData> getRoomsByPlayerId(int playerId) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        Map<Integer, RoomData> rooms = new ListOrderedMap<>();
+        Map<Integer, IRoomData> rooms = new ListOrderedMap<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();
@@ -95,7 +97,7 @@ public class RoomDao {
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                rooms.put(resultSet.getInt("id"), new RoomData(resultSet));
+                rooms.put(resultSet.getInt("id"), roomDataFromResultSet(resultSet));
             }
 
         } catch (SQLException e) {
@@ -109,12 +111,12 @@ public class RoomDao {
         return rooms;
     }
 
-    public static Map<Integer, RoomData> getRoomsWithRightsByPlayerId(int playerId) {
+    public static Map<Integer, IRoomData> getRoomsWithRightsByPlayerId(int playerId) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        Map<Integer, RoomData> rooms = new ListOrderedMap<>();
+        Map<Integer, IRoomData> rooms = new ListOrderedMap<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();
@@ -125,7 +127,7 @@ public class RoomDao {
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                rooms.put(resultSet.getInt("id"), new RoomData(resultSet));
+                rooms.put(resultSet.getInt("id"), roomDataFromResultSet(resultSet));
             }
 
         } catch (SQLException e) {
@@ -139,17 +141,17 @@ public class RoomDao {
         return rooms;
     }
 
-    public static List<RoomData> getRoomsByQuery(String query) {
+    public static List<IRoomData> getRoomsByQuery(String query) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        List<RoomData> rooms = new ArrayList<>();
+        List<IRoomData> rooms = new ArrayList<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            if(query.equals("owner:")) return rooms;
+            if (query.equals("owner:")) return rooms;
 
             if (query.startsWith("owner:")) {
                 preparedStatement = SqlHelper.prepare("SELECT * FROM rooms WHERE owner = ? ORDER BY name ASC", sqlConnection);
@@ -158,7 +160,7 @@ public class RoomDao {
                 preparedStatement = SqlHelper.prepare("SELECT * FROM rooms WHERE tags LIKE ? ORDER BY SUBSTRING(users_now FROM 1 FOR 1) DESC, name ASC LIMIT 50", sqlConnection);
 
                 String tagName = SqlHelper.escapeWildcards(query.split("tag:")[1]);
-                preparedStatement.setString(1,  tagName + "%");
+                preparedStatement.setString(1, tagName + "%");
             } else if (query.startsWith("group:")) {
                 preparedStatement = SqlHelper.prepare("SELECT * FROM rooms WHERE group_id IN (SELECT id FROM groups WHERE name LIKE ?) ORDER BY SUBSTRING(users_now FROM 1 FOR 1) DESC, name ASC LIMIT 50", sqlConnection);
 
@@ -176,7 +178,7 @@ public class RoomDao {
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                rooms.add(new RoomData(resultSet));
+                rooms.add(roomDataFromResultSet(resultSet));
             }
 
         } catch (SQLException e) {
@@ -272,7 +274,7 @@ public class RoomDao {
                                   String password, int score, String tags, String decor, String model, boolean hideWalls, int thicknessWall,
                                   int thicknessFloor, boolean allowWalkthrough, boolean allowPets, String heightmap, RoomTradeState tradeState, RoomMuteState whoCanMute,
                                   RoomKickState whoCanKick, RoomBanState whoCanBan, int bubbleMode, int bubbleType, int bubbleScroll,
-                                  int chatDistance, int antiFloodSettings, String disabledCommands, int groupId, String requiredBadge,  String thumbnail) {
+                                  int chatDistance, int antiFloodSettings, String disabledCommands, int groupId, String requiredBadge, String thumbnail) {
 
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
@@ -347,12 +349,12 @@ public class RoomDao {
         }
     }
 
-    public static List<RoomData> getHighestScoredRooms() {
+    public static List<IRoomData> getHighestScoredRooms() {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        List<RoomData> roomData = Lists.newArrayList();
+        List<IRoomData> roomData = Lists.newArrayList();
 
         try {
             sqlConnection = SqlHelper.getConnection();
@@ -362,7 +364,7 @@ public class RoomDao {
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                roomData.add(new RoomData(resultSet));
+                roomData.add(roomDataFromResultSet(resultSet));
             }
 
         } catch (SQLException e) {
@@ -477,7 +479,7 @@ public class RoomDao {
 
             preparedStatement = SqlHelper.prepare("UPDATE `rooms` SET users_now = ? WHERE `id` = ?;", sqlConnection);
 
-            for(Map.Entry<Integer, Integer> room : roomStatuses.entrySet()) {
+            for (Map.Entry<Integer, Integer> room : roomStatuses.entrySet()) {
                 preparedStatement.setInt(1, room.getValue());
                 preparedStatement.setInt(2, room.getKey());
 
@@ -511,6 +513,78 @@ public class RoomDao {
         } finally {
             SqlHelper.closeSilently(preparedStatement);
             SqlHelper.closeSilently(sqlConnection);
+        }
+    }
+
+    private static IRoomData roomDataFromResultSet(final ResultSet room) throws SQLException {
+        final int id = room.getInt("id");
+        final RoomType type = RoomType.valueOf(room.getString("type"));
+        final String name = room.getString("name");
+        final String description = room.getString("description");
+        final int ownerId = room.getInt("owner_id");
+        final String owner = room.getString("owner");
+        final int category = room.getInt("category");
+        final int maxUsers = room.getInt("max_users");
+        final String thumbnail = room.getString("thumbnail");
+
+        String accessTypeString = room.getString("access_type");
+
+        if (!accessTypeString.equals("open") && !accessTypeString.equals("doorbell") && !accessTypeString.equals("password")) {
+            accessTypeString = "open";
+        }
+
+        final String password = room.getString("password");
+        final RoomAccessType access = RoomAccessType.valueOf(accessTypeString.toUpperCase());
+        final String originalPassword = password;
+
+        final int score = room.getInt("score");
+
+        final String[] tags = room.getString("tags").isEmpty() ? new String[0] :
+                room.getString("tags").split(",");
+
+        final Map<String, String> decorations = new HashMap<>();
+
+        String[] decorationsArray = room.getString("decorations").split(",");
+
+        fillDecorations(decorations, decorationsArray);
+
+        final String model = room.getString("model");
+
+        final boolean hideWalls = room.getString("hide_walls").equals("1");
+        final int thicknessWall = room.getInt("thickness_wall");
+        final int thicknessFloor = room.getInt("thickness_floor");
+        final boolean allowWalkthrough = room.getString("allow_walkthrough").equals("1");
+        final boolean allowPets = room.getString("allow_pets").equals("1");
+        final String heightmap = room.getString("heightmap");
+        final RoomTradeState tradeState = RoomTradeState.valueOf(room.getString("trade_state"));
+
+        final RoomKickState kickState = RoomKickState.valueOf(room.getString("kick_state"));
+        final RoomBanState banState = RoomBanState.valueOf(room.getString("ban_state"));
+        final RoomMuteState muteState = RoomMuteState.valueOf(room.getString("mute_state"));
+
+        final int bubbleMode = room.getInt("bubble_mode");
+        final int bubbleScroll = room.getInt("bubble_scroll");
+        final int bubbleType = room.getInt("bubble_type");
+        final int antiFloodSettings = room.getInt("flood_level");
+        final int chatDistance = room.getInt("chat_distance");
+
+        final List<String> disabledCommands = Lists.newArrayList(room.getString("disabled_commands").split(","));
+        final int groupId = room.getInt("group_id");
+        final String requiredBadge = room.getString("required_badge");
+
+        return new RoomData(id, type, name, description, ownerId, owner, category, maxUsers, access, password,
+                originalPassword, tradeState, score, tags, decorations, model, hideWalls, thicknessWall, thicknessFloor,
+                allowWalkthrough, allowPets, heightmap, muteState, kickState, banState, bubbleMode, bubbleType,
+                bubbleScroll, chatDistance, antiFloodSettings, disabledCommands, groupId, System.currentTimeMillis(),
+                requiredBadge);
+    }
+
+    private static void fillDecorations(Map<String, String> decorations, String[] decorationsArray) {
+        for (int i = 0; i < decorationsArray.length; i++) {
+            String[] decoration = decorationsArray[i].split("=");
+
+            if (decoration.length == 2)
+                decorations.put(decoration[0], decoration[1]);
         }
     }
 }

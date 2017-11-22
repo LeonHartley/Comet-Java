@@ -1,16 +1,16 @@
 package com.cometproject.server.network.messages.incoming.catalog.groups;
 
-import com.cometproject.server.config.CometSettings;
+import com.cometproject.api.config.CometSettings;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
-import com.cometproject.server.game.groups.types.GroupAccessLevel;
+import com.cometproject.api.game.groups.types.components.membership.GroupAccessLevel;
 import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.game.groups.types.GroupMember;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.Event;
-import com.cometproject.server.network.messages.outgoing.catalog.BoughtItemMessageComposer;
+import com.cometproject.server.composers.catalog.BoughtItemMessageComposer;
 import com.cometproject.server.network.messages.outgoing.group.GroupBadgesMessageComposer;
 import com.cometproject.server.network.messages.outgoing.group.GroupRoomMessageComposer;
 import com.cometproject.server.network.messages.outgoing.messenger.UpdateFriendStateMessageComposer;

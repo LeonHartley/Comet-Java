@@ -32,10 +32,10 @@ public abstract class AdvancedFloorItem<T extends FloorItemEvent> extends RoomIt
         for(T finishedEvent : finishedEvents) {
             this.itemEvents.remove(finishedEvent);
 
-            finishedEvent.onCompletion(this);
+            CometThreadManager.getInstance().executeOnce(() -> finishedEvent.onCompletion(this));
 
             if (finishedEvent.isInteractiveEvent()) {
-                this.onEventComplete(finishedEvent);
+                CometThreadManager.getInstance().executeOnce(() -> this.onEventComplete(finishedEvent));
             }
         }
 
@@ -50,7 +50,7 @@ public abstract class AdvancedFloorItem<T extends FloorItemEvent> extends RoomIt
         this.itemEvents.add(floorItemEvent);
     }
 
-    protected abstract void onEventComplete(T event);
+    public abstract void onEventComplete(T event);
 
     public int getMaxEvents() {
         return 5000;

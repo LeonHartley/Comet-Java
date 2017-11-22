@@ -1,9 +1,10 @@
 package com.cometproject.server.network.messages.incoming.catalog.pets;
 
+import com.cometproject.api.game.pets.IPetRace;
 import com.cometproject.server.game.pets.PetManager;
 import com.cometproject.server.game.pets.races.PetRace;
 import com.cometproject.server.network.messages.incoming.Event;
-import com.cometproject.server.network.messages.outgoing.catalog.pets.PetRacesMessageComposer;
+import com.cometproject.server.composers.catalog.pets.PetRacesMessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 import org.apache.commons.lang.StringUtils;
@@ -22,7 +23,7 @@ public class PetRacesMessageEvent implements Event {
         }
 
         int raceId = Integer.parseInt(splitRace[1]);
-        List<PetRace> races = PetManager.getInstance().getRacesByRaceId(raceId);
+        List<IPetRace> races = PetManager.getInstance().getRacesByRaceId(raceId);
 
         client.send(new PetRacesMessageComposer(petRace, races));
     }

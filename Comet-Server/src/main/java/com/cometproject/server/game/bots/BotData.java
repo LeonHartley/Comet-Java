@@ -1,5 +1,8 @@
 package com.cometproject.server.game.bots;
 
+import com.cometproject.api.game.bots.BotMode;
+import com.cometproject.api.game.bots.BotType;
+import com.cometproject.api.game.bots.IBotData;
 import com.cometproject.server.storage.queries.bots.RoomBotDao;
 import com.cometproject.server.utilities.JsonUtil;
 import com.cometproject.server.utilities.RandomUtil;
@@ -9,7 +12,7 @@ import com.google.gson.JsonObject;
 import java.util.Arrays;
 
 
-public abstract class BotData implements BotInformation {
+public abstract class BotData implements IBotData {
     /**
      * The ID of the bot
      */
@@ -78,11 +81,11 @@ public abstract class BotData implements BotInformation {
      * @param messages      The messages the bot can say
      * @param automaticChat Can the bot talk without being triggered?
      * @param chatDelay     How long before the bot will next talk
-     * @param botType
-     * @param mode
-     * @param data
+     * @param botType       The type of the bot
+     * @param mode          The mode of which the bot will perform actions (e.g walk & talk)
+     * @param data          JSON object of any additional data attached to the bot
      */
-    public BotData(int id, String username, String motto, String figure, String gender, String ownerName, int ownerId, String messages, boolean automaticChat, int chatDelay, String botType, String mode, String data) {
+    public BotData(int id, String username, String motto, String figure, String gender, String ownerName, int ownerId, String messages, boolean automaticChat, int chatDelay, BotType botType, BotMode mode, String data) {
         this.id = id;
         this.username = username;
         this.motto = motto;
@@ -90,30 +93,24 @@ public abstract class BotData implements BotInformation {
         this.gender = gender;
         this.ownerId = ownerId;
         this.ownerName = ownerName;
-        this.botType = BotType.valueOf(botType.toUpperCase());
-        this.mode = BotMode.valueOf(mode.toUpperCase());
+        this.botType = botType;
+        this.mode = mode;
         this.data = data;
         this.messages = (messages == null || messages.isEmpty()) ? new String[0] : JsonUtil.getInstance().fromJson(messages, String[].class);
         this.chatDelay = chatDelay;
         this.isAutomaticChat = automaticChat;
     }
 
-    public BotData(int id, String username, String motto, String figure, String gender, String ownerName, int ownerId, String[] messages, boolean automaticChat, int chatDelay, String botType, String mode, String data) {
+    public BotData(int id, String botName, String ownerName, String botFigure, String botGender, String botMotto, BotType type) {
         this.id = id;
-        this.username = username;
-        this.motto = motto;
-        this.figure = figure;
-        this.gender = gender;
-        this.ownerId = ownerId;
-        this.ownerName = ownerName;
-        this.botType = BotType.valueOf(botType.toUpperCase());
-        this.mode = BotMode.valueOf(mode.toUpperCase());
-        this.data = data;
-        this.messages = messages;
-        this.chatDelay = chatDelay;
-        this.isAutomaticChat = automaticChat;
+        this.username = botName;
+        this.figure = botFigure;
+        this.gender = botGender;
+        this.motto = botMotto;
+        this.botType = type;
     }
 
+    @Override
     public JsonObject toJsonObject() {
         final JsonObject jsonObject = new JsonObject();
         final JsonArray jsonArray = new JsonArray();
@@ -145,6 +142,7 @@ public abstract class BotData implements BotInformation {
      *
      * @return A random chat message from the array
      */
+    @Override
     public String getRandomMessage() {
         if (this.getMessages().length > 0) {
             int index = RandomUtil.getRandomInt(0, (this.getMessages().length - 1));
@@ -168,6 +166,7 @@ public abstract class BotData implements BotInformation {
     /**
      * Save the bot data
      */
+    @Override
     public void save() {
         RoomBotDao.saveData(this);
     }
@@ -177,6 +176,7 @@ public abstract class BotData implements BotInformation {
      *
      * @return The bot's ID
      */
+    @Override
     public int getId() {
         return this.id;
     }
@@ -186,6 +186,7 @@ public abstract class BotData implements BotInformation {
      *
      * @return The bot's name
      */
+    @Override
     public String getUsername() {
         return username;
     }
@@ -195,6 +196,7 @@ public abstract class BotData implements BotInformation {
      *
      * @param username The new username
      */
+    @Override
     public void setUsername(String username) {
         this.username = this.stripNonAlphanumeric(username);
     }
@@ -204,6 +206,7 @@ public abstract class BotData implements BotInformation {
      *
      * @return The bot's motto
      */
+    @Override
     public String getMotto() {
         return motto;
     }
@@ -213,6 +216,7 @@ public abstract class BotData implements BotInformation {
      *
      * @param motto The new motto
      */
+    @Override
     public void setMotto(String motto) {
         this.motto = motto;
     }
@@ -222,6 +226,7 @@ public abstract class BotData implements BotInformation {
      *
      * @return The bot's figure
      */
+    @Override
     public String getFigure() {
         return figure;
     }
@@ -231,6 +236,7 @@ public abstract class BotData implements BotInformation {
      *
      * @param figure The new figure
      */
+    @Override
     public void setFigure(String figure) {
         this.figure = figure;
     }
@@ -240,6 +246,7 @@ public abstract class BotData implements BotInformation {
      *
      * @return The bot's gender
      */
+    @Override
     public String getGender() {
         return gender;
     }
@@ -249,6 +256,7 @@ public abstract class BotData implements BotInformation {
      *
      * @param gender The new gender
      */
+    @Override
     public void setGender(String gender) {
         this.gender = gender;
     }
@@ -258,6 +266,7 @@ public abstract class BotData implements BotInformation {
      *
      * @return Seconds until the bot will talk
      */
+    @Override
     public int getChatDelay() {
         return this.chatDelay;
     }
@@ -267,6 +276,7 @@ public abstract class BotData implements BotInformation {
      *
      * @param delay Seconds until the bot will talk
      */
+    @Override
     public void setChatDelay(int delay) {
         this.chatDelay = delay;
     }
@@ -276,6 +286,7 @@ public abstract class BotData implements BotInformation {
      *
      * @return Bot's chat messages
      */
+    @Override
     public String[] getMessages() {
         return this.messages;
     }
@@ -285,6 +296,7 @@ public abstract class BotData implements BotInformation {
      *
      * @param messages New chat messages
      */
+    @Override
     public void setMessages(String[] messages) {
         this.messages = messages;
     }
@@ -294,6 +306,7 @@ public abstract class BotData implements BotInformation {
      *
      * @return Whether or not the bot can talk without being triggered
      */
+    @Override
     public boolean isAutomaticChat() {
         return isAutomaticChat;
     }
@@ -303,6 +316,7 @@ public abstract class BotData implements BotInformation {
      *
      * @param isAutomaticChat Whether or not the bot can talk without being triggered
      */
+    @Override
     public void setAutomaticChat(boolean isAutomaticChat) {
         this.isAutomaticChat = isAutomaticChat;
     }
@@ -312,6 +326,7 @@ public abstract class BotData implements BotInformation {
      *
      * @return The name of the owner of the bot
      */
+    @Override
     public String getOwnerName() {
         return ownerName;
     }
@@ -321,6 +336,7 @@ public abstract class BotData implements BotInformation {
      *
      * @return The ID of the owner of the bot
      */
+    @Override
     public int getOwnerId() {
         return ownerId;
     }
@@ -328,26 +344,32 @@ public abstract class BotData implements BotInformation {
     /**
      * Dispose the bot (Clear associated lists etc.)
      */
+    @Override
     public void dispose() {
         Arrays.fill(messages, null);
     }
 
+    @Override
     public BotType getBotType() {
         return botType;
     }
 
+    @Override
     public BotMode getMode() {
         return mode;
     }
 
+    @Override
     public void setMode(BotMode mode) {
         this.mode = mode;
     }
 
+    @Override
     public String getData() {
         return data;
     }
 
+    @Override
     public void setData(String data) {
         this.data = data;
     }

@@ -1,32 +1,31 @@
 package com.cometproject.server.game.catalog;
 
-import com.cometproject.server.game.catalog.purchase.OldCatalogPurchaseHandler;
-import com.cometproject.server.game.catalog.types.*;
+import com.cometproject.api.game.catalog.*;
+import com.cometproject.api.game.catalog.types.*;
+import com.cometproject.api.game.catalog.types.purchase.ICatalogPurchaseHandler;
+import com.cometproject.server.game.catalog.purchase.LegacyPurchaseHandler;
 import com.cometproject.server.storage.queries.catalog.CatalogDao;
-import com.cometproject.server.utilities.Initialisable;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import org.apache.commons.collections4.map.ListOrderedMap;
 import org.apache.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
-public class CatalogManager implements Initialisable {
+public class CatalogManager implements ICatalogService {
     private static CatalogManager catalogManagerInstance;
 
     /**
      * The pages within the catalog
      */
-    private Map<Integer, CatalogPage> pages;
+    private Map<Integer, ICatalogPage> pages;
 
     /**
      * The items within the catalog
      */
-    private Map<Integer, CatalogItem> items;
+    private Map<Integer, ICatalogItem> items;
 
     /**
      * The catalog item IDs to page IDs map
@@ -36,7 +35,7 @@ public class CatalogManager implements Initialisable {
     /**
      * Maps the offer ID of an item to the page ID.
      */
-    private static final Map<Integer, CatalogOffer> catalogOffers = new HashMap<>();
+    private final Map<Integer, ICatalogOffer> catalogOffers = new HashMap<>();
 
     /**
      * The new style of gift boxes
@@ -51,22 +50,27 @@ public class CatalogManager implements Initialisable {
     /**
      * Featured catalog pages (they are displayed on the front page)
      */
-    private final List<CatalogFrontPageEntry> frontPageEntries = new ArrayList<>();
+    private final List<ICatalogFrontPageEntry> frontPageEntries = new ArrayList<>();
 
     /**
      * Redeemable clothing items
      */
-    private final Map<String, ClothingItem> clothingItems = Maps.newConcurrentMap();
+    private final Map<String, IClothingItem> clothingItems = Maps.newConcurrentMap();
 
     /**
      * The handler of everything catalog-purchase related
      */
-    private OldCatalogPurchaseHandler purchaseHandler;
+    private ICatalogPurchaseHandler purchaseHandler;
 
     /**
      * The logger for the catalog manager
      */
     private Logger log = Logger.getLogger(CatalogManager.class.getName());
+
+    /**
+     *  Parent pages
+     */
+    private List<ICatalogPage> parentPages = Lists.newCopyOnWriteArrayList();
 
     /**
      * Initialize the catalog
@@ -82,7 +86,7 @@ public class CatalogManager implements Initialisable {
 
         this.catalogItemIdToPageId = new HashMap<>();
 
-        this.purchaseHandler = new OldCatalogPurchaseHandler();
+        this.purchaseHandler = new LegacyPurchaseHandler();
 
         this.loadItemsAndPages();
         this.loadGiftBoxes();
@@ -91,16 +95,10 @@ public class CatalogManager implements Initialisable {
         log.info("CatalogManager initialized");
     }
 
-    public static CatalogManager getInstance() {
-        if (catalogManagerInstance == null)
-            catalogManagerInstance = new CatalogManager();
-
-        return catalogManagerInstance;
-    }
-
     /**
      * Load all catalog pages
      */
+    @Override
     public void loadItemsAndPages() {
         if(this.items.size() >= 1) {
             this.items.clear();
@@ -130,15 +128,18 @@ public class CatalogManager implements Initialisable {
             log.error("Error while loading catalog pages/items", e);
         }
 
-        for (CatalogPage page : this.pages.values()) {
+        for (ICatalogPage page : this.pages.values()) {
             for (Integer item : page.getItems().keySet()) {
                 this.catalogItemIdToPageId.put(item, page.getId());
             }
         }
 
+        this.sortCatalogChildren();
+
         log.info("Loaded " + this.getPages().size() + " catalog pages and " + this.items.size() + " catalog items");
     }
 
+    @Override
     public void loadGiftBoxes() {
         if (this.giftBoxesNew.size() >= 1) {
             this.giftBoxesNew.clear();
@@ -152,7 +153,8 @@ public class CatalogManager implements Initialisable {
         log.info("Loaded " + (this.giftBoxesNew.size() + this.giftBoxesOld.size()) + " gift wrappings");
     }
 
-    private void loadClothingItems() {
+    @Override
+    public void loadClothingItems() {
         if(this.clothingItems.size() >= 1) {
             this.clothingItems.clear();
         }
@@ -167,10 +169,11 @@ public class CatalogManager implements Initialisable {
      * @param rank Player rank
      * @return A list of pages that are accessible by the specified rank
      */
-    public List<CatalogPage> getPagesForRank(int rank) {
-        List<CatalogPage> pages = new ArrayList<>();
+    @Override
+    public List<ICatalogPage> getPagesForRank(int rank) {
+        List<ICatalogPage> pages = new ArrayList<>();
 
-        for (CatalogPage page : this.getPages().values()) {
+        for (ICatalogPage page : this.getPages().values()) {
             if (rank >= page.getMinRank()) {
                 pages.add(page);
             }
@@ -179,20 +182,38 @@ public class CatalogManager implements Initialisable {
         return pages;
     }
 
-    public CatalogItem getCatalogItemByOfferId(int offerId) {
-        CatalogOffer offer = getCatalogOffers().get(offerId);
+    public void sortCatalogChildren() {
+        this.parentPages.clear();
+
+        for(ICatalogPage catalogPage : this.pages.values()) {
+            if(catalogPage.getParentId() != -1) {
+                final ICatalogPage parentPage = this.getPage(catalogPage.getParentId());
+
+                parentPage.getChildren().add(catalogPage);
+            } else {
+                this.parentPages.add(catalogPage);
+            }
+        }
+
+        this.parentPages.sort(Comparator.comparing(ICatalogPage::getId).reversed());
+    }
+
+    @Override
+    public ICatalogItem getCatalogItemByOfferId(int offerId) {
+        ICatalogOffer offer = getCatalogOffers().get(offerId);
 
         if (offer == null)
             return null;
 
-        CatalogPage page = this.getPage(offer.getCatalogPageId());
+        ICatalogPage page = this.getPage(offer.getCatalogPageId());
         if (page == null)
             return null;
 
         return page.getItems().get(offer.getCatalogItemId());
     }
 
-    public CatalogPage getCatalogPageByCatalogItemId(int id) {
+    @Override
+    public ICatalogPage getCatalogPageByCatalogItemId(int id) {
         if(!this.catalogItemIdToPageId.containsKey(id)) {
             return null;
         }
@@ -200,7 +221,8 @@ public class CatalogManager implements Initialisable {
         return this.pages.get(this.catalogItemIdToPageId.get(id));
     }
 
-    public CatalogItem getCatalogItemByItemId(int itemId) {
+    @Override
+    public ICatalogItem getCatalogItemByItemId(int itemId) {
         if (!this.items.containsKey(itemId)) {
             return null;
         }
@@ -208,10 +230,11 @@ public class CatalogManager implements Initialisable {
         return this.items.get(itemId);
     }
 
-    public Map<Integer, CatalogItem> getItemsForPage(int pageId) {
-        Map<Integer, CatalogItem> items = Maps.newHashMap();
+    @Override
+    public Map<Integer, ICatalogItem> getItemsForPage(int pageId) {
+        Map<Integer, ICatalogItem> items = Maps.newHashMap();
 
-        for(Map.Entry<Integer, CatalogItem> catalogItem : this.items.entrySet()) {
+        for(Map.Entry<Integer, ICatalogItem> catalogItem : this.items.entrySet()) {
             if(catalogItem.getValue().getPageId() == pageId) {
                 items.put(catalogItem.getKey(), catalogItem.getValue());
             }
@@ -226,7 +249,8 @@ public class CatalogManager implements Initialisable {
      * @param id Catalog Page ID
      * @return Catalog Page object with the specified ID
      */
-    public CatalogPage getPage(int id) {
+    @Override
+    public ICatalogPage getPage(int id) {
         if (this.pageExists(id)) {
             return this.getPages().get(id);
         }
@@ -240,7 +264,8 @@ public class CatalogManager implements Initialisable {
      * @param catalogItemId The ID of the catalog item
      * @return CatalogItem object with specified ID
      */
-    public CatalogItem getCatalogItem(final int catalogItemId) {
+    @Override
+    public ICatalogItem getCatalogItem(final int catalogItemId) {
         return this.items.get(catalogItemId);
     }
 
@@ -250,6 +275,7 @@ public class CatalogManager implements Initialisable {
      * @param id The ID of the page we want to check that exists
      * @return Whether or not the page with the specified ID exists
      */
+    @Override
     public boolean pageExists(int id) {
         return this.getPages().containsKey(id);
     }
@@ -259,7 +285,8 @@ public class CatalogManager implements Initialisable {
      *
      * @return All catalog pages in-memory
      */
-    public Map<Integer, CatalogPage> getPages() {
+    @Override
+    public Map<Integer, ICatalogPage> getPages() {
         return this.pages;
     }
 
@@ -268,17 +295,9 @@ public class CatalogManager implements Initialisable {
      *
      * @return The catalog page handler
      */
-    public OldCatalogPurchaseHandler getPurchaseHandler() {
+    @Override
+    public ICatalogPurchaseHandler getPurchaseHandler() {
         return purchaseHandler;
-    }
-
-    /**
-     * Get the map that contains the offer id for catalog item id
-     *
-     * @return The map that contains the offer id for catalog item id
-     */
-    public static Map<Integer, CatalogOffer> getCatalogOffers() {
-        return catalogOffers;
     }
 
     /**
@@ -286,6 +305,7 @@ public class CatalogManager implements Initialisable {
      *
      * @return The new style of gift wrapping boxes
      */
+    @Override
     public List<Integer> getGiftBoxesNew() {
         return giftBoxesNew;
     }
@@ -295,6 +315,7 @@ public class CatalogManager implements Initialisable {
      *
      * @return The old style of gift wrapping boxes
      */
+    @Override
     public List<Integer> getGiftBoxesOld() {
         return giftBoxesOld;
     }
@@ -303,11 +324,31 @@ public class CatalogManager implements Initialisable {
      * List all front page entries
      * @return List of all front page entries
      */
-    public List<CatalogFrontPageEntry> getFrontPageEntries() {
+    @Override
+    public List<ICatalogFrontPageEntry> getFrontPageEntries() {
         return this.frontPageEntries;
     }
 
-    public Map<String, ClothingItem> getClothingItems() {
+    @Override
+    public Map<String, IClothingItem> getClothingItems() {
         return this.clothingItems;
+    }
+
+    @Override
+    public Map<Integer, ICatalogOffer> getCatalogOffers() {
+        return catalogOffers;
+    }
+
+    @Override
+    public List<ICatalogPage> getParentPages() {
+        return parentPages;
+    }
+
+    public static CatalogManager getInstance() {
+        if(catalogManagerInstance == null) {
+            catalogManagerInstance = new CatalogManager();
+        }
+
+        return catalogManagerInstance;
     }
 }

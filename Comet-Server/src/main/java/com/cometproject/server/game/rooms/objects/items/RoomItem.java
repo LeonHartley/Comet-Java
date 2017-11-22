@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items;
 
+import com.cometproject.api.game.furniture.types.IFurnitureDefinition;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.items.rares.LimitedEditionItemData;
 import com.cometproject.server.game.items.types.ItemDefinition;
@@ -7,14 +8,12 @@ import com.cometproject.server.game.items.types.LowPriorityItemProcessor;
 import com.cometproject.server.game.rooms.objects.BigRoomFloorObject;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.items.types.AdvancedFloorItem;
-import com.cometproject.server.game.rooms.objects.items.types.floor.RollableFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.RollerFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.SoundMachineFloorItem;
-import com.cometproject.server.game.rooms.objects.items.types.floor.football.BallFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.football.FootballGateFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.games.banzai.BanzaiTeleporterFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredFloorItem;
-import com.cometproject.server.game.rooms.objects.misc.Position;
+import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.utilities.attributes.Attributable;
 import com.google.common.collect.Sets;
@@ -184,7 +183,7 @@ public abstract class RoomItem extends BigRoomFloorObject implements Attributabl
 
     public abstract void serialize(IComposer msg);
 
-    public abstract ItemDefinition getDefinition();
+    public abstract IFurnitureDefinition getDefinition();
 
     public abstract boolean toggleInteract(boolean state);
 

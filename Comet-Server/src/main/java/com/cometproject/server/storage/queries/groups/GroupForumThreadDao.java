@@ -1,5 +1,6 @@
 package com.cometproject.server.storage.queries.groups;
 
+import com.cometproject.api.game.groups.types.components.forum.IForumThread;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.groups.types.components.forum.threads.ForumThread;
 import com.cometproject.server.game.groups.types.components.forum.threads.ForumThreadReply;
@@ -13,12 +14,12 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class GroupForumThreadDao {
-    public static Map<Integer, ForumThread> getAllMessagesForGroup(int groupId) {
+    public static Map<Integer, IForumThread> getAllMessagesForGroup(int groupId) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        Map<Integer, ForumThread> threads = new ConcurrentHashMap<>();
+        Map<Integer, IForumThread> threads = new ConcurrentHashMap<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();

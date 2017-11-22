@@ -1,10 +1,8 @@
 package com.cometproject.server.game.rooms.objects;
 
-import com.cometproject.api.game.rooms.objects.IRoomObject;
-import com.cometproject.server.game.rooms.objects.misc.Position;
-import com.cometproject.server.game.rooms.objects.misc.Positionable;
+import com.cometproject.api.game.utilities.Position;
+import com.cometproject.api.game.utilities.Positionable;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 
 
 public abstract class RoomFloorObject extends RoomObject implements Positionable {

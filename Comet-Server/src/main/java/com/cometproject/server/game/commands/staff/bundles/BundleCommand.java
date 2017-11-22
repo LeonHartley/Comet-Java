@@ -3,7 +3,6 @@ package com.cometproject.server.game.commands.staff.bundles;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.commands.ChatCommand;
-import com.cometproject.server.game.commands.staff.TeleportCommand;
 import com.cometproject.server.game.rooms.bundles.RoomBundleManager;
 import com.cometproject.server.game.rooms.bundles.types.RoomBundle;
 import com.cometproject.server.game.rooms.bundles.types.RoomBundleConfig;
@@ -16,7 +15,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.TeleporterFl
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredFloorItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.NetworkManager;
-import com.cometproject.server.network.messages.outgoing.catalog.CatalogPublishMessageComposer;
+import com.cometproject.server.composers.catalog.CatalogPublishMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.rooms.BundleDao;

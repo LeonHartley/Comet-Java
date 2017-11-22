@@ -1,7 +1,7 @@
 package com.cometproject.server.game.rooms.types.components;
 
-import com.cometproject.server.config.CometSettings;
-import com.cometproject.server.game.quests.types.QuestType;
+import com.cometproject.api.config.CometSettings;
+import com.cometproject.api.game.quests.QuestType;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityType;
@@ -16,7 +16,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.TeleportPadF
 import com.cometproject.server.game.rooms.objects.items.types.floor.pet.breeding.BreedingBoxFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerWalksOffFurni;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerWalksOnFurni;
-import com.cometproject.server.game.rooms.objects.misc.Position;
+import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer;
@@ -68,7 +68,7 @@ public class ProcessComponent implements CometTask {
 
         this.isProcessing = true;
 
-        update = !update;
+         update = !update;
 
         long timeSinceLastProcess = this.lastProcess == 0 ? 0 : (System.currentTimeMillis() - this.lastProcess);
         this.lastProcess = System.currentTimeMillis();
@@ -120,7 +120,7 @@ public class ProcessComponent implements CometTask {
             playersToRemove = null;
             entitiesToUpdate = null;
 
-//            log.debug("Room processing took " + (System.currentTimeMillis() - timeStart) + "ms");
+            //log.debug("Room processing took " + (System.currentTimeMillis() - timeStart) + "ms");
         } catch (Exception e) {
             log.warn("Error during room entity processing", e);
         }
@@ -252,7 +252,7 @@ public class ProcessComponent implements CometTask {
                     }
                 }
 
-                if(entity.isWarped()) {
+                if (entity.isWarped()) {
                     entity.setWarped(false);
                 }
 
@@ -301,7 +301,7 @@ public class ProcessComponent implements CometTask {
             entity.updateAndSetPosition(null);
             entity.setPosition(newPosition);
 
-            if(entity instanceof BotEntity) {
+            if (entity instanceof BotEntity) {
                 entity.getAI().onReachedTile(newTile);
             }
 
@@ -474,8 +474,8 @@ public class ProcessComponent implements CometTask {
                         isCancelled = false;
                     }
 
-                    if(entityOnTile instanceof PetEntity && entity instanceof PetEntity) {
-                        if(entityOnTile.getTile().getTopItemInstance() instanceof BreedingBoxFloorItem) {
+                    if (entityOnTile instanceof PetEntity && entity instanceof PetEntity) {
+                        if (entityOnTile.getTile().getTopItemInstance() instanceof BreedingBoxFloorItem) {
                             isCancelled = false;
                         }
                     }

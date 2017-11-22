@@ -1,11 +1,12 @@
 package com.cometproject.server.game.rooms.types.components;
 
+import com.cometproject.api.game.bots.IBotData;
 import com.cometproject.server.game.bots.BotData;
-import com.cometproject.server.game.players.components.types.inventory.InventoryBot;
+import com.cometproject.server.game.players.components.types.inventory.PlayerBot;
 import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.data.PlayerBotData;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
-import com.cometproject.server.game.rooms.objects.misc.Position;
+import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.storage.queries.bots.RoomBotDao;
 import com.google.common.collect.Maps;
@@ -33,9 +34,9 @@ public class RoomBotComponent {
 
     public void load() {
         try {
-            List<BotData> botData = this.room.getCachedData() != null ? this.room.getCachedData().getBots() : RoomBotDao.getBotsByRoomId(this.room.getId());
+            List<IBotData> botData = this.room.getCachedData() != null ? this.room.getCachedData().getBots() : RoomBotDao.getBotsByRoomId(this.room.getId());
 
-            for (BotData data : botData) {
+            for (IBotData data : botData) {
                 if (this.botNameToId.containsKey(data.getUsername())) {
                     data.setUsername(this.getAvailableName(data.getUsername()));
                 }
@@ -70,19 +71,19 @@ public class RoomBotComponent {
         return name + usedCount;
     }
 
-    public BotEntity addBot(InventoryBot bot, int x, int y, double height) {
+    public BotEntity addBot(IBotData bot, int x, int y, double height) {
         int virtualId = room.getEntities().getFreeId();
         String name;
 
-        if (this.botNameToId.containsKey(bot.getName())) {
-            name = this.getAvailableName(bot.getName());
+        if (this.botNameToId.containsKey(bot.getUsername())) {
+            name = this.getAvailableName(bot.getUsername());
         } else {
-            name = bot.getName();
+            name = bot.getUsername();
         }
 
-        this.botNameToId.put(bot.getName(), bot.getId());
+        this.botNameToId.put(bot.getUsername(), bot.getId());
 
-        BotData botData = new PlayerBotData(bot.getId(), name, bot.getMotto(), bot.getFigure(), bot.getGender(), bot.getOwnerName(), bot.getOwnerId(), "[]", true, 7, bot.getType(), bot.getMode(), null);
+        BotData botData = new PlayerBotData(bot.getId(), name, bot.getMotto(), bot.getFigure(), bot.getGender(), bot.getOwnerName(), bot.getOwnerId(), "[]", true, 7, bot.getBotType(), bot.getMode(), null);
         BotEntity botEntity = new BotEntity(botData, virtualId, new Position(x, y, height), 1, 1, room);
 
         if (botEntity.getPosition().getZ() < this.getRoom().getModel().getSquareHeight()[x][y]) {

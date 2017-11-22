@@ -1,19 +1,16 @@
 package com.cometproject.server.game.rooms.types;
 
+import com.cometproject.api.game.rooms.RoomType;
 import com.cometproject.api.game.rooms.IRoomData;
 import com.cometproject.api.game.rooms.RoomCategory;
 import com.cometproject.api.game.rooms.settings.*;
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.config.CometSettings;
+import com.cometproject.api.config.CometSettings;
 import com.cometproject.server.game.navigator.NavigatorManager;
 import com.cometproject.server.storage.queries.rooms.RoomDao;
-import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.mindrot.jbcrypt.BCrypt;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -66,65 +63,6 @@ public class RoomData implements IRoomData {
 
     private String requiredBadge;
     private String thumbnail;
-
-    public RoomData(ResultSet room) throws SQLException {
-        this.id = room.getInt("id");
-        this.type = RoomType.valueOf(room.getString("type"));
-        this.name = room.getString("name");
-        this.description = room.getString("description");
-        this.ownerId = room.getInt("owner_id");
-        this.owner = room.getString("owner");
-        this.category = room.getInt("category");
-        this.maxUsers = room.getInt("max_users");
-        this.thumbnail = room.getString("thumbnail");
-
-        String accessType = room.getString("access_type");
-        if (!accessType.equals("open") && !accessType.equals("doorbell") && !accessType.equals("password")) {
-            accessType = "open";
-        }
-
-        this.password = room.getString("password");
-        this.access = RoomAccessType.valueOf(accessType.toUpperCase());
-        this.originalPassword = this.password;
-
-        this.score = room.getInt("score");
-
-        this.tags = room.getString("tags").isEmpty() ? new String[0] : room.getString("tags").split(",");
-        this.decorations = new HashMap<>();
-
-        String[] decorations = room.getString("decorations").split(",");
-
-        for (int i = 0; i < decorations.length; i++) {
-            String[] decoration = decorations[i].split("=");
-
-            if (decoration.length == 2)
-                this.decorations.put(decoration[0], decoration[1]);
-        }
-
-        this.model = room.getString("model");
-
-        this.hideWalls = room.getString("hide_walls").equals("1");
-        this.thicknessWall = room.getInt("thickness_wall");
-        this.thicknessFloor = room.getInt("thickness_floor");
-        this.allowWalkthrough = room.getString("allow_walkthrough").equals("1");
-        this.allowPets = room.getString("allow_pets").equals("1");
-        this.heightmap = room.getString("heightmap");
-        this.tradeState = RoomTradeState.valueOf(room.getString("trade_state"));
-
-        this.kickState = RoomKickState.valueOf(room.getString("kick_state"));
-        this.banState = RoomBanState.valueOf(room.getString("ban_state"));
-        this.muteState = RoomMuteState.valueOf(room.getString("mute_state"));
-
-        this.bubbleMode = room.getInt("bubble_mode");
-        this.bubbleScroll = room.getInt("bubble_scroll");
-        this.bubbleType = room.getInt("bubble_type");
-        this.antiFloodSettings = room.getInt("flood_level");
-        this.chatDistance = room.getInt("chat_distance");
-
-        this.disabledCommands = Lists.newArrayList(room.getString("disabled_commands").split(","));
-        this.groupId = room.getInt("group_id");
-        this.requiredBadge = room.getString("required_badge");
-    }
 
     public RoomData(int id, RoomType type, String name, String description, int ownerId, String owner, int category,
                     int maxUsers, RoomAccessType access, String password, String originalPassword,

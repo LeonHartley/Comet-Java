@@ -4,7 +4,7 @@ import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.polls.types.Poll;
 import com.cometproject.server.game.polls.types.PollQuestion;
 import com.cometproject.server.game.polls.types.questions.MultipleChoiceQuestion;
-import com.cometproject.server.network.messages.composers.MessageComposer;
+import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
 
 import java.util.Map;

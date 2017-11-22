@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.navigator;
 
+import com.cometproject.api.game.rooms.IRoomData;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.network.messages.incoming.Event;
@@ -13,7 +14,7 @@ import java.util.List;
 
 public class OwnRoomsMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) {
-        List<RoomData> rooms = new LinkedList<>();
+        List<IRoomData> rooms = new LinkedList<>();
 
         for (Integer roomId : new LinkedList<>(client.getPlayer().getRooms())) {
             if (RoomManager.getInstance().getRoomData(roomId) == null) continue;

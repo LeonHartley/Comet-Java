@@ -13,7 +13,7 @@ public class WiredAddonFloorSwitch extends RoomItemFloor {
     @Override
     public boolean onInteract(RoomEntity entity, int requestData, boolean isWiredTrigger) {
         if (entity != null) {
-            if (!this.getPosition().touching(entity)) {
+            if (!this.getPosition().touching(entity.getPosition())) {
                 entity.moveTo(this.getPosition().squareBehind(this.getRotation()).getX(), this.getPosition().squareBehind(this.getRotation()).getY());
                 return false;
             }

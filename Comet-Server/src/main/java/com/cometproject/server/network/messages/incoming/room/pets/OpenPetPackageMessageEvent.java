@@ -1,16 +1,13 @@
 package com.cometproject.server.network.messages.incoming.room.pets;
 
-import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.pets.data.PetData;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.pet.eggs.PetPackageFloorItem;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.pets.PetPackageCompleteMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.pets.PetPackageMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.storage.queries.pets.PetDao;

@@ -1,5 +1,7 @@
 package com.cometproject.server.game.groups.items;
 
+import com.cometproject.api.game.groups.IGroupItemService;
+import com.cometproject.api.game.groups.items.IGroupBadgeItem;
 import com.cometproject.server.game.groups.items.types.*;
 import com.cometproject.server.storage.queries.groups.GroupItemDao;
 import org.apache.log4j.Logger;
@@ -10,12 +12,12 @@ import java.util.List;
 import java.util.Map;
 
 
-public class GroupItemManager {
-    private List<GroupBase> bases;
-    private List<GroupSymbol> symbols;
-    private List<GroupBaseColour> baseColours;
-    private Map<Integer, GroupSymbolColour> symbolColours;
-    private Map<Integer, GroupBackgroundColour> backgroundColours;
+public class GroupItemManager implements IGroupItemService {
+    private List<IGroupBadgeItem> bases;
+    private List<IGroupBadgeItem> symbols;
+    private List<IGroupBadgeItem> baseColours;
+    private Map<Integer, IGroupBadgeItem> symbolColours;
+    private Map<Integer, IGroupBadgeItem> backgroundColours;
 
     private static final Logger log = Logger.getLogger(GroupItemManager.class.getName());
 
@@ -44,23 +46,23 @@ public class GroupItemManager {
         log.info("Loaded " + itemCount + " group items");
     }
 
-    public List<GroupBase> getBases() {
+    public List<IGroupBadgeItem> getBases() {
         return this.bases;
     }
 
-    public List<GroupSymbol> getSymbols() {
+    public List<IGroupBadgeItem> getSymbols() {
         return this.symbols;
     }
 
-    public List<GroupBaseColour> getBaseColours() {
+    public List<IGroupBadgeItem> getBaseColours() {
         return this.baseColours;
     }
 
-    public Map<Integer, GroupSymbolColour> getSymbolColours() {
+    public Map<Integer, IGroupBadgeItem> getSymbolColours() {
         return this.symbolColours;
     }
 
-    public Map<Integer, GroupBackgroundColour> getBackgroundColours() {
+    public Map<Integer, IGroupBadgeItem> getBackgroundColours() {
         return this.backgroundColours;
     }
 }

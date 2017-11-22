@@ -9,15 +9,15 @@ import java.util.Set;
 public interface ISessionManager {
     boolean disconnectByPlayerId(int id);
 
-    BaseSession getByPlayerId(int id);
+    ISession getByPlayerId(int id);
 
-    Set<BaseSession> getByPlayerPermission(String permission);
+    Set<ISession> getByPlayerPermission(String permission);
 
-    BaseSession getByPlayerUsername(String username);
+    ISession getByPlayerUsername(String username);
 
     int getUsersOnlineCount();
 
-    Map<Integer, BaseSession> getSessions();
+    Map<Integer, ISession> getSessions();
 
     void broadcast(IMessageComposer msg);
 

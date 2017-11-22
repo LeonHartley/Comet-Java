@@ -3,7 +3,7 @@ package com.cometproject.server.network.messages.outgoing.group;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.GroupData;
-import com.cometproject.server.network.messages.composers.MessageComposer;
+import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
 
 import java.util.List;
@@ -41,8 +41,8 @@ public class GroupDataMessageComposer extends MessageComposer {
                 msg.writeString(group.getTitle());
                 msg.writeString(group.getBadge());
 
-                String colourA = GroupManager.getInstance().getGroupItems().getSymbolColours().get(group.getColourA()) != null ? GroupManager.getInstance().getGroupItems().getSymbolColours().get(group.getColourA()).getColour() : "ffffff";
-                String colourB = GroupManager.getInstance().getGroupItems().getBackgroundColours().get(group.getColourB()) != null ? GroupManager.getInstance().getGroupItems().getBackgroundColours().get(group.getColourB()).getColour() : "ffffff";
+                String colourA = GroupManager.getInstance().getGroupItems().getSymbolColours().get(group.getColourA()) != null ? GroupManager.getInstance().getGroupItems().getSymbolColours().get(group.getColourA()).getFirstValue() : "ffffff";
+                String colourB = GroupManager.getInstance().getGroupItems().getBackgroundColours().get(group.getColourB()) != null ? GroupManager.getInstance().getGroupItems().getBackgroundColours().get(group.getColourB()).getFirstValue() : "ffffff";
 
                 msg.writeString(colourA);
                 msg.writeString(colourB);

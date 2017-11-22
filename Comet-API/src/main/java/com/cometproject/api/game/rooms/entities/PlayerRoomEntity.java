@@ -1,7 +1,10 @@
 package com.cometproject.api.game.rooms.entities;
 
-import com.cometproject.api.game.players.BasePlayer;
+import com.cometproject.api.game.players.IPlayer;
+import com.cometproject.api.game.rooms.IRoom;
 
 public interface PlayerRoomEntity extends RoomEntity {
-    BasePlayer getPlayer();
+    IPlayer getPlayer();
+
+    IRoom getRoom();
 }

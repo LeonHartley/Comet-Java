@@ -1,8 +1,9 @@
 package com.cometproject.server.network.messages.incoming.group.forum.settings;
 
+import com.cometproject.api.game.groups.types.components.forum.IForumSettings;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
-import com.cometproject.server.game.groups.types.components.forum.settings.ForumPermission;
+import com.cometproject.api.game.groups.types.components.forum.ForumPermission;
 import com.cometproject.server.game.groups.types.components.forum.settings.ForumSettings;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.group.forums.GroupForumDataMessageComposer;
@@ -36,7 +37,7 @@ public class SaveForumSettingsMessageEvent implements Event {
             return;
         }
 
-        ForumSettings forumSettings = group.getForumComponent().getForumSettings();
+        IForumSettings forumSettings = group.getForumComponent().getForumSettings();
 
         forumSettings.setReadPermission(whoCanReadForum);
         forumSettings.setModeratePermission(whoCanModerate);

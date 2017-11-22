@@ -1,11 +1,12 @@
 package com.cometproject.server.game.players.components;
 
+import com.cometproject.api.game.players.IPlayer;
+import com.cometproject.api.game.players.data.components.PlayerQuests;
+import com.cometproject.api.game.quests.IQuest;
 import com.cometproject.server.config.Locale;
-import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.players.types.PlayerComponent;
-import com.cometproject.server.game.quests.types.Quest;
 import com.cometproject.server.game.quests.QuestManager;
-import com.cometproject.server.game.quests.types.QuestType;
+import com.cometproject.api.game.quests.QuestType;
 import com.cometproject.server.network.messages.outgoing.quests.QuestCompletedMessageComposer;
 import com.cometproject.server.network.messages.outgoing.quests.QuestListMessageComposer;
 import com.cometproject.server.network.messages.outgoing.quests.QuestStartedMessageComposer;
@@ -15,28 +16,30 @@ import org.apache.log4j.Logger;
 
 import java.util.Map;
 
-public class QuestComponent implements PlayerComponent {
+public class QuestComponent extends PlayerComponent implements PlayerQuests {
     private static final Logger log = Logger.getLogger(QuestComponent.class.getName());
 
-    private Player player;
     private Map<Integer, Integer> questProgression;
 
-    public QuestComponent(Player player) {
-        this.player = player;
+    public QuestComponent(IPlayer player) {
+        super(player);
 
         this.loadQuestProgression();
     }
 
-    private void loadQuestProgression() {
+    @Override
+    public void loadQuestProgression() {
         this.questProgression = PlayerQuestsDao.getQuestProgression(this.getPlayer().getId());
     }
 
+    @Override
     public boolean hasStartedQuest(int questId) {
         return this.questProgression.containsKey(questId);
     }
 
+    @Override
     public boolean hasCompletedQuest(int questId) {
-        final Quest quest = QuestManager.getInstance().getById(questId);
+        final IQuest quest = QuestManager.getInstance().getById(questId);
 
         if (quest == null) return false;
 
@@ -49,14 +52,15 @@ public class QuestComponent implements PlayerComponent {
         return false;
     }
 
-    public void startQuest(Quest quest) {
+    @Override
+    public void startQuest(IQuest quest) {
         if (this.questProgression.containsKey(quest.getId())) {
             // We've already started this quest
             return;
         }
 
         this.questProgression.put(quest.getId(), 0);
-        PlayerQuestsDao.saveProgression(true, this.player.getId(), quest.getId(), 0);
+        PlayerQuestsDao.saveProgression(true, this.getPlayer().getId(), quest.getId(), 0);
 
         this.getPlayer().getSession().send(new QuestStartedMessageComposer(quest, this.getPlayer()));
         this.getPlayer().getSession().send(new QuestListMessageComposer(QuestManager.getInstance().getQuests(), this.getPlayer(), false));
@@ -65,15 +69,18 @@ public class QuestComponent implements PlayerComponent {
         this.getPlayer().getData().save();
     }
 
+    @Override
     public void cancelQuest(int questId) {
-        PlayerQuestsDao.cancelQuest(questId, this.player.getId());
+        PlayerQuestsDao.cancelQuest(questId, this.getPlayer().getId());
         this.questProgression.remove(questId);
     }
 
+    @Override
     public void progressQuest(QuestType type) {
         this.progressQuest(type, 0);
     }
 
+    @Override
     public void progressQuest(QuestType type, int data) {
         int questId = this.getPlayer().getData().getQuestId();
 
@@ -81,7 +88,7 @@ public class QuestComponent implements PlayerComponent {
             return;
         }
 
-        Quest quest = QuestManager.getInstance().getById(questId);
+        IQuest quest = QuestManager.getInstance().getById(questId);
 
         if (quest == null) {
             return;
@@ -129,7 +136,7 @@ public class QuestComponent implements PlayerComponent {
                         break;
 
                     case VIP_POINTS:
-                        this.player.getData().increasePoints(quest.getReward());
+                        this.getPlayer().getData().increasePoints(quest.getReward());
                         refreshCurrenciesBalance = true;
                         break;
 
@@ -141,7 +148,7 @@ public class QuestComponent implements PlayerComponent {
 
                 if (!quest.getBadgeId().isEmpty()) {
                     // Deliver badge
-                    this.player.getInventory().addBadge(quest.getBadgeId(), true);
+                    this.getPlayer().getInventory().addBadge(quest.getBadgeId(), true);
                 }
             } catch (Exception e) {
                 log.error("Failed to deliver reward to player: " + this.getPlayer().getData().getUsername());
@@ -161,12 +168,13 @@ public class QuestComponent implements PlayerComponent {
             this.questProgression.replace(questId, newProgressValue);
         }
 
-        PlayerQuestsDao.saveProgression(false, this.player.getId(), questId, newProgressValue);
+        PlayerQuestsDao.saveProgression(false, this.getPlayer().getId(), questId, newProgressValue);
 
-        this.getPlayer().getSession().send(new QuestCompletedMessageComposer(quest, this.player));
-        this.getPlayer().getSession().send(new QuestListMessageComposer(QuestManager.getInstance().getQuests(), this.player, false));
+        this.getPlayer().getSession().send(new QuestCompletedMessageComposer(quest, this.getPlayer()));
+        this.getPlayer().getSession().send(new QuestListMessageComposer(QuestManager.getInstance().getQuests(), this.getPlayer(), false));
     }
 
+    @Override
     public int getProgress(int quest) {
         if (this.questProgression.containsKey(quest)) {
             return this.questProgression.get(quest);
@@ -177,14 +185,9 @@ public class QuestComponent implements PlayerComponent {
 
     @Override
     public void dispose() {
+        super.dispose();
+
         this.questProgression.clear();
         this.questProgression = null;
-
-        this.player = null;
-    }
-
-    @Override
-    public Player getPlayer() {
-        return this.player;
     }
 }

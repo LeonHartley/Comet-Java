@@ -1,5 +1,7 @@
 package com.cometproject.server.game.navigator.types.search;
 
+import com.cometproject.api.game.players.data.components.messenger.IMessengerFriend;
+import com.cometproject.api.game.rooms.IRoomData;
 import com.cometproject.api.game.rooms.settings.RoomAccessType;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
@@ -53,13 +55,13 @@ public class NavigatorSearchService implements CometTask {
                         if (navigatorCategory.getCategoryType().toString().toLowerCase().equals("my_friends_rooms")) {
                             boolean friendsRoomsNotEmpty = false;
 
-                            for (MessengerFriend messengerFriend : player.getMessenger().getFriends().values()) {
+                            for (IMessengerFriend messengerFriend : player.getMessenger().getFriends().values()) {
                                 if (friendsRoomsNotEmpty) {
                                     continue;
                                 }
 
                                 if (messengerFriend.isInRoom()) {
-                                    PlayerEntity playerEntity = messengerFriend.getSession().getPlayer().getEntity();
+                                    PlayerEntity playerEntity = (PlayerEntity) messengerFriend.getSession().getPlayer().getEntity();
 
                                     if (playerEntity != null) {
                                         if (playerEntity.getRoom().getData().getOwnerId() == playerEntity.getPlayerId()) {
@@ -87,13 +89,13 @@ public class NavigatorSearchService implements CometTask {
                         if (navigatorCategory.getCategoryType().toString().toLowerCase().equals("with_friends")) {
                             boolean withFriendsRoomsNotEmpty = false;
 
-                            for (MessengerFriend messengerFriend : player.getMessenger().getFriends().values()) {
+                            for (IMessengerFriend messengerFriend : player.getMessenger().getFriends().values()) {
                                 if (withFriendsRoomsNotEmpty) {
                                     continue;
                                 }
 
                                 if (messengerFriend.isInRoom()) {
-                                    PlayerEntity playerEntity = messengerFriend.getSession().getPlayer().getEntity();
+                                    PlayerEntity playerEntity = (PlayerEntity) messengerFriend.getSession().getPlayer().getEntity();
 
                                     if (playerEntity != null && !playerEntity.getPlayer().getSettings().getHideOnline()) {
                                         if (playerEntity.getRoom().getData().getAccess() == RoomAccessType.INVISIBLE && player.getData().getRank() < 3) {
@@ -131,7 +133,7 @@ public class NavigatorSearchService implements CometTask {
                                 GroupData groupData = GroupManager.getInstance().getData(groupId);
 
                                 if (groupData != null) {
-                                    RoomData roomData = RoomManager.getInstance().getRoomData(groupData.getRoomId());
+                                    IRoomData roomData = RoomManager.getInstance().getRoomData(groupData.getRoomId());
 
                                     if (roomData != null) {
                                         groupHomeRoomsNotEmpty = true;
@@ -173,8 +175,8 @@ public class NavigatorSearchService implements CometTask {
         });
     }
 
-    public List<RoomData> search(Category category, Player player, boolean expanded) {
-        List<RoomData> rooms = Lists.newCopyOnWriteArrayList();
+    public List<IRoomData> search(Category category, Player player, boolean expanded) {
+        List<IRoomData> rooms = Lists.newCopyOnWriteArrayList();
 
         switch (category.getCategoryType()) {
             case MY_ROOMS:
@@ -190,7 +192,7 @@ public class NavigatorSearchService implements CometTask {
                 break;
 
             case MY_FAVORITES:
-                List<RoomData> favouriteRooms = Lists.newArrayList();
+                List<IRoomData> favouriteRooms = Lists.newArrayList();
 
                 if(player.getNavigator() == null) {
                     return rooms;
@@ -199,7 +201,7 @@ public class NavigatorSearchService implements CometTask {
                 for(Integer roomId : player.getNavigator().getFavouriteRooms()) {
                     if(favouriteRooms.size() == 50) break;
 
-                    final RoomData roomData = RoomManager.getInstance().getRoomData(roomId);
+                    final IRoomData roomData = RoomManager.getInstance().getRoomData(roomId);
 
                     if(roomData != null) {
                         favouriteRooms.add(roomData);
@@ -219,11 +221,11 @@ public class NavigatorSearchService implements CometTask {
                 break;
 
             case TOP_PROMOTIONS:
-                List<RoomData> promotedRooms = Lists.newArrayList();
+                List<IRoomData> promotedRooms = Lists.newArrayList();
 
                 for (RoomPromotion roomPromotion : RoomManager.getInstance().getRoomPromotions().values()) {
                     if (roomPromotion != null) {
-                        RoomData roomData = RoomManager.getInstance().getRoomData(roomPromotion.getRoomId());
+                        IRoomData roomData = RoomManager.getInstance().getRoomData(roomPromotion.getRoomId());
 
                         if (roomData != null) {
                             promotedRooms.add(roomData);
@@ -237,7 +239,7 @@ public class NavigatorSearchService implements CometTask {
 
             case PUBLIC:
                 for (PublicRoom publicRoom : NavigatorManager.getInstance().getPublicRooms().values()) {
-                    RoomData roomData = RoomManager.getInstance().getRoomData(publicRoom.getRoomId());
+                    IRoomData roomData = RoomManager.getInstance().getRoomData(publicRoom.getRoomId());
 
                     if (roomData != null) {
                         rooms.add(roomData);
@@ -246,10 +248,10 @@ public class NavigatorSearchService implements CometTask {
                 break;
 
             case STAFF_PICKS:
-                List<RoomData> staffPicks = Lists.newArrayList();
+                List<IRoomData> staffPicks = Lists.newArrayList();
 
                 for (int roomId : NavigatorManager.getInstance().getStaffPicks()) {
-                    RoomData roomData = RoomManager.getInstance().getRoomData(roomId);
+                    IRoomData roomData = RoomManager.getInstance().getRoomData(roomId);
 
                     if (roomData != null) {
                         staffPicks.add(roomData);
@@ -261,13 +263,13 @@ public class NavigatorSearchService implements CometTask {
                 break;
 
             case MY_GROUPS:
-                List<RoomData> groupHomeRooms = Lists.newArrayList();
+                List<IRoomData> groupHomeRooms = Lists.newArrayList();
 
                 for (int groupId : player.getGroups()) {
                     GroupData groupData = GroupManager.getInstance().getData(groupId);
 
                     if (groupData != null) {
-                        RoomData roomData = RoomManager.getInstance().getRoomData(groupData.getRoomId());
+                        IRoomData roomData = RoomManager.getInstance().getRoomData(groupData.getRoomId());
 
                         if (roomData != null) {
                             groupHomeRooms.add(roomData);
@@ -280,15 +282,15 @@ public class NavigatorSearchService implements CometTask {
                 break;
 
             case MY_FRIENDS_ROOMS:
-                List<RoomData> friendsRooms = Lists.newArrayList();
+                List<IRoomData> friendsRooms = Lists.newArrayList();
 
                 if (player.getMessenger() == null) {
                     return rooms;
                 }
 
-                for (MessengerFriend messengerFriend : player.getMessenger().getFriends().values()) {
+                for (IMessengerFriend messengerFriend : player.getMessenger().getFriends().values()) {
                     if (messengerFriend.isInRoom()) {
-                        PlayerEntity playerEntity = messengerFriend.getSession().getPlayer().getEntity();
+                        PlayerEntity playerEntity = (PlayerEntity) messengerFriend.getSession().getPlayer().getEntity();
 
                         if (playerEntity != null) {
                             if (!friendsRooms.contains(playerEntity.getRoom().getData())) {
@@ -315,15 +317,15 @@ public class NavigatorSearchService implements CometTask {
                 break;
 
             case WITH_FRIENDS:
-                List<RoomData> withFriendsRooms = Lists.newArrayList();
+                List<IRoomData> withFriendsRooms = Lists.newArrayList();
 
                 if(player.getMessenger() == null) {
                     return rooms;
                 }
 
-                for(MessengerFriend messengerFriend : player.getMessenger().getFriends().values()) {
+                for(IMessengerFriend messengerFriend : player.getMessenger().getFriends().values()) {
                     if (messengerFriend.isInRoom()) {
-                        PlayerEntity playerEntity = messengerFriend.getSession().getPlayer().getEntity();
+                        PlayerEntity playerEntity = (PlayerEntity) messengerFriend.getSession().getPlayer().getEntity();
 
                         if (playerEntity != null && !playerEntity.getPlayer().getSettings().getHideOnline()) {
                             if (!withFriendsRooms.contains(playerEntity.getRoom().getData())) {
@@ -367,7 +369,7 @@ public class NavigatorSearchService implements CometTask {
         return rooms;
     }
 
-    public static List<RoomData> order(List<RoomData> rooms, int limit) {
+    public static List<IRoomData> order(List<IRoomData> rooms, int limit) {
         try {
             Collections.sort(rooms, (room1, room2) -> {
                 boolean is1Active = RoomManager.getInstance().isActive(room1.getId());
@@ -380,9 +382,9 @@ public class NavigatorSearchService implements CometTask {
 
         }
 
-        List<RoomData> returnRooms = new LinkedList<>();
+        List<IRoomData> returnRooms = new LinkedList<>();
 
-        for (RoomData roomData : rooms) {
+        for (IRoomData roomData : rooms) {
             if (returnRooms.size() >= limit) {
                 break;
             }

@@ -39,7 +39,7 @@ public class ShutdownProcess {
         }
 
         log.info("Closing all database connections");
-        StorageManager.getInstance().getConnections().shutdown();
+        StorageManager.getInstance().shutdown();
 
         if(exit) {
             System.exit(0);

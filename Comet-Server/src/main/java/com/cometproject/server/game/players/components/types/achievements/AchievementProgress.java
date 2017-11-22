@@ -1,6 +1,8 @@
 package com.cometproject.server.game.players.components.types.achievements;
 
-public class AchievementProgress {
+import com.cometproject.api.game.players.data.components.achievements.IAchievementProgress;
+
+public class AchievementProgress implements IAchievementProgress {
     private int level;
     private int progress;
 

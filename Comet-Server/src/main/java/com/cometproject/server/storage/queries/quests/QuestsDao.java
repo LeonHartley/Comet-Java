@@ -1,5 +1,6 @@
 package com.cometproject.server.storage.queries.quests;
 
+import com.cometproject.api.game.quests.IQuest;
 import com.cometproject.server.game.quests.types.Quest;
 import com.cometproject.server.storage.SqlHelper;
 
@@ -11,12 +12,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class QuestsDao {
-    public static Map<String, Quest> getAllQuests() {
+    public static Map<String, IQuest> getAllQuests() {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        Map<String, Quest> quests = new HashMap<>();
+        Map<String, IQuest> quests = new HashMap<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();

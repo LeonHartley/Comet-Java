@@ -1,15 +1,15 @@
 package com.cometproject.api.game.players.data.types;
 
 public interface IWardrobeItem {
-    public int getSlot();
+    int getSlot();
 
-    public void setSlot(int slot);
+    void setSlot(int slot);
 
-    public String getGender();
+    String getGender();
 
-    public void setGender(String gender);
+    void setGender(String gender);
 
-    public String getFigure();
+    String getFigure();
 
-    public void setFigure(String figure);
+    void setFigure(String figure);
 }

@@ -1,8 +1,9 @@
 package com.cometproject.server.network.messages.incoming.group.forum.threads;
 
+import com.cometproject.api.game.groups.types.components.forum.IForumThread;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
-import com.cometproject.server.game.groups.types.components.forum.settings.ForumPermission;
+import com.cometproject.api.game.groups.types.components.forum.ForumPermission;
 import com.cometproject.server.game.groups.types.components.forum.threads.ForumThread;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.group.forums.GroupForumViewThreadMessageComposer;
@@ -22,7 +23,7 @@ public class ViewThreadMessageEvent implements Event {
             return;
         }
 
-        ForumThread forumThread = group.getForumComponent().getForumThreads().get(threadId);
+        IForumThread forumThread = group.getForumComponent().getForumThreads().get(threadId);
 
         if(forumThread == null) {
             return;

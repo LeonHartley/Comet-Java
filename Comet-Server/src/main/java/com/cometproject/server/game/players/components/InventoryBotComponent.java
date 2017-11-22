@@ -1,8 +1,9 @@
 package com.cometproject.server.game.players.components;
 
+import com.cometproject.api.game.bots.IBotData;
+import com.cometproject.api.game.players.IPlayer;
 import com.cometproject.api.game.players.data.components.PlayerBots;
-import com.cometproject.api.game.players.data.components.bots.PlayerBot;
-import com.cometproject.server.game.players.components.types.inventory.InventoryBot;
+import com.cometproject.api.game.players.data.components.bots.IPlayerBot;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.players.types.PlayerComponent;
 import com.cometproject.server.storage.queries.bots.PlayerBotDao;
@@ -10,27 +11,22 @@ import com.cometproject.server.storage.queries.bots.PlayerBotDao;
 import java.util.Map;
 
 
-public class InventoryBotComponent implements PlayerComponent, PlayerBots {
-    private Player player;
-    private Map<Integer, PlayerBot> bots;
+public class InventoryBotComponent extends PlayerComponent implements PlayerBots {
+    private Map<Integer, IBotData> bots;
 
-    public InventoryBotComponent(Player player) {
-        this.player = player;
+    public InventoryBotComponent(IPlayer player) {
+        super(player);
 
         this.bots = PlayerBotDao.getBotsByPlayerId(player.getId());
     }
 
-    public void addBot(InventoryBot bot) {
+    @Override
+    public void addBot(IBotData bot) {
         this.bots.put(bot.getId(), bot);
     }
 
-    public void dispose() {
-        this.bots.clear();
-        this.bots = null;
-        this.player = null;
-    }
-
-    public PlayerBot getBot(int id) {
+    @Override
+    public IBotData getBot(int id) {
         if (this.bots.containsKey(id)) {
             return this.bots.get(id);
         }
@@ -38,23 +34,31 @@ public class InventoryBotComponent implements PlayerComponent, PlayerBots {
         return null;
     }
 
+    @Override
     public void remove(int id) {
         this.bots.remove(id);
     }
 
+    @Override
     public boolean isBot(int id) {
         return this.bots.containsKey(id);
     }
 
-    public Map<Integer, PlayerBot> getBots() {
+    @Override
+    public Map<Integer, IBotData> getBots() {
         return this.bots;
     }
 
-    public Player getPlayer() {
-        return this.player;
-    }
-
+    @Override
     public void clearBots() {
         this.bots.clear();
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+
+        this.bots.clear();
+        this.bots = null;
     }
 }

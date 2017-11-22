@@ -1,23 +1,26 @@
 package com.cometproject.server.game.groups.types;
 
+import com.cometproject.api.game.groups.types.IGroup;
+import com.cometproject.api.game.groups.types.IGroupData;
+import com.cometproject.api.game.groups.types.components.IForumComponent;
+import com.cometproject.api.game.groups.types.components.IMembershipComponent;
+import com.cometproject.api.game.groups.types.components.forum.IForumSettings;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.components.forum.ForumComponent;
 import com.cometproject.server.game.groups.types.components.forum.settings.ForumSettings;
 import com.cometproject.server.game.groups.types.components.membership.MembershipComponent;
 import com.cometproject.server.game.rooms.RoomManager;
-import com.cometproject.server.network.messages.composers.MessageComposer;
+import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.network.messages.outgoing.group.GroupInformationMessageComposer;
 import com.cometproject.server.storage.cache.CacheManager;
 import com.cometproject.server.storage.cache.objects.GroupDataObject;
 import com.cometproject.server.storage.queries.groups.GroupForumDao;
-import com.google.common.cache.Cache;
-import com.google.common.collect.Lists;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class Group {
+public class Group implements IGroup {
     /**
      * The ID of the group
      */
@@ -28,17 +31,17 @@ public class Group {
     /**
      * The component which will handle everything member-related
      */
-    private MembershipComponent membershipComponent;
+    private IMembershipComponent membershipComponent;
 
     /**
      * The component which will handle the group forum data
      */
-    private ForumComponent forumComponent;
+    private IForumComponent forumComponent;
 
     /**
      * The data of the group
      */
-    private final GroupData groupData;
+    private final IGroupData groupData;
 
     /**
      * Initialize the group instance
@@ -68,9 +71,7 @@ public class Group {
     public GroupDataObject getCacheObject() {
         final List<Integer> requests = new ArrayList<>();
 
-        for (Integer request : this.getMembershipComponent().getMembershipRequests()) {
-            requests.add(request);
-        }
+        requests.addAll(this.getMembershipComponent().getMembershipRequests());
 
         return new GroupDataObject(this.id, this.getData(),
                 this.getMembershipComponent().getMembersAsList(),
@@ -86,17 +87,19 @@ public class Group {
      * @param playerId The ID of the player to receive this message
      * @return Packet containing the group information
      */
+    @Override
     public MessageComposer composeInformation(boolean flag, int playerId) {
         return new GroupInformationMessageComposer(this, RoomManager.getInstance().getRoomData(this.getData().getRoomId()), flag, playerId == this.getData().getOwnerId(), this.getMembershipComponent().getAdministrators().contains(playerId),
                 this.getMembershipComponent().getMembers().containsKey(playerId) ? 1 : this.getMembershipComponent().getMembershipRequests().contains(playerId) ? 2 : 0);
     }
 
+    @Override
     public void initializeForum() {
         if (this.groupDataObject != null && this.groupDataObject.getForumThreads() == null) {
             return;
         }
 
-        ForumSettings forumSettings = this.getGroupDataObject() != null ? this.getGroupDataObject().getForumSettings() : GroupForumDao.getSettings(this.id);
+        IForumSettings forumSettings = this.getGroupDataObject() != null ? this.getGroupDataObject().getForumSettings() : GroupForumDao.getSettings(this.id);
 
         if (forumSettings == null) {
             forumSettings = GroupForumDao.createSettings(this.id);
@@ -107,6 +110,7 @@ public class Group {
 
     private boolean disposed = false;
 
+    @Override
     public void dispose() {
         if (this.disposed) {
             return;
@@ -130,6 +134,7 @@ public class Group {
     /**
      * Commits the group data to the cache (if enabled)
      */
+    @Override
     public void commit() {
         if (CacheManager.getInstance().isEnabled()) {
             CacheManager.getInstance().put("groups." + id, this.getCacheObject());
@@ -141,6 +146,7 @@ public class Group {
      *
      * @return The ID of the group
      */
+    @Override
     public int getId() {
         return this.id;
     }
@@ -150,7 +156,8 @@ public class Group {
      *
      * @return The data object
      */
-    public GroupData getData() {
+    @Override
+    public IGroupData getData() {
         return this.groupData;
     }
 
@@ -159,7 +166,8 @@ public class Group {
      *
      * @return The component which will handle everything member-related
      */
-    public MembershipComponent getMembershipComponent() {
+    @Override
+    public IMembershipComponent getMembershipComponent() {
         return membershipComponent;
     }
 
@@ -168,7 +176,8 @@ public class Group {
      *
      * @return The group forumc component
      */
-    public ForumComponent getForumComponent() {
+    @Override
+    public IForumComponent getForumComponent() {
         return forumComponent;
     }
 

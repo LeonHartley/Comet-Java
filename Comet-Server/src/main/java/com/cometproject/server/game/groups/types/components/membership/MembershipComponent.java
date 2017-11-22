@@ -1,13 +1,14 @@
 package com.cometproject.server.game.groups.types.components.membership;
 
+import com.cometproject.api.game.groups.types.components.IMembershipComponent;
+import com.cometproject.api.game.groups.types.components.membership.IGroupMember;
+import com.cometproject.api.networking.messages.IMessageComposer;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.groups.types.GroupMember;
-import com.cometproject.server.game.groups.types.components.GroupComponent;
+import com.cometproject.api.game.groups.types.GroupComponent;
 import com.cometproject.server.network.NetworkManager;
-import com.cometproject.server.network.messages.composers.MessageComposer;
+import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.network.sessions.Session;
-import com.cometproject.server.network.sessions.SessionManager;
-import com.cometproject.server.storage.cache.CacheManager;
 import com.cometproject.server.storage.queries.groups.GroupMemberDao;
 import org.apache.commons.collections4.map.ListOrderedMap;
 import org.apache.commons.collections4.set.ListOrderedSet;
@@ -18,7 +19,7 @@ import java.util.Map;
 import java.util.Set;
 
 
-public class MembershipComponent implements GroupComponent {
+public class MembershipComponent implements IMembershipComponent, GroupComponent {
     /**
      * The instance of the group
      */
@@ -27,7 +28,7 @@ public class MembershipComponent implements GroupComponent {
     /**
      * All members of this group
      */
-    private Map<Integer, GroupMember> groupMembers;
+    private Map<Integer, IGroupMember> groupMembers;
 
     /**
      * Administrators of this group
@@ -57,14 +58,14 @@ public class MembershipComponent implements GroupComponent {
     /**
      * Load members of this group from the database
      */
-    private void loadMemberships() {
-        for (GroupMember groupMember : this.group.getGroupDataObject() != null ? this.group.getGroupDataObject().getGroupMembers() : GroupMemberDao.getAllByGroupId(this.group.getId())) {
+    @Override
+    public void loadMemberships() {
+        for (IGroupMember groupMember : this.group.getGroupDataObject() != null ? this.group.getGroupDataObject().getGroupMembers() : GroupMemberDao.getAllByGroupId(this.group.getId())) {
             this.createMembership(groupMember);
         }
 
-        for (Integer playerId : this.group.getGroupDataObject() != null ? this.group.getGroupDataObject().getGroupRequests() : GroupMemberDao.getAllRequestsByGroupId(this.group.getId())) {
-            this.groupMembershipRequests.add(playerId);
-        }
+        this.groupMembershipRequests.addAll(this.group.getGroupDataObject() != null ?
+                this.group.getGroupDataObject().getGroupRequests() : GroupMemberDao.getAllRequestsByGroupId(this.group.getId()));
     }
 
     /**
@@ -72,9 +73,10 @@ public class MembershipComponent implements GroupComponent {
      *
      * @param groupMember The new member
      */
-    public void createMembership(GroupMember groupMember) {
+    @Override
+    public void createMembership(IGroupMember groupMember) {
         boolean needsCommit = false;
-        
+
         if (groupMember.getMembershipId() == 0) {
             groupMember.setMembershipId(GroupMemberDao.create(groupMember));
             needsCommit = true;
@@ -88,7 +90,7 @@ public class MembershipComponent implements GroupComponent {
 
         groupMembers.put(groupMember.getPlayerId(), groupMember);
 
-        if(needsCommit) {
+        if (needsCommit) {
             this.group.commit();
         }
     }
@@ -98,6 +100,7 @@ public class MembershipComponent implements GroupComponent {
      *
      * @param playerId The ID of the player to remove
      */
+    @Override
     public void removeMembership(int playerId) {
         if (!groupMembers.containsKey(playerId))
             return;
@@ -119,6 +122,7 @@ public class MembershipComponent implements GroupComponent {
      *
      * @param playerId The ID of the player who is requesting to join
      */
+    @Override
     public void createRequest(int playerId) {
         if (groupMembers.containsKey(playerId))
             return;
@@ -135,6 +139,7 @@ public class MembershipComponent implements GroupComponent {
     /**
      * Clears all membership requests
      */
+    @Override
     public void clearRequests() {
         if (groupMembershipRequests.size() == 0)
             return;
@@ -146,6 +151,7 @@ public class MembershipComponent implements GroupComponent {
     /**
      * Removes membership request
      */
+    @Override
     public void removeRequest(int playerId) {
         if (!groupMembershipRequests.contains(playerId))
             return;
@@ -157,16 +163,18 @@ public class MembershipComponent implements GroupComponent {
 
     /**
      * Broadcasts a message to every online group member
+     *
      * @param messageComposer The message payload to send
-     * @param sender The sender (The sender will not be sent the message)
+     * @param sender          The sender (The sender will not be sent the message)
      */
-    public void broadcastMessage(final MessageComposer messageComposer, int sender) {
-        for(GroupMember groupMember : this.getMembersAsList()) {
-            if(groupMember.getPlayerId() == sender) continue;
+    @Override
+    public void broadcastMessage(final IMessageComposer messageComposer, int sender) {
+        for (IGroupMember groupMember : this.getMembersAsList()) {
+            if (groupMember.getPlayerId() == sender) continue;
 
             final Session session = NetworkManager.getInstance().getSessions().getByPlayerId(groupMember.getPlayerId());
 
-            if(session != null) {
+            if (session != null) {
                 session.send(messageComposer);
             }
         }
@@ -187,7 +195,8 @@ public class MembershipComponent implements GroupComponent {
      *
      * @return The members of the group
      */
-    public Map<Integer, GroupMember> getMembers() {
+    @Override
+    public Map<Integer, IGroupMember> getMembers() {
         return groupMembers;
     }
 
@@ -196,12 +205,11 @@ public class MembershipComponent implements GroupComponent {
      *
      * @return The members of the group in a list
      */
-    public List<GroupMember> getMembersAsList() {
-        List<GroupMember> groupMembers = new ArrayList<>();
+    @Override
+    public List<IGroupMember> getMembersAsList() {
+        List<IGroupMember> groupMembers = new ArrayList<>();
 
-        for (GroupMember groupMember : this.getMembers().values()) {
-            groupMembers.add(groupMember);
-        }
+        groupMembers.addAll(this.getMembers().values());
 
         return groupMembers;
     }
@@ -211,6 +219,7 @@ public class MembershipComponent implements GroupComponent {
      *
      * @return The administrators of the group
      */
+    @Override
     public Set<Integer> getAdministrators() {
         return groupAdministrators;
     }
@@ -220,6 +229,7 @@ public class MembershipComponent implements GroupComponent {
      *
      * @return The membership requests of the group
      */
+    @Override
     public Set<Integer> getMembershipRequests() {
         return groupMembershipRequests;
     }

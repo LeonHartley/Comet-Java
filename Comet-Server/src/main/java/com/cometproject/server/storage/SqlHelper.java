@@ -2,6 +2,8 @@ package com.cometproject.server.storage;
 
 import com.cometproject.api.messaging.performance.QueryRequest;
 import com.cometproject.server.network.NetworkManager;
+import com.cometproject.storage.mysql.MySQLConnectionProvider;
+import com.sun.scenario.effect.impl.sw.java.JSWBlend_EXCLUSIONPeer;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
@@ -14,7 +16,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class SqlHelper {
-    private static StorageManager storage;
+    private static MySQLConnectionProvider connectionProvider;
     private static Logger log = Logger.getLogger(SqlHelper.class.getName());
 
     private static Map<String, AtomicInteger> queryCounters = new ConcurrentHashMap<>();
@@ -27,12 +29,22 @@ public class SqlHelper {
 
     public static Map<Integer, QueryLog> queryLog = new ConcurrentHashMap<>();
 
-    public static void init(StorageManager storageEngine) {
-        storage = storageEngine;
+    public static void init(MySQLConnectionProvider connectionProvider) {
+        SqlHelper.connectionProvider = connectionProvider;
     }
 
     public static Connection getConnection() throws SQLException {
-        return storage.getConnections().getConnection();
+        Connection connection = null;
+
+        try {
+            connection = connectionProvider.getConnection();
+        } catch (SQLException e) {
+            throw e;
+        } catch (Exception e) {
+            log.error("Unexpected error while retrieving connection", e);
+        }
+
+        return connection;
     }
 
     public static void closeSilently(Connection connection) {
@@ -71,7 +83,7 @@ public class SqlHelper {
                     NetworkManager.getInstance().getMessagingClient().sendMessage("com.cometproject:manager", new QueryRequest(log.query, timeTaken));
                 }
 
-                //System.out.println("[QUERY] " + log.query + " took " + timeTaken + "ms");
+                System.out.println("[QUERY] " + log.query + " took " + timeTaken + "ms");
 
                 queryLog.remove(statement.hashCode());
             }
@@ -103,6 +115,9 @@ public class SqlHelper {
     }
 
     public static PreparedStatement prepare(String query, Connection con, boolean returnKeys) throws SQLException {
+        if(Thread.currentThread().getName().startsWith("Room-Processor"))
+            log.trace("Executing query from room processor: " + query);
+
         if (!queryCounters.containsKey(query)) {
             queryCounters.put(query, new AtomicInteger(1));
         } else {

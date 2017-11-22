@@ -1,10 +1,8 @@
 package com.cometproject.server.network.messages.incoming.room.settings;
 
-import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.groups.GroupManager;
-import com.cometproject.server.game.players.PlayerManager;
-import com.cometproject.server.game.players.components.types.inventory.InventoryBot;
+import com.cometproject.server.game.players.components.types.inventory.PlayerBot;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
@@ -12,25 +10,19 @@ import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItem;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
-import com.cometproject.server.game.rooms.objects.items.types.floor.GiftFloorItem;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.incoming.Event;
-import com.cometproject.server.network.messages.outgoing.catalog.UnseenItemsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.handshake.HomeRoomMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.BotInventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.PetInventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
-import com.cometproject.server.network.sessions.SessionManager;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.bots.RoomBotDao;
 import com.cometproject.server.storage.queries.pets.RoomPetDao;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.storage.queries.rooms.RoomDao;
-import com.cometproject.server.storage.queries.rooms.RoomItemDao;
-import com.google.common.collect.Sets;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,10 +63,9 @@ public class DeleteRoomMessageEvent implements Event {
         }
 
         for (BotEntity bot : room.getEntities().getBotEntities()) {
-            InventoryBot inventoryBot = new InventoryBot(bot.getBotId(), bot.getData().getOwnerId(), bot.getData().getOwnerName(), bot.getUsername(), bot.getFigure(), bot.getGender(), bot.getMotto(), bot.getData().getBotType().toString());
-            client.getPlayer().getBots().addBot(inventoryBot);
+            client.getPlayer().getBots().addBot(bot.getData());
 
-            RoomBotDao.setRoomId(0, inventoryBot.getId());
+            RoomBotDao.setRoomId(0, bot.getData().getId());
         }
 
         for (PetEntity pet : room.getEntities().getPetEntities()) {

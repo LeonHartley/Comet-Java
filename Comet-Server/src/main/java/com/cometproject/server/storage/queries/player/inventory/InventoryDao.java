@@ -190,7 +190,7 @@ public class InventoryDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("UPDATE player_badges SET slot = ? WHERE badge_code = ? AND player_id = ?", sqlConnection);
+            preparedStatement = SqlHelper.prepare("UPDATE player_badges SET slot = ? WHERE badge_code = ? AND player_id = ?;", sqlConnection);
             preparedStatement.setInt(1, slot);
             preparedStatement.setString(2, badge);
             preparedStatement.setInt(3, playerId);

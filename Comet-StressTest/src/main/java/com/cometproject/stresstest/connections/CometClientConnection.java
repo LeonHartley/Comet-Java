@@ -1,6 +1,6 @@
 package com.cometproject.stresstest.connections;
 
-import com.cometproject.server.network.messages.composers.MessageComposer;
+import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.protocol.codec.MessageDecoder;
 import com.cometproject.server.protocol.codec.MessageEncoder;
 import com.cometproject.stresstest.CometStressTest;

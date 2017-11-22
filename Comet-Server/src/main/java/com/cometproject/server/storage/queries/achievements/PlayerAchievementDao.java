@@ -1,6 +1,7 @@
 package com.cometproject.server.storage.queries.achievements;
 
-import com.cometproject.server.game.achievements.types.AchievementType;
+import com.cometproject.api.game.achievements.types.AchievementType;
+import com.cometproject.api.game.players.data.components.achievements.IAchievementProgress;
 import com.cometproject.server.game.players.components.types.achievements.AchievementProgress;
 import com.cometproject.server.storage.SqlHelper;
 
@@ -12,12 +13,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PlayerAchievementDao {
-    public static Map<AchievementType, AchievementProgress> getAchievementProgress(int playerId) {
+    public static Map<AchievementType, IAchievementProgress> getAchievementProgress(int playerId) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        Map<AchievementType, AchievementProgress> achievements = new HashMap<>();
+        Map<AchievementType, IAchievementProgress> achievements = new HashMap<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();
@@ -42,7 +43,7 @@ public class PlayerAchievementDao {
         return achievements;
     }
 
-    public static void saveProgress(int playerId, AchievementType type, AchievementProgress progress) {
+    public static void saveProgress(int playerId, AchievementType type, IAchievementProgress progress) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
 

@@ -1,8 +1,8 @@
 package com.cometproject.server.network.messages.outgoing.user.achievements;
 
+import com.cometproject.api.game.achievements.types.IAchievement;
 import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.server.game.achievements.types.Achievement;
-import com.cometproject.server.network.messages.composers.MessageComposer;
+import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
 
 public class AchievementUnlockedMessageComposer extends MessageComposer {
@@ -10,9 +10,9 @@ public class AchievementUnlockedMessageComposer extends MessageComposer {
     private final String achievementName;
 
     private final int currentAchievementId;
-    private final Achievement newAchievement;
+    private final IAchievement newAchievement;
 
-    public AchievementUnlockedMessageComposer(final String achievementCategory, String achievementName, int currentAchievementId, Achievement newAchievement) {
+    public AchievementUnlockedMessageComposer(final String achievementCategory, String achievementName, int currentAchievementId, IAchievement newAchievement) {
         this.achievementCategory = achievementCategory;
         this.achievementName = achievementName;
         this.currentAchievementId = currentAchievementId;

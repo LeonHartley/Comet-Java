@@ -1,6 +1,6 @@
 package com.cometproject.server.api;
 
-import com.cometproject.server.config.CometSettings;
+import com.cometproject.api.config.CometSettings;
 import com.ning.http.client.AsyncHttpClient;
 import com.ning.http.client.Response;
 

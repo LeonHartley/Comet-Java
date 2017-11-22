@@ -1,11 +1,11 @@
 package com.cometproject.server.network.messages.incoming.room.bots;
 
-import com.cometproject.server.config.CometSettings;
+import com.cometproject.api.game.bots.IBotData;
+import com.cometproject.api.config.CometSettings;
 import com.cometproject.server.config.Locale;
-import com.cometproject.server.game.players.components.types.inventory.InventoryBot;
 import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
-import com.cometproject.server.game.rooms.objects.misc.Position;
+import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
@@ -25,7 +25,7 @@ public class PlaceBotMessageEvent implements Event {
         int y = msg.readInt();
 
         Room room = client.getPlayer().getEntity().getRoom();
-        InventoryBot bot = (InventoryBot) client.getPlayer().getBots().getBot(botId);
+        IBotData bot = client.getPlayer().getBots().getBot(botId);
 
         if (room == null || bot == null || (!room.getRights().hasRights(client.getPlayer().getId()) && !client.getPlayer().getPermissions().getRank().roomFullControl())) {
             return;

@@ -2,17 +2,16 @@ package com.cometproject.server.game.rooms.types.components.types;
 
 import com.cometproject.server.config.Locale;
 import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
+import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.components.TradeComponent;
-import com.cometproject.server.network.messages.composers.MessageComposer;
-import com.cometproject.server.network.messages.outgoing.catalog.UnseenItemsMessageComposer;
+import com.cometproject.server.protocol.messages.MessageComposer;
+import com.cometproject.server.composers.catalog.UnseenItemsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.trading.*;
-import com.cometproject.server.network.messages.outgoing.user.inventory.InventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
 import com.cometproject.server.storage.queries.items.TradeDao;
-import com.cometproject.server.storage.queue.types.ItemStorageQueue;
 import com.cometproject.server.tasks.CometThreadManager;
 import com.cometproject.server.utilities.collections.ConcurrentHashSet;
 
@@ -298,8 +297,8 @@ public class Trade {
             itemsToSave.clear();
         });
 
-        user1.getPlayer().getSession().send(new UnseenItemsMessageComposer(user2Items));
-        user2.getPlayer().getSession().send(new UnseenItemsMessageComposer(user1Items));
+        user1.getPlayer().getSession().send(new UnseenItemsMessageComposer(user2Items, ItemManager.getInstance()));
+        user2.getPlayer().getSession().send(new UnseenItemsMessageComposer(user1Items, ItemManager.getInstance()));
 
         sendToUsers(new UpdateInventoryMessageComposer());
         sendToUsers(new TradeCompletedMessageComposer());

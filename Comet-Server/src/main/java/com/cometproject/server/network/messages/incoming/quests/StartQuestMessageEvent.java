@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.quests;
 
+import com.cometproject.api.game.quests.IQuest;
 import com.cometproject.server.game.quests.types.Quest;
 import com.cometproject.server.game.quests.QuestManager;
 import com.cometproject.server.protocol.messages.MessageEvent;
@@ -22,7 +23,7 @@ public class StartQuestMessageEvent implements com.cometproject.server.network.m
             }
         }
 
-        final Quest quest = QuestManager.getInstance().getById(questId);
+        final IQuest quest = QuestManager.getInstance().getById(questId);
 
         if (quest == null) {
             return;

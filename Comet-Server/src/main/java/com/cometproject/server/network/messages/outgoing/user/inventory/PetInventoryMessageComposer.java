@@ -1,17 +1,17 @@
 package com.cometproject.server.network.messages.outgoing.user.inventory;
 
+import com.cometproject.api.game.pets.IPetData;
 import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.server.game.pets.data.PetData;
-import com.cometproject.server.network.messages.composers.MessageComposer;
+import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
 
 import java.util.Map;
 
 
 public class PetInventoryMessageComposer extends MessageComposer {
-    private final Map<Integer, PetData> pets;
+    private final Map<Integer, IPetData> pets;
 
-    public PetInventoryMessageComposer(final Map<Integer, PetData> pets) {
+    public PetInventoryMessageComposer(final Map<Integer, IPetData> pets) {
         this.pets = pets;
     }
 
@@ -27,7 +27,7 @@ public class PetInventoryMessageComposer extends MessageComposer {
 
         msg.writeInt(pets.size());
 
-        for (PetData data : pets.values()) {
+        for (IPetData data : pets.values()) {
             msg.writeInt(data.getId());
             msg.writeString(data.getName());
             msg.writeInt(data.getTypeId());

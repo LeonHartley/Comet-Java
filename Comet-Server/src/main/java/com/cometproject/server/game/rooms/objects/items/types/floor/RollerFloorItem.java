@@ -8,7 +8,7 @@ import com.cometproject.server.game.rooms.objects.items.types.AdvancedFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupGateFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerWalksOffFurni;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerWalksOnFurni;
-import com.cometproject.server.game.rooms.objects.misc.Position;
+import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.network.messages.outgoing.room.items.SlideObjectBundleMessageComposer;
@@ -20,7 +20,6 @@ import com.google.common.collect.Maps;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 
 public class RollerFloorItem extends AdvancedFloorItem<RollerFloorItemEvent> {
@@ -73,7 +72,7 @@ public class RollerFloorItem extends AdvancedFloorItem<RollerFloorItemEvent> {
     }
 
     @Override
-    protected void onEventComplete(RollerFloorItemEvent event) {
+    public void onEventComplete(RollerFloorItemEvent event) {
         if(this.cycleCancelled) {
             this.cycleCancelled = false;
         }

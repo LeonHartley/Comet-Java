@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms.objects.entities.types.ai;
 
-import com.cometproject.server.game.bots.BotMode;
+import com.cometproject.api.game.bots.BotMode;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
@@ -8,7 +8,7 @@ import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.ai.pets.PetAI;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerBotReachedAvatar;
-import com.cometproject.server.game.rooms.objects.misc.Position;
+import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.types.components.types.RoomMessageType;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.game.rooms.types.misc.ChatEmotion;

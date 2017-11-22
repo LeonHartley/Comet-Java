@@ -1,7 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.boot.CometServer;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
@@ -10,10 +9,9 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.AdvancedFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.state.FloorItemEvent;
-import com.cometproject.server.game.rooms.objects.misc.Position;
+import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
-import com.cometproject.server.network.messages.outgoing.room.avatar.ApplyEffectMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomForwardMessageComposer;
 
 public class TeleporterFloorItem extends AdvancedFloorItem<TeleporterFloorItem.TeleporterItemEvent> {
@@ -44,7 +42,7 @@ public class TeleporterFloorItem extends AdvancedFloorItem<TeleporterFloorItem.T
     }
 
     @Override
-    protected void onEventComplete(TeleporterItemEvent event) {
+    public void onEventComplete(TeleporterItemEvent event) {
         try {
             switch (event.state) {
                 case 0: {

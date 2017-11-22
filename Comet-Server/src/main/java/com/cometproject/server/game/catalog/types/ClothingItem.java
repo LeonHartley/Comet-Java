@@ -1,6 +1,8 @@
 package com.cometproject.server.game.catalog.types;
 
-public class ClothingItem {
+import com.cometproject.api.game.catalog.types.IClothingItem;
+
+public class ClothingItem implements IClothingItem {
     private final String itemName;
 
     private final int[] parts;

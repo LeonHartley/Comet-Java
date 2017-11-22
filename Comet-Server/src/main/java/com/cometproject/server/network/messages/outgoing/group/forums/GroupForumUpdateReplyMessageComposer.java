@@ -1,17 +1,18 @@
 package com.cometproject.server.network.messages.outgoing.group.forums;
 
+import com.cometproject.api.game.groups.types.components.forum.IForumThreadReply;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.groups.types.components.forum.threads.ForumThreadReply;
-import com.cometproject.server.network.messages.composers.MessageComposer;
+import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
 
 public class GroupForumUpdateReplyMessageComposer extends MessageComposer {
 
     private final int groupId;
     private final int threadId;
-    private final ForumThreadReply reply;
+    private final IForumThreadReply reply;
 
-    public GroupForumUpdateReplyMessageComposer(ForumThreadReply reply, int threadId, int groupId) {
+    public GroupForumUpdateReplyMessageComposer(IForumThreadReply reply, int threadId, int groupId) {
         this.reply = reply;
         this.threadId = threadId;
         this.groupId = groupId;

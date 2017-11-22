@@ -19,7 +19,7 @@ public class DiceFloorItem extends RoomItemFloor {
     @Override
     public boolean onInteract(RoomEntity entity, int requestData, boolean isWiredTrigger) {
         if (!isWiredTrigger) {
-            if (!this.getPosition().touching(entity)) {
+            if (!this.getPosition().touching(entity.getPosition())) {
                 entity.moveTo(this.getPosition().squareInFront(this.rotation).getX(), this.getPosition().squareBehind(this.rotation).getY());
                 return false;
             }

@@ -1,6 +1,7 @@
 package com.cometproject.server.network.messages.incoming.catalog;
 
-import com.cometproject.server.game.achievements.types.AchievementType;
+import com.cometproject.api.game.catalog.ICatalogService;
+import com.cometproject.api.game.catalog.types.ICatalogOffer;
 import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.catalog.types.CatalogOffer;
 import com.cometproject.server.game.catalog.types.gifts.GiftData;
@@ -16,7 +17,7 @@ public class PurchaseGiftMessageEvent implements Event {
         int itemId = msg.readInt();
 
         if(pageId <= 0) {
-            final CatalogOffer catalogOffer = CatalogManager.getCatalogOffers().get(itemId);
+            final ICatalogOffer catalogOffer = CatalogManager.getInstance().getCatalogOffers().get(itemId);
 
             if(catalogOffer == null) {
                 return;

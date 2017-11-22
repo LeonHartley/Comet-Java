@@ -1,10 +1,12 @@
 package com.cometproject.server.network.messages.incoming.group.forum.threads;
 
+import com.cometproject.api.game.groups.types.components.forum.IForumSettings;
+import com.cometproject.api.game.groups.types.components.forum.IForumThread;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
-import com.cometproject.server.game.groups.types.components.forum.settings.ForumPermission;
+import com.cometproject.api.game.groups.types.components.forum.ForumPermission;
 import com.cometproject.server.game.groups.types.components.forum.settings.ForumSettings;
 import com.cometproject.server.game.groups.types.components.forum.threads.ForumThread;
 import com.cometproject.server.game.groups.types.components.forum.threads.ForumThreadReply;
@@ -61,7 +63,7 @@ public class PostMessageMessageEvent implements Event {
         }
 
 
-        final ForumSettings forumSettings = group.getForumComponent().getForumSettings();
+        final IForumSettings forumSettings = group.getForumComponent().getForumSettings();
 
         if (threadId == 0) {
 
@@ -137,7 +139,7 @@ public class PostMessageMessageEvent implements Event {
                 return;
             }
 
-            ForumThread forumThread = group.getForumComponent().getForumThreads().get(threadId);
+            IForumThread forumThread = group.getForumComponent().getForumThreads().get(threadId);
 
             if(forumThread == null) {
                 return;

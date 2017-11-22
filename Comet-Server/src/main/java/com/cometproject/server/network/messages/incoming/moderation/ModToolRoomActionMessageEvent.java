@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.moderation;
 
+import com.cometproject.api.game.rooms.IRoomData;
 import com.cometproject.api.game.rooms.settings.RoomAccessType;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.rooms.RoomManager;
@@ -28,7 +29,7 @@ public class ModToolRoomActionMessageEvent implements Event {
         final boolean changeRoomName = msg.readInt() == 1;
         final boolean kickAll = msg.readInt() == 1;
 
-        RoomData roomData = RoomManager.getInstance().getRoomData(roomId);
+        IRoomData roomData = RoomManager.getInstance().getRoomData(roomId);
         boolean isActive = RoomManager.getInstance().isActive(roomId);
 
         if (roomData == null)

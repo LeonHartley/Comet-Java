@@ -1,11 +1,11 @@
 package com.cometproject.server.network.messages.outgoing.moderation;
 
+import com.cometproject.api.game.rooms.IRoomData;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.moderation.chatlog.UserChatlogContainer;
 import com.cometproject.server.game.rooms.RoomManager;
-import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.logging.entries.RoomChatLogEntry;
-import com.cometproject.server.network.messages.composers.MessageComposer;
+import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 
@@ -37,7 +37,7 @@ public class ModToolUserChatlogMessageComposer extends MessageComposer {
         msg.writeInt(this.userChatlogContainer.size());
 
         for (UserChatlogContainer.LogSet logSet : this.userChatlogContainer.getLogs()) {
-            RoomData roomData = RoomManager.getInstance().getRoomData(logSet.getRoomId());
+            IRoomData roomData = RoomManager.getInstance().getRoomData(logSet.getRoomId());
             msg.writeByte(1);
             msg.writeShort(2);
             msg.writeString(ROOM_NAME);

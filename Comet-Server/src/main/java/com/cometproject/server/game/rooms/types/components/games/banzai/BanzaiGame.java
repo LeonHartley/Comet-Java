@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms.types.components.games.banzai;
 
-import com.cometproject.server.game.achievements.types.AchievementType;
+import com.cometproject.api.game.achievements.types.AchievementType;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityType;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;

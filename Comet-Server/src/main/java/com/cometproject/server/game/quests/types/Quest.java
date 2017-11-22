@@ -1,5 +1,9 @@
 package com.cometproject.server.game.quests.types;
 
+import com.cometproject.api.game.players.IPlayer;
+import com.cometproject.api.game.quests.IQuest;
+import com.cometproject.api.game.quests.QuestReward;
+import com.cometproject.api.game.quests.QuestType;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.quests.QuestManager;
@@ -7,7 +11,7 @@ import com.cometproject.server.game.quests.QuestManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class Quest {
+public class Quest implements IQuest {
     private final int id;
     private final String name;
     private final String category;
@@ -40,7 +44,22 @@ public class Quest {
         this.badgeId = data.getString("badge_id");
     }
 
-    public void compose(Player player, IComposer msg) {
+    public Quest(int id, String name, String category, int seriesNumber, int goalType, int goalData, int reward, QuestReward rewardType, String dataBit, QuestType questType, String badgeId) {
+        this.id = id;
+        this.name = name;
+        this.category = category;
+        this.seriesNumber = seriesNumber;
+        this.goalType = goalType;
+        this.goalData = goalData;
+        this.reward = reward;
+        this.rewardType = rewardType;
+        this.dataBit = dataBit;
+        this.questType = questType;
+        this.badgeId = badgeId;
+    }
+
+    @Override
+    public void compose(IPlayer player, IComposer msg) {
         boolean startedQuest = player.getData().getQuestId() == this.getId();
         int progress = player.getQuests().getProgress(this.getId());
 
@@ -62,46 +81,57 @@ public class Quest {
         msg.writeBoolean(true);// easy
     }
 
+    @Override
     public QuestType getType() {
         return this.questType;
     }
 
+    @Override
     public int getId() {
         return id;
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public String getCategory() {
         return category;
     }
 
+    @Override
     public int getSeriesNumber() {
         return seriesNumber;
     }
 
+    @Override
     public int getGoalType() {
         return goalType;
     }
 
+    @Override
     public int getGoalData() {
         return goalData;
     }
 
+    @Override
     public int getReward() {
         return reward;
     }
 
+    @Override
     public QuestReward getRewardType() {
         return rewardType;
     }
 
+    @Override
     public String getDataBit() {
         return dataBit;
     }
 
+    @Override
     public String getBadgeId() {
         return badgeId;
     }

@@ -1,7 +1,7 @@
 package com.cometproject.server.game.commands.staff.cache;
 
-import com.cometproject.api.networking.sessions.BaseSession;
-import com.cometproject.server.config.CometSettings;
+import com.cometproject.api.networking.sessions.ISession;
+import com.cometproject.api.config.CometSettings;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.achievements.AchievementManager;
 import com.cometproject.server.game.catalog.CatalogManager;
@@ -24,13 +24,14 @@ import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.RoomReloadListener;
 import com.cometproject.server.network.NetworkManager;
-import com.cometproject.server.network.messages.outgoing.catalog.CatalogPublishMessageComposer;
+import com.cometproject.server.composers.catalog.CatalogPublishMessageComposer;
 import com.cometproject.server.network.messages.outgoing.moderation.ModToolMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.MotdNotificationMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomForwardMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.polls.InitializePollMessageComposer;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.storage.queries.config.ConfigDao;
 
 
 public class ReloadCommand extends ChatCommand {
@@ -96,7 +97,7 @@ public class ReloadCommand extends ChatCommand {
                 break;
 
             case "config":
-                CometSettings.initialize();
+                ConfigDao.getAll();
 
                 sendNotif(Locale.get("command.reload.config"), client);
                 break;
@@ -130,7 +131,7 @@ public class ReloadCommand extends ChatCommand {
                 ModerationManager.getInstance().loadPresets();
 
                 sendNotif(Locale.get("command.reload.modpresets"), client);
-
+            
                 ModerationManager.getInstance().getModerators().forEach((session -> {
                     session.send(new ModToolMessageComposer());
                 }));

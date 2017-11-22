@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.base;
 
-import com.cometproject.server.config.CometSettings;
+import com.cometproject.api.config.CometSettings;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
@@ -9,10 +9,9 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.action
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions.WiredActionKickUser;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.addons.WiredAddonRandomEffect;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.addons.WiredAddonUnseenEffect;
-import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerCollision;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerEnterRoom;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.network.messages.composers.MessageComposer;
+import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.wired.dialog.WiredTriggerMessageComposer;
 import com.cometproject.server.utilities.RandomUtil;
 import com.google.common.collect.Lists;

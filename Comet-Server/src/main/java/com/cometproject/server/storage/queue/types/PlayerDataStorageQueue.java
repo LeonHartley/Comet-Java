@@ -5,7 +5,7 @@ import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.storage.queue.StorageQueue;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManager;
-import com.cometproject.server.utilities.Initialisable;
+import com.cometproject.api.utilities.Initialisable;
 import org.apache.log4j.Logger;
 
 import java.util.Map;

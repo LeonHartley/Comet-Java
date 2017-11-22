@@ -1,36 +1,32 @@
 package com.cometproject.server.game.rooms.objects.items;
 
+import com.cometproject.api.game.furniture.types.IFurnitureDefinition;
+import com.cometproject.api.game.rooms.objects.IFloorItem;
 import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.server.config.CometSettings;
-import com.cometproject.server.game.groups.GroupManager;
-import com.cometproject.server.game.groups.types.GroupData;
+import com.cometproject.api.config.CometSettings;
 import com.cometproject.server.game.items.ItemManager;
-import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.AffectedTile;
 import com.cometproject.server.game.rooms.objects.items.types.DefaultFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.*;
-import com.cometproject.server.game.rooms.objects.items.types.floor.football.FootballGateFloorItem;
-import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupFloorItem;
-import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupGateFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredFloorItem;
-import com.cometproject.server.game.rooms.objects.items.types.floor.wired.highscore.HighscoreClassicFloorItem;
-import com.cometproject.server.game.rooms.objects.misc.Position;
+import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorItemMessageComposer;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import com.cometproject.server.storage.queue.types.ItemStorageQueue;
 import com.cometproject.server.utilities.attributes.Collidable;
+import com.cometproject.storage.mysql.StorageContext;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.List;
 
 
-public abstract class RoomItemFloor extends RoomItem implements Collidable {
+public abstract class RoomItemFloor extends RoomItem implements Collidable, IFloorItem {
     private String extraData;
 
-    private ItemDefinition itemDefinition;
+    private IFurnitureDefinition itemDefinition;
     private RoomEntity collidedEntity;
     private boolean hasQueuedSave;
     private String coreState;
@@ -94,7 +90,7 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
         this.serialize(msg, false);
     }
 
-    public ItemDefinition getDefinition() {
+    public IFurnitureDefinition getDefinition() {
         if (this.itemDefinition == null) {
             this.itemDefinition = ItemManager.getInstance().getDefinition(this.getItemId());
         }
@@ -168,21 +164,25 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
 
     @Override
     public void save() {
-        if (CometSettings.storageItemQueueEnabled) {
+        /*if (CometSettings.storageItemQueueEnabled) {
             ItemStorageQueue.getInstance().queueSave(this);
         } else {
             RoomItemDao.saveItem(this);
             this.hasQueuedSave = true;
-        }
+        }*/
+
+        StorageContext.current().getItemUpdateQueue().add(this.getId(), this);
     }
 
     @Override
     public void saveData() {
-        if (CometSettings.storageItemQueueEnabled) {
+        /*if (CometSettings.storageItemQueueEnabled) {
             ItemStorageQueue.getInstance().queueSaveData(this);
         } else {
             RoomItemDao.saveData(this.getId(), this.getDataObject());
-        }
+        }*/
+
+        StorageContext.current().getItemDataUpdateQueue().add(this.getId(), this.getDataObject());
     }
 
     @Override

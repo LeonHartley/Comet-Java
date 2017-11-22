@@ -1,26 +1,24 @@
 package com.cometproject.server.game.players.components;
 
+import com.cometproject.api.game.players.data.components.navigator.ISavedSearch;
 import com.cometproject.server.game.players.components.types.navigator.SavedSearch;
-import com.cometproject.server.game.players.components.types.wardrobe.WardrobeClothing;
 import com.cometproject.server.game.players.types.Player;
+import com.cometproject.server.game.players.types.PlayerComponent;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 
-public class NavigatorComponent {
-    private final Player player;
+public class NavigatorComponent extends PlayerComponent {
 
-    private final Map<Integer, SavedSearch> savedSearches;
+    private final Map<Integer, ISavedSearch> savedSearches;
     private final Set<Integer> favouriteRooms;
 
     public NavigatorComponent(final Player player) {
-        this.player = player;
+        super(player);
 
-        this.savedSearches = PlayerDao.getSavedSearches(this.player.getId());
-        this.favouriteRooms = PlayerDao.getFavouriteRooms(this.player.getId());
+        this.savedSearches = PlayerDao.getSavedSearches(this.getPlayer().getId());
+        this.favouriteRooms = PlayerDao.getFavouriteRooms(this.getPlayer().getId());
     }
 
     public void dispose() {
@@ -29,7 +27,7 @@ public class NavigatorComponent {
     }
 
     public boolean isSearchSaved(SavedSearch newSearch) {
-        for(SavedSearch savedSearch : this.getSavedSearches().values()) {
+        for(ISavedSearch savedSearch : this.getSavedSearches().values()) {
             if(savedSearch.getView().equals(newSearch.getView()) && savedSearch.getSearchQuery().equals(newSearch.getSearchQuery()))
                 return true;
         }
@@ -41,7 +39,7 @@ public class NavigatorComponent {
         return this.favouriteRooms;
     }
 
-    public Map<Integer, SavedSearch> getSavedSearches() {
+    public Map<Integer, ISavedSearch> getSavedSearches() {
         return this.savedSearches;
     }
 }

@@ -1,6 +1,8 @@
 package com.cometproject.server.network.messages.incoming.room.pets;
 
+import com.cometproject.api.game.pets.IPetData;
 import com.cometproject.api.game.rooms.settings.RoomKickState;
+import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.server.game.pets.data.PetData;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
@@ -68,7 +70,7 @@ public class RemovePetMessageEvent implements Event {
         }
     }
 
-    private void givePetToPlayer(Session client, PetData petData) {
+    private void givePetToPlayer(ISession client, IPetData petData) {
         client.getPlayer().getPets().addPet(petData);
         client.send(new PetInventoryMessageComposer(client.getPlayer().getPets().getPets()));
     }

@@ -1,17 +1,17 @@
 package com.cometproject.server.network.messages.outgoing.room.events;
 
+import com.cometproject.api.game.rooms.IRoomData;
 import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.game.rooms.types.RoomPromotion;
-import com.cometproject.server.network.messages.composers.MessageComposer;
+import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
 
 
 public class RoomPromotionMessageComposer extends MessageComposer {
-    private final RoomData roomData;
+    private final IRoomData roomData;
     private final RoomPromotion roomPromotion;
 
-    public RoomPromotionMessageComposer(final RoomData roomData, final RoomPromotion roomPromotion) {
+    public RoomPromotionMessageComposer(final IRoomData roomData, final RoomPromotion roomPromotion) {
         this.roomData = roomData;
         this.roomPromotion = roomPromotion;
     }

@@ -5,7 +5,7 @@ import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Square;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.types.EntityPathfinder;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
-import com.cometproject.server.game.rooms.objects.misc.Position;
+import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.misc.ChatEmotion;
 import com.cometproject.server.network.NetworkManager;
@@ -55,7 +55,7 @@ public class PullCommand extends ChatCommand {
             return;
         }
 
-        if (pulledEntity.getPosition().distanceTo(client.getPlayer().getEntity()) != 2) {
+        if (pulledEntity.getPosition().distanceTo(client.getPlayer().getEntity().getPosition()) != 2) {
             client.getPlayer().getSession().send(new WhisperMessageComposer(client.getPlayer().getEntity().getId(), Locale.getOrDefault("command.notaround", "Oops! %playername% is not near, walk to this player.").replace("%playername%", pulledEntity.getUsername()), 34));
             return;
         }

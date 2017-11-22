@@ -1,16 +1,23 @@
 package com.cometproject.server.game.pets;
 
+import com.cometproject.api.game.pets.IPetData;
+import com.cometproject.api.game.pets.IPetRace;
+import com.cometproject.api.game.pets.IPetStats;
 import com.cometproject.server.game.pets.data.PetSpeech;
 import com.cometproject.server.game.pets.races.PetBreedLevel;
 import com.cometproject.server.game.pets.races.PetRace;
 import com.cometproject.server.storage.queries.pets.PetDao;
-import com.cometproject.server.utilities.Initialisable;
+import com.cometproject.api.utilities.Initialisable;
+import com.cometproject.server.tasks.CometThreadManager;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
@@ -23,8 +30,9 @@ public class PetManager implements Initialisable {
     private Map<Integer, PetSpeech> petMessages;
 
     private Map<String, String> transformablePets;
-
     private Map<Integer, Map<PetBreedLevel, Set<Integer>>> petBreedPallets;
+
+    private final Map<Integer, IPetData> pendingPetDataSaves = Maps.newConcurrentMap();
 
     public PetManager() {
 
@@ -36,6 +44,9 @@ public class PetManager implements Initialisable {
         this.loadPetBreedPallets();
         this.loadPetSpeech();
         this.loadTransformablePets();
+
+        // Set up the queue for saving pet data
+       // CometThreadManager.getInstance().executePeriodic(this::savePetStats, 1000, 1000, TimeUnit.MILLISECONDS);
 
         log.info("PetManager initialized");
     }
@@ -124,8 +135,8 @@ public class PetManager implements Initialisable {
         return 0;
     }
 
-    public List<PetRace> getRacesByRaceId(int raceId) {
-        List<PetRace> races = new ArrayList<>();
+    public List<IPetRace> getRacesByRaceId(int raceId) {
+        List<IPetRace> races = new ArrayList<>();
 
         for (PetRace race : this.getPetRaces()) {
             if (raceId == race.getRaceId())

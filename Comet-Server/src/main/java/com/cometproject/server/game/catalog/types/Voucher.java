@@ -1,6 +1,10 @@
 package com.cometproject.server.game.catalog.types;
 
-public class Voucher {
+import com.cometproject.api.game.catalog.types.vouchers.IVoucher;
+import com.cometproject.api.game.catalog.types.vouchers.VoucherStatus;
+import com.cometproject.api.game.catalog.types.vouchers.VoucherType;
+
+public class Voucher implements IVoucher {
     private final int id;
     private final VoucherType type;
     private final String data;
@@ -23,38 +27,47 @@ public class Voucher {
         this.code = code;
     }
 
+    @Override
     public int getId() {
         return id;
     }
 
+    @Override
     public VoucherType getType() {
         return type;
     }
 
+    @Override
     public String getData() {
         return data;
     }
 
+    @Override
     public int getCreatedBy() {
         return createdBy;
     }
 
+    @Override
     public int getCreatedAt() {
         return createdAt;
     }
 
+    @Override
     public int getClaimedBy() {
         return claimedBy;
     }
 
+    @Override
     public int getClaimedAt() {
         return claimedAt;
     }
 
+    @Override
     public VoucherStatus getStatus() {
         return status;
     }
 
+    @Override
     public String getCode() {
         return code;
     }

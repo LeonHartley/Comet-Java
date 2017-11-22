@@ -1,5 +1,8 @@
 package com.cometproject.server.storage.cache.objects;
 
+import com.cometproject.api.game.bots.IBotData;
+import com.cometproject.api.game.pets.IPetData;
+import com.cometproject.api.game.rooms.IRoomData;
 import com.cometproject.server.game.bots.BotData;
 import com.cometproject.server.game.pets.data.PetData;
 import com.cometproject.server.game.rooms.objects.entities.types.data.PlayerBotData;
@@ -15,16 +18,16 @@ import java.util.Map;
 
 public class RoomDataObject extends CachableObject {
     private final long id;
-    private final RoomData data;
+    private final IRoomData data;
     private final List<Integer> rights;
 
     private final List<FloorItemDataObject> floorItems;
     private final List<WallItemDataObject> wallItems;
 
-    private final List<PetData> pets;
-    private final List<BotData> bots;
+    private final List<IPetData> pets;
+    private final List<IBotData> bots;
 
-    public RoomDataObject(long id, RoomData data, List<Integer> rights, List<FloorItemDataObject> floorItems, List<WallItemDataObject> wallItems, List<PetData> pets, List<BotData> bots) {
+    public RoomDataObject(long id, IRoomData data, List<Integer> rights, List<FloorItemDataObject> floorItems, List<WallItemDataObject> wallItems, List<IPetData> pets, List<IBotData> bots) {
         this.id = id;
         this.data = data;
         this.rights = rights;
@@ -38,7 +41,7 @@ public class RoomDataObject extends CachableObject {
         return id;
     }
 
-    public RoomData getData() {
+    public IRoomData getData() {
         return data;
     }
 
@@ -54,11 +57,11 @@ public class RoomDataObject extends CachableObject {
         return wallItems;
     }
 
-    public List<PetData> getPets() {
+    public List<IPetData> getPets() {
         return pets;
     }
 
-    public List<BotData> getBots() {
+    public List<IBotData> getBots() {
         return bots;
     }
 
@@ -140,11 +143,11 @@ public class RoomDataObject extends CachableObject {
             wallItems.add(wallItemDataObject.toJsonObject());
         }
 
-        for(PetData petData : this.pets) {
+        for(IPetData petData : this.pets) {
             pets.add(petData.toJsonObject());
         }
 
-        for(BotData botData: this.bots) {
+        for(IBotData botData: this.bots) {
             bots.add(botData.toJsonObject());
         }
 

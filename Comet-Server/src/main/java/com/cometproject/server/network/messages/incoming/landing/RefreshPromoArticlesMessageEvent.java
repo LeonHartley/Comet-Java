@@ -1,10 +1,8 @@
 package com.cometproject.server.network.messages.incoming.landing;
 
-import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.landing.LandingManager;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.landing.PromoArticlesMessageComposer;
-import com.cometproject.server.network.messages.outgoing.landing.SendHotelViewLooksMessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 

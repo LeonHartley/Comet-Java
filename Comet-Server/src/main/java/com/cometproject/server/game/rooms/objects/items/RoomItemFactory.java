@@ -1,6 +1,7 @@
 package com.cometproject.server.game.rooms.objects.items;
 
-import com.cometproject.server.config.CometSettings;
+import com.cometproject.api.config.CometSettings;
+import com.cometproject.api.game.furniture.types.IFurnitureDefinition;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.items.rares.LimitedEditionItemData;
 import com.cometproject.server.game.items.types.ItemDefinition;
@@ -38,10 +39,12 @@ import com.cometproject.server.game.rooms.objects.items.types.wall.PostItWallIte
 import com.cometproject.server.game.rooms.objects.items.types.wall.WheelWallItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.storage.queue.types.ItemStorageQueue;
-import javafx.scene.effect.Effect;
 import org.apache.log4j.Logger;
 
+import java.lang.reflect.Constructor;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 public class RoomItemFactory {
@@ -52,9 +55,12 @@ public class RoomItemFactory {
 
     private static final Logger log = Logger.getLogger(RoomItemFactory.class.getName());
 
-    private static final HashMap<String, Class<? extends RoomItemFloor>> itemDefinitionMap;
+    private static final Map<String, Class<? extends RoomItemFloor>> itemDefinitionMap;
+    private static final Map<String, Constructor<? extends RoomItemFloor>> itemConstructorCache;
 
     static {
+        itemConstructorCache = new ConcurrentHashMap<>();
+
         itemDefinitionMap = new HashMap<String, Class<? extends RoomItemFloor>>() {{
             put("roller", RollerFloorItem.class);
             put("dice", DiceFloorItem.class);
@@ -213,12 +219,12 @@ public class RoomItemFactory {
     }
 
     public static RoomItemFloor createFloor(long id, int baseId, Room room, int ownerId, String ownerName, int x, int y, double height, int rotation, String data, LimitedEditionItemData limitedEditionItemData) {
-        ItemDefinition def = ItemManager.getInstance().getDefinition(baseId);
+        IFurnitureDefinition def = ItemManager.getInstance().getDefinition(baseId);
 
-        if(CometSettings.storageItemQueueEnabled) {
+        if (CometSettings.storageItemQueueEnabled) {
             final RoomItem roomItem = ItemStorageQueue.getInstance().getQueuedItem(id);
-            
-            if(roomItem != null) {
+
+            if (roomItem != null) {
                 return ((RoomItemFloor) roomItem);
             }
         }
@@ -237,11 +243,11 @@ public class RoomItemFactory {
             floorItem = new MagicStackFloorItem(id, baseId, room, ownerId, ownerName, x, y, height, rotation, data);
         }
 
-        if(def.isAdFurni()) {
+        if (def.isAdFurni()) {
             floorItem = new AdsFloorItem(id, baseId, room, ownerId, ownerName, x, y, height, rotation, data);
         }
 
-        if(def.getItemName().contains("yttv")) {
+        if (def.getItemName().contains("yttv")) {
             floorItem = new VideoPlayerFloorItem(id, baseId, room, ownerId, ownerName, x, y, height, rotation, data);
         }
 
@@ -255,8 +261,17 @@ public class RoomItemFactory {
         } else {
             if (itemDefinitionMap.containsKey(def.getInteraction())) {
                 try {
-                    floorItem = itemDefinitionMap.get(def.getInteraction()).getConstructor(long.class, int.class, Room.class, int.class, String.class, int.class, int.class, double.class, int.class, String.class)
-                            .newInstance(id, baseId, room, ownerId, ownerName, x, y, height, rotation, data);
+                    Constructor<? extends RoomItemFloor> constructor;
+
+                    if (itemConstructorCache.containsKey(def.getInteraction())) {
+                        constructor = itemConstructorCache.get(def.getInteraction());
+                    } else {
+                        constructor = itemDefinitionMap.get(def.getInteraction()).getConstructor(long.class, int.class, Room.class, int.class, String.class, int.class, int.class, double.class, int.class, String.class);
+                        itemConstructorCache.put(def.getInteraction(), constructor);
+                    }
+
+                    if (constructor != null)
+                        floorItem = constructor.newInstance(id, baseId, room, ownerId, ownerName, x, y, height, rotation, data);
                 } catch (Exception e) {
                     log.warn("Failed to create instance for item: " + id + ", type: " + def.getInteraction(), e);
                 }
@@ -275,7 +290,7 @@ public class RoomItemFactory {
     }
 
     public static RoomItemWall createWall(long id, int baseId, Room room, int owner, String ownerName, String position, String data, LimitedEditionItemData limitedEditionItemData) {
-        ItemDefinition def = ItemManager.getInstance().getDefinition(baseId);
+        IFurnitureDefinition def = ItemManager.getInstance().getDefinition(baseId);
         if (def == null) {
             return null;
         }

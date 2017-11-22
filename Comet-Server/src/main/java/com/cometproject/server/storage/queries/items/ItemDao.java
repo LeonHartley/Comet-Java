@@ -1,7 +1,7 @@
 package com.cometproject.server.storage.queries.items;
 
+import com.cometproject.api.game.furniture.types.IFurnitureDefinition;
 import com.cometproject.server.game.catalog.purchase.CatalogPurchase;
-import com.cometproject.server.game.catalog.purchase.OldCatalogPurchaseHandler;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.storage.SqlHelper;
@@ -17,12 +17,12 @@ import java.util.Map;
 
 
 public class ItemDao {
-    public static Map<Integer, ItemDefinition> getDefinitions() {
+    public static Map<Integer, IFurnitureDefinition> getDefinitions() {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        Map<Integer, ItemDefinition> data = new HashMap<>();
+        Map<Integer, IFurnitureDefinition> data = new HashMap<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();

@@ -1,6 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.bots;
 
-import com.cometproject.server.game.players.components.types.inventory.InventoryBot;
+import com.cometproject.server.game.players.components.types.inventory.PlayerBot;
 import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.user.inventory.BotInventoryMessageComposer;
@@ -23,9 +23,7 @@ public class RemoveBotMessageEvent implements Event {
         }
 
         if (entity.getBotId() > 0) {
-            InventoryBot bot = new InventoryBot(entity.getBotId(), entity.getData().getOwnerId(), entity.getData().getOwnerName(), entity.getUsername(), entity.getFigure(), entity.getGender(), entity.getMotto(), entity.getData().getBotType().toString());
-
-            client.getPlayer().getBots().addBot(bot);
+            client.getPlayer().getBots().addBot(entity.getData());
 
             RoomBotDao.setRoomId(0, entity.getBotId());
             client.send(new BotInventoryMessageComposer(client.getPlayer().getBots().getBots()));

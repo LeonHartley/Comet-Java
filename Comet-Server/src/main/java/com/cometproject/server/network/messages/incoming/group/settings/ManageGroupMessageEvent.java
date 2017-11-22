@@ -3,7 +3,7 @@ package com.cometproject.server.network.messages.incoming.group.settings;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.network.messages.incoming.Event;
-import com.cometproject.server.network.messages.outgoing.catalog.groups.GroupElementsMessageComposer;
+import com.cometproject.server.composers.catalog.groups.GroupElementsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.group.ManageGroupMessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
@@ -19,7 +19,7 @@ public class ManageGroupMessageEvent implements Event {
         if (group == null || client.getPlayer().getId() != group.getData().getOwnerId())
             return;
 
-        client.send(new GroupElementsMessageComposer()); // TODO: Send this once
+        client.send(new GroupElementsMessageComposer(GroupManager.getInstance().getGroupItems())); // TODO: Send this once
         client.send(new ManageGroupMessageComposer(group));
     }
 }

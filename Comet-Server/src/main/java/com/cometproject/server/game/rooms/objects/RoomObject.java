@@ -1,11 +1,11 @@
 package com.cometproject.server.game.rooms.objects;
 
 import com.cometproject.api.game.rooms.objects.IRoomObject;
-import com.cometproject.server.game.bots.BotType;
+import com.cometproject.api.game.bots.BotType;
 import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
-import com.cometproject.server.game.rooms.objects.misc.Position;
-import com.cometproject.server.game.rooms.objects.misc.Positionable;
+import com.cometproject.api.game.utilities.Position;
+import com.cometproject.api.game.utilities.Positionable;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.utilities.comporators.PositionComparator;
@@ -112,7 +112,7 @@ public abstract class RoomObject implements IRoomObject, Positionable {
         Collections.sort(bots, positionComparator);
 
         for(BotEntity botEntity : bots) {
-            if(this.getPosition().distanceTo(botEntity) < 4) {
+            if(this.getPosition().distanceTo(botEntity.getPosition()) < 4) {
                 return botEntity;
             }
         }

@@ -5,7 +5,7 @@ import com.cometproject.api.events.players.OnPlayerLoginEvent;
 import com.cometproject.api.events.players.args.OnPlayerLoginEventArgs;
 import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
 import com.cometproject.api.modules.BaseModule;
-import com.cometproject.api.networking.sessions.BaseSession;
+import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.api.server.IGameService;
 
 import java.util.HashMap;
@@ -24,15 +24,15 @@ public class ExampleModule extends BaseModule {
         this.registerChatCommand("!mathis", this::mathisCommand);
     }
 
-    public void mathisCommand(BaseSession session, String[] args) {
+    public void mathisCommand(ISession session, String[] args) {
         session.getPlayer().sendMotd("Hi mathis, how are you????!!!!!");
     }
 
-    public void aboutCommand(BaseSession session, String[] args) {
+    public void aboutCommand(ISession session, String[] args) {
         session.getPlayer().sendNotif("ExampleModule", "This is an example module.");
     }
 
-    public void inventoryCommand(BaseSession session, String[] args) {
+    public void inventoryCommand(ISession session, String[] args) {
         if (!session.getPlayer().getInventory().itemsLoaded()) {
             session.getPlayer().getInventory().loadItems();
         }

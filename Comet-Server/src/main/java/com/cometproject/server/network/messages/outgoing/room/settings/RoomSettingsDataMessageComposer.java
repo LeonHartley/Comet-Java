@@ -1,10 +1,10 @@
 package com.cometproject.server.network.messages.outgoing.room.settings;
 
 import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.server.config.CometSettings;
+import com.cometproject.api.config.CometSettings;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.RoomWriter;
-import com.cometproject.server.network.messages.composers.MessageComposer;
+import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
 
 

@@ -1,10 +1,12 @@
 package com.cometproject.server.game.pets.races;
 
+import com.cometproject.api.game.pets.IPetRace;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
-public class PetRace {
+public class PetRace implements IPetRace {
     private int raceId;
     private int colour1;
     private int colour2;
@@ -22,22 +24,27 @@ public class PetRace {
         this.hasColour2 = data.getString("has2colour").equals("1");
     }
 
+    @Override
     public int getRaceId() {
         return raceId;
     }
 
+    @Override
     public int getColour1() {
         return colour1;
     }
 
+    @Override
     public int getColour2() {
         return colour2;
     }
 
+    @Override
     public boolean hasColour1() {
         return hasColour1;
     }
 
+    @Override
     public boolean hasColour2() {
         return hasColour2;
     }

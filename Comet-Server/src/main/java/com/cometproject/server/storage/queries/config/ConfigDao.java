@@ -1,7 +1,7 @@
 package com.cometproject.server.storage.queries.config;
 
-import com.cometproject.server.config.CometSettings;
-import com.cometproject.server.game.rooms.filter.FilterMode;
+import com.cometproject.api.config.CometSettings;
+import com.cometproject.api.game.rooms.filter.FilterMode;
 import com.cometproject.server.storage.SqlHelper;
 
 import java.sql.Connection;

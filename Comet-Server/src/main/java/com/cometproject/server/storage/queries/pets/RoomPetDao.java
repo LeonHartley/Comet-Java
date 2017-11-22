@@ -1,7 +1,8 @@
 package com.cometproject.server.storage.queries.pets;
 
+import com.cometproject.api.game.pets.IPetData;
 import com.cometproject.server.game.pets.data.PetData;
-import com.cometproject.server.game.rooms.objects.misc.Position;
+import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.storage.SqlHelper;
 
 import java.sql.Connection;
@@ -13,12 +14,12 @@ import java.util.List;
 
 
 public class RoomPetDao {
-    public static List<PetData> getPetsByRoomId(int roomId) {
+    public static List<IPetData> getPetsByRoomId(int roomId) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        List<PetData> data = new ArrayList<>();
+        List<IPetData> data = new ArrayList<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();
@@ -40,6 +41,7 @@ public class RoomPetDao {
                     "pet.`hair_colour` AS hair_colour, " +
                     "pet.`any_rider` AS any_rider, " +
                     "pet.`birthday` AS birthday, " +
+                    "pet.`scratches` AS scratches, " +
                     "pet.`x` AS `x`,  " +
                     "pet.`y` AS `y`, " +
                     "player.username AS owner_name " +
@@ -52,10 +54,29 @@ public class RoomPetDao {
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                PetData petData = new PetData(resultSet);
-                petData.setRoomPosition(new Position(resultSet.getInt("x"), resultSet.getInt("y")));
+                final int id = resultSet.getInt("id");
+                final String name = resultSet.getString("pet_name");
+                final int level = resultSet.getInt("level");
+                final int scratches = resultSet.getInt("scratches");
+                final int happiness = resultSet.getInt("happiness");
+                final int experience = resultSet.getInt("experience");
+                final int energy = resultSet.getInt("energy");
+                final int hunger = resultSet.getInt("hunger");
+                final int ownerId = resultSet.getInt("owner_id");
+                final String ownerName = resultSet.getString("owner_name");
+                final String colour = resultSet.getString("colour");
+                final int raceId = resultSet.getInt("race_id");
+                final int typeId = resultSet.getInt("type");
+                final boolean saddled = resultSet.getBoolean("saddled");
+                final int hairDye = resultSet.getInt("hair_colour");
+                final int hair = resultSet.getInt("hair_style");
+                final boolean anyRider = resultSet.getBoolean("any_rider");
+                final int birthday = resultSet.getInt("birthday");
 
-                data.add(petData);
+                final Position position = new Position(resultSet.getInt("x"), resultSet.getInt("y"));
+
+                data.add(new PetData(id, name, scratches, level, happiness, experience, energy, hunger, ownerId,
+                        ownerName, colour, raceId, typeId, hairDye, hair, anyRider, saddled, birthday, position));
             }
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);

@@ -1,12 +1,11 @@
 package com.cometproject.server.network.messages.outgoing.room.pets.breeding;
 
+import com.cometproject.api.game.pets.IPetData;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.pets.PetManager;
-import com.cometproject.server.game.pets.data.PetData;
 import com.cometproject.server.game.pets.races.PetBreedLevel;
-import com.cometproject.server.network.messages.composers.MessageComposer;
+import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
-import com.cometproject.server.storage.queries.pets.PetDao;
 
 import java.util.Map;
 import java.util.Set;
@@ -17,11 +16,11 @@ public class PetBreedingMessageComposer extends MessageComposer {
     private final int babyType;
 
     // pets have no gender but i thought these namings were better than pet1 & pet2 lols
-    private final PetData mother;
+    private final IPetData mother;
 
-    private final PetData father;
+    private final IPetData father;
 
-    public PetBreedingMessageComposer(final int itemId, final int babyType, final PetData mother,final PetData father) {
+    public PetBreedingMessageComposer(final int itemId, final int babyType, final IPetData mother, final IPetData father) {
         this.itemId = itemId;
         this.babyType = babyType;
         this.mother = mother;

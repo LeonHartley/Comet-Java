@@ -4,13 +4,10 @@ import com.cometproject.server.game.items.types.LowPriorityItemProcessor;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
-import com.cometproject.server.game.rooms.objects.items.events.AbstractItemEvent;
-import com.cometproject.server.game.rooms.objects.items.types.AdvancedFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.RollableFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.state.FloorItemEvent;
-import com.cometproject.server.game.rooms.objects.misc.Position;
+import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorItemMessageComposer;
 import com.cometproject.server.utilities.RandomUtil;
 
@@ -30,7 +27,7 @@ public class BanzaiTeleporterFloorItem extends RoomItemFloor {
     }
 
 //    @Override
-//    protected void onEventComplete(BanzaiTeleportEvent event) {
+//    public void onEventComplete(BanzaiTeleportEvent event) {
 //
 //    }
 

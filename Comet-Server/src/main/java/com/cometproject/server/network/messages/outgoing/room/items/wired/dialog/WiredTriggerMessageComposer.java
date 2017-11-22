@@ -5,7 +5,7 @@ import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredUtil;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredTriggerItem;
-import com.cometproject.server.network.messages.composers.MessageComposer;
+import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
 
 import java.util.List;

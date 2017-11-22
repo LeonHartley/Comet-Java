@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
+import com.cometproject.api.game.furniture.types.IMusicData;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.items.music.MusicData;
@@ -9,7 +10,7 @@ import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.network.messages.composers.MessageComposer;
+import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.network.messages.outgoing.music.PlayMusicMessageComposer;
 import com.cometproject.server.utilities.JsonUtil;
 import com.cometproject.server.utilities.attributes.Stateable;
@@ -96,7 +97,7 @@ public class SoundMachineFloorItem extends RoomItemFloor implements Stateable {
                 SongItemData songItemData = this.getSongs().get(this.currentPlayingIndex);
 
                 if (songItemData != null) {
-                    MusicData musicData = ItemManager.getInstance().getMusicData(songItemData.getSongId());
+                    IMusicData musicData = ItemManager.getInstance().getMusicData(songItemData.getSongId());
 
                     if (musicData != null) {
                         if (this.timePlaying() >= (musicData.getLengthSeconds() + 1.0)) {
@@ -209,7 +210,7 @@ public class SoundMachineFloorItem extends RoomItemFloor implements Stateable {
         SongItemData songItemData = this.getSongs().get(this.currentPlayingIndex);
 
         if (songItemData != null) {
-            MusicData musicData = ItemManager.getInstance().getMusicData(songItemData.getSongId());
+            IMusicData musicData = ItemManager.getInstance().getMusicData(songItemData.getSongId());
 
             if (musicData != null) {
                 if (this.timePlaying() >= musicData.getLengthSeconds())

@@ -3,9 +3,8 @@ package com.cometproject.server.game.guides;
 import com.cometproject.server.game.guides.types.HelpRequest;
 import com.cometproject.server.game.guides.types.HelperSession;
 import com.cometproject.server.network.messages.outgoing.help.guides.GuideSessionAttachedMessageComposer;
-import com.cometproject.server.tasks.CometThread;
 import com.cometproject.server.tasks.CometThreadManager;
-import com.cometproject.server.utilities.Initialisable;
+import com.cometproject.api.utilities.Initialisable;
 import com.cometproject.server.utilities.collections.ConcurrentHashSet;
 
 import java.util.Map;

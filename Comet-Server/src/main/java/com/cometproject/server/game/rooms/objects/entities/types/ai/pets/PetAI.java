@@ -6,20 +6,19 @@ import com.cometproject.server.game.pets.data.PetMessageType;
 import com.cometproject.server.game.pets.data.PetSpeech;
 import com.cometproject.server.game.pets.races.PetType;
 import com.cometproject.server.game.players.PlayerManager;
-import com.cometproject.server.game.players.data.PlayerAvatar;
+import com.cometproject.api.game.players.data.PlayerAvatar;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.ai.AbstractBotAI;
-import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.pet.PetFoodFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.pet.PetNestFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.pet.PetToyFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.pet.breeding.BreedingBoxFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.pet.breeding.types.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredUtil;
-import com.cometproject.server.game.rooms.objects.misc.Position;
+import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.game.rooms.types.misc.ChatEmotion;
 import com.cometproject.server.network.messages.outgoing.room.pets.AddExperiencePointsMessageComposer;
@@ -388,7 +387,7 @@ public class PetAI extends AbstractBotAI {
     }
 
     private PetSpeech getPetSpeech() {
-        final PetSpeech petSpeech = this.getPetEntity().getData().getSpeech();
+        final PetSpeech petSpeech = PetManager.getInstance().getSpeech(this.getPetEntity().getData().getTypeId());
 
         if(petSpeech == null) {
             return PetManager.getInstance().getSpeech(-1);

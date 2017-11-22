@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions;
 
-import com.cometproject.server.game.bots.BotMode;
+import com.cometproject.api.game.bots.BotMode;
 import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;

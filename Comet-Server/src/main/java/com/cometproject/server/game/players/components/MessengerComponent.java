@@ -1,14 +1,15 @@
 package com.cometproject.server.game.players.components;
 
-import com.cometproject.server.game.achievements.types.AchievementType;
+import com.cometproject.api.game.achievements.types.AchievementType;
+import com.cometproject.api.game.players.IPlayer;
+import com.cometproject.api.game.players.data.components.PlayerMessenger;
+import com.cometproject.api.game.players.data.components.messenger.IMessengerFriend;
+import com.cometproject.api.networking.messages.IMessageComposer;
 import com.cometproject.server.game.players.PlayerManager;
-import com.cometproject.server.game.players.components.types.messenger.MessengerFriend;
 import com.cometproject.server.game.players.components.types.messenger.MessengerSearchResult;
-import com.cometproject.server.game.players.data.PlayerAvatar;
-import com.cometproject.server.game.players.types.Player;
+import com.cometproject.api.game.players.data.PlayerAvatar;
 import com.cometproject.server.game.players.types.PlayerComponent;
 import com.cometproject.server.network.NetworkManager;
-import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.outgoing.messenger.MessengerSearchResultsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.messenger.UpdateFriendStateMessageComposer;
 import com.cometproject.server.network.sessions.Session;
@@ -21,16 +22,14 @@ import java.util.List;
 import java.util.Map;
 
 
-public class MessengerComponent implements PlayerComponent {
-    private Player player;
-
-    private Map<Integer, MessengerFriend> friends;
+public class MessengerComponent extends PlayerComponent implements PlayerMessenger {
+    private Map<Integer, IMessengerFriend> friends;
 
     private List<Integer> requests;
     private boolean initialised;
 
-    public MessengerComponent(Player player) {
-        this.player = player;
+    public MessengerComponent(IPlayer player) {
+        super(player);
 
         try {
             this.friends = MessengerDao.getFriendsByPlayerId(player.getId());
@@ -49,10 +48,10 @@ public class MessengerComponent implements PlayerComponent {
         this.friends.clear();
         this.requests = null;
         this.friends = null;
-        this.player = null;
     }
 
-    public MessageComposer search(String query) {
+    @Override
+    public IMessageComposer search(String query) {
         List<MessengerSearchResult> currentFriends = Lists.newArrayList();
         List<MessengerSearchResult> otherPeople = Lists.newArrayList();
 
@@ -65,22 +64,25 @@ public class MessengerComponent implements PlayerComponent {
                 }
             }
         } catch (Exception e) {
-            player.getSession().getLogger().error("Error while searching for players", e);
+            this.getPlayer().getSession().getLogger().error("Error while searching for players", e);
         }
 
         return new MessengerSearchResultsMessageComposer(currentFriends, otherPeople);
     }
 
+    @Override
     public void addRequest(int playerId) {
         this.getRequests().add(playerId);
     }
 
-    public void addFriend(MessengerFriend friend) {
+    @Override
+    public void addFriend(IMessengerFriend friend) {
         this.getFriends().put(friend.getUserId(), friend);
 
         this.getPlayer().getAchievements().progressAchievement(AchievementType.FRIENDS_LIST, 1);
     }
 
+    @Override
     public void removeFriend(int userId) {
         if (!this.friends.containsKey(userId)) {
             return;
@@ -88,10 +90,11 @@ public class MessengerComponent implements PlayerComponent {
 
         this.friends.remove(userId);
 
-        MessengerDao.deleteFriendship(this.player.getId(), userId);
-        this.player.getSession().send(new UpdateFriendStateMessageComposer(-1, userId));
+        MessengerDao.deleteFriendship(this.getPlayer().getId(), userId);
+        this.getPlayer().getSession().send(new UpdateFriendStateMessageComposer(-1, userId));
     }
 
+    @Override
     public Integer getRequestBySender(int sender) {
         for (Integer request : requests) {
             if (request == sender) {
@@ -102,8 +105,9 @@ public class MessengerComponent implements PlayerComponent {
         return null;
     }
 
-    public void broadcast(MessageComposer msg) {
-        for (MessengerFriend friend : this.getFriends().values()) {
+    @Override
+    public void broadcast(IMessageComposer msg) {
+        for (IMessengerFriend friend : this.getFriends().values()) {
             if (!friend.isOnline() || friend.getUserId() == this.getPlayer().getId()) {
                 continue;
             }
@@ -115,13 +119,14 @@ public class MessengerComponent implements PlayerComponent {
         }
     }
 
-    public void broadcast(List<Integer> friends, MessageComposer msg) {
+    @Override
+    public void broadcast(List<Integer> friends, IMessageComposer msg) {
         for (int friendId : friends) {
-            if (friendId == this.player.getId() || !this.friends.containsKey(friendId) || !this.friends.get(friendId).isOnline()) {
+            if (friendId == this.getPlayer().getId() || !this.friends.containsKey(friendId) || !this.friends.get(friendId).isOnline()) {
                 continue;
             }
 
-            MessengerFriend friend = this.friends.get(friendId);
+            IMessengerFriend friend = this.friends.get(friendId);
 
             if (!friend.isOnline() || friend.getUserId() == this.getPlayer().getId()) {
                 continue;
@@ -134,6 +139,7 @@ public class MessengerComponent implements PlayerComponent {
         }
     }
 
+    @Override
     public boolean hasRequestFrom(int playerId) {
         if (this.requests == null) return false;
 
@@ -145,6 +151,7 @@ public class MessengerComponent implements PlayerComponent {
         return false;
     }
 
+    @Override
     public List<PlayerAvatar> getRequestAvatars() {
         List<PlayerAvatar> avatars = Lists.newArrayList();
 
@@ -159,14 +166,17 @@ public class MessengerComponent implements PlayerComponent {
         return avatars;
     }
 
+    @Override
     public void clearRequests() {
         this.requests.clear();
     }
 
+    @Override
     public void sendOffline(int friend, boolean online, boolean inRoom) {
         this.getPlayer().getSession().send(new UpdateFriendStateMessageComposer(PlayerManager.getInstance().getAvatarByPlayerId(friend, PlayerAvatar.USERNAME_FIGURE_MOTTO), online, inRoom, this.getPlayer().getRelationships().get(friend)));
     }
 
+    @Override
     public void sendStatus(boolean online, boolean inRoom) {
         if (this.getPlayer() == null || this.getPlayer().getSettings() == null) {
             return;
@@ -176,7 +186,7 @@ public class MessengerComponent implements PlayerComponent {
             return;
         }
 
-        for (MessengerFriend friend : this.getFriends().values()) {
+        for (IMessengerFriend friend : this.getFriends().values()) {
             if (!friend.isOnline() || friend.getUserId() == this.getPlayer().getId()) {
                 continue;
             }
@@ -188,34 +198,36 @@ public class MessengerComponent implements PlayerComponent {
         }
     }
 
-    public MessengerFriend getFriendById(int id) {
+    @Override
+    public IMessengerFriend getFriendById(int id) {
         return this.getFriends().get(id);
     }
 
-    public Map<Integer, MessengerFriend> getFriends() {
+    @Override
+    public Map<Integer, IMessengerFriend> getFriends() {
         return this.friends;
     }
 
+    @Override
     public List<Integer> getRequests() {
         if (this.requests == null) {
-            this.requests = MessengerDao.getRequestsByPlayerId(player.getId());
+            this.requests = MessengerDao.getRequestsByPlayerId(this.getPlayer().getId());
         }
 
         return this.requests;
     }
 
-    public Player getPlayer() {
-        return this.player;
-    }
-
+    @Override
     public void removeRequest(Integer request) {
         this.getRequests().remove(request);
     }
 
+    @Override
     public void setInitialised(boolean initialised) {
         this.initialised = initialised;
     }
 
+    @Override
     public boolean isInitialised() {
         return initialised;
     }

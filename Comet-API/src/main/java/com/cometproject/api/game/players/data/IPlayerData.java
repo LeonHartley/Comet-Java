@@ -1,6 +1,6 @@
 package com.cometproject.api.game.players.data;
 
-public interface IPlayerData {
+public interface IPlayerData extends PlayerAvatar {
 
     void save();
 
@@ -27,6 +27,8 @@ public interface IPlayerData {
     void setUsername(String username);
 
     int getAchievementPoints();
+
+    void increaseAchievementPoints(int amount);
 
     String getMotto();
 
@@ -85,4 +87,6 @@ public interface IPlayerData {
     void setTemporaryFigure(String temporaryFigure);
 
     int getQuestId();
+
+    void setQuestId(int questId);
 }

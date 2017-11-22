@@ -2,7 +2,7 @@ package com.cometproject.server.boot;
 
 import com.cometproject.server.api.APIManager;
 import com.cometproject.server.boot.utils.gui.CometGui;
-import com.cometproject.server.config.CometSettings;
+import com.cometproject.api.config.CometSettings;
 import com.cometproject.server.config.Configuration;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.GameCycle;
@@ -28,6 +28,7 @@ import com.cometproject.server.logging.LogManager;
 import com.cometproject.server.modules.ModuleManager;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.storage.StorageManager;
+import com.cometproject.server.storage.queries.config.ConfigDao;
 import com.cometproject.server.storage.queue.types.ItemStorageQueue;
 import com.cometproject.server.storage.queue.types.PlayerDataStorageQueue;
 import com.cometproject.server.tasks.CometThreadManager;
@@ -63,7 +64,8 @@ public class CometServer {
         LogManager.getInstance().initialize();
 
         // Locale & config
-        CometSettings.initialize();
+        ConfigDao.getAll();
+
         Locale.initialize();
 
         // Initialize the game managers

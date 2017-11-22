@@ -1,11 +1,7 @@
 package com.cometproject.server.game.rooms.objects.entities;
 
-import com.cometproject.server.game.rooms.objects.RoomObject;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredTriggerItem;
-import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerWalksOnFurni;
-import com.cometproject.server.game.rooms.objects.misc.Position;
-import com.google.common.util.concurrent.Runnables;
 
 public class WiredTriggerExecutor<T extends WiredTriggerItem> implements Runnable {
     private final RoomEntity roomEntity;

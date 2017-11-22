@@ -1,12 +1,12 @@
 package com.cometproject.server.game.catalog.purchase.handlers;
 
-import com.cometproject.server.game.achievements.types.AchievementType;
+import com.cometproject.api.game.achievements.types.AchievementType;
 import com.cometproject.server.game.catalog.purchase.PurchaseHandler;
 import com.cometproject.server.game.catalog.purchase.PurchaseResult;
-import com.cometproject.server.game.catalog.types.CatalogItem;
+import com.cometproject.api.game.catalog.types.ICatalogItem;
 import com.cometproject.server.game.pets.data.PetData;
 import com.cometproject.server.game.pets.data.StaticPetProperties;
-import com.cometproject.server.network.messages.outgoing.catalog.UnseenItemsMessageComposer;
+import com.cometproject.server.composers.catalog.UnseenItemsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.PetInventoryMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.pets.PetDao;
@@ -17,7 +17,7 @@ import java.util.List;
 
 public class PetPurchaseHandler implements PurchaseHandler {
     @Override
-    public PurchaseResult handlePurchaseData(Session session, String purchaseData, CatalogItem catalogItem, int amount) {
+    public PurchaseResult handlePurchaseData(Session session, String purchaseData, ICatalogItem catalogItem, int amount) {
         String petRace = catalogItem.getDisplayName().replace("a0 pet", "");
         String[] petData = purchaseData.split("\n"); // [0:name, 1:race, 2:colour]
 

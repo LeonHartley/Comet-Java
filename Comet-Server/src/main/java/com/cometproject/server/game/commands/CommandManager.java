@@ -46,7 +46,7 @@ import com.cometproject.server.logging.LogManager;
 import com.cometproject.server.logging.entries.CommandLogEntry;
 import com.cometproject.server.modules.ModuleManager;
 import com.cometproject.server.network.sessions.Session;
-import com.cometproject.server.utilities.Initialisable;
+import com.cometproject.api.utilities.Initialisable;
 import com.google.common.collect.Lists;
 import org.apache.log4j.Logger;
 

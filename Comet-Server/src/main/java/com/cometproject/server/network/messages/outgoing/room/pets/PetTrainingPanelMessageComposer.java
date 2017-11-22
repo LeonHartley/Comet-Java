@@ -1,15 +1,15 @@
 package com.cometproject.server.network.messages.outgoing.room.pets;
 
+import com.cometproject.api.game.pets.IPetData;
 import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.server.game.pets.data.PetData;
-import com.cometproject.server.network.messages.composers.MessageComposer;
+import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
 
 public class PetTrainingPanelMessageComposer extends MessageComposer {
 
-    private final PetData petData;
+    private final IPetData petData;
 
-    public PetTrainingPanelMessageComposer(final PetData petData) {
+    public PetTrainingPanelMessageComposer(final IPetData petData) {
         this.petData = petData;
     }
 

@@ -1,17 +1,18 @@
 package com.cometproject.server.game.groups.types.components.forum.threads;
 
+import com.cometproject.api.game.groups.types.components.forum.IForumThread;
+import com.cometproject.api.game.groups.types.components.forum.IForumThreadReply;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.groups.types.components.forum.ForumComponent;
 import com.cometproject.server.game.players.PlayerManager;
-import com.cometproject.server.game.players.data.PlayerAvatar;
+import com.cometproject.api.game.players.data.PlayerAvatar;
 import com.google.common.collect.Lists;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
-public class ForumThread {
+public class ForumThread implements IForumThread {
     private int id;
     private String title;
     private int authorId;
@@ -23,7 +24,7 @@ public class ForumThread {
     private int adminId;
     private String adminUsername;
 
-    private List<ForumThreadReply> replies;
+    private List<IForumThreadReply> replies;
 
     public ForumThread(int id, String title, String message, int authorId, int authorTimestamp, int state, boolean isLocked, boolean isPinned, int adminId, String adminUsername) {
         this.id = id;
@@ -42,7 +43,7 @@ public class ForumThread {
         this.replies.add(new ForumThreadReply(id, 0, message, this.id, authorId, authorTimestamp, 1, this.adminId, this.adminUsername));
     }
 
-    public ForumThread(int id, String title, int authorId, int authorTimestamp, int state, boolean isLocked, boolean isPinned, List<ForumThreadReply> replies, int adminId, String adminUsername) {
+    public ForumThread(int id, String title, int authorId, int authorTimestamp, int state, boolean isLocked, boolean isPinned, List<IForumThreadReply> replies, int adminId, String adminUsername) {
         this.id = id;
         this.title = title;
         this.authorId = authorId;
@@ -55,6 +56,7 @@ public class ForumThread {
         this.adminUsername = adminUsername;
     }
 
+    @Override
     public void compose(IComposer msg) {
         msg.writeInt(this.getId());
 
@@ -82,8 +84,9 @@ public class ForumThread {
         msg.writeInt(0); // admin action time ago.
     }
 
-    public List<ForumThreadReply> getReplies(int start) {
-        List<ForumThreadReply> replies = Lists.newArrayList();
+    @Override
+    public List<IForumThreadReply> getReplies(int start) {
+        List<IForumThreadReply> replies = Lists.newArrayList();
 
         for(int i = start; replies.size() < ForumComponent.MAX_MESSAGES_PER_PAGE; i++) {
             if(i >= this.replies.size())
@@ -95,8 +98,9 @@ public class ForumThread {
         return replies;
     }
 
-    public ForumThreadReply getReplyById(final int id) {
-        for(ForumThreadReply reply : this.replies) {
+    @Override
+    public IForumThreadReply getReplyById(final int id) {
+        for(IForumThreadReply reply : this.replies) {
             if(reply.getId() == id) {
                 return reply;
             }
@@ -105,70 +109,87 @@ public class ForumThread {
         return null;
     }
 
-    public ForumThreadReply getMostRecentPost() {
+    @Override
+    public IForumThreadReply getMostRecentPost() {
         return this.replies.get(this.replies.size() - 1);
     }
 
-    public void addReply(ForumThreadReply reply) {
+    @Override
+    public void addReply(IForumThreadReply reply) {
         this.replies.add(reply);
     }
 
+    @Override
     public void dispose() {
         this.replies.clear();
     }
 
+    @Override
     public int getId() {
         return id;
     }
 
+    @Override
     public void setId(int id) {
         this.id = id;
     }
 
+    @Override
     public String getTitle() {
         return title;
     }
 
+    @Override
     public void setTitle(String title) {
         this.title = title;
     }
 
-    public List<ForumThreadReply> getReplies() {
+    @Override
+    public List<IForumThreadReply> getReplies() {
         return replies;
     }
 
-    public void setReplies(List<ForumThreadReply> replies) {
+    @Override
+    public void setReplies(List<IForumThreadReply> replies) {
         this.replies = replies;
     }
 
+    @Override
     public int getAuthorId() {
         return authorId;
     }
 
+    @Override
     public int getAuthorTimestamp() {
         return authorTimestamp;
     }
 
+    @Override
     public boolean isLocked() {
         return isLocked;
     }
 
+    @Override
     public void setIsLocked(boolean isLocked) {
         this.isLocked = isLocked;
     }
 
+    @Override
     public int getState() {
         return state;
     }
 
+    @Override
     public void setState(int state) {
         this.state = state;
     }
 
+    @Override
     public boolean isPinned() {
         return isPinned;
     }
 
+    @Override
     public void setIsPinned(boolean isPinned) {
         this.isPinned = isPinned;
     }

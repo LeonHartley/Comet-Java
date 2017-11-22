@@ -1,12 +1,12 @@
 package com.cometproject.server.storage.queries.catalog;
 
+import com.cometproject.api.game.catalog.types.ICatalogFrontPageEntry;
+import com.cometproject.api.game.catalog.types.ICatalogItem;
+import com.cometproject.api.game.catalog.types.ICatalogPage;
+import com.cometproject.api.game.catalog.types.IClothingItem;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.catalog.CatalogManager;
-import com.cometproject.server.game.catalog.purchase.OldCatalogPurchaseHandler;
-import com.cometproject.server.game.catalog.types.CatalogFrontPageEntry;
-import com.cometproject.server.game.catalog.types.CatalogItem;
-import com.cometproject.server.game.catalog.types.CatalogPage;
-import com.cometproject.server.game.catalog.types.ClothingItem;
+import com.cometproject.server.game.catalog.types.*;
 import com.cometproject.server.storage.SqlHelper;
 
 import java.sql.Connection;
@@ -17,7 +17,7 @@ import java.util.*;
 
 
 public class CatalogDao {
-    public static void getPages(Map<Integer, CatalogPage> pages) {
+    public static void getPages(Map<Integer, ICatalogPage> pages) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -25,7 +25,7 @@ public class CatalogDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("SELECT * FROM catalog_pages WHERE visible = '1' ORDER BY order_num", sqlConnection);
+            preparedStatement = SqlHelper.prepare("SELECT * FROM catalog_pages WHERE visible = '1' ORDER BY order_num;", sqlConnection);
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
@@ -46,7 +46,7 @@ public class CatalogDao {
         }
     }
 
-    public static void getItems(Map<Integer, CatalogItem> items) {
+    public static void getItems(Map<Integer, ICatalogItem> items) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -59,7 +59,7 @@ public class CatalogDao {
 
             while (resultSet.next()) {
                 try {
-                    final CatalogItem catalogItem = new CatalogItem(resultSet);
+                    final ICatalogItem catalogItem = itemFromResultSet(resultSet);
 
                     if (!catalogItem.getItemId().equals("-1") && catalogItem.getItems().size() == 0) {
                         Comet.getServer().getLogger().warn(String.format("Catalog Item with ID: %s and name: %s has invalid item data! (Data: %s)", catalogItem.getId(), catalogItem.getDisplayName(), catalogItem.getItemId()));
@@ -82,12 +82,12 @@ public class CatalogDao {
     }
 
 
-    private static Map<Integer, CatalogItem> getItemsByPage(int pageId) {
+    private static Map<Integer, ICatalogItem> getItemsByPage(int pageId) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        Map<Integer, CatalogItem> data = new HashMap<>();
+        Map<Integer, ICatalogItem> data = new HashMap<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();
@@ -109,7 +109,7 @@ public class CatalogDao {
 //                }
 
                 try {
-                    final CatalogItem catalogItem = new CatalogItem(resultSet);
+                    final ICatalogItem catalogItem = itemFromResultSet(resultSet);
 
                     if (!catalogItem.getItemId().equals("-1") && catalogItem.getItems().size() == 0) {
                         Comet.getServer().getLogger().warn(String.format("Catalog Item with ID: %s and name: %s has invalid item data! (Data: %s)", catalogItem.getId(), catalogItem.getDisplayName(), catalogItem.getItemId()));
@@ -180,7 +180,7 @@ public class CatalogDao {
         }
     }
 
-    public static void getFeaturedPages(List<CatalogFrontPageEntry> frontPageEntries) {
+    public static void getFeaturedPages(List<ICatalogFrontPageEntry> frontPageEntries) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -204,7 +204,7 @@ public class CatalogDao {
         }
     }
 
-    public static void getClothing(Map<String, ClothingItem> clothingItems) {
+    public static void getClothing(Map<String, IClothingItem> clothingItems) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -218,7 +218,7 @@ public class CatalogDao {
             while (resultSet.next()) {
                 final String itemsStr = resultSet.getString("clothing_items").replace(" ", "");
 
-                if(itemsStr.equals("")) {
+                if (itemsStr.equals("")) {
                     continue;
                 }
 
@@ -226,7 +226,7 @@ public class CatalogDao {
                 final String[] itemsStrArray = itemsStr.split(",");
                 int[] items = new int[itemsStrArray.length];
 
-                for(int i = 0; i < itemsStrArray.length; i++) {
+                for (int i = 0; i < itemsStrArray.length; i++) {
                     items[i] = Integer.parseInt(itemsStrArray[i]);
                 }
 
@@ -264,12 +264,12 @@ public class CatalogDao {
         }
     }
 
-    public static Set<CatalogItem> findRecentPurchases(final int count, final int playerId) {
+    public static Set<Integer> findRecentPurchases(final int count, final int playerId) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        final Set<CatalogItem> recentPurchases = new HashSet<>();
+        final Set<Integer> recentPurchases = new HashSet<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();
@@ -281,11 +281,8 @@ public class CatalogDao {
 
             while (resultSet.next()) {
                 final int catalogItemId = resultSet.getInt("catalog_item");
-                final CatalogItem catalogItem = CatalogManager.getInstance().getCatalogItem(catalogItemId);
 
-                if(catalogItem != null) {
-                    recentPurchases.add(catalogItem);
-                }
+                recentPurchases.add(catalogItemId);
             }
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);
@@ -296,5 +293,26 @@ public class CatalogDao {
         }
 
         return recentPurchases;
+    }
+
+    private static ICatalogItem itemFromResultSet(ResultSet resultSet) throws SQLException {
+        final int id = resultSet.getInt("id");
+        final String itemIds = resultSet.getString("item_ids");
+        final String catalogName = resultSet.getString("catalog_name");
+        final int costCredits = resultSet.getInt("cost_credits");
+        final int costPixels = resultSet.getInt("cost_pixels");
+        final int costDiamonds = resultSet.getInt("cost_diamonds");
+        final int amount = resultSet.getInt("amount");
+        final boolean vip = resultSet.getBoolean("vip");
+        final int limitedStack = resultSet.getInt("limited_stack");
+        final int limitedSells = resultSet.getInt("limited_sells");
+        final boolean offerActive = resultSet.getBoolean("offer_active");
+        final String badgeId = resultSet.getString("badge_id");
+        final String extraData = resultSet.getString("extradata");
+        final int pageId = resultSet.getInt("page_id");
+
+        return new CatalogItem(id, itemIds, catalogName, costCredits, costPixels,
+                costDiamonds, amount, vip, limitedStack, limitedSells, offerActive, badgeId,
+                extraData, pageId);
     }
 }

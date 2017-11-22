@@ -1,12 +1,13 @@
 package com.cometproject.server.network.messages.outgoing.group;
 
+import com.cometproject.api.game.groups.types.IGroupData;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.game.groups.types.GroupMember;
 import com.cometproject.server.game.players.PlayerManager;
-import com.cometproject.server.game.players.data.PlayerAvatar;
+import com.cometproject.api.game.players.data.PlayerAvatar;
 import com.cometproject.server.network.NetworkManager;
-import com.cometproject.server.network.messages.composers.MessageComposer;
+import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
 import com.cometproject.server.network.sessions.Session;
 
@@ -17,14 +18,14 @@ import java.util.List;
 public class GroupMembersMessageComposer extends MessageComposer {
     private static final int MEMBERS_PER_PAGE = 14;
 
-    private final GroupData group;
+    private final IGroupData group;
     private final int page;
     private final List<Object> groupMembers;
     private final int requestType;
     private final String searchQuery;
     private final boolean isAdmin;
 
-    public GroupMembersMessageComposer(final GroupData group, final int page, final List<Object> groupMembers, final int requestType, final String searchQuery, final boolean isAdmin) {
+    public GroupMembersMessageComposer(final IGroupData group, final int page, final List<Object> groupMembers, final int requestType, final String searchQuery, final boolean isAdmin) {
         this.group = group;
         this.page = page;
         this.groupMembers = groupMembers;
