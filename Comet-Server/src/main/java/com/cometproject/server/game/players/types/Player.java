@@ -213,7 +213,7 @@ public class Player implements IPlayer {
 
         this.session.getLogger().debug(this.getData().getUsername() + " logged out");
 
-        StorageContext.current().getPlayerOfflineUpdateQueue().add(this.getId(), null);
+        StorageContext.current().getPlayerOfflineUpdateQueue().add(this.getId(), new Object());
 
         this.rooms.clear();
         this.rooms = null;

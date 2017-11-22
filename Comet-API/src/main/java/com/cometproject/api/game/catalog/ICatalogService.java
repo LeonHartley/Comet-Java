@@ -5,6 +5,7 @@ import com.cometproject.api.game.catalog.types.purchase.ICatalogPurchaseHandler;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public interface ICatalogService {
     Map<Integer, ICatalogOffer> getCatalogOffers();
@@ -44,4 +45,6 @@ public interface ICatalogService {
     List<ICatalogFrontPageEntry> getFrontPageEntries();
 
     Map<String, IClothingItem> getClothingItems();
+
+    List<ICatalogPage> getParentPages();
 }

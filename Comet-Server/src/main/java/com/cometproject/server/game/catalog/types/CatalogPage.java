@@ -15,10 +15,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 public class CatalogPage implements ICatalogPage {
@@ -40,6 +37,8 @@ public class CatalogPage implements ICatalogPage {
 
     private Map<Integer, ICatalogItem> items;
     private String extraData;
+
+    private List<ICatalogPage> children = Lists.newArrayList();
 
     public CatalogPage(ResultSet data, Map<Integer, ICatalogItem> items) throws SQLException {
 
@@ -99,6 +98,17 @@ public class CatalogPage implements ICatalogPage {
         } else {
             this.items = items;
         }
+    }
+
+    private boolean sorted = false;
+
+    public List<ICatalogPage> getChildren() {
+        if(!sorted) {
+            this.children.sort(Comparator.comparing(ICatalogPage::getCaption));
+            sorted = true;
+        }
+
+        return this.children;
     }
 
     @Override

@@ -7,13 +7,11 @@ import com.cometproject.server.game.catalog.purchase.LegacyPurchaseHandler;
 import com.cometproject.server.storage.queries.catalog.CatalogDao;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import org.apache.commons.collections4.map.ListOrderedMap;
 import org.apache.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 public class CatalogManager implements ICatalogService {
@@ -68,6 +66,11 @@ public class CatalogManager implements ICatalogService {
      * The logger for the catalog manager
      */
     private Logger log = Logger.getLogger(CatalogManager.class.getName());
+
+    /**
+     *  Parent pages
+     */
+    private List<ICatalogPage> parentPages = Lists.newCopyOnWriteArrayList();
 
     /**
      * Initialize the catalog
@@ -131,6 +134,8 @@ public class CatalogManager implements ICatalogService {
             }
         }
 
+        this.sortCatalogChildren();
+
         log.info("Loaded " + this.getPages().size() + " catalog pages and " + this.items.size() + " catalog items");
     }
 
@@ -175,6 +180,22 @@ public class CatalogManager implements ICatalogService {
         }
 
         return pages;
+    }
+
+    public void sortCatalogChildren() {
+        this.parentPages.clear();
+
+        for(ICatalogPage catalogPage : this.pages.values()) {
+            if(catalogPage.getParentId() != -1) {
+                final ICatalogPage parentPage = this.getPage(catalogPage.getParentId());
+
+                parentPage.getChildren().add(catalogPage);
+            } else {
+                this.parentPages.add(catalogPage);
+            }
+        }
+
+        this.parentPages.sort(Comparator.comparing(ICatalogPage::getId).reversed());
     }
 
     @Override
@@ -316,6 +337,11 @@ public class CatalogManager implements ICatalogService {
     @Override
     public Map<Integer, ICatalogOffer> getCatalogOffers() {
         return catalogOffers;
+    }
+
+    @Override
+    public List<ICatalogPage> getParentPages() {
+        return parentPages;
     }
 
     public static CatalogManager getInstance() {

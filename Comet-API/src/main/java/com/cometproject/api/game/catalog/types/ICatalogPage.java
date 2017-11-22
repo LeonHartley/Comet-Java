@@ -31,4 +31,6 @@ public interface ICatalogPage {
     String getExtraData();
 
     CatalogPageType getType();
+
+    List<ICatalogPage> getChildren();
 }

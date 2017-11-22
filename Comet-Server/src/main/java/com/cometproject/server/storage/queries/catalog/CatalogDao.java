@@ -25,7 +25,7 @@ public class CatalogDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("SELECT * FROM catalog_pages WHERE visible = '1' ORDER BY order_num", sqlConnection);
+            preparedStatement = SqlHelper.prepare("SELECT * FROM catalog_pages WHERE visible = '1' ORDER BY order_num;", sqlConnection);
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {

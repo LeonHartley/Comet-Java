@@ -33,100 +33,83 @@ public class CatalogIndexMessageComposer extends MessageComposer {
 
     @Override
     public void compose(final IComposer msg) {
-        final List<ICatalogPage> pages = this.catalogService.getPagesForRank(this.playerRank);
-        final List<ICatalogPage> pagesTwo = this.catalogService.getPagesForRank(this.playerRank);
-        final List<ICatalogPage> subPages = this.catalogService.getPagesForRank(this.playerRank);
-
-        Collections.sort(subPages, Comparator.comparing(ICatalogPage::getCaption));
-
         msg.writeBoolean(true);
         msg.writeInt(0);
         msg.writeInt(-1);
         msg.writeString("root");
         msg.writeString("");
         msg.writeInt(0);
-        msg.writeInt(this.count(-1, pages));
+        msg.writeInt(this.countAccessiblePages(this.catalogService.getParentPages()));
 
-        for (final ICatalogPage page : pages.stream().filter(x -> x.getParentId() == -1).collect(Collectors.toList())) {
-            if (page.getParentId() != -1) {
+        for (final ICatalogPage page : this.catalogService.getParentPages()) {
+            if(page.getMinRank() > this.playerRank) {
                 continue;
             }
 
-            msg.writeBoolean(true);
-            msg.writeInt(page.getIcon());
-            msg.writeInt(page.isEnabled() ? page.getId() : -1);
-            msg.writeString(page.getLinkName().equals("undefined") ? page.getCaption().toLowerCase().replaceAll("[^A-Za-z0-9]", "").replace(" ", "_") : page.getLinkName());
-            msg.writeString(page.getCaption());
-            msg.writeInt(0);
-            msg.writeInt(this.count(page.getId(), pages));
-
-            for (final ICatalogPage child : pagesTwo.stream().filter(x -> x.getParentId() == page.getId()).collect(Collectors.toList())) {
-                if (child.getParentId() != page.getId()) {
-                    continue;
-                }
-
-                msg.writeBoolean(true);
-                msg.writeInt(child.getIcon());
-                msg.writeInt(child.isEnabled() ? child.getId() : -1);
-                msg.writeString(child.getLinkName().equals("undefined") ? child.getCaption().toLowerCase().replaceAll("[^A-Za-z0-9]", "").replace(" ", "_") : child.getLinkName());
-                msg.writeString(child.getCaption());
-                msg.writeInt(child.getOfferSize());
-
-                for (ICatalogItem item : child.getItems().values()) {
-                    if (item.getItemId().equals("-1")) continue;
-
-                    IFurnitureDefinition itemDefinition = this.furnitureService.getDefinition(item.getItems().get(0).getItemId());
-
-                    if (itemDefinition != null) {
-                        int offerId = itemDefinition.getOfferId();
-
-                        if (offerId != -1) {
-                            msg.writeInt(offerId);
-
-                        }
-                    }
-                }
-
-                msg.writeInt(this.count(child.getId(), pagesTwo));
-
-                for (final ICatalogPage childTwo : subPages.stream().filter(x -> x.getParentId() == child.getId()).collect(Collectors.toList())) {
-                    if (childTwo.getParentId() != child.getId()) continue;
-
-                    msg.writeBoolean(true);
-                    msg.writeInt(childTwo.getIcon());
-                    msg.writeInt(childTwo.isEnabled() ? childTwo.getId() : -1);
-                    msg.writeString(childTwo.getLinkName().equals("undefined") ? childTwo.getCaption().toLowerCase().replaceAll("[^A-Za-z0-9]", "").replace(" ", "_") : childTwo.getLinkName());
-                    msg.writeString(childTwo.getCaption());
-                    msg.writeInt(childTwo.getOfferSize());
-
-                    for (ICatalogItem item : childTwo.getItems().values()) {
-                        if (item.getItemId().equals("-1")) continue;
-
-                        IFurnitureDefinition itemDefinition = this.furnitureService.getDefinition(item.getItems().get(0).getItemId());
-
-                        if (itemDefinition != null && itemDefinition.getOfferId() != -1 && itemDefinition.getOfferId() != 0) {
-                            msg.writeInt(itemDefinition.getOfferId());
-                        }
-                    }
-
-                    msg.writeInt(0);
-                }
-            }
+            composePage(page, msg);
         }
 
         msg.writeBoolean(false);
         msg.writeString("NORMAL");
     }
 
-    private int count(final int index, final List<ICatalogPage> pages) {
-        int i = 0;
+    private void composePage(ICatalogPage page, IComposer msg) {
+        msg.writeBoolean(true);
+        msg.writeInt(page.getIcon());
+        msg.writeInt(page.isEnabled() ? page.getId() : -1);
+        msg.writeString(page.getLinkName().equals("undefined") ? page.getCaption().toLowerCase().replaceAll("[^A-Za-z0-9]", "").replace(" ", "_") : page.getLinkName());
+        msg.writeString(page.getCaption());
+        msg.writeInt(0);
+        msg.writeInt(this.countAccessiblePages(page.getChildren()));
 
-        for (final ICatalogPage page : pages) {
-            if (page.getParentId() == index) {
-                ++i;
+        for (final ICatalogPage child : page.getChildren()) {
+            if (child.getMinRank() > this.playerRank) {
+                continue;
             }
 
+            msg.writeBoolean(true);
+            msg.writeInt(child.getIcon());
+            msg.writeInt(child.isEnabled() ? child.getId() : -1);
+            msg.writeString(child.getLinkName().equals("undefined") ? child.getCaption().toLowerCase().replaceAll("[^A-Za-z0-9]", "").replace(" ", "_") : child.getLinkName());
+            msg.writeString(child.getCaption());
+            msg.writeInt(child.getOfferSize());
+
+            for (ICatalogItem item : child.getItems().values()) {
+                if (item.getItemId().equals("-1")) continue;
+
+                IFurnitureDefinition itemDefinition = this.furnitureService.getDefinition(item.getItems().get(0).getItemId());
+
+                if (itemDefinition != null) {
+                    int offerId = itemDefinition.getOfferId();
+
+                    if (offerId != -1) {
+                        msg.writeInt(offerId);
+
+                    }
+                }
+            }
+
+            msg.writeInt(this.countAccessiblePages(child.getChildren()));
+
+            for (final ICatalogPage childTwo : child.getChildren()) {
+                if (child.getMinRank() > this.playerRank) {
+                    continue;
+                }
+
+                composePage(childTwo, msg);
+            }
         }
-        return i;
+    }
+
+    private int countAccessiblePages(final List<ICatalogPage> pages) {
+        int count = 0;
+
+        for (final ICatalogPage catalogPage : pages) {
+            if (catalogPage.getMinRank() <= this.playerRank) {
+                count++;
+            }
+        }
+
+        return count;
     }
 }
