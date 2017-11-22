@@ -115,7 +115,7 @@ public final class MessageHandler {
     public static Logger log = Logger.getLogger(MessageHandler.class.getName());
     private final Map<Short, Event> messages = new ConcurrentHashMap<>();
 
-    private final AbstractExecutorService eventExecutor;
+    private final ExecutorService eventExecutor;
     private final boolean asyncEventExecution;
 
     public MessageHandler() {
@@ -125,12 +125,8 @@ public final class MessageHandler {
         if (this.asyncEventExecution) {
             switch ((String) Configuration.currentConfig().getOrDefault("comet.network.alternativePacketHandling.type", "threadpool")) {
                 default:
-                    log.info("Using thread-pool event executor");
-                    this.eventExecutor = new ThreadPoolExecutor(Integer.parseInt((String) Configuration.currentConfig().getOrDefault("comet.network.alternativePacketHandling.coreSize", "8")), // core size
-                            Integer.parseInt((String) Configuration.currentConfig().getOrDefault("comet.network.alternativePacketHandling.maxSize", "32")), // max size
-                            10 * 60, // idle timeout
-                            TimeUnit.SECONDS,
-                            new LinkedBlockingQueue<>());
+                    log.info("Using fixed thread-pool event executor");
+                    this.eventExecutor = Executors.newFixedThreadPool(8);
                     break;
 
                 case "forkjoin":

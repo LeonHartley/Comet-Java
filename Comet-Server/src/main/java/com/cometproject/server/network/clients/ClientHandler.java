@@ -30,14 +30,16 @@ public class ClientHandler extends SimpleChannelInboundHandler<MessageEvent> {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
+
+        log.info("entered channelActive on thread " + Thread.currentThread().getName());
         if (!NetworkManager.getInstance().getSessions().add(ctx)) {
-            ctx.channel().disconnect();
+            ctx.disconnect();
         }
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        if(ctx.attr(SessionManager.SESSION_ATTR).get() == null) {
+        if (ctx.attr(SessionManager.SESSION_ATTR).get() == null) {
             return;
         }
 
@@ -60,7 +62,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<MessageEvent> {
                 if (e.state() == IdleState.READER_IDLE) {
                     ctx.close();
                 } else if (e.state() == IdleState.WRITER_IDLE) {
-                    ctx.writeAndFlush(new PingMessageComposer());
+                    ctx.writeAndFlush(new PingMessageComposer(), ctx.voidPromise());
                 }
             }
         }
@@ -84,6 +86,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<MessageEvent> {
     @Override
     public void channelRead0(ChannelHandlerContext channelHandlerContext, MessageEvent event) throws Exception {
         try {
+            log.info("entered channelRead0 on thread " + Thread.currentThread().getName());
             Session session = channelHandlerContext.attr(SessionManager.SESSION_ATTR).get();
 
             if (session != null) {

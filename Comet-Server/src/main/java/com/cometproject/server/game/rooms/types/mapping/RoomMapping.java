@@ -133,11 +133,6 @@ public class RoomMapping {
         return null;
     }
 
-
-    public boolean positionHasUser(Position position) {
-        return positionHasUser(null, position);
-    }
-
     public boolean positionHasUser(Integer entityId, Position position) {
         boolean hasMountedPet = false;
         int entitySize = 0;

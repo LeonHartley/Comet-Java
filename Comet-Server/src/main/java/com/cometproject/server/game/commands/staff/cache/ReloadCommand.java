@@ -131,10 +131,10 @@ public class ReloadCommand extends ChatCommand {
                 ModerationManager.getInstance().loadPresets();
 
                 sendNotif(Locale.get("command.reload.modpresets"), client);
-
-                for (ISession session : NetworkManager.getInstance().getSessions().getByPlayerPermission("mod_tool")) {
+            
+                ModerationManager.getInstance().getModerators().forEach((session -> {
                     session.send(new ModToolMessageComposer());
-                }
+                }));
                 break;
 
             case "groupitems":

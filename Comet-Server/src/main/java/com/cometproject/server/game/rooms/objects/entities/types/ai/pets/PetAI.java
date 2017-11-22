@@ -260,14 +260,20 @@ public class PetAI extends AbstractBotAI {
             this.applyGesture("sad");
             this.getPetEntity().getData().increaseHappiness(-10);
         }
-
     }
 
     public void applyGesture(String gestureType) {
-        this.gestureTimer = 15;
-
-        this.getPetEntity().addStatus(RoomEntityStatus.GESTURE, gestureType);
-        this.getPetEntity().markNeedsUpdate();
+//        this.gestureTimer = 15;
+//
+//        if(this.getPetEntity().getData().getName().equals("york")) {
+//            System.out.println(String.join(", ", this.getPetEntity().getStatuses().values()));
+//        }
+//
+//        //this.say(String.format("applying gesture status %s", gestureType));
+//        this.getPetEntity().addStatus(RoomEntityStatus.GESTURE, gestureType);
+//
+//        if(!this.getPetEntity().isWalking())
+//            this.getPetEntity().markNeedsUpdate();
     }
 
     public void waitForInteraction() {

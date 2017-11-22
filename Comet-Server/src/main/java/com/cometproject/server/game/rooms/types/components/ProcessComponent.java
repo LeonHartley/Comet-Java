@@ -210,18 +210,22 @@ public class ProcessComponent implements CometTask {
                 playersToRemove.add(playerEntity);
             }
         } else {
-            if (entity.getAI() != null) {
-                entity.getAI().onTick();
-            }
-
-            if (entity.getEntityType() == RoomEntityType.BOT) {
-                // do anything special here for bots?
-                processEntity(entity);
-            } else if (entity.getEntityType() == RoomEntityType.PET) {
-                if (entity.getMountedEntity() == null) {
-                    // do anything special here for pets?
-                    processEntity(entity);
+            try {
+                if (entity.getAI() != null) {
+                    entity.getAI().onTick();
                 }
+
+                if (entity.getEntityType() == RoomEntityType.BOT) {
+                    // do anything special here for bots?
+                    processEntity(entity);
+                } else if (entity.getEntityType() == RoomEntityType.PET) {
+                    if (entity.getMountedEntity() == null) {
+                        // do anything special here for pets?
+                        processEntity(entity);
+                    }
+                }
+            } catch (Exception e) {
+                log.error(String.format("Error while processing entity %s", entity.getId()), e);
             }
         }
 
@@ -309,12 +313,7 @@ public class ProcessComponent implements CometTask {
                 }
             }
 
-            // Step-on
-            int index = 0;
-
             for (RoomItemFloor item : itemsOnSq) {
-                index++;
-
                 if (entity instanceof PlayerEntity) {
                     PlayerEntity playerEntity = ((PlayerEntity) entity);
 
@@ -526,7 +525,7 @@ public class ProcessComponent implements CometTask {
 
                 // RoomTile is blocked, let's try again!
                 entity.moveTo(entity.getWalkingGoal().getX(), entity.getWalkingGoal().getY());
-                return this.processEntity(entity, true);
+                return false;//this.processEntity(entity, true);
             }
         } else {
             if (isPlayer && ((PlayerEntity) entity).isKicked())

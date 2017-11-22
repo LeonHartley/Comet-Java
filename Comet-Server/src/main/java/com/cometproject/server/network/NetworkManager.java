@@ -143,9 +143,9 @@ public class NetworkManager {
 
         if (isEpollAvailable && isEpollEnabled) {
             log.info("Epoll is enabled");
-            acceptGroup = new EpollEventLoopGroup(Integer.parseInt((String) Configuration.currentConfig().getOrDefault("comet.network.acceptGroupThreads", defaultThreadCount)));
-            ioGroup = new EpollEventLoopGroup(Integer.parseInt((String) Configuration.currentConfig().getOrDefault("comet.network.ioGroupThreads", defaultThreadCount)));
-            channelGroup = new EpollEventLoopGroup(Integer.parseInt((String) Configuration.currentConfig().getOrDefault("comet.network.channelGroupThreads", defaultThreadCount)));
+            acceptGroup = new EpollEventLoopGroup(Integer.parseInt((String) Configuration.currentConfig().getOrDefault("comet.network.acceptGroupThreads", defaultThreadCount)), new CometThreadFactory("acceptGroup"));
+            ioGroup = new EpollEventLoopGroup(Integer.parseInt((String) Configuration.currentConfig().getOrDefault("comet.network.ioGroupThreads", defaultThreadCount)), new CometThreadFactory("ioGroup"));
+            channelGroup = new EpollEventLoopGroup(Integer.parseInt((String) Configuration.currentConfig().getOrDefault("comet.network.channelGroupThreads", defaultThreadCount)), new CometThreadFactory("channelGroup"));
         } else {
             if (isEpollAvailable) {
                 log.info("Epoll is available but not enabled");
@@ -153,9 +153,9 @@ public class NetworkManager {
                 log.info("Epoll is not available");
             }
 
-            acceptGroup = new NioEventLoopGroup(Integer.parseInt((String) Configuration.currentConfig().getOrDefault("comet.network.acceptGroupThreads", defaultThreadCount)));
-            ioGroup = new NioEventLoopGroup(Integer.parseInt((String) Configuration.currentConfig().getOrDefault("comet.network.ioGroupThreads", defaultThreadCount)));
-            channelGroup = new NioEventLoopGroup(Integer.parseInt((String) Configuration.currentConfig().getOrDefault("comet.network.channelGroupThreads", defaultThreadCount)));
+            acceptGroup = new NioEventLoopGroup(Integer.parseInt((String) Configuration.currentConfig().getOrDefault("comet.network.acceptGroupThreads", defaultThreadCount)), new CometThreadFactory("acceptGroup"));
+            ioGroup = new NioEventLoopGroup(Integer.parseInt((String) Configuration.currentConfig().getOrDefault("comet.network.ioGroupThreads", defaultThreadCount)), new CometThreadFactory("ioGroup"));
+            channelGroup = new NioEventLoopGroup(Integer.parseInt((String) Configuration.currentConfig().getOrDefault("comet.network.channelGroupThreads", defaultThreadCount)), new CometThreadFactory("channelGroup"));
         }
 
         ServerBootstrap bootstrap = new ServerBootstrap()
