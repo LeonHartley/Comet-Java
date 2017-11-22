@@ -14,5 +14,23 @@
     <artifactId>Comet-Storage-MySQL</artifactId>
     <version>2.1.2-TEST2</version>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>Comet</groupId>
+            <artifactId>Comet-API</artifactId>
+            <version>2.1.2-TEST2</version>
+        </dependency>
+        <dependency>
+            <groupId>Comet</groupId>
+            <artifactId>Comet-API</artifactId>
+            <version>2.1.2-TEST2</version>
+        </dependency>
+    </dependencies>
+
     
 </project>

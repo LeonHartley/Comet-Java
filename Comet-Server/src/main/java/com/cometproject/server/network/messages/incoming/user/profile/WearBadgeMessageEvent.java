@@ -6,8 +6,13 @@ import com.cometproject.server.network.messages.outgoing.user.profile.UserBadges
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.storage.queries.player.inventory.InventoryDao;
+import com.cometproject.storage.mysql.StorageContext;
+import com.cometproject.storage.mysql.queues.players.objects.PlayerBadgeUpdate;
+import com.google.common.collect.Sets;
+import javafx.util.Pair;
 
 import java.util.Map;
+import java.util.Set;
 
 
 public class WearBadgeMessageEvent implements Event {
@@ -38,9 +43,17 @@ public class WearBadgeMessageEvent implements Event {
             client.getPlayer().getInventory().getBadges().replace(badge, slot);
         }
 
+        final Set<Pair<Integer, PlayerBadgeUpdate>> updates = Sets.newHashSet();
+
+        final int playerId = client.getPlayer().getId();
+
         for (Map.Entry<String, Integer> badgeToUpdate : client.getPlayer().getInventory().getBadges().entrySet()) {
-            InventoryDao.updateBadge(badgeToUpdate.getKey(), badgeToUpdate.getValue(), client.getPlayer().getId());
+            updates.add(new Pair<>(playerId, new PlayerBadgeUpdate(playerId, badgeToUpdate.getKey(), badgeToUpdate.getValue())));
+
+            //InventoryDao.updateBadge(badgeToUpdate.getKey(), badgeToUpdate.getValue(), client.getPlayer().getId());
         }
+
+        StorageContext.current().getPlayerBadgeUpdateQueue().addAll(updates);
 
         if (client.getPlayer().getEntity() != null) {
             client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new UserBadgesMessageComposer(client.getPlayer().getId(), client.getPlayer().getInventory().equippedBadges()));

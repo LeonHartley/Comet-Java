@@ -5,6 +5,8 @@ import com.cometproject.api.config.CometSettings;
 import com.cometproject.server.game.utilities.validator.PlayerFigureValidator;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.storage.queue.types.PlayerDataStorageQueue;
+import com.cometproject.storage.mysql.StorageContext;
+import com.cometproject.storage.mysql.queues.players.PlayerDataUpdateQueue;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -98,11 +100,13 @@ public class PlayerData implements IPlayerData {
     }
 
     public void save() {
-        if(CometSettings.storagePlayerQueueEnabled) {
+        /*if(CometSettings.storagePlayerQueueEnabled) {
             PlayerDataStorageQueue.getInstance().queueSave(this);
         } else {
             this.saveNow();
-        }
+        }*/
+
+        StorageContext.current().getPlayerDataUpdateQueue().add(this.getId(), this);
     }
 
     public void saveNow() {

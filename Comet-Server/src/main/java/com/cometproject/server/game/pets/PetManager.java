@@ -46,27 +46,9 @@ public class PetManager implements Initialisable {
         this.loadTransformablePets();
 
         // Set up the queue for saving pet data
-        CometThreadManager.getInstance().executePeriodic(this::savePetStats, 1000, 1000, TimeUnit.MILLISECONDS);
+       // CometThreadManager.getInstance().executePeriodic(this::savePetStats, 1000, 1000, TimeUnit.MILLISECONDS);
 
         log.info("PetManager initialized");
-    }
-
-    private void savePetStats() {
-        final Set<IPetStats> petStats = Sets.newHashSet();
-
-        petStats.addAll(this.pendingPetDataSaves.values());
-
-        PetDao.saveStatsBatch(petStats);
-        this.pendingPetDataSaves.clear();
-        petStats.clear();
-    }
-
-    public void savePet(IPetData petData) {
-        if(this.pendingPetDataSaves.containsKey(petData.getId())) {
-            this.pendingPetDataSaves.replace(petData.getId(), petData);
-        } else {
-            this.pendingPetDataSaves.put(petData.getId(), petData);
-        }
     }
 
     public static PetManager getInstance() {
@@ -74,10 +56,6 @@ public class PetManager implements Initialisable {
             petManagerInstance = new PetManager();
 
         return petManagerInstance;
-    }
-
-    public void initialisePetSaveQueue() {
-
     }
 
     public void loadPetRaces() {

@@ -33,6 +33,7 @@
         <module>Comet-Website</module>
         <module>Comet-CatalogTool</module>
 
+        <module>Comet-Storage-API</module>
         <module>Comet-Storage-MySQL</module>
 
         <module>Comet-Server-Composers</module>

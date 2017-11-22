@@ -68,7 +68,7 @@ public class ProcessComponent implements CometTask {
 
         this.isProcessing = true;
 
-        // update = !update;
+         update = !update;
 
         long timeSinceLastProcess = this.lastProcess == 0 ? 0 : (System.currentTimeMillis() - this.lastProcess);
         this.lastProcess = System.currentTimeMillis();
@@ -80,8 +80,8 @@ public class ProcessComponent implements CometTask {
         long timeStart = System.currentTimeMillis();
 
         try {
-            //     if(this.update)
-            this.getRoom().tick();
+            if(this.update)
+                this.getRoom().tick();
         } catch (Exception e) {
             log.error("Error while cycling room: " + room.getData().getId() + ", " + room.getData().getName(), e);
         }
@@ -93,8 +93,8 @@ public class ProcessComponent implements CometTask {
             entitiesToUpdate = new ArrayList<>();
 
             for (RoomEntity entity : entities.values()) {
-                //if(entity.isFastWalkEnabled() || this.update)
-                this.startProcessing(entity);
+                if(entity.isFastWalkEnabled() || this.update)
+                    this.startProcessing(entity);
             }
 
             // only send the updates if we need to
@@ -120,7 +120,7 @@ public class ProcessComponent implements CometTask {
             playersToRemove = null;
             entitiesToUpdate = null;
 
-//            log.debug("Room processing took " + (System.currentTimeMillis() - timeStart) + "ms");
+            //log.debug("Room processing took " + (System.currentTimeMillis() - timeStart) + "ms");
         } catch (Exception e) {
             log.warn("Error during room entity processing", e);
         }
@@ -152,7 +152,7 @@ public class ProcessComponent implements CometTask {
         if (this.adaptiveProcessTimes) {
             CometThreadManager.getInstance().executeSchedule(this, 250, TimeUnit.MILLISECONDS);
         } else {
-            this.processFuture = CometThreadManager.getInstance().executePeriodic(this, 500, 500, TimeUnit.MILLISECONDS);
+            this.processFuture = CometThreadManager.getInstance().executePeriodic(this, 250, 250, TimeUnit.MILLISECONDS);
         }
 
         this.active = true;

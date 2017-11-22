@@ -153,7 +153,7 @@ public abstract class WiredFloorItem extends AdvancedFloorItem<WiredItemEvent> i
     }
 
     @Override
-    protected void onEventComplete(WiredItemEvent event) {
+    public void onEventComplete(WiredItemEvent event) {
 
     }
 

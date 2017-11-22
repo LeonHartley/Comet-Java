@@ -32,6 +32,7 @@ import com.cometproject.server.storage.queries.groups.GroupDao;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.storage.queue.types.PlayerDataStorageQueue;
 import com.cometproject.server.utilities.collections.ConcurrentHashSet;
+import com.cometproject.storage.mysql.StorageContext;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
@@ -212,7 +213,7 @@ public class Player implements IPlayer {
 
         this.session.getLogger().debug(this.getData().getUsername() + " logged out");
 
-        PlayerDao.updatePlayerStatus(this, false, false);
+        StorageContext.current().getPlayerOfflineUpdateQueue().add(this.getId(), null);
 
         this.rooms.clear();
         this.rooms = null;

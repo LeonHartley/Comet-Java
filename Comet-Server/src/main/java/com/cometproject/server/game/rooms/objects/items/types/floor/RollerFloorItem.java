@@ -72,7 +72,7 @@ public class RollerFloorItem extends AdvancedFloorItem<RollerFloorItemEvent> {
     }
 
     @Override
-    protected void onEventComplete(RollerFloorItemEvent event) {
+    public void onEventComplete(RollerFloorItemEvent event) {
         if(this.cycleCancelled) {
             this.cycleCancelled = false;
         }

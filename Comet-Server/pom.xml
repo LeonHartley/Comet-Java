@@ -432,5 +432,30 @@
             <artifactId>Comet-Server-Composers</artifactId>
             <version>2.1.2-TEST2</version>
         </dependency>
+        <dependency>
+            <groupId>Comet</groupId>
+            <artifactId>Comet-Storage-MySQL</artifactId>
+            <version>2.1.2-TEST2</version>
+        </dependency>
+        <dependency>
+            <groupId>Comet</groupId>
+            <artifactId>Comet-Storage-MySQL</artifactId>
+            <version>2.1.2-TEST2</version>
+        </dependency>
+        <dependency>
+            <groupId>Comet</groupId>
+            <artifactId>Comet-Storage-MySQL</artifactId>
+            <version>2.1.2-TEST2</version>
+        </dependency>
+        <dependency>
+            <groupId>Comet</groupId>
+            <artifactId>Comet-Storage-MySQL</artifactId>
+            <version>2.1.2-TEST2</version>
+        </dependency>
+        <dependency>
+            <groupId>Comet</groupId>
+            <artifactId>Comet-Storage-MySQL</artifactId>
+            <version>2.1.2-TEST2</version>
+        </dependency>
     </dependencies>
 </project>

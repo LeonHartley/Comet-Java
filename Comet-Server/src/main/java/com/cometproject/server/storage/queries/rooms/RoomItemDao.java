@@ -249,7 +249,7 @@ public class RoomItemDao {
             sqlConnection = SqlHelper.getConnection();
             sqlConnection.setAutoCommit(false);
 
-            preparedStatement = SqlHelper.prepare("UPDATE items SET extra_data = ? WHERE id = ?", sqlConnection);
+            preparedStatement = SqlHelper.prepare("UPDATE items SET extra_data = ? WHERE id = ?;", sqlConnection);
 
             for (RoomItem roomItem : itemsToStore) {
                 String data;

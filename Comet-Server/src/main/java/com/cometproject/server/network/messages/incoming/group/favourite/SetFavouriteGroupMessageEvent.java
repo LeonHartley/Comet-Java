@@ -26,6 +26,11 @@ public class SetFavouriteGroupMessageEvent implements Event {
         if (group == null)
             return;
 
+        if(client.getPlayer().getData().getFavouriteGroup() == groupId) {
+            // Already the favourite group, why set it again?
+            return;
+        }
+
         client.getPlayer().getData().setFavouriteGroup(groupId);
         client.getPlayer().getData().save();
 

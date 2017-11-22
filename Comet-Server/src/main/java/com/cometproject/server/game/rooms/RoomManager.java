@@ -113,7 +113,7 @@ public class RoomManager implements Initialisable {
     }
 
     public void initializeRoom(Session initializer, int roomId, String password) {
-        CometThreadManager.getInstance().executeOnce(() -> {
+        this.executorService.submit(() -> {
             if (initializer != null && initializer.getPlayer() != null) {
                 initializer.getPlayer().loadRoom(roomId, password);
             }

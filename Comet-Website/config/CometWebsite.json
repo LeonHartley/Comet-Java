@@ -1,13 +1,13 @@
 {
     "dbHost": "127.0.0.1",
     "dbUsername": "root",
-    "dbPassword": "",
-    "dbDatabase": "cometsrv",
+    "dbPassword": "password",
+    "dbDatabase": "cometserver",
     "dbPoolSize": 1,
 
-    "siteUrl": "http://localhost:8080",
-    "assetsUrl": "http://localhost/comet/website/",
-    "sitePort": 8080,
+    "siteUrl": "http://localhost:80",
+    "assetsUrl": "https://game.libbo.org/website",
+    "sitePort": 80,
 
     "passwordHashMode": "sha1",
     "passwordSalt": "0wo9i3r4iu90rw3490iurw489u0wreu",

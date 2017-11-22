@@ -27,7 +27,7 @@ public class BanzaiTeleporterFloorItem extends RoomItemFloor {
     }
 
 //    @Override
-//    protected void onEventComplete(BanzaiTeleportEvent event) {
+//    public void onEventComplete(BanzaiTeleportEvent event) {
 //
 //    }
 

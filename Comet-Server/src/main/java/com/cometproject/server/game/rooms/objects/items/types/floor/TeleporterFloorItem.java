@@ -42,7 +42,7 @@ public class TeleporterFloorItem extends AdvancedFloorItem<TeleporterFloorItem.T
     }
 
     @Override
-    protected void onEventComplete(TeleporterItemEvent event) {
+    public void onEventComplete(TeleporterItemEvent event) {
         try {
             switch (event.state) {
                 case 0: {
