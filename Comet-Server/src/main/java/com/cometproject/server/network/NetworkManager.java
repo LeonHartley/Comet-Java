@@ -13,6 +13,7 @@ import com.cometproject.server.network.messages.MessageHandler;
 import com.cometproject.server.network.monitor.MonitorClient;
 import com.cometproject.server.network.sessions.SessionManager;
 import com.cometproject.server.protocol.security.exchange.RSA;
+import com.cometproject.server.utilities.CometThreadFactory;
 import io.coerce.commons.config.CoerceConfiguration;
 import io.coerce.services.messaging.client.MessagingClient;
 import io.netty.bootstrap.ServerBootstrap;

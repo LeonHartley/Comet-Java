@@ -136,6 +136,7 @@ public class PetDao {
                     "pet.`happiness` AS happiness, " +
                     "pet.`experience` AS experience, " +
                     "pet.`energy` AS energy, " +
+                    "pet.`scratches` AS scratches, " +
                     "pet.`hunger` AS hunger, " +
                     "pet.`owner_id` AS owner_id, " +
                     "pet.`colour` AS colour, " +

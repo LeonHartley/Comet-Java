@@ -281,6 +281,8 @@ public class RoomManager implements Initialisable {
     public List<IRoomData> getRoomsByQuery(String query) {
         List<IRoomData> rooms = new ArrayList<>();
 
+        if(query.equals("owner:")) return rooms;
+
         if (query.equals("tag:")) return rooms;
 
         if (query.equals("group:")) return rooms;

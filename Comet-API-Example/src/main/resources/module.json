@@ -1,0 +1,21 @@
+{
+  "name": "ExampleModule",
+  "version": "1.0.0",
+  "serverVersion": "1.x",
+  "entryPoint": "com.cometproject.example.ExampleModule",
+  "commands": {
+    "!about": {
+      "description": "Displays information about the Comet API Example module",
+      "permission": ""
+    },
+    "!inventory": {
+      "description": "Displays a list of every item in your inventory, with quantity",
+      "permission": ""
+    },
+    "!mathis": {
+      "description": "Says hello to Mathis",
+      "permission": ""
+    }
+
+  }
+}
