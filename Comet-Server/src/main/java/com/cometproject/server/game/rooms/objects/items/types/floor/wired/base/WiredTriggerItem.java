@@ -99,19 +99,17 @@ public abstract class WiredTriggerItem extends WiredFloorItem {
                 unseenEffectItem.getSeenEffects().clear();
             }
 
-            final Map<Class<? extends WiredConditionItem>, AtomicBoolean> completedConditions = new HashMap<>();
+            final Map<WiredConditionItem, AtomicBoolean> completedConditions = new HashMap<>();
 
             // loop through the conditions and check whether or not we can perform the action
             for (WiredConditionItem conditionItem : wiredConditions) {
                 conditionItem.flash();
 
-                if (!completedConditions.containsKey(conditionItem.getClass())) {
-                    completedConditions.put(conditionItem.getClass(), new AtomicBoolean(false));
+                if (!completedConditions.containsKey(conditionItem)) {
+                    completedConditions.put(conditionItem, new AtomicBoolean(false));
                 }
 
-                if (conditionItem.evaluate(entity, data)) {
-                    completedConditions.get(conditionItem.getClass()).set(true);
-                }
+                completedConditions.get(conditionItem).set(conditionItem.evaluate(entity, data));
             }
 
             for (AtomicBoolean conditionState : completedConditions.values()) {
@@ -176,7 +174,7 @@ public abstract class WiredTriggerItem extends WiredFloorItem {
         final List<T> triggers = Lists.newArrayList();
 
         for (RoomItemFloor floorItem : room.getItems().getByClass(clazz)) {
-            if(triggers.size() <= CometSettings.wiredMaxTriggers)
+            if (triggers.size() <= CometSettings.wiredMaxTriggers)
                 triggers.add((T) floorItem);
         }
 
