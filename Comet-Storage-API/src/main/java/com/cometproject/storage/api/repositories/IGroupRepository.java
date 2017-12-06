@@ -10,11 +10,11 @@ public interface IGroupRepository {
 
     void saveGroupData(IGroupData groupData);
 
-    void create(IGroupData groupData, Consumer<IGroupData> consumer);
+    void create(IGroupData groupData);
 
-    int getIdByRoomId(int roomId, Consumer<Integer> consumer);
+    void getGroupIdByRoomId(int roomId, Consumer<Integer> consumer);
 
     void deleteGroup(int groupId);
 
-    void getGroupsByPlayerId(int playerId, Consumer<List<IGroupData>> consumer);
+    void getGroupIdsByPlayerId(int playerId, Consumer<List<Integer>> consumer);
 }

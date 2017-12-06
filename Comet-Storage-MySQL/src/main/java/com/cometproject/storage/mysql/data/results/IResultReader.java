@@ -1,4 +1,4 @@
-package com.cometproject.storage.mysql.data;
+package com.cometproject.storage.mysql.data.results;
 
 public interface IResultReader {
     String readString(String columnName) throws Exception;

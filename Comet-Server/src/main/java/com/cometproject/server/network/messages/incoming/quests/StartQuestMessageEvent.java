@@ -17,7 +17,7 @@ public class StartQuestMessageEvent implements com.cometproject.server.network.m
         }
 
         if (client.getPlayer().getData().getQuestId() != 0) {
-            // We need to cancel their current one.
+            // We need to cancel their instance one.
             if (!client.getPlayer().getQuests().hasCompletedQuest(client.getPlayer().getData().getQuestId())) {
                 client.getPlayer().getQuests().cancelQuest(client.getPlayer().getData().getQuestId());
             }

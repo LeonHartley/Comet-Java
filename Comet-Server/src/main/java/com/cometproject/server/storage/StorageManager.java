@@ -2,8 +2,10 @@ package com.cometproject.server.storage;
 
 import com.cometproject.server.storage.cache.CacheManager;
 import com.cometproject.api.utilities.Initialisable;
-import com.cometproject.server.storage.connections.HikariConnectionProvider;
-import com.cometproject.storage.mysql.StorageContext;
+import com.cometproject.storage.api.StorageContext;
+import com.cometproject.storage.mysql.MySQLStorageInitializer;
+import com.cometproject.storage.mysql.connections.HikariConnectionProvider;
+import com.cometproject.storage.mysql.MySQLStorageQueues;
 
 public class StorageManager implements Initialisable {
     private static StorageManager storageManagerInstance;
@@ -17,8 +19,16 @@ public class StorageManager implements Initialisable {
     @Override
     public void initialize() {
 
-        final StorageContext storageContext = new StorageContext(hikariConnectionProvider);
-        StorageContext.setCurrent(storageContext);
+        final MySQLStorageQueues tmpStorageQueues = new MySQLStorageQueues(hikariConnectionProvider);
+
+        MySQLStorageQueues.setInstance(tmpStorageQueues);
+
+        final MySQLStorageInitializer initializer = new MySQLStorageInitializer(hikariConnectionProvider);
+        final StorageContext storageContext = new StorageContext();
+
+        initializer.setup(storageContext);
+
+        StorageContext.setCurrentContext(storageContext);
 
         CacheManager.getInstance().initialize();
         SqlHelper.init(hikariConnectionProvider);

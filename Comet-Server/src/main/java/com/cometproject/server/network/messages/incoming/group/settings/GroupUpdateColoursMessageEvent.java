@@ -11,6 +11,7 @@ import com.cometproject.server.network.messages.outgoing.room.items.RemoveFloorI
 import com.cometproject.server.network.messages.outgoing.room.items.SendFloorItemMessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.storage.api.StorageContext;
 
 
 public class GroupUpdateColoursMessageEvent implements Event {
@@ -29,7 +30,7 @@ public class GroupUpdateColoursMessageEvent implements Event {
         group.getData().setColourA(colourA);
         group.getData().setColourB(colourB);
 
-        group.getData().save();
+        StorageContext.getCurrentContext().getGroupRepository().saveGroupData(group.getData());
 
 //        client.send(new ManageGroupMessageComposer(group));
 

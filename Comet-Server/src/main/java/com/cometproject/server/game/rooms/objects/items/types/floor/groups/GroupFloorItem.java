@@ -2,13 +2,13 @@ package com.cometproject.server.game.rooms.objects.items.types.floor.groups;
 
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.groups.GroupManager;
-import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer;
+import com.cometproject.storage.api.StorageContext;
 import org.apache.commons.lang.StringUtils;
 
 
@@ -26,25 +26,25 @@ public class GroupFloorItem extends RoomItemFloor {
 
     @Override
     public void composeItemData(IComposer msg) {
-        GroupData groupData = GroupManager.getInstance().getData(this.getGroupId());
-
-        msg.writeInt(0);
-        if (groupData == null) {
-            msg.writeInt(2);
+        StorageContext.getCurrentContext().getGroupRepository().getDataById(this.groupId, groupData -> {
             msg.writeInt(0);
-        } else {
-            msg.writeInt(2);
-            msg.writeInt(5);
-            msg.writeString(this instanceof GroupGateFloorItem ? ((GroupGateFloorItem) this).isOpen ? "1" : "0" : "0");
-            msg.writeString(this.getExtraData());
-            msg.writeString(groupData.getBadge());
+            if (groupData == null) {
+                msg.writeInt(2);
+                msg.writeInt(0);
+            } else {
+                msg.writeInt(2);
+                msg.writeInt(5);
+                msg.writeString(this instanceof GroupGateFloorItem ? ((GroupGateFloorItem) this).isOpen ? "1" : "0" : "0");
+                msg.writeString(this.getExtraData());
+                msg.writeString(groupData.getBadge());
 
-            String colourA = GroupManager.getInstance().getGroupItems().getSymbolColours().get(groupData.getColourA()) != null ? GroupManager.getInstance().getGroupItems().getSymbolColours().get(groupData.getColourA()).getFirstValue() : "ffffff";
-            String colourB = GroupManager.getInstance().getGroupItems().getBackgroundColours().get(groupData.getColourB()) != null ? GroupManager.getInstance().getGroupItems().getBackgroundColours().get(groupData.getColourB()).getFirstValue() : "ffffff";
+                String colourA = GroupManager.getInstance().getGroupItems().getSymbolColours().get(groupData.getColourA()) != null ? GroupManager.getInstance().getGroupItems().getSymbolColours().get(groupData.getColourA()).getFirstValue() : "ffffff";
+                String colourB = GroupManager.getInstance().getGroupItems().getBackgroundColours().get(groupData.getColourB()) != null ? GroupManager.getInstance().getGroupItems().getBackgroundColours().get(groupData.getColourB()).getFirstValue() : "ffffff";
 
-            msg.writeString(colourA);
-            msg.writeString(colourB);
-        }
+                msg.writeString(colourA);
+                msg.writeString(colourB);
+            }
+        });
     }
 
     public void onEntityStepOn(RoomEntity entity, boolean instantUpdate) {

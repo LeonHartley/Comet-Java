@@ -1,13 +1,9 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.highscore;
 
 import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.server.game.groups.GroupManager;
-import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
-import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupFloorItem;
-import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupGateFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.data.ScoreboardItemData;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.utilities.JsonUtil;

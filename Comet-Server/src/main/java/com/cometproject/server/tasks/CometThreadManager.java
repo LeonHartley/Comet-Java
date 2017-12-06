@@ -1,6 +1,6 @@
 package com.cometproject.server.tasks;
 
-import com.cometproject.server.config.Configuration;
+import com.cometproject.api.config.Configuration;
 import com.cometproject.server.game.rooms.types.components.ProcessComponent;
 import com.cometproject.api.utilities.Initialisable;
 import org.apache.log4j.Logger;

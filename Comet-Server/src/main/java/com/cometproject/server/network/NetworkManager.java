@@ -8,7 +8,7 @@ import com.cometproject.api.messaging.status.StatusResponse;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.boot.utils.ConsoleCommands;
 import com.cometproject.api.config.CometSettings;
-import com.cometproject.server.config.Configuration;
+import com.cometproject.api.config.Configuration;
 import com.cometproject.server.network.messages.MessageHandler;
 import com.cometproject.server.network.monitor.MonitorClient;
 import com.cometproject.server.network.sessions.SessionManager;

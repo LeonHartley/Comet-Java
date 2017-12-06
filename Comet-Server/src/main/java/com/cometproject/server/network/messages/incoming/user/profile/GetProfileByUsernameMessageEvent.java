@@ -8,9 +8,10 @@ import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.user.profile.LoadProfileMessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
-import com.cometproject.server.storage.queries.groups.GroupDao;
 import com.cometproject.server.storage.queries.player.PlayerDao;
+import com.cometproject.storage.api.StorageContext;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -21,13 +22,16 @@ public class GetProfileByUsernameMessageEvent implements Event {
 
         PlayerData data = username.equals(client.getPlayer().getData().getUsername()) ? client.getPlayer().getData() : null;
         PlayerStatistics stats = data != null ? client.getPlayer().getStats() : null;
-        List<Integer> groups = data != null ? client.getPlayer().getGroups() : null;
+        final List<Integer> groups = data != null ? client.getPlayer().getGroups() : new ArrayList<>();
 
         if (data == null) {
-            if (NetworkManager.getInstance().getSessions().getByPlayerUsername(username) != null) {
-                data = NetworkManager.getInstance().getSessions().getByPlayerUsername(username).getPlayer().getData();
-                stats = NetworkManager.getInstance().getSessions().getByPlayerUsername(username).getPlayer().getStats();
-                groups = NetworkManager.getInstance().getSessions().getByPlayerUsername(username).getPlayer().getGroups();
+            final Session session = NetworkManager.getInstance().getSessions().getByPlayerUsername(username);
+
+            if (session != null && session.getPlayer() != null) {
+                data = session.getPlayer().getData();
+                stats = session.getPlayer().getStats();
+
+                groups.addAll(session.getPlayer().getGroups());
             }
         }
 
@@ -35,7 +39,8 @@ public class GetProfileByUsernameMessageEvent implements Event {
             int id = PlayerDao.getIdByUsername(username);
             data = PlayerManager.getInstance().getDataByPlayerId(id);
             stats = PlayerDao.getStatisticsById(id);
-            groups = GroupDao.getIdsByPlayerId(id);
+
+            StorageContext.getCurrentContext().getGroupRepository().getGroupIdsByPlayerId(id, groups::addAll);
         }
 
         if (data == null) {

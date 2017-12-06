@@ -12,4 +12,9 @@ public class GroupDataFactory {
         return new GroupData(id, title, description, badge, ownerId, ownerName, roomId, created, type, colourA, colourB,
                 canMembersDecorate, hasForum);
     }
+
+    public IGroupData create(String title, String description, String badge, int ownerId,
+                             String ownerName, int roomId, int colourA, int colourB) {
+        return new GroupData(-1, title, description, badge, ownerId, ownerName, roomId, (int) (System.currentTimeMillis() / 1000), GroupType.REGULAR, colourA, colourB, false, false);
+    }
 }

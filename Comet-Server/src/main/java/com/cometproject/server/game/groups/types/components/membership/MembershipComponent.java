@@ -4,12 +4,10 @@ import com.cometproject.api.game.groups.types.components.IMembershipComponent;
 import com.cometproject.api.game.groups.types.components.membership.IGroupMember;
 import com.cometproject.api.networking.messages.IMessageComposer;
 import com.cometproject.server.game.groups.types.Group;
-import com.cometproject.server.game.groups.types.GroupMember;
 import com.cometproject.api.game.groups.types.GroupComponent;
 import com.cometproject.server.network.NetworkManager;
-import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.network.sessions.Session;
-import com.cometproject.server.storage.queries.groups.GroupMemberDao;
+import com.cometproject.storage.api.StorageContext;
 import org.apache.commons.collections4.map.ListOrderedMap;
 import org.apache.commons.collections4.set.ListOrderedSet;
 
@@ -60,12 +58,24 @@ public class MembershipComponent implements IMembershipComponent, GroupComponent
      */
     @Override
     public void loadMemberships() {
-        for (IGroupMember groupMember : this.group.getGroupDataObject() != null ? this.group.getGroupDataObject().getGroupMembers() : GroupMemberDao.getAllByGroupId(this.group.getId())) {
+        final List<IGroupMember> members = this.group.getGroupDataObject() != null ? this.group.getGroupDataObject().getGroupMembers() : new ArrayList<>();
+
+        if(members.isEmpty()) {
+            StorageContext.getCurrentContext().getGroupMemberRepository().getAllByGroupId(this.group.getId(), members::addAll);
+        }
+
+        for (IGroupMember groupMember : members) {
             this.createMembership(groupMember);
         }
 
-        this.groupMembershipRequests.addAll(this.group.getGroupDataObject() != null ?
-                this.group.getGroupDataObject().getGroupRequests() : GroupMemberDao.getAllRequestsByGroupId(this.group.getId()));
+        final List<Integer> requests = this.group.getGroupDataObject() != null ?
+                this.group.getGroupDataObject().getGroupRequests() : new ArrayList<>();
+
+        if(this.group.getGroupDataObject() == null) {
+            StorageContext.getCurrentContext().getGroupMemberRepository().getAllRequests(this.group.getId(), requests::addAll);
+        }
+
+        this.groupMembershipRequests.addAll(requests);
     }
 
     /**
@@ -78,7 +88,8 @@ public class MembershipComponent implements IMembershipComponent, GroupComponent
         boolean needsCommit = false;
 
         if (groupMember.getMembershipId() == 0) {
-            groupMember.setMembershipId(GroupMemberDao.create(groupMember));
+            StorageContext.getCurrentContext().getGroupMemberRepository().create(groupMember);
+
             needsCommit = true;
         }
 
@@ -107,7 +118,7 @@ public class MembershipComponent implements IMembershipComponent, GroupComponent
 
         int groupMembershipId = groupMembers.get(playerId).getMembershipId();
 
-        GroupMemberDao.delete(groupMembershipId);
+        StorageContext.getCurrentContext().getGroupMemberRepository().delete(groupMembershipId);
 
         groupMembers.remove(playerId);
 
@@ -131,7 +142,8 @@ public class MembershipComponent implements IMembershipComponent, GroupComponent
             return;
 
         groupMembershipRequests.add(playerId);
-        GroupMemberDao.createRequest(this.group.getId(), playerId);
+
+        StorageContext.getCurrentContext().getGroupMemberRepository().createRequest(this.group.getId(), playerId);
 
         this.group.commit();
     }
@@ -145,7 +157,7 @@ public class MembershipComponent implements IMembershipComponent, GroupComponent
             return;
 
         groupMembershipRequests.clear();
-        GroupMemberDao.clearRequests(this.group.getId());
+        StorageContext.getCurrentContext().getGroupMemberRepository().clearRequests(this.group.getId());
     }
 
     /**
@@ -158,7 +170,7 @@ public class MembershipComponent implements IMembershipComponent, GroupComponent
 
         groupMembershipRequests.remove(playerId);
 
-        GroupMemberDao.deleteRequest(this.group.getId(), playerId);
+        StorageContext.getCurrentContext().getGroupMemberRepository().deleteRequest(this.group.getId(), playerId);
     }
 
     /**

@@ -53,6 +53,7 @@ import com.cometproject.server.storage.queries.pets.PetDao;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import com.cometproject.server.utilities.JsonUtil;
+import com.cometproject.storage.api.StorageContext;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -390,7 +391,8 @@ public class LegacyPurchaseHandler implements ICatalogPurchaseHandler {
 
                     if (!group.getData().hasForum() && group.getData().getOwnerId() == client.getPlayer().getId()) {
                         group.getData().setHasForum(true);
-                        group.getData().save();
+
+                        StorageContext.getCurrentContext().getGroupRepository().saveGroupData(group.getData());
 
                         group.initializeForum();
 

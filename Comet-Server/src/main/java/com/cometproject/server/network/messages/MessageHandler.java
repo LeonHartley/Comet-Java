@@ -1,7 +1,7 @@
 package com.cometproject.server.network.messages;
 
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.config.Configuration;
+import com.cometproject.api.config.Configuration;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.incoming.catalog.*;
 import com.cometproject.server.network.messages.incoming.catalog.ads.CatalogPromotionGetRoomsMessageEvent;

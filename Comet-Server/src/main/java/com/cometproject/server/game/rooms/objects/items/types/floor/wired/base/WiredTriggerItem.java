@@ -55,10 +55,10 @@ public abstract class WiredTriggerItem extends WiredFloorItem {
                 return false;
             }
 
-            // create empty list for all wired actions on the current tile
+            // create empty list for all wired actions on the instance tile
             List<WiredActionItem> wiredActions = Lists.newArrayList();
 
-            // create empty list for all wired conditions on current tile
+            // create empty list for all wired conditions on instance tile
             List<WiredConditionItem> wiredConditions = Lists.newArrayList();
 
             // flood protection regarding wt_act_execute_stacks
@@ -266,9 +266,9 @@ public abstract class WiredTriggerItem extends WiredFloorItem {
         // create an empty list to add the incompatible actions
         List<WiredActionItem> incompatibleActions = Lists.newArrayList();
 
-        // check whether or not this current trigger supplies a player
+        // check whether or not this instance trigger supplies a player
         if (!this.suppliesPlayer()) {
-            // if it doesn't, loop through all items on current tile
+            // if it doesn't, loop through all items on instance tile
             for (RoomItemFloor floorItem : this.getItemsOnStack()) {
                 if (floorItem instanceof WiredActionItem) {
                     // check whether the item needs a player to perform its action
