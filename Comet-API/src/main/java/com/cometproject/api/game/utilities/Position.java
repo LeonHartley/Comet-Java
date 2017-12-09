@@ -17,6 +17,11 @@ public class Position {
             NORTH, EAST, SOUTH, WEST
     };
 
+    public static final int[] DIAG_TILES = new int[]{
+            NORTH_EAST, SOUTH_EAST, SOUTH_WEST, NORTH_WEST
+    };
+
+
     private int x;
     private int y;
     private double z;

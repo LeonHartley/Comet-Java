@@ -15,6 +15,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.snowboarding
 import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
 import com.cometproject.server.utilities.collections.ConcurrentHashSet;
+import com.google.common.collect.Lists;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -230,6 +231,18 @@ public class RoomTile {
 
         if (this.originalHeight == 0)
             this.originalHeight = this.stackHeight;
+    }
+
+    public List<RoomTile> getAdjacentTiles() {
+        final List<RoomTile> roomTiles = Lists.newArrayList();
+
+        for(int rotation : Position.DIAG_TILES) {
+            final RoomTile tile = this.mappingInstance.getTile(this.getPosition().squareInFront(rotation));
+
+            roomTiles.add(tile);
+        }
+
+        return roomTiles;
     }
 
     public void dispose() {

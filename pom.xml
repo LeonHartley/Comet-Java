@@ -33,6 +33,8 @@
         <module>Comet-Website</module>
         <module>Comet-CatalogTool</module>
 
+        <module>Comet-Common</module>
+
         <module>Comet-Game-Groups</module>
         <module>Comet-Game-Catalog</module>
         <module>Comet-Game-Achievements</module>
