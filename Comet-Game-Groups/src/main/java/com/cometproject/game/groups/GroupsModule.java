@@ -10,8 +10,4 @@ public class GroupsModule extends BaseModule {
         super(config, gameService);
     }
 
-    @Override
-    public void registerServices(GameContext gameContext) {
-        gameContext.setGroupService(null); // Create group service instance
-    }
 }

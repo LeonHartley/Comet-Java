@@ -41,9 +41,7 @@ public class MySQLGroupMemberRepository extends MySQLRepository implements IGrou
     @Override
     public void create(IGroupMember groupMember) {
         insert("INSERT into group_memberships (`group_id`, `player_id`, `access_level`, `date_joined`) VALUES(?, ?, ?, ?);",
-                (data) -> {
-                    groupMember.setMembershipId(data.readInteger(1));
-                },
+                (data) -> groupMember.setMembershipId(data.readInteger(1)),
                 groupMember.getGroupId(), groupMember.getPlayerId(),
                 groupMember.getAccessLevel().toString().toLowerCase(),
                 groupMember.getDateJoined());

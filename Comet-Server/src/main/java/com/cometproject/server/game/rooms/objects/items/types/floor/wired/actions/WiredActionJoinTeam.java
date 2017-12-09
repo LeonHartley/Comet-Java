@@ -54,12 +54,15 @@ public class WiredActionJoinTeam extends WiredActionItem {
             return; // entity already in a team!
         }
 
+        final GameTeam gameTeam = this.getTeam();
+
         if (this.getTeam() == GameTeam.NONE)
             return;
 
-        playerEntity.setGameTeam(this.getTeam());
-        this.getRoom().getGame().getTeams().get(this.getTeam()).add(playerEntity.getPlayerId());
-        playerEntity.applyEffect(new PlayerEffect(this.getTeam().getFreezeEffect(), false));
+        playerEntity.setGameTeam(gameTeam);
+        this.getRoom().getGame().joinTeam(gameTeam, playerEntity);
+
+        playerEntity.applyEffect(new PlayerEffect(gameTeam.getFreezeEffect(), false));
     }
 
     private GameTeam getTeam() {
