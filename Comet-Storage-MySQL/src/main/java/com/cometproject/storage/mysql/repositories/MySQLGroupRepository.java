@@ -22,7 +22,7 @@ public class MySQLGroupRepository extends MySQLRepository implements IGroupRepos
 
     @Override
     public void getDataById(int groupId, Consumer<IGroupData> consumer) {
-        select("SELECT g.name, g.description, g.badge, g.owner_id, g.room_id, g.created, g.`type`, g.colour1, " +
+        select("SELECT g.id, g.name, g.description, g.badge, g.owner_id, g.room_id, g.created, g.`type`, g.colour1, " +
                 "g.colour2, g.members_deco, g.has_forum, p.username as owner_name FROM groups g " +
                 "RIGHT JOIN players AS p ON p.id = g.owner_id where g.id = ?", (data -> consumer.accept(this.readGroup(data))), groupId);
     }
@@ -84,7 +84,7 @@ public class MySQLGroupRepository extends MySQLRepository implements IGroupRepos
         final int ownerId = data.readInteger("owner_id");
         final int roomId = data.readInteger("room_id");
         final int created = data.readInteger("created");
-        final GroupType groupType = GroupType.valueOf(data.readInteger("type"));
+        final GroupType groupType = GroupType.valueOf(data.readString("type").toUpperCase());
         final int colour1 = data.readInteger("colour1");
         final int colour2 = data.readInteger("colour2");
         final boolean membersDeco = data.readBoolean("members_deco");

@@ -87,6 +87,6 @@ public class MySQLGroupMemberRepository extends MySQLRepository implements IGrou
         final int dateJoined = data.readInteger("date_joined");
         final String accessLevel = data.readString("access_level");
 
-        return this.groupMemberFactory.create(membershipId, playerId, groupId, GroupAccessLevel.valueOf(accessLevel), dateJoined);
+        return this.groupMemberFactory.create(membershipId, playerId, groupId, GroupAccessLevel.valueOf(accessLevel.toUpperCase()), dateJoined);
     }
 }
