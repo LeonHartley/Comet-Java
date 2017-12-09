@@ -11,6 +11,8 @@ import com.cometproject.server.game.rooms.objects.entities.types.ai.BotAI;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.game.rooms.types.components.games.GameTeam;
+import com.cometproject.server.game.rooms.types.mapping.RoomEntityMovementNode;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
 import com.cometproject.server.network.messages.outgoing.room.avatar.*;
@@ -145,6 +147,24 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
 
         if(tile.getState() == RoomTileState.INVALID) {
             return;
+        }
+
+        if(this instanceof PlayerEntity) {
+            final PlayerEntity playerEntity = ((PlayerEntity) this);
+
+            if(tile.getEntities().size() != 0 && playerEntity.getGameTeam() != GameTeam.NONE) {
+                // We're playing!
+
+                final List<RoomTile> tiles = tile.getAdjacentTiles();
+
+                for(RoomTile roomTiles : tiles) {
+                    if(roomTiles.getMovementNode() != RoomEntityMovementNode.CLOSED) {
+                        this.moveTo(roomTiles.getPosition());
+                        return;
+                    }
+                }
+
+            }
         }
 
         this.previousSteps = 0;
