@@ -672,7 +672,11 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
     }
 
     public void setGameTeam(GameTeam gameTeam) {
-        this.gameTeam = gameTeam;
+        if(gameTeam == null) {
+            this.gameTeam = GameTeam.NONE;
+        } else {
+            this.gameTeam = gameTeam;
+        }
     }
 
     public boolean isKicked() {

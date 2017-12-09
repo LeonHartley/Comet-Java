@@ -4,6 +4,7 @@ import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.events.WiredItemEvent;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.game.rooms.types.components.games.GameTeam;
 
 
 public class WiredActionLeaveTeam extends WiredActionItem {
@@ -47,10 +48,12 @@ public class WiredActionLeaveTeam extends WiredActionItem {
         }
 
         this.getRoom().getGame().removeFromTeam(playerEntity);
-        playerEntity.setGameTeam(null);
 
         if (playerEntity.getCurrentEffect() != null && playerEntity.getCurrentEffect().getEffectId() == playerEntity.getGameTeam().getFreezeEffect()) {
             playerEntity.applyEffect(null);
+
         }
+
+        playerEntity.setGameTeam(GameTeam.NONE);
     }
 }
