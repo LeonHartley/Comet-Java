@@ -30,6 +30,16 @@
             <artifactId>Comet-API</artifactId>
             <version>2.1.2-TEST2</version>
         </dependency>
+        <dependency>
+            <groupId>Comet</groupId>
+            <artifactId>Comet-Storage-API</artifactId>
+            <version>2.1.2-TEST2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>2.6.0</version>
+        </dependency>
     </dependencies>
 
     

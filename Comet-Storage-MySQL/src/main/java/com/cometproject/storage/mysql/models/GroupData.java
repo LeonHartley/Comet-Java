@@ -202,11 +202,6 @@ public class GroupData implements IGroupData {
         return this.ownerName;
     }
 
-    @Override
-    public void setOwnerName(String name) {
-        this.ownerName = ownerName;
-    }
-
     /**
      * Get the badge of the group
      *

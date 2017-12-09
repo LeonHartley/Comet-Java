@@ -1,4 +1,4 @@
-package com.cometproject.storage.mysql.data;
+package com.cometproject.storage.mysql.data.results;
 
 import java.sql.ResultSet;
 
@@ -16,8 +16,18 @@ public class ResultSetReader implements IResultReader {
     }
 
     @Override
+    public String readString(int index) throws Exception {
+        return this.resultSet.getString(index);
+    }
+
+    @Override
     public int readInteger(String columnName) throws Exception {
         return this.resultSet.getInt(columnName);
+    }
+
+    @Override
+    public int readInteger(int index) throws Exception {
+        return this.resultSet.getInt(index);
     }
 
     @Override
@@ -26,7 +36,17 @@ public class ResultSetReader implements IResultReader {
     }
 
     @Override
+    public long readLong(int index) throws Exception {
+        return this.resultSet.getLong(index);
+    }
+
+    @Override
     public boolean readBoolean(String columnName) throws Exception {
         return this.resultSet.getBoolean(columnName);
+    }
+
+    @Override
+    public boolean readBoolean(int index) throws Exception {
+        return this.resultSet.getBoolean(index);
     }
 }

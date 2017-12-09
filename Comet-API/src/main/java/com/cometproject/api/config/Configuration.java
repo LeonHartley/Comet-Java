@@ -1,6 +1,5 @@
-package com.cometproject.server.config;
+package com.cometproject.api.config;
 
-import com.cometproject.server.boot.Comet;
 import org.apache.log4j.Logger;
 
 import java.io.FileInputStream;
@@ -33,7 +32,8 @@ public class Configuration extends Properties {
             this.load(stream);
             stream.close();
         } catch (Exception e) {
-            Comet.exit("Failed to fetch the server configuration (" + file + ")");
+            log.error("Failed to fetch the server configuration (" + file + ")");
+            System.exit(1);
         }
     }
 

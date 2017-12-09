@@ -3,14 +3,13 @@ package com.cometproject.server.game.players.components.types.inventory;
 import com.cometproject.api.game.furniture.types.IFurnitureDefinition;
 import com.cometproject.api.game.furniture.types.IGiftData;
 import com.cometproject.api.game.furniture.types.LimitedEditionItem;
+import com.cometproject.api.game.groups.types.IGroupData;
 import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.catalog.types.gifts.GiftData;
 import com.cometproject.server.game.groups.GroupManager;
-import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.items.rares.LimitedEditionItemData;
-import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.api.game.furniture.types.ItemType;
 import com.cometproject.server.utilities.JsonUtil;
 import org.apache.commons.lang.StringUtils;
@@ -115,7 +114,7 @@ public class InventoryItem implements PlayerItem {
                 groupId = Integer.parseInt(this.getExtraData());
             }
 
-            GroupData groupData = groupId == 0 ? null : GroupManager.getInstance().getData(groupId);
+            IGroupData groupData = groupId == 0 ? null : GroupManager.getInstance().getData(groupId);
 
             if (groupData == null) {
                 msg.writeInt(2);
@@ -210,7 +209,7 @@ public class InventoryItem implements PlayerItem {
                 groupId = Integer.parseInt(this.getExtraData());
             }
 
-            GroupData groupData = groupId == 0 ? null : GroupManager.getInstance().getData(groupId);
+            IGroupData groupData = groupId == 0 ? null : GroupManager.getInstance().getData(groupId);
 
             if (groupData == null) {
                 msg.writeInt(0);

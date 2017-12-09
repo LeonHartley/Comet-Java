@@ -12,6 +12,7 @@ import com.cometproject.server.network.messages.outgoing.room.items.SendFloorIte
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.utilities.BadgeUtil;
+import com.cometproject.storage.api.StorageContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +46,8 @@ public class ModifyGroupBadgeMessageEvent implements Event {
         String badge = BadgeUtil.generate(groupBase, groupBaseColour, groupItems);
 
         group.getData().setBadge(badge);
-        group.getData().save();
+
+        StorageContext.getCurrentContext().getGroupRepository().saveGroupData(group.getData());
 
         if (client.getPlayer().getEntity() != null && client.getPlayer().getEntity().getRoom() != null) {
             Room room = client.getPlayer().getEntity().getRoom();

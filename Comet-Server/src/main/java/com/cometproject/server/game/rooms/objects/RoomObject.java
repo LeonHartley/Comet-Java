@@ -51,7 +51,7 @@ public abstract class RoomObject implements IRoomObject, Positionable {
     /**
      * Set the position to a new position
      *
-     * @param newPosition The position to replace the current one with
+     * @param newPosition The position to replace the instance one with
      */
     public void setPosition(Position newPosition) {
         if (newPosition == null) return;

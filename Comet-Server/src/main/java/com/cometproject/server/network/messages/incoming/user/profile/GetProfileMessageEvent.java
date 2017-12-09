@@ -8,9 +8,10 @@ import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.user.profile.LoadProfileMessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
-import com.cometproject.server.storage.queries.groups.GroupDao;
 import com.cometproject.server.storage.queries.player.PlayerDao;
+import com.cometproject.storage.api.StorageContext;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -20,7 +21,7 @@ public class GetProfileMessageEvent implements Event {
 
         PlayerData data = userId == client.getPlayer().getId() ? client.getPlayer().getData() : null;
         PlayerStatistics stats = data != null ? client.getPlayer().getStats() : null;
-        List<Integer> groups = data != null ? client.getPlayer().getGroups() : null;
+        List<Integer> groups = data != null ? client.getPlayer().getGroups() : new ArrayList<>();
 
         if (data == null) {
             if (NetworkManager.getInstance().getSessions().getByPlayerId(userId) != null) {
@@ -31,9 +32,9 @@ public class GetProfileMessageEvent implements Event {
         }
 
         if (data == null) {
-            data = PlayerManager.getInstance().getDataByPlayerId(userId);
-            stats = PlayerDao.getStatisticsById(userId);
-            groups = GroupDao.getIdsByPlayerId(userId);
+            data = PlayerManager.getInstance().getDataByPlayerId(userId);stats = PlayerDao.getStatisticsById(userId);
+
+            StorageContext.getCurrentContext().getGroupRepository().getGroupIdsByPlayerId(userId, groups::addAll);
         }
 
         if (data == null) {

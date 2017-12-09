@@ -162,7 +162,7 @@ public class Comet {
     }
 
     /**
-     * Get the current time in seconds
+     * Get the instance time in seconds
      *
      * @return The time in seconds
      */
@@ -171,16 +171,16 @@ public class Comet {
     }
 
     /**
-     * Get the current build of Comet
+     * Get the instance build of Comet
      *
-     * @return The current build of Comet
+     * @return The instance build of Comet
      */
     public static String getBuild() {
         return Comet.class.getPackage().getImplementationVersion() == null ? "Comet-DEV" : Comet.class.getPackage().getImplementationVersion();
     }
 
     /**
-     * Gets the current server stats
+     * Gets the instance server stats
      *
      * @return Server stats object
      */

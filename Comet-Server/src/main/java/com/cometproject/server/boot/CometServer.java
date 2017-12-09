@@ -2,8 +2,7 @@ package com.cometproject.server.boot;
 
 import com.cometproject.server.api.APIManager;
 import com.cometproject.server.boot.utils.gui.CometGui;
-import com.cometproject.api.config.CometSettings;
-import com.cometproject.server.config.Configuration;
+import com.cometproject.api.config.Configuration;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.GameCycle;
 import com.cometproject.server.game.achievements.AchievementManager;

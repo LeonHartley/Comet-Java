@@ -324,7 +324,7 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
             this.getPlayer().getSession().send(new RoomErrorMessageComposer(4008));
         }
 
-        // Send leave room message to all current entities
+        // Send leave room message to all instance entities
         this.getRoom().getEntities().broadcastMessage(new LeaveRoomMessageComposer(this.getId()));
 
         // Sending this user to the hotel view?
@@ -517,7 +517,7 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
         // Clear all  statuses
         this.getStatuses().clear();
 
-        // Send leave room message to all current entities
+        // Send leave room message to all instance entities
         this.getRoom().getEntities().broadcastMessage(new LeaveRoomMessageComposer(this.getId()));
 
         // Sending this user to the hotel view?

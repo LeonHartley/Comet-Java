@@ -4,7 +4,6 @@ import com.cometproject.api.game.groups.types.components.membership.IGroupMember
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.api.game.groups.types.components.membership.GroupAccessLevel;
-import com.cometproject.server.game.groups.types.GroupMember;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.incoming.Event;
@@ -12,6 +11,7 @@ import com.cometproject.server.network.messages.outgoing.group.GroupMembersMessa
 import com.cometproject.server.network.messages.outgoing.room.permissions.YouAreControllerMessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.storage.api.StorageContext;
 
 import java.util.ArrayList;
 
@@ -43,7 +43,8 @@ public class GiveGroupAdminMessageEvent implements Event {
             return;
 
         groupMember.setAccessLevel(GroupAccessLevel.ADMIN);
-        groupMember.save();
+
+        StorageContext.getCurrentContext().getGroupRepository().saveGroupData(group.getData());
 
         group.getMembershipComponent().getAdministrators().add(groupMember.getPlayerId());
 

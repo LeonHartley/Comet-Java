@@ -1,9 +1,9 @@
 package com.cometproject.server.network.messages.outgoing.user.profile;
 
+import com.cometproject.api.game.groups.types.IGroupData;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.groups.GroupManager;
-import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.game.players.types.PlayerStatistics;
@@ -58,11 +58,11 @@ public class LoadProfileMessageComposer extends MessageComposer {
         msg.writeBoolean(requestSent);
         msg.writeBoolean(PlayerManager.getInstance().isOnline(player.getId()));
 
-        List<GroupData> groups = new ArrayList<>();
+        List<IGroupData> groups = new ArrayList<>();
 
         if (this.groups != null) {
             for (int groupId : this.groups) {
-                GroupData group = GroupManager.getInstance().getData(groupId);
+                IGroupData group = GroupManager.getInstance().getData(groupId);
 
                 if (group != null) {
                     groups.add(group);
@@ -72,7 +72,7 @@ public class LoadProfileMessageComposer extends MessageComposer {
 
         msg.writeInt(groups.size());
 
-        for (GroupData group : groups) {
+        for (IGroupData group : groups) {
             if (group != null) {
                 msg.writeInt(group.getId());
                 msg.writeString(group.getTitle());

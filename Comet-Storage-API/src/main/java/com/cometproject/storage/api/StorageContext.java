@@ -1,11 +1,13 @@
 package com.cometproject.storage.api;
 
+import com.cometproject.storage.api.repositories.IGroupMemberRepository;
 import com.cometproject.storage.api.repositories.IGroupRepository;
 
 public final class StorageContext {
     private static StorageContext storageContext;
 
     private IGroupRepository groupRepository;
+    private IGroupMemberRepository groupMemberRepository;
 
     public IGroupRepository getGroupRepository() {
         return groupRepository;
@@ -15,7 +17,19 @@ public final class StorageContext {
         this.groupRepository = groupRepository;
     }
 
-    public static StorageContext getCurrent() {
+    public IGroupMemberRepository getGroupMemberRepository() {
+        return groupMemberRepository;
+    }
+
+    public void setGroupMemberRepository(IGroupMemberRepository groupMemberRepository) {
+        this.groupMemberRepository = groupMemberRepository;
+    }
+
+    public static void setCurrentContext(StorageContext ctx) {
+        storageContext = ctx;
+    }
+
+    public static StorageContext getCurrentContext() {
         return storageContext;
     }
 }

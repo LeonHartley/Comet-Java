@@ -1,8 +1,8 @@
 package com.cometproject.server.network.messages.outgoing.group;
 
+import com.cometproject.api.game.groups.types.IGroupData;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.groups.GroupManager;
-import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
 
@@ -34,7 +34,7 @@ public class GroupDataMessageComposer extends MessageComposer {
         msg.writeInt(count);
 
         for (Integer groupId : groups) {
-            GroupData group = GroupManager.getInstance().getData(groupId);
+            IGroupData group = GroupManager.getInstance().getData(groupId);
 
             if (group != null) {
                 msg.writeInt(group.getId());

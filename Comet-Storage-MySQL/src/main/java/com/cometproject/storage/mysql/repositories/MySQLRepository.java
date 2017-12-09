@@ -1,9 +1,12 @@
 package com.cometproject.storage.mysql.repositories;
 
 import com.cometproject.storage.mysql.MySQLConnectionProvider;
-import com.cometproject.storage.mysql.data.IResultReader;
-import com.cometproject.storage.mysql.data.ResultReaderConsumer;
-import com.cometproject.storage.mysql.data.ResultSetReader;
+import com.cometproject.storage.mysql.data.results.IResultReader;
+import com.cometproject.storage.mysql.data.results.ResultReaderConsumer;
+import com.cometproject.storage.mysql.data.results.ResultSetReader;
+import com.cometproject.storage.mysql.data.transactions.MySQLTransaction;
+import com.cometproject.storage.mysql.data.transactions.Transaction;
+import com.cometproject.storage.mysql.data.transactions.TransactionConsumer;
 import org.apache.log4j.Logger;
 
 import javax.validation.UnexpectedTypeException;
@@ -11,6 +14,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Arrays;
+import java.util.function.Consumer;
 
 public abstract class MySQLRepository {
     private final Logger log = Logger.getLogger(MySQLRepository.class);
@@ -53,7 +58,22 @@ public abstract class MySQLRepository {
         }
     }
 
+    /**
+     * Runs the update query with any parameters
+     * @param query The query to run
+     * @param parameters The parameters to bind in the query
+     */
     public void update(String query, Object... parameters) {
+        update(query, Transaction.NULL, parameters);
+    }
+
+    /**
+     * Runs the update query with any parameters
+     * @param query The query to run
+     * @param transaction The transaction in which to execute the query within
+     * @param parameters The parameters to bind in the query
+     */
+    public void update(String query, Transaction transaction, Object... parameters) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
 
@@ -64,7 +84,8 @@ public abstract class MySQLRepository {
 
             this.addParameters(preparedStatement, parameters);
 
-            preparedStatement.execute();
+            // We could return or accept a consumer of the affected rows or something?
+            preparedStatement.executeUpdate();
         } catch (Exception e) {
             log.error("Failed to update data", e);
         } finally {
@@ -73,9 +94,27 @@ public abstract class MySQLRepository {
         }
     }
 
+
+    /**
+     * Runs the insert query and accepts a consumer for the new generated keys (if any)
+     * @param query The query to execute
+     * @param keyConsumer The consumer to accept the newly generated keys
+     * @param parameters The parameters to bind in the query
+     */
     public void insert(String query, ResultReaderConsumer keyConsumer, Object... parameters) {
-        Connection connection;
-        PreparedStatement preparedStatement;
+        insert(query, keyConsumer, Transaction.NULL, parameters);
+    }
+
+    /**
+     * Runs the insert query with a provided transaction object (which allows rollback etc.)
+     * @param query The query to execute
+     * @param transaction The transaction in which to execute the query within;
+     * @param keyConsumer The key consumer
+     * @param parameters The parameters to bind to the query
+     */
+    public void insert(String query, ResultReaderConsumer keyConsumer, Transaction transaction, Object... parameters) {
+        Connection connection = transaction == Transaction.NULL ? null : transaction.getConnection();
+        PreparedStatement preparedStatement = null;
         ResultSet resultSet;
 
         try {
@@ -96,6 +135,42 @@ public abstract class MySQLRepository {
             preparedStatement.execute();
         } catch (Exception e) {
             log.error("Failed to update data", e);
+        } finally {
+            if(transaction == null) {
+                this.connectionProvider.closeConnection(connection);
+            }
+
+            this.connectionProvider.closeStatement(preparedStatement);
+        }
+    }
+
+    /**
+     * Allows a MySQL connection to be shared throughout multiple queries and also support rollback etc
+     * @param transactionConsumer The consumer in which the transaction will be used
+     */
+    public void transaction(TransactionConsumer transactionConsumer) {
+        Transaction transaction = null;
+
+        try {
+            transaction = new MySQLTransaction(this.connectionProvider.getConnection());
+
+            // Start the transaction (configure the connection to not autoCommit)
+            transaction.startTransaction();
+
+            transactionConsumer.accept(transaction);
+        } catch (Exception e) {
+            try {
+                if(transaction != null) {
+                    transaction.rollback();
+
+                    // TODO: make sure we perform any checks here for if the connection is closed, we can't have
+                    //       connection leaks!
+                }
+            } catch (Exception ex) {
+                log.error("Failed to rollback transaction", ex);
+            }
+
+            log.error("Failed to run transaction, rolling back", e);
         }
     }
 

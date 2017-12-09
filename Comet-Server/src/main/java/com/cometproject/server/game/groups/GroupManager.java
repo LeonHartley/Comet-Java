@@ -1,12 +1,14 @@
 package com.cometproject.server.game.groups;
 
+import com.cometproject.api.game.groups.types.IGroupData;
 import com.cometproject.server.game.groups.cache.GroupCacheEventListener;
 import com.cometproject.server.game.groups.items.GroupItemManager;
 import com.cometproject.server.game.groups.types.Group;
-import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.game.players.PlayerManager;
-import com.cometproject.server.storage.queries.groups.GroupDao;
 import com.cometproject.api.utilities.Initialisable;
+import com.cometproject.storage.api.StorageContext;
+import com.cometproject.storage.mysql.data.Data;
+import com.cometproject.storage.mysql.models.GroupData;
 import net.sf.ehcache.*;
 import org.apache.log4j.Logger;
 
@@ -103,19 +105,20 @@ public class GroupManager implements Initialisable {
      * @param id The ID of the group
      * @return Group data instance
      */
-    public GroupData getData(int id) {
+    public IGroupData getData(int id) {
         if (this.groupDataCache.get(id) != null)
             return ((GroupData) this.groupDataCache.get(id).getObjectValue());
 
-        GroupData groupData = GroupDao.getDataById(id);
+        final Data<IGroupData> groupData = new Data<>();
+        StorageContext.getCurrentContext().getGroupRepository().getDataById(id, groupData::set);
 
-        if (groupData != null) {
-            final Element element = new Element(id, groupData);
+        if (groupData.has()) {
+            final Element element = new Element(id, groupData.get());
 
             this.groupDataCache.put(element);
         }
 
-        return groupData;
+        return groupData.get();
     }
 
     /**
@@ -161,14 +164,13 @@ public class GroupManager implements Initialisable {
      * @param groupData Group data of the group we want to create
      * @return Group instance
      */
-    public Group createGroup(GroupData groupData) {
-        int groupId = GroupDao.create(groupData);
+    public Group createGroup(IGroupData groupData) {
+        StorageContext.getCurrentContext().getGroupRepository().create(groupData);
 
-        groupData.setId(groupId);
-        this.groupDataCache.put(new Element(groupId, groupData));
+        this.groupDataCache.put(new Element(groupData.getId(), groupData));
 
-        Group groupInstance = new Group(groupId);
-        this.groupInstanceCache.put(new Element(groupId, groupInstance));
+        Group groupInstance = new Group(groupData.getId());
+        this.groupInstanceCache.put(new Element(groupData.getId(), groupInstance));
 
         return groupInstance;
     }
@@ -184,12 +186,13 @@ public class GroupManager implements Initialisable {
         if (this.roomIdToGroupId.containsKey(roomId))
             return this.get(roomIdToGroupId.get(roomId));
 
-        int groupId = GroupDao.getIdByRoomId(roomId);
+        Data<Integer> groupId = new Data<>();
+        StorageContext.getCurrentContext().getGroupRepository().getGroupIdByRoomId(roomId, groupId::set);
 
-        if (groupId != 0)
-            this.roomIdToGroupId.put(roomId, groupId);
+        if (!groupId.has())
+            this.roomIdToGroupId.put(roomId, 0);
 
-        return this.get(groupId);
+        return this.get(groupId.get());
     }
 
     /**
@@ -211,7 +214,7 @@ public class GroupManager implements Initialisable {
         this.groupDataCache.remove(id);
 
         group.getMembershipComponent().dispose();
-        GroupDao.deleteGroup(group.getId());
+        StorageContext.getCurrentContext().getGroupRepository().deleteGroup(group.getId());
     }
 
     /**

@@ -11,6 +11,7 @@ import com.cometproject.server.game.rooms.types.components.games.GameType;
 import com.cometproject.server.game.rooms.types.components.games.RoomGame;
 import com.cometproject.server.game.rooms.types.components.games.banzai.BanzaiGame;
 import com.cometproject.server.game.rooms.types.components.games.freeze.FreezeGame;
+import com.cometproject.server.network.messages.outgoing.room.permissions.YouArePlayingGameMessageComposer;
 import com.cometproject.server.utilities.collections.ConcurrentHashSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -91,6 +92,8 @@ public class GameComponent {
     public void joinTeam(GameTeam team, PlayerEntity entity) {
         this.teams.get(team).add(entity.getPlayerId());
         this.players.add(entity);
+
+        entity.getPlayer().getSession().send(new YouArePlayingGameMessageComposer(true));
     }
 
     public void removeFromTeam(PlayerEntity entity) {
@@ -103,6 +106,8 @@ public class GameComponent {
         }
 
         this.players.remove(entity);
+
+        entity.getPlayer().getSession().send(new YouArePlayingGameMessageComposer(false));
     }
 
     public GameTeam getTeam(int userId) {

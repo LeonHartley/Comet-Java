@@ -1,10 +1,10 @@
 package com.cometproject.server.network.messages.incoming.group;
 
 import com.cometproject.api.config.CometSettings;
+import com.cometproject.api.game.groups.types.components.membership.IGroupMember;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.api.game.groups.types.components.membership.GroupAccessLevel;
-import com.cometproject.server.game.groups.types.GroupMember;
 import com.cometproject.api.game.groups.types.GroupType;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.network.messages.incoming.Event;
@@ -13,6 +13,7 @@ import com.cometproject.server.network.messages.outgoing.messenger.UpdateFriendS
 import com.cometproject.server.network.messages.outgoing.room.permissions.YouAreControllerMessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.storage.mysql.models.factories.GroupMemberFactory;
 
 
 public class JoinGroupMessageEvent implements Event {
@@ -47,7 +48,7 @@ public class JoinGroupMessageEvent implements Event {
 
             client.getPlayer().getGroups().add(groupId);
 
-            group.getMembershipComponent().createMembership(new GroupMember(client.getPlayer().getId(), group.getId(), GroupAccessLevel.MEMBER));
+            group.getMembershipComponent().createMembership(new GroupMemberFactory().create(client.getPlayer().getId(), group.getId(), GroupAccessLevel.MEMBER));
             client.send(group.composeInformation(true, client.getPlayer().getId()));
 
             if (CometSettings.groupChatEnabled) {

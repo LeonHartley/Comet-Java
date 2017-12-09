@@ -1,9 +1,8 @@
 package com.cometproject.server.network.messages.outgoing.group;
 
 import com.cometproject.api.game.groups.types.IGroupData;
+import com.cometproject.api.game.groups.types.components.membership.IGroupMember;
 import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.server.game.groups.types.GroupData;
-import com.cometproject.server.game.groups.types.GroupMember;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.api.game.players.data.PlayerAvatar;
 import com.cometproject.server.network.NetworkManager;
@@ -68,15 +67,15 @@ public class GroupMembersMessageComposer extends MessageComposer {
                         msg.writeInt(3);
                     }
                 } else {
-                    playerId = ((GroupMember) memberObject).getPlayerId();
+                    playerId = ((IGroupMember) memberObject).getPlayerId();
 
-                    if (((GroupMember) memberObject).getAccessLevel().isAdmin()) {
-                        msg.writeInt(group.getOwnerId() == ((GroupMember) memberObject).getPlayerId() ? 0 : 1);
+                    if (((IGroupMember) memberObject).getAccessLevel().isAdmin()) {
+                        msg.writeInt(group.getOwnerId() == ((IGroupMember) memberObject).getPlayerId() ? 0 : 1);
                     } else {
                         msg.writeInt(2);
                     }
 
-                    joinDate = ((GroupMember) memberObject).getDateJoined();
+                    joinDate = ((IGroupMember) memberObject).getDateJoined();
                 }
 
                 PlayerAvatar playerAvatar = null;

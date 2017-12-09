@@ -1,8 +1,8 @@
 package com.cometproject.server.network.messages.incoming.group;
 
+import com.cometproject.api.game.groups.types.components.membership.IGroupMember;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
-import com.cometproject.server.game.groups.types.GroupMember;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.group.GroupMembersMessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;
@@ -44,7 +44,7 @@ public class GroupMembersMessageEvent implements Event {
             List<Object> toRemove = new ArrayList<>();
 
             for (Object obj : groupMembers) {
-                String username = PlayerDao.getUsernameByPlayerId(obj instanceof GroupMember ? ((GroupMember) obj).getPlayerId() : (int) obj);
+                String username = PlayerDao.getUsernameByPlayerId(obj instanceof IGroupMember ? ((IGroupMember) obj).getPlayerId() : (int) obj);
 
                 if (username == null) {
                     toRemove.add(obj);

@@ -11,8 +11,8 @@ import com.cometproject.storage.mysql.queues.players.PlayerStatusUpdateQueue;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
-public class StorageContext {
-    private static StorageContext instance;
+public class MySQLStorageQueues {
+    private static MySQLStorageQueues instance;
 
     // Do we need to make this configurable? Or should we integrate this in with the other thread pools..?
     private final ScheduledExecutorService storageExecutor = Executors.newScheduledThreadPool(4);
@@ -25,7 +25,7 @@ public class StorageContext {
     private final PlayerDataUpdateQueue playerDataUpdateQueue;
     private final PlayerBadgeUpdateQueue playerBadgeUpdateQueue;
 
-    public StorageContext(MySQLConnectionProvider connectionProvider) {
+    public MySQLStorageQueues(MySQLConnectionProvider connectionProvider) {
         this.playerStatusQueue = new PlayerStatusUpdateQueue(2500, this.storageExecutor, connectionProvider);
         this.playerOfflineUpdateQueue = new PlayerOfflineUpdateQueue(1000, this.storageExecutor, connectionProvider);
         this.itemDataUpdateQueue = new ItemDataUpdateQueue(2500, this.storageExecutor, connectionProvider);
@@ -33,6 +33,9 @@ public class StorageContext {
         this.petStatsUpdateQueue = new PetStatsUpdateQueue(1000, this.storageExecutor, connectionProvider);
         this.playerDataUpdateQueue = new PlayerDataUpdateQueue(1000, this.storageExecutor, connectionProvider);
         this.playerBadgeUpdateQueue = new PlayerBadgeUpdateQueue(5000, this.storageExecutor, connectionProvider);
+    }
+    public static MySQLStorageQueues instance() {
+        return instance;
     }
 
     public PlayerStatusUpdateQueue getPlayerStatusQueue() {
@@ -63,11 +66,8 @@ public class StorageContext {
         return playerBadgeUpdateQueue;
     }
 
-    public static void setCurrent(StorageContext storageContext) {
+    public static void setInstance(MySQLStorageQueues storageContext) {
         instance = storageContext;
     }
 
-    public static StorageContext current() {
-        return instance;
-    }
 }

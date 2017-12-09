@@ -1,22 +1,21 @@
 package com.cometproject.server.game.navigator.types.search;
 
+import com.cometproject.api.game.groups.types.IGroupData;
 import com.cometproject.api.game.players.data.components.messenger.IMessengerFriend;
 import com.cometproject.api.game.rooms.IRoomData;
 import com.cometproject.api.game.rooms.settings.RoomAccessType;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
-import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.game.navigator.NavigatorManager;
 import com.cometproject.server.game.navigator.types.Category;
 import com.cometproject.server.game.navigator.types.publics.PublicRoom;
-import com.cometproject.server.game.players.components.types.messenger.MessengerFriend;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
-import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.game.rooms.types.RoomPromotion;
 import com.cometproject.server.network.messages.outgoing.navigator.updated.NavigatorSearchResultSetMessageComposer;
 import com.cometproject.server.tasks.CometTask;
+import com.cometproject.storage.mysql.models.GroupData;
 import com.google.common.collect.Lists;
 
 import java.util.Collections;
@@ -41,11 +40,11 @@ public class NavigatorSearchService implements CometTask {
 
     public void submitRequest(Player player, String category, String data) {
         this.searchExecutor.execute(() -> {
-            if(data.isEmpty()) {
+            if (data.isEmpty()) {
                 // send categories.
                 List<Category> categoryList = Lists.newArrayList();
 
-                for(Category navigatorCategory : NavigatorManager.getInstance().getCategories().values()) {
+                for (Category navigatorCategory : NavigatorManager.getInstance().getCategories().values()) {
                     if (navigatorCategory.getCategory().equals(category)) {
                         if (navigatorCategory.isVisible() && !navigatorCategory.getCategoryType().toString().toLowerCase().equals("with_rights") && !navigatorCategory.getCategoryType().toString().toLowerCase().equals("with_friends") && !navigatorCategory.getCategoryType().toString().toLowerCase().equals("my_groups") && !navigatorCategory.getCategoryType().toString().toLowerCase().equals("my_friends_rooms"))
                             categoryList.add(navigatorCategory);
@@ -130,7 +129,7 @@ public class NavigatorSearchService implements CometTask {
                                     continue;
                                 }
 
-                                GroupData groupData = GroupManager.getInstance().getData(groupId);
+                                IGroupData groupData = GroupManager.getInstance().getData(groupId);
 
                                 if (groupData != null) {
                                     IRoomData roomData = RoomManager.getInstance().getRoomData(groupData.getRoomId());
@@ -152,17 +151,17 @@ public class NavigatorSearchService implements CometTask {
                     }
                 }
 
-                if(categoryList.size() == 0) {
-                    for(Category navigatorCategory : NavigatorManager.getInstance().getCategories().values()) {
-                        if(navigatorCategory.getCategoryType().toString().toLowerCase().equals(category) && navigatorCategory.isVisible()) {
+                if (categoryList.size() == 0) {
+                    for (Category navigatorCategory : NavigatorManager.getInstance().getCategories().values()) {
+                        if (navigatorCategory.getCategoryType().toString().toLowerCase().equals(category) && navigatorCategory.isVisible()) {
                             categoryList.add(navigatorCategory);
                         }
                     }
                 }
 
-                if(categoryList.size() == 0) {
-                    for(Category navigatorCategory : NavigatorManager.getInstance().getCategories().values()) {
-                        if(navigatorCategory.getCategoryId().equals(category) && navigatorCategory.isVisible()) {
+                if (categoryList.size() == 0) {
+                    for (Category navigatorCategory : NavigatorManager.getInstance().getCategories().values()) {
+                        if (navigatorCategory.getCategoryId().equals(category) && navigatorCategory.isVisible()) {
                             categoryList.add(navigatorCategory);
                         }
                     }
@@ -194,16 +193,16 @@ public class NavigatorSearchService implements CometTask {
             case MY_FAVORITES:
                 List<IRoomData> favouriteRooms = Lists.newArrayList();
 
-                if(player.getNavigator() == null) {
+                if (player.getNavigator() == null) {
                     return rooms;
                 }
 
-                for(Integer roomId : player.getNavigator().getFavouriteRooms()) {
-                    if(favouriteRooms.size() == 50) break;
+                for (Integer roomId : player.getNavigator().getFavouriteRooms()) {
+                    if (favouriteRooms.size() == 50) break;
 
                     final IRoomData roomData = RoomManager.getInstance().getRoomData(roomId);
 
-                    if(roomData != null) {
+                    if (roomData != null) {
                         favouriteRooms.add(roomData);
                     }
                 }
@@ -266,7 +265,7 @@ public class NavigatorSearchService implements CometTask {
                 List<IRoomData> groupHomeRooms = Lists.newArrayList();
 
                 for (int groupId : player.getGroups()) {
-                    GroupData groupData = GroupManager.getInstance().getData(groupId);
+                    IGroupData groupData = GroupManager.getInstance().getData(groupId);
 
                     if (groupData != null) {
                         IRoomData roomData = RoomManager.getInstance().getRoomData(groupData.getRoomId());
@@ -319,11 +318,11 @@ public class NavigatorSearchService implements CometTask {
             case WITH_FRIENDS:
                 List<IRoomData> withFriendsRooms = Lists.newArrayList();
 
-                if(player.getMessenger() == null) {
+                if (player.getMessenger() == null) {
                     return rooms;
                 }
 
-                for(IMessengerFriend messengerFriend : player.getMessenger().getFriends().values()) {
+                for (IMessengerFriend messengerFriend : player.getMessenger().getFriends().values()) {
                     if (messengerFriend.isInRoom()) {
                         PlayerEntity playerEntity = (PlayerEntity) messengerFriend.getSession().getPlayer().getEntity();
 
@@ -354,7 +353,7 @@ public class NavigatorSearchService implements CometTask {
                 break;
 
             case WITH_RIGHTS:
-                if(player.getRoomsWithRights() == null) {
+                if (player.getRoomsWithRights() == null) {
                     break;
                 }
 

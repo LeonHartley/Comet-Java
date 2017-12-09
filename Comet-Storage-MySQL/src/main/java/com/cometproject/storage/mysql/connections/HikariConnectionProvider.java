@@ -1,6 +1,6 @@
-package com.cometproject.server.storage.connections;
+package com.cometproject.storage.mysql.connections;
 
-import com.cometproject.server.config.Configuration;
+import com.cometproject.api.config.Configuration;
 import com.cometproject.storage.mysql.MySQLConnectionProvider;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 public class HikariConnectionProvider extends MySQLConnectionProvider {
 
@@ -76,6 +77,10 @@ public class HikariConnectionProvider extends MySQLConnectionProvider {
         } catch (Exception e) {
             log.error("Failed to close prepared statement", e);
         }
+    }
+
+    @Override
+    public void closeResults(ResultSet resultSet) {
     }
 
     public void shutdown() {

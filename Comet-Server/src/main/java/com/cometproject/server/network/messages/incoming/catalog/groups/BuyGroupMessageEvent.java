@@ -4,8 +4,6 @@ import com.cometproject.api.config.CometSettings;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.api.game.groups.types.components.membership.GroupAccessLevel;
-import com.cometproject.server.game.groups.types.GroupData;
-import com.cometproject.server.game.groups.types.GroupMember;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.Room;
@@ -23,12 +21,15 @@ import com.cometproject.server.network.messages.outgoing.user.purse.SendCreditsM
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.utilities.BadgeUtil;
+import com.cometproject.storage.mysql.models.factories.GroupDataFactory;
+import com.cometproject.storage.mysql.models.factories.GroupMemberFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class BuyGroupMessageEvent implements Event {
+
     public void handle(Session client, MessageEvent msg) {
         if (client.getPlayer().getData().getCredits() < CometSettings.groupCost) {
             return;
@@ -65,10 +66,10 @@ public class BuyGroupMessageEvent implements Event {
 
         client.send(new BoughtItemMessageComposer(BoughtItemMessageComposer.PurchaseType.GROUP));
 
-        Group group = GroupManager.getInstance().createGroup(new GroupData(name, desc, badge, client.getPlayer().getId(), roomId, GroupManager.getInstance().getGroupItems().getSymbolColours().containsKey(colour1) ? colour1 : 1,
+        Group group = GroupManager.getInstance().createGroup(new GroupDataFactory().create(name, desc, badge, client.getPlayer().getId(), client.getPlayer().getData().getUsername(), roomId, GroupManager.getInstance().getGroupItems().getSymbolColours().containsKey(colour1) ? colour1 : 1,
                 GroupManager.getInstance().getGroupItems().getBackgroundColours().containsKey(colour2) ? colour2 : 1));
 
-        group.getMembershipComponent().createMembership(new GroupMember(client.getPlayer().getId(), group.getId(), GroupAccessLevel.OWNER));
+        group.getMembershipComponent().createMembership(new GroupMemberFactory().create(client.getPlayer().getId(), group.getId(), GroupAccessLevel.OWNER));
         client.getPlayer().getGroups().add(group.getId());
 
         client.getPlayer().getData().setFavouriteGroup(group.getId());
