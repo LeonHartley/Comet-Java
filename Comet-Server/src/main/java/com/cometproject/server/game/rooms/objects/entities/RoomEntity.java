@@ -145,27 +145,27 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
         if (tile == null)
             return;
 
-        if(tile.getState() == RoomTileState.INVALID) {
+        if(tile.getState() == RoomTileState.INVALID || tile.getMovementNode() == RoomEntityMovementNode.CLOSED) {
             return;
         }
 
-        if(this instanceof PlayerEntity) {
-            final PlayerEntity playerEntity = ((PlayerEntity) this);
-
-            if(tile.getEntities().size() != 0 && playerEntity.getGameTeam() != GameTeam.NONE) {
-                // We're playing!
-
-                final List<RoomTile> tiles = tile.getAdjacentTiles(this.getPosition());
-
-                for(RoomTile roomTiles : tiles) {
-                    if(roomTiles.getMovementNode() != RoomEntityMovementNode.CLOSED) {
-                        this.moveTo(roomTiles.getPosition());
-                        return;
-                    }
-                }
-
-            }
-        }
+//        if(this instanceof PlayerEntity) {
+//            final PlayerEntity playerEntity = ((PlayerEntity) this);
+//
+//            if(tile.getEntities().size() != 0 && playerEntity.getGameTeam() != GameTeam.NONE) {
+//                // We're playing!
+//
+//                final List<RoomTile> tiles = tile.getAdjacentTiles(this.getPosition());
+//
+//                for(RoomTile roomTiles : tiles) {
+//                    if(roomTiles.getMovementNode() != RoomEntityMovementNode.CLOSED) {
+//                        this.moveTo(roomTiles.getPosition());
+//                        return;
+//                    }
+//                }
+//
+//            }
+//        }
 
         this.previousSteps = 0;
 

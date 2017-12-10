@@ -65,7 +65,7 @@ public class RoomTile {
     public List<RoomTile> getAdjacentTiles(Position from) {
         final List<RoomTile> roomTiles = Lists.newArrayList();
 
-        for(int rotation : Position.DIAG_TILES) {
+        for(int rotation : Position.COLLIDE_TILES) {
             final RoomTile tile = this.mappingInstance.getTile(this.getPosition().squareInFront(rotation));
 
             roomTiles.add(tile);

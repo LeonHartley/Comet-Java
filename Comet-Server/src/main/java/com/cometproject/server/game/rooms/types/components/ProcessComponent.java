@@ -18,6 +18,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.trigge
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerWalksOnFurni;
 import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.game.rooms.types.mapping.RoomEntityMovementNode;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer;
 import com.cometproject.server.tasks.CometTask;
@@ -68,7 +69,7 @@ public class ProcessComponent implements CometTask {
 
         this.isProcessing = true;
 
-         update = !update;
+        update = !update;
 
         long timeSinceLastProcess = this.lastProcess == 0 ? 0 : (System.currentTimeMillis() - this.lastProcess);
         this.lastProcess = System.currentTimeMillis();
@@ -80,7 +81,7 @@ public class ProcessComponent implements CometTask {
         long timeStart = System.currentTimeMillis();
 
         try {
-            if(this.update)
+            if (this.update)
                 this.getRoom().tick();
         } catch (Exception e) {
             log.error("Error while cycling room: " + room.getData().getId() + ", " + room.getData().getName(), e);
@@ -93,7 +94,7 @@ public class ProcessComponent implements CometTask {
             entitiesToUpdate = new ArrayList<>();
 
             for (RoomEntity entity : entities.values()) {
-                if(entity.isFastWalkEnabled() || this.update)
+                if (entity.isFastWalkEnabled() || this.update)
                     this.startProcessing(entity);
             }
 
@@ -458,14 +459,18 @@ public class ProcessComponent implements CometTask {
                     entity.applyEffect(entity.getLastEffect());
                 }
 
+                byte cancellationReason = -1;
+
                 if (this.getRoom().getEntities().positionHasEntity(nextPos)) {
                     final boolean allowWalkthrough = this.getRoom().getData().getAllowWalkthrough();
                     final boolean isFinalStep = entity.getWalkingGoal().equals(nextPos);
 
                     if (isFinalStep && allowWalkthrough) {
                         isCancelled = true;
+                        cancellationReason = 1;
                     } else if (!allowWalkthrough) {
                         isCancelled = true;
+                        cancellationReason = 1;
                     }
 
                     RoomEntity entityOnTile = this.getRoom().getMapping().getTile(nextPos.getX(), nextPos.getY()).getEntity();
@@ -524,7 +529,23 @@ public class ProcessComponent implements CometTask {
                 entity.getProcessingPath().clear();
 
                 // RoomTile is blocked, let's try again!
-                entity.moveTo(entity.getWalkingGoal().getX(), entity.getWalkingGoal().getY());
+                if(!isLastStep) {
+                    entity.moveTo(entity.getWalkingGoal().getX(), entity.getWalkingGoal().getY());
+                } else{
+                    final RoomTile goalTile = this.getRoom().getMapping().getTile(entity.getWalkingGoal());
+
+                    if (goalTile != null) {
+                        for (RoomTile adjacentTile : goalTile.getAdjacentTiles(entity.getPosition())) {
+
+                            if (adjacentTile != null && adjacentTile.getMovementNode() != RoomEntityMovementNode.CLOSED) {
+                                entity.moveTo(adjacentTile.getPosition());
+                                this.processEntity(entity, true);
+                                return false;
+                            }
+                        }
+                    }
+                }
+
                 return false;//this.processEntity(entity, true);
             }
         } else {
