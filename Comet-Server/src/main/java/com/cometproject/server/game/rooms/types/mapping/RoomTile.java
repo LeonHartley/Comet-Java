@@ -17,10 +17,7 @@ import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
 import com.cometproject.server.utilities.collections.ConcurrentHashSet;
 import com.google.common.collect.Lists;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 
@@ -63,6 +60,25 @@ public class RoomTile {
         this.items = new ArrayList<>(); // maybe change this in the future..
 
         this.reload();
+    }
+
+    public List<RoomTile> getAdjacentTiles(Position from) {
+        final List<RoomTile> roomTiles = Lists.newArrayList();
+
+        for(int rotation : Position.DIAG_TILES) {
+            final RoomTile tile = this.mappingInstance.getTile(this.getPosition().squareInFront(rotation));
+
+            roomTiles.add(tile);
+        }
+
+        roomTiles.sort((left, right) -> {
+            final double distanceFromLeft = left.getPosition().distanceTo(from);
+            final double distanceFromRight = right.getPosition().distanceTo(from);
+
+            return distanceFromLeft > distanceFromRight ? 1 : distanceFromLeft == distanceFromRight ? 0 : -1;
+        });
+
+        return roomTiles;
     }
 
     public void reload() {
@@ -231,18 +247,6 @@ public class RoomTile {
 
         if (this.originalHeight == 0)
             this.originalHeight = this.stackHeight;
-    }
-
-    public List<RoomTile> getAdjacentTiles() {
-        final List<RoomTile> roomTiles = Lists.newArrayList();
-
-        for(int rotation : Position.DIAG_TILES) {
-            final RoomTile tile = this.mappingInstance.getTile(this.getPosition().squareInFront(rotation));
-
-            roomTiles.add(tile);
-        }
-
-        return roomTiles;
     }
 
     public void dispose() {

@@ -155,7 +155,7 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
             if(tile.getEntities().size() != 0 && playerEntity.getGameTeam() != GameTeam.NONE) {
                 // We're playing!
 
-                final List<RoomTile> tiles = tile.getAdjacentTiles();
+                final List<RoomTile> tiles = tile.getAdjacentTiles(this.getPosition());
 
                 for(RoomTile roomTiles : tiles) {
                     if(roomTiles.getMovementNode() != RoomEntityMovementNode.CLOSED) {
