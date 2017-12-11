@@ -237,10 +237,12 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
         final int currentRotation = this.bodyRotation;
         final int rotation = Position.calculateRotation(this.getPosition().getX(), this.getPosition().getY(), x, y, false);
 
+        int rotationDifference = currentRotation - rotation;
+
         this.unIdle();
 
         if (!this.hasStatus(RoomEntityStatus.SIT) && !this.hasStatus(RoomEntityStatus.LAY)) {
-            if (currentRotation - rotation < 3 && currentRotation - rotation > 0) {
+            if (rotationDifference == 1 || rotationDifference == -1) {
                 this.setHeadRotation(rotation);
             } else {
                 this.setHeadRotation(rotation);
