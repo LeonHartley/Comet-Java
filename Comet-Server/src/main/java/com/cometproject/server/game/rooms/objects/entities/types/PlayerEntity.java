@@ -510,6 +510,16 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
             if (entity.getValue().getAI() != null)
                 entity.getValue().getAI().onTalk(this, message);
         }
+
+        for(RoomEntity roomEntity : this.getRoom().getEntities().getAllEntities().values()) {
+            final int rotation = Position.calculateRotation(roomEntity.getPosition().getX(), roomEntity.getPosition().getY(), this.getPosition().getX(), this.getPosition().getY(),false);
+            final int rotationDifference = this.getBodyRotation() - rotation;
+
+            if(roomEntity != this && rotationDifference == -1 || rotationDifference == 1 || rotationDifference == -7) {
+                roomEntity.setHeadRotation(rotation);
+                roomEntity.markNeedsUpdate();
+            }
+        }
     }
 
     @Override
