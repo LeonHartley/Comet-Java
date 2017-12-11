@@ -449,5 +449,11 @@
             <artifactId>Comet-Storage-MySQL</artifactId>
             <version>2.1.2-TEST2</version>
         </dependency>
+
+        <dependency>
+            <groupId>Comet</groupId>
+            <artifactId>Comet-Common</artifactId>
+            <version>2.1.2-TEST2</version>
+        </dependency>
     </dependencies>
 </project>

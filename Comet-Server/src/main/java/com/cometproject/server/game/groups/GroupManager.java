@@ -7,7 +7,7 @@ import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.api.utilities.Initialisable;
 import com.cometproject.storage.api.StorageContext;
-import com.cometproject.storage.mysql.data.Data;
+import com.cometproject.storage.api.data.Data;
 import com.cometproject.storage.mysql.models.GroupData;
 import net.sf.ehcache.*;
 import org.apache.log4j.Logger;

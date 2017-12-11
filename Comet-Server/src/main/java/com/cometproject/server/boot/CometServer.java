@@ -1,5 +1,6 @@
 package com.cometproject.server.boot;
 
+import com.cometproject.api.game.GameContext;
 import com.cometproject.server.api.APIManager;
 import com.cometproject.server.boot.utils.gui.CometGui;
 import com.cometproject.api.config.Configuration;
@@ -90,6 +91,15 @@ public class CometServer {
 
         PlayerDataStorageQueue.getInstance().initialize();
         ItemStorageQueue.getInstance().initialize();
+
+        GameContext gameContext = new GameContext();
+
+        gameContext.setCatalogService(CatalogManager.getInstance());
+        gameContext.setFurnitureService(ItemManager.getInstance());
+
+        GameContext.setCurrent(gameContext);
+
+        ModuleManager.getInstance().setupModules();
 
         String ipAddress = this.getConfig().get("comet.network.host"),
                 port = this.getConfig().get("comet.network.port");

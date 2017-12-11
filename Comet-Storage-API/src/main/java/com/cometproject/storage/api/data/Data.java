@@ -1,4 +1,4 @@
-package com.cometproject.storage.mysql.data;
+package com.cometproject.storage.api.data;
 
 public class Data<T> {
 

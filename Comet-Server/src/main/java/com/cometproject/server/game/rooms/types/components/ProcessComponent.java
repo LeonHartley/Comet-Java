@@ -499,6 +499,9 @@ public class ProcessComponent implements CometTask {
                     entity.updateAndSetPosition(newPosition);
                     entity.markNeedsUpdate();
 
+
+                    System.out.println("walk set pos");
+
                     if (entity instanceof PlayerEntity && entity.getMountedEntity() != null) {
                         RoomEntity mountedEntity = entity.getMountedEntity();
 
@@ -558,7 +561,7 @@ public class ProcessComponent implements CometTask {
             entity.getCurrentEffect().decrementDuration();
 
             if (entity.getCurrentEffect().getDuration() == 0 && entity.getCurrentEffect().expires()) {
-                entity.applyEffect(entity.getLastEffect() != null ? entity.getLastEffect() : null);
+                entity.applyEffect(entity.getLastEffect());
 
                 if (entity.getLastEffect() != null)
                     entity.setLastEffect(null);

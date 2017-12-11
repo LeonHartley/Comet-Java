@@ -10,6 +10,7 @@ import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.ai.BotAI;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.api.game.utilities.Position;
+import com.cometproject.server.game.rooms.objects.items.types.floor.SeatFloorItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.games.GameTeam;
 import com.cometproject.server.game.rooms.types.mapping.RoomEntityMovementNode;
@@ -145,7 +146,7 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
         if (tile == null)
             return;
 
-        if(tile.getState() == RoomTileState.INVALID || tile.getMovementNode() == RoomEntityMovementNode.CLOSED) {
+        if (tile.getState() == RoomTileState.INVALID || tile.getMovementNode() == RoomEntityMovementNode.CLOSED) {
             return;
         }
 
@@ -233,13 +234,18 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
         if (x == this.getPosition().getX() && y == this.getPosition().getY())
             return;
 
-        int rotation = Position.calculateRotation(this.getPosition().getX(), this.getPosition().getY(), x, y, false);
+        final int currentRotation = this.bodyRotation;
+        final int rotation = Position.calculateRotation(this.getPosition().getX(), this.getPosition().getY(), x, y, false);
 
         this.unIdle();
 
         if (!this.hasStatus(RoomEntityStatus.SIT) && !this.hasStatus(RoomEntityStatus.LAY)) {
-            this.setBodyRotation(rotation);
-            this.setHeadRotation(rotation);
+            if (currentRotation - rotation < 3 && currentRotation - rotation > 0) {
+                this.setHeadRotation(rotation);
+            } else {
+                this.setHeadRotation(rotation);
+                this.setBodyRotation(rotation);
+            }
 
             this.markNeedsUpdate();
         }
@@ -387,7 +393,7 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
         this.idleTime++;
 
         if (this.idleTime >= 600) {
-            if(!this.isIdle) {
+            if (!this.isIdle) {
                 this.isIdle = true;
                 this.getRoom().getEntities().broadcastMessage(new IdleStatusMessageComposer(this.getId(), true));
             }
@@ -425,7 +431,7 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
             return;
         }
 
-        if(sendUpdate) {
+        if (sendUpdate) {
             this.getRoom().getEntities().broadcastMessage(new IdleStatusMessageComposer(this.getId(), false));
         }
     }
@@ -517,7 +523,7 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
     @Override
     public void applyEffect(PlayerEffect effect) {
         if (effect == null) {
-            if(this.teamEffect != null && this.effect != null) {
+            if (this.teamEffect != null && this.effect != null) {
                 this.applyEffect(teamEffect);
                 return;
             }
@@ -604,18 +610,23 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
         this.needsForcedUpdate = true;
 
         this.isWarped = true;
-        this.updateAndSetPosition(position);
-        this.markNeedsUpdate();
 
         final RoomTile tile = this.getRoom().getMapping().getTile(position);
+
+        this.updateAndSetPosition(position);
+        this.markNeedsUpdate();
 
         if (tile != null) {
             tile.getEntities().add(this);
 
-            if(tile.getTopItemInstance() != null) {
-                tile.getTopItemInstance().onEntityStepOn(this);
+            if (tile.getTopItemInstance() != null) {
+                if(tile.getTopItemInstance() instanceof SeatFloorItem)
+                    ((SeatFloorItem) tile.getTopItemInstance()).onEntityStepOn(this, false);
+                else
+                    tile.getTopItemInstance().onEntityStepOn(this);
             }
         }
+
     }
 
     @Override

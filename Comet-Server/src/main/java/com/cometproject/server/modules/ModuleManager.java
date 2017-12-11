@@ -2,10 +2,12 @@ package com.cometproject.server.modules;
 
 import com.cometproject.api.config.ModuleConfig;
 import com.cometproject.api.events.EventHandler;
+import com.cometproject.api.game.GameContext;
 import com.cometproject.api.modules.BaseModule;
 import com.cometproject.api.server.IGameService;
 import com.cometproject.server.modules.events.EventHandlerService;
 import com.cometproject.api.utilities.Initialisable;
+import com.cometproject.server.tasks.CometThreadManager;
 import com.cometproject.server.utilities.JsonUtil;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
@@ -61,6 +63,14 @@ public class ModuleManager implements Initialisable {
         }
     }
 
+    public void setupModules() {
+        for(BaseModule baseModule : this.modules.values()) {
+            baseModule.setup();
+
+            baseModule.initialiseServices(GameContext.current());
+        }
+    }
+
     private List<String> findModules() {
         List<String> results = new ArrayList<>();
 
@@ -83,9 +93,9 @@ public class ModuleManager implements Initialisable {
                 getClass().getClassLoader()
         );
 
-        URL configJsonLocation = loader.getResource("plugin.json");
+        URL configJsonLocation = loader.getResource("module.json");
 
-        if (configJsonLocation == null) throw new Exception("plugin.json does not exist");
+        if (configJsonLocation == null) throw new Exception("module.json does not exist");
 
         final ModuleConfig moduleConfig = JsonUtil.getInstance().fromJson(Resources.toString(configJsonLocation, Charsets.UTF_8), ModuleConfig.class);
 
@@ -109,7 +119,7 @@ public class ModuleManager implements Initialisable {
 
         this.modules.put(moduleConfig.getName(), cometModule);
 
-        loader.close();
+        //loader.close();
     }
 
     public EventHandler getEventHandler() {

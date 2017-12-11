@@ -181,8 +181,12 @@ public class RollerFloorItem extends AdvancedFloorItem<RollerFloorItemEvent> {
                 newTile.getEntities().add(entity);
             }
 
-            this.getRoom().getEntities().broadcastMessage(new SlideObjectBundleMessageComposer(entity.getPosition(), new Position(sqInfront.getX(), sqInfront.getY(), toHeight), this.getVirtualId(), entity.getId(), 0));
-            entity.setPosition(new Position(sqInfront.getX(), sqInfront.getY(), toHeight));
+            this.getRoom().getEntities().broadcastMessage(new SlideObjectBundleMessageComposer(entity.getPosition().copy(), new Position(sqInfront.getX(), sqInfront.getY(), toHeight), this.getVirtualId(), entity.getId(), 0));
+           // entity.setPosition(new Position(sqInfront.getX(), sqInfront.getY(), toHeight));
+
+            final Position newPosition = new Position(sqInfront.getX(), sqInfront.getY(), toHeight);
+            entity.updateAndSetPosition(newPosition);
+            entity.markNeedsUpdate();
 
             this.onEntityStepOff(entity);
             movedEntities.add(entity.getId());
