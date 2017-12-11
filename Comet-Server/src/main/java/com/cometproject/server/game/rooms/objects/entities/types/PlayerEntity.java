@@ -515,7 +515,7 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
             final int rotation = Position.calculateRotation(roomEntity.getPosition().getX(), roomEntity.getPosition().getY(), this.getPosition().getX(), this.getPosition().getY(),false);
             final int rotationDifference = this.getBodyRotation() - rotation;
 
-            if(roomEntity != this && rotationDifference == -1 || rotationDifference == 1 || rotationDifference == -7) {
+            if(roomEntity != this && (rotationDifference == 1 || rotationDifference == -7)) {
                 roomEntity.setHeadRotation(rotation);
                 roomEntity.markNeedsUpdate();
             }
