@@ -242,7 +242,7 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
         this.unIdle();
 
         if (!this.hasStatus(RoomEntityStatus.SIT) && !this.hasStatus(RoomEntityStatus.LAY)) {
-            if (rotationDifference == 1 || rotationDifference == -1) {
+            if (rotationDifference == 1 || rotationDifference == -1 || rotationDifference == -7) {
                 this.setHeadRotation(rotation);
             } else {
                 this.setHeadRotation(rotation);
