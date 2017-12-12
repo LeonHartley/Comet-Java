@@ -133,6 +133,7 @@ public final class MessageHandler {
                     log.info("Using fork-join event executor");
                     this.eventExecutor = new ForkJoinPool(Integer.parseInt((String) Configuration.currentConfig().getOrDefault("comet.network.alternativePacketHandling.coreSize", 16)), ForkJoinPool.defaultForkJoinWorkerThreadFactory, null, true);
                     break;
+
             }
         } else {
             this.eventExecutor = null;
@@ -147,9 +148,9 @@ public final class MessageHandler {
         this.registerHelpTool();
         this.registerMessenger();
         this.registerNavigator();
-        this.registerUser();
-        this.registerBots();
-        this.registerRoom();
+//        this.registerUser();
+//        this.registerBots();
+//        this.registerRoom();
         this.registerRoomTrade();
         this.registerRoomModeration();
         this.registerRoomAccess();

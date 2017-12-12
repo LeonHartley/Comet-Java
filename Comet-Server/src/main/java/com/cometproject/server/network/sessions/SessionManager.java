@@ -3,6 +3,7 @@ package com.cometproject.server.network.sessions;
 import com.cometproject.api.networking.messages.IMessageComposer;
 import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.api.networking.sessions.ISessionManager;
+import com.cometproject.api.networking.sessions.ISessionService;
 import com.cometproject.api.networking.sessions.SessionManagerAccessor;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.players.PlayerManager;
@@ -20,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
-public final class SessionManager implements ISessionManager {
+public final class SessionManager implements ISessionManager, ISessionService {
     public static final AttributeKey<Session> SESSION_ATTR = AttributeKey.valueOf("Session.attr");
     public static final AttributeKey<Integer> CHANNEL_ID_ATTR = AttributeKey.valueOf("ChannelId.attr");
 

@@ -1,10 +1,13 @@
 package com.cometproject.server.network.messages.incoming.group;
 
 import com.cometproject.api.game.groups.types.components.membership.IGroupMember;
+import com.cometproject.server.composers.group.GroupMembersMessageComposer;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
+import com.cometproject.server.game.players.PlayerManager;
+import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.incoming.Event;
-import com.cometproject.server.network.messages.outgoing.group.GroupMembersMessageComposer;
+import com.cometproject.server.network.sessions.SessionManager;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.player.PlayerDao;
@@ -61,6 +64,6 @@ public class GroupMembersMessageEvent implements Event {
             toRemove.clear();
         }
 
-        client.send(new GroupMembersMessageComposer(group.getData(), page, groupMembers, requestType, searchQuery, group.getMembershipComponent().getAdministrators().contains(client.getPlayer().getId())));
+        client.send(new GroupMembersMessageComposer(group.getData(), page, groupMembers, requestType, searchQuery, group.getMembershipComponent().getAdministrators().contains(client.getPlayer().getId()), PlayerManager.getInstance(), NetworkManager.getInstance().getSessions()));
     }
 }
