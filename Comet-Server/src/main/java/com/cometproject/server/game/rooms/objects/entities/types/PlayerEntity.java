@@ -512,7 +512,7 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
         }
 
         for(RoomEntity roomEntity : this.getRoom().getEntities().getAllEntities().values()) {
-            if(roomEntity.getId() != this.getId())
+            if(roomEntity.getId() != this.getId() && !roomEntity.isIdle())
                 roomEntity.lookTo(this.getPosition().getX(), this.getPosition().getY(), false);
 
 //            final int rotation = Position.calculateRotation(roomEntity.getPosition().getX(), roomEntity.getPosition().getY(), this.getPosition().getX(), this.getPosition().getY(),false);
