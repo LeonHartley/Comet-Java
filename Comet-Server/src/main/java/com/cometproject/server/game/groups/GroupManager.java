@@ -213,7 +213,7 @@ public class GroupManager implements Initialisable {
         this.groupInstanceCache.remove(id);
         this.groupDataCache.remove(id);
 
-        group.getMembershipComponent().dispose();
+        group.getMembers().dispose();
         StorageContext.getCurrentContext().getGroupRepository().deleteGroup(group.getId());
     }
 

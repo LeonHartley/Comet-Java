@@ -31,19 +31,19 @@ public class HideGroupForumPostMessageEvent implements Event {
             return;
         }
 
-        IForumSettings forumSettings = group.getForumComponent().getForumSettings();
+        IForumSettings forumSettings = group.getForum().getForumSettings();
 
         if (forumSettings.getModeratePermission() == ForumPermission.OWNER) {
             if (client.getPlayer().getId() != group.getData().getId()) {
                 return;
             }
         } else {
-            if (!group.getMembershipComponent().getAdministrators().contains(client.getPlayer().getId())) {
+            if (!group.getMembers().getAdministrators().contains(client.getPlayer().getId())) {
                 return;
             }
         }
 
-        IForumThread forumThread = group.getForumComponent().getForumThreads().get(threadId);
+        IForumThread forumThread = group.getForum().getForumThreads().get(threadId);
 
         if (forumThread == null) {
             return;

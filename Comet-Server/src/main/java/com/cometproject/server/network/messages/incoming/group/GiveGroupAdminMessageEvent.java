@@ -32,10 +32,10 @@ public class GiveGroupAdminMessageEvent implements Event {
         if (group == null)
             return;
 
-        if (!group.getMembershipComponent().getMembers().containsKey(playerId))
+        if (!group.getMembers().getAll().containsKey(playerId))
             return;
 
-        IGroupMember groupMember = group.getMembershipComponent().getMembers().get(playerId);
+        IGroupMember groupMember = group.getMembers().getAll().get(playerId);
 
         if (groupMember == null)
             return;
@@ -47,7 +47,7 @@ public class GiveGroupAdminMessageEvent implements Event {
 
         StorageContext.getCurrentContext().getGroupRepository().saveGroupData(group.getData());
 
-        group.getMembershipComponent().getAdministrators().add(groupMember.getPlayerId());
+        group.getMembers().getAdministrators().add(groupMember.getPlayerId());
 
         Session session = NetworkManager.getInstance().getSessions().getByPlayerId(playerId);
 
@@ -62,6 +62,6 @@ public class GiveGroupAdminMessageEvent implements Event {
             }
         }
 
-        client.send(new GroupMembersMessageComposer(group.getData(), 0, new ArrayList<>(group.getMembershipComponent().getAdministrators()), 1, "", group.getMembershipComponent().getAdministrators().contains(client.getPlayer().getId()), PlayerManager.getInstance(), NetworkManager.getInstance().getSessions()));
+        client.send(new GroupMembersMessageComposer(group.getData(), 0, new ArrayList<>(group.getMembers().getAdministrators()), 1, "", group.getMembers().getAdministrators().contains(client.getPlayer().getId()), PlayerManager.getInstance(), NetworkManager.getInstance().getSessions()));
     }
 }

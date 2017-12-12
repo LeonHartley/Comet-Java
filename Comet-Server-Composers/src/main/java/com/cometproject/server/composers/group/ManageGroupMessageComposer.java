@@ -69,6 +69,6 @@ public class ManageGroupMessageComposer extends MessageComposer {
         }
 
         msg.writeString(group.getData().getBadge());
-        msg.writeInt(group.getMembershipComponent().getMembers().size());
+        msg.writeInt(group.getMembers().getAll().size());
     }
 }

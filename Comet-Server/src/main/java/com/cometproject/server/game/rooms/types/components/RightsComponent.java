@@ -52,12 +52,12 @@ public class RightsComponent {
     public boolean hasRights(int playerId, boolean includeGroupCheck) {
         final Group group = this.getRoom().getGroup();
 
-        if (group != null && group.getData() != null && group.getMembershipComponent() != null && group.getMembershipComponent().getMembers() != null) {
-            if (group.getData().canMembersDecorate() && group.getMembershipComponent().getMembers().containsKey(playerId)) {
+        if (group != null && group.getData() != null && group.getMembers() != null && group.getMembers().getAll() != null) {
+            if (group.getData().canMembersDecorate() && group.getMembers().getAll().containsKey(playerId)) {
                 return true;
             }
 
-            if (group.getMembershipComponent().getAdministrators().contains(playerId)) {
+            if (group.getMembers().getAdministrators().contains(playerId)) {
                 return true;
             }
         }
@@ -68,12 +68,12 @@ public class RightsComponent {
     public boolean canPlaceFurniture(final int playerId) {
         final Group group = this.getRoom().getGroup();
 
-        if (group != null && group.getData() != null && group.getMembershipComponent() != null && group.getMembershipComponent().getMembers() != null) {
-            if (group.getData().canMembersDecorate() && group.getMembershipComponent().getMembers().containsKey(playerId)) {
+        if (group != null && group.getData() != null && group.getMembers() != null && group.getMembers().getAll() != null) {
+            if (group.getData().canMembersDecorate() && group.getMembers().getAll().containsKey(playerId)) {
                 return true;
             }
 
-            if (group.getMembershipComponent().getAdministrators().contains(playerId)) {
+            if (group.getMembers().getAdministrators().contains(playerId)) {
                 return true;
             }
         }

@@ -62,7 +62,7 @@ public class PostMessageMessageEvent implements Event {
         }
 
 
-        final IForumSettings forumSettings = group.getForumComponent().getForumSettings();
+        final IForumSettings forumSettings = group.getForum().getForumSettings();
 
         if (threadId == 0) {
 
@@ -75,7 +75,7 @@ public class PostMessageMessageEvent implements Event {
             if (forumSettings.getStartThreadsPermission() != ForumPermission.EVERYBODY) {
                 switch (forumSettings.getStartThreadsPermission()) {
                     case ADMINISTRATORS:
-                        if (!group.getMembershipComponent().getAdministrators().contains(client.getPlayer().getId())) {
+                        if (!group.getMembers().getAdministrators().contains(client.getPlayer().getId())) {
                             permissionToPost = false;
                         }
                         break;
@@ -87,7 +87,7 @@ public class PostMessageMessageEvent implements Event {
                         break;
 
                     case MEMBERS:
-                        if (!group.getMembershipComponent().getMembers().containsKey(client.getPlayer().getId())) {
+                        if (!group.getMembers().getAll().containsKey(client.getPlayer().getId())) {
                             permissionToPost = false;
                         }
                 }
@@ -105,7 +105,7 @@ public class PostMessageMessageEvent implements Event {
                 return;
             }
 
-            group.getForumComponent().getForumThreads().put(forumThread.getId(), forumThread);
+            group.getForum().getForumThreads().put(forumThread.getId(), forumThread);
             client.send(new GroupForumPostThreadMessageComposer(groupId, forumThread));
 
             client.getPlayer().setLastForumPost((int) Comet.getTime());
@@ -115,7 +115,7 @@ public class PostMessageMessageEvent implements Event {
             if (forumSettings.getPostPermission() != ForumPermission.EVERYBODY) {
                 switch (forumSettings.getPostPermission()) {
                     case ADMINISTRATORS:
-                        if (!group.getMembershipComponent().getAdministrators().contains(client.getPlayer().getId())) {
+                        if (!group.getMembers().getAdministrators().contains(client.getPlayer().getId())) {
                             permissionToPost = false;
                         }
                         break;
@@ -127,7 +127,7 @@ public class PostMessageMessageEvent implements Event {
                         break;
 
                     case MEMBERS:
-                        if (!group.getMembershipComponent().getMembers().containsKey(client.getPlayer().getId())) {
+                        if (!group.getMembers().getAll().containsKey(client.getPlayer().getId())) {
                             permissionToPost = false;
                         }
                 }
@@ -138,7 +138,7 @@ public class PostMessageMessageEvent implements Event {
                 return;
             }
 
-            IForumThread forumThread = group.getForumComponent().getForumThreads().get(threadId);
+            IForumThread forumThread = group.getForum().getForumThreads().get(threadId);
 
             if(forumThread == null) {
                 return;

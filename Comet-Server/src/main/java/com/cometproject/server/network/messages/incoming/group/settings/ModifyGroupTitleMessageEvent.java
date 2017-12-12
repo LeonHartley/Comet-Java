@@ -28,7 +28,7 @@ public class ModifyGroupTitleMessageEvent implements Event {
         if (group == null)
             return;
 
-        IGroupMember groupMember = group.getMembershipComponent().getMembers().get(client.getPlayer().getId());
+        IGroupMember groupMember = group.getMembers().getAll().get(client.getPlayer().getId());
 
         if (groupMember.getAccessLevel() != GroupAccessLevel.OWNER)
             return;

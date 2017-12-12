@@ -86,6 +86,57 @@ public class GroupService implements IGroupService {
         return build(groupMemberData, requestsData, groupData);
     }
 
+    @Override
+    public void addGroupMember(IGroup group, IGroupMember groupMember) {
+        if(groupMember.getMembershipId() == 0) {
+            this.groupMemberRepository.create(groupMember);
+        }
+
+        if(group.getMembers().getAll().containsKey(groupMember.getPlayerId())) {
+            group.getMembers().getAll().remove(groupMember.getPlayerId());
+        }
+
+        if(groupMember.getAccessLevel().isAdmin()) {
+            group.getMembers().getAdministrators().add(groupMember.getPlayerId());
+        }
+
+        group.getMembers().getAll().put(groupMember.getPlayerId(), groupMember);
+    }
+
+    @Override
+    public void removeGroupMember(IGroup group, IGroupMember groupMember) {
+        this.groupMemberRepository.delete(groupMember.getMembershipId());
+
+        group.getMembers().getAll().remove(groupMember.getPlayerId());
+    }
+
+    @Override
+    public void createRequest(IGroup group, int playerId) {
+        if(group.getMembers().hasMembership(playerId) ||
+                group.getMembers().getMembershipRequests().contains(playerId)) {
+            return;
+        }
+
+        this.groupMemberRepository.createRequest(group.getId(), playerId);
+        group.getMembers().getMembershipRequests().add(playerId);
+    }
+
+    @Override
+    public void removeRequest(IGroup group, int playerId) {
+        if(!group.getMembers().getMembershipRequests().contains(playerId)) {
+            return;
+        }
+
+        this.groupMemberRepository.deleteRequest(group.getId(), playerId);
+    }
+
+    @Override
+    public void clearRequests(IGroup group) {
+        this.groupMemberRepository.clearRequests(group.getId());
+
+        group.getMembers().getMembershipRequests().clear();
+    }
+
     private IGroup build(Data<List<IGroupMember>> groupMemberData, Data<List<Integer>> requestsData,
                          IGroupData groupData) {
         final Map<Integer, IGroupMember> groupMembers = Maps.newConcurrentMap();

@@ -29,7 +29,7 @@ public class ModifyGroupSettingsMessageEvent implements Event {
         int rightsType = msg.readInt();
 
         if (GroupType.valueOf(type) != group.getData().getType()) {
-            group.getMembershipComponent().clearRequests();
+            group.getMembers().clearRequests();
         }
 
         group.getData().setType(GroupType.valueOf(type));

@@ -208,7 +208,7 @@ public class MembershipComponent implements IMembershipComponent, GroupComponent
      * @return The members of the group
      */
     @Override
-    public Map<Integer, IGroupMember> getMembers() {
+    public Map<Integer, IGroupMember> getAll() {
         return groupMembers;
     }
 
@@ -221,7 +221,7 @@ public class MembershipComponent implements IMembershipComponent, GroupComponent
     public List<IGroupMember> getMembersAsList() {
         List<IGroupMember> groupMembers = new ArrayList<>();
 
-        groupMembers.addAll(this.getMembers().values());
+        groupMembers.addAll(this.getAll().values());
 
         return groupMembers;
     }

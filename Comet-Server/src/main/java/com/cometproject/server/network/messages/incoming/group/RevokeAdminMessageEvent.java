@@ -32,10 +32,10 @@ public class RevokeAdminMessageEvent implements Event {
         if (group == null)
             return;
 
-        if (!group.getMembershipComponent().getMembers().containsKey(playerId))
+        if (!group.getMembers().getAll().containsKey(playerId))
             return;
 
-        IGroupMember groupMember = group.getMembershipComponent().getMembers().get(playerId);
+        IGroupMember groupMember = group.getMembers().getAll().get(playerId);
 
         if (groupMember == null)
             return;
@@ -57,7 +57,7 @@ public class RevokeAdminMessageEvent implements Event {
             }
         }
 
-        group.getMembershipComponent().getAdministrators().remove(groupMember.getPlayerId());
-        client.send(new GroupMembersMessageComposer(group.getData(), 0, new ArrayList<>(group.getMembershipComponent().getAdministrators()), 1, "", group.getMembershipComponent().getAdministrators().contains(client.getPlayer().getId()), PlayerManager.getInstance(), NetworkManager.getInstance().getSessions()));
+        group.getMembers().getAdministrators().remove(groupMember.getPlayerId());
+        client.send(new GroupMembersMessageComposer(group.getData(), 0, new ArrayList<>(group.getMembers().getAdministrators()), 1, "", group.getMembers().getAdministrators().contains(client.getPlayer().getId()), PlayerManager.getInstance(), NetworkManager.getInstance().getSessions()));
     }
 }

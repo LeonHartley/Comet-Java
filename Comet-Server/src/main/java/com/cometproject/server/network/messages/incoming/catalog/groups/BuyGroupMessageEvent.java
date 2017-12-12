@@ -69,7 +69,7 @@ public class BuyGroupMessageEvent implements Event {
         Group group = GroupManager.getInstance().createGroup(new GroupDataFactory().create(name, desc, badge, client.getPlayer().getId(), client.getPlayer().getData().getUsername(), roomId, GroupManager.getInstance().getGroupItems().getSymbolColours().containsKey(colour1) ? colour1 : 1,
                 GroupManager.getInstance().getGroupItems().getBackgroundColours().containsKey(colour2) ? colour2 : 1));
 
-        group.getMembershipComponent().createMembership(new GroupMemberFactory().create(client.getPlayer().getId(), group.getId(), GroupAccessLevel.OWNER));
+        group.getMembers().createMembership(new GroupMemberFactory().create(client.getPlayer().getId(), group.getId(), GroupAccessLevel.OWNER));
         client.getPlayer().getGroups().add(group.getId());
 
         client.getPlayer().getData().setFavouriteGroup(group.getId());

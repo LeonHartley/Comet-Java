@@ -21,16 +21,16 @@ public class ForumThreadsMessageEvent implements Event {
             return;
         }
 
-        if(group.getForumComponent().getForumSettings().getReadPermission() == ForumPermission.MEMBERS) {
-            if(!group.getMembershipComponent().getMembers().containsKey(client.getPlayer().getId())) {
+        if(group.getForum().getForumSettings().getReadPermission() == ForumPermission.MEMBERS) {
+            if(!group.getMembers().getAll().containsKey(client.getPlayer().getId())) {
                 return;
             }
-        } else if(group.getForumComponent().getForumSettings().getReadPermission() == ForumPermission.ADMINISTRATORS) {
-            if(!group.getMembershipComponent().getAdministrators().contains(client.getPlayer().getId())) {
+        } else if(group.getForum().getForumSettings().getReadPermission() == ForumPermission.ADMINISTRATORS) {
+            if(!group.getMembers().getAdministrators().contains(client.getPlayer().getId())) {
                 return;
             }
         }
 
-        client.send(new GroupForumThreadsMessageComposer(group.getId(), group.getForumComponent().getForumThreads(start), start));
+        client.send(new GroupForumThreadsMessageComposer(group.getId(), group.getForum().getForumThreads(start), start));
     }
 }

@@ -70,10 +70,10 @@ public class Group implements IGroup {
     public GroupDataObject getCacheObject() {
         final List<Integer> requests = new ArrayList<>();
 
-        requests.addAll(this.getMembershipComponent().getMembershipRequests());
+        requests.addAll(this.getMembers().getMembershipRequests());
 
         return new GroupDataObject(this.id, this.getData(),
-                this.getMembershipComponent().getMembersAsList(),
+                this.getMembers().getMembersAsList(),
                 requests,
                 this.forumComponent != null ? this.forumComponent.getForumSettings() : null,
                 this.forumComponent != null ? this.forumComponent.getForumThreads() : null);
@@ -88,8 +88,8 @@ public class Group implements IGroup {
      */
     @Override
     public MessageComposer composeInformation(boolean flag, int playerId) {
-        return new GroupInformationMessageComposer(this, RoomManager.getInstance().getRoomData(this.getData().getRoomId()), flag, playerId == this.getData().getOwnerId(), this.getMembershipComponent().getAdministrators().contains(playerId),
-                this.getMembershipComponent().getMembers().containsKey(playerId) ? 1 : this.getMembershipComponent().getMembershipRequests().contains(playerId) ? 2 : 0);
+        return new GroupInformationMessageComposer(this, RoomManager.getInstance().getRoomData(this.getData().getRoomId()), flag, playerId == this.getData().getOwnerId(), this.getMembers().getAdministrators().contains(playerId),
+                this.getMembers().getAll().containsKey(playerId) ? 1 : this.getMembers().getMembershipRequests().contains(playerId) ? 2 : 0);
     }
 
     @Override
@@ -166,7 +166,7 @@ public class Group implements IGroup {
      * @return The component which will handle everything member-related
      */
     @Override
-    public IMembershipComponent getMembershipComponent() {
+    public IMembershipComponent getMembers() {
         return membershipComponent;
     }
 
@@ -176,7 +176,7 @@ public class Group implements IGroup {
      * @return The group forumc component
      */
     @Override
-    public IForumComponent getForumComponent() {
+    public IForumComponent getForum() {
         return forumComponent;
     }
 

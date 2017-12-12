@@ -28,15 +28,15 @@ public class AcceptMembershipMessageEvent implements Event {
         Group group = GroupManager.getInstance().get(groupId);
 
         if (group == null || (group.getData().getOwnerId() != client.getPlayer().getId() &&
-                !group.getMembershipComponent().getAdministrators().contains(client.getPlayer().getId()))) {
+                !group.getMembers().getAdministrators().contains(client.getPlayer().getId()))) {
             return;
         }
 
-        if (!group.getMembershipComponent().getMembershipRequests().contains(playerId))
+        if (!group.getMembers().getMembershipRequests().contains(playerId))
             return;
 
-        group.getMembershipComponent().removeRequest(playerId);
-        group.getMembershipComponent().createMembership(new GroupMemberFactory().create(playerId, groupId, GroupAccessLevel.MEMBER));
+        group.getMembers().removeRequest(playerId);
+        group.getMembers().createMembership(new GroupMemberFactory().create(playerId, groupId, GroupAccessLevel.MEMBER));
 
         Session session = NetworkManager.getInstance().getSessions().getByPlayerId(playerId);
 
@@ -56,7 +56,7 @@ public class AcceptMembershipMessageEvent implements Event {
 
 
         client.send(new GroupMembersMessageComposer(group.getData(), 0,
-                new ArrayList<>(group.getMembershipComponent().getMembershipRequests()), 2, "",
+                new ArrayList<>(group.getMembers().getMembershipRequests()), 2, "",
                 true, PlayerManager.getInstance(), NetworkManager.getInstance().getSessions()));
     }
 }

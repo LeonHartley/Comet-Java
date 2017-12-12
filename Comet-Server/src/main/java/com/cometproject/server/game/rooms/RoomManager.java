@@ -2,6 +2,7 @@ package com.cometproject.server.game.rooms;
 
 import com.cometproject.api.game.players.IPlayer;
 import com.cometproject.api.game.rooms.IRoomData;
+import com.cometproject.api.game.rooms.IRoomService;
 import com.cometproject.api.game.rooms.settings.RoomAccessType;
 import com.cometproject.api.game.rooms.settings.RoomTradeState;
 import com.cometproject.api.networking.sessions.ISession;
@@ -36,7 +37,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 
-public class RoomManager implements Initialisable {
+public class RoomManager implements IRoomService {
 
     private static RoomManager roomManagerInstance;
     public static final Logger log = Logger.getLogger(RoomManager.class.getName());

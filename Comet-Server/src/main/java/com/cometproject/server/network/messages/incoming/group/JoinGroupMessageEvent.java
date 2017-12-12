@@ -1,7 +1,6 @@
 package com.cometproject.server.network.messages.incoming.group;
 
 import com.cometproject.api.config.CometSettings;
-import com.cometproject.api.game.groups.types.components.membership.IGroupMember;
 import com.cometproject.server.composers.group.GroupBadgesMessageComposer;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
@@ -48,7 +47,7 @@ public class JoinGroupMessageEvent implements Event {
 
             client.getPlayer().getGroups().add(groupId);
 
-            group.getMembershipComponent().createMembership(new GroupMemberFactory().create(client.getPlayer().getId(), group.getId(), GroupAccessLevel.MEMBER));
+            group.getMembers().createMembership(new GroupMemberFactory().create(client.getPlayer().getId(), group.getId(), GroupAccessLevel.MEMBER));
             client.send(group.composeInformation(true, client.getPlayer().getId()));
 
             if (CometSettings.groupChatEnabled) {
@@ -63,7 +62,7 @@ public class JoinGroupMessageEvent implements Event {
                 client.send(new YouAreControllerMessageComposer(1));
             }
         } else {
-            group.getMembershipComponent().createRequest(client.getPlayer().getId());
+            group.getMembers().createRequest(client.getPlayer().getId());
             client.send(group.composeInformation(true, client.getPlayer().getId()));
         }
     }

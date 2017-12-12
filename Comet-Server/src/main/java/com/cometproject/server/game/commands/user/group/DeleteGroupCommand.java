@@ -38,7 +38,7 @@ public class DeleteGroupCommand extends ChatCommand {
         if (GroupManager.getInstance().getGroupByRoomId(room.getId()) != null) {
             Group group = GroupManager.getInstance().getGroupByRoomId(room.getId());
 
-            for (Integer groupMemberId : group.getMembershipComponent().getMembers().keySet()) {
+            for (Integer groupMemberId : group.getMembers().getAll().keySet()) {
                 Session groupMemberSession = NetworkManager.getInstance().getSessions().getByPlayerId(groupMemberId);
 
                 List<RoomItem> floorItemsOwnedByPlayer = Lists.newArrayList();

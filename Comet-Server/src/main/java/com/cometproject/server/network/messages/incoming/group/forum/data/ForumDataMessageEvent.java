@@ -20,13 +20,13 @@ public class ForumDataMessageEvent implements Event {
             return;
         }
 
-        if (group.getForumComponent().getForumSettings().getReadPermission() == ForumPermission.MEMBERS) {
-            if (!group.getMembershipComponent().getMembers().containsKey(client.getPlayer().getId())) {
+        if (group.getForum().getForumSettings().getReadPermission() == ForumPermission.MEMBERS) {
+            if (!group.getMembers().getAll().containsKey(client.getPlayer().getId())) {
                 client.send(new NotificationMessageComposer("forums.error.access_denied"));
                 return;
             }
-        } else if (group.getForumComponent().getForumSettings().getReadPermission() == ForumPermission.ADMINISTRATORS) {
-            if (!group.getMembershipComponent().getAdministrators().contains(client.getPlayer().getId())) {
+        } else if (group.getForum().getForumSettings().getReadPermission() == ForumPermission.ADMINISTRATORS) {
+            if (!group.getMembers().getAdministrators().contains(client.getPlayer().getId())) {
                 client.send(new NotificationMessageComposer("forums.error.access_denied"));
                 return;
             }

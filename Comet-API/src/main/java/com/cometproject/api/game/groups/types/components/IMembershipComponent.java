@@ -9,22 +9,11 @@ import java.util.Map;
 import java.util.Set;
 
 public interface IMembershipComponent extends GroupComponent {
-
-    void loadMemberships();
-
-    void createMembership(IGroupMember groupMember);
-
-    void removeMembership(int playerId);
-
-    void createRequest(int playerId);
-
-    void clearRequests();
-
-    void removeRequest(int playerId);
-
     void broadcastMessage(IMessageComposer messageComposer, int sender);
 
-    Map<Integer, IGroupMember> getMembers();
+    boolean hasMembership(final int playerId);
+
+    Map<Integer, IGroupMember> getAll();
 
     List<IGroupMember> getMembersAsList();
 

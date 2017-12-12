@@ -26,19 +26,19 @@ public class UpdateThreadMessageEvent implements Event {
             return;
         }
 
-        IForumSettings forumSettings = group.getForumComponent().getForumSettings();
+        IForumSettings forumSettings = group.getForum().getForumSettings();
 
         if (forumSettings.getModeratePermission() == ForumPermission.OWNER) {
             if (client.getPlayer().getId() != group.getData().getId()) {
                 return;
             }
         } else {
-            if (!group.getMembershipComponent().getAdministrators().contains(client.getPlayer().getId())) {
+            if (!group.getMembers().getAdministrators().contains(client.getPlayer().getId())) {
                 return;
             }
         }
 
-        IForumThread forumThread = group.getForumComponent().getForumThreads().get(threadId);
+        IForumThread forumThread = group.getForum().getForumThreads().get(threadId);
 
         if (forumThread == null) {
             return;
@@ -49,9 +49,9 @@ public class UpdateThreadMessageEvent implements Event {
             client.send(new NotificationMessageComposer("forums.thread." + (isPinned ? "pinned" : "unpinned")));
 
             if (isPinned) {
-                group.getForumComponent().getPinnedThreads().add(forumThread.getId());
+                group.getForum().getPinnedThreads().add(forumThread.getId());
             } else {
-                group.getForumComponent().getPinnedThreads().remove((Integer) forumThread.getId());
+                group.getForum().getPinnedThreads().remove((Integer) forumThread.getId());
             }
         }
 

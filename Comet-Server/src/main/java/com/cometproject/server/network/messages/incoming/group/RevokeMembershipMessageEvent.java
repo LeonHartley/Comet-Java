@@ -39,7 +39,7 @@ public class
         if (playerId == group.getData().getOwnerId())
             return;
 
-        IGroupMember groupMember = group.getMembershipComponent().getMembers().get(client.getPlayer().getId());
+        IGroupMember groupMember = group.getMembers().getAll().get(client.getPlayer().getId());
 
         if (groupMember == null) {
             return;
@@ -48,7 +48,7 @@ public class
         if (!groupMember.getAccessLevel().isAdmin() && playerId != client.getPlayer().getId())
             return;
 
-        group.getMembershipComponent().removeMembership(playerId);
+        group.getMembers().removeMembership(playerId);
 
         List<RoomItem> itemsToRemove = Lists.newArrayList();
 
@@ -127,8 +127,8 @@ public class
             }
 
             client.send(new GroupMembersMessageComposer(group.getData(), 0,
-                    new ArrayList<>(group.getMembershipComponent().getMembersAsList()), 0, "",
-                    group.getMembershipComponent().getAdministrators().contains(client.getPlayer().getId()),
+                    new ArrayList<>(group.getMembers().getMembersAsList()), 0, "",
+                    group.getMembers().getAdministrators().contains(client.getPlayer().getId()),
                     PlayerManager.getInstance(), NetworkManager.getInstance().getSessions()));
         }
 

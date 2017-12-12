@@ -36,7 +36,7 @@ public class SaveForumSettingsMessageEvent implements Event {
             return;
         }
 
-        IForumSettings forumSettings = group.getForumComponent().getForumSettings();
+        IForumSettings forumSettings = group.getForum().getForumSettings();
 
         forumSettings.setReadPermission(whoCanReadForum);
         forumSettings.setModeratePermission(whoCanModerate);
@@ -50,6 +50,6 @@ public class SaveForumSettingsMessageEvent implements Event {
         client.send(new GroupForumDataMessageComposer(group, client.getPlayer().getId()));
 
         // HACK, WHEN THIS IS FIXED, REMOVE!
-        client.send(new GroupForumThreadsMessageComposer(group.getId(), group.getForumComponent().getForumThreads(0), 0));
+        client.send(new GroupForumThreadsMessageComposer(group.getId(), group.getForum().getForumThreads(0), 0));
     }
 }

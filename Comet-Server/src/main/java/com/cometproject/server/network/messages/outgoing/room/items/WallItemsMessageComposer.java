@@ -35,16 +35,16 @@ public class WallItemsMessageComposer extends MessageComposer {
                 final Group group = room.getGroup();
 
                 if (group.getData().canMembersDecorate()) {
-                    msg.writeInt(group.getMembershipComponent().getMembers().size());
+                    msg.writeInt(group.getMembers().getAll().size());
 
-                    for (IGroupMember groupMember : group.getMembershipComponent().getMembers().values()) {
+                    for (IGroupMember groupMember : group.getMembers().getAll().values()) {
                         msg.writeInt(groupMember.getPlayerId());
                         msg.writeString(PlayerDao.getUsernameByPlayerId(groupMember.getPlayerId()));
                     }
                 } else {
-                    msg.writeInt(group.getMembershipComponent().getAdministrators().size());
+                    msg.writeInt(group.getMembers().getAdministrators().size());
 
-                    for (Integer groupMember : group.getMembershipComponent().getAdministrators()) {
+                    for (Integer groupMember : group.getMembers().getAdministrators()) {
                         msg.writeInt(groupMember);
                         msg.writeString(PlayerDao.getUsernameByPlayerId(groupMember));
                     }

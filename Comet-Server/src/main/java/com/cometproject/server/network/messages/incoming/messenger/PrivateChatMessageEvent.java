@@ -84,7 +84,7 @@ public class PrivateChatMessageEvent implements Event {
             final Group group = GroupManager.getInstance().get(groupId);
 
             if(group != null && client.getPlayer().getGroups().contains(groupId)) {
-                group.getMembershipComponent().broadcastMessage(new InstantChatMessageComposer(message, userId, client.getPlayer().getData().getUsername(), client.getPlayer().getData().getFigure(), client.getPlayer().getId()), client.getPlayer().getId());
+                group.getMembers().broadcastMessage(new InstantChatMessageComposer(message, userId, client.getPlayer().getData().getUsername(), client.getPlayer().getData().getFigure(), client.getPlayer().getId()), client.getPlayer().getId());
             }
 
             return;

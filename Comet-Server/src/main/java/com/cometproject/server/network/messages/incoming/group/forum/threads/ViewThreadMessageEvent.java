@@ -22,18 +22,18 @@ public class ViewThreadMessageEvent implements Event {
             return;
         }
 
-        IForumThread forumThread = group.getForumComponent().getForumThreads().get(threadId);
+        IForumThread forumThread = group.getForum().getForumThreads().get(threadId);
 
         if(forumThread == null) {
             return;
         }
 
-        if(group.getForumComponent().getForumSettings().getReadPermission() == ForumPermission.MEMBERS) {
-            if(!group.getMembershipComponent().getMembers().containsKey(client.getPlayer().getId())) {
+        if(group.getForum().getForumSettings().getReadPermission() == ForumPermission.MEMBERS) {
+            if(!group.getMembers().getAll().containsKey(client.getPlayer().getId())) {
                 return;
             }
-        } else if(group.getForumComponent().getForumSettings().getReadPermission() == ForumPermission.ADMINISTRATORS) {
-            if(!group.getMembershipComponent().getAdministrators().contains(client.getPlayer().getId())) {
+        } else if(group.getForum().getForumSettings().getReadPermission() == ForumPermission.ADMINISTRATORS) {
+            if(!group.getMembers().getAdministrators().contains(client.getPlayer().getId())) {
                 return;
             }
         }

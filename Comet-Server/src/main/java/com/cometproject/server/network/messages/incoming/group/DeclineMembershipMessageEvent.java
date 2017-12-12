@@ -25,13 +25,13 @@ public class DeclineMembershipMessageEvent implements Event {
         if (group == null || group.getData().getOwnerId() != client.getPlayer().getId())
             return;
 
-        if (!group.getMembershipComponent().getMembershipRequests().contains(playerId))
+        if (!group.getMembers().getMembershipRequests().contains(playerId))
             return;
 
-        group.getMembershipComponent().removeRequest(playerId);
+        group.getMembers().removeRequest(playerId);
 
         client.send(new GroupMembersMessageComposer(group.getData(), 0,
-                new ArrayList<>(group.getMembershipComponent().getMembershipRequests()), 2, "",
+                new ArrayList<>(group.getMembers().getMembershipRequests()), 2, "",
                 true, PlayerManager.getInstance(), NetworkManager.getInstance().getSessions()));
     }
 }

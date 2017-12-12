@@ -5,7 +5,6 @@ import com.cometproject.api.game.groups.types.components.forum.IForumThread;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.api.game.groups.types.GroupComponent;
-import com.cometproject.server.game.groups.types.components.forum.settings.ForumSettings;
 import com.cometproject.api.game.groups.types.components.forum.IForumSettings;
 import com.cometproject.server.storage.queries.groups.GroupForumThreadDao;
 import com.google.common.collect.Lists;
@@ -68,7 +67,7 @@ public class ForumComponent implements IForumComponent, GroupComponent {
                 }
             }
 
-            for (IForumThread forumThread : this.group.getForumComponent().getForumThreads().values()) {
+            for (IForumThread forumThread : this.group.getForum().getForumThreads().values()) {
                 if (forumThread.isPinned() || threads.size() >= MAX_MESSAGES_PER_PAGE) continue;
 
                 threads.add(forumThread);
