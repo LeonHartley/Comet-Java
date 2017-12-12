@@ -1,10 +1,10 @@
 package com.cometproject.server.network.messages.incoming.group.favourite;
 
+import com.cometproject.server.composers.group.GroupBadgesMessageComposer;
+import com.cometproject.server.composers.group.UpdateFavouriteGroupMessageComposer;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.network.messages.incoming.Event;
-import com.cometproject.server.network.messages.outgoing.group.GroupBadgesMessageComposer;
-import com.cometproject.server.network.messages.outgoing.group.UpdateFavouriteGroupMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.LeaveRoomMessageComposer;

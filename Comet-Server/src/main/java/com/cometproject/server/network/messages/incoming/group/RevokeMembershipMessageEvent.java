@@ -2,6 +2,7 @@ package com.cometproject.server.network.messages.incoming.group;
 
 import com.cometproject.api.config.CometSettings;
 import com.cometproject.api.game.groups.types.components.membership.IGroupMember;
+import com.cometproject.server.composers.group.GroupMembersMessageComposer;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.players.PlayerManager;
@@ -13,7 +14,6 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.incoming.Event;
-import com.cometproject.server.network.messages.outgoing.group.GroupMembersMessageComposer;
 import com.cometproject.server.network.messages.outgoing.messenger.UpdateFriendStateMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.permissions.YouAreControllerMessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;
@@ -126,7 +126,10 @@ public class
                 }
             }
 
-            client.send(new GroupMembersMessageComposer(group.getData(), 0, new ArrayList<>(group.getMembershipComponent().getMembersAsList()), 0, "", group.getMembershipComponent().getAdministrators().contains(client.getPlayer().getId())));
+            client.send(new GroupMembersMessageComposer(group.getData(), 0,
+                    new ArrayList<>(group.getMembershipComponent().getMembersAsList()), 0, "",
+                    group.getMembershipComponent().getAdministrators().contains(client.getPlayer().getId()),
+                    PlayerManager.getInstance(), NetworkManager.getInstance().getSessions()));
         }
 
         itemsToRemove.clear();

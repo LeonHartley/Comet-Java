@@ -2,13 +2,11 @@ package com.cometproject.server.network.messages.incoming.group.forum.threads;
 
 import com.cometproject.api.game.groups.types.components.forum.IForumSettings;
 import com.cometproject.api.game.groups.types.components.forum.IForumThread;
+import com.cometproject.server.composers.group.forums.GroupForumUpdateThreadMessageComposer;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.api.game.groups.types.components.forum.ForumPermission;
-import com.cometproject.server.game.groups.types.components.forum.settings.ForumSettings;
-import com.cometproject.server.game.groups.types.components.forum.threads.ForumThread;
 import com.cometproject.server.network.messages.incoming.Event;
-import com.cometproject.server.network.messages.outgoing.group.forums.GroupForumUpdateThreadMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.NotificationMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.protocol.messages.MessageEvent;

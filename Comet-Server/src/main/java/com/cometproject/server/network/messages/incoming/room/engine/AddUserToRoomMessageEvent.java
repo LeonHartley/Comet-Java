@@ -1,6 +1,7 @@
 package com.cometproject.server.network.messages.incoming.room.engine;
 
 import com.cometproject.api.game.groups.types.IGroupData;
+import com.cometproject.server.composers.group.GroupBadgesMessageComposer;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.polls.PollManager;
 import com.cometproject.server.game.polls.types.Poll;
@@ -11,7 +12,6 @@ import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerEnterRoom;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.Event;
-import com.cometproject.server.network.messages.outgoing.group.GroupBadgesMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.*;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomEntryInfoMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.FloorItemsMessageComposer;

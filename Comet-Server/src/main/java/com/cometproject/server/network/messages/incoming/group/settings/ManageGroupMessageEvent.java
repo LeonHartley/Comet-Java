@@ -1,10 +1,10 @@
 package com.cometproject.server.network.messages.incoming.group.settings;
 
+import com.cometproject.server.composers.group.ManageGroupMessageComposer;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.composers.catalog.groups.GroupElementsMessageComposer;
-import com.cometproject.server.network.messages.outgoing.group.ManageGroupMessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 
