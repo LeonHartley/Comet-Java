@@ -512,13 +512,18 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
         }
 
         for(RoomEntity roomEntity : this.getRoom().getEntities().getAllEntities().values()) {
-            final int rotation = Position.calculateRotation(roomEntity.getPosition().getX(), roomEntity.getPosition().getY(), this.getPosition().getX(), this.getPosition().getY(),false);
-            final int rotationDifference = this.getBodyRotation() - rotation;
+            if(roomEntity.getId() != this.getId())
+                roomEntity.lookTo(this.getPosition().getX(), this.getPosition().getY(), false);
 
-            if(roomEntity != this && (rotationDifference == 1 || rotationDifference == -7)) {
-                roomEntity.setHeadRotation(rotation);
-                roomEntity.markNeedsUpdate();
-            }
+//            final int rotation = Position.calculateRotation(roomEntity.getPosition().getX(), roomEntity.getPosition().getY(), this.getPosition().getX(), this.getPosition().getY(),false);
+//            final int rotationDifference = this.getBodyRotation() - rotation;
+//
+//            System.out.println("rotation difference " + rotationDifference);
+//
+//            if(roomEntity != this && (rotationDifference == 1 || rotationDifference == -1)) {
+//                roomEntity.setHeadRotation(rotation);
+//                roomEntity.markNeedsUpdate();
+//            }
         }
     }
 

@@ -230,7 +230,7 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
         this.setWalkingPath(path);
     }
 
-    public void lookTo(int x, int y) {
+    public void lookTo(int x, int y, boolean body) {
         if (x == this.getPosition().getX() && y == this.getPosition().getY())
             return;
 
@@ -244,13 +244,17 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
         if (!this.hasStatus(RoomEntityStatus.SIT) && !this.hasStatus(RoomEntityStatus.LAY)) {
             if (rotationDifference == 1 || rotationDifference == -1 || rotationDifference == -7) {
                 this.setHeadRotation(rotation);
-            } else {
+            } else if(body) {
                 this.setHeadRotation(rotation);
                 this.setBodyRotation(rotation);
             }
 
             this.markNeedsUpdate();
         }
+    }
+
+    public void lookTo(int x, int y) {
+        lookTo(x, y, true);
     }
 
     @Override
