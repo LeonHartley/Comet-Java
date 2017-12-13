@@ -18,11 +18,6 @@ public class ForumComponent implements IForumComponent {
     }
 
     @Override
-    public IGroup getGroup() {
-        return null;
-    }
-
-    @Override
     public void dispose() {
 
     }

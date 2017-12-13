@@ -1,10 +1,10 @@
 package com.cometproject.game.groups.types.components;
 
 import com.cometproject.api.game.groups.IGroupService;
-import com.cometproject.api.game.groups.types.IGroup;
 import com.cometproject.api.game.groups.types.components.IMembershipComponent;
 import com.cometproject.api.game.groups.types.components.membership.IGroupMember;
 import com.cometproject.api.networking.messages.IMessageComposer;
+import com.cometproject.api.networking.sessions.ISessionService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,12 +31,6 @@ public class MembershipComponent implements IMembershipComponent {
         this.administrators = administrators;
     }
 
-
-    @Override
-    public IGroup getGroup() {
-        return null;
-    }
-
     @Override
     public void dispose() {
         this.groupMembers.clear();
@@ -45,8 +39,13 @@ public class MembershipComponent implements IMembershipComponent {
     }
 
     @Override
-    public void broadcastMessage(IMessageComposer messageComposer, int sender) {
+    public void broadcastMessage(ISessionService sessionService, IMessageComposer messageComposer, int sender) {
+        // Not implemented yet, might be revisited when module api for messenger is fleshed out, this won't be needed
+    }
 
+    @Override
+    public boolean hasMembership(int playerId) {
+        return this.groupMembers.containsKey(playerId);
     }
 
     @Override

@@ -3,13 +3,14 @@ package com.cometproject.api.game.groups.types.components;
 import com.cometproject.api.game.groups.types.GroupComponent;
 import com.cometproject.api.game.groups.types.components.membership.IGroupMember;
 import com.cometproject.api.networking.messages.IMessageComposer;
+import com.cometproject.api.networking.sessions.ISessionService;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 public interface IMembershipComponent extends GroupComponent {
-    void broadcastMessage(IMessageComposer messageComposer, int sender);
+    void broadcastMessage(ISessionService sessionService, IMessageComposer messageComposer, int sender);
 
     boolean hasMembership(final int playerId);
 

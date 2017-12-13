@@ -28,7 +28,7 @@ public class GroupService implements IGroupService {
     private final IGroupMemberRepository groupMemberRepository;
     private final IGroupRepository groupRepository;
 
-    private final GroupFactory groupFactory = new GroupFactory();
+    private final GroupFactory groupFactory;
 
     public GroupService(Cache<Integer, IGroup> groupCache, Cache<Integer, IGroupData> groupDataCache,
                         IGroupItemService groupItemService, IGroupRepository groupRepository,
@@ -38,6 +38,8 @@ public class GroupService implements IGroupService {
         this.groupItemService = groupItemService;
         this.groupRepository = groupRepository;
         this.groupMemberRepository = groupMemberRepository;
+
+        this.groupFactory = new GroupFactory(this);
     }
 
     @Override
