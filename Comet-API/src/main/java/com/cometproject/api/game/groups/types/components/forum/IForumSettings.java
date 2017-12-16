@@ -3,11 +3,7 @@ package com.cometproject.api.game.groups.types.components.forum;
 import com.cometproject.api.game.groups.types.components.forum.ForumPermission;
 
 public interface IForumSettings {
-    void save();
-
     int getGroupId();
-
-    void setGroupId(int groupId);
 
     ForumPermission getReadPermission();
 

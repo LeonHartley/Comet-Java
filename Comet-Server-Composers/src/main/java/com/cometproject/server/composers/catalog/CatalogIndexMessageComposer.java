@@ -77,16 +77,7 @@ public class CatalogIndexMessageComposer extends MessageComposer {
             for (ICatalogItem item : child.getItems().values()) {
                 if (item.getItemId().equals("-1")) continue;
 
-                IFurnitureDefinition itemDefinition = this.furnitureService.getDefinition(item.getItems().get(0).getItemId());
-
-                if (itemDefinition != null) {
-                    int offerId = itemDefinition.getOfferId();
-
-                    if (offerId != -1) {
-                        msg.writeInt(offerId);
-
-                    }
-                }
+                msg.writeInt(item.getId());
             }
 
             msg.writeInt(this.countAccessiblePages(child.getChildren()));

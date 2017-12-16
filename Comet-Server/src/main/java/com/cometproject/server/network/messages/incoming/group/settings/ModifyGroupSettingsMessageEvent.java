@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.group.settings;
 
+import com.cometproject.api.game.groups.types.IGroup;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.api.game.groups.types.GroupType;
@@ -20,7 +21,7 @@ public class ModifyGroupSettingsMessageEvent implements Event {
         if (!client.getPlayer().getGroups().contains(groupId))
             return;
 
-        Group group = GroupManager.getInstance().get(groupId);
+        IGroup group = GroupManager.getInstance().get(groupId);
 
         if (group == null || group.getData().getOwnerId() != client.getPlayer().getId())
             return;

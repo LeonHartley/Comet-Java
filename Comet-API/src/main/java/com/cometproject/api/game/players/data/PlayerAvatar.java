@@ -17,4 +17,12 @@ public interface PlayerAvatar {
     String getMotto();
 
     void setMotto(String motto);
+
+    default void tempData(final int tempData) {
+    }
+
+    default int tempData() {
+        return 0;
+    }
+
 }

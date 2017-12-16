@@ -1,44 +1,32 @@
-package com.cometproject.server.game.groups.types.components.forum.settings;
+package com.cometproject.storage.mysql.models;
 
 import com.cometproject.api.game.groups.types.components.forum.ForumPermission;
 import com.cometproject.api.game.groups.types.components.forum.IForumSettings;
-import com.cometproject.server.storage.queries.groups.GroupForumDao;
 
-public class ForumSettings implements IForumSettings {
-    private int groupId;
+public class GroupForumSettingsData implements IForumSettings {
 
+    private final int groupId;
     private ForumPermission readPermission;
     private ForumPermission postPermission;
-    private ForumPermission startThreadsPermission;
+    private ForumPermission startThreadPermission;
     private ForumPermission moderatePermission;
 
-    public ForumSettings(int groupId, ForumPermission readPermission, ForumPermission postPermission,
-                         ForumPermission startThreadsPermission, ForumPermission moderatePermission) {
+    public GroupForumSettingsData(int groupId, ForumPermission readPermission, ForumPermission postPermission, ForumPermission startThreadPermission, ForumPermission moderatePermission) {
         this.groupId = groupId;
         this.readPermission = readPermission;
         this.postPermission = postPermission;
-        this.startThreadsPermission = startThreadsPermission;
+        this.startThreadPermission = startThreadPermission;
         this.moderatePermission = moderatePermission;
     }
 
     @Override
-    public void save() {
-        GroupForumDao.saveSettings(this);
-    }
-
-    @Override
     public int getGroupId() {
-        return groupId;
-    }
-
-    @Override
-    public void setGroupId(int groupId) {
-        this.groupId = groupId;
+        return this.groupId;
     }
 
     @Override
     public ForumPermission getReadPermission() {
-        return readPermission;
+        return this.readPermission;
     }
 
     @Override
@@ -48,7 +36,7 @@ public class ForumSettings implements IForumSettings {
 
     @Override
     public ForumPermission getPostPermission() {
-        return postPermission;
+        return this.postPermission;
     }
 
     @Override
@@ -58,17 +46,17 @@ public class ForumSettings implements IForumSettings {
 
     @Override
     public ForumPermission getStartThreadsPermission() {
-        return startThreadsPermission;
+        return this.startThreadPermission;
     }
 
     @Override
     public void setStartThreadsPermission(ForumPermission startThreadsPermission) {
-        this.startThreadsPermission = startThreadsPermission;
+        this.startThreadPermission = startThreadsPermission;
     }
 
     @Override
     public ForumPermission getModeratePermission() {
-        return moderatePermission;
+        return this.moderatePermission;
     }
 
     @Override

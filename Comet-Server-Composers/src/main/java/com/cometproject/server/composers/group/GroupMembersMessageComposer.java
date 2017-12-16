@@ -19,7 +19,7 @@ public class GroupMembersMessageComposer extends MessageComposer {
 
     private final IGroupData group;
     private final int page;
-    private final List<Object> groupMembers;
+    private final List<PlayerAvatar> groupMembers;
     private final int requestType;
     private final String searchQuery;
     private final boolean isAdmin;
@@ -27,7 +27,7 @@ public class GroupMembersMessageComposer extends MessageComposer {
     private final IPlayerService playerService;
     private final ISessionService sessionService;
 
-    public GroupMembersMessageComposer(final IGroupData group, final int page, final List<Object> groupMembers,
+    public GroupMembersMessageComposer(final IGroupData group, final int page, final List<PlayerAvatar> groupMembers,
                                        final int requestType, final String searchQuery, final boolean isAdmin,
                                        IPlayerService playerService, ISessionService sessionService) {
         this.group = group;
@@ -58,62 +58,36 @@ public class GroupMembersMessageComposer extends MessageComposer {
         if (groupMembers.size() == 0) {
             msg.writeInt(0);
         } else {
-            List<List<Object>> paginatedMembers = paginateMembers(groupMembers, MEMBERS_PER_PAGE);
+            List<List<PlayerAvatar>> paginatedMembers = paginateMembers(groupMembers, MEMBERS_PER_PAGE);
 
             msg.writeInt(paginatedMembers.get(page).size());
 
-            for (Object memberObject : paginatedMembers.get(page)) {
-                int playerId;
-                int joinDate = 0;
-
-                if (memberObject instanceof Integer) {
-                    playerId = (int) memberObject;
-
-                    if (requestType == 1) {
-                        msg.writeInt(playerId == group.getOwnerId() ? 0 : 1);
-                    } else {
-                        msg.writeInt(3);
-                    }
-                } else {
-                    final IGroupMember groupMember =  ((IGroupMember) memberObject);
-
-                    playerId = groupMember.getPlayerId();
-
-                    if (((IGroupMember) memberObject).getAccessLevel().isAdmin()) {
-                        msg.writeInt(group.getOwnerId() == ((IGroupMember) memberObject).getPlayerId() ? 0 : 1);
-                    } else {
-                        msg.writeInt(2);
-                    }
-
-                    joinDate = groupMember.getDateJoined();
-                }
-
-                PlayerAvatar playerAvatar = null;
-
-                if (this.playerService.isOnline(playerId)) {
-                    ISession session = this.sessionService.getByPlayerId(playerId);
-
-                    if (session != null && session.getPlayer() != null && session.getPlayer().getData() != null) {
-                        playerAvatar = session.getPlayer().getData();
-                    }
-                }
-
-                if (playerAvatar == null) {
-                    playerAvatar = this.playerService.getAvatarByPlayerId(playerId, PlayerAvatar.USERNAME_FIGURE);
-                }
-
-                if (playerAvatar != null) {
-                    msg.writeInt(playerId);
-                    msg.writeString(playerAvatar.getUsername());
-                    msg.writeString(playerAvatar.getFigure());
-                } else {
-                    msg.writeInt(playerId);
-                    msg.writeString("Unknown Player");
-                    msg.writeString("");
-                }
-
-                msg.writeString(joinDate != 0 ? GroupInformationMessageComposer.getDate(joinDate) : "");
-            }
+//
+//
+//            for (PlayerAvatar groupMember : paginatedMembers.get(page)) {
+//                int playerId;
+//                int joinDate = 0;
+//
+//                    if (requestType == 1) {
+//                        msg.writeInt(playerId == group.getOwnerId() ? 0 : 1);
+//                    } else {
+//                        msg.writeInt(3);
+//                    }
+//
+//                    if (((IGroupMember) memberObject).getAccessLevel().isAdmin()) {
+//                        msg.writeInt(group.getOwnerId() == ((IGroupMember) memberObject).getPlayerId() ? 0 : 1);
+//                    } else {
+//                        msg.writeInt(2);
+//                    }
+//
+//
+//                PlayerAvatar playerAvatar = null;
+//                    msg.writeInt(playerId);
+//                    msg.writeString(playerAvatar.getUsername());
+//                    msg.writeString(playerAvatar.getFigure());
+//
+//                msg.writeString(joinDate != 0 ? GroupInformationMessageComposer.getDate(joinDate) : "");
+//            }
         }
 
         msg.writeBoolean(isAdmin);
@@ -124,8 +98,8 @@ public class GroupMembersMessageComposer extends MessageComposer {
         msg.writeString(searchQuery);
     }
 
-    private List<List<Object>> paginateMembers(List<Object> originalList, int chunkSize) {
-        List<List<Object>> listOfChunks = new ArrayList<>();
+    private List<List<PlayerAvatar>> paginateMembers(List<PlayerAvatar> originalList, int chunkSize) {
+        List<List<PlayerAvatar>> listOfChunks = new ArrayList<>();
 
         for (int i = 0; i < originalList.size() / chunkSize; i++) {
             listOfChunks.add(originalList.subList(i * chunkSize, i * chunkSize + chunkSize));

@@ -5,10 +5,12 @@ import com.cometproject.api.game.groups.IGroupItemService;
 import com.cometproject.api.game.groups.IGroupService;
 import com.cometproject.api.game.groups.types.IGroup;
 import com.cometproject.api.game.groups.types.IGroupData;
+import com.cometproject.api.game.groups.types.components.forum.IForumSettings;
 import com.cometproject.api.game.groups.types.components.membership.GroupAccessLevel;
 import com.cometproject.api.game.groups.types.components.membership.IGroupMember;
 import com.cometproject.game.groups.factories.GroupFactory;
 import com.cometproject.storage.api.data.Data;
+import com.cometproject.storage.api.repositories.IGroupForumRepository;
 import com.cometproject.storage.api.repositories.IGroupMemberRepository;
 import com.cometproject.storage.api.repositories.IGroupRepository;
 import com.google.common.collect.Maps;
@@ -27,17 +29,19 @@ public class GroupService implements IGroupService {
 
     private final IGroupMemberRepository groupMemberRepository;
     private final IGroupRepository groupRepository;
+    private final IGroupForumRepository groupForumRepository;
 
     private final GroupFactory groupFactory;
 
     public GroupService(Cache<Integer, IGroup> groupCache, Cache<Integer, IGroupData> groupDataCache,
                         IGroupItemService groupItemService, IGroupRepository groupRepository,
-                        IGroupMemberRepository groupMemberRepository) {
+                        IGroupMemberRepository groupMemberRepository, IGroupForumRepository groupForumRepository) {
         this.groupCache = groupCache;
         this.groupDataCache = groupDataCache;
         this.groupItemService = groupItemService;
         this.groupRepository = groupRepository;
         this.groupMemberRepository = groupMemberRepository;
+        this.groupForumRepository = groupForumRepository;
 
         this.groupFactory = new GroupFactory(this);
     }
@@ -130,6 +134,7 @@ public class GroupService implements IGroupService {
         }
 
         this.groupMemberRepository.deleteRequest(group.getId(), playerId);
+        group.getMembers().getMembershipRequests().remove(playerId);
     }
 
     @Override
@@ -157,8 +162,20 @@ public class GroupService implements IGroupService {
         groupMemberData.get().clear();
         requestsData.get().clear();
 
+        IForumSettings forumSettings = null;
+
+        if(groupData.hasForum()) {
+            final Data<IForumSettings> forumSettingsData = new Data<>();
+
+            this.groupForumRepository.getSettingsByGroupId(groupData.getId(), forumSettingsData::set);
+
+            if(forumSettingsData.has()) {
+                forumSettings = forumSettingsData.get();
+            }
+        }
+
         final IGroup group = this.groupFactory.createGroupInstance(groupData, groupMembers, requests,
-                administrators);
+                administrators, forumSettings, null, null);
 
         this.groupCache.add(groupData.getId(), group);
 

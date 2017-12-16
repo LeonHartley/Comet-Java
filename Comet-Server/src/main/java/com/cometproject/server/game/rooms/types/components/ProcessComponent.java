@@ -24,6 +24,7 @@ import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdat
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManager;
 import com.cometproject.server.utilities.TimeSpan;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
