@@ -3,8 +3,7 @@ package com.cometproject.server.network.messages.outgoing.navigator.updated;
 import com.cometproject.api.game.rooms.IRoomData;
 import com.cometproject.api.game.rooms.settings.RoomAccessType;
 import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.server.game.groups.GroupManager;
-import com.cometproject.server.game.groups.types.Group;
+
 import com.cometproject.server.game.navigator.types.Category;
 import com.cometproject.server.game.navigator.types.categories.NavigatorSearchAllowance;
 import com.cometproject.server.game.navigator.types.categories.NavigatorViewMode;
@@ -59,10 +58,8 @@ public class NavigatorSearchResultSetMessageComposer extends MessageComposer {
                 if (roomData.getAccess() == RoomAccessType.INVISIBLE && player.getData().getRank() < 3) {
                     Room room = RoomManager.getInstance().get(roomData.getId());
 
-                    final Group group = GroupManager.getInstance().getGroupByRoomId(room.getId());
-
                     if (room.getGroup() != null) {
-                        if (!player.getGroups().contains(group.getId())) {
+                        if (!player.getGroups().contains(room.getGroup().getId())) {
                             invisibleRooms++;
                         }
                     } else {
@@ -78,11 +75,8 @@ public class NavigatorSearchResultSetMessageComposer extends MessageComposer {
             for (IRoomData roomData : rooms) {
                 if (roomData.getAccess() == RoomAccessType.INVISIBLE && player.getData().getRank() < 3) {
                     Room room = RoomManager.getInstance().get(roomData.getId());
-
-                    final Group group = GroupManager.getInstance().getGroupByRoomId(room.getId());
-
                     if (room.getGroup() != null) {
-                        if (!player.getGroups().contains(group.getId())) {
+                        if (!player.getGroups().contains(room.getGroup().getId())) {
                             continue;
                         }
                     } else {

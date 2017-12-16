@@ -1,11 +1,12 @@
 package com.cometproject.server.network.messages.outgoing.messenger;
 
+import com.cometproject.api.game.GameContext;
+import com.cometproject.api.game.groups.types.IGroup;
 import com.cometproject.api.game.players.data.PlayerAvatar;
 import com.cometproject.api.game.players.data.components.messenger.IMessengerFriend;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.api.config.CometSettings;
-import com.cometproject.server.game.groups.GroupManager;
-import com.cometproject.server.game.groups.types.Group;
+
 import com.cometproject.api.game.players.data.components.messenger.RelationshipLevel;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.network.NetworkManager;
@@ -120,7 +121,7 @@ public class BuddyListMessageComposer extends MessageComposer {
 
         if (CometSettings.groupChatEnabled) {
             for (Integer groupId : this.groups) {
-                final Group group = GroupManager.getInstance().get(groupId);
+                final IGroup group = GameContext.getCurrent().getGroupService().getGroup(groupId);
 
                 msg.writeInt(-groupId);
                 msg.writeString(group.getData().getTitle());

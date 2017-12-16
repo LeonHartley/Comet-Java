@@ -1,18 +1,16 @@
-package com.cometproject.server.game.groups.types.components.forum.threads;
+package com.cometproject.storage.mysql.models;
 
 import com.cometproject.api.game.groups.types.components.forum.IForumThread;
 import com.cometproject.api.game.groups.types.components.forum.IForumThreadReply;
 import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.server.boot.Comet;
-import com.cometproject.server.game.groups.types.components.forum.ForumComponent;
-import com.cometproject.server.game.players.PlayerManager;
-import com.cometproject.api.game.players.data.PlayerAvatar;
 import com.google.common.collect.Lists;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ForumThread implements IForumThread {
+public class GroupForumThreadData implements IForumThread {
+    private static final int MAX_MESSAGES_PER_PAGE = 20;
+
     private int id;
     private String title;
     private int authorId;
@@ -26,7 +24,7 @@ public class ForumThread implements IForumThread {
 
     private List<IForumThreadReply> replies;
 
-    public ForumThread(int id, String title, String message, int authorId, int authorTimestamp, int state, boolean isLocked, boolean isPinned, int adminId, String adminUsername) {
+    public GroupForumThreadData(int id, String title, String message, int authorId, int authorTimestamp, int state, boolean isLocked, boolean isPinned, int adminId, String adminUsername) {
         this.id = id;
         this.title = title;
         this.authorId = authorId;
@@ -40,10 +38,10 @@ public class ForumThread implements IForumThread {
         this.replies = new ArrayList<>();
 
         // Add the OP.
-        this.replies.add(new ForumThreadReply(id, 0, message, this.id, authorId, authorTimestamp, 1, this.adminId, this.adminUsername));
+        this.replies.add(new GroupForumThreadMessageData(id, 0, message, this.id, authorId, authorTimestamp, 1, this.adminId, this.adminUsername));
     }
 
-    public ForumThread(int id, String title, int authorId, int authorTimestamp, int state, boolean isLocked, boolean isPinned, List<IForumThreadReply> replies, int adminId, String adminUsername) {
+    public GroupForumThreadData(int id, String title, int authorId, int authorTimestamp, int state, boolean isLocked, boolean isPinned, List<IForumThreadReply> replies, int adminId, String adminUsername) {
         this.id = id;
         this.title = title;
         this.authorId = authorId;
@@ -58,37 +56,37 @@ public class ForumThread implements IForumThread {
 
     @Override
     public void compose(IComposer msg) {
-        msg.writeInt(this.getId());
-
-        final PlayerAvatar authorAvatar = PlayerManager.getInstance().getAvatarByPlayerId(this.getAuthorId(), PlayerAvatar.USERNAME_FIGURE);
-
-        msg.writeInt(authorAvatar == null ? 0 : authorAvatar.getId());
-        msg.writeString(authorAvatar == null ? "Unknown Player" : authorAvatar.getUsername());
-
-        msg.writeString(this.getTitle());
-        msg.writeBoolean(this.isPinned());
-        msg.writeBoolean(this.isLocked());
-        msg.writeInt((int) Comet.getTime() - this.getAuthorTimestamp());
-        msg.writeInt(this.getReplies().size());
-        msg.writeInt(0); // unread messages
-        msg.writeInt(this.getMostRecentPost().getId());
-
-        final PlayerAvatar replyAuthor = PlayerManager.getInstance().getAvatarByPlayerId(this.getMostRecentPost().getAuthorId(), PlayerAvatar.USERNAME_FIGURE);
-
-        msg.writeInt(replyAuthor == null ? 0 : replyAuthor.getId());
-        msg.writeString(replyAuthor == null ? "Unknown Player" : replyAuthor.getUsername());
-        msg.writeInt((int) Comet.getTime() - this.getMostRecentPost().getAuthorTimestamp());
-        msg.writeByte(this.getState());
-        msg.writeInt(this.adminId); //admin id
-        msg.writeString(this.adminUsername); // admin username
-        msg.writeInt(0); // admin action time ago.
+//        msg.writeInt(this.getId());
+//
+//        final PlayerAvatar authorAvatar = PlayerManager.getInstance().getAvatarByPlayerId(this.getAuthorId(), PlayerAvatar.USERNAME_FIGURE);
+//
+//        msg.writeInt(authorAvatar == null ? 0 : authorAvatar.getId());
+//        msg.writeString(authorAvatar == null ? "Unknown Player" : authorAvatar.getUsername());
+//
+//        msg.writeString(this.getTitle());
+//        msg.writeBoolean(this.isPinned());
+//        msg.writeBoolean(this.isLocked());
+//        msg.writeInt((int) Comet.getTime() - this.getAuthorTimestamp());
+//        msg.writeInt(this.getReplies().size());
+//        msg.writeInt(0); // unread messages
+//        msg.writeInt(this.getMostRecentPost().getId());
+//
+//        final PlayerAvatar replyAuthor = PlayerManager.getInstance().getAvatarByPlayerId(this.getMostRecentPost().getAuthorId(), PlayerAvatar.USERNAME_FIGURE);
+//
+//        msg.writeInt(replyAuthor == null ? 0 : replyAuthor.getId());
+//        msg.writeString(replyAuthor == null ? "Unknown Player" : replyAuthor.getUsername());
+//        msg.writeInt((int) Comet.getTime() - this.getMostRecentPost().getAuthorTimestamp());
+//        msg.writeByte(this.getState());
+//        msg.writeInt(this.adminId); //admin id
+//        msg.writeString(this.adminUsername); // admin username
+//        msg.writeInt(0); // admin action time ago.
     }
 
     @Override
     public List<IForumThreadReply> getReplies(int start) {
         List<IForumThreadReply> replies = Lists.newArrayList();
 
-        for(int i = start; replies.size() < ForumComponent.MAX_MESSAGES_PER_PAGE; i++) {
+        for(int i = start; replies.size() < MAX_MESSAGES_PER_PAGE; i++) {
             if(i >= this.replies.size())
                 break;
 

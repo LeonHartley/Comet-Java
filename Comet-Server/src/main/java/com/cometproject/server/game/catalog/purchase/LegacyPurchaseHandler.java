@@ -1,5 +1,6 @@
 package com.cometproject.server.game.catalog.purchase;
 
+import com.cometproject.api.game.GameContext;
 import com.cometproject.api.game.bots.BotMode;
 import com.cometproject.api.game.bots.BotType;
 import com.cometproject.api.game.bots.IBotData;
@@ -10,6 +11,7 @@ import com.cometproject.api.game.catalog.types.purchase.ICatalogPurchaseHandler;
 import com.cometproject.api.game.furniture.types.IFurnitureDefinition;
 import com.cometproject.api.game.furniture.types.IGiftData;
 import com.cometproject.api.game.furniture.types.IMusicData;
+import com.cometproject.api.game.groups.types.IGroup;
 import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
 import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.server.boot.Comet;
@@ -18,12 +20,8 @@ import com.cometproject.server.config.Locale;
 import com.cometproject.api.game.achievements.types.AchievementType;
 import com.cometproject.api.game.catalog.types.CatalogPageType;
 import com.cometproject.server.game.catalog.CatalogManager;
-import com.cometproject.server.game.groups.GroupManager;
-import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.items.ItemManager;
-import com.cometproject.server.game.items.music.MusicData;
 import com.cometproject.server.game.items.rares.LimitedEditionItemData;
-import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.api.game.furniture.types.ItemType;
 import com.cometproject.server.game.pets.data.PetData;
 import com.cometproject.server.game.pets.data.StaticPetProperties;
@@ -53,7 +51,6 @@ import com.cometproject.server.storage.queries.pets.PetDao;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import com.cometproject.server.utilities.JsonUtil;
-import com.cometproject.storage.api.StorageContext;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -276,7 +273,7 @@ public class LegacyPurchaseHandler implements ICatalogPurchaseHandler {
 
                     // deliver effect
 
-                    if(!client.getPlayer().getInventory().hasEffect(effectId)) {
+                    if (!client.getPlayer().getInventory().hasEffect(effectId)) {
                         client.getPlayer().getInventory().getEffects().add(effectId);
                         PlayerDao.saveEffect(client.getPlayer().getId(), effectId);
 
@@ -387,14 +384,10 @@ public class LegacyPurchaseHandler implements ICatalogPurchaseHandler {
                     }
 
                     int groupId = Integer.parseInt(data);
-                    Group group = GroupManager.getInstance().get(groupId);
+                    IGroup group = GameContext.getCurrent().getGroupService().getGroup(groupId);
 
                     if (!group.getData().hasForum() && group.getData().getOwnerId() == client.getPlayer().getId()) {
-                        group.getData().setHasForum(true);
-
-                        StorageContext.getCurrentContext().getGroupRepository().saveGroupData(group.getData());
-
-                        group.initializeForum();
+                        GameContext.getCurrent().getGroupService().addForum(group);
 
                         Map<String, String> notificationParams = Maps.newHashMap();
 

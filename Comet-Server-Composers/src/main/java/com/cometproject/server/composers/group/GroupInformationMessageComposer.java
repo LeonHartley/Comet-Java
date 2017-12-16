@@ -43,7 +43,7 @@ public class GroupInformationMessageComposer extends MessageComposer {
         msg.writeInt(roomData == null ? 0 : roomData.getId());
         msg.writeString(roomData == null ? "Unknown Room" : roomData.getName());
         msg.writeInt(membership);
-        msg.writeInt(group.getMembershipComponent().getMembers().size());
+        msg.writeInt(group.getMembers().getAll().size());
         msg.writeBoolean(false);
         msg.writeString(getDate(group.getData().getCreatedTimestamp()));
         msg.writeBoolean(isOwner);
@@ -54,7 +54,7 @@ public class GroupInformationMessageComposer extends MessageComposer {
         msg.writeBoolean(flag);
         msg.writeBoolean(group.getData().canMembersDecorate());
 
-        msg.writeInt((isOwner || isAdmin) ? group.getMembershipComponent().getMembershipRequests().size() : 0);
+        msg.writeInt((isOwner || isAdmin) ? group.getMembers().getMembershipRequests().size() : 0);
         msg.writeBoolean(group.getData().hasForum());
     }
 

@@ -1,7 +1,7 @@
 package com.cometproject.server.network.messages.incoming.group.settings;
 
-import com.cometproject.server.game.groups.GroupManager;
-import com.cometproject.server.game.groups.types.Group;
+import com.cometproject.api.game.GameContext;
+import com.cometproject.api.game.groups.types.IGroup;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupFloorItem;
 import com.cometproject.server.game.rooms.types.Room;
@@ -26,7 +26,7 @@ public class ModifyGroupBadgeMessageEvent implements Event {
         if (!client.getPlayer().getGroups().contains(groupId))
             return;
 
-        Group group = GroupManager.getInstance().get(groupId);
+        IGroup group = GameContext.getCurrent().getGroupService().getGroup(groupId);
 
         if (group == null || group.getData().getOwnerId() != client.getPlayer().getId())
             return;

@@ -1,20 +1,18 @@
 package com.cometproject.server.network.messages.incoming.group.forum.threads;
 
+import com.cometproject.api.game.GameContext;
+import com.cometproject.api.game.groups.types.IGroup;
 import com.cometproject.api.game.groups.types.components.forum.IForumSettings;
 import com.cometproject.api.game.groups.types.components.forum.IForumThread;
+import com.cometproject.api.game.groups.types.components.forum.IForumThreadReply;
 import com.cometproject.server.boot.Comet;
+import com.cometproject.server.composers.group.forums.GroupForumPostReplyMessageComposer;
+import com.cometproject.server.composers.group.forums.GroupForumPostThreadMessageComposer;
 import com.cometproject.server.config.Locale;
-import com.cometproject.server.game.groups.GroupManager;
-import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.api.game.groups.types.components.forum.ForumPermission;
-import com.cometproject.server.game.groups.types.components.forum.settings.ForumSettings;
-import com.cometproject.server.game.groups.types.components.forum.threads.ForumThread;
-import com.cometproject.server.game.groups.types.components.forum.threads.ForumThreadReply;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.filter.FilterResult;
 import com.cometproject.server.network.messages.incoming.Event;
-import com.cometproject.server.network.messages.outgoing.group.forums.GroupForumPostReplyMessageComposer;
-import com.cometproject.server.network.messages.outgoing.group.forums.GroupForumPostThreadMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.protocol.messages.MessageEvent;
@@ -28,7 +26,7 @@ public class PostMessageMessageEvent implements Event {
         String subject = msg.readString();
         String message = msg.readString();
 
-        final Group group = GroupManager.getInstance().get(groupId);
+        final IGroup group = GameContext.getCurrent().getGroupService().getGroup(groupId);
 
         if (group == null || !group.getData().hasForum()) {
             return;
@@ -63,7 +61,7 @@ public class PostMessageMessageEvent implements Event {
         }
 
 
-        final IForumSettings forumSettings = group.getForumComponent().getForumSettings();
+        final IForumSettings forumSettings = group.getForum().getForumSettings();
 
         if (threadId == 0) {
 
@@ -76,7 +74,7 @@ public class PostMessageMessageEvent implements Event {
             if (forumSettings.getStartThreadsPermission() != ForumPermission.EVERYBODY) {
                 switch (forumSettings.getStartThreadsPermission()) {
                     case ADMINISTRATORS:
-                        if (!group.getMembershipComponent().getAdministrators().contains(client.getPlayer().getId())) {
+                        if (!group.getMembers().getAdministrators().contains(client.getPlayer().getId())) {
                             permissionToPost = false;
                         }
                         break;
@@ -88,7 +86,7 @@ public class PostMessageMessageEvent implements Event {
                         break;
 
                     case MEMBERS:
-                        if (!group.getMembershipComponent().getMembers().containsKey(client.getPlayer().getId())) {
+                        if (!group.getMembers().getAll().containsKey(client.getPlayer().getId())) {
                             permissionToPost = false;
                         }
                 }
@@ -99,14 +97,14 @@ public class PostMessageMessageEvent implements Event {
                 return;
             }
 
-            ForumThread forumThread = GroupForumThreadDao.createThread(groupId, subject, message, client.getPlayer().getId());
+            IForumThread forumThread = GroupForumThreadDao.createThread(groupId, subject, message, client.getPlayer().getId());
 
             if(forumThread == null) {
                 // Why u do dis?
                 return;
             }
 
-            group.getForumComponent().getForumThreads().put(forumThread.getId(), forumThread);
+            group.getForum().getForumThreads().put(forumThread.getId(), forumThread);
             client.send(new GroupForumPostThreadMessageComposer(groupId, forumThread));
 
             client.getPlayer().setLastForumPost((int) Comet.getTime());
@@ -116,7 +114,7 @@ public class PostMessageMessageEvent implements Event {
             if (forumSettings.getPostPermission() != ForumPermission.EVERYBODY) {
                 switch (forumSettings.getPostPermission()) {
                     case ADMINISTRATORS:
-                        if (!group.getMembershipComponent().getAdministrators().contains(client.getPlayer().getId())) {
+                        if (!group.getMembers().getAdministrators().contains(client.getPlayer().getId())) {
                             permissionToPost = false;
                         }
                         break;
@@ -128,7 +126,7 @@ public class PostMessageMessageEvent implements Event {
                         break;
 
                     case MEMBERS:
-                        if (!group.getMembershipComponent().getMembers().containsKey(client.getPlayer().getId())) {
+                        if (!group.getMembers().getAll().containsKey(client.getPlayer().getId())) {
                             permissionToPost = false;
                         }
                 }
@@ -139,13 +137,13 @@ public class PostMessageMessageEvent implements Event {
                 return;
             }
 
-            IForumThread forumThread = group.getForumComponent().getForumThreads().get(threadId);
+            IForumThread forumThread = group.getForum().getForumThreads().get(threadId);
 
             if(forumThread == null) {
                 return;
             }
 
-            ForumThreadReply reply = GroupForumThreadDao.createReply(groupId, threadId, message, client.getPlayer().getId());
+            IForumThreadReply reply = GroupForumThreadDao.createReply(groupId, threadId, message, client.getPlayer().getId());
 
             if(reply == null) {
                 return;

@@ -1,14 +1,15 @@
 package com.cometproject.server.game.rooms;
 
+import com.cometproject.api.game.groups.types.IGroupData;
 import com.cometproject.api.game.players.IPlayer;
 import com.cometproject.api.game.rooms.IRoomData;
+import com.cometproject.api.game.rooms.IRoomService;
 import com.cometproject.api.game.rooms.settings.RoomAccessType;
 import com.cometproject.api.game.rooms.settings.RoomTradeState;
 import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.api.config.Configuration;
-import com.cometproject.server.game.groups.GroupManager;
-import com.cometproject.server.game.groups.types.Group;
+
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.rooms.filter.WordFilter;
 import com.cometproject.server.game.rooms.models.CustomFloorMapData;
@@ -36,7 +37,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 
-public class RoomManager implements Initialisable {
+public class RoomManager implements IRoomService {
 
     private static RoomManager roomManagerInstance;
     public static final Logger log = Logger.getLogger(RoomManager.class.getName());
@@ -278,7 +279,7 @@ public class RoomManager implements Initialisable {
     public List<IRoomData> getRoomsByQuery(String query) {
         List<IRoomData> rooms = new ArrayList<>();
 
-        if(query.equals("owner:")) return rooms;
+        if (query.equals("owner:")) return rooms;
 
         if (query.equals("tag:")) return rooms;
 
@@ -374,10 +375,8 @@ public class RoomManager implements Initialisable {
             if (room.getEntities() != null && room.getEntities().playerCount() < minimumPlayers) continue;
 
             if (room.getData().getAccess() == RoomAccessType.INVISIBLE && player.getData().getRank() < 3) {
-                final Group group = GroupManager.getInstance().getGroupByRoomId(room.getId());
-
                 if (room.getGroup() != null) {
-                    if (!player.getGroups().contains(group.getId())) {
+                    if (!player.getGroups().contains(room.getGroup().getId())) {
                         continue;
                     }
                 } else {

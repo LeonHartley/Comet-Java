@@ -1,10 +1,10 @@
 package com.cometproject.server.game.commands.user.group;
 
+import com.cometproject.api.game.GameContext;
+import com.cometproject.api.game.groups.types.IGroup;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
-import com.cometproject.server.game.groups.GroupManager;
-import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.rooms.objects.items.RoomItem;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
@@ -35,10 +35,10 @@ public class DeleteGroupCommand extends ChatCommand {
 
         final Room room = client.getPlayer().getEntity().getRoom();
 
-        if (GroupManager.getInstance().getGroupByRoomId(room.getId()) != null) {
-            Group group = GroupManager.getInstance().getGroupByRoomId(room.getId());
+        if (room.getGroup() != null) {
+            IGroup group = room.getGroup();
 
-            for (Integer groupMemberId : group.getMembershipComponent().getMembers().keySet()) {
+            for (Integer groupMemberId : group.getMembers().getAll().keySet()) {
                 Session groupMemberSession = NetworkManager.getInstance().getSessions().getByPlayerId(groupMemberId);
 
                 List<RoomItem> floorItemsOwnedByPlayer = Lists.newArrayList();
@@ -80,7 +80,7 @@ public class DeleteGroupCommand extends ChatCommand {
             }
 
             client.send(new AlertMessageComposer(Locale.getOrDefault("command.deletegroup.done", "The group was deleted successfully.")));
-            GroupManager.getInstance().removeGroup(group.getId());
+            GameContext.getCurrent().getGroupService().removeGroup(group.getId());
 
             room.setGroup(null);
 

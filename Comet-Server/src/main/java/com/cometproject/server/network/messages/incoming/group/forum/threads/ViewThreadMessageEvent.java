@@ -1,12 +1,11 @@
 package com.cometproject.server.network.messages.incoming.group.forum.threads;
 
+import com.cometproject.api.game.GameContext;
+import com.cometproject.api.game.groups.types.IGroup;
 import com.cometproject.api.game.groups.types.components.forum.IForumThread;
-import com.cometproject.server.game.groups.GroupManager;
-import com.cometproject.server.game.groups.types.Group;
+import com.cometproject.server.composers.group.forums.GroupForumViewThreadMessageComposer;
 import com.cometproject.api.game.groups.types.components.forum.ForumPermission;
-import com.cometproject.server.game.groups.types.components.forum.threads.ForumThread;
 import com.cometproject.server.network.messages.incoming.Event;
-import com.cometproject.server.network.messages.outgoing.group.forums.GroupForumViewThreadMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.protocol.messages.MessageEvent;
 
@@ -17,24 +16,24 @@ public class ViewThreadMessageEvent implements Event {
         int threadId = msg.readInt();
         int indexStart = msg.readInt();
 
-        final Group group = GroupManager.getInstance().get(groupId);
+        final IGroup group = GameContext.getCurrent().getGroupService().getGroup(groupId);
 
         if(group == null) {
             return;
         }
 
-        IForumThread forumThread = group.getForumComponent().getForumThreads().get(threadId);
+        IForumThread forumThread = group.getForum().getForumThreads().get(threadId);
 
         if(forumThread == null) {
             return;
         }
 
-        if(group.getForumComponent().getForumSettings().getReadPermission() == ForumPermission.MEMBERS) {
-            if(!group.getMembershipComponent().getMembers().containsKey(client.getPlayer().getId())) {
+        if(group.getForum().getForumSettings().getReadPermission() == ForumPermission.MEMBERS) {
+            if(!group.getMembers().getAll().containsKey(client.getPlayer().getId())) {
                 return;
             }
-        } else if(group.getForumComponent().getForumSettings().getReadPermission() == ForumPermission.ADMINISTRATORS) {
-            if(!group.getMembershipComponent().getAdministrators().contains(client.getPlayer().getId())) {
+        } else if(group.getForum().getForumSettings().getReadPermission() == ForumPermission.ADMINISTRATORS) {
+            if(!group.getMembers().getAdministrators().contains(client.getPlayer().getId())) {
                 return;
             }
         }
@@ -44,6 +43,7 @@ public class ViewThreadMessageEvent implements Event {
             return;
         }
 
-        client.send(new GroupForumViewThreadMessageComposer(group.getData(), threadId, forumThread.getReplies(indexStart), indexStart));
+        client.send(new GroupForumViewThreadMessageComposer(group.getData(), threadId,
+                forumThread.getReplies(indexStart), indexStart));
     }
 }

@@ -32,7 +32,8 @@ public class GroupsModule extends BaseModule {
 
         this.groupService = new GroupService(groupCache, groupDataCache, null,
                 StorageContext.getCurrentContext().getGroupRepository(),
-                StorageContext.getCurrentContext().getGroupMemberRepository());
+                StorageContext.getCurrentContext().getGroupMemberRepository(),
+                StorageContext.getCurrentContext().getGroupForumRepository());
     }
 
     @Override

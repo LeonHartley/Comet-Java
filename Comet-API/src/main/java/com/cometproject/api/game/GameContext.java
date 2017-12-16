@@ -4,6 +4,7 @@ import com.cometproject.api.game.catalog.ICatalogService;
 import com.cometproject.api.game.furniture.IFurnitureService;
 import com.cometproject.api.game.groups.IGroupService;
 import com.cometproject.api.game.players.IPlayerService;
+import com.cometproject.api.game.rooms.IRoomService;
 
 public class GameContext {
     private static GameContext gameContext;
@@ -12,6 +13,7 @@ public class GameContext {
     private IFurnitureService furnitureService;
     private IGroupService groupService;
     private IPlayerService playerService;
+    private IRoomService roomService;
 
     public ICatalogService getCatalogService() {
         return catalogService;
@@ -45,7 +47,7 @@ public class GameContext {
         this.playerService = playerService;
     }
 
-    public static GameContext current() {
+    public static GameContext getCurrent() {
         if(gameContext == null) {
             System.out.println("GameContext not configured");
             System.exit(0);
@@ -56,5 +58,13 @@ public class GameContext {
 
     public static void setCurrent(GameContext instance) {
         GameContext.gameContext = instance;
+    }
+
+    public IRoomService getRoomService() {
+        return roomService;
+    }
+
+    public void setRoomService(IRoomService roomService) {
+        this.roomService = roomService;
     }
 }

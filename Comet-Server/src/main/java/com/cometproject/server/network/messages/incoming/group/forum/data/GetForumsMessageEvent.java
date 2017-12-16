@@ -1,13 +1,12 @@
 package com.cometproject.server.network.messages.incoming.group.forum.data;
 
+import com.cometproject.api.game.GameContext;
+import com.cometproject.api.game.groups.types.IGroup;
 import com.cometproject.api.game.groups.types.IGroupData;
-import com.cometproject.server.game.groups.GroupManager;
-import com.cometproject.server.game.groups.types.Group;
+import com.cometproject.server.composers.group.forums.GroupForumListMessageComposer;
 import com.cometproject.server.network.messages.incoming.Event;
-import com.cometproject.server.network.messages.outgoing.group.forums.GroupForumListMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.protocol.messages.MessageEvent;
-import com.cometproject.storage.mysql.models.GroupData;
 import com.google.common.collect.Lists;
 
 import java.util.List;
@@ -15,13 +14,13 @@ import java.util.List;
 public class GetForumsMessageEvent implements Event {
     @Override
     public void handle(Session client, MessageEvent msg) throws Exception {
-        List<Group> myGroups = Lists.newArrayList();
+        List<IGroup> myGroups = Lists.newArrayList();
 
         for(int groupId : client.getPlayer().getGroups()) {
-            final IGroupData groupData = GroupManager.getInstance().getData(groupId);
+            final IGroupData groupData = GameContext.getCurrent().getGroupService().getData(groupId);
 
             if(groupData != null && groupData.hasForum()) {
-                myGroups.add(GroupManager.getInstance().get(groupId));
+                myGroups.add(GameContext.getCurrent().getGroupService().getGroup(groupId));
             }
         }
 

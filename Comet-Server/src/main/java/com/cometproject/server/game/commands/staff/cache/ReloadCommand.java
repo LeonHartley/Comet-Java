@@ -1,13 +1,11 @@
 package com.cometproject.server.game.commands.staff.cache;
 
-import com.cometproject.api.networking.sessions.ISession;
-import com.cometproject.api.config.CometSettings;
+import com.cometproject.api.game.GameContext;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.achievements.AchievementManager;
 import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.game.commands.CommandManager;
-import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.landing.LandingManager;
 import com.cometproject.server.game.moderation.BanManager;
@@ -138,7 +136,7 @@ public class ReloadCommand extends ChatCommand {
                 break;
 
             case "groupitems":
-                GroupManager.getInstance().getGroupItems().load();
+                GameContext.getCurrent().getGroupService().getItemService().load();
                 sendNotif(Locale.get("command.reload.groupitems"), client);
                 break;
 

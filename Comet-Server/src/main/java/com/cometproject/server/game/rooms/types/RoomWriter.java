@@ -1,11 +1,11 @@
 package com.cometproject.server.game.rooms.types;
 
+import com.cometproject.api.game.GameContext;
+import com.cometproject.api.game.groups.types.IGroupData;
 import com.cometproject.api.game.rooms.IRoomData;
 import com.cometproject.api.game.rooms.RoomType;
 import com.cometproject.api.game.rooms.settings.RoomAccessType;
 import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.server.game.groups.GroupManager;
-import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.navigator.NavigatorManager;
 import com.cometproject.server.game.navigator.types.publics.PublicRoom;
 import com.cometproject.server.game.rooms.RoomManager;
@@ -40,7 +40,7 @@ public class RoomWriter {
         }
 
         RoomPromotion promotion = RoomManager.getInstance().getRoomPromotions().get(room.getId());
-        Group group = GroupManager.getInstance().get(room.getGroupId());
+        IGroupData group = GameContext.getCurrent().getGroupService().getData(room.getGroupId());
 
         composeRoomSpecials(msg, room, promotion, group, room.getType());
     }
@@ -68,8 +68,8 @@ public class RoomWriter {
         msg.writeInt(room.getAntiFloodSettings());
     }
 
-    public static void composeRoomSpecials(IComposer msg, IRoomData roomData, RoomPromotion promotion, Group group, RoomType roomType) {
-        boolean composeGroup = group != null && group.getData() != null;
+    public static void composeRoomSpecials(IComposer msg, IRoomData roomData, RoomPromotion promotion, IGroupData group, RoomType roomType) {
+        boolean composeGroup = group != null;
         boolean composePromo = promotion != null;
 
         int specialsType = 0;
@@ -117,10 +117,10 @@ public class RoomWriter {
         msg.writeInt(promotion.minutesLeft()); // promo minutes left
     }
 
-    private static void composeGroup(Group group, IComposer msg) {
+    private static void composeGroup(IGroupData group, IComposer msg) {
         msg.writeInt(group.getId());
-        msg.writeString(group.getData().getTitle());
-        msg.writeString(group.getData().getBadge());
+        msg.writeString(group.getTitle());
+        msg.writeString(group.getBadge());
     }
 
     public static int roomAccessToNumber(RoomAccessType access) {

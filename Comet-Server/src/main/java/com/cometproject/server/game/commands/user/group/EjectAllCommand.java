@@ -1,8 +1,8 @@
 package com.cometproject.server.game.commands.user.group;
 
+import com.cometproject.api.game.groups.types.IGroup;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
-import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.rooms.objects.items.RoomItem;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
@@ -18,7 +18,7 @@ public class EjectAllCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
         Room room = client.getPlayer().getEntity().getRoom();
-        Group group = room.getGroup();
+        IGroup group = room.getGroup();
 
         if (room.getData().getOwnerId() != client.getPlayer().getId()) {
             final List<RoomItem> itemsToRemove = Lists.newArrayList();

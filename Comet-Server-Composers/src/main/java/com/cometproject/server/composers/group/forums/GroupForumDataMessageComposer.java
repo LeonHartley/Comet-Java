@@ -23,9 +23,9 @@ public class GroupForumDataMessageComposer extends MessageComposer {
 
     @Override
     public void compose(IComposer msg) {
-        this.group.getForumComponent().composeData(msg);
+        this.group.getForum().composeData(msg, group.getData());
 
-        final IForumSettings forumSettings = this.group.getForumComponent().getForumSettings();
+        final IForumSettings forumSettings = this.group.getForum().getForumSettings();
 
         msg.writeInt(forumSettings.getReadPermission().getPermissionId());
         msg.writeInt(forumSettings.getPostPermission().getPermissionId());
@@ -38,18 +38,18 @@ public class GroupForumDataMessageComposer extends MessageComposer {
         String errorModerate = "";
 
         if(forumSettings.getReadPermission() == ForumPermission.MEMBERS &&
-                !this.group.getMembershipComponent().getMembers().containsKey(playerId)) {
+                !this.group.getMembers().getAll().containsKey(playerId)) {
             errorRead = "not_member";
         } else if(forumSettings.getReadPermission() == ForumPermission.ADMINISTRATORS &&
-                !this.group.getMembershipComponent().getAdministrators().contains(playerId)) {
+                !this.group.getMembers().getAdministrators().contains(playerId)) {
             errorRead = "not_admin";
         }
 
         if(forumSettings.getPostPermission() == ForumPermission.MEMBERS &&
-                !this.group.getMembershipComponent().getMembers().containsKey(playerId)) {
+                !this.group.getMembers().getAll().containsKey(playerId)) {
             errorPost = "not_member";
         } else if(forumSettings.getPostPermission() == ForumPermission.ADMINISTRATORS &&
-                !this.group.getMembershipComponent().getAdministrators().contains(playerId)) {
+                !this.group.getMembers().getAdministrators().contains(playerId)) {
             errorPost = "not_admin";
         } else if(forumSettings.getPostPermission() == ForumPermission.OWNER &&
                 this.playerId != this.group.getData().getOwnerId()) {
@@ -57,10 +57,10 @@ public class GroupForumDataMessageComposer extends MessageComposer {
         }
 
         if(forumSettings.getStartThreadsPermission() == ForumPermission.MEMBERS &&
-                !this.group.getMembershipComponent().getMembers().containsKey(playerId)) {
+                !this.group.getMembers().getAll().containsKey(playerId)) {
             errorStartThread = "not_member";
         } else if(forumSettings.getStartThreadsPermission() == ForumPermission.ADMINISTRATORS &&
-                !this.group.getMembershipComponent().getAdministrators().contains(playerId)) {
+                !this.group.getMembers().getAdministrators().contains(playerId)) {
             errorStartThread = "not_admin";
         } else if(forumSettings.getStartThreadsPermission() == ForumPermission.OWNER &&
                 this.playerId != this.group.getData().getOwnerId()) {
@@ -68,7 +68,7 @@ public class GroupForumDataMessageComposer extends MessageComposer {
         }
 
         if(forumSettings.getModeratePermission() == ForumPermission.ADMINISTRATORS &&
-                !this.group.getMembershipComponent().getAdministrators().contains(playerId)) {
+                !this.group.getMembers().getAdministrators().contains(playerId)) {
             errorModerate = "not_admin";
         } else if(forumSettings.getModeratePermission() == ForumPermission.OWNER &&
                 this.playerId != this.group.getData().getOwnerId()) {
