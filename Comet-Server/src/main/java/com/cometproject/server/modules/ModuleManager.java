@@ -7,21 +7,16 @@ import com.cometproject.api.modules.BaseModule;
 import com.cometproject.api.server.IGameService;
 import com.cometproject.server.modules.events.EventHandlerService;
 import com.cometproject.api.utilities.Initialisable;
-import com.cometproject.server.tasks.CometThreadManager;
 import com.cometproject.server.utilities.JsonUtil;
 import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;
 import com.google.common.io.Resources;
-import com.google.gson.JsonObject;
-import com.google.inject.util.Modules;
 import io.coerce.commons.io.FileUtil;
 import org.apache.log4j.Logger;
 
-import java.io.File;
 import java.lang.reflect.Constructor;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -73,7 +68,7 @@ public class ModuleManager implements Initialisable {
         for(BaseModule baseModule : this.modules.values()) {
             baseModule.setup();
 
-            baseModule.initialiseServices(GameContext.current());
+            baseModule.initialiseServices(GameContext.getCurrent());
         }
     }
 

@@ -47,7 +47,7 @@ public class GameContext {
         this.playerService = playerService;
     }
 
-    public static GameContext current() {
+    public static GameContext getCurrent() {
         if(gameContext == null) {
             System.out.println("GameContext not configured");
             System.exit(0);

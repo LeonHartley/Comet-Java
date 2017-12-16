@@ -1,10 +1,10 @@
 package com.cometproject.server.network.messages.incoming.group.forum.threads;
 
+import com.cometproject.api.game.GameContext;
+import com.cometproject.api.game.groups.types.IGroup;
 import com.cometproject.api.game.groups.types.components.forum.IForumSettings;
 import com.cometproject.api.game.groups.types.components.forum.IForumThread;
 import com.cometproject.server.composers.group.forums.GroupForumUpdateThreadMessageComposer;
-import com.cometproject.server.game.groups.GroupManager;
-import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.api.game.groups.types.components.forum.ForumPermission;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.notification.NotificationMessageComposer;
@@ -20,7 +20,7 @@ public class UpdateThreadMessageEvent implements Event {
         final boolean isPinned = msg.readBoolean();
         final boolean isLocked = msg.readBoolean();
 
-        Group group = GroupManager.getInstance().get(groupId);
+        IGroup group = GameContext.getCurrent().getGroupService().getGroup(groupId);
 
         if (group == null || !group.getData().hasForum()) {
             return;

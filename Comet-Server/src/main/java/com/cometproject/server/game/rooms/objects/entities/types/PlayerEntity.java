@@ -1,5 +1,7 @@
 package com.cometproject.server.game.rooms.objects.entities.types;
 
+import com.cometproject.api.game.GameContext;
+import com.cometproject.api.game.groups.types.IGroupData;
 import com.cometproject.api.game.rooms.entities.PlayerRoomEntity;
 import com.cometproject.api.game.rooms.settings.RoomAccessType;
 import com.cometproject.api.networking.messages.IComposer;
@@ -11,8 +13,6 @@ import com.cometproject.api.game.bots.BotMode;
 import com.cometproject.api.game.bots.BotType;
 import com.cometproject.server.game.commands.CommandManager;
 import com.cometproject.server.game.commands.vip.TransformCommand;
-import com.cometproject.server.game.groups.GroupManager;
-import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.moderation.BanManager;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.data.PlayerData;
@@ -622,7 +622,7 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
             msg.writeInt(-1);
             msg.writeInt(0);
         } else {
-            Group group = GroupManager.getInstance().get(this.playerData.getFavouriteGroup());
+            IGroupData group = GameContext.getCurrent().getGroupService().getData(this.playerData.getFavouriteGroup());
 
             if (group == null) {
                 msg.writeInt(-1);
@@ -634,7 +634,7 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
             } else {
                 msg.writeInt(group.getId());
                 msg.writeInt(2);
-                msg.writeString(group.getData().getTitle());
+                msg.writeString(group.getTitle());
                 msg.writeString("");
             }
         }

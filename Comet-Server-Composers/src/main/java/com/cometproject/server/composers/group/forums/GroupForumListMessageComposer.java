@@ -32,7 +32,7 @@ public class GroupForumListMessageComposer extends MessageComposer {
         msg.writeInt(this.groups.size()); //???
 
         for(IGroup group : this.groups) {
-            group.getForum().composeData(msg);
+            group.getForum().composeData(msg, group.getData());
         }
     }
 }

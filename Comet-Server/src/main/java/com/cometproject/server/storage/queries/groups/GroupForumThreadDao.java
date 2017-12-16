@@ -1,10 +1,10 @@
 package com.cometproject.server.storage.queries.groups;
 
 import com.cometproject.api.game.groups.types.components.forum.IForumThread;
+import com.cometproject.api.game.groups.types.components.forum.IForumThreadReply;
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.game.groups.types.components.forum.threads.ForumThread;
-import com.cometproject.server.game.groups.types.components.forum.threads.ForumThreadReply;
 import com.cometproject.server.storage.SqlHelper;
+import com.cometproject.storage.mysql.models.factories.GroupForumMessageFactory;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,65 +14,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class GroupForumThreadDao {
-    public static Map<Integer, IForumThread> getAllMessagesForGroup(int groupId) {
-        Connection sqlConnection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-
-        Map<Integer, IForumThread> threads = new ConcurrentHashMap<>();
-
-        try {
-            sqlConnection = SqlHelper.getConnection();
-
-            preparedStatement = SqlHelper.prepare("SELECT * FROM group_forum_messages WHERE group_id = ? ORDER BY FIELD(type, 'THREAD', 'REPLY'), pinned DESC, author_timestamp DESC;", sqlConnection);
-            preparedStatement.setInt(1, groupId);
-
-            resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()) {
-                switch (resultSet.getString("type")) {
-                    case "THREAD":
-                        final ForumThread forumThread = new ForumThread(resultSet.getInt("id"),
-                                resultSet.getString("title"), resultSet.getString("message"),
-                                resultSet.getInt("author_id"), resultSet.getInt("author_timestamp"),
-                                resultSet.getInt("state"), resultSet.getString("locked").equals("1"),
-                                resultSet.getString("pinned").equals("1"), resultSet.getInt("moderator_id"),
-                                resultSet.getString("moderator_username"));
-
-                        threads.put(forumThread.getId(), forumThread);
-                        break;
-
-                    case "REPLY":
-                        final int msgId = resultSet.getInt("id");
-                        final int threadId = resultSet.getInt("thread_id");
-
-                        if (!threads.containsKey(threadId)) {
-                            continue;
-                        }
-
-                        final ForumThreadReply threadReply = new ForumThreadReply(msgId, -1,
-                                resultSet.getString("message"), threadId, resultSet.getInt("author_id"),
-                                resultSet.getInt("author_timestamp"), resultSet.getInt("state"),
-                                resultSet.getInt("moderator_id"), resultSet.getString("moderator_username"));
-
-                        threads.get(threadReply.getThreadId()).addReply(threadReply);
-
-                        threadReply.setIndex(threads.get(threadReply.getThreadId()).getReplies().indexOf(threadReply));
-                        break;
-                }
-            }
-        } catch (SQLException e) {
-            SqlHelper.handleSqlException(e);
-        } finally {
-            SqlHelper.closeSilently(resultSet);
-            SqlHelper.closeSilently(preparedStatement);
-            SqlHelper.closeSilently(sqlConnection);
-        }
-
-        return threads;
-    }
-
-    public static ForumThread createThread(int groupId, String title, String message, int authorId) {
+    public static IForumThread createThread(int groupId, String title, String message, int authorId) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -95,7 +37,7 @@ public class GroupForumThreadDao {
             resultSet = preparedStatement.getGeneratedKeys();
 
             while (resultSet.next()) {
-                return new ForumThread(resultSet.getInt(1), title, message, authorId, time, 1, false, false, 0, "");
+                return new GroupForumMessageFactory().createThread(resultSet.getInt(1), title, message, authorId, time, 1, false, false, 0, "");
             }
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);
@@ -108,7 +50,7 @@ public class GroupForumThreadDao {
         return null;
     }
 
-    public static ForumThreadReply createReply(int groupId, int threadId, String message, int authorId) {
+    public static IForumThreadReply createReply(int groupId, int threadId, String message, int authorId) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -132,7 +74,7 @@ public class GroupForumThreadDao {
             resultSet = preparedStatement.getGeneratedKeys();
 
             while (resultSet.next()) {
-                return new ForumThreadReply(resultSet.getInt(1), -1, message, threadId, authorId, time, 1, 0, "");
+                return new GroupForumMessageFactory().createThreadReply(resultSet.getInt(1), -1, message, threadId, authorId, time, 1, 0, "");
             }
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);

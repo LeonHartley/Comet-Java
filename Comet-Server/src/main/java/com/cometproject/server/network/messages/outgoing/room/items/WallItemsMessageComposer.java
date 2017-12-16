@@ -1,8 +1,8 @@
 package com.cometproject.server.network.messages.outgoing.room.items;
 
+import com.cometproject.api.game.groups.types.IGroup;
 import com.cometproject.api.game.groups.types.components.membership.IGroupMember;
 import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.protocol.messages.MessageComposer;
@@ -32,7 +32,7 @@ public class WallItemsMessageComposer extends MessageComposer {
                 msg.writeInt(room.getData().getOwnerId());
                 msg.writeString(room.getData().getOwner());
             } else {
-                final Group group = room.getGroup();
+                final IGroup group = room.getGroup();
 
                 if (group.getData().canMembersDecorate()) {
                     msg.writeInt(group.getMembers().getAll().size());

@@ -1,8 +1,9 @@
 package com.cometproject.server.network.messages.incoming.group;
 
+import com.cometproject.api.game.GameContext;
+import com.cometproject.api.game.groups.types.IGroup;
+import com.cometproject.api.game.players.data.PlayerAvatar;
 import com.cometproject.server.composers.group.GroupMembersMessageComposer;
-import com.cometproject.server.game.groups.GroupManager;
-import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.api.game.groups.types.components.membership.GroupAccessLevel;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
@@ -25,7 +26,7 @@ public class AcceptMembershipMessageEvent implements Event {
         if (!client.getPlayer().getGroups().contains(groupId))
             return;
 
-        Group group = GroupManager.getInstance().get(groupId);
+        IGroup group = GameContext.getCurrent().getGroupService().getGroup(groupId);
 
         if (group == null || (group.getData().getOwnerId() != client.getPlayer().getId() &&
                 !group.getMembers().getAdministrators().contains(client.getPlayer().getId()))) {
@@ -35,8 +36,8 @@ public class AcceptMembershipMessageEvent implements Event {
         if (!group.getMembers().getMembershipRequests().contains(playerId))
             return;
 
-        group.getMembers().removeRequest(playerId);
-        group.getMembers().createMembership(new GroupMemberFactory().create(playerId, groupId, GroupAccessLevel.MEMBER));
+        GameContext.getCurrent().getGroupService().removeRequest(group, playerId);
+        GameContext.getCurrent().getGroupService().addGroupMember(group, new GroupMemberFactory().create(playerId, groupId, GroupAccessLevel.MEMBER));
 
         Session session = NetworkManager.getInstance().getSessions().getByPlayerId(playerId);
 
@@ -54,9 +55,9 @@ public class AcceptMembershipMessageEvent implements Event {
             }
         }
 
-
+//group.getMembers().getMembershipRequests()
         client.send(new GroupMembersMessageComposer(group.getData(), 0,
-                new ArrayList<>(group.getMembers().getMembershipRequests()), 2, "",
+                new ArrayList<PlayerAvatar>(), 2, "",
                 true, PlayerManager.getInstance(), NetworkManager.getInstance().getSessions()));
     }
 }

@@ -1,17 +1,19 @@
 package com.cometproject.server.network.messages.incoming.messenger;
 
+import com.cometproject.api.game.GameContext;
+import com.cometproject.api.game.groups.types.IGroup;
 import com.cometproject.api.game.players.data.components.messenger.IMessengerFriend;
 import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.api.config.CometSettings;
 import com.cometproject.server.config.Locale;
-import com.cometproject.server.game.groups.GroupManager;
-import com.cometproject.server.game.groups.types.Group;
+
 import com.cometproject.server.game.moderation.ModerationManager;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.filter.FilterResult;
 import com.cometproject.server.logging.LogManager;
 import com.cometproject.server.logging.entries.MessengerChatLogEntry;
+import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.messenger.InstantChatMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
@@ -81,10 +83,10 @@ public class PrivateChatMessageEvent implements Event {
 
         if(userId < 0 && CometSettings.groupChatEnabled) {
             final int groupId = -userId;
-            final Group group = GroupManager.getInstance().get(groupId);
+            final IGroup group = GameContext.getCurrent().getGroupService().getGroup(groupId);
 
             if(group != null && client.getPlayer().getGroups().contains(groupId)) {
-                group.getMembers().broadcastMessage(new InstantChatMessageComposer(message, userId, client.getPlayer().getData().getUsername(), client.getPlayer().getData().getFigure(), client.getPlayer().getId()), client.getPlayer().getId());
+                group.getMembers().broadcastMessage(NetworkManager.getInstance().getSessions(), new InstantChatMessageComposer(message, userId, client.getPlayer().getData().getUsername(), client.getPlayer().getData().getFigure(), client.getPlayer().getId()), client.getPlayer().getId());
             }
 
             return;

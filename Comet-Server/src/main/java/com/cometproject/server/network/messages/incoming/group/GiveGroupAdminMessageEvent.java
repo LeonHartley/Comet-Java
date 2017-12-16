@@ -1,9 +1,9 @@
 package com.cometproject.server.network.messages.incoming.group;
 
+import com.cometproject.api.game.GameContext;
+import com.cometproject.api.game.groups.types.IGroup;
 import com.cometproject.api.game.groups.types.components.membership.IGroupMember;
 import com.cometproject.server.composers.group.GroupMembersMessageComposer;
-import com.cometproject.server.game.groups.GroupManager;
-import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.api.game.groups.types.components.membership.GroupAccessLevel;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
@@ -27,7 +27,7 @@ public class GiveGroupAdminMessageEvent implements Event {
             return;
         }
 
-        Group group = GroupManager.getInstance().get(groupId);
+        IGroup group = GameContext.getCurrent().getGroupService().getGroup(groupId);
 
         if (group == null)
             return;
@@ -62,6 +62,6 @@ public class GiveGroupAdminMessageEvent implements Event {
             }
         }
 
-        client.send(new GroupMembersMessageComposer(group.getData(), 0, new ArrayList<>(group.getMembers().getAdministrators()), 1, "", group.getMembers().getAdministrators().contains(client.getPlayer().getId()), PlayerManager.getInstance(), NetworkManager.getInstance().getSessions()));
+        client.send(new GroupMembersMessageComposer(group.getData(), 0, new ArrayList<>(), 1, "", group.getMembers().getAdministrators().contains(client.getPlayer().getId()), PlayerManager.getInstance(), NetworkManager.getInstance().getSessions()));
     }
 }

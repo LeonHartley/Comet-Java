@@ -2,7 +2,6 @@ package com.cometproject.server.game.commands.development;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.commands.ChatCommand;
-import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;

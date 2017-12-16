@@ -1,10 +1,11 @@
 package com.cometproject.server.network.messages.incoming.group;
 
+import com.cometproject.api.game.GameContext;
+import com.cometproject.api.game.groups.types.IGroup;
 import com.cometproject.api.game.groups.types.components.membership.IGroupMember;
 import com.cometproject.api.game.players.data.PlayerAvatar;
 import com.cometproject.server.composers.group.GroupMembersMessageComposer;
-import com.cometproject.server.game.groups.GroupManager;
-import com.cometproject.server.game.groups.types.Group;
+
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
@@ -30,7 +31,7 @@ public class GroupMembersMessageEvent implements Event {
         final String searchQuery = msg.readString();
         final int requestType = msg.readInt();
 
-        Group group = GroupManager.getInstance().get(groupId);
+        IGroup group = GameContext.getCurrent().getGroupService().getGroup(groupId);
 
         if (group == null)
             return;

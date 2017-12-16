@@ -1,8 +1,8 @@
 package com.cometproject.server.network.messages.incoming.group.forum.data;
 
+import com.cometproject.api.game.GameContext;
+import com.cometproject.api.game.groups.types.IGroup;
 import com.cometproject.server.composers.group.forums.GroupForumDataMessageComposer;
-import com.cometproject.server.game.groups.GroupManager;
-import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.api.game.groups.types.components.forum.ForumPermission;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.notification.NotificationMessageComposer;
@@ -14,7 +14,7 @@ public class ForumDataMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) throws Exception {
         int groupId = msg.readInt();
 
-        Group group = GroupManager.getInstance().get(groupId);
+        IGroup group = GameContext.getCurrent().getGroupService().getGroup(groupId);
 
         if(group == null || group.getData() == null || !group.getData().hasForum()) {
             return;

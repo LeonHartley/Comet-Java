@@ -1,7 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.conditions.positive;
 
-import com.cometproject.server.game.groups.GroupManager;
-import com.cometproject.server.game.groups.types.Group;
+import com.cometproject.api.game.groups.types.IGroup;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredConditionItem;
@@ -37,11 +36,11 @@ public class WiredConditionPlayerInGroup extends WiredConditionItem {
         if (entity == null || !(entity instanceof PlayerEntity)) return false;
         final PlayerEntity playerEntity = ((PlayerEntity) entity);
 
-        final Group group = GroupManager.getInstance().getGroupByRoomId(this.getRoom().getId());
+        final IGroup group = this.getRoom().getGroup();
 
         if (group != null) {
             final boolean isMember = playerEntity.getPlayer().getGroups().contains(group.getId());
-            return isNegative ? !isMember : isMember;
+            return isNegative != isMember;
         }
 
         return false;

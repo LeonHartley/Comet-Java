@@ -1,5 +1,6 @@
 package com.cometproject.storage.api.repositories;
 
+import com.cometproject.api.game.groups.types.components.membership.GroupAccessLevel;
 import com.cometproject.api.game.groups.types.components.membership.IGroupMember;
 
 import java.util.List;
@@ -10,7 +11,7 @@ public interface IGroupMemberRepository {
 
     void saveMember(IGroupMember groupMember);
 
-    void create(IGroupMember groupMember);
+    void create(int groupId, int playerId, GroupAccessLevel accessLevel, Consumer<IGroupMember> member);
 
     void delete(int groupMembershipId);
 

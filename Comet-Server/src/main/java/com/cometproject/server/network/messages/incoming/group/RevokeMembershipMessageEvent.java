@@ -1,10 +1,12 @@
 package com.cometproject.server.network.messages.incoming.group;
 
 import com.cometproject.api.config.CometSettings;
+import com.cometproject.api.game.GameContext;
+import com.cometproject.api.game.groups.types.IGroup;
 import com.cometproject.api.game.groups.types.components.membership.IGroupMember;
+import com.cometproject.server.composers.group.GroupInformationMessageComposer;
 import com.cometproject.server.composers.group.GroupMembersMessageComposer;
-import com.cometproject.server.game.groups.GroupManager;
-import com.cometproject.server.game.groups.types.Group;
+
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
@@ -31,7 +33,7 @@ public class
         int groupId = msg.readInt();
         int playerId = msg.readInt();
 
-        Group group = GroupManager.getInstance().get(groupId);
+        IGroup group = GameContext.getCurrent().getGroupService().getGroup(groupId);
 
         if (group == null)
             return;
@@ -48,7 +50,8 @@ public class
         if (!groupMember.getAccessLevel().isAdmin() && playerId != client.getPlayer().getId())
             return;
 
-        group.getMembers().removeMembership(playerId);
+
+        GameContext.getCurrent().getGroupService().removeGroupMember(group, groupMember);
 
         List<RoomItem> itemsToRemove = Lists.newArrayList();
 
@@ -78,7 +81,11 @@ public class
 
             if (client.getPlayer().getGroups().contains(groupId)) {
                 client.getPlayer().getGroups().remove(client.getPlayer().getGroups().indexOf(groupId));
-                client.send(group.composeInformation(true, client.getPlayer().getId()));
+
+                client.send(new GroupInformationMessageComposer(group, RoomManager.getInstance().getRoomData(group.getData().getRoomId()), true,
+                        client.getPlayer().getId() == group.getData().getOwnerId(), group.getMembers().getAdministrators().contains(client.getPlayer().getId()),
+                        group.getMembers().getAll().containsKey(client.getPlayer().getId()) ? 1 : group.getMembers().getMembershipRequests().contains(client.getPlayer().getId()) ? 2 : 0));
+
             }
 
             if (client.getPlayer().getEntity() != null && client.getPlayer().getEntity().getRoom().getId() == group.getData().getRoomId()) {
@@ -127,7 +134,7 @@ public class
             }
 
             client.send(new GroupMembersMessageComposer(group.getData(), 0,
-                    new ArrayList<>(group.getMembers().getMembersAsList()), 0, "",
+                    new ArrayList<>(), 0, "",
                     group.getMembers().getAdministrators().contains(client.getPlayer().getId()),
                     PlayerManager.getInstance(), NetworkManager.getInstance().getSessions()));
         }

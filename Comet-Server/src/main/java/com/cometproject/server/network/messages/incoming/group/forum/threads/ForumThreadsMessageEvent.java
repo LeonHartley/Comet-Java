@@ -1,8 +1,8 @@
 package com.cometproject.server.network.messages.incoming.group.forum.threads;
 
+import com.cometproject.api.game.GameContext;
+import com.cometproject.api.game.groups.types.IGroup;
 import com.cometproject.server.composers.group.forums.GroupForumThreadsMessageComposer;
-import com.cometproject.server.game.groups.GroupManager;
-import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.api.game.groups.types.components.forum.ForumPermission;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.protocol.messages.MessageEvent;
@@ -15,7 +15,7 @@ public class ForumThreadsMessageEvent implements Event {
 
         int start = msg.readInt();
 
-        Group group = GroupManager.getInstance().get(groupId);
+        IGroup group = GameContext.getCurrent().getGroupService().getGroup(groupId);
 
         if(group == null) {
             return;

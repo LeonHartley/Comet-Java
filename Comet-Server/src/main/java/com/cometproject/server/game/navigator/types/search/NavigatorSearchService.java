@@ -1,11 +1,10 @@
 package com.cometproject.server.game.navigator.types.search;
 
+import com.cometproject.api.game.GameContext;
 import com.cometproject.api.game.groups.types.IGroupData;
 import com.cometproject.api.game.players.data.components.messenger.IMessengerFriend;
 import com.cometproject.api.game.rooms.IRoomData;
 import com.cometproject.api.game.rooms.settings.RoomAccessType;
-import com.cometproject.server.game.groups.GroupManager;
-import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.navigator.NavigatorManager;
 import com.cometproject.server.game.navigator.types.Category;
 import com.cometproject.server.game.navigator.types.publics.PublicRoom;
@@ -15,7 +14,6 @@ import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.RoomPromotion;
 import com.cometproject.server.network.messages.outgoing.navigator.updated.NavigatorSearchResultSetMessageComposer;
 import com.cometproject.server.tasks.CometTask;
-import com.cometproject.storage.mysql.models.GroupData;
 import com.google.common.collect.Lists;
 
 import java.util.Collections;
@@ -98,10 +96,8 @@ public class NavigatorSearchService implements CometTask {
 
                                     if (playerEntity != null && !playerEntity.getPlayer().getSettings().getHideOnline()) {
                                         if (playerEntity.getRoom().getData().getAccess() == RoomAccessType.INVISIBLE && player.getData().getRank() < 3) {
-                                            final Group group = GroupManager.getInstance().getGroupByRoomId(playerEntity.getRoom().getId());
-
                                             if (playerEntity.getRoom().getGroup() != null) {
-                                                if (!player.getGroups().contains(group.getId())) {
+                                                if (!player.getGroups().contains(playerEntity.getRoom().getGroup().getId())) {
                                                     continue;
                                                 }
                                             } else {
@@ -129,7 +125,7 @@ public class NavigatorSearchService implements CometTask {
                                     continue;
                                 }
 
-                                IGroupData groupData = GroupManager.getInstance().getData(groupId);
+                                IGroupData groupData = GameContext.getCurrent().getGroupService().getData(groupId);
 
                                 if (groupData != null) {
                                     IRoomData roomData = RoomManager.getInstance().getRoomData(groupData.getRoomId());
@@ -265,7 +261,7 @@ public class NavigatorSearchService implements CometTask {
                 List<IRoomData> groupHomeRooms = Lists.newArrayList();
 
                 for (int groupId : player.getGroups()) {
-                    IGroupData groupData = GroupManager.getInstance().getData(groupId);
+                    IGroupData groupData = GameContext.getCurrent().getGroupService().getData(groupId);
 
                     if (groupData != null) {
                         IRoomData roomData = RoomManager.getInstance().getRoomData(groupData.getRoomId());
@@ -329,10 +325,8 @@ public class NavigatorSearchService implements CometTask {
                         if (playerEntity != null && !playerEntity.getPlayer().getSettings().getHideOnline()) {
                             if (!withFriendsRooms.contains(playerEntity.getRoom().getData())) {
                                 if (playerEntity.getRoom().getData().getAccess() == RoomAccessType.INVISIBLE && player.getData().getRank() < 3) {
-                                    final Group group = GroupManager.getInstance().getGroupByRoomId(playerEntity.getRoom().getId());
-
                                     if (playerEntity.getRoom().getGroup() != null) {
-                                        if (!player.getGroups().contains(group.getId())) {
+                                        if (!player.getGroups().contains(playerEntity.getRoom().getGroup().getId())) {
                                             continue;
                                         }
                                     } else {

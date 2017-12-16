@@ -1,12 +1,12 @@
 package com.cometproject.server.game.rooms.types;
 
+import com.cometproject.api.game.GameContext;
+import com.cometproject.api.game.groups.types.IGroup;
 import com.cometproject.api.game.rooms.IRoomData;
 import com.cometproject.api.game.rooms.RoomType;
 import com.cometproject.api.game.bots.IBotData;
 import com.cometproject.api.game.pets.IPetData;
 import com.cometproject.api.game.rooms.IRoom;
-import com.cometproject.server.game.groups.GroupManager;
-import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.RoomQueue;
 import com.cometproject.server.game.rooms.models.CustomFloorMapData;
@@ -59,7 +59,7 @@ public class Room implements Attributable, IRoom {
     private GameComponent game;
     private EntityComponent entities;
     private FilterComponent filter;
-    private Group group;
+    private IGroup group;
 
     private Map<String, Object> attributes;
     private Set<Integer> ratings;
@@ -107,7 +107,7 @@ public class Room implements Attributable, IRoom {
         }
 
         // Cache the group.
-        this.group = GroupManager.getInstance().get(this.getData().getGroupId());
+        this.group = GameContext.getCurrent().getGroupService().getGroup(this.getData().getGroupId());
 
         this.attributes = new HashMap<>();
         this.ratings = new HashSet<>();
@@ -377,13 +377,13 @@ public class Room implements Attributable, IRoom {
         return this.mapping;
     }
 
-    public Group getGroup() {
+    public IGroup getGroup() {
         if (this.group == null || this.group.getData() == null) return null;
 
         return this.group;
     }
 
-    public void setGroup(final Group group) {
+    public void setGroup(final IGroup group) {
         this.group = group;
     }
 

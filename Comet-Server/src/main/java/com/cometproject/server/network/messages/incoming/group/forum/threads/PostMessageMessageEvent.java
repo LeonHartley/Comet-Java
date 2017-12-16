@@ -1,16 +1,15 @@
 package com.cometproject.server.network.messages.incoming.group.forum.threads;
 
+import com.cometproject.api.game.GameContext;
+import com.cometproject.api.game.groups.types.IGroup;
 import com.cometproject.api.game.groups.types.components.forum.IForumSettings;
 import com.cometproject.api.game.groups.types.components.forum.IForumThread;
+import com.cometproject.api.game.groups.types.components.forum.IForumThreadReply;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.composers.group.forums.GroupForumPostReplyMessageComposer;
 import com.cometproject.server.composers.group.forums.GroupForumPostThreadMessageComposer;
 import com.cometproject.server.config.Locale;
-import com.cometproject.server.game.groups.GroupManager;
-import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.api.game.groups.types.components.forum.ForumPermission;
-import com.cometproject.server.game.groups.types.components.forum.threads.ForumThread;
-import com.cometproject.server.game.groups.types.components.forum.threads.ForumThreadReply;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.filter.FilterResult;
 import com.cometproject.server.network.messages.incoming.Event;
@@ -27,7 +26,7 @@ public class PostMessageMessageEvent implements Event {
         String subject = msg.readString();
         String message = msg.readString();
 
-        final Group group = GroupManager.getInstance().get(groupId);
+        final IGroup group = GameContext.getCurrent().getGroupService().getGroup(groupId);
 
         if (group == null || !group.getData().hasForum()) {
             return;
@@ -98,7 +97,7 @@ public class PostMessageMessageEvent implements Event {
                 return;
             }
 
-            ForumThread forumThread = GroupForumThreadDao.createThread(groupId, subject, message, client.getPlayer().getId());
+            IForumThread forumThread = GroupForumThreadDao.createThread(groupId, subject, message, client.getPlayer().getId());
 
             if(forumThread == null) {
                 // Why u do dis?
@@ -144,7 +143,7 @@ public class PostMessageMessageEvent implements Event {
                 return;
             }
 
-            ForumThreadReply reply = GroupForumThreadDao.createReply(groupId, threadId, message, client.getPlayer().getId());
+            IForumThreadReply reply = GroupForumThreadDao.createReply(groupId, threadId, message, client.getPlayer().getId());
 
             if(reply == null) {
                 return;

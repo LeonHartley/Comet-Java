@@ -1,8 +1,8 @@
 package com.cometproject.server.network.messages.incoming.room.engine;
 
+import com.cometproject.api.game.GameContext;
 import com.cometproject.api.game.groups.types.IGroupData;
 import com.cometproject.server.composers.group.GroupBadgesMessageComposer;
-import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.polls.PollManager;
 import com.cometproject.server.game.polls.types.Poll;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
@@ -61,7 +61,7 @@ public class AddUserToRoomMessageEvent implements Event {
         for (PlayerEntity playerEntity : room.getEntities().getPlayerEntities()) {
             if (playerEntity.getPlayer() != null && playerEntity.getPlayer().getData() != null) {
                 if (playerEntity.getPlayer().getData().getFavouriteGroup() != 0) {
-                    IGroupData groupData = GroupManager.getInstance().getData(playerEntity.getPlayer().getData().getFavouriteGroup());
+                    IGroupData groupData = GameContext.getCurrent().getGroupService().getData(playerEntity.getPlayer().getData().getFavouriteGroup());
 
                     if (groupData == null)
                         continue;

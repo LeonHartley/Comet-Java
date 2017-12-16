@@ -6,6 +6,7 @@ import com.cometproject.api.game.groups.IGroupService;
 import com.cometproject.api.game.groups.types.IGroup;
 import com.cometproject.api.game.groups.types.IGroupData;
 import com.cometproject.api.game.groups.types.components.forum.IForumSettings;
+import com.cometproject.api.game.groups.types.components.forum.IForumThread;
 import com.cometproject.api.game.groups.types.components.membership.GroupAccessLevel;
 import com.cometproject.api.game.groups.types.components.membership.IGroupMember;
 import com.cometproject.game.groups.factories.GroupFactory;
@@ -13,6 +14,7 @@ import com.cometproject.storage.api.data.Data;
 import com.cometproject.storage.api.repositories.IGroupForumRepository;
 import com.cometproject.storage.api.repositories.IGroupMemberRepository;
 import com.cometproject.storage.api.repositories.IGroupRepository;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
@@ -89,13 +91,39 @@ public class GroupService implements IGroupService {
             return null;
         }
 
-        return build(groupMemberData, requestsData, groupData);
+        return build(groupMemberData.get(), requestsData.get(), groupData);
+    }
+
+    @Override
+    public void saveGroupData(IGroupData groupData) {
+        // Queue to save?
+        this.groupRepository.saveGroupData(groupData);
+    }
+
+    @Override
+    public void addForum(IGroup group) {
+        group.getData().setHasForum(true);
+        this.saveGroupData(group.getData());
+
+        // Add forum component to the group.
+
+    }
+
+    @Override
+    public IGroup createGroup(IGroupData groupData, int ownerId) {
+        final List<IGroupMember> groupMembers = Lists.newArrayList();
+        final List<Integer> requests = Lists.newArrayList();
+
+        this.groupMemberRepository.create(groupData.getId(), ownerId, GroupAccessLevel.OWNER, groupMembers::add);
+        return this.build(groupMembers, requests, groupData);
     }
 
     @Override
     public void addGroupMember(IGroup group, IGroupMember groupMember) {
         if(groupMember.getMembershipId() == 0) {
-            this.groupMemberRepository.create(groupMember);
+            this.groupMemberRepository.create(group.getId(), groupMember.getPlayerId(), groupMember.getAccessLevel(), (member) -> {
+                groupMember.setMembershipId(member.getMembershipId());
+            });
         }
 
         if(group.getMembers().getAll().containsKey(groupMember.getPlayerId())) {
@@ -144,38 +172,58 @@ public class GroupService implements IGroupService {
         group.getMembers().getMembershipRequests().clear();
     }
 
-    private IGroup build(Data<List<IGroupMember>> groupMemberData, Data<List<Integer>> requestsData,
+    @Override
+    public void saveForumSettings(IForumSettings forumSettings) {
+        this.groupForumRepository.saveSettings(forumSettings);
+    }
+
+    private IGroup build(List<IGroupMember> groupMemberData, List<Integer> requestsData,
                          IGroupData groupData) {
         final Map<Integer, IGroupMember> groupMembers = Maps.newConcurrentMap();
         final Set<Integer> requests = Sets.newConcurrentHashSet();
         final Set<Integer> administrators = Sets.newConcurrentHashSet();
 
-        requests.addAll(requestsData.get());
+        requests.addAll(requestsData);
 
-        for(final IGroupMember groupMember : groupMemberData.get()) {
+        for(final IGroupMember groupMember : groupMemberData) {
             if(groupMember.getAccessLevel() == GroupAccessLevel.ADMIN)
                 administrators.add(groupMember.getPlayerId());
 
             groupMembers.put(groupMember.getMembershipId(), groupMember);
         }
 
-        groupMemberData.get().clear();
-        requestsData.get().clear();
+        groupMemberData.clear();
+        requestsData.clear();
 
         IForumSettings forumSettings = null;
+        Map<Integer, IForumThread> forumThreads = null;
+        List<Integer> pinnedThreads = null;
 
         if(groupData.hasForum()) {
             final Data<IForumSettings> forumSettingsData = new Data<>();
+            final Data<Map<Integer, IForumThread>> forumThreadData = new Data<>();
+            final Data<List<Integer>> pinnedThreadData = new Data<>();
 
             this.groupForumRepository.getSettingsByGroupId(groupData.getId(), forumSettingsData::set);
 
             if(forumSettingsData.has()) {
                 forumSettings = forumSettingsData.get();
+
+                // Now we have the forum settings, we can load the rest of the forum data
+                this.groupForumRepository.getAllMessages(groupData.getId(), (threads, pinned) -> {
+                    forumThreadData.set(threads);
+                    pinnedThreadData.set(pinned);
+                });
+
+                if(forumThreadData.has() && pinnedThreadData.has()) {
+                    forumThreads = forumThreadData.get();
+                    pinnedThreads = pinnedThreadData.get();
+                }
             }
         }
 
         final IGroup group = this.groupFactory.createGroupInstance(groupData, groupMembers, requests,
-                administrators, forumSettings, null, null);
+                administrators, forumSettings, pinnedThreads, forumThreads);
 
         this.groupCache.add(groupData.getId(), group);
 
@@ -185,5 +233,10 @@ public class GroupService implements IGroupService {
     @Override
     public IGroupItemService getItemService() {
         return this.groupItemService;
+    }
+
+    @Override
+    public void removeGroup(int id) {
+
     }
 }

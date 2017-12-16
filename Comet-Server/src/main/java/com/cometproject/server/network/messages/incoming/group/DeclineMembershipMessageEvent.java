@@ -1,8 +1,9 @@
 package com.cometproject.server.network.messages.incoming.group;
 
+import com.cometproject.api.game.GameContext;
+import com.cometproject.api.game.groups.types.IGroup;
+import com.cometproject.api.game.players.data.PlayerAvatar;
 import com.cometproject.server.composers.group.GroupMembersMessageComposer;
-import com.cometproject.server.game.groups.GroupManager;
-import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.incoming.Event;
@@ -20,7 +21,7 @@ public class DeclineMembershipMessageEvent implements Event {
         if (!client.getPlayer().getGroups().contains(groupId))
             return;
 
-        Group group = GroupManager.getInstance().get(groupId);
+        IGroup group = GameContext.getCurrent().getGroupService().getGroup(groupId);
 
         if (group == null || group.getData().getOwnerId() != client.getPlayer().getId())
             return;
@@ -28,10 +29,11 @@ public class DeclineMembershipMessageEvent implements Event {
         if (!group.getMembers().getMembershipRequests().contains(playerId))
             return;
 
-        group.getMembers().removeRequest(playerId);
+
+        GameContext.getCurrent().getGroupService().removeRequest(group, playerId);
 
         client.send(new GroupMembersMessageComposer(group.getData(), 0,
-                new ArrayList<>(group.getMembers().getMembershipRequests()), 2, "",
+                new ArrayList<PlayerAvatar>(), 2, "",
                 true, PlayerManager.getInstance(), NetworkManager.getInstance().getSessions()));
     }
 }

@@ -1,9 +1,9 @@
 package com.cometproject.server.network.messages.incoming.group.favourite;
 
+import com.cometproject.api.game.GameContext;
+import com.cometproject.api.game.groups.types.IGroupData;
 import com.cometproject.server.composers.group.GroupBadgesMessageComposer;
 import com.cometproject.server.composers.group.UpdateFavouriteGroupMessageComposer;
-import com.cometproject.server.game.groups.GroupManager;
-import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarsMessageComposer;
@@ -21,7 +21,7 @@ public class SetFavouriteGroupMessageEvent implements Event {
             return;
         }
 
-        Group group = GroupManager.getInstance().get(groupId);
+        IGroupData group = GameContext.getCurrent().getGroupService().getData(groupId);
 
         if (group == null)
             return;
@@ -35,14 +35,14 @@ public class SetFavouriteGroupMessageEvent implements Event {
         client.getPlayer().getData().save();
 
         if (client.getPlayer().getEntity() != null) {
-            client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new GroupBadgesMessageComposer(groupId, group.getData().getBadge()));
+            client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new GroupBadgesMessageComposer(groupId, group.getBadge()));
 
             client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new LeaveRoomMessageComposer(client.getPlayer().getEntity().getId()));
             client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new AvatarsMessageComposer(client.getPlayer().getEntity()));
 
             client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new AvatarUpdateMessageComposer(client.getPlayer().getEntity()));
         } else {
-            client.send(new GroupBadgesMessageComposer(groupId, group.getData().getBadge()));
+            client.send(new GroupBadgesMessageComposer(groupId, group.getBadge()));
         }
 
         client.send(new UpdateFavouriteGroupMessageComposer(client.getPlayer().getId()));

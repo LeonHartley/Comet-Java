@@ -1,7 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.settings;
 
 import com.cometproject.server.config.Locale;
-import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.players.components.types.inventory.PlayerBot;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
@@ -45,7 +44,7 @@ public class DeleteRoomMessageEvent implements Event {
 
         final int roomId = room.getId();
 
-        if (GroupManager.getInstance().getGroupByRoomId(room.getId()) != null) {
+        if (room.getGroup() != null) {
             client.send(new AlertMessageComposer(Locale.getOrDefault("room.delete.error.group", "You cannot delete a room with a group, please delete the group first!")));
             return;
         }

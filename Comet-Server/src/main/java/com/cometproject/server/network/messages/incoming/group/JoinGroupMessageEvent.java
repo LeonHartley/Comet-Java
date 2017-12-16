@@ -1,11 +1,14 @@
 package com.cometproject.server.network.messages.incoming.group;
 
 import com.cometproject.api.config.CometSettings;
+import com.cometproject.api.game.GameContext;
+import com.cometproject.api.game.groups.types.IGroup;
 import com.cometproject.server.composers.group.GroupBadgesMessageComposer;
-import com.cometproject.server.game.groups.GroupManager;
-import com.cometproject.server.game.groups.types.Group;
+
 import com.cometproject.api.game.groups.types.components.membership.GroupAccessLevel;
 import com.cometproject.api.game.groups.types.GroupType;
+import com.cometproject.server.composers.group.GroupInformationMessageComposer;
+import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.messenger.UpdateFriendStateMessageComposer;
@@ -29,7 +32,7 @@ public class JoinGroupMessageEvent implements Event {
             return;
         }
 
-        Group group = GroupManager.getInstance().get(groupId);
+        IGroup group = GameContext.getCurrent().getGroupService().getGroup(groupId);
 
         if (group == null || group.getData().getType() == GroupType.PRIVATE) {
             return;
@@ -47,11 +50,14 @@ public class JoinGroupMessageEvent implements Event {
 
             client.getPlayer().getGroups().add(groupId);
 
-            group.getMembers().createMembership(new GroupMemberFactory().create(client.getPlayer().getId(), group.getId(), GroupAccessLevel.MEMBER));
-            client.send(group.composeInformation(true, client.getPlayer().getId()));
+            GameContext.getCurrent().getGroupService().addGroupMember(group, new GroupMemberFactory().create(client.getPlayer().getId(), group.getId(), GroupAccessLevel.MEMBER));
+
+            client.send(new GroupInformationMessageComposer(group, RoomManager.getInstance().getRoomData(group.getData().getRoomId()), false,
+                    client.getPlayer().getId() == group.getData().getOwnerId(), group.getMembers().getAdministrators().contains(client.getPlayer().getId()),
+                    group.getMembers().getAll().containsKey(client.getPlayer().getId()) ? 1 : group.getMembers().getMembershipRequests().contains(client.getPlayer().getId()) ? 2 : 0));
 
             if (CometSettings.groupChatEnabled) {
-                client.send(new UpdateFriendStateMessageComposer(group));
+                client.send(new UpdateFriendStateMessageComposer(group.getData()));
             }
 
             if (client.getPlayer().getEntity() != null && group.getData().canMembersDecorate()) {
@@ -62,8 +68,12 @@ public class JoinGroupMessageEvent implements Event {
                 client.send(new YouAreControllerMessageComposer(1));
             }
         } else {
-            group.getMembers().createRequest(client.getPlayer().getId());
-            client.send(group.composeInformation(true, client.getPlayer().getId()));
+            GameContext.getCurrent().getGroupService().createRequest(group, client.getPlayer().getId());
+
+            client.send(new GroupInformationMessageComposer(group, RoomManager.getInstance().getRoomData(group.getData().getRoomId()), true,
+                    client.getPlayer().getId() == group.getData().getOwnerId(), group.getMembers().getAdministrators().contains(client.getPlayer().getId()),
+                    group.getMembers().getAll().containsKey(client.getPlayer().getId()) ? 1 : group.getMembers().getMembershipRequests().contains(client.getPlayer().getId()) ? 2 : 0));
+
         }
     }
 }

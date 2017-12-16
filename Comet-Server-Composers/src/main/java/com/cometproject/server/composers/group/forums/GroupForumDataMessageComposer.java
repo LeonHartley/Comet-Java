@@ -23,7 +23,7 @@ public class GroupForumDataMessageComposer extends MessageComposer {
 
     @Override
     public void compose(IComposer msg) {
-        this.group.getForum().composeData(msg);
+        this.group.getForum().composeData(msg, group.getData());
 
         final IForumSettings forumSettings = this.group.getForum().getForumSettings();
 
