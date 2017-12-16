@@ -153,7 +153,7 @@ public class ProcessComponent implements CometTask {
         if (this.adaptiveProcessTimes) {
             CometThreadManager.getInstance().executeSchedule(this, 250, TimeUnit.MILLISECONDS);
         } else {
-            this.processFuture = CometThreadManager.getInstance().executePeriodic(this, 250, 250, TimeUnit.MILLISECONDS);
+            this.processFuture = CometThreadManager.getInstance().executePeriodic(this, 450, 250, TimeUnit.MILLISECONDS);
         }
 
         this.active = true;
@@ -297,6 +297,10 @@ public class ProcessComponent implements CometTask {
 
             if (oldTile != null) {
                 oldTile.getEntities().remove(entity);
+            }
+
+            if(newTile != null) {
+                newTile.getEntities().add(entity);
             }
 
             entity.updateAndSetPosition(null);
@@ -459,18 +463,14 @@ public class ProcessComponent implements CometTask {
                     entity.applyEffect(entity.getLastEffect());
                 }
 
-                byte cancellationReason = -1;
-
                 if (this.getRoom().getEntities().positionHasEntity(nextPos)) {
                     final boolean allowWalkthrough = this.getRoom().getData().getAllowWalkthrough();
                     final boolean isFinalStep = entity.getWalkingGoal().equals(nextPos);
 
                     if (isFinalStep && allowWalkthrough) {
                         isCancelled = true;
-                        cancellationReason = 1;
                     } else if (!allowWalkthrough) {
                         isCancelled = true;
-                        cancellationReason = 1;
                     }
 
                     RoomEntity entityOnTile = this.getRoom().getMapping().getTile(nextPos.getX(), nextPos.getY()).getEntity();
@@ -498,9 +498,6 @@ public class ProcessComponent implements CometTask {
                     final Position newPosition = new Position(nextSq.x, nextSq.y, height);
                     entity.updateAndSetPosition(newPosition);
                     entity.markNeedsUpdate();
-
-
-                    System.out.println("walk set pos");
 
                     if (entity instanceof PlayerEntity && entity.getMountedEntity() != null) {
                         RoomEntity mountedEntity = entity.getMountedEntity();
@@ -554,6 +551,10 @@ public class ProcessComponent implements CometTask {
         } else {
             if (isPlayer && ((PlayerEntity) entity).isKicked())
                 return true;
+
+            if(entity.getPositionToSet() != null) {
+                this.updateEntityStuff(entity);
+            }
         }
 
         // Handle expiring effects

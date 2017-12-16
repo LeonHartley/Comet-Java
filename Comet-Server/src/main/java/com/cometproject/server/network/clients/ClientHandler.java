@@ -31,7 +31,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<MessageEvent> {
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
 
-        log.info("entered channelActive on thread " + Thread.currentThread().getName());
+        log.trace("entered channelActive on thread " + Thread.currentThread().getName());
         if (!NetworkManager.getInstance().getSessions().add(ctx)) {
             ctx.disconnect();
         }

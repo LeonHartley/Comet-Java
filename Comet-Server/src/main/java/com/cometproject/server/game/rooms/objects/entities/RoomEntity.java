@@ -176,20 +176,20 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
             y = tile.getRedirect().getY();
         }
 
-        if (this.getPositionToSet() != null) {
-            RoomTile oldTile = this.getRoom().getMapping().getTile(this.getPosition());
-            RoomTile newTile = this.getRoom().getMapping().getTile(this.getPositionToSet());
-
-            if (oldTile != null) {
-                oldTile.getEntities().remove(this);
-            }
-
-            if (newTile != null) {
-                newTile.getEntities().add(this);
-            }
-
-            this.setPosition(this.getPositionToSet());
-        }
+//        if (this.getPositionToSet() != null) {
+//            RoomTile oldTile = this.getRoom().getMapping().getTile(this.getPosition());
+//            RoomTile newTile = this.getRoom().getMapping().getTile(this.getPositionToSet());
+//
+//            if (oldTile != null) {
+//                oldTile.getEntities().remove(this);
+//            }
+//
+//            if (newTile != null) {
+//                newTile.getEntities().add(this);
+//            }
+//
+//            this.setPosition(this.getPositionToSet());
+//        }
 
         // Set the goal we are wanting to achieve
         this.setWalkingGoal(x, y);
@@ -366,6 +366,17 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
     @Override
     public void markNeedsUpdate() {
         this.needsUpdate = true;
+    }
+
+    public void setSendUpdateMessage(boolean sendUpdateMessage) {
+        this.sendUpdateMessage = sendUpdateMessage;
+    }
+
+    private boolean sendUpdateMessage = true;
+
+    public void markNeedsUpdate(boolean sendMessage) {
+        this.needsUpdate = true;
+        this.sendUpdateMessage = sendMessage;
     }
 
     public void markUpdateComplete() {
@@ -790,5 +801,9 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
 
     public void incrementPreviousSteps() {
         this.previousSteps++;
+    }
+
+    public boolean sendUpdateMessage() {
+        return sendUpdateMessage;
     }
 }
