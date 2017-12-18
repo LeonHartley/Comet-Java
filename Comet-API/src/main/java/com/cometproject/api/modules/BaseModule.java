@@ -4,6 +4,7 @@ import com.cometproject.api.commands.CommandInfo;
 import com.cometproject.api.config.ModuleConfig;
 import com.cometproject.api.events.Event;
 import com.cometproject.api.events.EventListenerContainer;
+import com.cometproject.api.game.GameContext;
 import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.api.server.IGameService;
 
@@ -54,12 +55,26 @@ public abstract class BaseModule implements EventListenerContainer {
         this.getGameService().getEventHandler().registerChatCommand(commandExecutor, consumer);
     }
 
+    public void setup() {
+
+    }
+
+    /**
+     * Gets overridden if the module would like to register game services
+     * @param gameContext The game context to register the services to
+     */
+    public void initialiseServices(GameContext gameContext) {
+
+    }
+
     /**
      * Load all the module resources and then fire the "onModuleLoad" event.
      */
     public void loadModule() {
-        for(Map.Entry<String, CommandInfo> commandInfoEntries : this.getConfig().getCommands().entrySet()) {
-            this.getGameService().getEventHandler().registerCommandInfo(commandInfoEntries.getKey(), commandInfoEntries.getValue());
+        if(this.getConfig().getCommands() != null) {
+            for (Map.Entry<String, CommandInfo> commandInfoEntries : this.getConfig().getCommands().entrySet()) {
+                this.getGameService().getEventHandler().registerCommandInfo(commandInfoEntries.getKey(), commandInfoEntries.getValue());
+            }
         }
     }
 
@@ -95,5 +110,9 @@ public abstract class BaseModule implements EventListenerContainer {
      */
     public ModuleConfig getConfig() {
         return config;
+    }
+
+    public static void main(String[] args) {
+        // Hides all the "Unused class" stuff for modules, lol
     }
 }

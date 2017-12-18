@@ -14,6 +14,4 @@ public interface IGroupMember {
     void setAccessLevel(GroupAccessLevel accessLevel);
 
     int getDateJoined();
-
-    void save();
 }

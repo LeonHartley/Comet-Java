@@ -1,5 +1,7 @@
 package com.cometproject.server.game.rooms.objects.entities.types;
 
+import com.cometproject.api.game.GameContext;
+import com.cometproject.api.game.groups.types.IGroupData;
 import com.cometproject.api.game.rooms.entities.PlayerRoomEntity;
 import com.cometproject.api.game.rooms.settings.RoomAccessType;
 import com.cometproject.api.networking.messages.IComposer;
@@ -11,8 +13,6 @@ import com.cometproject.api.game.bots.BotMode;
 import com.cometproject.api.game.bots.BotType;
 import com.cometproject.server.game.commands.CommandManager;
 import com.cometproject.server.game.commands.vip.TransformCommand;
-import com.cometproject.server.game.groups.GroupManager;
-import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.moderation.BanManager;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.data.PlayerData;
@@ -324,7 +324,7 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
             this.getPlayer().getSession().send(new RoomErrorMessageComposer(4008));
         }
 
-        // Send leave room message to all current entities
+        // Send leave room message to all instance entities
         this.getRoom().getEntities().broadcastMessage(new LeaveRoomMessageComposer(this.getId()));
 
         // Sending this user to the hotel view?
@@ -510,6 +510,21 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
             if (entity.getValue().getAI() != null)
                 entity.getValue().getAI().onTalk(this, message);
         }
+
+        for(RoomEntity roomEntity : this.getRoom().getEntities().getAllEntities().values()) {
+            if(roomEntity.getId() != this.getId() && !roomEntity.isIdle())
+                roomEntity.lookTo(this.getPosition().getX(), this.getPosition().getY(), false);
+
+//            final int rotation = Position.calculateRotation(roomEntity.getPosition().getX(), roomEntity.getPosition().getY(), this.getPosition().getX(), this.getPosition().getY(),false);
+//            final int rotationDifference = this.getBodyRotation() - rotation;
+//
+//            System.out.println("rotation difference " + rotationDifference);
+//
+//            if(roomEntity != this && (rotationDifference == 1 || rotationDifference == -1)) {
+//                roomEntity.setHeadRotation(rotation);
+//                roomEntity.markNeedsUpdate();
+//            }
+        }
     }
 
     @Override
@@ -517,7 +532,7 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
         // Clear all  statuses
         this.getStatuses().clear();
 
-        // Send leave room message to all current entities
+        // Send leave room message to all instance entities
         this.getRoom().getEntities().broadcastMessage(new LeaveRoomMessageComposer(this.getId()));
 
         // Sending this user to the hotel view?
@@ -607,7 +622,7 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
             msg.writeInt(-1);
             msg.writeInt(0);
         } else {
-            Group group = GroupManager.getInstance().get(this.playerData.getFavouriteGroup());
+            IGroupData group = GameContext.getCurrent().getGroupService().getData(this.playerData.getFavouriteGroup());
 
             if (group == null) {
                 msg.writeInt(-1);
@@ -619,7 +634,7 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
             } else {
                 msg.writeInt(group.getId());
                 msg.writeInt(2);
-                msg.writeString(group.getData().getTitle());
+                msg.writeString(group.getTitle());
                 msg.writeString("");
             }
         }
@@ -672,7 +687,11 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
     }
 
     public void setGameTeam(GameTeam gameTeam) {
-        this.gameTeam = gameTeam;
+        if(gameTeam == null) {
+            this.gameTeam = GameTeam.NONE;
+        } else {
+            this.gameTeam = gameTeam;
+        }
     }
 
     public boolean isKicked() {

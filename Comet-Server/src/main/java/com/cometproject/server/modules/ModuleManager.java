@@ -2,20 +2,21 @@ package com.cometproject.server.modules;
 
 import com.cometproject.api.config.ModuleConfig;
 import com.cometproject.api.events.EventHandler;
+import com.cometproject.api.game.GameContext;
 import com.cometproject.api.modules.BaseModule;
 import com.cometproject.api.server.IGameService;
 import com.cometproject.server.modules.events.EventHandlerService;
 import com.cometproject.api.utilities.Initialisable;
 import com.cometproject.server.utilities.JsonUtil;
 import com.google.common.base.Charsets;
+import com.google.common.collect.Lists;
 import com.google.common.io.Resources;
+import io.coerce.commons.io.FileUtil;
 import org.apache.log4j.Logger;
 
-import java.io.File;
 import java.lang.reflect.Constructor;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -52,40 +53,67 @@ public class ModuleManager implements Initialisable {
 
         ModuleManager.getInstance().getEventHandler().initialize();
 
-        for (String moduleName : this.findModules()) {
+        this.loadModules();
+
+//        for (String moduleName : this.findModules()) {
+//            try {
+//                this.loadModule(moduleName);
+//            } catch (Exception e) {
+//                log.warn("Error while loading module: " + moduleName, e);
+//            }
+//        }
+    }
+
+    public void setupModules() {
+        for(BaseModule baseModule : this.modules.values()) {
+            baseModule.setup();
+
+            baseModule.initialiseServices(GameContext.getCurrent());
+        }
+    }
+
+    private List<CometModule> loadModules() {
+        final ModulesConfig modulesConfig = JsonUtil.getInstance().fromJson(new String(FileUtil.loadFile("./config/modules.json")), ModulesConfig.class);
+
+        final List<CometModule> cometModules = Lists.newArrayList();
+
+        for(CometModule module : modulesConfig.getModules()) {
             try {
-                this.loadModule(moduleName);
+                loadModule(module);
+                cometModules.add(module);
             } catch (Exception e) {
-                log.warn("Error while loading module: " + moduleName, e);
-            }
-        }
-    }
-
-    private List<String> findModules() {
-        List<String> results = new ArrayList<>();
-
-        File[] files = new File("./modules").listFiles();
-
-        if (files == null) return results;
-
-        for (File file : files) {
-            if (file.isFile() && file.getName().endsWith(".jar")) {
-                results.add(file.getName());
+                log.error("Failed to load module: " + module.getAlias(), e);
             }
         }
 
-        return results;
+        return cometModules;
     }
+//
+//    private List<String> findModules() {
+//       List<String> results = new ArrayList<>();
+//
+//        File[] files = new File("./modules").listFiles();
+//
+//        if (files == null) return results;
+//
+//        for (File file : files) {
+//            if (file.isFile() && file.getName().endsWith(".jar")) {
+//                results.add(file.getName());
+//            }
+//        }
+//
+//        return results;
+//    }
 
-    private void loadModule(String name) throws Exception {
+    private void loadModule(CometModule module) throws Exception {
         URLClassLoader loader = URLClassLoader.newInstance(
-                new URL[]{new URL("jar:file:modules/" + name + "!/")},
+                new URL[]{new URL("jar:file:" + module.getPath() + "!/")},
                 getClass().getClassLoader()
         );
 
-        URL configJsonLocation = loader.getResource("plugin.json");
+        URL configJsonLocation = loader.getResource("module.json");
 
-        if (configJsonLocation == null) throw new Exception("plugin.json does not exist");
+        if (configJsonLocation == null) throw new Exception("module.json does not exist");
 
         final ModuleConfig moduleConfig = JsonUtil.getInstance().fromJson(Resources.toString(configJsonLocation, Charsets.UTF_8), ModuleConfig.class);
 
@@ -97,7 +125,7 @@ public class ModuleManager implements Initialisable {
             return;
         }
 
-        log.info("Loaded module: " + moduleConfig.getName());
+        log.info("Loaded module: " + moduleConfig.getName() + ", alias: " + module.getAlias());
 
         Class<?> clazz = Class.forName(moduleConfig.getEntryPoint(), true, loader);
         Class<? extends BaseModule> runClass = clazz.asSubclass(BaseModule.class);
@@ -107,12 +135,25 @@ public class ModuleManager implements Initialisable {
 
         cometModule.loadModule();
 
+        module.setClassLoader(loader);
         this.modules.put(moduleConfig.getName(), cometModule);
 
-        loader.close();
+        //loader.close();
     }
 
     public EventHandler getEventHandler() {
         return eventHandler;
+    }
+
+    private class ModulesConfig {
+        private final List<CometModule> modules;
+
+        public ModulesConfig(final List<CometModule> modules ) {
+            this.modules = modules;
+        }
+
+        public List<CometModule> getModules() {
+            return modules;
+        }
     }
 }

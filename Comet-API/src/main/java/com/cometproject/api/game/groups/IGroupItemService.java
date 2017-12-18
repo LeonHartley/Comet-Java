@@ -17,5 +17,5 @@ public interface IGroupItemService {
 
     Map<Integer, IGroupBadgeItem> getBackgroundColours();
 
-
+    void load();
 }

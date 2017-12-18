@@ -18,11 +18,13 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.trigge
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerWalksOnFurni;
 import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.game.rooms.types.mapping.RoomEntityMovementNode;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManager;
 import com.cometproject.server.utilities.TimeSpan;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
@@ -68,7 +70,7 @@ public class ProcessComponent implements CometTask {
 
         this.isProcessing = true;
 
-         update = !update;
+        update = !update;
 
         long timeSinceLastProcess = this.lastProcess == 0 ? 0 : (System.currentTimeMillis() - this.lastProcess);
         this.lastProcess = System.currentTimeMillis();
@@ -80,7 +82,7 @@ public class ProcessComponent implements CometTask {
         long timeStart = System.currentTimeMillis();
 
         try {
-            if(this.update)
+            if (this.update)
                 this.getRoom().tick();
         } catch (Exception e) {
             log.error("Error while cycling room: " + room.getData().getId() + ", " + room.getData().getName(), e);
@@ -93,7 +95,7 @@ public class ProcessComponent implements CometTask {
             entitiesToUpdate = new ArrayList<>();
 
             for (RoomEntity entity : entities.values()) {
-                if(entity.isFastWalkEnabled() || this.update)
+                if (entity.isFastWalkEnabled() || this.update)
                     this.startProcessing(entity);
             }
 
@@ -152,7 +154,7 @@ public class ProcessComponent implements CometTask {
         if (this.adaptiveProcessTimes) {
             CometThreadManager.getInstance().executeSchedule(this, 250, TimeUnit.MILLISECONDS);
         } else {
-            this.processFuture = CometThreadManager.getInstance().executePeriodic(this, 250, 250, TimeUnit.MILLISECONDS);
+            this.processFuture = CometThreadManager.getInstance().executePeriodic(this, 450, 250, TimeUnit.MILLISECONDS);
         }
 
         this.active = true;
@@ -296,6 +298,10 @@ public class ProcessComponent implements CometTask {
 
             if (oldTile != null) {
                 oldTile.getEntities().remove(entity);
+            }
+
+            if(newTile != null) {
+                newTile.getEntities().add(entity);
             }
 
             entity.updateAndSetPosition(null);
@@ -524,12 +530,32 @@ public class ProcessComponent implements CometTask {
                 entity.getProcessingPath().clear();
 
                 // RoomTile is blocked, let's try again!
-                entity.moveTo(entity.getWalkingGoal().getX(), entity.getWalkingGoal().getY());
+                if(!isLastStep) {
+                    entity.moveTo(entity.getWalkingGoal().getX(), entity.getWalkingGoal().getY());
+                } else{
+                    final RoomTile goalTile = this.getRoom().getMapping().getTile(entity.getWalkingGoal());
+
+                    if (goalTile != null) {
+                        for (RoomTile adjacentTile : goalTile.getAdjacentTiles(entity.getPosition())) {
+
+                            if (adjacentTile != null && adjacentTile.getMovementNode() != RoomEntityMovementNode.CLOSED) {
+                                entity.moveTo(adjacentTile.getPosition());
+                                this.processEntity(entity, true);
+                                return false;
+                            }
+                        }
+                    }
+                }
+
                 return false;//this.processEntity(entity, true);
             }
         } else {
             if (isPlayer && ((PlayerEntity) entity).isKicked())
                 return true;
+
+            if(entity.getPositionToSet() != null) {
+                this.updateEntityStuff(entity);
+            }
         }
 
         // Handle expiring effects
@@ -537,7 +563,7 @@ public class ProcessComponent implements CometTask {
             entity.getCurrentEffect().decrementDuration();
 
             if (entity.getCurrentEffect().getDuration() == 0 && entity.getCurrentEffect().expires()) {
-                entity.applyEffect(entity.getLastEffect() != null ? entity.getLastEffect() : null);
+                entity.applyEffect(entity.getLastEffect());
 
                 if (entity.getLastEffect() != null)
                     entity.setLastEffect(null);

@@ -1,8 +1,6 @@
 package com.cometproject.api.game.groups.types;
 
 public interface IGroupData {
-    void save();
-
     int getId();
 
     void setId(int id);
@@ -48,4 +46,6 @@ public interface IGroupData {
     boolean hasForum();
 
     void setHasForum(boolean hasForum);
+
+    String getOwnerName();
 }

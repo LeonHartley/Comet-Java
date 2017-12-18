@@ -1,8 +1,7 @@
 package com.cometproject.catalogtool;
 
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.config.Configuration;
-import com.cometproject.api.game.catalog.ICatalogService;
+import com.cometproject.api.config.Configuration;
 import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.storage.StorageManager;

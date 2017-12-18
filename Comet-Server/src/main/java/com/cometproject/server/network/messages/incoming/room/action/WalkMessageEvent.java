@@ -51,6 +51,10 @@ public class WalkMessageEvent implements Event {
 //                return;
 //            }
 
+            if(!entity.sendUpdateMessage()) {
+                entity.setSendUpdateMessage(true);
+            }
+
             if (entity.canWalk() && !entity.isOverriden() && entity.isVisible()) {
                 entity.moveTo(goalX, goalY);
             }

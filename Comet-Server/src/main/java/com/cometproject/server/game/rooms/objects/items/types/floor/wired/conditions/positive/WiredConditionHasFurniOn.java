@@ -31,6 +31,10 @@ public class WiredConditionHasFurniOn extends WiredConditionItem {
         return 7;
     }
 
+    public int getMode() {
+        return this.getWiredData().getParams().get(PARAM_MODE);
+    }
+
     @Override
     public boolean evaluate(RoomEntity entity, Object data) {
         int mode;

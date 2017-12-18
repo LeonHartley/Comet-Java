@@ -1,17 +1,17 @@
 package com.cometproject.server.network.messages.incoming.group;
 
 
+import com.cometproject.api.game.GameContext;
+import com.cometproject.api.game.groups.types.IGroup;
 import com.cometproject.api.game.groups.types.components.membership.IGroupMember;
-import com.cometproject.server.game.groups.GroupManager;
-import com.cometproject.server.game.groups.types.Group;
-import com.cometproject.server.game.groups.types.GroupMember;
+import com.cometproject.server.composers.group.GroupConfirmRemoveMemberMessageComposer;
+
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.objects.items.RoomItem;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.Event;
-import com.cometproject.server.network.messages.outgoing.group.GroupConfirmRemoveMemberMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.google.common.collect.Lists;
@@ -23,7 +23,7 @@ public class GroupConfirmRemoveMemberMessageEvent  implements Event {
         int groupId = msg.readInt();
         int playerId = msg.readInt();
 
-        Group group = GroupManager.getInstance().get(groupId);
+        IGroup group = GameContext.getCurrent().getGroupService().getGroup(groupId);
         if (group == null) {
             return;
         }
@@ -35,7 +35,7 @@ public class GroupConfirmRemoveMemberMessageEvent  implements Event {
             return;
         }
 
-        IGroupMember groupMember = group.getMembershipComponent().getMembers().get(client.getPlayer().getId());
+        IGroupMember groupMember = group.getMembers().getAll().get(client.getPlayer().getId());
 
         if (groupMember == null) {
             return;

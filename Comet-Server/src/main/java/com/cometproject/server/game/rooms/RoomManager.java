@@ -1,21 +1,21 @@
 package com.cometproject.server.game.rooms;
 
+import com.cometproject.api.game.groups.types.IGroupData;
 import com.cometproject.api.game.players.IPlayer;
 import com.cometproject.api.game.rooms.IRoomData;
+import com.cometproject.api.game.rooms.IRoomService;
 import com.cometproject.api.game.rooms.settings.RoomAccessType;
 import com.cometproject.api.game.rooms.settings.RoomTradeState;
 import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.config.Configuration;
-import com.cometproject.server.game.groups.GroupManager;
-import com.cometproject.server.game.groups.types.Group;
+import com.cometproject.api.config.Configuration;
+
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.rooms.filter.WordFilter;
 import com.cometproject.server.game.rooms.models.CustomFloorMapData;
 import com.cometproject.server.game.rooms.models.types.StaticRoomModel;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredUtil;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.game.rooms.types.RoomPromotion;
 import com.cometproject.server.game.rooms.types.RoomReloadListener;
 import com.cometproject.server.game.rooms.types.misc.ChatEmotionsManager;
@@ -25,7 +25,6 @@ import com.cometproject.server.storage.cache.CacheManager;
 import com.cometproject.server.storage.cache.objects.RoomDataObject;
 import com.cometproject.server.storage.queries.rooms.RoomDao;
 import com.cometproject.api.utilities.Initialisable;
-import com.cometproject.server.tasks.CometThreadManager;
 import org.apache.log4j.Logger;
 import org.apache.solr.util.ConcurrentLRUCache;
 
@@ -34,12 +33,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 
-public class RoomManager implements Initialisable {
+public class RoomManager implements IRoomService {
 
     private static RoomManager roomManagerInstance;
     public static final Logger log = Logger.getLogger(RoomManager.class.getName());
@@ -281,6 +279,8 @@ public class RoomManager implements Initialisable {
     public List<IRoomData> getRoomsByQuery(String query) {
         List<IRoomData> rooms = new ArrayList<>();
 
+        if (query.equals("owner:")) return rooms;
+
         if (query.equals("tag:")) return rooms;
 
         if (query.equals("group:")) return rooms;
@@ -375,10 +375,8 @@ public class RoomManager implements Initialisable {
             if (room.getEntities() != null && room.getEntities().playerCount() < minimumPlayers) continue;
 
             if (room.getData().getAccess() == RoomAccessType.INVISIBLE && player.getData().getRank() < 3) {
-                final Group group = GroupManager.getInstance().getGroupByRoomId(room.getId());
-
                 if (room.getGroup() != null) {
-                    if (!player.getGroups().contains(group.getId())) {
+                    if (!player.getGroups().contains(room.getGroup().getId())) {
                         continue;
                     }
                 } else {

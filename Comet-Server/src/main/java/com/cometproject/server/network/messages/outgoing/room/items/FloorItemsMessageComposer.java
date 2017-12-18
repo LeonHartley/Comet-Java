@@ -36,22 +36,22 @@ public class FloorItemsMessageComposer extends MessageComposer {
                 final Group group = room.getGroup();
 
                 if (group.getData().canMembersDecorate()) {
-                    msg.writeInt(group.getMembershipComponent().getMembers().size() + 1);
+                    msg.writeInt(group.getAll().getAll().size() + 1);
 
                     msg.writeInt(room.getData().getOwnerId());
                     msg.writeString(room.getData().getOwner());
 
-                    for (GroupMember groupMember : group.getMembershipComponent().getMembers().values()) {
+                    for (GroupMember groupMember : group.getAll().getAll().values()) {
                         msg.writeInt(groupMember.getPlayerId());
                         msg.writeString(PlayerDao.getUsernameByPlayerId(groupMember.getPlayerId()));
                     }
                 } else {
-                    msg.writeInt(group.getMembershipComponent().getAdministrators().size() + 1);
+                    msg.writeInt(group.getAll().getAdministrators().size() + 1);
 
                     msg.writeInt(room.getData().getOwnerId());
                     msg.writeString(room.getData().getOwner());
 
-                    for (Integer groupMember : group.getMembershipComponent().getAdministrators()) {
+                    for (Integer groupMember : group.getAll().getAdministrators()) {
                         msg.writeInt(groupMember);
                         msg.writeString(PlayerDao.getUsernameByPlayerId(groupMember));
                     }

@@ -84,7 +84,6 @@ public class CatalogIndexMessageComposer extends MessageComposer {
 
                     if (offerId != -1) {
                         msg.writeInt(offerId);
-
                     }
                 }
             }

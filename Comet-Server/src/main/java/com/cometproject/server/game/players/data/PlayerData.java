@@ -1,12 +1,9 @@
 package com.cometproject.server.game.players.data;
 
 import com.cometproject.api.game.players.data.IPlayerData;
-import com.cometproject.api.config.CometSettings;
 import com.cometproject.server.game.utilities.validator.PlayerFigureValidator;
 import com.cometproject.server.storage.queries.player.PlayerDao;
-import com.cometproject.server.storage.queue.types.PlayerDataStorageQueue;
-import com.cometproject.storage.mysql.StorageContext;
-import com.cometproject.storage.mysql.queues.players.PlayerDataUpdateQueue;
+import com.cometproject.storage.mysql.MySQLStorageQueues;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -47,6 +44,8 @@ public class PlayerData implements IPlayerData {
     private boolean changingName = false;
 
     private boolean flaggingUser = false;
+
+    private Object tempData = null;
 
     public PlayerData(int id, String username, String motto, String figure, String gender, String email, int rank, int credits, int vipPoints, int activityPoints,
                       String reg, int lastVisit, boolean vip, int achievementPoints, int regTimestamp, int favouriteGroup, String ipAddress, int questId, int timeMuted) {
@@ -99,6 +98,16 @@ public class PlayerData implements IPlayerData {
                 data.getInt("playerData_timeMuted"));
     }
 
+    @Override
+    public Object tempData() {
+        return this.tempData;
+    }
+
+    @Override
+    public void tempData(Object obj) {
+        this.tempData = obj;
+    }
+
     public void save() {
         /*if(CometSettings.storagePlayerQueueEnabled) {
             PlayerDataStorageQueue.getInstance().queueSave(this);
@@ -106,7 +115,7 @@ public class PlayerData implements IPlayerData {
             this.saveNow();
         }*/
 
-        StorageContext.current().getPlayerDataUpdateQueue().add(this.getId(), this);
+        MySQLStorageQueues.instance().getPlayerDataUpdateQueue().add(this.getId(), this);
     }
 
     public void saveNow() {

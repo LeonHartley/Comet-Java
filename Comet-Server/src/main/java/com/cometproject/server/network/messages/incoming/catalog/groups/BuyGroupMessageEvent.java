@@ -1,18 +1,17 @@
 package com.cometproject.server.network.messages.incoming.catalog.groups;
 
 import com.cometproject.api.config.CometSettings;
-import com.cometproject.server.game.groups.GroupManager;
-import com.cometproject.server.game.groups.types.Group;
-import com.cometproject.api.game.groups.types.components.membership.GroupAccessLevel;
-import com.cometproject.server.game.groups.types.GroupData;
-import com.cometproject.server.game.groups.types.GroupMember;
+import com.cometproject.api.game.GameContext;
+import com.cometproject.api.game.groups.IGroupItemService;
+import com.cometproject.api.game.groups.types.IGroup;
+import com.cometproject.api.game.groups.types.IGroupData;
+import com.cometproject.server.composers.group.GroupBadgesMessageComposer;
+import com.cometproject.server.composers.group.GroupRoomMessageComposer;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.composers.catalog.BoughtItemMessageComposer;
-import com.cometproject.server.network.messages.outgoing.group.GroupBadgesMessageComposer;
-import com.cometproject.server.network.messages.outgoing.group.GroupRoomMessageComposer;
 import com.cometproject.server.network.messages.outgoing.messenger.UpdateFriendStateMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.LeaveRoomMessageComposer;
@@ -23,12 +22,14 @@ import com.cometproject.server.network.messages.outgoing.user.purse.SendCreditsM
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.utilities.BadgeUtil;
+import com.cometproject.storage.mysql.models.factories.GroupDataFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class BuyGroupMessageEvent implements Event {
+
     public void handle(Session client, MessageEvent msg) {
         if (client.getPlayer().getData().getCredits() < CometSettings.groupCost) {
             return;
@@ -45,7 +46,7 @@ public class BuyGroupMessageEvent implements Event {
         int colour1 = msg.readInt();
         int colour2 = msg.readInt();
 
-        if (!client.getPlayer().getRooms().contains(roomId) || RoomManager.getInstance().getRoomData(roomId) == null || GroupManager.getInstance().getGroupByRoomId(roomId) != null) {
+        if (!client.getPlayer().getRooms().contains(roomId) || RoomManager.getInstance().getRoomData(roomId) == null) {
             return;
         }
 
@@ -65,10 +66,12 @@ public class BuyGroupMessageEvent implements Event {
 
         client.send(new BoughtItemMessageComposer(BoughtItemMessageComposer.PurchaseType.GROUP));
 
-        Group group = GroupManager.getInstance().createGroup(new GroupData(name, desc, badge, client.getPlayer().getId(), roomId, GroupManager.getInstance().getGroupItems().getSymbolColours().containsKey(colour1) ? colour1 : 1,
-                GroupManager.getInstance().getGroupItems().getBackgroundColours().containsKey(colour2) ? colour2 : 1));
+        final IGroupItemService itemService = GameContext.getCurrent().getGroupService().getItemService();
 
-        group.getMembershipComponent().createMembership(new GroupMember(client.getPlayer().getId(), group.getId(), GroupAccessLevel.OWNER));
+        final IGroupData groupData = new GroupDataFactory().create(name, desc, badge, client.getPlayer().getId(), client.getPlayer().getData().getUsername(), roomId, colour1, colour2);
+        final IGroup group = GameContext.getCurrent().getGroupService().createGroup(groupData, client.getPlayer().getId());
+
+//        group.getMembers().createMembership(new GroupMemberFactory().create(client.getPlayer().getId(), group.getId(), GroupAccessLevel.OWNER));*/
         client.getPlayer().getGroups().add(group.getId());
 
         client.getPlayer().getData().setFavouriteGroup(group.getId());
@@ -118,7 +121,7 @@ public class BuyGroupMessageEvent implements Event {
             room.getEntities().broadcastMessage(new AvatarsMessageComposer(client.getPlayer().getEntity()));
 
             if (CometSettings.groupChatEnabled) {
-                client.send(new UpdateFriendStateMessageComposer(group));
+                client.send(new UpdateFriendStateMessageComposer(group.getData()));
             }
 
             client.send(new GroupRoomMessageComposer(roomId, group.getId()));

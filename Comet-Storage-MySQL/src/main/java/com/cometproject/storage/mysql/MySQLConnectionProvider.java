@@ -2,6 +2,7 @@ package com.cometproject.storage.mysql;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 public abstract class MySQLConnectionProvider {
 
@@ -11,4 +12,7 @@ public abstract class MySQLConnectionProvider {
 
     public abstract void closeStatement(PreparedStatement statement);
 
+    public abstract void closeResults(ResultSet resultSet);
+
 }
+

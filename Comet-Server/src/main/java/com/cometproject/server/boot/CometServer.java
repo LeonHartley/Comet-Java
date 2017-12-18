@@ -1,15 +1,15 @@
 package com.cometproject.server.boot;
 
+import com.cometproject.api.game.GameContext;
 import com.cometproject.server.api.APIManager;
 import com.cometproject.server.boot.utils.gui.CometGui;
-import com.cometproject.api.config.CometSettings;
-import com.cometproject.server.config.Configuration;
+import com.cometproject.api.config.Configuration;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.GameCycle;
 import com.cometproject.server.game.achievements.AchievementManager;
 import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.commands.CommandManager;
-import com.cometproject.server.game.groups.GroupManager;
+import com.cometproject.server.game.groups.items.GroupItemManager;
 import com.cometproject.server.game.guides.GuideManager;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.landing.LandingManager;
@@ -83,7 +83,6 @@ public class CometServer {
         PetManager.getInstance().initialize();
         LandingManager.getInstance().initialize();
         PlayerManager.getInstance().initialize();
-        GroupManager.getInstance().initialize();
         QuestManager.getInstance().initialize();
         AchievementManager.getInstance().initialize();
         PollManager.getInstance().initialize();
@@ -91,6 +90,17 @@ public class CometServer {
 
         PlayerDataStorageQueue.getInstance().initialize();
         ItemStorageQueue.getInstance().initialize();
+
+        GameContext gameContext = new GameContext();
+
+        gameContext.setCatalogService(CatalogManager.getInstance());
+        gameContext.setFurnitureService(ItemManager.getInstance());
+
+        GameContext.setCurrent(gameContext);
+
+        ModuleManager.getInstance().setupModules();
+
+        GameContext.getCurrent().getGroupService().setItemService(new GroupItemManager());
 
         String ipAddress = this.getConfig().get("comet.network.host"),
                 port = this.getConfig().get("comet.network.port");

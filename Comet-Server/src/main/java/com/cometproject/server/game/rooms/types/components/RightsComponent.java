@@ -1,8 +1,8 @@
 package com.cometproject.server.game.rooms.types.components;
 
+import com.cometproject.api.game.groups.types.IGroup;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.api.config.CometSettings;
-import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.types.RoomBan;
 import com.cometproject.server.game.rooms.types.components.types.RoomMute;
@@ -50,14 +50,14 @@ public class RightsComponent {
     }
 
     public boolean hasRights(int playerId, boolean includeGroupCheck) {
-        final Group group = this.getRoom().getGroup();
+        final IGroup group = this.getRoom().getGroup();
 
-        if (group != null && group.getData() != null && group.getMembershipComponent() != null && group.getMembershipComponent().getMembers() != null) {
-            if (group.getData().canMembersDecorate() && group.getMembershipComponent().getMembers().containsKey(playerId)) {
+        if (group != null && group.getData() != null && group.getMembers() != null && group.getMembers().getAll() != null) {
+            if (group.getData().canMembersDecorate() && group.getMembers().getAll().containsKey(playerId)) {
                 return true;
             }
 
-            if (group.getMembershipComponent().getAdministrators().contains(playerId)) {
+            if (group.getMembers().getAdministrators().contains(playerId)) {
                 return true;
             }
         }
@@ -66,14 +66,14 @@ public class RightsComponent {
     }
 
     public boolean canPlaceFurniture(final int playerId) {
-        final Group group = this.getRoom().getGroup();
+        final IGroup group = this.getRoom().getGroup();
 
-        if (group != null && group.getData() != null && group.getMembershipComponent() != null && group.getMembershipComponent().getMembers() != null) {
-            if (group.getData().canMembersDecorate() && group.getMembershipComponent().getMembers().containsKey(playerId)) {
+        if (group != null && group.getData() != null && group.getMembers() != null && group.getMembers().getAll() != null) {
+            if (group.getData().canMembersDecorate() && group.getMembers().getAll().containsKey(playerId)) {
                 return true;
             }
 
-            if (group.getMembershipComponent().getAdministrators().contains(playerId)) {
+            if (group.getMembers().getAdministrators().contains(playerId)) {
                 return true;
             }
         }

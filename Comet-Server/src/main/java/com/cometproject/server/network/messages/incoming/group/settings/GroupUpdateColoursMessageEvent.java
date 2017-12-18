@@ -1,7 +1,7 @@
 package com.cometproject.server.network.messages.incoming.group.settings;
 
-import com.cometproject.server.game.groups.GroupManager;
-import com.cometproject.server.game.groups.types.Group;
+import com.cometproject.api.game.GameContext;
+import com.cometproject.api.game.groups.types.IGroup;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupFloorItem;
 import com.cometproject.server.game.rooms.types.Room;
@@ -11,6 +11,7 @@ import com.cometproject.server.network.messages.outgoing.room.items.RemoveFloorI
 import com.cometproject.server.network.messages.outgoing.room.items.SendFloorItemMessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.storage.api.StorageContext;
 
 
 public class GroupUpdateColoursMessageEvent implements Event {
@@ -18,7 +19,7 @@ public class GroupUpdateColoursMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) throws Exception {
         int groupId = msg.readInt();
 
-        Group group = GroupManager.getInstance().get(groupId);
+        IGroup group = GameContext.getCurrent().getGroupService().getGroup(groupId);
 
         if (group == null || client.getPlayer().getId() != group.getData().getOwnerId())
             return;
@@ -29,7 +30,7 @@ public class GroupUpdateColoursMessageEvent implements Event {
         group.getData().setColourA(colourA);
         group.getData().setColourB(colourB);
 
-        group.getData().save();
+        StorageContext.getCurrentContext().getGroupRepository().saveGroupData(group.getData());
 
 //        client.send(new ManageGroupMessageComposer(group));
 

@@ -9,6 +9,10 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.action
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions.WiredActionKickUser;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.addons.WiredAddonRandomEffect;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.addons.WiredAddonUnseenEffect;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.conditions.negative.WiredNegativeConditionHasFurniOn;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.conditions.negative.WiredNegativeConditionTriggererOnFurni;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.conditions.positive.WiredConditionHasFurniOn;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.conditions.positive.WiredConditionTriggererOnFurni;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerEnterRoom;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.protocol.messages.MessageComposer;
@@ -51,10 +55,10 @@ public abstract class WiredTriggerItem extends WiredFloorItem {
                 return false;
             }
 
-            // create empty list for all wired actions on the current tile
+            // create empty list for all wired actions on the instance tile
             List<WiredActionItem> wiredActions = Lists.newArrayList();
 
-            // create empty list for all wired conditions on current tile
+            // create empty list for all wired conditions on instance tile
             List<WiredConditionItem> wiredConditions = Lists.newArrayList();
 
             // flood protection regarding wt_act_execute_stacks
@@ -99,25 +103,81 @@ public abstract class WiredTriggerItem extends WiredFloorItem {
                 unseenEffectItem.getSeenEffects().clear();
             }
 
-            final Map<Class<? extends WiredConditionItem>, AtomicBoolean> completedConditions = new HashMap<>();
+            final Map<WiredConditionItem, AtomicBoolean> completedConditions = new HashMap<>();
+/*
+            final Map<String, AtomicBoolean> completedConditions = new HashMap<>();
 
             // loop through the conditions and check whether or not we can perform the action
             for (WiredConditionItem conditionItem : wiredConditions) {
                 conditionItem.flash();
 
-                if (!completedConditions.containsKey(conditionItem.getClass())) {
-                    completedConditions.put(conditionItem.getClass(), new AtomicBoolean(false));
+                if(conditionItem instanceof WiredConditionTriggererOnFurni)
+                {
+                    if(!completedConditions.containsKey(conditionItem.getClass() + "")) {
+                        completedConditions.put(conditionItem.getClass() + "", new AtomicBoolean(false));
+                    }
+
+                    if (conditionItem.evaluate(entity, data)) {
+                        completedConditions.get(conditionItem.getClass() + "").set(true);
+                    }
+
+                } else {
+                    completedConditions.put(conditionItem.getClass() + "" + conditionItem.getVirtualId(), new AtomicBoolean(false));
+
+                    if (conditionItem.evaluate(entity, data)) {
+                        completedConditions.get(conditionItem.getClass() + "" + conditionItem.getVirtualId()).set(true);
+                    }
                 }
 
-                if (conditionItem.evaluate(entity, data)) {
-                    completedConditions.get(conditionItem.getClass()).set(true);
+            }
+*/
+            // loop through the conditions and check whether or not we can perform the action
+            for (WiredConditionItem conditionItem : wiredConditions) {
+                conditionItem.flash();
+
+                if (!completedConditions.containsKey(conditionItem)) {
+                    completedConditions.put(conditionItem, new AtomicBoolean(false));
+                }
+
+                completedConditions.get(conditionItem).set(conditionItem.evaluate(entity, data));
+            }
+
+            boolean hasSuccessfulOnStack = false;
+            boolean hasSuccessfulOnFurni = false;
+
+            for (Map.Entry<WiredConditionItem, AtomicBoolean> conditionState : completedConditions.entrySet()) {
+                if(conditionState.getKey() instanceof WiredConditionHasFurniOn && !(conditionState.getKey() instanceof WiredNegativeConditionHasFurniOn)) {
+                    final WiredConditionHasFurniOn conditionHasFurniOn = (WiredConditionHasFurniOn) conditionState.getKey();
+
+                    if(conditionState.getValue().get() && conditionHasFurniOn.getMode() == 1) {
+                        hasSuccessfulOnStack = true;
+                    } else {
+                        if(!hasSuccessfulOnStack) {
+                            canExecute = false;
+                        }
+                    }
+
+                    continue;
+                }
+
+                if(conditionState.getKey() instanceof WiredConditionTriggererOnFurni &&
+                        !(conditionState.getKey() instanceof WiredNegativeConditionTriggererOnFurni)) {
+                    if(conditionState.getValue().get()) {
+                        hasSuccessfulOnFurni = true;
+                    } else {
+                        if(!hasSuccessfulOnFurni) {
+                            canExecute = false;
+                        }
+                    }
+                } else {
+                    if (!conditionState.getValue().get()) {
+                        canExecute = false;
+                    }
                 }
             }
 
-            for (AtomicBoolean conditionState : completedConditions.values()) {
-                if (!conditionState.get()) {
-                    canExecute = false;
-                }
+            if(hasSuccessfulOnFurni || hasSuccessfulOnStack) {
+                canExecute = true;
             }
 
             // tell the trigger that the item can execute, but hasn't executed just yet!
@@ -176,7 +236,7 @@ public abstract class WiredTriggerItem extends WiredFloorItem {
         final List<T> triggers = Lists.newArrayList();
 
         for (RoomItemFloor floorItem : room.getItems().getByClass(clazz)) {
-            if(triggers.size() <= CometSettings.wiredMaxTriggers)
+            if (triggers.size() <= CometSettings.wiredMaxTriggers)
                 triggers.add((T) floorItem);
         }
 
@@ -206,9 +266,9 @@ public abstract class WiredTriggerItem extends WiredFloorItem {
         // create an empty list to add the incompatible actions
         List<WiredActionItem> incompatibleActions = Lists.newArrayList();
 
-        // check whether or not this current trigger supplies a player
+        // check whether or not this instance trigger supplies a player
         if (!this.suppliesPlayer()) {
-            // if it doesn't, loop through all items on current tile
+            // if it doesn't, loop through all items on instance tile
             for (RoomItemFloor floorItem : this.getItemsOnStack()) {
                 if (floorItem instanceof WiredActionItem) {
                     // check whether the item needs a player to perform its action

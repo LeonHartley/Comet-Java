@@ -5,19 +5,13 @@ import com.cometproject.api.game.groups.types.components.IMembershipComponent;
 import com.cometproject.api.networking.messages.IMessageComposer;
 
 public interface IGroup {
-    IMessageComposer composeInformation(boolean flag, int playerId);
-
-    void initializeForum();
-
-    void dispose();
-
-    void commit();
-
     int getId();
 
     IGroupData getData();
 
-    IMembershipComponent getMembershipComponent();
+    IMembershipComponent getMembers();
 
-    IForumComponent getForumComponent();
+    IForumComponent getForum();
+
+    void dispose();
 }

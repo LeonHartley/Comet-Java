@@ -21,21 +21,21 @@ public abstract class AdvancedFloorItem<T extends FloorItemEvent> extends RoomIt
     public void onTick() {
         final Set<T> finishedEvents = new HashSet<T>();
 
-        for(T itemEvent : itemEvents) {
+        for (T itemEvent : itemEvents) {
             itemEvent.incrementTicks();
 
-            if(itemEvent.isFinished()) {
+            if (itemEvent.isFinished()) {
                 finishedEvents.add(itemEvent);
             }
         }
 
-        for(T finishedEvent : finishedEvents) {
+        for (T finishedEvent : finishedEvents) {
             this.itemEvents.remove(finishedEvent);
 
-            CometThreadManager.getInstance().executeOnce(() -> finishedEvent.onCompletion(this));
+            finishedEvent.onCompletion(this);
 
             if (finishedEvent.isInteractiveEvent()) {
-                CometThreadManager.getInstance().executeOnce(() -> this.onEventComplete(finishedEvent));
+                this.onEventComplete(finishedEvent);
             }
         }
 
@@ -43,7 +43,7 @@ public abstract class AdvancedFloorItem<T extends FloorItemEvent> extends RoomIt
     }
 
     public void queueEvent(final T floorItemEvent) {
-        if(this.getMaxEvents() <= this.itemEvents.size()) {
+        if (this.getMaxEvents() <= this.itemEvents.size()) {
             return;
         }
 

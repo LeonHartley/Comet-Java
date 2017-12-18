@@ -31,7 +31,7 @@ import com.cometproject.server.storage.queries.player.PlayerAccessDao;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManager;
-import com.cometproject.storage.mysql.StorageContext;
+import com.cometproject.storage.mysql.MySQLStorageQueues;
 import com.cometproject.storage.mysql.queues.players.objects.PlayerStatusUpdate;
 import org.apache.commons.lang.StringUtils;
 
@@ -124,7 +124,7 @@ public class PlayerLoginRequest implements CometTask {
 
         client.getLogger().debug(client.getPlayer().getData().getUsername() + " logged in");
 
-        StorageContext.current().getPlayerStatusQueue().add(player.getId(),
+        MySQLStorageQueues.instance().getPlayerStatusQueue().add(player.getId(),
                 new PlayerStatusUpdate(player.getId(), true, player.getSession().getIpAddress()));
 
         //PlayerDao.updatePlayerStatus(player, true, true);

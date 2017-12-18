@@ -1,7 +1,7 @@
 package com.cometproject.server.network.messages.incoming.group.settings;
 
-import com.cometproject.server.game.groups.GroupManager;
-import com.cometproject.server.game.groups.types.Group;
+import com.cometproject.api.game.GameContext;
+import com.cometproject.api.game.groups.types.IGroup;
 import com.cometproject.api.game.groups.types.GroupType;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.types.Room;
@@ -19,7 +19,7 @@ public class ModifyGroupSettingsMessageEvent implements Event {
         if (!client.getPlayer().getGroups().contains(groupId))
             return;
 
-        Group group = GroupManager.getInstance().get(groupId);
+        IGroup group = GameContext.getCurrent().getGroupService().getGroup(groupId);
 
         if (group == null || group.getData().getOwnerId() != client.getPlayer().getId())
             return;
@@ -28,16 +28,14 @@ public class ModifyGroupSettingsMessageEvent implements Event {
         int rightsType = msg.readInt();
 
         if (GroupType.valueOf(type) != group.getData().getType()) {
-            group.getMembershipComponent().clearRequests();
+            GameContext.getCurrent().getGroupService().clearRequests(group);
         }
 
         group.getData().setType(GroupType.valueOf(type));
 
         // 0 = members, 1 = admins only.
         group.getData().setCanMembersDecorate(rightsType == 0);
-
-        group.getData().save();
-        group.commit();
+        GameContext.getCurrent().getGroupService().saveForumSettings(group.getForum().getForumSettings());
 
         if (RoomManager.getInstance().isActive(group.getData().getRoomId())) {
             Room room = RoomManager.getInstance().get(group.getData().getRoomId());

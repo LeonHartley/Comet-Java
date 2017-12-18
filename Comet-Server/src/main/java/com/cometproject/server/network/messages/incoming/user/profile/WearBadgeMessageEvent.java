@@ -5,8 +5,7 @@ import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.user.profile.UserBadgesMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.protocol.messages.MessageEvent;
-import com.cometproject.server.storage.queries.player.inventory.InventoryDao;
-import com.cometproject.storage.mysql.StorageContext;
+import com.cometproject.storage.mysql.MySQLStorageQueues;
 import com.cometproject.storage.mysql.queues.players.objects.PlayerBadgeUpdate;
 import com.google.common.collect.Sets;
 import javafx.util.Pair;
@@ -53,7 +52,7 @@ public class WearBadgeMessageEvent implements Event {
             //InventoryDao.updateBadge(badgeToUpdate.getKey(), badgeToUpdate.getValue(), client.getPlayer().getId());
         }
 
-        StorageContext.current().getPlayerBadgeUpdateQueue().addAll(updates);
+        MySQLStorageQueues.instance().getPlayerBadgeUpdateQueue().addAll(updates);
 
         if (client.getPlayer().getEntity() != null) {
             client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new UserBadgesMessageComposer(client.getPlayer().getId(), client.getPlayer().getInventory().equippedBadges()));

@@ -1,17 +1,19 @@
 package com.cometproject.server.network.messages.incoming.group;
 
+import com.cometproject.api.game.GameContext;
+import com.cometproject.api.game.groups.types.IGroup;
 import com.cometproject.api.game.groups.types.components.membership.IGroupMember;
-import com.cometproject.server.game.groups.GroupManager;
-import com.cometproject.server.game.groups.types.Group;
+import com.cometproject.server.composers.group.GroupMembersMessageComposer;
+
 import com.cometproject.api.game.groups.types.components.membership.GroupAccessLevel;
-import com.cometproject.server.game.groups.types.GroupMember;
+import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.incoming.Event;
-import com.cometproject.server.network.messages.outgoing.group.GroupMembersMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.permissions.YouAreControllerMessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.storage.api.StorageContext;
 
 import java.util.ArrayList;
 
@@ -26,15 +28,15 @@ public class RevokeAdminMessageEvent implements Event {
             return;
         }
 
-        Group group = GroupManager.getInstance().get(groupId);
+        IGroup group = GameContext.getCurrent().getGroupService().getGroup(groupId);
 
         if (group == null)
             return;
 
-        if (!group.getMembershipComponent().getMembers().containsKey(playerId))
+        if (!group.getMembers().getAll().containsKey(playerId))
             return;
 
-        IGroupMember groupMember = group.getMembershipComponent().getMembers().get(playerId);
+        IGroupMember groupMember = group.getMembers().getAll().get(playerId);
 
         if (groupMember == null)
             return;
@@ -43,7 +45,7 @@ public class RevokeAdminMessageEvent implements Event {
             return;
 
         groupMember.setAccessLevel(GroupAccessLevel.MEMBER);
-        groupMember.save();
+        StorageContext.getCurrentContext().getGroupMemberRepository().saveMember(groupMember);
 
         if (!group.getData().canMembersDecorate()) {
             Session session = NetworkManager.getInstance().getSessions().getByPlayerId(groupMember.getPlayerId());
@@ -56,7 +58,7 @@ public class RevokeAdminMessageEvent implements Event {
             }
         }
 
-        group.getMembershipComponent().getAdministrators().remove(groupMember.getPlayerId());
-        client.send(new GroupMembersMessageComposer(group.getData(), 0, new ArrayList<>(group.getMembershipComponent().getAdministrators()), 1, "", group.getMembershipComponent().getAdministrators().contains(client.getPlayer().getId())));
+        group.getMembers().getAdministrators().remove(groupMember.getPlayerId());
+        client.send(new GroupMembersMessageComposer(group.getData(), 0, new ArrayList<>(), 1, "", group.getMembers().getAdministrators().contains(client.getPlayer().getId())));
     }
 }

@@ -1,13 +1,14 @@
 package com.cometproject.server.network.messages.incoming.group.forum.settings;
 
+import com.cometproject.api.game.GameContext;
+import com.cometproject.api.game.groups.types.IGroup;
 import com.cometproject.api.game.groups.types.components.forum.IForumSettings;
-import com.cometproject.server.game.groups.GroupManager;
-import com.cometproject.server.game.groups.types.Group;
+import com.cometproject.server.composers.group.GroupInformationMessageComposer;
+import com.cometproject.server.composers.group.forums.GroupForumDataMessageComposer;
+import com.cometproject.server.composers.group.forums.GroupForumThreadsMessageComposer;
 import com.cometproject.api.game.groups.types.components.forum.ForumPermission;
-import com.cometproject.server.game.groups.types.components.forum.settings.ForumSettings;
+import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.network.messages.incoming.Event;
-import com.cometproject.server.network.messages.outgoing.group.forums.GroupForumDataMessageComposer;
-import com.cometproject.server.network.messages.outgoing.group.forums.GroupForumThreadsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.NotificationMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.protocol.messages.MessageEvent;
@@ -27,7 +28,7 @@ public class SaveForumSettingsMessageEvent implements Event {
         final ForumPermission whoCanStartThreads = ForumPermission.getById(startThreads);
         final ForumPermission whoCanModerate = ForumPermission.getById(moderate);
 
-        Group group = GroupManager.getInstance().get(groupId);
+        IGroup group = GameContext.getCurrent().getGroupService().getGroup(groupId);
 
         if (group == null || group.getData().getOwnerId() != client.getPlayer().getId()) {
             return;
@@ -37,20 +38,23 @@ public class SaveForumSettingsMessageEvent implements Event {
             return;
         }
 
-        IForumSettings forumSettings = group.getForumComponent().getForumSettings();
+        IForumSettings forumSettings = group.getForum().getForumSettings();
 
         forumSettings.setReadPermission(whoCanReadForum);
         forumSettings.setModeratePermission(whoCanModerate);
         forumSettings.setStartThreadsPermission(whoCanStartThreads);
         forumSettings.setPostPermission(whoCanPostMessages);
 
-        forumSettings.save();
+        GameContext.getCurrent().getGroupService().saveForumSettings(forumSettings);
 
-        client.send(group.composeInformation(false, client.getPlayer().getId()));
+        client.send(new GroupInformationMessageComposer(group, RoomManager.getInstance().getRoomData(group.getData().getRoomId()), false,
+                client.getPlayer().getId() == group.getData().getOwnerId(), group.getMembers().getAdministrators().contains(client.getPlayer().getId()),
+                group.getMembers().getAll().containsKey(client.getPlayer().getId()) ? 1 : group.getMembers().getMembershipRequests().contains(client.getPlayer().getId()) ? 2 : 0));
+
         client.send(new NotificationMessageComposer("forums.forum_settings_updated"));
         client.send(new GroupForumDataMessageComposer(group, client.getPlayer().getId()));
 
         // HACK, WHEN THIS IS FIXED, REMOVE!
-        client.send(new GroupForumThreadsMessageComposer(group.getId(), group.getForumComponent().getForumThreads(0), 0));
+        client.send(new GroupForumThreadsMessageComposer(group.getId(), group.getForum().getForumThreads(0), 0));
     }
 }

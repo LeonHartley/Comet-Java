@@ -1,5 +1,6 @@
 package com.cometproject.server.game.players.types;
 
+import com.cometproject.api.game.groups.types.IGroupData;
 import com.cometproject.api.game.players.IPlayer;
 import com.cometproject.api.game.players.data.components.PlayerInventory;
 import com.cometproject.api.game.quests.IQuest;
@@ -28,11 +29,11 @@ import com.cometproject.server.network.messages.outgoing.user.purse.CurrenciesMe
 import com.cometproject.server.network.messages.outgoing.user.purse.SendCreditsMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.catalog.CatalogDao;
-import com.cometproject.server.storage.queries.groups.GroupDao;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.storage.queue.types.PlayerDataStorageQueue;
 import com.cometproject.server.utilities.collections.ConcurrentHashSet;
-import com.cometproject.storage.mysql.StorageContext;
+import com.cometproject.storage.api.StorageContext;
+import com.cometproject.storage.mysql.MySQLStorageQueues;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
@@ -169,7 +170,13 @@ public class Player implements IPlayer {
         this.navigator = new NavigatorComponent(this);
         this.wardrobe = new WardrobeComponent(this);
 
-        this.groups = GroupDao.getIdsByPlayerId(this.id);
+        this.groups = new ArrayList<>();
+
+        StorageContext.getCurrentContext().getGroupRepository().getGroupIdsByPlayerId(this.id, groups -> {
+            for(Integer groupId : groups) {
+                this.groups.add(groupId);
+            }
+        });
 
         this.entity = null;
         this.lastReward = Comet.getTime();
@@ -213,7 +220,7 @@ public class Player implements IPlayer {
 
         this.session.getLogger().debug(this.getData().getUsername() + " logged out");
 
-        StorageContext.current().getPlayerOfflineUpdateQueue().add(this.getId(), new Object());
+        MySQLStorageQueues.instance().getPlayerOfflineUpdateQueue().add(this.getId(), new Object());
 
         this.rooms.clear();
         this.rooms = null;

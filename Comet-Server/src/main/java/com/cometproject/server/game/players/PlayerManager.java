@@ -1,7 +1,9 @@
 package com.cometproject.server.game.players;
 
-import com.cometproject.server.config.Configuration;
+import com.cometproject.api.config.Configuration;
+import com.cometproject.api.game.players.IPlayerService;
 import com.cometproject.api.game.players.data.PlayerAvatar;
+import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.game.players.login.PlayerLoginRequest;
 import com.cometproject.server.network.NetworkManager;
@@ -22,7 +24,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 
-public class PlayerManager implements Initialisable {
+public class PlayerManager implements IPlayerService, Initialisable {
     private static PlayerManager playerManagerInstance;
     private static Logger log = Logger.getLogger(PlayerManager.class.getName());
 
@@ -84,8 +86,8 @@ public class PlayerManager implements Initialisable {
         return playerManagerInstance;
     }
 
-    public void submitLoginRequest(Session client, String ticket) {
-        this.playerLoginService.submit(new PlayerLoginRequest(client, ticket));
+    public void submitLoginRequest(ISession client, String ticket) {
+        this.playerLoginService.submit(new PlayerLoginRequest((Session) client, ticket));
     }
 
     public PlayerAvatar getAvatarByPlayerId(int playerId, byte mode) {

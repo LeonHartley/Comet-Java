@@ -1,8 +1,8 @@
 package com.cometproject.server.network.messages.outgoing.messenger;
 
+import com.cometproject.api.game.groups.types.IGroupData;
 import com.cometproject.api.game.players.data.PlayerAvatar;
 import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.api.game.players.data.components.messenger.RelationshipLevel;
 import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
@@ -10,7 +10,7 @@ import com.cometproject.server.protocol.headers.Composers;
 
 public class UpdateFriendStateMessageComposer extends MessageComposer {
     private final PlayerAvatar playerAvatar;
-    private final Group group;
+    private final IGroupData group;
 
     private final boolean online;
     private final boolean inRoom;
@@ -28,7 +28,7 @@ public class UpdateFriendStateMessageComposer extends MessageComposer {
         this.relationshipLevel = level;
     }
 
-    public UpdateFriendStateMessageComposer(final Group group) {
+    public UpdateFriendStateMessageComposer(final IGroupData group) {
         this.playerAvatar = null;
         this.group = group;
         this.online = true;
@@ -67,11 +67,11 @@ public class UpdateFriendStateMessageComposer extends MessageComposer {
         msg.writeInt(0);
 
         msg.writeInt(this.group != null ? -this.group.getId() : this.playerAvatar.getId());
-        msg.writeString(this.group != null ? this.group.getData().getTitle() : this.playerAvatar.getUsername());
+        msg.writeString(this.group != null ? this.group.getTitle() : this.playerAvatar.getUsername());
         msg.writeInt(77);
         msg.writeBoolean(online);
         msg.writeBoolean(inRoom);
-        msg.writeString(this.group != null ? this.group.getData().getBadge() : this.playerAvatar.getFigure());
+        msg.writeString(this.group != null ? this.group.getBadge() : this.playerAvatar.getFigure());
         msg.writeInt(this.group != null ? 1 : 0);
         msg.writeString(this.group != null ? "" : this.playerAvatar.getMotto());
         msg.writeString(""); // facebook name ?

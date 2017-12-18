@@ -36,7 +36,8 @@ public class RollerFloorItem extends AdvancedFloorItem<RollerFloorItemEvent> {
     public RollerFloorItem(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
 
-        this.event = new RollerFloorItemEvent(0);
+        this.event = new RollerFloorItemEvent(this.getTickCount());
+        this.queueEvent(event);
     }
 
     @Override
@@ -53,22 +54,21 @@ public class RollerFloorItem extends AdvancedFloorItem<RollerFloorItemEvent> {
 
     @Override
     public void onEntityStepOn(RoomEntity entity) {
-        this.entitiesOnRoller.add(entity.getId());
-        event.setTotalTicks(this.getTickCount());
+
+//        event.setTotalTicks(this.getTickCount());
+//        this.queueEvent(event);
+//        this.entitiesOnRoller.add(entity.getId());
+//        event.setTotalTicks(this.getTickCount() /2);
+//        this.queueEvent(event);
     }
 
     @Override
     public void onEntityStepOff(RoomEntity entity) {
-        if (!this.entitiesOnRoller.contains(entity.getId())) {
-            return;
-        }
-
-        this.entitiesOnRoller.remove(entity.getId());
     }
 
     @Override
     public void onItemAddedToStack(RoomItemFloor floorItem) {
-        event.setTotalTicks(this.getTickCount());
+//        event.setTotalTicks(this.getTickCount());
     }
 
     @Override
@@ -139,50 +139,56 @@ public class RollerFloorItem extends AdvancedFloorItem<RollerFloorItemEvent> {
             boolean rollerIsFacing = false;
 
             int itemsAtTile = 0;
+//
+//            for (RoomItemFloor nextItem : this.getRoom().getItems().getItemsOnSquare(sqInfront.getX(), sqInfront.getY())) {
+//                if (nextItem instanceof GroupGateFloorItem) break;
+//
+//                itemsAtTile++;
+//
+//                if (nextItem instanceof RollerFloorItem) {
+//                    hasRoller = true;
+//
+//                    final Direction rollerDirection = Direction.get(nextItem.getRotation());
+//                    final Direction rollerInverted = rollerDirection.invert();
+//
+//                    if (rollerInverted == direction) {
+//                        rollerIsFacing = true;
+//                    }
+//                }
+//
+//                WiredTriggerWalksOnFurni.executeTriggers(entity, nextItem);
+//
+//                nextItem.onEntityStepOn(entity);
+//            }
 
-            for (RoomItemFloor nextItem : this.getRoom().getItems().getItemsOnSquare(sqInfront.getX(), sqInfront.getY())) {
-                if (nextItem instanceof GroupGateFloorItem) break;
-
-                itemsAtTile++;
-
-                if (nextItem instanceof RollerFloorItem) {
-                    hasRoller = true;
-
-                    final Direction rollerDirection = Direction.get(nextItem.getRotation());
-                    final Direction rollerInverted = rollerDirection.invert();
-
-                    if (rollerInverted == direction) {
-                        rollerIsFacing = true;
-                    }
-                }
-
-                WiredTriggerWalksOnFurni.executeTriggers(entity, nextItem);
-
-                nextItem.onEntityStepOn(entity);
-            }
-
-            if (hasRoller && rollerIsFacing) {
-                if (itemsAtTile > 1) {
-                    retry = true;
-                    break;
-                }
-            }
+//            if (hasRoller && rollerIsFacing) {
+//                if (itemsAtTile > 1) {
+//                    retry = true;
+//                    break;
+//                }
+//            }
 
             final double toHeight = this.getRoom().getMapping().getTile(sqInfront.getX(), sqInfront.getY()).getWalkHeight();
 
-            final RoomTile oldTile = this.getRoom().getMapping().getTile(entity.getPosition().getX(), entity.getPosition().getY());
-            final RoomTile newTile = this.getRoom().getMapping().getTile(sqInfront.getX(), sqInfront.getY());
+//            final RoomTile oldTile = this.getRoom().getMapping().getTile(entity.getPosition().getX(), entity.getPosition().getY());
+//            final RoomTile newTile = this.getRoom().getMapping().getTile(sqInfront.getX(), sqInfront.getY());
+//
+//            if (oldTile != null) {
+//                oldTile.getEntities().remove(entity);
+//            }
+//
+//            if (newTile != null) {
+//                newTile.getEntities().add(entity);
+//            }
 
-            if (oldTile != null) {
-                oldTile.getEntities().remove(entity);
-            }
+            this.getRoom().getEntities().broadcastMessage(new SlideObjectBundleMessageComposer(entity.getPosition().copy(), new Position(sqInfront.getX(), sqInfront.getY(), toHeight), this.getVirtualId(), entity.getId(), 0));
 
-            if (newTile != null) {
-                newTile.getEntities().add(entity);
-            }
+            entity.updateAndSetPosition(new Position(sqInfront.getX(), sqInfront.getY(), toHeight));
+            entity.markNeedsUpdate(false);
 
-            this.getRoom().getEntities().broadcastMessage(new SlideObjectBundleMessageComposer(entity.getPosition(), new Position(sqInfront.getX(), sqInfront.getY(), toHeight), this.getVirtualId(), entity.getId(), 0));
-            entity.setPosition(new Position(sqInfront.getX(), sqInfront.getY(), toHeight));
+//            final Position newPosition = new Position(sqInfront.getX(), sqInfront.getY(), toHeight);
+//            entity.updateAndSetPosition(newPosition);
+//            entity.markNeedsUpdate();
 
             this.onEntityStepOff(entity);
             movedEntities.add(entity.getId());
