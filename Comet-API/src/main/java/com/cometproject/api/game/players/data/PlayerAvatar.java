@@ -18,11 +18,11 @@ public interface PlayerAvatar {
 
     void setMotto(String motto);
 
-    default void tempData(final int tempData) {
+    default void tempData(final Object tempData) {
     }
 
-    default int tempData() {
-        return 0;
+    default Object tempData() {
+        return null;
     }
 
 }

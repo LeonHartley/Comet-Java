@@ -45,6 +45,8 @@ public class PlayerData implements IPlayerData {
 
     private boolean flaggingUser = false;
 
+    private Object tempData = null;
+
     public PlayerData(int id, String username, String motto, String figure, String gender, String email, int rank, int credits, int vipPoints, int activityPoints,
                       String reg, int lastVisit, boolean vip, int achievementPoints, int regTimestamp, int favouriteGroup, String ipAddress, int questId, int timeMuted) {
         this.id = id;
@@ -94,6 +96,16 @@ public class PlayerData implements IPlayerData {
                 data.getString("playerData_lastIp"),
                 data.getInt("playerData_questId"),
                 data.getInt("playerData_timeMuted"));
+    }
+
+    @Override
+    public Object tempData() {
+        return this.tempData;
+    }
+
+    @Override
+    public void tempData(Object obj) {
+        this.tempData = obj;
     }
 
     public void save() {

@@ -24,21 +24,14 @@ public class GroupMembersMessageComposer extends MessageComposer {
     private final String searchQuery;
     private final boolean isAdmin;
 
-    private final IPlayerService playerService;
-    private final ISessionService sessionService;
-
     public GroupMembersMessageComposer(final IGroupData group, final int page, final List<PlayerAvatar> groupMembers,
-                                       final int requestType, final String searchQuery, final boolean isAdmin,
-                                       IPlayerService playerService, ISessionService sessionService) {
+                                       final int requestType, final String searchQuery, final boolean isAdmin) {
         this.group = group;
         this.page = page;
         this.groupMembers = groupMembers;
         this.requestType = requestType;
         this.searchQuery = searchQuery;
         this.isAdmin = isAdmin;
-
-        this.playerService = playerService;
-        this.sessionService = sessionService;
     }
 
     @Override
@@ -62,40 +55,37 @@ public class GroupMembersMessageComposer extends MessageComposer {
 
             msg.writeInt(paginatedMembers.get(page).size());
 
-//
-//
-//            for (PlayerAvatar groupMember : paginatedMembers.get(page)) {
-//                int playerId;
-//                int joinDate = 0;
-//
-//                    if (requestType == 1) {
-//                        msg.writeInt(playerId == group.getOwnerId() ? 0 : 1);
-//                    } else {
-//                        msg.writeInt(3);
-//                    }
-//
-//                    if (((IGroupMember) memberObject).getAccessLevel().isAdmin()) {
-//                        msg.writeInt(group.getOwnerId() == ((IGroupMember) memberObject).getPlayerId() ? 0 : 1);
-//                    } else {
-//                        msg.writeInt(2);
-//                    }
-//
-//
-//                PlayerAvatar playerAvatar = null;
-//                    msg.writeInt(playerId);
-//                    msg.writeString(playerAvatar.getUsername());
-//                    msg.writeString(playerAvatar.getFigure());
-//
-//                msg.writeString(joinDate != 0 ? GroupInformationMessageComposer.getDate(joinDate) : "");
-//            }
+            for (PlayerAvatar groupMember : paginatedMembers.get(page)) {
+                if (groupMember.tempData() == null) {
+                    if (requestType == 1) {
+                        msg.writeInt(groupMember.getId() == group.getOwnerId() ? 0 : 1);
+                    } else {
+                        msg.writeInt(3);
+                    }
+                } else {
+                    final IGroupMember member = (IGroupMember) groupMember.tempData();
+
+                    if (member.getAccessLevel().isAdmin()) {
+                        msg.writeInt(group.getOwnerId() == groupMember.getId() ? 0 : 1);
+                    } else {
+                        msg.writeInt(2);
+                    }
+                }
+
+                msg.writeInt(groupMember.getId());
+                msg.writeString(groupMember.getUsername());
+                msg.writeString(groupMember.getFigure());
+
+                msg.writeString(groupMember.tempData() != null ? GroupInformationMessageComposer.getDate(((IGroupMember) groupMember.tempData()).getDateJoined()) : "");
+            }
+
+            msg.writeBoolean(isAdmin);
+            msg.writeInt(MEMBERS_PER_PAGE);
+            msg.writeInt(page);
+
+            msg.writeInt(requestType);
+            msg.writeString(searchQuery);
         }
-
-        msg.writeBoolean(isAdmin);
-        msg.writeInt(MEMBERS_PER_PAGE);
-        msg.writeInt(page);
-
-        msg.writeInt(requestType);
-        msg.writeString(searchQuery);
     }
 
     private List<List<PlayerAvatar>> paginateMembers(List<PlayerAvatar> originalList, int chunkSize) {

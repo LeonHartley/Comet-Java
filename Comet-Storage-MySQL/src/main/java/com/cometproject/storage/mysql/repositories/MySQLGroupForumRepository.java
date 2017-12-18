@@ -40,7 +40,8 @@ public class MySQLGroupForumRepository extends MySQLRepository implements IGroup
                 forumSettings.getReadPermission().toString(),
                 forumSettings.getPostPermission().toString(),
                 forumSettings.getStartThreadsPermission().toString(),
-                forumSettings.getModeratePermission().toString());
+                forumSettings.getModeratePermission().toString(),
+                forumSettings.getGroupId());
     }
 
     @Override

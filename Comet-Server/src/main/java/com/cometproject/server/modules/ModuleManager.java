@@ -135,6 +135,7 @@ public class ModuleManager implements Initialisable {
 
         cometModule.loadModule();
 
+        module.setClassLoader(loader);
         this.modules.put(moduleConfig.getName(), cometModule);
 
         //loader.close();

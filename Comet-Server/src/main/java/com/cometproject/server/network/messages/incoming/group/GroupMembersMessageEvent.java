@@ -36,14 +36,13 @@ public class GroupMembersMessageEvent implements Event {
         if (group == null)
             return;
 
-
         final List<PlayerAvatar> playerAvatars = Lists.newArrayList();
 
         switch (requestType) {
             default: {
                 for(IGroupMember groupMember : group.getMembers().getMembersAsList()) {
                     addPlayerAvatar(groupMember.getPlayerId(), playerAvatars, (playerAvatar -> {
-                        playerAvatar.tempData(groupMember.getDateJoined());
+                        playerAvatar.tempData(groupMember);
                     }));
                 }
             } break;
@@ -74,7 +73,7 @@ public class GroupMembersMessageEvent implements Event {
 
         playerAvatars.removeAll(playersToRemove);
 
-        client.send(new GroupMembersMessageComposer(group.getData(), page, playerAvatars, requestType, searchQuery, group.getMembers().getAdministrators().contains(client.getPlayer().getId()), PlayerManager.getInstance(), NetworkManager.getInstance().getSessions()));
+        client.send(new GroupMembersMessageComposer(group.getData(), page, playerAvatars, requestType, searchQuery, group.getMembers().getAdministrators().contains(client.getPlayer().getId())));
     }
 
     private void addPlayerAvatar(final int playerId, final List<PlayerAvatar> playerAvatars, Consumer<PlayerAvatar> avatarConsumer) {

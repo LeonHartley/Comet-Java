@@ -27,7 +27,7 @@ public class GroupService implements IGroupService {
     private final Cache<Integer, IGroup> groupCache;
     private final Cache<Integer, IGroupData> groupDataCache;
 
-    private final IGroupItemService groupItemService;
+    private IGroupItemService groupItemService;
 
     private final IGroupMemberRepository groupMemberRepository;
     private final IGroupRepository groupRepository;
@@ -186,10 +186,10 @@ public class GroupService implements IGroupService {
         requests.addAll(requestsData);
 
         for(final IGroupMember groupMember : groupMemberData) {
-            if(groupMember.getAccessLevel() == GroupAccessLevel.ADMIN)
+            if(groupMember.getAccessLevel().isAdmin())
                 administrators.add(groupMember.getPlayerId());
 
-            groupMembers.put(groupMember.getMembershipId(), groupMember);
+            groupMembers.put(groupMember.getPlayerId(), groupMember);
         }
 
         groupMemberData.clear();
@@ -233,6 +233,11 @@ public class GroupService implements IGroupService {
     @Override
     public IGroupItemService getItemService() {
         return this.groupItemService;
+    }
+
+    @Override
+    public void setItemService(IGroupItemService itemService) {
+        this.groupItemService = itemService;
     }
 
     @Override

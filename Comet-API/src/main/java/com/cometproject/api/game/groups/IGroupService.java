@@ -33,5 +33,7 @@ public interface IGroupService {
 
     IGroupItemService getItemService();
 
+    void setItemService(IGroupItemService itemService);
+
     void removeGroup(int id);
 }

@@ -135,8 +135,7 @@ public class
 
             client.send(new GroupMembersMessageComposer(group.getData(), 0,
                     new ArrayList<>(), 0, "",
-                    group.getMembers().getAdministrators().contains(client.getPlayer().getId()),
-                    PlayerManager.getInstance(), NetworkManager.getInstance().getSessions()));
+                    group.getMembers().getAdministrators().contains(client.getPlayer().getId())));
         }
 
         itemsToRemove.clear();

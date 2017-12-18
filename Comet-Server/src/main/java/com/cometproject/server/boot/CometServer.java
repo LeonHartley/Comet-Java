@@ -9,6 +9,7 @@ import com.cometproject.server.game.GameCycle;
 import com.cometproject.server.game.achievements.AchievementManager;
 import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.commands.CommandManager;
+import com.cometproject.server.game.groups.items.GroupItemManager;
 import com.cometproject.server.game.guides.GuideManager;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.landing.LandingManager;
@@ -98,6 +99,8 @@ public class CometServer {
         GameContext.setCurrent(gameContext);
 
         ModuleManager.getInstance().setupModules();
+
+        GameContext.getCurrent().getGroupService().setItemService(new GroupItemManager());
 
         String ipAddress = this.getConfig().get("comet.network.host"),
                 port = this.getConfig().get("comet.network.port");

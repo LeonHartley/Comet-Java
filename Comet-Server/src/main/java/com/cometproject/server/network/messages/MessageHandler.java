@@ -148,9 +148,9 @@ public final class MessageHandler {
         this.registerHelpTool();
         this.registerMessenger();
         this.registerNavigator();
-//        this.registerUser();
-//        this.registerBots();
-//        this.registerRoom();
+        this.registerUser();
+        this.registerBots();
+        this.registerRoom();
         this.registerRoomTrade();
         this.registerRoomModeration();
         this.registerRoomAccess();

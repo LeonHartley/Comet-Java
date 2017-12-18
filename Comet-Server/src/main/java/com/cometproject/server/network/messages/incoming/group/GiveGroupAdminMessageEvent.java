@@ -62,6 +62,6 @@ public class GiveGroupAdminMessageEvent implements Event {
             }
         }
 
-        client.send(new GroupMembersMessageComposer(group.getData(), 0, new ArrayList<>(), 1, "", group.getMembers().getAdministrators().contains(client.getPlayer().getId()), PlayerManager.getInstance(), NetworkManager.getInstance().getSessions()));
+        client.send(new GroupMembersMessageComposer(group.getData(), 0, new ArrayList<>(), 1, "", group.getMembers().getAdministrators().contains(client.getPlayer().getId())));
     }
 }

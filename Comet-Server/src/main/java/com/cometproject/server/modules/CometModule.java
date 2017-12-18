@@ -7,6 +7,7 @@ public class CometModule {
     private final String path;
     private final String alias;
     private final JsonObject config;
+    private ClassLoader classLoader;
 
     public CometModule(String path, String alias, JsonObject config) {
         this.path = path;
@@ -24,5 +25,13 @@ public class CometModule {
 
     public JsonObject getConfig() {
         return config;
+    }
+
+    public ClassLoader getClassLoader() {
+        return classLoader;
+    }
+
+    public void setClassLoader(ClassLoader classLoader) {
+        this.classLoader = classLoader;
     }
 }

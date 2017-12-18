@@ -5,6 +5,7 @@ import com.cometproject.api.game.furniture.IFurnitureService;
 import com.cometproject.api.game.groups.IGroupService;
 import com.cometproject.api.game.players.IPlayerService;
 import com.cometproject.api.game.rooms.IRoomService;
+import org.apache.log4j.Logger;
 
 public class GameContext {
     private static GameContext gameContext;
@@ -14,6 +15,8 @@ public class GameContext {
     private IGroupService groupService;
     private IPlayerService playerService;
     private IRoomService roomService;
+
+    private final Logger logger = Logger.getLogger(GameContext.class);
 
     public ICatalogService getCatalogService() {
         return catalogService;
@@ -36,6 +39,8 @@ public class GameContext {
     }
 
     public void setGroupService(IGroupService groupService) {
+        logger.info("GroupService initialised, " + groupService.getClass().getName());
+
         this.groupService = groupService;
     }
 

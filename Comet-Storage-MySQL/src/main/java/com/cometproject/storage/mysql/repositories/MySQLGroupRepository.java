@@ -34,7 +34,7 @@ public class MySQLGroupRepository extends MySQLRepository implements IGroupRepos
                 groupData.getTitle(), groupData.getDescription(), groupData.getBadge(), groupData.getOwnerId(),
                 groupData.getRoomId(), groupData.getType().toString().toLowerCase(),
                 groupData.getColourA(), groupData.getColourB(), groupData.canMembersDecorate() ? "1" : "0",
-                groupData.hasForum());
+                groupData.hasForum() ? "1" : "0", groupData.getId());
     }
 
     @Override

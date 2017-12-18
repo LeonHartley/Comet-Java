@@ -10,7 +10,7 @@ public class PlayerAvatarData implements PlayerAvatar {
     private String figure;
     private String motto;
 
-    private int tempData = 0;
+    private Object tempData = 0;
 
     public PlayerAvatarData(int id, String username, String figure, String motto) {
         this.id = id;
@@ -61,11 +61,11 @@ public class PlayerAvatarData implements PlayerAvatar {
         this.motto = motto;
     }
 
-    public void tempData(final int data) {
+    public void tempData(final Object data) {
         this.tempData = data;
     }
 
-    public int tempData() {
+    public Object tempData() {
         return this.tempData;
     }
 

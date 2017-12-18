@@ -189,6 +189,8 @@ public abstract class MySQLRepository {
                 preparedStatement.setString(parameterIndex++, (String) obj);
             } else if(obj instanceof Long) {
                 preparedStatement.setLong(parameterIndex++, (Long) obj);
+            } else if(obj instanceof Boolean) {
+                preparedStatement.setBoolean(parameterIndex++, (Boolean) obj);
             } else {
                 throw new UnexpectedTypeException("You can only bind types: Integer, String and Long to a statement!");
             }

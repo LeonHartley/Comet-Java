@@ -36,8 +36,7 @@ public class ModifyGroupTitleMessageEvent implements Event {
         group.getData().setTitle(title);
         group.getData().setDescription(description);
 
-        StorageContext.getCurrentContext().getGroupRepository().saveGroupData(group.getData());
-
+        GameContext.getCurrent().getGroupService().saveGroupData(group.getData());
 
         if (RoomManager.getInstance().isActive(group.getData().getRoomId())) {
             Room room = RoomManager.getInstance().get(group.getData().getRoomId());

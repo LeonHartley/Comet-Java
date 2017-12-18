@@ -55,9 +55,11 @@ public class AcceptMembershipMessageEvent implements Event {
             }
         }
 
+
+
 //group.getMembers().getMembershipRequests()
         client.send(new GroupMembersMessageComposer(group.getData(), 0,
                 new ArrayList<PlayerAvatar>(), 2, "",
-                true, PlayerManager.getInstance(), NetworkManager.getInstance().getSessions()));
+                true));
     }
 }
