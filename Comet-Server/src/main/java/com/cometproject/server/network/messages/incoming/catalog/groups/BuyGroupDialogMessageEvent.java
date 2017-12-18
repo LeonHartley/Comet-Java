@@ -20,7 +20,7 @@ public class BuyGroupDialogMessageEvent implements Event {
         for (Integer roomId : client.getPlayer().getRooms()) {
             final IRoomData room = RoomManager.getInstance().getRoomData(roomId);
 
-            if(room.getGroupId() > 0) {
+            if(room.getGroupId() < 1) {
                 roomData.add(room);
             }
 //            if (GroupManager.getInstance().getGroupByRoomId(room) == null)

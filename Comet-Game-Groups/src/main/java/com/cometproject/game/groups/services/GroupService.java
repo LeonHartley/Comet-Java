@@ -114,6 +114,8 @@ public class GroupService implements IGroupService {
         final List<IGroupMember> groupMembers = Lists.newArrayList();
         final List<Integer> requests = Lists.newArrayList();
 
+        this.groupRepository.create(groupData);
+
         this.groupMemberRepository.create(groupData.getId(), ownerId, GroupAccessLevel.OWNER, groupMembers::add);
         return this.build(groupMembers, requests, groupData);
     }

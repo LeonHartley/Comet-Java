@@ -44,7 +44,7 @@ public class MySQLGroupMemberRepository extends MySQLRepository implements IGrou
 
         insert("INSERT into group_memberships (`group_id`, `player_id`, `access_level`, `date_joined`) VALUES(?, ?, ?, ?);",
                 (data) -> member.accept(this.groupMemberFactory.create(data.readInteger(1), playerId, groupId, accessLevel, dateJoined)),
-                groupId, playerId, accessLevel, dateJoined);
+                groupId, playerId, accessLevel.toString(), dateJoined);
     }
 
     @Override

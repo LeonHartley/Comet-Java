@@ -46,7 +46,7 @@ public class BuyGroupMessageEvent implements Event {
         int colour1 = msg.readInt();
         int colour2 = msg.readInt();
 
-        if (!client.getPlayer().getRooms().contains(roomId) || RoomManager.getInstance().getRoomData(roomId) == null || GameContext.getCurrent().getGroupService() != null) {
+        if (!client.getPlayer().getRooms().contains(roomId) || RoomManager.getInstance().getRoomData(roomId) == null) {
             return;
         }
 
