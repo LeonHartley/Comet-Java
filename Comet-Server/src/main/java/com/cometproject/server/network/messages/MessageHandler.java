@@ -2,6 +2,7 @@ package com.cometproject.server.network.messages;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.api.config.Configuration;
+import com.cometproject.server.composers.gamecenter.GameStatusMessageComposer;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.incoming.catalog.*;
 import com.cometproject.server.network.messages.incoming.catalog.ads.CatalogPromotionGetRoomsMessageEvent;
@@ -13,6 +14,8 @@ import com.cometproject.server.network.messages.incoming.catalog.groups.BuyGroup
 import com.cometproject.server.network.messages.incoming.catalog.groups.GroupFurnitureCatalogMessageEvent;
 import com.cometproject.server.network.messages.incoming.catalog.pets.PetRacesMessageEvent;
 import com.cometproject.server.network.messages.incoming.catalog.pets.ValidatePetNameMessageEvent;
+import com.cometproject.server.network.messages.incoming.gamecenter.GetGameAchievementsMessageEvent;
+import com.cometproject.server.network.messages.incoming.gamecenter.GetGameListMessageEvent;
 import com.cometproject.server.network.messages.incoming.group.*;
 import com.cometproject.server.network.messages.incoming.group.favourite.ClearFavouriteGroupMessageEvent;
 import com.cometproject.server.network.messages.incoming.group.favourite.SetFavouriteGroupMessageEvent;
@@ -106,6 +109,8 @@ import com.cometproject.server.network.messages.types.tasks.MessageEventTask;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.protocol.headers.Events;
 import com.cometproject.server.protocol.messages.MessageEvent;
+import com.cometproject.api.networking.messages.MessageEventHandler;
+import com.google.common.collect.Maps;
 import org.apache.log4j.Logger;
 
 import java.util.Map;
@@ -113,7 +118,9 @@ import java.util.concurrent.*;
 
 public final class MessageHandler {
     public static Logger log = Logger.getLogger(MessageHandler.class.getName());
-    private final Map<Short, Event> messages = new ConcurrentHashMap<>();
+
+    private final Map<Short, Event> messages = Maps.newConcurrentMap();
+    private final Map<Short, MessageEventHandler> eventHandlers = Maps.newConcurrentMap();
 
     private final ExecutorService eventExecutor;
     private final boolean asyncEventExecution;
@@ -168,8 +175,17 @@ public final class MessageHandler {
         this.registerMusic();
         this.registerCamera();
         this.registerGuideTool();
+        this.registerGameCenter();
 
         log.info("Loaded " + this.getMessages().size() + " message events");
+    }
+
+    private void registerGameCenter() {
+        this.getMessages().put(Events.GetGameListMessageEvent, new GetGameListMessageEvent());
+        this.getMessages().put(Events.GetGameAchievementsMessageEvent, new GetGameAchievementsMessageEvent());
+        this.getMessages().put((short) 1389, (session, event) -> {
+            session.send(new GameStatusMessageComposer(event.readInt(), 0));
+        });
     }
 
     private void registerMisc() {

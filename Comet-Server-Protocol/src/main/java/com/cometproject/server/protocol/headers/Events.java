@@ -266,6 +266,8 @@ public class Events {
     public static final short ThumbnailMessageEvent = 2046;
     public static final short PurchasePhotoMessageEvent = 1554;
     public static final short PhotoPricingMessageEvent = 654;
+    public static final short GetGameListMessageEvent = 1288;
+    public static final short GetGameAchievementsMessageEvent = 97;
 
     private static Map<Short, String> eventPacketNames = new HashMap<>();
 

@@ -5,6 +5,7 @@ import com.cometproject.api.config.ModuleConfig;
 import com.cometproject.api.events.Event;
 import com.cometproject.api.events.EventListenerContainer;
 import com.cometproject.api.game.GameContext;
+import com.cometproject.api.networking.messages.MessageEventHandler;
 import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.api.server.IGameService;
 
@@ -44,6 +45,10 @@ public abstract class BaseModule implements EventListenerContainer {
      */
     protected void registerEvent(Event event) {
         this.getGameService().getEventHandler().registerEvent(event);
+    }
+
+    public void registerMessage(MessageEventHandler messageEventHandler) {
+
     }
 
     /**

@@ -272,6 +272,9 @@ public class Composers {
     public static final short PhotoPriceMessageComposer = 953;
     public static final short PurchasedPhotoMessageComposer = 3859;
     public static final short YouArePlayingGameMessageComposer = 613;
+    public static final short GameListMessageComposer = 1187;
+    public static final short GameAchievementsMessageComposer = 2719;
+    public static final short GameStatusMessageComposer = 421;
 
 
 

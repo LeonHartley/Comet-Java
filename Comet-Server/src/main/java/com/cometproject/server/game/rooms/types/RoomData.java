@@ -71,7 +71,7 @@ public class RoomData implements IRoomData {
                     boolean allowPets, String heightmap, RoomMuteState muteState, RoomKickState kickState,
                     RoomBanState banState, int bubbleMode, int bubbleType, int bubbleScroll, int chatDistance,
                     int antiFloodSettings, List<String> disabledCommands, int groupId, long lastReferenced,
-                    String requiredBadge) {
+                    String requiredBadge, String thumbnail) {
         this.id = id;
         this.type = type;
         this.name = name;
@@ -106,6 +106,7 @@ public class RoomData implements IRoomData {
         this.groupId = groupId;
         this.lastReferenced = lastReferenced;
         this.requiredBadge = requiredBadge;
+        this.thumbnail = thumbnail;
     }
 
     public void save() {

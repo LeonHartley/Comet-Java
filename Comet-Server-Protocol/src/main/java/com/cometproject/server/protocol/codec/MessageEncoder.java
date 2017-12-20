@@ -11,7 +11,7 @@ public class MessageEncoder extends MessageToByteEncoder<IMessageComposer> {
     protected void encode(ChannelHandlerContext ctx, IMessageComposer msg, ByteBuf out) throws Exception {
         final Composer composer = ((Composer) msg.writeMessage(out));
 
-        if (!composer.hasLength()) {
+        if (!composer.isFinalised()) {
             composer.content().setInt(0, composer.content().writerIndex() - 4);
         }
     }

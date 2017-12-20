@@ -576,7 +576,7 @@ public class RoomDao {
                 originalPassword, tradeState, score, tags, decorations, model, hideWalls, thicknessWall, thicknessFloor,
                 allowWalkthrough, allowPets, heightmap, muteState, kickState, banState, bubbleMode, bubbleType,
                 bubbleScroll, chatDistance, antiFloodSettings, disabledCommands, groupId, System.currentTimeMillis(),
-                requiredBadge);
+                requiredBadge, thumbnail);
     }
 
     private static void fillDecorations(Map<String, String> decorations, String[] decorationsArray) {

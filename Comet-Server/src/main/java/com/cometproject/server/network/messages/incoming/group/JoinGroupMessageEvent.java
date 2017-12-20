@@ -9,7 +9,7 @@ import com.cometproject.api.game.groups.types.components.membership.GroupAccessL
 import com.cometproject.api.game.groups.types.GroupType;
 import com.cometproject.server.composers.group.GroupInformationMessageComposer;
 import com.cometproject.server.game.rooms.RoomManager;
-import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
+import com.cometproject.api.game.rooms.entities.RoomEntityStatus;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.messenger.UpdateFriendStateMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.permissions.YouAreControllerMessageComposer;

@@ -1,4 +1,4 @@
-package com.cometproject.server.game.rooms.objects.entities;
+package com.cometproject.api.game.rooms.entities;
 
 public enum RoomEntityStatus {
     SIT("sit"),

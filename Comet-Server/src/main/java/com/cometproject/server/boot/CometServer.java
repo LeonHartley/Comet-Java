@@ -19,6 +19,7 @@ import com.cometproject.server.game.navigator.NavigatorManager;
 import com.cometproject.server.game.permissions.PermissionsManager;
 import com.cometproject.server.game.pets.PetManager;
 import com.cometproject.server.game.players.PlayerManager;
+import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.polls.PollManager;
 import com.cometproject.server.game.quests.QuestManager;
 import com.cometproject.server.game.rooms.RoomManager;
@@ -95,6 +96,7 @@ public class CometServer {
 
         gameContext.setCatalogService(CatalogManager.getInstance());
         gameContext.setFurnitureService(ItemManager.getInstance());
+        gameContext.setPlayerService(PlayerManager.getInstance());
 
         GameContext.setCurrent(gameContext);
 

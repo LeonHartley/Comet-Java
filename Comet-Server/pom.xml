@@ -455,5 +455,15 @@
             <artifactId>Comet-Common</artifactId>
             <version>2.1.2-TEST2</version>
         </dependency>
+        <dependency>
+            <groupId>antlr</groupId>
+            <artifactId>antlr</artifactId>
+            <version>2.7.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.core</groupId>
+            <artifactId>jersey-common</artifactId>
+            <version>2.25</version>
+        </dependency>
     </dependencies>
 </project>

@@ -13,7 +13,9 @@ public abstract class FloorItemEvent {
         this.totalTicks = totalTicks;
     }
 
-    /** You can override this to FORCE a callback! (even if the onEventComplete method is overriden) */
+    /**
+     * You can override this to FORCE a callback! (even if the onEventComplete method is overriden)
+     */
     public void onCompletion(final RoomItemFloor floorItem) {
 
     }
@@ -33,5 +35,9 @@ public abstract class FloorItemEvent {
 
     public boolean isInteractiveEvent() {
         return true;
+    }
+
+    public int getCurrentTicks() {
+        return this.ticks.get();
     }
 }
