@@ -54,7 +54,7 @@ Comet Pre-1.0 Changelog
 
 ## 12/07/2015
 * Fixed searching "owner:" causing an error in the navigator.
-* Added room idle time to the server config (comet.room.idleTimeMinutes)
+* Added room idle time to the server com.cometproject.networking.api.config (comet.room.idleTimeMinutes)
 
 ## 07/07/2015
 * Lots of work on achievements
@@ -188,7 +188,7 @@ Comet Pre-1.0 Changelog
 ## 18/04/2015
 * Threading changes
 * Changes to room actor processing
-* Move the client-side friend list limit to config (comet.game.messenger.maxFriends)
+* Move the client-side friend list limit to com.cometproject.networking.api.config (comet.game.messenger.maxFriends)
 
 ## 17/04/2015
 * Restructure project into modules

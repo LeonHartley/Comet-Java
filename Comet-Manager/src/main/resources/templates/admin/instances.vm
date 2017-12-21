@@ -31,7 +31,7 @@
         </div>
 
         #if($saved)
-        <div class="alert alert-success" role="alert">Instance config saved successfully!</div>
+        <div class="alert alert-success" role="alert">Instance com.cometproject.networking.api.config saved successfully!</div>
         #end
 
         <!-- Table -->
@@ -76,7 +76,7 @@
                                         <div class="row settings">
                                             <div class="col-md-3">Configuration Data</div>
                                             <div class="col-md-9">
-                                                <textarea class="form-control" name="instance-config" rows="15" style="width: 100%;">$instance.configData</textarea>
+                                                <textarea class="form-control" name="instance-com.cometproject.networking.api.config" rows="15" style="width: 100%;">$instance.configData</textarea>
                                             </div>
                                         </div>
 

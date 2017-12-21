@@ -281,9 +281,9 @@ public class ProcessComponent implements CometTask {
                 }
             }
 
-            if (entity.hasStatus(RoomEntityStatus.SIT)) {
+            /*if (entity.hasStatus(RoomEntityStatus.SIT)) {
                 entity.removeStatus(RoomEntityStatus.SIT);
-            }
+            }*/
 
             // Create the new position
             Position newPosition = entity.getPositionToSet().copy();

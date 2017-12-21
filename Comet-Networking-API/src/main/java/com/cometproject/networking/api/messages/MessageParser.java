@@ -1,4 +1,4 @@
-package com.cometproject.api.networking.messages;
+package com.cometproject.networking.api.messages;
 
 import com.cometproject.api.networking.messages.IMessageEvent;
 

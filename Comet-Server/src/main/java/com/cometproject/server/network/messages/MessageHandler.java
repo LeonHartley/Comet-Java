@@ -1,5 +1,9 @@
 package com.cometproject.server.network.messages;
 
+import com.cometproject.api.networking.messages.IMessageEvent;
+import com.cometproject.api.networking.messages.IMessageEventHandler;
+import com.cometproject.api.networking.sessions.ISession;
+import com.cometproject.networking.api.messages.IMessageHandler;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.api.config.Configuration;
 import com.cometproject.server.composers.gamecenter.GameStatusMessageComposer;
@@ -109,18 +113,17 @@ import com.cometproject.server.network.messages.types.tasks.MessageEventTask;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.protocol.headers.Events;
 import com.cometproject.server.protocol.messages.MessageEvent;
-import com.cometproject.api.networking.messages.MessageEventHandler;
 import com.google.common.collect.Maps;
 import org.apache.log4j.Logger;
 
 import java.util.Map;
 import java.util.concurrent.*;
 
-public final class MessageHandler {
+public final class MessageHandler implements IMessageHandler {
     public static Logger log = Logger.getLogger(MessageHandler.class.getName());
 
     private final Map<Short, Event> messages = Maps.newConcurrentMap();
-    private final Map<Short, MessageEventHandler> eventHandlers = Maps.newConcurrentMap();
+    private final Map<Short, IMessageEventHandler> eventHandlers = Maps.newConcurrentMap();
 
     private final ExecutorService eventExecutor;
     private final boolean asyncEventExecution;
@@ -183,6 +186,7 @@ public final class MessageHandler {
     private void registerGameCenter() {
         this.getMessages().put(Events.GetGameListMessageEvent, new GetGameListMessageEvent());
         this.getMessages().put(Events.GetGameAchievementsMessageEvent, new GetGameAchievementsMessageEvent());
+
         this.getMessages().put((short) 1389, (session, event) -> {
             session.send(new GameStatusMessageComposer(event.readInt(), 0));
         });
@@ -554,5 +558,12 @@ public final class MessageHandler {
 
     public Map<Short, Event> getMessages() {
         return this.messages;
+    }
+
+    @Override
+    public void handleMessage(IMessageEvent messageEvent, ISession session) {
+        // this is the old message handler, once i get around to it, ill be rewriting the entire messaging system
+        // so all of this will be gone. but for now it stays.
+        this.handle((MessageEvent) messageEvent, (Session) session);
     }
 }

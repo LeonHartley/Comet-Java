@@ -42,7 +42,8 @@
         <module>Comet-Storage-API</module>
         <module>Comet-Storage-MySQL</module>
 
-        <module>Comet-Server-Composers</module>
+        <module>Comet-Networking-API</module>
+        <module>Comet-Networking-Composers</module>
     </modules>
 
 </project>

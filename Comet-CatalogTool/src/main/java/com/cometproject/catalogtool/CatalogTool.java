@@ -21,10 +21,10 @@ public class CatalogTool {
         final int pageId = Integer.parseInt(args[0]);
         final String furniline = args[1];
 
-        Configuration.setConfiguration(new Configuration("./config/comet.properties"));
+        Configuration.setConfiguration(new Configuration("./com.cometproject.networking.api.config/comet.properties"));
 
         try {
-            PropertyConfigurator.configure(new FileInputStream("./config/log4j.properties"));
+            PropertyConfigurator.configure(new FileInputStream("./com.cometproject.networking.api.config/log4j.properties"));
         } catch (Exception e) {
             log.error("Error while loading log4j configuration", e);
             return;

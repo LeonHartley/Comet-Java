@@ -1,10 +1,12 @@
-package com.cometproject.api.networking.messages;
+package com.cometproject.networking.api.messages;
 
+import com.cometproject.api.networking.messages.IMessageEvent;
+import com.cometproject.api.networking.messages.IMessageEventHandler;
 import org.apache.log4j.Logger;
 
 import java.util.function.Consumer;
 
-public abstract class MessageEventHandler<T extends MessageParser> {
+public abstract class MessageEventHandler<T extends MessageParser> implements IMessageEventHandler {
 
     private static Logger log = Logger.getLogger(MessageEventHandler.class);
 

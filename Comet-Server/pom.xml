@@ -421,7 +421,7 @@
         </dependency>
         <dependency>
             <groupId>Comet</groupId>
-            <artifactId>Comet-Server-Composers</artifactId>
+            <artifactId>Comet-Networking-Composers</artifactId>
             <version>2.1.2-TEST2</version>
         </dependency>
         <dependency>
@@ -464,6 +464,16 @@
             <groupId>org.glassfish.jersey.core</groupId>
             <artifactId>jersey-common</artifactId>
             <version>2.25</version>
+        </dependency>
+        <dependency>
+            <groupId>Comet</groupId>
+            <artifactId>Comet-Networking-API</artifactId>
+            <version>2.1.2-TEST2</version>
+        </dependency>
+        <dependency>
+            <groupId>Comet</groupId>
+            <artifactId>Comet-Networking-API</artifactId>
+            <version>2.1.2-TEST2</version>
         </dependency>
     </dependencies>
 </project>
