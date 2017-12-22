@@ -16,6 +16,9 @@ public class MySQLStorageInitializer implements IStorageInitializer {
 
     public MySQLStorageInitializer(MySQLConnectionProvider connectionProvider) {
         this.connectionProvider = connectionProvider;
+
+        // Enables creation of MySQL repositories from outside the MySQL module :-)
+        MySQLStorageContext.setCurrentContext(new MySQLStorageContext(connectionProvider));
     }
 
     @Override

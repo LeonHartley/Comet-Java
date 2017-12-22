@@ -119,7 +119,7 @@ import org.apache.log4j.Logger;
 import java.util.Map;
 import java.util.concurrent.*;
 
-public final class MessageHandler implements IMessageHandler {
+public final class MessageHandler {
     public static Logger log = Logger.getLogger(MessageHandler.class.getName());
 
     private final Map<Short, Event> messages = Maps.newConcurrentMap();
@@ -558,12 +558,5 @@ public final class MessageHandler implements IMessageHandler {
 
     public Map<Short, Event> getMessages() {
         return this.messages;
-    }
-
-    @Override
-    public void handleMessage(IMessageEvent messageEvent, ISession session) {
-        // this is the old message handler, once i get around to it, ill be rewriting the entire messaging system
-        // so all of this will be gone. but for now it stays.
-        this.handle((MessageEvent) messageEvent, (Session) session);
     }
 }
