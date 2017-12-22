@@ -1,9 +1,12 @@
 package com.cometproject.server.network.clients;
 
+import com.cometproject.networking.api.sessions.INetSession;
+import com.cometproject.networking.api.sessions.INetSessionFactory;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.outgoing.misc.PingMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.network.sessions.SessionManager;
+import com.cometproject.server.network.sessions.net.NetSessionFactory;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -21,18 +24,27 @@ public class ClientHandler extends SimpleChannelInboundHandler<MessageEvent> {
 
     private static ClientHandler clientHandlerInstance;
 
-    public static ClientHandler getInstance() {
+    public static ClientHandler getInstance(INetSessionFactory netSessionFactory) {
         if (clientHandlerInstance == null)
-            clientHandlerInstance = new ClientHandler();
+            clientHandlerInstance = new ClientHandler(netSessionFactory);
 
         return clientHandlerInstance;
+    }
+
+    private final INetSessionFactory sessionFactory;
+
+    public ClientHandler(INetSessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
 
         log.trace("entered channelActive on thread " + Thread.currentThread().getName());
-        if (!NetworkManager.getInstance().getSessions().add(ctx)) {
+
+        final INetSession session = this.sessionFactory.createSession(ctx);
+
+        if(session == null) {
             ctx.disconnect();
         }
     }

@@ -90,7 +90,7 @@ public class Comet {
         Level logLevel = Level.INFO;
 
         if (args.length < 1) {
-            log.debug("No config args found, falling back to default configuration!");
+            log.debug("No com.cometproject.networking.api.config args found, falling back to default configuration!");
             server = new CometServer(null);
         } else {
             Map<String, String> cometConfiguration = new HashMap<>();

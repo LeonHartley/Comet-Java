@@ -6,6 +6,7 @@ import com.cometproject.networking.api.INetworkingServer;
 import com.cometproject.networking.api.INetworkingServerFactory;
 import com.cometproject.networking.api.config.NetworkingServerConfig;
 import com.cometproject.networking.api.messages.IMessageHandler;
+import com.cometproject.networking.api.sessions.INetSessionFactory;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.ChannelOption;
@@ -34,10 +35,10 @@ public class NettyNetworkingServerFactory implements INetworkingServerFactory {
     private boolean epollEnabled = false;
 
     public NettyNetworkingServerFactory(Configuration configuration) {
-        final boolean epoll = (boolean) configuration.getOrDefault(CFG_EPOLL, false);
-        final int ioGroupCount = (int) configuration.getOrDefault(CFG_IO_LOOP_COUNT, 4);
-        final int channelGroupCount = (int) configuration.getOrDefault(CFG_CHANNEL_LOOP_COUNT, 4);
-        final int acceptGroupCount = (int) configuration.getOrDefault(CFG_ACCEPT_LOOP_COUNT, 2);
+        final boolean epoll = Boolean.parseBoolean((String) configuration.getOrDefault(CFG_EPOLL, "false"));
+        final int ioGroupCount = Integer.parseInt((String) configuration.getOrDefault(CFG_IO_LOOP_COUNT, "4"));
+        final int channelGroupCount = Integer.parseInt((String) configuration.getOrDefault(CFG_CHANNEL_LOOP_COUNT, "4"));
+        final int acceptGroupCount = Integer.parseInt((String) configuration.getOrDefault(CFG_ACCEPT_LOOP_COUNT, "2"));
 
         this.configuration = configuration;
         this.epollEnabled = Epoll.isAvailable() && epoll;
@@ -53,13 +54,12 @@ public class NettyNetworkingServerFactory implements INetworkingServerFactory {
     }
 
     @Override
-    public INetworkingServer createServer(NetworkingServerConfig serverConfig, IMessageHandler messageHandler,
-                                          ISessionService sessionService) {
+    public INetworkingServer createServer(NetworkingServerConfig serverConfig, INetSessionFactory sessionFactory) {
         ServerBootstrap bootstrap = new ServerBootstrap()
                 .group(this.acceptLoopGroup, this.ioLoopGroup)
                 .channel(this.epollEnabled ? EpollServerSocketChannel.class : NioServerSocketChannel.class)
-                .childHandler(new NetworkChannelInitializer(this.channelLoopGroup))
-                .option(ChannelOption.SO_BACKLOG, (int) this.configuration.getOrDefault(CFG_NETWORK_BACKLOG, 500))
+                .childHandler(new NetworkChannelInitializer(this.channelLoopGroup, sessionFactory))
+                .option(ChannelOption.SO_BACKLOG, Integer.parseInt((String) this.configuration.getOrDefault(CFG_NETWORK_BACKLOG, "500")))
                 .option(ChannelOption.TCP_NODELAY, true)
                 .option(ChannelOption.WRITE_BUFFER_LOW_WATER_MARK, 32 * 1024)
                 .option(ChannelOption.WRITE_BUFFER_HIGH_WATER_MARK, 64 * 1024)
@@ -70,6 +70,6 @@ public class NettyNetworkingServerFactory implements INetworkingServerFactory {
                 .childOption(ChannelOption.WRITE_BUFFER_LOW_WATER_MARK, 32 * 1024)
                 .childOption(ChannelOption.WRITE_BUFFER_HIGH_WATER_MARK, 64 * 1024);
 
-        return new NettyNetworkingServer(serverConfig, messageHandler, sessionService, bootstrap);
+        return new NettyNetworkingServer(serverConfig, sessionFactory, bootstrap);
     }
 }

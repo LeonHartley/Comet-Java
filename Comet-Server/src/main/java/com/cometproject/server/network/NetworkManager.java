@@ -9,6 +9,7 @@ import com.cometproject.networking.api.INetworkingServer;
 import com.cometproject.networking.api.INetworkingServerFactory;
 import com.cometproject.networking.api.NetworkingContext;
 import com.cometproject.networking.api.config.NetworkingServerConfig;
+import com.cometproject.networking.api.sessions.INetSessionFactory;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.boot.utils.ConsoleCommands;
 import com.cometproject.api.config.CometSettings;
@@ -16,6 +17,7 @@ import com.cometproject.api.config.Configuration;
 import com.cometproject.server.network.messages.MessageHandler;
 import com.cometproject.server.network.monitor.MonitorClient;
 import com.cometproject.server.network.sessions.SessionManager;
+import com.cometproject.server.network.sessions.net.NetSessionFactory;
 import com.cometproject.server.protocol.security.exchange.RSA;
 import com.cometproject.server.utilities.CometThreadFactory;
 import com.google.common.collect.Sets;
@@ -143,6 +145,7 @@ public class NetworkManager {
 
 //        final NettyNetworkingServerFactory serverFactory = new NettyNetworkingServerFactory(Configuration.currentConfig());
 
+        final INetSessionFactory sessionFactory = new NetSessionFactory(this.sessions, new MessageHandler());
         final INetworkingServerFactory serverFactory = new NettyNetworkingServerFactory(Configuration.currentConfig());
         final NetworkingContext networkingContext = new NetworkingContext(serverFactory);
 
@@ -158,7 +161,8 @@ public class NetworkManager {
             portSet.add(Short.parseShort(ports));
         }
 
-        final INetworkingServer gameServer = serverFactory.createServer(new NetworkingServerConfig(ip, portSet), new MessageHandler(), this.sessions);
+        final INetworkingServer gameServer = serverFactory.createServer(new NetworkingServerConfig(ip, portSet),
+                sessionFactory);
 
         gameServer.start();
     }

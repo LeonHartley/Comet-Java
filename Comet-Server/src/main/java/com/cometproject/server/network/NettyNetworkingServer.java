@@ -4,6 +4,7 @@ import com.cometproject.api.networking.sessions.ISessionService;
 import com.cometproject.networking.api.INetworkingServer;
 import com.cometproject.networking.api.config.NetworkingServerConfig;
 import com.cometproject.networking.api.messages.IMessageHandler;
+import com.cometproject.networking.api.sessions.INetSessionFactory;
 import io.netty.bootstrap.ServerBootstrap;
 import org.apache.log4j.Logger;
 
@@ -13,15 +14,12 @@ public class NettyNetworkingServer implements INetworkingServer {
     private static final Logger log = Logger.getLogger(NettyNetworkingServer.class);
 
     private final NetworkingServerConfig serverConfig;
-    private final IMessageHandler messageHandler;
-    private final ISessionService sessionService;
+    private final INetSessionFactory sessionFactory;
     private final ServerBootstrap serverBootstrap;
 
-    public NettyNetworkingServer(NetworkingServerConfig serverConfig, IMessageHandler messageHandler,
-                                 ISessionService sessionService, ServerBootstrap serverBootstrap) {
+    public NettyNetworkingServer(NetworkingServerConfig serverConfig, INetSessionFactory sessionFactory, ServerBootstrap serverBootstrap) {
         this.serverConfig = serverConfig;
-        this.messageHandler = messageHandler;
-        this.sessionService = sessionService;
+        this.sessionFactory = sessionFactory;
         this.serverBootstrap = serverBootstrap;
     }
 
@@ -48,12 +46,7 @@ public class NettyNetworkingServer implements INetworkingServer {
     }
 
     @Override
-    public IMessageHandler getMessageHandler() {
-        return messageHandler;
-    }
-
-    @Override
-    public ISessionService getSessionService() {
-        return sessionService;
+    public INetSessionFactory getSessionFactory() {
+        return this.sessionFactory;
     }
 }

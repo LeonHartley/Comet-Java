@@ -187,7 +187,7 @@ public final class MessageHandler implements IMessageHandler {
         this.getMessages().put(Events.GetGameListMessageEvent, new GetGameListMessageEvent());
         this.getMessages().put(Events.GetGameAchievementsMessageEvent, new GetGameAchievementsMessageEvent());
 
-        this.getMessages().put((short) 1389, (session, event) -> {
+        this.getMessages().put((short) 1740, (session, event) -> {
             session.send(new GameStatusMessageComposer(event.readInt(), 0));
         });
     }
