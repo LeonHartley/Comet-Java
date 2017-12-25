@@ -34,8 +34,8 @@ public class PlayerManager implements IPlayerService, Initialisable {
     private Map<String, List<Integer>> ipAddressToPlayerIds;
 
     private Map<String, Integer> ssoTicketToPlayerId;
-
     private Map<Integer, String> playerIdToUsername;
+    private Map<String, Integer> authTokenToPlayerId;
 
     private CacheManager cacheManager;
 
@@ -247,6 +247,16 @@ public class PlayerManager implements IPlayerService, Initialisable {
 
     public Map<String, Integer> getSsoTicketToPlayerId() {
         return ssoTicketToPlayerId;
+    }
+
+    @Override
+    public Integer getPlayerIdByAuthToken(String authToken) {
+        return this.ssoTicketToPlayerId.get(authToken);
+    }
+
+    @Override
+    public void createAuthToken(int playerId, String authToken) {
+
     }
 
     public ExecutorService getPlayerLoadExecutionService() {

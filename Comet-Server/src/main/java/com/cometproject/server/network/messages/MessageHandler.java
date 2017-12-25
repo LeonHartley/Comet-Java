@@ -6,7 +6,10 @@ import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.networking.api.messages.IMessageHandler;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.api.config.Configuration;
+import com.cometproject.server.composers.gamecenter.GameAccountStatusMessageComposer;
 import com.cometproject.server.composers.gamecenter.GameStatusMessageComposer;
+import com.cometproject.server.composers.gamecenter.LoadGameMessageComposer;
+import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.incoming.catalog.*;
 import com.cometproject.server.network.messages.incoming.catalog.ads.CatalogPromotionGetRoomsMessageEvent;
@@ -111,12 +114,14 @@ import com.cometproject.server.network.messages.incoming.group.DeleteGroupMessag
 import com.cometproject.server.network.messages.outgoing.handshake.ConfirmUsernameMessageEvent;
 import com.cometproject.server.network.messages.types.tasks.MessageEventTask;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.protocol.headers.Composers;
 import com.cometproject.server.protocol.headers.Events;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.google.common.collect.Maps;
 import org.apache.log4j.Logger;
 
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.*;
 
 public final class MessageHandler {
@@ -187,8 +192,21 @@ public final class MessageHandler {
         this.getMessages().put(Events.GetGameListMessageEvent, new GetGameListMessageEvent());
         this.getMessages().put(Events.GetGameAchievementsMessageEvent, new GetGameAchievementsMessageEvent());
 
-        this.getMessages().put((short) 1740, (session, event) -> {
-            session.send(new GameStatusMessageComposer(event.readInt(), 0));
+        this.getMessages().put(Events.GetGameStatusMessageEvent, (session, event) -> {
+            final int gameId = event.readInt();
+
+            session.send(new GameAccountStatusMessageComposer(gameId));
+            session.send(new GameStatusMessageComposer(gameId, 0));
+        });
+
+        this.getMessages().put(Events.JoinGameQueueMessageEvent, (session, event) -> {
+            final int gameId = event.readInt();
+
+            final UUID sessionId = UUID.randomUUID();
+
+            PlayerManager.getInstance().getSsoTicketToPlayerId().put(session.getPlayer().getId() + sessionId.toString(), session.getPlayer().getId());
+
+            session.send(new LoadGameMessageComposer(gameId, "http://test.cometproject.com/comet/swf/games/gamecenter_basejump/BaseJump.swf", session.getPlayer().getId() + sessionId.toString(), "localhost", "30010", "30010", "http://test.cometproject.com/comet/swf/games/gamecenter_basejump/BasicAssets.swf"));
         });
     }
 

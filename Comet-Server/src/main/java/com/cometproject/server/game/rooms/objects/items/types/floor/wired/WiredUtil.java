@@ -24,6 +24,7 @@ public class WiredUtil {
 
     public static <T> T getRandomElement(Collection<T> elements) {
         List<T> list = new ArrayList<T>(elements);
+
         return getRandomElement(list);
     }
 }

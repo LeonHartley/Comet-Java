@@ -8,7 +8,6 @@ import com.cometproject.server.protocol.messages.MessageEvent;
 
 public class GameMessageHandler implements IMessageHandler {
 
-
     @Override
     public void handleMessage(IMessageEvent messageEvent, INetSession session) {
         if(!(session instanceof NetSession)) {

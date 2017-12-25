@@ -8,25 +8,27 @@ public class PlayerAvatarData implements PlayerAvatar {
     private int id;
     private String username;
     private String figure;
+    private String gender;
     private String motto;
 
     private Object tempData = 0;
 
-    public PlayerAvatarData(int id, String username, String figure, String motto) {
+    public PlayerAvatarData(int id, String username, String figure, String gender, String motto) {
         this.id = id;
         this.username = username;
         this.figure = figure;
+        this.gender = gender;
         this.motto = motto;
 
         if(figure == null) { return; }
 
-        if(!PlayerFigureValidator.isValidFigureCode(this.figure, "m")) {
+        if(!PlayerFigureValidator.isValidFigureCode(this.figure, gender)) {
             this.figure = PlayerData.DEFAULT_FIGURE;
         }
     }
 
-    public PlayerAvatarData(int id, String username, String figure) {
-        this(id, username, figure, null);
+    public PlayerAvatarData(int id, String username, String figure, String gender) {
+        this(id, username, figure, gender, "");
     }
 
     public int getId() {
@@ -59,6 +61,16 @@ public class PlayerAvatarData implements PlayerAvatar {
 
     public void setMotto(String motto) {
         this.motto = motto;
+    }
+
+    @Override
+    public String getGender() {
+        return this.gender;
+    }
+
+    @Override
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     public void tempData(final Object data) {

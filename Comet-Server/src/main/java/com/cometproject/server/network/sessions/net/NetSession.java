@@ -8,14 +8,21 @@ import io.netty.channel.ChannelHandlerContext;
 public class NetSession implements INetSession<Session> {
 
     private final Session session;
+    private final IMessageHandler messageHandler;
 
-    public NetSession(Session session) {
+    public NetSession(Session session, IMessageHandler messageHandler) {
         this.session = session;
+        this.messageHandler = messageHandler;
     }
 
     @Override
     public ChannelHandlerContext getChannel() {
         return this.session.getChannel();
+    }
+
+    @Override
+    public IMessageHandler getMessageHandler() {
+        return this.messageHandler;
     }
 
     @Override

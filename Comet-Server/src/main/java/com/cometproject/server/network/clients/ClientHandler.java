@@ -4,8 +4,6 @@ import com.cometproject.networking.api.sessions.INetSession;
 import com.cometproject.networking.api.sessions.INetSessionFactory;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.outgoing.misc.PingMessageComposer;
-import com.cometproject.server.network.sessions.Session;
-import com.cometproject.server.network.sessions.SessionManager;
 import com.cometproject.server.network.sessions.net.NetSessionFactory;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import io.netty.channel.ChannelHandler;
@@ -14,12 +12,15 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.socket.ChannelInputShutdownEvent;
 import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
+import io.netty.util.AttributeKey;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
 
 @ChannelHandler.Sharable
 public class ClientHandler extends SimpleChannelInboundHandler<MessageEvent> {
+    private static final AttributeKey<INetSession> ATTR_SESSION = AttributeKey.newInstance("NetSession");
+
     private static Logger log = Logger.getLogger(ClientHandler.class.getName());
 
     private static ClientHandler clientHandlerInstance;
@@ -44,6 +45,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<MessageEvent> {
 
         final INetSession session = this.sessionFactory.createSession(ctx);
 
+        ctx.attr(ATTR_SESSION).set(session);
         if(session == null) {
             ctx.disconnect();
         }
@@ -51,19 +53,19 @@ public class ClientHandler extends SimpleChannelInboundHandler<MessageEvent> {
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        if (ctx.attr(SessionManager.SESSION_ATTR).get() == null) {
+        if (ctx.attr(ATTR_SESSION).get() == null) {
             return;
         }
 
         try {
-            Session session = ctx.attr(SessionManager.SESSION_ATTR).get();
-            session.onDisconnect();
+            INetSession session = ctx.attr(ATTR_SESSION).get();
+
+            this.sessionFactory.disposeSession(session);
         } catch (Exception e) {
 //            e.printStackTrace();
         }
 
-        NetworkManager.getInstance().getSessions().remove(ctx);
-        ctx.attr(SessionManager.SESSION_ATTR).remove();
+        ctx.attr(ATTR_SESSION).remove();
     }
 
     @Override
@@ -99,10 +101,11 @@ public class ClientHandler extends SimpleChannelInboundHandler<MessageEvent> {
     public void channelRead0(ChannelHandlerContext channelHandlerContext, MessageEvent event) throws Exception {
         try {
             log.info("entered channelRead0 on thread " + Thread.currentThread().getName());
-            Session session = channelHandlerContext.attr(SessionManager.SESSION_ATTR).get();
+
+            final INetSession session = channelHandlerContext.attr(ATTR_SESSION).get();
 
             if (session != null) {
-                session.handleMessageEvent(event);
+                session.getMessageHandler().handleMessage(event, session);
             }
         } catch (Exception e) {
             log.error("Error while receiving message", e);

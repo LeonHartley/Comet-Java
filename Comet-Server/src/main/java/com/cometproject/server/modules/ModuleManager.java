@@ -53,6 +53,7 @@ public class ModuleManager implements Initialisable {
 
         ModuleManager.getInstance().getEventHandler().initialize();
 
+        this.loadCoreModules();
         this.loadModules();
 
 //        for (String moduleName : this.findModules()) {
@@ -62,6 +63,10 @@ public class ModuleManager implements Initialisable {
 //                log.warn("Error while loading module: " + moduleName, e);
 //            }
 //        }
+    }
+
+    private void loadCoreModules() {
+
     }
 
     public void setupModules() {

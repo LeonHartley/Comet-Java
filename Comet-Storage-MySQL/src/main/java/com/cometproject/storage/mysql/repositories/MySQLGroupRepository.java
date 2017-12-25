@@ -70,7 +70,7 @@ public class MySQLGroupRepository extends MySQLRepository implements IGroupRepos
     public void getGroupIdsByPlayerId(final int playerId, Consumer<List<Integer>> consumer) {
         final List<Integer> groups = Lists.newArrayList();
 
-        select("SELECT g.id FROM groups g where g.owner_id = ?", (data -> {
+        select("SELECT `group_id` FROM group_memberships WHERE player_id = ? ORDER BY id DESC", (data -> {
 
             groups.add((data.readInteger(1)));
         }), playerId);

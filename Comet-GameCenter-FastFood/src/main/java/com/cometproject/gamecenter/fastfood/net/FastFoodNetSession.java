@@ -22,6 +22,11 @@ public class FastFoodNetSession implements INetSession<FastFoodGameSession> {
     }
 
     @Override
+    public IMessageHandler getMessageHandler() {
+        return this.messageHandler;
+    }
+
+    @Override
     public FastFoodGameSession getGameSession() {
         return this.gameSession;
     }

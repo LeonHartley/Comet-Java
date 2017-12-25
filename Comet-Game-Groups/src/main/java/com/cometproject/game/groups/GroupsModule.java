@@ -8,7 +8,6 @@ import com.cometproject.api.game.groups.types.IGroupData;
 import com.cometproject.api.modules.BaseModule;
 import com.cometproject.api.server.IGameService;
 import com.cometproject.common.caching.LastReferenceCache;
-import com.cometproject.game.groups.messages.events.JoinGroupMessageEvent;
 import com.cometproject.game.groups.services.GroupService;
 import com.cometproject.storage.api.StorageContext;
 

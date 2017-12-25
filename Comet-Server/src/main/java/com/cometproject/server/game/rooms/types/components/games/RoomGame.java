@@ -1,11 +1,17 @@
 package com.cometproject.server.game.rooms.types.components.games;
 
+import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredUtil;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.addons.WiredAddonBlob;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.GameComponent;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManager;
+import com.cometproject.server.utilities.RandomUtil;
 import org.apache.log4j.Logger;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -34,10 +40,27 @@ public abstract class RoomGame implements CometTask {
         try {
             if (timer == 0) {
                 this.active = true;
+                final List<WiredAddonBlob> blobs = room.getItems().getByClass(WiredAddonBlob.class);
+                Collections.shuffle(blobs);
+
+                for(WiredAddonBlob blob : blobs) {
+                    blob.onGameStarted();
+                }
+
                 onGameStarts();
             }
 
             try {
+                if(this.getGameComponent().getBlobCounter().get() < 2) {
+                    if(RandomUtil.getRandomBool(0.1)) {
+                        final List<WiredAddonBlob> blobs = room.getItems().getByClass(WiredAddonBlob.class);
+                        Collections.shuffle(blobs);
+
+                        for(WiredAddonBlob blob : blobs) {
+                            blob.onGameStarted();
+                        }
+                    }
+                }
 
                 tick();
             } catch (Exception e) {
@@ -57,6 +80,10 @@ public abstract class RoomGame implements CometTask {
     }
 
     public void stop() {
+        for(WiredAddonBlob blob : room.getItems().getByClass(WiredAddonBlob.class)) {
+            blob.hideBlob();
+        }
+
         if (this.active && this.future != null) {
             this.future.cancel(false);
 

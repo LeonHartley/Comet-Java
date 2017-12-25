@@ -14,6 +14,7 @@ import com.cometproject.server.boot.Comet;
 import com.cometproject.server.boot.utils.ConsoleCommands;
 import com.cometproject.api.config.CometSettings;
 import com.cometproject.api.config.Configuration;
+import com.cometproject.server.network.messages.GameMessageHandler;
 import com.cometproject.server.network.messages.MessageHandler;
 import com.cometproject.server.network.monitor.MonitorClient;
 import com.cometproject.server.network.sessions.SessionManager;
@@ -145,7 +146,7 @@ public class NetworkManager {
 
 //        final NettyNetworkingServerFactory serverFactory = new NettyNetworkingServerFactory(Configuration.currentConfig());
 
-        final INetSessionFactory sessionFactory = new NetSessionFactory(this.sessions, new MessageHandler());
+        final INetSessionFactory sessionFactory = new NetSessionFactory(this.sessions, new GameMessageHandler());
         final INetworkingServerFactory serverFactory = new NettyNetworkingServerFactory(Configuration.currentConfig());
         final NetworkingContext networkingContext = new NetworkingContext(serverFactory);
 

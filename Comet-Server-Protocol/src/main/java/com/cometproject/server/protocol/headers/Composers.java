@@ -274,8 +274,9 @@ public class Composers {
     public static final short YouArePlayingGameMessageComposer = 613;
     public static final short GameListMessageComposer = 1187;
     public static final short GameAchievementsMessageComposer = 2719;
-    public static final short GameStatusMessageComposer = 421;
-
+    public static final short GameStatusMessageComposer = 10;
+    public static final short GameAccountStatusMessageComposer = 1821;
+    public static final short LoadGameMessageComposer = 2610;
 
 
     private static Map<Short, String> composerPacketNames = new HashMap<>();

@@ -7,6 +7,8 @@ public interface INetSession<T> {
 
     ChannelHandlerContext getChannel();
 
+    IMessageHandler getMessageHandler();
+
     T getGameSession();
 
 }

@@ -100,14 +100,16 @@ public class CometServer {
 
         GameContext.setCurrent(gameContext);
 
-        ModuleManager.getInstance().setupModules();
-
-        GameContext.getCurrent().getGroupService().setItemService(new GroupItemManager());
-
         String ipAddress = this.getConfig().get("comet.network.host"),
                 port = this.getConfig().get("comet.network.port");
 
         NetworkManager.getInstance().initialize(ipAddress, port);
+
+
+        ModuleManager.getInstance().setupModules();
+
+        GameContext.getCurrent().getGroupService().setItemService(new GroupItemManager());
+
         GameCycle.getInstance().initialize();
 
         if(Comet.showGui) {

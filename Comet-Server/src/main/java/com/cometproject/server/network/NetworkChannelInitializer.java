@@ -27,9 +27,13 @@ public class NetworkChannelInitializer extends ChannelInitializer<SocketChannel>
     private final EventExecutorGroup executor;
     private final INetSessionFactory sessionFactory;
 
+    private final ClientHandler clientHandler;
+
     public NetworkChannelInitializer(EventExecutorGroup executorGroup, INetSessionFactory sessionFactory) {
         this.executor = executorGroup;
         this.sessionFactory = sessionFactory;
+
+        this.clientHandler = new ClientHandler(sessionFactory);
     }
 
     @Override
@@ -70,6 +74,6 @@ public class NetworkChannelInitializer extends ChannelInitializer<SocketChannel>
                             TimeUnit.SECONDS));
         }
 
-        ch.pipeline().addLast(this.executor, "clientHandler", ClientHandler.getInstance(this.sessionFactory));
+        ch.pipeline().addLast(this.executor, "clientHandler", this.clientHandler);
     }
 }

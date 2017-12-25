@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class GameComponent {
@@ -33,6 +34,8 @@ public class GameComponent {
     private Map<GameTeam, Set<AbstractGameGateFloorItem>> gates;
 
     private Set<PlayerEntity> players;
+
+    private final AtomicInteger blobCounter = new AtomicInteger(0);
 
     public GameComponent(Room room) {
         this.teams = new HashMap<GameTeam, List<Integer>>() {{
@@ -203,5 +206,9 @@ public class GameComponent {
 
     public Set<PlayerEntity> getPlayers() {
         return this.players;
+    }
+
+    public AtomicInteger getBlobCounter() {
+        return blobCounter;
     }
 }

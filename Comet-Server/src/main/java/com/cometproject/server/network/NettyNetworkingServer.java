@@ -1,9 +1,7 @@
 package com.cometproject.server.network;
 
-import com.cometproject.api.networking.sessions.ISessionService;
 import com.cometproject.networking.api.INetworkingServer;
 import com.cometproject.networking.api.config.NetworkingServerConfig;
-import com.cometproject.networking.api.messages.IMessageHandler;
 import com.cometproject.networking.api.sessions.INetSessionFactory;
 import io.netty.bootstrap.ServerBootstrap;
 import org.apache.log4j.Logger;
