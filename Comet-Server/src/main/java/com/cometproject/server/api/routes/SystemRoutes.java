@@ -1,5 +1,6 @@
 package com.cometproject.server.api.routes;
 
+import com.cometproject.api.game.GameContext;
 import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.boot.utils.ShutdownProcess;
@@ -7,7 +8,6 @@ import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.commands.CommandManager;
 import com.cometproject.server.game.items.ItemManager;
-import com.cometproject.server.game.landing.LandingManager;
 import com.cometproject.server.game.moderation.BanManager;
 import com.cometproject.server.game.moderation.ModerationManager;
 import com.cometproject.server.game.navigator.NavigatorManager;
@@ -85,7 +85,7 @@ public class SystemRoutes {
                 break;
 
             case "news":
-                LandingManager.getInstance().loadArticles();
+                GameContext.getCurrent().getLandingService().loadArticles();
                 break;
 
             case "items":

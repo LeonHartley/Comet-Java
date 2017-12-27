@@ -1,11 +1,12 @@
-package com.cometproject.storage.mysql.repositories;
+package com.cometproject.storage.mysql.repositories.groups;
 
 import com.cometproject.api.game.groups.types.GroupType;
 import com.cometproject.api.game.groups.types.IGroupData;
-import com.cometproject.storage.api.repositories.IGroupRepository;
+import com.cometproject.storage.api.repositories.groups.IGroupRepository;
 import com.cometproject.storage.mysql.MySQLConnectionProvider;
 import com.cometproject.storage.mysql.data.results.IResultReader;
 import com.cometproject.storage.mysql.models.factories.GroupDataFactory;
+import com.cometproject.storage.mysql.repositories.MySQLRepository;
 import com.google.common.collect.Lists;
 
 import java.util.List;

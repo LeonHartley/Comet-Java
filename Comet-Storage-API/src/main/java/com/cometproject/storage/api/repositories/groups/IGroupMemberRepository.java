@@ -1,4 +1,4 @@
-package com.cometproject.storage.api.repositories;
+package com.cometproject.storage.api.repositories.groups;
 
 import com.cometproject.api.game.groups.types.components.membership.GroupAccessLevel;
 import com.cometproject.api.game.groups.types.components.membership.IGroupMember;

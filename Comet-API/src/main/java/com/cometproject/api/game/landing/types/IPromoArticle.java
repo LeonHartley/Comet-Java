@@ -1,5 +1,8 @@
-package com.cometproject.server.game.landing.types;
+package com.cometproject.api.game.landing.types;
 
+/**
+ * Created by SpreedBlood on 2017-12-27.
+ */
 public interface IPromoArticle {
     int getId();
 

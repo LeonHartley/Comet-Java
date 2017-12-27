@@ -12,7 +12,6 @@ import com.cometproject.server.game.commands.CommandManager;
 import com.cometproject.server.game.groups.items.GroupItemManager;
 import com.cometproject.server.game.guides.GuideManager;
 import com.cometproject.server.game.items.ItemManager;
-import com.cometproject.server.game.landing.LandingManager;
 import com.cometproject.server.game.moderation.BanManager;
 import com.cometproject.server.game.moderation.ModerationManager;
 import com.cometproject.server.game.navigator.NavigatorManager;
@@ -82,7 +81,6 @@ public class CometServer {
         BanManager.getInstance().initialize();
         ModerationManager.getInstance().initialize();
         PetManager.getInstance().initialize();
-        LandingManager.getInstance().initialize();
         PlayerManager.getInstance().initialize();
         QuestManager.getInstance().initialize();
         AchievementManager.getInstance().initialize();

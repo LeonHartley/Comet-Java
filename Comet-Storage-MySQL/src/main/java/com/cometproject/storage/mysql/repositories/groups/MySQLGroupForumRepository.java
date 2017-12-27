@@ -1,11 +1,12 @@
-package com.cometproject.storage.mysql.repositories;
+package com.cometproject.storage.mysql.repositories.groups;
 
 import com.cometproject.api.game.groups.types.components.forum.*;
-import com.cometproject.storage.api.repositories.IGroupForumRepository;
+import com.cometproject.storage.api.repositories.groups.IGroupForumRepository;
 import com.cometproject.storage.mysql.MySQLConnectionProvider;
 import com.cometproject.storage.mysql.data.results.IResultReader;
 import com.cometproject.storage.mysql.models.factories.GroupForumMessageFactory;
 import com.cometproject.storage.mysql.models.factories.GroupForumSettingsFactory;
+import com.cometproject.storage.mysql.repositories.MySQLRepository;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 

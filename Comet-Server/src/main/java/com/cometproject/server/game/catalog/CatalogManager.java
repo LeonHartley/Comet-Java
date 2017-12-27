@@ -182,7 +182,7 @@ public class CatalogManager implements ICatalogService {
         return pages;
     }
 
-    public void sortCatalogChildren() {
+    private void sortCatalogChildren() {
         this.parentPages.clear();
 
         for(ICatalogPage catalogPage : this.pages.values()) {

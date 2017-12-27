@@ -7,7 +7,6 @@ import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.game.commands.CommandManager;
 import com.cometproject.server.game.items.ItemManager;
-import com.cometproject.server.game.landing.LandingManager;
 import com.cometproject.server.game.moderation.BanManager;
 import com.cometproject.server.game.moderation.ModerationManager;
 import com.cometproject.server.game.navigator.NavigatorManager;
@@ -101,7 +100,7 @@ public class ReloadCommand extends ChatCommand {
                 break;
 
             case "news":
-                LandingManager.getInstance().loadArticles();
+                GameContext.getCurrent().getLandingService().loadArticles();
 
                 sendNotif(Locale.get("command.reload.news"), client);
                 break;

@@ -3,6 +3,7 @@ package com.cometproject.api.game;
 import com.cometproject.api.game.catalog.ICatalogService;
 import com.cometproject.api.game.furniture.IFurnitureService;
 import com.cometproject.api.game.groups.IGroupService;
+import com.cometproject.api.game.landing.ILandingService;
 import com.cometproject.api.game.players.IPlayerService;
 import com.cometproject.api.game.rooms.IRoomService;
 import org.apache.log4j.Logger;
@@ -15,6 +16,7 @@ public class GameContext {
     private IGroupService groupService;
     private IPlayerService playerService;
     private IRoomService roomService;
+    private ILandingService landingService;
 
     private final Logger logger = Logger.getLogger(GameContext.class);
 
@@ -35,7 +37,7 @@ public class GameContext {
     }
 
     public IGroupService getGroupService() {
-         return this.groupService;
+        return this.groupService;
     }
 
     public void setGroupService(IGroupService groupService) {
@@ -53,7 +55,7 @@ public class GameContext {
     }
 
     public static GameContext getCurrent() {
-        if(gameContext == null) {
+        if (gameContext == null) {
             System.out.println("GameContext not configured");
             System.exit(0);
         }
@@ -71,5 +73,13 @@ public class GameContext {
 
     public void setRoomService(IRoomService roomService) {
         this.roomService = roomService;
+    }
+
+    public ILandingService getLandingService() {
+        return landingService;
+    }
+
+    public void setLandingService(ILandingService landingService) {
+        this.landingService = landingService;
     }
 }

@@ -11,9 +11,9 @@ import com.cometproject.api.game.groups.types.components.membership.GroupAccessL
 import com.cometproject.api.game.groups.types.components.membership.IGroupMember;
 import com.cometproject.game.groups.factories.GroupFactory;
 import com.cometproject.storage.api.data.Data;
-import com.cometproject.storage.api.repositories.IGroupForumRepository;
-import com.cometproject.storage.api.repositories.IGroupMemberRepository;
-import com.cometproject.storage.api.repositories.IGroupRepository;
+import com.cometproject.storage.api.repositories.groups.IGroupForumRepository;
+import com.cometproject.storage.api.repositories.groups.IGroupMemberRepository;
+import com.cometproject.storage.api.repositories.groups.IGroupRepository;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;

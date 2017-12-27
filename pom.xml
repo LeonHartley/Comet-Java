@@ -47,6 +47,7 @@
 
         <module>Comet-Networking-API</module>
         <module>Comet-Networking-Composers</module>
+        <module>Comet-Game-Landing</module>
     </modules>
 
 </project>
