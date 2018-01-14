@@ -18,7 +18,7 @@ public class GameListMessageComposer extends MessageComposer {
         msg.writeString("basejump");
         msg.writeString("68bbd2");
         msg.writeString("ffffff");
-        msg.writeString("http://test.cometproject.com/comet/swf/games/gamecenter_basejump/");
+        msg.writeString("http://localhost/comet/swf/games/gamecenter_basejump/");
         msg.writeString("");
     }
 }

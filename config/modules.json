@@ -13,6 +13,13 @@
       "config": {
 
       }
+    },
+    {
+      "path": "modules/Comet-GameCenter-FastFood-2.1.2-TEST2.jar",
+      "alias": "Comet.FastFood",
+      "config": {
+
+      }
     }
   ]
 }

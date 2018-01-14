@@ -206,7 +206,7 @@ public final class MessageHandler {
 
             PlayerManager.getInstance().getSsoTicketToPlayerId().put(session.getPlayer().getId() + sessionId.toString(), session.getPlayer().getId());
 
-            session.send(new LoadGameMessageComposer(gameId, "http://test.cometproject.com/comet/swf/games/gamecenter_basejump/BaseJump.swf", session.getPlayer().getId() + sessionId.toString(), "localhost", "30010", "30010", "http://test.cometproject.com/comet/swf/games/gamecenter_basejump/BasicAssets.swf"));
+            session.send(new LoadGameMessageComposer(gameId, "http://localhost/comet/swf/games/gamecenter_basejump/BaseJump.swf", session.getPlayer().getId() + sessionId.toString(), "localhost", "30010", "30010", "http://test.cometproject.com/comet/swf/games/gamecenter_basejump/BasicAssets.swf"));
         });
     }
 

@@ -1,4 +1,4 @@
-package com.cometproject.storage.mysql.repositories;
+ package com.cometproject.storage.mysql.repositories;
 
 import com.cometproject.storage.mysql.MySQLConnectionProvider;
 import com.cometproject.storage.mysql.data.results.IResultReader;
@@ -118,7 +118,9 @@ public abstract class MySQLRepository {
         ResultSet resultSet;
 
         try {
-            connection = this.connectionProvider.getConnection();
+            if(connection == null) {
+                connection = this.connectionProvider.getConnection();
+            }
 
             preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
