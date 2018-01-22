@@ -3,6 +3,8 @@ package com.cometproject.gamecenter.fastfood.objects;
 import com.cometproject.gamecenter.fastfood.FastFoodGame;
 import com.cometproject.gamecenter.fastfood.net.FastFoodGameSession;
 import com.cometproject.gamecenter.fastfood.net.composers.DropFoodMessageComposer;
+import com.cometproject.gamecenter.fastfood.net.composers.FoodUpdateMessageComposer;
+import com.cometproject.gamecenter.fastfood.net.composers.UseBigParachuteMessageComposer;
 
 public class FoodPlate {
     private final int objectId;
@@ -11,6 +13,8 @@ public class FoodPlate {
     private float speed;
     private int state;
     private long timeDropped = System.currentTimeMillis();
+
+    private boolean finalized = false;
 
     public FoodPlate(int objectId, int playerId) {
         this.objectId = objectId;
@@ -21,14 +25,25 @@ public class FoodPlate {
     }
 
     public void tick(FastFoodGameSession gameSession, FastFoodGame game) {
-        if((System.currentTimeMillis() - this.timeDropped) >= 1500) {
-//            this.speed += 0.1;
-//            this.location -= 0.1;
+        if((System.currentTimeMillis() - this.timeDropped) >= (this.state == 2 ? 4500 : 2500) && !finalized) {
+            if(this.state == 2) { // we have a parachute
+                this.state = 6;
+            } else {
+                this.state = 4;
+            }
 
-//            game.broadcast(new DropFoodMessageComposer(this));
-            // we hit the table
-            
+            game.broadcast(new FoodUpdateMessageComposer(this.playerId, game.getCounter().incrementAndGet(), this.state, 0, 0));
+
+            finalized = true;
         }
+    }
+
+    public void openParachute(FastFoodGame game) {
+        this.state = 2;
+        this.location = 0.3996301624f;
+        this.speed = 0;
+
+        game.broadcast(new DropFoodMessageComposer(game.getCounter().getAndIncrement(), this));
     }
 
     public int getObjectId() {
@@ -61,5 +76,9 @@ public class FoodPlate {
 
     public int getPlayerId() {
         return playerId;
+    }
+
+    public boolean isFinalized() {
+        return finalized;
     }
 }

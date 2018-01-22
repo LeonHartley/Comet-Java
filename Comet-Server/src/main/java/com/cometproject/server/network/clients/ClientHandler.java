@@ -41,8 +41,6 @@ public class ClientHandler extends SimpleChannelInboundHandler<MessageEvent> {
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
 
-        log.trace("entered channelActive on thread " + Thread.currentThread().getName());
-
         final INetSession session = this.sessionFactory.createSession(ctx);
 
         ctx.attr(ATTR_SESSION).set(session);
@@ -100,8 +98,6 @@ public class ClientHandler extends SimpleChannelInboundHandler<MessageEvent> {
     @Override
     public void channelRead0(ChannelHandlerContext channelHandlerContext, MessageEvent event) throws Exception {
         try {
-            log.info("entered channelRead0 on thread " + Thread.currentThread().getName());
-
             final INetSession session = channelHandlerContext.attr(ATTR_SESSION).get();
 
             if (session != null) {

@@ -1,6 +1,7 @@
 package com.cometproject.server.network.messages.incoming.user.profile;
 
 import com.cometproject.api.game.quests.QuestType;
+import com.cometproject.api.utilities.Pair;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.user.profile.UserBadgesMessageComposer;
 import com.cometproject.server.network.sessions.Session;
@@ -8,7 +9,6 @@ import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.storage.mysql.MySQLStorageQueues;
 import com.cometproject.storage.mysql.queues.players.objects.PlayerBadgeUpdate;
 import com.google.common.collect.Sets;
-import javafx.util.Pair;
 
 import java.util.Map;
 import java.util.Set;
@@ -47,7 +47,7 @@ public class WearBadgeMessageEvent implements Event {
         final int playerId = client.getPlayer().getId();
 
         for (Map.Entry<String, Integer> badgeToUpdate : client.getPlayer().getInventory().getBadges().entrySet()) {
-            updates.add(new Pair<>(playerId, new PlayerBadgeUpdate(playerId, badgeToUpdate.getKey(), badgeToUpdate.getValue())));
+            updates.add(new Pair(playerId, new PlayerBadgeUpdate(playerId, badgeToUpdate.getKey(), badgeToUpdate.getValue())));
 
             //InventoryDao.updateBadge(badgeToUpdate.getKey(), badgeToUpdate.getValue(), client.getPlayer().getId());
         }

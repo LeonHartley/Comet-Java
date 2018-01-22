@@ -76,7 +76,7 @@ public abstract class BaseModule implements EventListenerContainer {
      * Load all the module resources and then fire the "onModuleLoad" event.
      */
     public void loadModule() {
-        if(this.getConfig().getCommands() != null) {
+        if(this.getConfig() != null && this.getConfig().getCommands() != null) {
             for (Map.Entry<String, CommandInfo> commandInfoEntries : this.getConfig().getCommands().entrySet()) {
                 this.getGameService().getEventHandler().registerCommandInfo(commandInfoEntries.getKey(), commandInfoEntries.getValue());
             }

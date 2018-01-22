@@ -40,8 +40,10 @@ public class LoadGameMessageComposer extends MessageComposer {
         msg.writeInt(60);
         msg.writeInt(10);
         msg.writeInt(0);
-        msg.writeInt(5);
+        msg.writeInt(6);
 
+        msg.writeString("habboHost");
+        msg.writeString("hhus");
         msg.writeString("accessToken");
         msg.writeString(this.accessToken);
         msg.writeString("gameServerHost");

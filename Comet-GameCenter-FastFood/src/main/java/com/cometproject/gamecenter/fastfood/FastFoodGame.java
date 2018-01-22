@@ -22,6 +22,7 @@ public class FastFoodGame {
 
     private boolean started = false;
     private Future scheduledFuture;
+
     private final AtomicInteger counter = new AtomicInteger(0);
 
     public FastFoodGame() {
@@ -33,18 +34,18 @@ public class FastFoodGame {
                 .withUsername("test")
                 .create());
 
-        /*this.players.add(new MockPlayerBuilder()
+        this.players.add(new MockPlayerBuilder()
                 .withPlayerId(1338)
                 .withFigure("lg-270-64.wa-2001-1408.sh-305-62.hd-3095-10.ca-3084-75-75.cc-3075-64.ch-3022-1408-1408.hr-155-61")
                 .withUsername("test2")
-                .create());*/
+                .create());
     }
 
     private void tick() {
-        for(FastFoodNetSession netSession : this.players) {
+        for (FastFoodNetSession netSession : this.players) {
             final FoodPlate foodPlate = netSession.getGameSession().getCurrentPlate();
 
-            if(foodPlate != null) {
+            if (foodPlate != null && !foodPlate.isFinalized()) {
                 foodPlate.tick(netSession.getGameSession(), this);
             }
         }
@@ -68,12 +69,17 @@ public class FastFoodGame {
         this.scheduledFuture.cancel(true);
     }
 
-    public void launchFood(FastFoodGameSession gameSession) {
+    public void launch(int type, FastFoodGameSession gameSession) {
+        if (type != 0 && gameSession.getCurrentPlate() != null && !gameSession.getCurrentPlate().isFinalized()) {
+            gameSession.getCurrentPlate().openParachute(this);
+            return;
+        }
+
         final int objectId = this.counter.getAndIncrement();
         final FoodPlate foodPlate = new FoodPlate(objectId, gameSession.getPlayerId());
 
         gameSession.setCurrentPlate(foodPlate);
-        this.broadcast(new DropFoodMessageComposer(foodPlate));
+        this.broadcast(new DropFoodMessageComposer(objectId, foodPlate));
     }
 
     public void broadcast(MessageComposer messageComposer) {
@@ -94,5 +100,9 @@ public class FastFoodGame {
 
     public Set<FastFoodNetSession> getPlayers() {
         return this.players;
+    }
+
+    public AtomicInteger getCounter() {
+        return counter;
     }
 }

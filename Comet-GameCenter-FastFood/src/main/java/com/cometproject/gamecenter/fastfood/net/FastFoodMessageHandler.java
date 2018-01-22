@@ -4,7 +4,6 @@ import com.cometproject.api.game.players.IPlayerService;
 import com.cometproject.api.game.players.data.PlayerAvatar;
 import com.cometproject.api.networking.messages.IMessageEvent;
 import com.cometproject.gamecenter.fastfood.FastFoodGame;
-import com.cometproject.gamecenter.fastfood.objects.MissileType;
 import com.cometproject.gamecenter.fastfood.net.composers.AuthenticationOKMessageComposer;
 import com.cometproject.gamecenter.fastfood.net.composers.MyPowerUpsMessageComposer;
 import com.cometproject.gamecenter.fastfood.net.composers.SetClientLocalisationMessageComposer;
@@ -128,7 +127,9 @@ public class FastFoodMessageHandler implements IMessageHandler {
             return;
         }
 
-        session.getGameSession().getCurrentGame().launchFood(session.getGameSession());
+        final int type = messageEvent.readInt();
+
+        session.getGameSession().getCurrentGame().launch(type, session.getGameSession());
     }
 
     private FastFoodGame findGame() {

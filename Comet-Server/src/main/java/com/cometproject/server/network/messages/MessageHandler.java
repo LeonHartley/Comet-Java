@@ -62,6 +62,7 @@ import com.cometproject.server.network.messages.incoming.quests.OpenQuestsMessag
 import com.cometproject.server.network.messages.incoming.quests.StartQuestMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.access.AnswerDoorbellMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.access.LoadRoomByDoorBellMessageEvent;
+import com.cometproject.server.network.messages.incoming.room.access.SpectateRoomMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.action.*;
 import com.cometproject.server.network.messages.incoming.room.bots.BotConfigMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.bots.ModifyBotMessageEvent;
@@ -206,7 +207,7 @@ public final class MessageHandler {
 
             PlayerManager.getInstance().getSsoTicketToPlayerId().put(session.getPlayer().getId() + sessionId.toString(), session.getPlayer().getId());
 
-            session.send(new LoadGameMessageComposer(gameId, "http://localhost/comet/swf/games/gamecenter_basejump/BaseJump.swf", session.getPlayer().getId() + sessionId.toString(), "localhost", "30010", "30010", "http://test.cometproject.com/comet/swf/games/gamecenter_basejump/BasicAssets.swf"));
+            session.send(new LoadGameMessageComposer(gameId, "http://localhost/comet/swf/games/gamecenter_basejump/BaseJump.swf", session.getPlayer().getId() + sessionId.toString(), "localhost", "30010", "30010", "http://localhost/comet/swf/games/gamecenter_basejump/BasicAssets.swf"));
         });
     }
 
@@ -327,6 +328,7 @@ public final class MessageHandler {
 
     public void registerRoom() {
         this.getMessages().put(Events.OpenFlatConnectionMessageEvent, new InitializeRoomMessageEvent());
+        this.getMessages().put(Events.SpectateRoomMessageEvent, new SpectateRoomMessageEvent());
         this.getMessages().put(Events.GetGuestRoomMessageEvent, new FollowRoomInfoMessageEvent());
         this.getMessages().put(Events.GetRoomEntryDataMessageEvent, new AddUserToRoomMessageEvent());
         this.getMessages().put(Events.GoToHotelViewMessageEvent, new ExitRoomMessageEvent());
