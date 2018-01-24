@@ -107,7 +107,7 @@ public class Composers {
     public static final short BuildersClubMembershipMessageComposer = 2286;//2443
     public static final short PetTrainingPanelMessageComposer = 720;//3729
     public static final short QuestCompletedMessageComposer = 2999;//715
-    public static final short UserRightsMessageComposer = -2494;//2494
+    public static final short UserRightsMessageComposer = 1081;//2494
     public static final short ForumsListDataMessageComposer = 2103;//835
     public static final short UserChangeMessageComposer = 2098;//901
     public static final short ModeratorUserChatlogMessageComposer = 2334;//1660
