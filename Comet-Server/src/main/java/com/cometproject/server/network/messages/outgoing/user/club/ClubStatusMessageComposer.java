@@ -29,10 +29,6 @@ public class ClubStatusMessageComposer extends MessageComposer {
             timeLeft = subscriptionComponent.getExpire() - (int) Comet.getTime();
             days = (int) Math.ceil(timeLeft / 86400);
             months = days / 31;
-
-            if (months >= 1) {
-                months--;
-            }
         } else {
             if (subscriptionComponent.exists()) {
                 subscriptionComponent.delete();
@@ -41,15 +37,14 @@ public class ClubStatusMessageComposer extends MessageComposer {
 
         msg.writeString("habbo_club");
 
-        msg.writeInt(0);
+        msg.writeInt(subscriptionComponent.isValid() ? days : 0);
         msg.writeInt(2);
-        msg.writeInt(0);
+        msg.writeInt(subscriptionComponent.isValid() ? months : 0);
         msg.writeInt(1);
         msg.writeBoolean(subscriptionComponent.isValid());
         msg.writeBoolean(true);
         msg.writeInt(0);
-        msg.writeInt(0);
-        msg.writeInt(495);
-
+        msg.writeInt(subscriptionComponent.isValid() ? days : 0);
+        msg.writeInt(subscriptionComponent.isValid() ? days : 0);
     }
 }
