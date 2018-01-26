@@ -76,7 +76,7 @@ public class EjectAllCommand extends ChatCommand {
                     }
                 } else {
                     for (RoomItem roomItem : floorItemsOwnedByPlayer) {
-                        RoomItemDao.removeItemFromRoom(roomItem.getId(), playerWithItem, roomItem.getExtraData());
+                        RoomItemDao.removeItemFromRoom(roomItem.getId(), playerWithItem, roomitem.getItemData().getData());
                     }
                 }
 

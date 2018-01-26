@@ -1,18 +1,19 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
+import com.cometproject.api.game.rooms.objects.data.RoomItemData;
+
+
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.types.Room;
 
 public class PressurePlateSeatFloorItem extends SeatFloorItem {
-    public PressurePlateSeatFloorItem(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
-    }
+    public PressurePlateSeatFloorItem(RoomItemData itemData, Room room) {        super(itemData, room);    }
 
     @Override
     public void onEntityStepOn(RoomEntity entity) {
         super.onEntityStepOn(entity);
 
-        this.setExtraData("1");
+        this.getItemData().setData("1");
         this.sendUpdate();
     }
 
@@ -20,7 +21,7 @@ public class PressurePlateSeatFloorItem extends SeatFloorItem {
     public void onEntityStepOff(RoomEntity entity) {
         super.onEntityStepOff(entity);
 
-        this.setExtraData("0");
+        this.getItemData().setData("0");
         this.sendUpdate();
     }
 }

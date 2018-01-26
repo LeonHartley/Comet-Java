@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.wall;
 
+import com.cometproject.api.game.rooms.objects.data.RoomItemData;
 import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
 import com.cometproject.server.game.rooms.types.Room;
 import org.apache.commons.lang.StringUtils;
@@ -11,21 +12,19 @@ public class PostItWallItem extends RoomItemWall {
     private String colour;
     private String message;
 
-    public PostItWallItem(long id, int itemId, Room room, int owner, String ownerName, String position, String data) {
-        super(id, itemId, room, owner, ownerName, position, data);
+    public PostItWallItem(RoomItemData roomItemData, Room room) {
+        super(roomItemData, room);
 
-        if (this.isValidData(data))
-            this.setExtraData(data);
+        if (this.isValidData(roomItemData.getData()))
+            this.getItemData().setData(data);
         else
-            this.setExtraData("FFFF33 ");
+            this.getItemData().setData("FFFF33 ");
     }
 
-    @Override
     public String getExtraData() {
         return colour;
     }
 
-    @Override
     public void setExtraData(String extraData) {
         String[] data = extraData.split(" ");
         String colour = data[0];
@@ -34,7 +33,7 @@ public class PostItWallItem extends RoomItemWall {
             return;
         }
 
-        super.setExtraData(extraData);
+        this.getItemData().setData(extraData);
 
         this.colour = colour;
         this.message = StringUtils.join(Arrays.copyOfRange(data, 1, data.length), " ");

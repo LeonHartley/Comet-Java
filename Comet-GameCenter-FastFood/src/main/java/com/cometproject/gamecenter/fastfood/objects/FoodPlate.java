@@ -20,7 +20,7 @@ public class FoodPlate {
         this.objectId = objectId;
         this.playerId = playerId;
         this.location = 1.0f;
-        this.speed = 0.0f;
+        this.speed = 442.0f;
         this.state = 1;
     }
 
@@ -40,8 +40,11 @@ public class FoodPlate {
 
     public void openParachute(FastFoodGame game) {
         this.state = 2;
-        this.location = 0.3996301624f;
-        this.speed = 0;
+
+        long difference = System.currentTimeMillis() - this.timeDropped;
+
+        this.location = this.location - ((difference / 1000) * (this.speed)); // calculate location
+        this.speed = 0.1f;
 
         game.broadcast(new DropFoodMessageComposer(game.getCounter().getAndIncrement(), this));
     }

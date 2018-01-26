@@ -2,6 +2,7 @@ package com.cometproject.server.game.rooms.objects.items;
 
 import com.cometproject.api.game.furniture.types.IFurnitureDefinition;
 import com.cometproject.api.game.rooms.objects.IFloorItem;
+import com.cometproject.api.game.rooms.objects.data.RoomItemData;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
@@ -21,51 +22,37 @@ import java.util.List;
 
 
 public abstract class RoomItemFloor extends RoomItem implements Collidable, IFloorItem {
-    private String extraData;
-
     private IFurnitureDefinition itemDefinition;
     private RoomEntity collidedEntity;
     private boolean hasQueuedSave;
     private String coreState;
     private boolean stateSwitched = false;
+    private int rotation;
 
-    public RoomItemFloor(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
-        super(id, new Position(x, y, z), room);
+    public RoomItemFloor(RoomItemData itemData, Room room) {
+        super(itemData, room);
 
-        this.itemId = itemId;
-        this.ownerId = owner;
-        this.ownerName = ownerName;
-        this.rotation = rotation;
-        this.extraData = data;
+        this.rotation = itemData.getRotation();
     }
 
     public void serialize(IComposer msg, boolean isNew) {
-        //final boolean isGift = false;
-
-        /*if (this.giftData != n    ull) {
-            isGift = true;
-        }*/
-
-        // TODO: MOVE SPECIAL PROPERTIES TO THE INDIVIDUAL ITEM CLASS!!!
-        // This needs cleaning up immensely.
-
         msg.writeInt(this.getVirtualId());
         msg.writeInt(this.getDefinition().getSpriteId());
         msg.writeInt(this.getPosition().getX());
         msg.writeInt(this.getPosition().getY());
         msg.writeInt(this.getRotation());
 
-        msg.writeString(this instanceof MagicStackFloorItem ? this.getExtraData() : this.getPosition().getZ());
+        msg.writeString(this instanceof MagicStackFloorItem ? this.getItemData().getData() : this.getPosition().getZ());
 
         final double walkHeight = this instanceof AdjustableHeightFloorItem ? this.getOverrideHeight() : this.getDefinition().getHeight();
-        msg.writeString(walkHeight);//this.getDefinition().canWalk() ? walkHeight : "0");
+        msg.writeString(walkHeight);
 
         if (this.getLimitedEditionItemData() != null) {
             msg.writeInt(0);
             msg.writeString("");
             msg.writeBoolean(true);
             msg.writeBoolean(false);
-            msg.writeString(this.getExtraData());
+            msg.writeString(this.getItemData().getData());
 
             msg.writeInt(this.getLimitedEditionItemData().getLimitedRare());
             msg.writeInt(this.getLimitedEditionItemData().getLimitedRareTotal());
@@ -76,10 +63,10 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable, IFlo
         msg.writeInt(-1);
         //msg.writeInt(!this.getDefinition().getInteraction().equals("default") ? 1 : 0);
         msg.writeInt(!(this instanceof DefaultFloorItem) && !(this instanceof SoundMachineFloorItem) ? 1 : 0);
-        msg.writeInt(this.ownerId);
+        msg.writeInt(this.getItemData().getOwnerId());
 
         if (isNew)
-            msg.writeString(this.ownerName);
+            msg.writeString(this.getItemData().getOwnerName());
     }
 
     @Override
@@ -89,7 +76,7 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable, IFlo
 
     public IFurnitureDefinition getDefinition() {
         if (this.itemDefinition == null) {
-            this.itemDefinition = ItemManager.getInstance().getDefinition(this.getItemId());
+            this.itemDefinition = ItemManager.getInstance().getDefinition(this.getItemData().getItemId());
         }
 
         return this.itemDefinition;
@@ -128,43 +115,11 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable, IFlo
     }
 
     @Override
-    public boolean toggleInteract(boolean state) {
-        if (!state) {
-            if (!(this instanceof WiredFloorItem))
-                this.setExtraData("0");
-
-            return true;
-        }
-
-        if (!StringUtils.isNumeric(this.getExtraData())) {
-            return true;
-        }
-
-        if (this.getDefinition().getInteractionCycleCount() > 1) {
-            if (this.getExtraData().isEmpty() || this.getExtraData().equals(" ")) {
-                this.setExtraData("0");
-            }
-
-            int i = Integer.parseInt(this.getExtraData()) + 1;
-
-            if (i > (this.getDefinition().getInteractionCycleCount() - 1)) { // take one because count starts at 0 (0, 1) = count(2)
-                this.setExtraData("0");
-            } else {
-                this.setExtraData(i + "");
-            }
-
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    @Override
     public void save() {
         /*if (CometSettings.storageItemQueueEnabled) {
             ItemStorageQueue.getInstance().queueSave(this);
         } else {
-            RoomItemDao.saveItem(this);
+            RoomItemData.saveItem(this);
             this.hasQueuedSave = true;
         }*/
 
@@ -176,7 +131,7 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable, IFlo
         /*if (CometSettings.storageItemQueueEnabled) {
             ItemStorageQueue.getInstance().queueSaveData(this);
         } else {
-            RoomItemDao.saveData(this.getId(), this.getDataObject());
+            RoomItemData.saveData(this.getId(), this.getDataObject());
         }*/
 
         MySQLStorageQueues.instance().getItemDataUpdateQueue().add(this.getId(), this.getDataObject());
@@ -193,16 +148,21 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable, IFlo
 
     public void tempState(int state) {
         this.stateSwitched = true;
-        this.coreState = this.extraData;
-        this.setExtraData(state);
+        this.coreState = this.getItemData().getData();
+
+        this.getItemData().setData(state);
         this.sendUpdate();
     }
 
     public void restoreState() {
         this.stateSwitched = false;
 
-        this.setExtraData(coreState);
+        this.getItemData().setData(coreState);
         this.sendUpdate();
+    }
+
+    public String getDataObject() {
+        return this.getItemData().getData();
     }
 
     public List<RoomItemFloor> getItemsOnStack() {
@@ -264,26 +224,6 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable, IFlo
         return -1d;
     }
 
-    public String getDataObject() {
-        return this.extraData;
-    }
-
-    public String getExtraData() {
-        return this.extraData;
-    }
-
-    public void setExtraData(String data) {
-        this.extraData = data;
-    }
-
-    public void setExtraData(Integer i) {
-        this.extraData = "" + i;
-    }
-
-    public void setRotation(int rot) {
-        this.rotation = rot;
-    }
-
     public boolean hasQueuedSave() {
         return hasQueuedSave;
     }
@@ -298,5 +238,13 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable, IFlo
 
     public void setStateSwitched(boolean stateSwitched) {
         this.stateSwitched = stateSwitched;
+    }
+
+    public int getRotation() {
+        return this.rotation;
+    }
+
+    public void setRotation(int rotation) {
+        this.rotation = rotation;
     }
 }

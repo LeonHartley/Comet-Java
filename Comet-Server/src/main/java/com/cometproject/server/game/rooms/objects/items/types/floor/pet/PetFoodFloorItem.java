@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.pet;
 
+import com.cometproject.api.game.rooms.objects.data.RoomItemData;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
@@ -12,10 +13,10 @@ public class PetFoodFloorItem extends RoomItemFloor {
     private int state;
     private PetEntity pet;
 
-    public PetFoodFloorItem(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
+    public PetFoodFloorItem(RoomItemData roomItemData, Room room) {
+        super(roomItemData, room);
 
-        this.state = Integer.parseInt(data);
+        this.state = Integer.parseInt(roomItemData.getData());
     }
 
     @Override
@@ -30,7 +31,7 @@ public class PetFoodFloorItem extends RoomItemFloor {
             this.pet = petEntity;
             this.pet.getPetAI().beginEating();
 
-            final Position lookPos = this.getPosition().squareInFront(this.rotation);
+            final Position lookPos = this.getPosition().squareInFront(this.getRotation());
 
             this.pet.lookTo(lookPos.getX(), lookPos.getY());
             this.setTicks(RoomItemFactory.getProcessTime(2.0));
@@ -50,7 +51,7 @@ public class PetFoodFloorItem extends RoomItemFloor {
 
             this.state++;
 
-            this.setExtraData(this.state);
+            this.getItemData().setData(this.state);
             this.sendUpdate();
             this.saveData();
 

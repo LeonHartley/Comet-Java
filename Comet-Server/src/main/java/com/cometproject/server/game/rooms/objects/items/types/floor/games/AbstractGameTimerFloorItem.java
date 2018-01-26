@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.games;
 
+import com.cometproject.api.game.rooms.objects.data.RoomItemData;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
@@ -10,8 +11,8 @@ import org.apache.commons.lang.StringUtils;
 public abstract class AbstractGameTimerFloorItem extends RoomItemFloor {
     private String lastTime;
 
-    public AbstractGameTimerFloorItem(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
+    public AbstractGameTimerFloorItem(RoomItemData itemData, Room room) {
+        super(itemData, room);
     }
 
     @Override
@@ -32,8 +33,8 @@ public abstract class AbstractGameTimerFloorItem extends RoomItemFloor {
         if (requestData == 2) {
             int time = 0;
 
-            if (!this.getExtraData().isEmpty() && StringUtils.isNumeric(this.getExtraData())) {
-                time = Integer.parseInt(this.getExtraData());
+            if (!this.getItemData().getData().isEmpty() && StringUtils.isNumeric(this.getItemData().getData())) {
+                time = Integer.parseInt(this.getItemData().getData());
             }
 
             if (time == 0 || time == 30 || time == 60 || time == 120 || time == 180 || time == 300 || time == 600) {
@@ -64,17 +65,17 @@ public abstract class AbstractGameTimerFloorItem extends RoomItemFloor {
                 time = 0;
             }
 
-            this.setExtraData(time + "");
+            this.getItemData().setData(time + "");
             this.sendUpdate();
             this.saveData();
         } else {
-            if (this.getExtraData().equals("0") && this.lastTime != null && !this.lastTime.isEmpty()) {
-                this.setExtraData(this.lastTime);
+            if (this.getItemData().getData().equals("0") && this.lastTime != null && !this.lastTime.isEmpty()) {
+                this.getItemData().setData(this.lastTime);
             }
 
-            int gameLength = Integer.parseInt(this.getExtraData());
+            int gameLength = Integer.parseInt(this.getItemData().getData());
 
-            this.lastTime = this.getExtraData();
+            this.lastTime = this.getItemData().getData();
 
             if (gameLength == 0) return true;
 
@@ -97,7 +98,7 @@ public abstract class AbstractGameTimerFloorItem extends RoomItemFloor {
 
     @Override
     public String getDataObject() {
-        return this.lastTime != null && !this.lastTime.isEmpty() ? this.lastTime : this.getExtraData();
+        return this.lastTime != null && !this.lastTime.isEmpty() ? this.lastTime : this.getItemData().getData();
     }
 
     public abstract GameType getGameType();

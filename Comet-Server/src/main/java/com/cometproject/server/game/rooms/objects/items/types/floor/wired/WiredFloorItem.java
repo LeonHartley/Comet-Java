@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired;
 
+import com.cometproject.api.game.rooms.objects.data.RoomItemData;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
@@ -42,11 +43,11 @@ public abstract class WiredFloorItem extends AdvancedFloorItem<WiredItemEvent> i
      * @param rotation The orientation of the item
      * @param data     The JSON object associated with this item
      */
-    public WiredFloorItem(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
+    public WiredFloorItem(RoomItemData itemData, Room room) {
+        super(itemData, room);
 
-        if (!this.getExtraData().startsWith("{")) {
-            this.setExtraData("{}");
+        if (!this.getItemData().getData().startsWith("{")) {
+            this.getItemData().setData("{}");
         }
 
         this.load();
@@ -57,7 +58,7 @@ public abstract class WiredFloorItem extends AdvancedFloorItem<WiredItemEvent> i
      */
     @Override
     public void save() {
-        this.setExtraData(JsonUtil.getInstance().toJson(wiredItemData));
+        this.getItemData().setData(JsonUtil.getInstance().toJson(wiredItemData));
 
         super.save();
     }
@@ -66,18 +67,18 @@ public abstract class WiredFloorItem extends AdvancedFloorItem<WiredItemEvent> i
      * Turn the JSON object into a usable WiredItemData object
      */
     public void load() {
-        if (this.getExtraData().equals("{}")) {
+        if (this.getItemData().getData().equals("{}")) {
             this.wiredItemData = (this instanceof WiredActionItem) ? new WiredActionItemData() : new WiredItemData();
             return;
         }
 
-        this.wiredItemData = JsonUtil.getInstance().fromJson(this.getExtraData(), (this instanceof WiredActionItem) ? WiredActionItemData.class : WiredItemData.class);
+        this.wiredItemData = JsonUtil.getInstance().fromJson(this.getItemData().getData(), (this instanceof WiredActionItem) ? WiredActionItemData.class : WiredItemData.class);
         this.onDataRefresh();
     }
 
     @Override
     public void onPickup() {
-        this.setExtraData("{}");
+        this.getItemData().setData("{}");
     }
 
     @Override

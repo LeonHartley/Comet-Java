@@ -1,5 +1,8 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
+import com.cometproject.api.game.rooms.objects.data.RoomItemData;
+
+
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
@@ -37,8 +40,8 @@ public class RollerFloorItem extends AdvancedFloorItem<RollerFloorItemEvent> {
 
     private final RollerFloorItemEvent event;
 
-    public RollerFloorItem(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
+    public RollerFloorItem(RoomItemData itemData, Room room) {
+        super(itemData, room);
 
         this.event = new RollerFloorItemEvent(this.getTickCount());
         this.queueEvent(event);

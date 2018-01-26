@@ -1,5 +1,8 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
+import com.cometproject.api.game.rooms.objects.data.RoomItemData;
+
+
 import com.cometproject.api.game.furniture.types.IMusicData;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.items.ItemManager;
@@ -30,8 +33,10 @@ public class SoundMachineFloorItem extends RoomItemFloor implements Stateable {
 
     private boolean pendingPlay = false;
 
-    public SoundMachineFloorItem(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
+    public SoundMachineFloorItem(RoomItemData itemData, Room room) {
+        super(itemData, room);
+
+        final String data = itemData.getData();
 
         if (data.startsWith("##jukeboxOn[")) {
             this.songs = JsonUtil.getInstance().fromJson(data.replace("##jukeboxOn", ""), new TypeToken<ArrayList<SongItemData>>() {
@@ -113,7 +118,7 @@ public class SoundMachineFloorItem extends RoomItemFloor implements Stateable {
 
     @Override
     public void onPickup() {
-        this.setExtraData(this.getDataObject());
+        this.getItemData().setData(this.getDataObject());
     }
 
     @Override

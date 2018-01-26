@@ -60,7 +60,7 @@ public class BundleCommand extends ChatCommand {
                 for (RoomItemWall wallItem : room.getItems().getWallItems().values()) {
                     bundleItems.add(new RoomBundleItem(wallItem.getItemId(),
                             -1, -1, -1, -1, wallItem.getWallPosition(),
-                            wallItem.getExtraData()
+                            wallitem.getItemData().getData()
                     ));
                 }
 

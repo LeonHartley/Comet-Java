@@ -12,8 +12,8 @@ public class FootballGateFloorItem extends RoomItemFloor {
     public FootballGateFloorItem(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
 
-        if (this.getExtraData().equals("0")) {
-            this.setExtraData("hd-99999-99999.ch-3030-63.lg-275-1408;hd-99999-99999.ch-3030-63.lg-275-1408");
+        if (this.getItemData().getData().equals("0")) {
+            this.getItemData().setData("hd-99999-99999.ch-3030-63.lg-275-1408;hd-99999-99999.ch-3030-63.lg-275-1408");
             this.saveData();
         }
     }
@@ -50,21 +50,21 @@ public class FootballGateFloorItem extends RoomItemFloor {
     public void setFigure(String gender, String figure) {
         switch (gender.toUpperCase()) {
             case "M":
-                this.setExtraData(figure + "," + this.getFigure("F"));
+                this.getItemData().setData(figure + "," + this.getFigure("F"));
                 break;
 
             case "F":
-                this.setExtraData(this.getFigure("M") + "," + figure);
+                this.getItemData().setData(this.getFigure("M") + "," + figure);
                 break;
         }
     }
 
     public String getFigure(String gender) {
-        if (this.getExtraData().length() < 2) {
+        if (this.getItemData().getData().length() < 2) {
             return "hd-99999-99999.ch-3030-63.lg-275-1408";
         }
 
-        String[] figureData = this.getExtraData().split(",");
+        String[] figureData = this.getItemData().getData().split(",");
         String figure;
 
         if (gender.toUpperCase().equals("M")) {

@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.games.banzai;
 
+import com.cometproject.api.game.rooms.objects.data.RoomItemData;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
@@ -14,8 +15,8 @@ import com.cometproject.server.game.rooms.types.components.games.GameType;
 public class BanzaiGateFloorItem extends AbstractGameGateFloorItem {
     private GameTeam gameTeam;
 
-    public BanzaiGateFloorItem(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
+    public BanzaiGateFloorItem(RoomItemData roomItemData, Room room) {
+        super(roomItemData, room);
 
         switch (this.getDefinition().getInteraction()) {
             case "bb_red_gate":

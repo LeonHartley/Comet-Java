@@ -244,6 +244,6 @@ public class GroupService implements IGroupService {
 
     @Override
     public void removeGroup(int id) {
-
+        // Delete group data & remove it from cache
     }
 }

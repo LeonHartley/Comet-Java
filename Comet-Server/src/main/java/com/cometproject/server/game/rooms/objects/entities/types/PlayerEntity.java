@@ -128,7 +128,7 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
 
                 this.isQueueing = true;
                 this.getPlayer().getSession().send(new RoomQueueStatusMessageComposer(RoomQueue.getInstance().getQueueCount(room.getId(), this.playerId)));
-                return false;
+                return true;
             }
 
             this.getPlayer().getSession().send(new CantConnectMessageComposer(1));

@@ -20,7 +20,7 @@ public class BanzaiTileFloorItem extends RoomItemFloor {
     public BanzaiTileFloorItem(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
 
-        this.setExtraData("0");
+        this.getItemData().setData("0");
     }
 
     @Override
@@ -199,7 +199,7 @@ public class BanzaiTileFloorItem extends RoomItemFloor {
     public void onTick() {
         if (this.hasTicks() && this.ticker >= RoomItemFactory.getProcessTime(0.5)) {
             if (needsChange) {
-                this.setExtraData("1");
+                this.getItemData().setData("1");
                 this.sendUpdate();
                 this.needsChange = false;
             } else {
@@ -232,15 +232,15 @@ public class BanzaiTileFloorItem extends RoomItemFloor {
     }
 
     public void onGameEnds() {
-        this.setExtraData("0");
+        this.getItemData().setData("0");
         this.sendUpdate();
     }
 
     public void updateTileData() {
         if (this.points != 0)
-            this.setExtraData(((this.points + (gameTeam.getTeamId() * 3) - 1) + ""));
+            this.getItemData().setData(((this.points + (gameTeam.getTeamId() * 3) - 1) + ""));
         else
-            this.setExtraData("1");
+            this.getItemData().setData("1");
         this.sendUpdate();
     }
 

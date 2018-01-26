@@ -17,8 +17,8 @@ public class MannequinFloorItem extends RoomItemFloor {
     public MannequinFloorItem(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
 
-        if (!this.getExtraData().isEmpty()) {
-            String[] splitData = this.getExtraData().split(";#;");
+        if (!this.getItemData().getData().isEmpty()) {
+            String[] splitData = this.getItemData().getData().split(";#;");
             if (splitData.length != 3) return;
 
             this.name = splitData[0];

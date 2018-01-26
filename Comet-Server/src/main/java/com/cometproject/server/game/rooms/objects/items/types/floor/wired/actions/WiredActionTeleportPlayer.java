@@ -1,5 +1,7 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions;
 
+import com.cometproject.api.game.rooms.objects.data.RoomItemData;
+
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredUtil;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
@@ -21,9 +23,7 @@ public class WiredActionTeleportPlayer extends WiredActionItem {
      * @param rotation The orientation of the item
      * @param data     The JSON object associated with this item
      */
-    public WiredActionTeleportPlayer(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
-    }
+    public WiredActionTeleportPlayer(RoomItemData itemData, Room room) {        super(itemData, room);    }
 
     @Override
     public void onEventComplete(WiredItemEvent event) {

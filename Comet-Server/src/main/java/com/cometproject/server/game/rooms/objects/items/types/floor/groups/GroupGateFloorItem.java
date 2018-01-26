@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.groups;
 
+import com.cometproject.api.game.rooms.objects.data.RoomItemData;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
@@ -10,8 +11,8 @@ import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorI
 public class GroupGateFloorItem extends GroupFloorItem {
     public boolean isOpen = false;
 
-    public GroupGateFloorItem(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
+    public GroupGateFloorItem(RoomItemData roomItemData, Room room) {
+        super(roomItemData, room);
 
         this.isOpen = false;
     }

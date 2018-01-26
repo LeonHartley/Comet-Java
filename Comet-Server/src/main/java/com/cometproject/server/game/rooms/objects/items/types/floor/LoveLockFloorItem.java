@@ -1,5 +1,8 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
+import com.cometproject.api.game.rooms.objects.data.RoomItemData;
+
+
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityType;
@@ -14,13 +17,11 @@ public class LoveLockFloorItem extends RoomItemFloor {
     private int leftEntity = 0;
     private int rightEntity = 0;
 
-    public LoveLockFloorItem(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
-    }
+    public LoveLockFloorItem(RoomItemData itemData, Room room) {        super(itemData, room);    }
 
     @Override
     public void composeItemData(IComposer msg) {
-        final String[] loveLockData = this.getExtraData().split(String.valueOf((char) 5));
+        final String[] loveLockData = this.getItemData().getData().split(String.valueOf((char) 5));
         msg.writeInt(0);
         msg.writeInt(2);
 
@@ -41,7 +42,7 @@ public class LoveLockFloorItem extends RoomItemFloor {
             return false;
         }
 
-        if (this.getExtraData().startsWith("1")) return false;
+        if (this.getItemData().getData().startsWith("1")) return false;
 
         Position leftPosition = null;
         Position rightPosition = null;

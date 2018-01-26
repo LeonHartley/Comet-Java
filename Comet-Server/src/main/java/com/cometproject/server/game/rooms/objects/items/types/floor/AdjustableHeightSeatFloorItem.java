@@ -1,15 +1,18 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
+import com.cometproject.api.game.rooms.objects.data.RoomItemData;
+
+
 import com.cometproject.server.game.rooms.types.Room;
 import org.apache.commons.lang.StringUtils;
 
 
 public class AdjustableHeightSeatFloorItem extends SeatFloorItem {
-    public AdjustableHeightSeatFloorItem(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
+    public AdjustableHeightSeatFloorItem(RoomItemData itemData, Room room) {
+        super(itemData, room);
 
-        if (this.getExtraData().isEmpty()) {
-            this.setExtraData("0");
+        if (this.getItemData().getData().isEmpty()) {
+            this.getItemData().setData("0");
         }
     }
 
@@ -17,10 +20,10 @@ public class AdjustableHeightSeatFloorItem extends SeatFloorItem {
     public double getSitHeight() {
         double height;
 
-        if (!StringUtils.isNumeric(this.getExtraData())) {
+        if (!StringUtils.isNumeric(this.getItemData().getData())) {
             height = 1.0;
         } else {
-            height = Double.parseDouble(this.getExtraData());
+            height = Double.parseDouble(this.getItemData().getData());
 
             if (height <= 1) {
                 height += 1.0;

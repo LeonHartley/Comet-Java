@@ -17,7 +17,7 @@ public class WiredItemSnapshot {
         this.y = floorItem.getPosition().getY();
         this.z = floorItem.getPosition().getZ();
         this.rotation = floorItem.getRotation();
-        this.extraData = floorItem.getExtraData();
+        this.extraData = floorItem.getItemData().getData();
     }
 
     public long getItemId() {

@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.games.banzai;
 
+import com.cometproject.api.game.rooms.objects.data.RoomItemData;
 import com.cometproject.server.game.items.types.LowPriorityItemProcessor;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
@@ -22,8 +23,8 @@ public class BanzaiTeleporterFloorItem extends RoomItemFloor {
     private RoomEntity entity;
     private RoomItemFloor floorItem;
 
-    public BanzaiTeleporterFloorItem(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
+    public BanzaiTeleporterFloorItem(RoomItemData itemData, Room room) {
+        super(itemData, room);
     }
 
 //    @Override
@@ -85,7 +86,7 @@ public class BanzaiTeleporterFloorItem extends RoomItemFloor {
         this.entity = entity;
         this.entity.setAttribute("warp", true);
 
-        this.setExtraData("1");
+        this.getItemData().setData("1");
         this.sendUpdate();
 
         this.stage = 1;
@@ -128,7 +129,7 @@ public class BanzaiTeleporterFloorItem extends RoomItemFloor {
                 this.getRoom().getEntities().broadcastMessage(new UpdateFloorItemMessageComposer(floorItem));
             }
 
-            if(this.entity != null) {
+            if (this.entity != null) {
 //                final RoomTile tile = this.getRoom().getMapping().getTile(this.teleportPosition);
 
                 this.entity.warp(this.teleportPosition.copy(), false);
@@ -143,7 +144,7 @@ public class BanzaiTeleporterFloorItem extends RoomItemFloor {
             this.stage = 0;
             return;
         } else if (this.stage == 2) {
-            this.setExtraData("1");
+            this.getItemData().setData("1");
             this.sendUpdate();
 
             this.setTicks(LowPriorityItemProcessor.getProcessTime(0.5));
@@ -151,7 +152,7 @@ public class BanzaiTeleporterFloorItem extends RoomItemFloor {
             return;
         }
 
-        this.setExtraData("0");
+        this.getItemData().setData("0");
         this.sendUpdate();
     }
 

@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.football;
 
+import com.cometproject.api.game.rooms.objects.data.RoomItemData;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
@@ -12,9 +13,7 @@ import com.cometproject.server.game.rooms.types.Room;
 public class FootballTimerFloorItem extends RoomItemFloor {
     private int time = 0;
 
-    public FootballTimerFloorItem(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
-    }
+    public FootballTimerFloorItem(RoomItemData itemData, Room room) {        super(itemData, room);    }
 
 
     @Override
@@ -33,7 +32,7 @@ public class FootballTimerFloorItem extends RoomItemFloor {
         }
 
         if (requestData == 1) {
-            int time = Integer.parseInt(this.getExtraData());
+            int time = Integer.parseInt(this.getItemData().getData());
 
             if (time == 0 || time == 30 || time == 60 || time == 120 || time == 180 || time == 300 || time == 600) {
                 switch (time) {
@@ -64,7 +63,7 @@ public class FootballTimerFloorItem extends RoomItemFloor {
             }
 
             this.time = time;
-            this.setExtraData(this.time + "");
+            this.getItemData().setData(this.time + "");
             this.sendUpdate();
         } else {
             // Force it to be finished before restarting.
@@ -90,7 +89,7 @@ public class FootballTimerFloorItem extends RoomItemFloor {
         if (this.time > 0) {
             this.time--;
 
-            this.setExtraData(this.time + "");
+            this.getItemData().setData(this.time + "");
             this.sendUpdate();
 
             this.setTicks(RoomItemFactory.getProcessTime(1.0));

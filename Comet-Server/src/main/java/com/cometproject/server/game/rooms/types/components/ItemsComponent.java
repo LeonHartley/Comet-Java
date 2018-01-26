@@ -197,7 +197,7 @@ public class ItemsComponent {
         }
 
         if (floorItems.size() != 0) {
-            RoomItemDao.saveFloorItems(floorItems);
+            RoomItemData.saveFloorItems(floorItems);
         }
 
         floorItems.clear();*/
@@ -313,13 +313,13 @@ public class ItemsComponent {
     }
 
     public void removeItem(RoomItemWall item, int ownerId, Session client) {
-        RoomItemDao.removeItemFromRoom(item.getId(), ownerId, item.getExtraData());
+        RoomItemDao.removeItemFromRoom(item.getId(), ownerId, item.getItemData().getData());
 
         room.getEntities().broadcastMessage(new RemoveWallItemMessageComposer(ItemManager.getInstance().getItemVirtualId(item.getId()), ownerId));
         this.getWallItems().remove(item.getId());
 
         if (client != null && client.getPlayer() != null) {
-            client.getPlayer().getInventory().add(item.getId(), item.getItemId(), item.getExtraData(), item.getLimitedEditionItemData());
+            client.getPlayer().getInventory().add(item.getId(), item.getItemData().getItemId(), item.getItemData().getData(), item.getLimitedEditionItemData());
             client.send(new UpdateInventoryMessageComposer());
         }
     }
@@ -372,7 +372,7 @@ public class ItemsComponent {
         }
 
         Session client = session;
-        int owner = item.getOwner();
+        int owner = item.getItemData().getOwnerId();
 
         if (session != null) {
             if (owner != session.getPlayer().getId()) {
@@ -386,7 +386,7 @@ public class ItemsComponent {
         RoomItemDao.removeItemFromRoom(item.getId(), owner, item.getDataObject());
 
         if (toInventory && client != null) {
-            final PlayerItem playerItem = client.getPlayer().getInventory().add(item.getId(), item.getItemId(), item.getExtraData(), item instanceof GiftFloorItem ? ((GiftFloorItem) item).getGiftData() : null, item.getLimitedEditionItemData());
+            final PlayerItem playerItem = client.getPlayer().getInventory().add(item.getId(), item.getItemData().getItemId(), item.getItemData().getData(), item instanceof GiftFloorItem ? ((GiftFloorItem) item).getGiftData() : null, item.getLimitedEditionItemData());
             client.sendQueue(new UpdateInventoryMessageComposer());
             client.sendQueue(new UnseenItemsMessageComposer(Sets.newHashSet(playerItem), ItemManager.getInstance()));
             client.flush();
@@ -407,20 +407,20 @@ public class ItemsComponent {
     }
 
     public void removeItem(RoomItemWall item, Session client, boolean toInventory) {
-        this.getRoom().getEntities().broadcastMessage(new RemoveWallItemMessageComposer(item.getVirtualId(), item.getOwner()));
+        this.getRoom().getEntities().broadcastMessage(new RemoveWallItemMessageComposer(item.getVirtualId(), item.getItemData().getOwnerId()));
         this.getWallItems().remove(item.getId());
 
         if (toInventory) {
-            RoomItemDao.removeItemFromRoom(item.getId(), item.getOwner(), item.getExtraData());
+            RoomItemDao.removeItemFromRoom(item.getId(), item.getItemData().getOwnerId(), item.getItemData().getData());
 
             Session session = client;
 
-            if (item.getOwner() != client.getPlayer().getId()) {
-                session = NetworkManager.getInstance().getSessions().getByPlayerId(item.getOwner());
+            if (item.getItemData().getOwnerId() != client.getPlayer().getId()) {
+                session = NetworkManager.getInstance().getSessions().getByPlayerId(item.getItemData().getOwnerId());
             }
 
             if (session != null) {
-                session.getPlayer().getInventory().add(item.getId(), item.getItemId(), item.getExtraData(), item.getLimitedEditionItemData());
+                session.getPlayer().getInventory().add(item.getId(), item.getItemData().getItemId(), item.getItemData().getData(), item.getLimitedEditionItemData());
                 session.send(new UpdateInventoryMessageComposer());
                 session.send(new UnseenItemsMessageComposer(new HashMap<Integer, List<Integer>>() {{
                     put(1, Lists.newArrayList(item.getVirtualId()));
@@ -503,7 +503,7 @@ public class ItemsComponent {
         item.getPosition().setY(newPosition.getY());
 
         item.getPosition().setZ(height);
-        item.setRotation(rotation);
+        item.getItemData().setRotation(rotation);
 
         List<RoomEntity> affectEntities3 = room.getEntities().getEntitiesAt(newPosition);
 
@@ -598,10 +598,10 @@ public class ItemsComponent {
     public void placeWallItem(PlayerItem item, String position, Player player) {
         int roomId = this.room.getId();
 
-        RoomItemDao.placeWallItem(roomId, position, item.getExtraData().trim().isEmpty() ? "0" : item.getExtraData(), item.getId());
+        RoomItemDao.placeWallItem(roomId, position, item.getItemData().getData().trim().isEmpty() ? "0" : item.getItemData().getData(), item.getId());
         player.getInventory().removeItem(item.getId());
 
-        RoomItemWall wallItem = this.addWallItem(item.getId(), item.getBaseId(), this.room, player.getId(), player.getData().getUsername(), position, (item.getExtraData().isEmpty() || item.getExtraData().equals(" ")) ? "0" : item.getExtraData());
+        RoomItemWall wallItem = this.addWallItem(item.getId(), item.getBaseId(), this.room, player.getId(), player.getData().getUsername(), position, (item.getItemData().getData().isEmpty() || item.getItemData().getData().equals(" ")) ? "0" : item.getItemData().getData());
 
         this.room.getEntities().broadcastMessage(
                 new SendWallItemMessageComposer(wallItem)
@@ -654,10 +654,10 @@ public class ItemsComponent {
             }
         }
 
-        RoomItemDao.placeFloorItem(room.getId(), x, y, height, rot, (item.getExtraData().isEmpty() || item.getExtraData().equals(" ")) ? "0" : item.getExtraData(), item.getId());
+        RoomItemDao.placeFloorItem(room.getId(), x, y, height, rot, (item.getItemData().getData().isEmpty() || item.getItemData().getData().equals(" ")) ? "0" : item.getItemData().getData(), item.getId());
         player.getInventory().removeItem(item.getId());
 
-        RoomItemFloor floorItem = room.getItems().addFloorItem(item.getId(), item.getBaseId(), room, player.getId(), player.getData().getUsername(), x, y, rot, height, (item.getExtraData().isEmpty() || item.getExtraData().equals(" ")) ? "0" : item.getExtraData(), item.getLimitedEditionItem());
+        RoomItemFloor floorItem = room.getItems().addFloorItem(item.getId(), item.getBaseId(), room, player.getId(), player.getData().getUsername(), x, y, rot, height, (item.getItemData().getData().isEmpty() || item.getItemData().getData().equals(" ")) ? "0" : item.getItemData().getData(), item.getLimitedEditionItem());
         List<Position> tilesToUpdate = new ArrayList<>();
 
         for (RoomItemFloor stackItem : floorItems) {
@@ -696,7 +696,7 @@ public class ItemsComponent {
     }
 
     private void indexItem(RoomItemFloor floorItem) {
-        this.itemOwners.put(floorItem.getOwner(), floorItem.getOwnerName());
+        this.itemOwners.put(floorItem.getItemData().getOwnerId(), floorItem.getItemData().getOwnerName());
 
         if (!this.itemClassIndex.containsKey(floorItem.getClass())) {
             itemClassIndex.put(floorItem.getClass(), new HashSet<>());

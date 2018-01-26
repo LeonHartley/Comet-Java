@@ -11,7 +11,7 @@ public class FootballScoreFloorItem extends RoomItemFloor {
     public FootballScoreFloorItem(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
 
-        this.setExtraData("0");
+        this.getItemData().setData("0");
 
         switch (this.getDefinition().getItemName()) {
             case "fball_score_b":
@@ -30,13 +30,13 @@ public class FootballScoreFloorItem extends RoomItemFloor {
     }
 
     public void sendUpdate() {
-        this.setExtraData(this.getRoom().getGame().getScore(this.gameTeam) + "");
+        this.getItemData().setData(this.getRoom().getGame().getScore(this.gameTeam) + "");
 
         super.sendUpdate();
     }
 
     public void reset() {
-        this.setExtraData(0 + "");
+        this.getItemData().setData(0 + "");
         this.sendUpdate();
     }
 }

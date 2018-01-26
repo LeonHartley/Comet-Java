@@ -14,7 +14,7 @@ public class FreezeGateFloorItem extends AbstractGameGateFloorItem {
 
         final String itemName = this.getDefinition().getItemName();
 
-        this.setExtraData("0");
+        this.getItemData().setData("0");
 
         if(itemName.endsWith("y")) {
             this.gameTeam = GameTeam.YELLOW;

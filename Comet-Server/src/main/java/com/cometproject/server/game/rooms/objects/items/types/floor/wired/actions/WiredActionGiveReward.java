@@ -1,5 +1,7 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions;
 
+import com.cometproject.api.game.rooms.objects.data.RoomItemData;
+
 import com.cometproject.api.game.furniture.types.IFurnitureDefinition;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.api.config.CometSettings;
@@ -56,27 +58,14 @@ public class WiredActionGiveReward extends WiredActionItem {
 
     private final int ownerRank;
 
-    /**
-     * The default constructor
-     *
-     * @param id       The ID of the item
-     * @param itemId   The ID of the item definition
-     * @param room     The instance of the room
-     * @param owner    The ID of the owner
-     * @param x        The position of the item on the X axis
-     * @param y        The position of the item on the Y axis
-     * @param z        The position of the item on the z axis
-     * @param rotation The orientation of the item
-     * @param data     The JSON object associated with this item
-     */
-    public WiredActionGiveReward(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
+    public WiredActionGiveReward(RoomItemData roomItemData, Room room) {
+        super(roomItemData, room);
 
         if (!rewardTimings.containsKey(this.getId())) {
             rewardTimings.put(this.getId(), Maps.newConcurrentMap());
         }
 
-        final PlayerData playerData = PlayerManager.getInstance().getDataByPlayerId(this.ownerId);
+        final PlayerData playerData = PlayerManager.getInstance().getDataByPlayerId(this.getItemData().getOwnerId());
 
         if (playerData != null) {
             this.ownerRank = playerData.getRank();

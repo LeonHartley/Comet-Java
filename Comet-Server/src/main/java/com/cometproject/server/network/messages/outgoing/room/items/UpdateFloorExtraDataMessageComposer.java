@@ -58,7 +58,7 @@
 //                msg.writeInt(2);
 //                msg.writeInt(5);
 //                msg.writeString(groupData.getTitle());
-//                msg.writeString(floorItem.getExtraData());
+//                msg.writeString(flooritem.getItemData().getData());
 //                msg.writeString(groupData.getBadge());
 //
 //                String colourA = GroupManager.getInstance().getGroupItems().getSymbolColours().get(groupData.getColourA()).getColour();
@@ -74,7 +74,7 @@
 //        } else {
 //            msg.writeString(id);
 //            msg.writeInt(0);
-//            msg.writeString(floorItem instanceof Stateable ? (((Stateable) floorItem).getState() ? "1" : "0") : floorItem.getExtraData());
+//            msg.writeString(floorItem instanceof Stateable ? (((Stateable) floorItem).getState() ? "1" : "0") : flooritem.getItemData().getData());
 //        }
 //    }
 //}

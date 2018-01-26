@@ -1,5 +1,8 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
+import com.cometproject.api.game.rooms.objects.data.RoomItemData;
+
+
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
@@ -9,13 +12,11 @@ import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorI
 
 
 public class BackgroundTonerFloorItem extends RoomItemFloor {
-    public BackgroundTonerFloorItem(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
-    }
+    public BackgroundTonerFloorItem(RoomItemData itemData, Room room) {        super(itemData, room);    }
 
     @Override
     public void composeItemData(IComposer msg) {
-        BackgroundTonerData data = BackgroundTonerData.get(this.getExtraData());
+        BackgroundTonerData data = BackgroundTonerData.get(this.getItemData().getData());
 
         boolean enabled = (data != null);
 
@@ -29,7 +30,7 @@ public class BackgroundTonerFloorItem extends RoomItemFloor {
             msg.writeInt(data.getSaturation());
             msg.writeInt(data.getLightness());
         } else {
-            this.setExtraData("0;#;0;#;0");
+            this.getItemData().setData("0;#;0;#;0");
             this.saveData();
 
             msg.writeInt(0);
@@ -40,7 +41,7 @@ public class BackgroundTonerFloorItem extends RoomItemFloor {
 
     @Override
     public boolean onInteract(RoomEntity entity, int requestData, boolean isWiredTrigger) {
-        this.setExtraData("");
+        this.getItemData().setData("");
         this.saveData();
         this.getRoom().getEntities().broadcastMessage(new UpdateFloorItemMessageComposer(this));
 

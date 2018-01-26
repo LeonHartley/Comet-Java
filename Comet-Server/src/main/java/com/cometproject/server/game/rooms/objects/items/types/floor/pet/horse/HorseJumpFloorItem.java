@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.pet.horse;
 
+import com.cometproject.api.game.rooms.objects.data.RoomItemData;
 import com.cometproject.server.game.pets.races.PetType;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.api.game.rooms.entities.RoomEntityStatus;
@@ -11,10 +12,10 @@ import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.utilities.RandomUtil;
 
 public class HorseJumpFloorItem extends DefaultFloorItem {
-    public HorseJumpFloorItem(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
+    public HorseJumpFloorItem(RoomItemData itemData, Room room) {
+        super(itemData, room);
 
-        this.setExtraData("0");
+        this.getItemData().setData("0");
     }
 
     private boolean restore = false;
@@ -26,41 +27,41 @@ public class HorseJumpFloorItem extends DefaultFloorItem {
         if (this.restore) {
             this.restore = false;
 
-            this.setExtraData("0");
+            this.getItemData().setData("0");
             this.sendUpdate();
             return;
         }
 
-        this.setExtraData("0");
+        this.getItemData().setData("0");
 
         if(this.petEntity.getData().getHappiness() == 0) {
             this.petEntity.getPetAI().applyGesture("sad");
-            this.setExtraData("3");
+            this.getItemData().setData("3");
         } else if(this.petEntity.getData().getHunger() == 0) {
             this.petEntity.getPetAI().applyGesture("hng");
-            this.setExtraData("3");
+            this.getItemData().setData("3");
         } else if(this.petEntity.getData().getEnergy() == 0) {
             this.petEntity.getPetAI().applyGesture("nrg");
-            this.setExtraData("3");
+            this.getItemData().setData("3");
         }
 
-        if(this.getExtraData().equals("0")) {
+        if(this.getItemData().getData().equals("0")) {
             final int random = RandomUtil.getRandomInt(1, 100);
 
             if (random >= 66) {
-                this.setExtraData("4");
+                this.getItemData().setData("4");
             } else if (random <= 50) {
-                this.setExtraData("2");
+                this.getItemData().setData("2");
             } else if (random <= 10) {
-                this.setExtraData("1");
+                this.getItemData().setData("1");
             } else {
-                this.setExtraData("3");
+                this.getItemData().setData("3");
             }
         }
 
         this.sendUpdate();
 
-        if (this.getExtraData().equals("4")) {
+        if (this.getItemData().getData().equals("4")) {
             // success!
             this.petEntity.getPetAI().increaseExperience(5);
             this.petEntity.getPetAI().applyGesture("sml");
@@ -89,7 +90,7 @@ public class HorseJumpFloorItem extends DefaultFloorItem {
 
         int barToFace = 0;
 
-        if (this.rotation != 2) {
+        if (this.getRotation() != 2) {
             if (petEntity.getPosition().getX() != this.getPosition().getX())
                 barToFace = 1;
         } else {
@@ -150,7 +151,7 @@ public class HorseJumpFloorItem extends DefaultFloorItem {
         Position a = this.getPosition().copy();
         Position b = this.getPosition().copy();
 
-        if (this.rotation == 2) {
+        if (this.getRotation() == 2) {
             a.setX(a.getX() + 1);
         } else {
             a.setY(a.getY() + 1);

@@ -1,6 +1,7 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.football;
 
 import com.cometproject.api.game.achievements.types.AchievementType;
+import com.cometproject.api.game.rooms.objects.data.RoomItemData;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
@@ -12,9 +13,9 @@ import com.cometproject.server.network.sessions.Session;
 public class FootballGoalFloorItem extends RoomItemFloor {
     private GameTeam gameTeam;
 
-    public FootballGoalFloorItem(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
-
+    public FootballGoalFloorItem(RoomItemData roomItemData, Room room) {
+        super(roomItemData, room);
+        
         switch (this.getDefinition().getItemName()) {
             case "fball_goal_b":
                 this.gameTeam = GameTeam.BLUE;

@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.highscore;
 
+import com.cometproject.api.game.rooms.objects.data.RoomItemData;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
@@ -16,10 +17,12 @@ public class HighscoreClassicFloorItem extends RoomItemFloor {
     private boolean state;
     private final ScoreboardItemData itemData;
 
-    public HighscoreClassicFloorItem(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
+    public HighscoreClassicFloorItem(RoomItemData roomItemData, Room room) {
+        super(roomItemData, room);
 
-        if(data.startsWith("1{") || data.startsWith("0{")) {
+        final String data = roomItemData.getData();
+
+        if(roomItemData.getData().startsWith("1{") || roomItemData.getData().startsWith("0{")) {
             this.state = data.startsWith("1");
             this.itemData = JsonUtil.getInstance().fromJson(data.substring(1), ScoreboardItemData.class);
         } else {

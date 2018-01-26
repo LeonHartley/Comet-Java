@@ -27,7 +27,7 @@ public class UpdateWallItemMessageComposer extends MessageComposer {
         msg.writeString(item.getVirtualId());
         msg.writeInt(item.getDefinition().getSpriteId());
         msg.writeString(item.getWallPosition());
-        msg.writeString(item.getExtraData());
+        msg.writeString(item.getItemData().getData());
         msg.writeInt(!item.getDefinition().getInteraction().equals("default") ? 1 : 0);
         msg.writeInt(ownerId);
         msg.writeString(owner);

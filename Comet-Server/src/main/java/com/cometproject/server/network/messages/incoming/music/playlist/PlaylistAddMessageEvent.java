@@ -42,7 +42,7 @@ public class PlaylistAddMessageEvent implements Event {
         soundMachineFloorItem.addSong(new SongItemData(inventoryItem.createSnapshot(), inventoryItem.getDefinition().getSongId()));
         soundMachineFloorItem.saveData();
 
-        RoomItemDao.removeItemFromRoom(inventoryItemId, 0, inventoryItem.getExtraData());
+        RoomItemDao.removeItemFromRoom(inventoryItemId, 0, inventoryitem.getItemData().getData());
         client.getPlayer().getInventory().removeItem(inventoryItem.getId());
 
         client.send(new SongInventoryMessageComposer(client.getPlayer().getInventory().getSongs()));

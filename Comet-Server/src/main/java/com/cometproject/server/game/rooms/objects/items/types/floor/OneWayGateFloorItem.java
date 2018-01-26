@@ -1,5 +1,8 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
+import com.cometproject.api.game.rooms.objects.data.RoomItemData;
+
+
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
@@ -11,9 +14,7 @@ public class OneWayGateFloorItem extends RoomItemFloor {
     private boolean isInUse = false;
     private RoomEntity interactingEntity;
 
-    public OneWayGateFloorItem(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
-    }
+    public OneWayGateFloorItem(RoomItemData itemData, Room room) {        super(itemData, room);    }
 
     @Override
     public boolean onInteract(RoomEntity entity, int requestData, boolean isWiredTrigger) {
@@ -26,7 +27,7 @@ public class OneWayGateFloorItem extends RoomItemFloor {
             return false;
         }
 
-        Position squareBehind = this.getPosition().squareBehind(this.rotation);
+        Position squareBehind = this.getPosition().squareBehind(this.getRotation());
 
         if (!this.getRoom().getMapping().isValidStep(this.getPosition(), squareBehind, true)) {
             return false;
@@ -37,7 +38,7 @@ public class OneWayGateFloorItem extends RoomItemFloor {
         entity.setOverriden(true);
         entity.moveTo(squareBehind.getX(), squareBehind.getY());
 
-        this.setExtraData("1");
+        this.getItemData().setData("1");
         this.sendUpdate();
 
         this.interactingEntity = entity;
@@ -53,7 +54,7 @@ public class OneWayGateFloorItem extends RoomItemFloor {
             this.setTicks(RoomItemFactory.getProcessTime(1.0));
         }
 
-        this.setExtraData("0");
+        this.getItemData().setData("0");
         this.sendUpdate();
 
         this.isInUse = false;

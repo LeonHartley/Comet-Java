@@ -257,7 +257,7 @@ public class RoomItemDao {
                 if (roomItem instanceof RoomItemFloor) {
                     data = ((RoomItemFloor) roomItem).getDataObject();
                 } else {
-                    data = roomItem.getExtraData();
+                    data = roomItem.getItemData().getData();
                 }
 
                 preparedStatement.setString(1, data);

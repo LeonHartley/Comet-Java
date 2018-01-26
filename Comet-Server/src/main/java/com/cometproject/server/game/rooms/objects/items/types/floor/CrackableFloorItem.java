@@ -1,5 +1,8 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
+import com.cometproject.api.game.rooms.objects.data.RoomItemData;
+
+
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
@@ -7,15 +10,15 @@ import com.cometproject.server.game.rooms.types.Room;
 
 public class CrackableFloorItem extends RoomItemFloor {
 
-    public CrackableFloorItem(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
+    public CrackableFloorItem(RoomItemData itemData, Room room) {
+        super(itemData, room);
 
-        this.setExtraData("0");
+        this.getItemData().setData("0");
     }
 
     @Override
     public boolean onInteract(RoomEntity entity, int state, boolean isWiredTrigger) {
-        int hits = Integer.parseInt(this.getExtraData());
+        int hits = Integer.parseInt(this.getItemData().getData());
         int maxHits = 20;
 
         if (hits <= maxHits) {
@@ -24,7 +27,7 @@ public class CrackableFloorItem extends RoomItemFloor {
             // we're open!
         }
 
-        this.setExtraData(hits);
+        this.getItemData().setData(hits);
         this.sendUpdate();
 
         return true;
@@ -35,7 +38,7 @@ public class CrackableFloorItem extends RoomItemFloor {
         msg.writeInt(0);
         msg.writeInt(7);
 
-        int state = Integer.parseInt(this.getExtraData());
+        int state = Integer.parseInt(this.getItemData().getData());
 
         msg.writeString(this.calculateState(20, state));
         msg.writeInt(state);//state

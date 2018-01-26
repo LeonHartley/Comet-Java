@@ -1,6 +1,9 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions;
 
+import com.cometproject.api.game.rooms.objects.data.RoomItemData;
+
 import com.cometproject.api.game.bots.BotMode;
+import com.cometproject.api.game.rooms.objects.data.RoomItemData;
 import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
@@ -24,9 +27,7 @@ public class WiredActionBotFollowAvatar extends WiredActionItem {
      * @param rotation  The orientation of the item
      * @param data      The JSON object associated with this item
      */
-    public WiredActionBotFollowAvatar(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
-    }
+    public WiredActionBotFollowAvatar(RoomItemData itemData, Room room) {        super(itemData, room);    }
 
     @Override
     public void onEventComplete(WiredItemEvent event) {

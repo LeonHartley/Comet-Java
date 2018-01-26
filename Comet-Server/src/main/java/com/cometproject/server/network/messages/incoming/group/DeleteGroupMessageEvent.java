@@ -69,7 +69,7 @@ public class DeleteGroupMessageEvent implements Event {
                 }
             } else {
                 for (RoomItem roomItem : floorItemsOwnedByPlayer) {
-                    RoomItemDao.removeItemFromRoom(roomItem.getId(), groupMemberId, roomItem.getExtraData());
+                    RoomItemDao.removeItemFromRoom(roomItem.getId(), groupMemberId, roomitem.getItemData().getData());
                 }
             }
 

@@ -1,5 +1,8 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
+import com.cometproject.api.game.rooms.objects.data.RoomItemData;
+
+
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
@@ -9,8 +12,8 @@ import com.cometproject.server.game.rooms.types.Room;
 public class EffectFloorItem extends RoomItemFloor {
     private final int effectId;
 
-    public EffectFloorItem(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
+    public EffectFloorItem(RoomItemData itemData, Room room) {
+        super(itemData, room);
 
         this.effectId = this.getDefinition().getEffectId();
     }
