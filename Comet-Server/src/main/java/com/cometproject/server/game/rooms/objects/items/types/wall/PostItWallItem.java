@@ -16,9 +16,9 @@ public class PostItWallItem extends RoomItemWall {
         super(roomItemData, room);
 
         if (this.isValidData(roomItemData.getData()))
-            this.getItemData().setData(data);
+            this.setExtraData(roomItemData.getData());
         else
-            this.getItemData().setData("FFFF33 ");
+            this.setExtraData("FFFF33 ");
     }
 
     public String getExtraData() {

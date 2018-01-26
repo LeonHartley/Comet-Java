@@ -25,7 +25,7 @@ public class OpenPetPackageMessageEvent implements Event {
         final Room room = client.getPlayer().getEntity().getRoom();
         final RoomItemFloor floor = room.getItems().getFloorItem(itemId);
 
-        if(floor == null || floor.getOwner() != client.getPlayer().getId()) {
+        if(floor == null || floor.getItemData().getOwnerId() != client.getPlayer().getId()) {
             return;
         }
 
@@ -33,8 +33,8 @@ public class OpenPetPackageMessageEvent implements Event {
 
         // todo: validate name
         final int raceId = petPackage.getRaceId();
-        final int petId = PetDao.createPet(floor.getOwner(), petName, petPackage.getPetTypeId(), raceId, "FFFFFF");
-        final PetData petData = new PetData(petId, petName, floor.getOwner(), floor.getOwnerName(), raceId, ((PetPackageFloorItem) floor).getPetTypeId());
+        final int petId = PetDao.createPet(floor.getItemData().getOwnerId(), petName, petPackage.getPetTypeId(), raceId, "FFFFFF");
+        final PetData petData = new PetData(petId, petName, floor.getItemData().getOwnerId(), floor.getItemData().getOwnerName(), raceId, ((PetPackageFloorItem) floor).getPetTypeId());
 
         PetEntity petEntity = room.getPets().addPet(petData, floor.getPosition());
         petEntity.getPetAI().free();

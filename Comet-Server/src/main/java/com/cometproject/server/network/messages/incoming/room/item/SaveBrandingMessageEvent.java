@@ -29,7 +29,7 @@ public class SaveBrandingMessageEvent implements Event {
         data = data.replace("https", "http");
 
         RoomItemFloor item = room.getItems().getFloorItem(brandingId);
-        item.setExtraData(data);
+        item.getItemData().setData(data);
 
         item.sendUpdate();
         item.saveData();

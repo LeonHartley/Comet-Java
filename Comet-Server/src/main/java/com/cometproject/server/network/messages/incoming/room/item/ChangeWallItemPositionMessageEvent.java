@@ -41,7 +41,7 @@ public class ChangeWallItemPositionMessageEvent implements Event {
 
             RoomItemDao.placeWallItem(room.getId(), position, (item.getItemData().getData().isEmpty() || item.getItemData().getData().equals(" ")) ? "0" : item.getItemData().getData(), item.getId());
 
-            item.setPosition(position);
+            item.setWallPosition(position);
             room.getEntities().broadcastMessage(new UpdateWallItemMessageComposer(item, room.getData().getOwnerId(), room.getData().getOwner()));
         }
     }

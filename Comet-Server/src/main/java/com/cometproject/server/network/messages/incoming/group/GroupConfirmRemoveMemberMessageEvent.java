@@ -48,12 +48,12 @@ public class GroupConfirmRemoveMemberMessageEvent  implements Event {
         if (RoomManager.getInstance().isActive(group.getData().getRoomId())) {
             Room room = RoomManager.getInstance().get(group.getData().getRoomId());
             for (RoomItemFloor floorItem : room.getItems().getFloorItems().values()) {
-                if (floorItem.getOwner() == playerId) {
+                if (floorItem.getItemData().getOwnerId() == playerId) {
                     itemsToRemove.add(floorItem);
                 }
             }
             for (RoomItemWall wallItem : room.getItems().getWallItems().values()) {
-                if (wallItem.getOwner() == playerId) {
+                if (wallItem.getItemData().getOwnerId() == playerId) {
                     itemsToRemove.add(wallItem);
                 }
             }

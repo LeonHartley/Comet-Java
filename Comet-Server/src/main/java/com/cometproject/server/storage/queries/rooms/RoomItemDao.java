@@ -1,5 +1,7 @@
 package com.cometproject.server.storage.queries.rooms;
 
+import com.cometproject.api.game.rooms.objects.data.RoomItemData;
+import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.items.rares.LimitedEditionItemData;
 import com.cometproject.server.game.rooms.objects.items.RoomItem;
@@ -43,11 +45,24 @@ public class RoomItemDao {
                     limitedEditionItemData = new LimitedEditionItemData(resultSet.getLong("id"), resultSet.getInt("limited_id"), resultSet.getInt("limited_total"));
                 }
 
+                final long id = resultSet.getLong("id");
+                final int itemId = resultSet.getInt("base_item");
+                final int ownerId = resultSet.getInt("user_id");
+                final String ownerName = resultSet.getString("user_name");
+                final int x = resultSet.getInt("x");
+                final int y = resultSet.getInt("y");
+                final double z = resultSet.getDouble("z");
+                final int rotation = resultSet.getInt("rot");
+                final String extraData = resultSet.getString("extra_data");
+                final String wallPosition = resultSet.getString("wall_pos");
+
+                final RoomItemData itemData = new RoomItemData(id, itemId, ownerId, ownerName, new Position(x, y, z), rotation, extraData, wallPosition);
+
                 if (ItemManager.getInstance().getDefinition(resultSet.getInt("base_item")) != null) {
                     if (ItemManager.getInstance().getDefinition(resultSet.getInt("base_item")).getType().equals("s"))
-                        floorItems.put(resultSet.getLong("id"), RoomItemFactory.createFloor(resultSet.getLong("id"), resultSet.getInt("base_item"), room, resultSet.getInt("user_id"), resultSet.getString("user_name"), resultSet.getInt("x"), resultSet.getInt("y"), resultSet.getDouble("z"), resultSet.getInt("rot"), resultSet.getString("extra_data"), limitedEditionItemData));
+                        floorItems.put(resultSet.getLong("id"), RoomItemFactory.createFloor(itemData, room, limitedEditionItemData));
                     else
-                        wallItems.put(resultSet.getLong("id"), RoomItemFactory.createWall(resultSet.getLong("id"), resultSet.getInt("base_item"), room, resultSet.getInt("user_id"), resultSet.getString("user_name"), resultSet.getString("wall_pos"), resultSet.getString("extra_data"), limitedEditionItemData));
+                        wallItems.put(resultSet.getLong("id"), RoomItemFactory.createWall(itemData, room, limitedEditionItemData));
 
                 } else {
                     log.warn("Item (" + resultSet.getInt("id") + ") with invalid definition ID: " + resultSet.getInt("base_item"));
@@ -373,7 +388,7 @@ public class RoomItemDao {
                 final int playerId = resultSet.getInt("player_id");
                 final String rewardData = resultSet.getString("reward_data");
 
-                if(!data.containsKey(playerId)) {
+                if (!data.containsKey(playerId)) {
                     data.put(playerId, new HashSet<>());
                 }
 

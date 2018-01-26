@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.games.freeze;
 
+import com.cometproject.api.game.rooms.objects.data.RoomItemData;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.games.AbstractGameGateFloorItem;
 import com.cometproject.server.game.rooms.types.Room;
@@ -9,8 +10,8 @@ import com.cometproject.server.game.rooms.types.components.games.GameType;
 public class FreezeGateFloorItem extends AbstractGameGateFloorItem {
     private final GameTeam gameTeam;
 
-    public FreezeGateFloorItem(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
+    public FreezeGateFloorItem(RoomItemData itemData, Room room) {
+        super(itemData, room);
 
         final String itemName = this.getDefinition().getItemName();
 

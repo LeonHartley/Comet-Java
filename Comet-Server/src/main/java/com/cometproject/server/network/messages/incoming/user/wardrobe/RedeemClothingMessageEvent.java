@@ -32,7 +32,7 @@ public class RedeemClothingMessageEvent implements Event {
         final Room room = playerEntity.getRoom();
         final RoomItemFloor floorItem = room.getItems().getFloorItem(itemId);
 
-        if(floorItem == null || floorItem.getOwner() != playerEntity.getPlayerId()) {
+        if(floorItem == null || floorItem.getItemData().getOwnerId() != playerEntity.getPlayerId()) {
             return;
         }
 

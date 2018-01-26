@@ -34,7 +34,7 @@ public class ApplyDecorationMessageEvent implements Event {
         if (isOwner || hasRights) {
             String type = "floor";
             Map<String, String> decorations = room.getData().getDecorations();
-            String data = item.getItemData().getData();
+            String data = item.getExtraData();
 
             if (item.getDefinition().getItemName().contains("wallpaper")) {
                 type = "wallpaper";

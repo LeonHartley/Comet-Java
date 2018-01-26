@@ -33,9 +33,11 @@ public class SavePostItMessageEvent implements Event {
             return;
         }
 
-        wallItem.setExtraData(colour + " " + message);
-        wallItem.sendUpdate();
+        final PostItWallItem item = (PostItWallItem) wallItem;
 
-        wallItem.saveData();
+        item.setExtraData(colour + " " + message);
+        item.sendUpdate();
+
+        item.saveData();
     }
 }

@@ -28,7 +28,7 @@ public class ApplyHorseEffectMessageEvent implements Event {
 
         PetEntity petEntity = room.getEntities().getEntityByPetId(petId);
 
-        if (petEntity == null || petEntity.getData().getOwnerId() != client.getPlayer().getId() || effectItem.getOwner() != client.getPlayer().getId()) {
+        if (petEntity == null || petEntity.getData().getOwnerId() != client.getPlayer().getId() || effectItem.getItemData().getOwnerId() != client.getPlayer().getId()) {
             return;
         }
 

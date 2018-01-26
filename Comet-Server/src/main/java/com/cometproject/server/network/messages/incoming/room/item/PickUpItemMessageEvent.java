@@ -48,7 +48,7 @@ public class PickUpItemMessageEvent implements Event {
                 return;
             }
 
-            if (wItem.getOwner() != client.getPlayer().getId() && !client.getPlayer().getPermissions().getRank().roomFullControl()) {
+            if (wItem.getItemData().getOwnerId() != client.getPlayer().getId() && !client.getPlayer().getPermissions().getRank().roomFullControl()) {
                 if (wItem.getRoom().getData().getOwnerId() != client.getPlayer().getId() && !client.getPlayer().getPermissions().getRank().roomFullControl())
                     return;
 
@@ -58,15 +58,15 @@ public class PickUpItemMessageEvent implements Event {
             if (!eject) {
                 room.getItems().removeItem(wItem, client.getPlayer().getId(), client);
             } else {
-                Session owner = NetworkManager.getInstance().getSessions().getByPlayerId(wItem.getOwner());
-                room.getItems().removeItem(wItem, wItem.getOwner(), owner);
+                Session owner = NetworkManager.getInstance().getSessions().getByPlayerId(wItem.getItemData().getOwnerId());
+                room.getItems().removeItem(wItem, wItem.getItemData().getOwnerId(), owner);
             }
 
             client.send(new RemoveWallItemMessageComposer(wItem.getVirtualId(), client.getPlayer().getId()));
             return;
         }
 
-        if (item.getOwner() != client.getPlayer().getId() && !client.getPlayer().getPermissions().getRank().roomFullControl()) {
+        if (item.getItemData().getOwnerId() != client.getPlayer().getId() && !client.getPlayer().getPermissions().getRank().roomFullControl()) {
             if (item.getRoom().getData().getOwnerId() != client.getPlayer().getId() && !client.getPlayer().getPermissions().getRank().roomFullControl())
                 return;
 
@@ -78,7 +78,7 @@ public class PickUpItemMessageEvent implements Event {
         if (!eject) {
             room.getItems().removeItem(item, client);
         } else {
-            Session owner = NetworkManager.getInstance().getSessions().getByPlayerId(item.getOwner());
+            Session owner = NetworkManager.getInstance().getSessions().getByPlayerId(item.getItemData().getOwnerId());
             room.getItems().removeItem(item, owner);
         }
 

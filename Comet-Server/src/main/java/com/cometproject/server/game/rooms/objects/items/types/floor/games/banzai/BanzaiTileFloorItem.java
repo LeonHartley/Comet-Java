@@ -1,6 +1,7 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.games.banzai;
 
 import com.cometproject.api.game.achievements.types.AchievementType;
+import com.cometproject.api.game.rooms.objects.data.RoomItemData;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
@@ -17,8 +18,8 @@ public class BanzaiTileFloorItem extends RoomItemFloor {
     private GameTeam gameTeam = GameTeam.NONE;
     private int points = 0;
 
-    public BanzaiTileFloorItem(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
+    public BanzaiTileFloorItem(RoomItemData roomItemData, Room room) {
+        super(roomItemData, room);
 
         this.getItemData().setData("0");
     }

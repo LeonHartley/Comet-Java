@@ -30,7 +30,7 @@ public class SaveTonerMessageEvent implements Event {
         BackgroundTonerData data = new BackgroundTonerData(hue, saturation, lightness);
         String stringData = BackgroundTonerData.get(data);
 
-        item.setExtraData(stringData);
+        item.getItemData().setData(stringData);
 
         item.getRoom().getEntities().broadcastMessage(new UpdateFloorItemMessageComposer(item));
         item.saveData();

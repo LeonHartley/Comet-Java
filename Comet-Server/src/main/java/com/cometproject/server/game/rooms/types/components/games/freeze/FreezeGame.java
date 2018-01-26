@@ -42,7 +42,7 @@ public class FreezeGame extends RoomGame {
     @Override
     public void tick() {
         for (RoomItemFloor item : room.getItems().getByClass(FreezeTimerFloorItem.class)) {
-            item.setExtraData((gameLength - timer) + "");
+            item.getItemData().setData((gameLength - timer) + "");
             item.sendUpdate();
         }
 
@@ -255,7 +255,7 @@ public class FreezeGame extends RoomGame {
         }
 
         for (FreezeExitFloorItem exitItem : this.room.getItems().getByClass(FreezeExitFloorItem.class)) {
-            exitItem.setExtraData("1");
+            exitItem.getItemData().setData("1");
             exitItem.sendUpdate();
         }
     }
@@ -267,17 +267,17 @@ public class FreezeGame extends RoomGame {
     @Override
     public void onGameEnds() {
         for (FreezeBlockFloorItem blockItem : this.room.getItems().getByClass(FreezeBlockFloorItem.class)) {
-            blockItem.setExtraData("0");
+            blockItem.getItemData().setData("0");
             blockItem.sendUpdate();
         }
 
         for (FreezeExitFloorItem exitItem : this.room.getItems().getByClass(FreezeExitFloorItem.class)) {
-            exitItem.setExtraData("0");
+            exitItem.getItemData().setData("0");
             exitItem.sendUpdate();
         }
 
         for (FreezeTimerFloorItem timer : this.room.getItems().getByClass(FreezeTimerFloorItem.class)) {
-            timer.setExtraData("0");
+            timer.getItemData().setData("0");
             timer.sendUpdate();
         }
 
