@@ -17,4 +17,8 @@ public interface IResultReader {
 
     boolean readBoolean(int index) throws Exception;
 
+    double readDouble(String columnName) throws Exception;
+
+    double readDouble(int index) throws Exception;
+
 }

@@ -9,7 +9,7 @@ import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.catalog.types.gifts.GiftData;
 import com.cometproject.server.game.items.ItemManager;
-import com.cometproject.server.game.items.rares.LimitedEditionItemData;
+import com.cometproject.api.game.rooms.objects.data.LimitedEditionItemData;
 import com.cometproject.api.game.furniture.types.ItemType;
 import com.cometproject.server.utilities.JsonUtil;
 import org.apache.commons.lang.StringUtils;

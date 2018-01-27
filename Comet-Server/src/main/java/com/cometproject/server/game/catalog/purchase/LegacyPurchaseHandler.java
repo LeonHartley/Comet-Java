@@ -21,7 +21,7 @@ import com.cometproject.api.game.achievements.types.AchievementType;
 import com.cometproject.api.game.catalog.types.CatalogPageType;
 import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.items.ItemManager;
-import com.cometproject.server.game.items.rares.LimitedEditionItemData;
+import com.cometproject.api.game.rooms.objects.data.LimitedEditionItemData;
 import com.cometproject.api.game.furniture.types.ItemType;
 import com.cometproject.server.game.pets.data.PetData;
 import com.cometproject.server.game.pets.data.StaticPetProperties;

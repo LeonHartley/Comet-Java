@@ -4,8 +4,7 @@ import com.cometproject.api.config.CometSettings;
 import com.cometproject.api.game.furniture.types.IFurnitureDefinition;
 import com.cometproject.api.game.rooms.objects.data.RoomItemData;
 import com.cometproject.server.game.items.ItemManager;
-import com.cometproject.server.game.items.rares.LimitedEditionItemData;
-import com.cometproject.server.game.items.types.ItemDefinition;
+import com.cometproject.api.game.rooms.objects.data.LimitedEditionItemData;
 import com.cometproject.server.game.rooms.objects.items.types.DefaultFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.DefaultWallItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.*;
@@ -219,9 +218,7 @@ public class RoomItemFactory {
         }};
     }
 
-    public static RoomItemFloor createFloor(RoomItemData itemData, Room room, LimitedEditionItemData limitedEditionItemData) {
-        IFurnitureDefinition def = ItemManager.getInstance().getDefinition(itemData.getItemId());
-
+    public static RoomItemFloor createFloor(RoomItemData itemData, Room room, IFurnitureDefinition def) {
         if (CometSettings.storageItemQueueEnabled) {
             final RoomItem roomItem = ItemStorageQueue.getInstance().getQueuedItem(itemData.getId());
 
@@ -279,19 +276,19 @@ public class RoomItemFactory {
             }
         }
 
+
         if (floorItem == null) {
             floorItem = new DefaultFloorItem(itemData, room);
         }
 
-        if (limitedEditionItemData != null) {
-            floorItem.setLimitedEditionItemData(limitedEditionItemData);
+        if (itemData.getLimitedEdition() != null) {
+            floorItem.setLimitedEditionItemData((LimitedEditionItemData) itemData.getLimitedEdition());
         }
 
         return floorItem;
     }
 
-    public static RoomItemWall createWall(RoomItemData itemData, Room room, LimitedEditionItemData limitedEditionItemData) {
-        IFurnitureDefinition def = ItemManager.getInstance().getDefinition(itemData.getItemId());
+    public static RoomItemWall createWall(RoomItemData itemData, Room room, IFurnitureDefinition def) {
         if (def == null) {
             return null;
         }
@@ -317,8 +314,8 @@ public class RoomItemFactory {
             }
         }
 
-        if (limitedEditionItemData != null) {
-            wallItem.setLimitedEditionItemData(limitedEditionItemData);
+        if (itemData.getLimitedEdition() != null) {
+            wallItem.setLimitedEditionItemData((LimitedEditionItemData) itemData.getLimitedEdition());
         }
 
         return wallItem;

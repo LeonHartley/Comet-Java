@@ -1,5 +1,6 @@
 package com.cometproject.api.game.rooms.objects;
 
+import com.cometproject.api.game.furniture.types.LimitedEditionItem;
 import com.cometproject.api.game.utilities.Position;
 
 public interface IRoomItemData {
@@ -29,4 +30,6 @@ public interface IRoomItemData {
     void setPosition(Position position);
 
     void setWallPosition(String wallPosition);
+
+    LimitedEditionItem getLimitedEdition();
 }
