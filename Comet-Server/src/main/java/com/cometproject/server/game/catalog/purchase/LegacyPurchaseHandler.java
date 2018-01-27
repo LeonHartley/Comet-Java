@@ -8,7 +8,7 @@ import com.cometproject.api.game.catalog.types.ICatalogBundledItem;
 import com.cometproject.api.game.catalog.types.ICatalogItem;
 import com.cometproject.api.game.catalog.types.ICatalogPage;
 import com.cometproject.api.game.catalog.types.purchase.ICatalogPurchaseHandler;
-import com.cometproject.api.game.furniture.types.IFurnitureDefinition;
+import com.cometproject.api.game.furniture.types.FurnitureDefinition;
 import com.cometproject.api.game.furniture.types.IGiftData;
 import com.cometproject.api.game.furniture.types.IMusicData;
 import com.cometproject.api.game.groups.types.IGroup;
@@ -143,7 +143,7 @@ public class LegacyPurchaseHandler implements ICatalogPurchaseHandler {
 
             if (giftData != null) {
                 try {
-                    final IFurnitureDefinition itemDefinition = ItemManager.getInstance().getDefinition(item.getItems().get(0).getItemId());
+                    final FurnitureDefinition itemDefinition = ItemManager.getInstance().getDefinition(item.getItems().get(0).getItemId());
 
                     if (itemDefinition == null) {
                         return;
@@ -251,7 +251,7 @@ public class LegacyPurchaseHandler implements ICatalogPurchaseHandler {
             }
 
             for (ICatalogBundledItem bundledItem : item.getItems()) {
-                IFurnitureDefinition def = ItemManager.getInstance().getDefinition(bundledItem.getItemId());
+                FurnitureDefinition def = ItemManager.getInstance().getDefinition(bundledItem.getItemId());
 
                 if (def == null) {
                     continue;
@@ -428,7 +428,7 @@ public class LegacyPurchaseHandler implements ICatalogPurchaseHandler {
                 if (giftData != null) {
                     giftData.setExtraData(extraData);
 
-                    IFurnitureDefinition itemDefinition = ItemManager.getInstance().getBySpriteId(giftData.getSpriteId());
+                    FurnitureDefinition itemDefinition = ItemManager.getInstance().getBySpriteId(giftData.getSpriteId());
 
                     purchases.add(new CatalogPurchase(playerIdToDeliver, itemDefinition == null ? CatalogManager.getInstance().getGiftBoxesOld().get(0) : itemDefinition.getId(), "GIFT::##" + JsonUtil.getInstance().toJson(giftData)));
                 } else {

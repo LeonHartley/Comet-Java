@@ -1,13 +1,12 @@
 package com.cometproject.server.network.messages.incoming.room.item.gifts;
 
 import com.cometproject.api.game.catalog.types.ICatalogPage;
-import com.cometproject.api.game.furniture.types.IFurnitureDefinition;
+import com.cometproject.api.game.furniture.types.FurnitureDefinition;
 import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
 import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.api.game.catalog.types.ICatalogItem;
 import com.cometproject.server.game.catalog.types.gifts.GiftData;
 import com.cometproject.server.game.items.ItemManager;
-import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.api.game.furniture.types.ItemType;
 import com.cometproject.server.game.players.components.types.inventory.InventoryItem;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
@@ -47,7 +46,7 @@ public class OpenGiftMessageEvent implements Event {
         final ICatalogItem catalogItem = catalogPage.getItems().get(giftData.getItemId());
         if (catalogItem == null) return;
 
-        final IFurnitureDefinition itemDefinition = ItemManager.getInstance().getDefinition(catalogItem.getItems().get(0).getItemId());
+        final FurnitureDefinition itemDefinition = ItemManager.getInstance().getDefinition(catalogItem.getItems().get(0).getItemId());
 
 //        floorItem.onInteract(client.getPlayer().getEntity(), 0, false);
 

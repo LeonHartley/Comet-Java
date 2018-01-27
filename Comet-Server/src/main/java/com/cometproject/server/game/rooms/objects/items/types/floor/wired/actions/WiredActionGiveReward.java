@@ -2,12 +2,11 @@ package com.cometproject.server.game.rooms.objects.items.types.floor.wired.actio
 
 import com.cometproject.api.game.rooms.objects.data.RoomItemData;
 
-import com.cometproject.api.game.furniture.types.IFurnitureDefinition;
+import com.cometproject.api.game.furniture.types.FurnitureDefinition;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.api.config.CometSettings;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.items.ItemManager;
-import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
 import com.cometproject.server.game.players.components.types.inventory.InventoryItem;
@@ -225,7 +224,7 @@ public class WiredActionGiveReward extends WiredActionItem {
 
                         int itemId = Integer.parseInt(itemData[0]);
 
-                        IFurnitureDefinition itemDefinition = ItemManager.getInstance().getDefinition(itemId);
+                        FurnitureDefinition itemDefinition = ItemManager.getInstance().getDefinition(itemId);
 
                         if (itemDefinition != null) {
                             long newItem = ItemDao.createItem(playerEntity.getPlayerId(), itemId, extraData);

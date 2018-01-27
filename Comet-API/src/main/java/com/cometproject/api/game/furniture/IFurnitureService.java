@@ -1,6 +1,6 @@
 package com.cometproject.api.game.furniture;
 
-import com.cometproject.api.game.furniture.types.IFurnitureDefinition;
+import com.cometproject.api.game.furniture.types.FurnitureDefinition;
 import com.cometproject.api.game.furniture.types.IMusicData;
 import com.cometproject.api.utilities.Initialisable;
 import org.apache.log4j.Logger;
@@ -22,7 +22,7 @@ public interface IFurnitureService extends Initialisable {
 
     int roomIdByItemId(long itemId);
 
-    IFurnitureDefinition getDefinition(int itemId);
+    FurnitureDefinition getDefinition(int itemId);
 
     IMusicData getMusicData(int songId);
 
@@ -30,11 +30,11 @@ public interface IFurnitureService extends Initialisable {
 
     Map<Long, Integer> getItemIdToVirtualIds();
 
-    IFurnitureDefinition getBySpriteId(int spriteId);
+    FurnitureDefinition getBySpriteId(int spriteId);
 
     Logger getLogger();
 
-    Map<Integer, IFurnitureDefinition> getItemDefinitions();
+    Map<Integer, FurnitureDefinition> getItemDefinitions();
 
     Integer getSaddleId();
 }

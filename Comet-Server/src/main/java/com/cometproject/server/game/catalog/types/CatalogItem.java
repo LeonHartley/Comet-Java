@@ -2,16 +2,12 @@ package com.cometproject.server.game.catalog.types;
 
 import com.cometproject.api.game.catalog.types.ICatalogBundledItem;
 import com.cometproject.api.game.catalog.types.ICatalogItem;
-import com.cometproject.api.game.furniture.types.IFurnitureDefinition;
+import com.cometproject.api.game.furniture.types.FurnitureDefinition;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.boot.Comet;
-import com.cometproject.api.game.catalog.ICatalogService;
 import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.items.ItemManager;
-import com.cometproject.server.game.items.types.ItemDefinition;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -150,7 +146,7 @@ public class CatalogItem implements ICatalogItem {
             List<ICatalogBundledItem> itemsToRemove = new ArrayList<>();
 
             for (ICatalogBundledItem catalogBundledItem : this.items) {
-                final IFurnitureDefinition itemDefinition = ItemManager.getInstance().getDefinition(catalogBundledItem.getItemId());
+                final FurnitureDefinition itemDefinition = ItemManager.getInstance().getDefinition(catalogBundledItem.getItemId());
 
                 if (itemDefinition == null) {
                     itemsToRemove.add(catalogBundledItem);
@@ -175,7 +171,7 @@ public class CatalogItem implements ICatalogItem {
 
     @Override
     public void compose(IComposer msg) {
-        final IFurnitureDefinition firstItem = this.itemId.equals("-1") ? null : ItemManager.getInstance().getDefinition(this.getItems().get(0).getItemId());
+        final FurnitureDefinition firstItem = this.itemId.equals("-1") ? null : ItemManager.getInstance().getDefinition(this.getItems().get(0).getItemId());
 
         msg.writeInt(this.getId());
         msg.writeString(this.getDisplayName());
@@ -206,7 +202,7 @@ public class CatalogItem implements ICatalogItem {
 
         if (!this.isBadgeOnly()) {
             for (ICatalogBundledItem bundledItem : this.getItems()) {
-                IFurnitureDefinition def = ItemManager.getInstance().getDefinition(bundledItem.getItemId());
+                FurnitureDefinition def = ItemManager.getInstance().getDefinition(bundledItem.getItemId());
 
                 msg.writeString(def.getType());
                 msg.writeInt(def.getSpriteId());

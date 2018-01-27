@@ -1,7 +1,7 @@
 package com.cometproject.server.game.players.components.types.inventory;
 
 import com.cometproject.api.game.GameContext;
-import com.cometproject.api.game.furniture.types.IFurnitureDefinition;
+import com.cometproject.api.game.furniture.types.FurnitureDefinition;
 import com.cometproject.api.game.furniture.types.IGiftData;
 import com.cometproject.api.game.furniture.types.LimitedEditionItem;
 import com.cometproject.api.game.groups.types.IGroupData;
@@ -59,131 +59,6 @@ public class InventoryItem implements PlayerItem {
         this.baseId = baseId;
         this.extraData = extraData;
         this.giftData = giftData;
-    }
-
-    public void compose(IComposer msg) {
-        if(this.getDefinition().getItemType() == ItemType.WALL) {
-            msg.writeInt(this.getVirtualId());
-            msg.writeString(this.getDefinition().getType().toUpperCase());
-            msg.writeInt(this.getVirtualId());
-            msg.writeInt(this.getDefinition().getSpriteId());
-
-            if (this.getDefinition().getItemName().contains("a2")) {
-                msg.writeInt(3);
-            } else if (this.getDefinition().getItemName().contains("wallpaper")) {
-                msg.writeInt(2);
-            } else if (this.getDefinition().getItemName().contains("landscape")) {
-                msg.writeInt(4);
-            } else {
-                msg.writeInt(1);
-            }
-
-            msg.writeInt(0);
-            msg.writeString(this.getExtraData());
-
-            msg.writeBoolean(this.getDefinition().canRecycle());
-            msg.writeBoolean(this.getDefinition().canTrade());
-            msg.writeBoolean(this.getDefinition().canInventoryStack());
-            msg.writeBoolean(this.getDefinition().canMarket());
-            msg.writeInt(-1);
-            msg.writeBoolean(false);
-            msg.writeInt(-1);
-            return;
-        }
-
-        final boolean isGift = this.getGiftData() != null;
-        final boolean isGroupItem = this.getDefinition().getInteraction().equals("group_item") || this.getDefinition().getInteraction().equals("group_gate");
-        final boolean isLimited = this.getLimitedEditionItem() != null;
-        final boolean isWired = this.getDefinition().getInteraction().startsWith("wf_act") || this.getDefinition().getInteraction().startsWith("wf_cnd") || this.getDefinition().getInteraction().startsWith("wf_trg");
-
-        msg.writeInt(ItemManager.getInstance().getItemVirtualId(this.getId()));
-        msg.writeString(this.getDefinition().getType().toUpperCase());
-        msg.writeInt(ItemManager.getInstance().getItemVirtualId(this.getId()));
-        msg.writeInt(isGift ? this.getGiftData().getSpriteId() : this.getDefinition().getSpriteId());
-
-        if (!isGroupItem)
-            msg.writeInt(1);
-
-        if (isGroupItem) {
-            // Append the group data...
-            int groupId = 0;
-
-            msg.writeInt(17);
-
-            if (StringUtils.isNumeric(this.getExtraData())) {
-                groupId = Integer.parseInt(this.getExtraData());
-            }
-
-            IGroupData groupData = groupId == 0 ? null : GameContext.getCurrent().getGroupService().getData(groupId);
-
-            if (groupData == null) {
-                msg.writeInt(2);
-                msg.writeInt(0);
-            } else {
-                msg.writeInt(2);
-                msg.writeInt(5);
-                msg.writeString("0"); //state
-                msg.writeString(groupId);
-                msg.writeString(groupData.getBadge());
-
-                String colourA = GameContext.getCurrent().getGroupService().getItemService().getSymbolColours().get(groupData.getColourA()) != null ? GameContext.getCurrent().getGroupService().getItemService().getSymbolColours().get(groupData.getColourA()).getFirstValue() : "ffffff";
-                String colourB = GameContext.getCurrent().getGroupService().getItemService().getBackgroundColours().get(groupData.getColourB()) != null ?  GameContext.getCurrent().getGroupService().getItemService().getBackgroundColours().get(groupData.getColourB()).getFirstValue() : "ffffff";
-
-                msg.writeString(colourA);
-                msg.writeString(colourB);
-            }
-        } else if (isLimited && !isGift) {
-            msg.writeString("");
-            msg.writeBoolean(true);
-            msg.writeBoolean(false);
-        } else if (this.getDefinition().getInteraction().equals("badge_display") && !isGift) {
-            msg.writeInt(2);
-        } else {
-            msg.writeInt(0);
-        }
-
-        if (this.getDefinition().getInteraction().equals("badge_display") && !isGift) {
-            msg.writeInt(4);
-
-            String badge;
-            String name = "";
-            String date = "";
-
-            if(this.getExtraData().contains("~")) {
-                String[] data = this.getExtraData().split("~");
-
-                badge = data[0];
-                name = data[1];
-                date = data[2];
-            } else {
-                badge = this.getExtraData();
-            }
-
-            msg.writeString("0");
-            msg.writeString(badge);
-            msg.writeString(name); // creator
-            msg.writeString(date); // date
-        } else if (!isGroupItem) {
-            msg.writeString(!isGift && !isWired ? this.getExtraData() : "");
-        }
-
-        if (isLimited && !isGift) {
-            LimitedEditionItem limitedEditionItem = this.getLimitedEditionItem();
-
-            msg.writeInt(limitedEditionItem.getLimitedRare());
-            msg.writeInt(limitedEditionItem.getLimitedRareTotal());
-        }
-
-        msg.writeBoolean(this.getDefinition().canRecycle());
-        msg.writeBoolean(!isGift && this.getDefinition().canTrade());
-        msg.writeBoolean(!isLimited && !isGift && this.getDefinition().canInventoryStack());
-        msg.writeBoolean(!isGift && this.getDefinition().canMarket());
-
-        msg.writeInt(-1);
-        msg.writeBoolean(true);//??
-        msg.writeInt(-1);
-        msg.writeString("");
-        msg.writeInt(isGift ? this.getGiftData().getWrappingPaper() * 1000 + this.getGiftData().getDecorationType() : 0);
     }
 
     public void serializeTrade(IComposer msg) {
@@ -253,7 +128,6 @@ public class InventoryItem implements PlayerItem {
             msg.writeInt(limitedEditionItem.getLimitedRare());
             msg.writeInt(limitedEditionItem.getLimitedRareTotal());
         }
-
         msg.writeInt(0);
         msg.writeInt(0);
         msg.writeInt(0);
@@ -269,7 +143,7 @@ public class InventoryItem implements PlayerItem {
     }
 
     @Override
-    public IFurnitureDefinition getDefinition() {
+    public FurnitureDefinition getDefinition() {
         return ItemManager.getInstance().getDefinition(this.getBaseId());
     }
 

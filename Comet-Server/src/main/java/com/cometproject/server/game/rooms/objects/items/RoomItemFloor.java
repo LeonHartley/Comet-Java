@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items;
 
-import com.cometproject.api.game.furniture.types.IFurnitureDefinition;
+import com.cometproject.api.game.furniture.types.FurnitureDefinition;
 import com.cometproject.api.game.rooms.objects.IFloorItem;
 import com.cometproject.api.game.rooms.objects.data.RoomItemData;
 import com.cometproject.api.networking.messages.IComposer;
@@ -9,20 +9,18 @@ import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.AffectedTile;
 import com.cometproject.server.game.rooms.objects.items.types.DefaultFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.*;
-import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredFloorItem;
 import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorItemMessageComposer;
 import com.cometproject.server.utilities.attributes.Collidable;
 import com.cometproject.storage.mysql.MySQLStorageQueues;
 import com.google.common.collect.Lists;
-import org.apache.commons.lang.StringUtils;
 
 import java.util.List;
 
 
 public abstract class RoomItemFloor extends RoomItem implements Collidable, IFloorItem {
-    private IFurnitureDefinition itemDefinition;
+    private FurnitureDefinition itemDefinition;
     private RoomEntity collidedEntity;
     private boolean hasQueuedSave;
     private String coreState;
@@ -74,7 +72,7 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable, IFlo
         this.serialize(msg, false);
     }
 
-    public IFurnitureDefinition getDefinition() {
+    public FurnitureDefinition getDefinition() {
         if (this.itemDefinition == null) {
             this.itemDefinition = ItemManager.getInstance().getDefinition(this.getItemData().getItemId());
         }

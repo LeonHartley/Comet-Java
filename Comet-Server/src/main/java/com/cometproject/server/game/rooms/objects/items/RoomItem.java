@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items;
 
-import com.cometproject.api.game.furniture.types.IFurnitureDefinition;
+import com.cometproject.api.game.furniture.types.FurnitureDefinition;
 import com.cometproject.api.game.rooms.objects.IRoomItemData;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.api.game.rooms.objects.data.LimitedEditionItemData;
@@ -200,7 +200,7 @@ public abstract class RoomItem extends BigRoomFloorObject implements Attributabl
 
     public abstract void serialize(IComposer msg);
 
-    public abstract IFurnitureDefinition getDefinition();
+    public abstract FurnitureDefinition getDefinition();
 
     public abstract void sendUpdate();
 

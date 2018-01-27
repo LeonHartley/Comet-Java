@@ -1,9 +1,8 @@
 package com.cometproject.server.game.rooms.objects.items;
 
 import com.cometproject.api.config.CometSettings;
-import com.cometproject.api.game.furniture.types.IFurnitureDefinition;
+import com.cometproject.api.game.furniture.types.FurnitureDefinition;
 import com.cometproject.api.game.rooms.objects.data.RoomItemData;
-import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.api.game.rooms.objects.data.LimitedEditionItemData;
 import com.cometproject.server.game.rooms.objects.items.types.DefaultFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.DefaultWallItem;
@@ -218,7 +217,7 @@ public class RoomItemFactory {
         }};
     }
 
-    public static RoomItemFloor createFloor(RoomItemData itemData, Room room, IFurnitureDefinition def) {
+    public static RoomItemFloor createFloor(RoomItemData itemData, Room room, FurnitureDefinition def) {
         if (CometSettings.storageItemQueueEnabled) {
             final RoomItem roomItem = ItemStorageQueue.getInstance().getQueuedItem(itemData.getId());
 
@@ -288,7 +287,7 @@ public class RoomItemFactory {
         return floorItem;
     }
 
-    public static RoomItemWall createWall(RoomItemData itemData, Room room, IFurnitureDefinition def) {
+    public static RoomItemWall createWall(RoomItemData itemData, Room room, FurnitureDefinition def) {
         if (def == null) {
             return null;
         }

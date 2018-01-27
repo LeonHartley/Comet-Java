@@ -1,15 +1,13 @@
 package com.cometproject.server.game.rooms.types.components;
 
-import com.cometproject.api.game.furniture.types.IFurnitureDefinition;
+import com.cometproject.api.game.furniture.types.FurnitureDefinition;
 import com.cometproject.api.game.furniture.types.ItemType;
 import com.cometproject.api.game.furniture.types.LimitedEditionItem;
 import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
 import com.cometproject.api.config.CometSettings;
-import com.cometproject.api.game.rooms.objects.IRoomItemData;
 import com.cometproject.api.game.rooms.objects.data.RoomItemData;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.items.ItemManager;
-import com.cometproject.api.game.rooms.objects.data.LimitedEditionItemData;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.AffectedTile;
@@ -39,7 +37,6 @@ import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateIn
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.cache.objects.items.FloorItemDataObject;
 import com.cometproject.server.storage.cache.objects.items.WallItemDataObject;
-import com.cometproject.server.storage.queries.items.LimitedEditionDao;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import com.cometproject.storage.api.StorageContext;
 import com.cometproject.storage.api.data.Data;
@@ -106,7 +103,7 @@ public class ItemsComponent {
 
             if (items.has()) {
                 for (RoomItemData roomItem : items.get()) {
-                    final IFurnitureDefinition itemDefinition = ItemManager.getInstance().getDefinition(roomItem.getItemId());
+                    final FurnitureDefinition itemDefinition = ItemManager.getInstance().getDefinition(roomItem.getItemId());
 
                     if(itemDefinition == null) continue;
 
@@ -551,7 +548,7 @@ public class ItemsComponent {
         return true;
     }
 
-    private boolean verifyItemPosition(IFurnitureDefinition item, RoomItemFloor floor, RoomTile tile, Position currentPosition, int rotation) {
+    private boolean verifyItemPosition(FurnitureDefinition item, RoomItemFloor floor, RoomTile tile, Position currentPosition, int rotation) {
         if (tile != null) {
             if (currentPosition != null && currentPosition.getX() == tile.getPosition().getX() && currentPosition.getY() == tile.getPosition().getY())
                 return true;
@@ -577,7 +574,7 @@ public class ItemsComponent {
         return true;
     }
 
-    private boolean verifyItemTilePosition(IFurnitureDefinition item, RoomItemFloor floorItem, RoomTile tile, int rotation) {
+    private boolean verifyItemTilePosition(FurnitureDefinition item, RoomItemFloor floorItem, RoomTile tile, int rotation) {
         if (!tile.canPlaceItemHere()) {
             return false;
         }
