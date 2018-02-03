@@ -1,5 +1,7 @@
 package com.cometproject.api.game.groups.types;
 
+import com.cometproject.api.game.players.data.PlayerAvatar;
+
 public interface IGroupData {
     int getId();
 
@@ -48,4 +50,6 @@ public interface IGroupData {
     void setHasForum(boolean hasForum);
 
     String getOwnerName();
+
+    PlayerAvatar getOwnerAvatar();
 }

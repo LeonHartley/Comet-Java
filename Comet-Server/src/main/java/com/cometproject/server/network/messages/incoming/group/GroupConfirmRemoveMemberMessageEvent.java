@@ -4,6 +4,7 @@ package com.cometproject.server.network.messages.incoming.group;
 import com.cometproject.api.game.GameContext;
 import com.cometproject.api.game.groups.types.IGroup;
 import com.cometproject.api.game.groups.types.components.membership.IGroupMember;
+import com.cometproject.game.groups.services.GroupService;
 import com.cometproject.server.composers.group.GroupConfirmRemoveMemberMessageComposer;
 
 import com.cometproject.server.game.rooms.RoomManager;
@@ -41,10 +42,12 @@ public class GroupConfirmRemoveMemberMessageEvent  implements Event {
             return;
         }
 
-        if ((!groupMember.getAccessLevel().isAdmin()) && (playerId != client.getPlayer().getId())) {
+        if ((!groupMember.getAccessLevel().isAdmin()) || (playerId == client.getPlayer().getId())) {
             return;
         }
+
         List<RoomItem> itemsToRemove = Lists.newArrayList();
+
         if (RoomManager.getInstance().isActive(group.getData().getRoomId())) {
             Room room = RoomManager.getInstance().get(group.getData().getRoomId());
             for (RoomItemFloor floorItem : room.getItems().getFloorItems().values()) {
@@ -58,6 +61,7 @@ public class GroupConfirmRemoveMemberMessageEvent  implements Event {
                 }
             }
         }
+
         client.send(new GroupConfirmRemoveMemberMessageComposer(playerId, itemsToRemove.size()));
         itemsToRemove.clear();
     }

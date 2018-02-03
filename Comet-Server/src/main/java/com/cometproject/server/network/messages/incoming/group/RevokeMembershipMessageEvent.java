@@ -26,8 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class
-        RevokeMembershipMessageEvent implements Event {
+public class  RevokeMembershipMessageEvent implements Event {
     @Override
     public void handle(Session client, MessageEvent msg) throws Exception {
         int groupId = msg.readInt();
@@ -41,20 +40,20 @@ public class
         if (playerId == group.getData().getOwnerId())
             return;
 
-        IGroupMember groupMember = group.getMembers().getAll().get(client.getPlayer().getId());
+        IGroupMember groupMember = group.getMembers().getAll().get(playerId);
 
         if (groupMember == null) {
             return;
         }
 
-        if (!groupMember.getAccessLevel().isAdmin() && playerId != client.getPlayer().getId())
-            return;
+        final IGroupMember revokerMembership = group.getMembers().getAll().get(client.getPlayer().getId());
 
+        if (!revokerMembership.getAccessLevel().isAdmin() || playerId == client.getPlayer().getId())
+            return;
 
         GameContext.getCurrent().getGroupService().removeGroupMember(group, groupMember);
 
         List<RoomItem> itemsToRemove = Lists.newArrayList();
-
 
         if (RoomManager.getInstance().isActive(group.getData().getRoomId())) {
             final Room room = RoomManager.getInstance().get(group.getData().getRoomId());
@@ -134,7 +133,7 @@ public class
             }
 
             client.send(new GroupMembersMessageComposer(group.getData(), 0,
-                    new ArrayList<>(), 0, "",
+                    group.getMembers().getMemberAvatars(), 0, "",
                     group.getMembers().getAdministrators().contains(client.getPlayer().getId())));
         }
 
