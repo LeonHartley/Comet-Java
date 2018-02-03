@@ -4,7 +4,7 @@ import com.cometproject.api.game.furniture.types.FurnitureDefinition;
 import com.cometproject.api.game.furniture.types.LimitedEditionItem;
 import com.cometproject.api.networking.messages.IComposer;
 
-public abstract class InventoryItem {
+public class InventoryItem {
 
     private final long id;
     private final int virtualId;
