@@ -5,6 +5,7 @@ import com.cometproject.api.config.ModuleConfig;
 import com.cometproject.api.events.Event;
 import com.cometproject.api.events.EventListenerContainer;
 import com.cometproject.api.game.GameContext;
+import com.cometproject.api.networking.messages.IMessageEventHandler;
 import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.api.server.IGameService;
 
@@ -46,6 +47,10 @@ public abstract class BaseModule implements EventListenerContainer {
         this.getGameService().getEventHandler().registerEvent(event);
     }
 
+    public void registerMessage(IMessageEventHandler messageEventHandler) {
+
+    }
+
     /**
      * Registers a chat command with the event handler service
      * @param commandExecutor The command name
@@ -71,7 +76,7 @@ public abstract class BaseModule implements EventListenerContainer {
      * Load all the module resources and then fire the "onModuleLoad" event.
      */
     public void loadModule() {
-        if(this.getConfig().getCommands() != null) {
+        if(this.getConfig() != null && this.getConfig().getCommands() != null) {
             for (Map.Entry<String, CommandInfo> commandInfoEntries : this.getConfig().getCommands().entrySet()) {
                 this.getGameService().getEventHandler().registerCommandInfo(commandInfoEntries.getKey(), commandInfoEntries.getValue());
             }

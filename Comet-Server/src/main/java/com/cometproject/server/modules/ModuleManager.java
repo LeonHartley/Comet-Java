@@ -5,6 +5,8 @@ import com.cometproject.api.events.EventHandler;
 import com.cometproject.api.game.GameContext;
 import com.cometproject.api.modules.BaseModule;
 import com.cometproject.api.server.IGameService;
+import com.cometproject.game.groups.GroupsModule;
+import com.cometproject.gamecenter.fastfood.FastFoodModule;
 import com.cometproject.server.modules.events.EventHandlerService;
 import com.cometproject.api.utilities.Initialisable;
 import com.cometproject.server.utilities.JsonUtil;
@@ -53,7 +55,10 @@ public class ModuleManager implements Initialisable {
 
         ModuleManager.getInstance().getEventHandler().initialize();
 
-        this.loadModules();
+        this.loadCoreModule(GroupsModule.class);
+        this.loadCoreModule(FastFoodModule.class);
+
+//        this.loadModules();
 
 //        for (String moduleName : this.findModules()) {
 //            try {
@@ -62,6 +67,21 @@ public class ModuleManager implements Initialisable {
 //                log.warn("Error while loading module: " + moduleName, e);
 //            }
 //        }
+    }
+
+    private void loadCoreModule(Class<? extends BaseModule> moduleClass) {
+        try {
+            Constructor<? extends BaseModule> ctor = moduleClass.getConstructor(ModuleConfig.class, IGameService.class);
+
+            // Null module config, it's a system module so no config needed.
+            BaseModule cometModule = ctor.newInstance(null, this.gameService);
+
+            cometModule.loadModule();
+
+            this.modules.put(moduleClass.getSimpleName(), cometModule);
+        } catch (Exception e) {
+            log.error("Failed to load system module: " + moduleClass.getName(), e);
+        }
     }
 
     public void setupModules() {

@@ -3,7 +3,7 @@ package com.cometproject.server.game.rooms.types.components.types;
 import com.cometproject.server.config.Locale;
 import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
 import com.cometproject.server.game.items.ItemManager;
-import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
+import com.cometproject.api.game.rooms.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.components.TradeComponent;
 import com.cometproject.server.protocol.messages.MessageComposer;

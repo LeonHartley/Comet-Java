@@ -39,10 +39,14 @@
         <module>Comet-Game-Catalog</module>
         <module>Comet-Game-Achievements</module>
 
+        <module>Comet-GameCenter-FastFood</module>
+        <module>Comet-GameCenter-SnowStorm</module>
+
         <module>Comet-Storage-API</module>
         <module>Comet-Storage-MySQL</module>
 
-        <module>Comet-Server-Composers</module>
+        <module>Comet-Networking-API</module>
+        <module>Comet-Networking-Composers</module>
     </modules>
 
 </project>

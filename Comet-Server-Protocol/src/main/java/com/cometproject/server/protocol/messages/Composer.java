@@ -79,7 +79,7 @@ public class Composer implements ByteBufHolder, IComposer {
         this.body.clear();
     }
 
-    public boolean hasLength() {
+    public boolean isFinalised() {
         return (this.body.getInt(0) > -1);
     }
 

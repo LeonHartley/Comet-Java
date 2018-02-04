@@ -150,7 +150,7 @@ public class AdminController {
     public void saveInstance(HttpServletRequest request, HttpServletResponse response,
                              @PathVariable("id") String instanceId,
                              @RequestParam("instance-name") String instanceName, @RequestParam("instance-host") String instanceHost,
-                             @RequestParam("instance-config") String instanceConfig) throws IOException {
+                             @RequestParam("instance-com.cometproject.networking.api.config") String instanceConfig) throws IOException {
         if (request.getSession() == null || request.getSession().getAttribute("customer") == null) {
             response.sendRedirect("/");
             return;

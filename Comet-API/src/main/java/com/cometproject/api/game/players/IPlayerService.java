@@ -38,5 +38,9 @@ public interface IPlayerService extends Initialisable {
 
     Map<String, Integer> getSsoTicketToPlayerId();
 
+    Integer getPlayerIdByAuthToken(final String authToken);
+
+    void createAuthToken(int playerId, String authToken);
+
     ExecutorService getPlayerLoadExecutionService();
 }

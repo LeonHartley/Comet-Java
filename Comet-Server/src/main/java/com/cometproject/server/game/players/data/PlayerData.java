@@ -40,6 +40,7 @@ public class PlayerData implements IPlayerData {
     private int questId;
 
     private int timeMuted;
+    private String nameColour;
 
     private boolean changingName = false;
 
@@ -48,7 +49,7 @@ public class PlayerData implements IPlayerData {
     private Object tempData = null;
 
     public PlayerData(int id, String username, String motto, String figure, String gender, String email, int rank, int credits, int vipPoints, int activityPoints,
-                      String reg, int lastVisit, boolean vip, int achievementPoints, int regTimestamp, int favouriteGroup, String ipAddress, int questId, int timeMuted) {
+                      String reg, int lastVisit, boolean vip, int achievementPoints, int regTimestamp, int favouriteGroup, String ipAddress, int questId, int timeMuted, String nameColour) {
         this.id = id;
         this.username = username;
         this.motto = motto;
@@ -68,6 +69,7 @@ public class PlayerData implements IPlayerData {
         this.ipAddress = ipAddress;
         this.questId = questId;
         this.timeMuted = timeMuted;
+        this.nameColour = nameColour;
 
         if(this.figure != null) {
             if (!PlayerFigureValidator.isValidFigureCode(this.figure, this.gender.toLowerCase())) {
@@ -95,7 +97,8 @@ public class PlayerData implements IPlayerData {
                 data.getInt("playerData_favouriteGroup"),
                 data.getString("playerData_lastIp"),
                 data.getInt("playerData_questId"),
-                data.getInt("playerData_timeMuted"));
+                data.getInt("playerData_timeMuted"),
+                data.getString("playerData_nameColour"));
     }
 
     @Override
@@ -309,4 +312,8 @@ public class PlayerData implements IPlayerData {
     public boolean getFlaggingUser() { return this.flaggingUser; }
 
     public void setFlaggingUser(boolean flaggingUser) { this.flaggingUser = flaggingUser; }
+
+    public String getNameColour() {
+        return this.nameColour;
+    }
 }

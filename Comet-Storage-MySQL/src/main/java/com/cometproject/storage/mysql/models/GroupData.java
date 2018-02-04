@@ -2,6 +2,7 @@ package com.cometproject.storage.mysql.models;
 
 import com.cometproject.api.game.groups.types.GroupType;
 import com.cometproject.api.game.groups.types.IGroupData;
+import com.cometproject.api.game.players.data.PlayerAvatar;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -73,15 +74,14 @@ public class GroupData implements IGroupData {
     /**
      * The name of the owner
      */
-    private String ownerName;
+    private PlayerAvatar ownerAvatar;
 
-    public GroupData(int id, String title, String description, String badge, int ownerId, String ownerName, int roomId, int created, GroupType type, int colourA, int colourB, boolean canMembersDecorate, boolean hasForum) {
+    public GroupData(int id, String title, String description, String badge, int ownerId, String ownerName, int roomId, int created, GroupType type, int colourA, int colourB, boolean canMembersDecorate, boolean hasForum, PlayerAvatar playerAvatar) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.badge = badge;
         this.ownerId = ownerId;
-        this.ownerName = ownerName;
         this.roomId = roomId;
         this.created = created;
         this.type = type;
@@ -89,6 +89,7 @@ public class GroupData implements IGroupData {
         this.colourB = colourB;
         this.canMembersDecorate = canMembersDecorate;
         this.hasForum = hasForum;
+        this.ownerAvatar = playerAvatar;
     }
 
     /**
@@ -199,7 +200,7 @@ public class GroupData implements IGroupData {
 
     @Override
     public String getOwnerName() {
-        return this.ownerName;
+        return this.ownerAvatar.getUsername();
     }
 
     /**
@@ -345,5 +346,10 @@ public class GroupData implements IGroupData {
     @Override
     public void setHasForum(boolean hasForum) {
         this.hasForum = hasForum;
+    }
+
+    @Override
+    public PlayerAvatar getOwnerAvatar() {
+        return this.ownerAvatar;
     }
 }

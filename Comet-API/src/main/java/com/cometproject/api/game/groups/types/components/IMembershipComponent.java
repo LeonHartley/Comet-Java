@@ -2,6 +2,7 @@ package com.cometproject.api.game.groups.types.components;
 
 import com.cometproject.api.game.groups.types.GroupComponent;
 import com.cometproject.api.game.groups.types.components.membership.IGroupMember;
+import com.cometproject.api.game.players.data.PlayerAvatar;
 import com.cometproject.api.networking.messages.IMessageComposer;
 import com.cometproject.api.networking.sessions.ISessionService;
 
@@ -21,4 +22,10 @@ public interface IMembershipComponent extends GroupComponent {
     Set<Integer> getAdministrators();
 
     Set<Integer> getMembershipRequests();
+
+    List<PlayerAvatar> getMemberAvatars();
+
+    List<PlayerAvatar> getRequestAvatars();
+
+    List<PlayerAvatar> getAdminAvatars();
 }

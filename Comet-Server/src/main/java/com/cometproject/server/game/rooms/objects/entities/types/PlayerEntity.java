@@ -22,7 +22,7 @@ import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.RoomQueue;
 import com.cometproject.server.game.rooms.objects.entities.PlayerEntityAccess;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
-import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
+import com.cometproject.api.game.rooms.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.types.ai.bots.WaiterAI;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerPlayerSaysKeyword;
@@ -43,10 +43,7 @@ import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarsMess
 import com.cometproject.server.network.messages.outgoing.room.avatar.IdleStatusMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.LeaveRoomMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.MutedMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.engine.HotelViewMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.engine.OpenConnectionMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.engine.RoomForwardMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.engine.RoomPropertyMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.engine.*;
 import com.cometproject.server.network.messages.outgoing.room.events.RoomPromotionMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.permissions.FloodFilterMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.permissions.YouAreControllerMessageComposer;
@@ -444,6 +441,10 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
         if (message.isEmpty() || message.length() > 100)
             return false;
 
+        if(!this.getPlayer().getData().getNameColour().equals("000000")) {
+            this.getRoom().getEntities().broadcastMessage(new UserNameChangeMessageComposer(this.getRoom().getId(), this.getId(), String.format("<font colour='#%s'>%s</font>", this.getPlayer().getData().getNameColour(), this.getUsername())));
+        }
+
         try {
             if (this.getPlayer() != null && this.getPlayer().getSession() != null) {
                 if (CommandManager.getInstance().isCommand(message)) {
@@ -524,6 +525,10 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
 //                roomEntity.setHeadRotation(rotation);
 //                roomEntity.markNeedsUpdate();
 //            }
+        }
+
+        if(!this.getPlayer().getData().getNameColour().equals("000000")) {
+            this.getRoom().getEntities().broadcastMessage(new UserNameChangeMessageComposer(this.getRoom().getId(), this.getId(), this.getUsername()));
         }
     }
 

@@ -10,5 +10,7 @@ public interface IGameService {
 
     EventHandler getEventHandler();
 
+
+
     ScheduledExecutorService getExecutorService();
 }

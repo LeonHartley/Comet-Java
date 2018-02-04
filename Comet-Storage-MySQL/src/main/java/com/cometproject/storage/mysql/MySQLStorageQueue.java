@@ -1,6 +1,6 @@
 package com.cometproject.storage.mysql;
 
-import javafx.util.Pair;
+import com.cometproject.api.utilities.Pair;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,6 +13,8 @@ public abstract class MySQLStorageQueue<T, O> {
     private final String batchQuery;
     private final Map<T, O> storageQueue;
     private final Future processFuture;
+
+    private boolean running = false;
 
     private final MySQLConnectionProvider connectionProvider;
 
@@ -37,12 +39,14 @@ public abstract class MySQLStorageQueue<T, O> {
     }
 
     public void addAll(Collection<Pair<T, O>> all) {
-        for(Pair<T, O> obj : all) {
-            this.add(obj.getKey(), obj.getValue());
+        for (Pair<T, O> obj : all) {
+            this.add(obj.getLeft(), obj.getRight());
         }
     }
 
     private void process() {
+        this.running = true;
+
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
 
@@ -68,6 +72,8 @@ public abstract class MySQLStorageQueue<T, O> {
             this.connectionProvider.closeStatement(preparedStatement);
             this.connectionProvider.closeConnection(sqlConnection);
         }
+
+        this.running = false;
     }
 
     public void onException(Exception e) {
@@ -75,7 +81,15 @@ public abstract class MySQLStorageQueue<T, O> {
         e.printStackTrace();
     }
 
+    public O getQueued(T obj) {
+        return this.storageQueue.get(obj);
+    }
+
     public void stop() {
+        if (!this.running) {
+            this.process();
+        }
+
         this.processFuture.cancel(false);
     }
 

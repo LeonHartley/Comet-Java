@@ -3,7 +3,7 @@ package com.cometproject.server.game.rooms.types.components.processing;
 import com.cometproject.api.config.CometSettings;
 import com.cometproject.api.game.quests.QuestType;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
-import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
+import com.cometproject.api.game.rooms.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityType;
 import com.cometproject.server.game.rooms.objects.entities.WiredTriggerExecutor;
 import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;

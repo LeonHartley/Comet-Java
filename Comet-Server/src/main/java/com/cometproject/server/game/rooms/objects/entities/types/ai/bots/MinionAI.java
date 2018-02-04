@@ -2,7 +2,7 @@ package com.cometproject.server.game.rooms.objects.entities.types.ai.bots;
 
 import com.cometproject.api.game.bots.BotMode;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
-import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
+import com.cometproject.api.game.rooms.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.ai.AbstractBotAI;

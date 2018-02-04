@@ -5,7 +5,7 @@ public interface IComposer {
 
     void clear();
 
-    boolean hasLength();
+    boolean isFinalised();
 
     void writeString(Object obj);
 

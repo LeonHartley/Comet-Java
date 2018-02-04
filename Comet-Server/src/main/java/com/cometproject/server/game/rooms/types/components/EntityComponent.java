@@ -62,12 +62,12 @@ public class EntityComponent {
         return false;
     }
 
-    public boolean positionHasEntity(Position position, final Set<Integer> ignoredEntities) {
+    public boolean positionHasEntity(Position position, final Set<RoomEntity> ignoredEntities) {
         RoomTile tile = this.getRoom().getMapping().getTile(position.getX(), position.getY());
 
         if (tile != null) {
             for(RoomEntity entity : tile.getEntities()) {
-                if(!ignoredEntities.contains(entity.getId())) return true;
+                if(!ignoredEntities.contains(entity)) return true;
             }
         }
 

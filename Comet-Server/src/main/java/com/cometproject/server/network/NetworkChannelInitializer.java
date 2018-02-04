@@ -1,6 +1,7 @@
 package com.cometproject.server.network;
 
 import com.cometproject.api.networking.sessions.SessionManagerAccessor;
+import com.cometproject.networking.api.sessions.INetSessionFactory;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.network.clients.ClientHandler;
 import com.cometproject.server.network.sessions.SessionAccessLog;
@@ -15,15 +16,24 @@ import io.netty.handler.codec.string.StringEncoder;
 import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.util.CharsetUtil;
 import io.netty.util.concurrent.EventExecutorGroup;
+import org.apache.log4j.Logger;
 
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class NetworkChannelInitializer extends ChannelInitializer<SocketChannel> {
-    private final EventExecutorGroup executor;
+    private static final Logger log = Logger.getLogger(NetworkChannelInitializer.class);
 
-    public NetworkChannelInitializer(EventExecutorGroup executorGroup) {
+    private final EventExecutorGroup executor;
+    private final INetSessionFactory sessionFactory;
+
+    private final ClientHandler clientHandler;
+
+    public NetworkChannelInitializer(EventExecutorGroup executorGroup, INetSessionFactory sessionFactory) {
         this.executor = executorGroup;
+        this.sessionFactory = sessionFactory;
+
+        this.clientHandler = new ClientHandler(sessionFactory);
     }
 
     @Override
@@ -34,15 +44,15 @@ public class NetworkChannelInitializer extends ChannelInitializer<SocketChannel>
         final Map<String, SessionAccessLog> accessLog = NetworkManager.getInstance().getSessions().getAccessLog();
 
         if(NetworkManager.getInstance().getSessions().getAccessLog().containsKey(ipAddress)) {
-            final SessionAccessLog log = accessLog.get(ipAddress);
+            final SessionAccessLog sessionAccessLog = accessLog.get(ipAddress);
 
-            if(log.isSuspicious()) {
+            if(sessionAccessLog.isSuspicious()) {
                 ch.disconnect();
-                System.out.println(String.format("Client denied, address: %s", ipAddress));
+                log.warn(String.format("Client denied, address: %s", ipAddress));
                 return;
             }
 
-            log.incrementCounter();
+            sessionAccessLog.incrementCounter();
         } else {
             accessLog.put(ipAddress, new SessionAccessLog());
         }
@@ -64,6 +74,6 @@ public class NetworkChannelInitializer extends ChannelInitializer<SocketChannel>
                             TimeUnit.SECONDS));
         }
 
-        ch.pipeline().addLast(this.executor, "clientHandler", ClientHandler.getInstance());
+        ch.pipeline().addLast(this.executor, "clientHandler", this.clientHandler);
     }
 }

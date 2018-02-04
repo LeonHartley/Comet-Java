@@ -40,7 +40,7 @@ public class CacheManager implements Initialisable {
             return;
         }
 
-        // Initializes the config for the cache
+        // Initializes the com.cometproject.networking.api.config for the cache
         if (!this.initializeConfig()) {
             log.error("Failed to load Redis cache configuration, disabling caching");
 

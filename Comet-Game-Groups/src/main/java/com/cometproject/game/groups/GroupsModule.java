@@ -15,6 +15,8 @@ public class GroupsModule extends BaseModule {
 
     private GroupService groupService;
 
+//    private final
+
     public GroupsModule(ModuleConfig config, IGameService gameService) {
         super(config, gameService);
     }
@@ -34,6 +36,8 @@ public class GroupsModule extends BaseModule {
                 StorageContext.getCurrentContext().getGroupRepository(),
                 StorageContext.getCurrentContext().getGroupMemberRepository(),
                 StorageContext.getCurrentContext().getGroupForumRepository());
+
+//        this.registerMessage(new JoinGroupMessageEvent(this.messageHandler::joinGroup));
     }
 
     @Override

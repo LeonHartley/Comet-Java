@@ -54,7 +54,7 @@
             <div class="panel-heading"><b>Configuration</b></div>
             <div class="panel-body">
                 #if($saved)
-                    <div class="alert alert-success" role="alert">Instance config saved successfully!</div>
+                    <div class="alert alert-success" role="alert">Instance com.cometproject.networking.api.config saved successfully!</div>
                 #end
 
                 <form action="/instance/save/$instance.id" method="post">
@@ -64,14 +64,14 @@
                         <div class="col-md-6">Host</div>
                         <div class="col-md-6">
                             <input type="text" disabled name="game-host" class="form-control"
-                                   value="$instance.config.get("serverHost")"/>
+                                   value="$instance.com.cometproject.networking.api.config.get("serverHost")"/>
                         </div>
                     </div>
                     <div class="row settings">
                         <div class="col-md-6">Game Port</div>
                         <div class="col-md-6">
                             <input type="text" disabled name="game-port" class="form-control"
-                                   value="$instance.config.get("gamePort")"/>
+                                   value="$instance.com.cometproject.networking.api.config.get("gamePort")"/>
                         </div>
                     </div>
                     <h4>API Configuration</h4>
@@ -80,7 +80,7 @@
                         <div class="col-md-6">API Port</div>
                         <div class="col-md-6">
                             <input type="text" disabled name="api-port" class="form-control"
-                                   value="$instance.config.get("apiPort")"/>
+                                   value="$instance.com.cometproject.networking.api.config.get("apiPort")"/>
                         </div>
                     </div>
 
@@ -90,7 +90,7 @@
                         <div class="col-md-6">
                             <div class="input-group">
                                 <input type="password" name="api-token" class="form-control" id="token"
-                                       value="$instance.config.get("apiToken")"/>
+                                       value="$instance.com.cometproject.networking.api.config.get("apiToken")"/>
 
                                 <div class="input-group-btn">
                                     <button type="button" class="btn btn-default" tabindex="-1" id="showToken">
@@ -106,12 +106,12 @@
                     <div class="row settings">
                         <div class="col-md-6">MySQL Host</div>
                         <div class="col-md-6"><input type="text" name="db-host" class="form-control"
-                                                     value="$instance.config.get("dbHost")"/></div>
+                                                     value="$instance.com.cometproject.networking.api.config.get("dbHost")"/></div>
                     </div>
                     <div class="row settings">
                         <div class="col-md-6">MySQL Username</div>
                         <div class="col-md-6"><input type="text" name="db-username" class="form-control"
-                                                     value="$instance.config.get("dbUsername")"/></div>
+                                                     value="$instance.com.cometproject.networking.api.config.get("dbUsername")"/></div>
                     </div>
 
                     <div class="row settings">
@@ -119,7 +119,7 @@
                         <div class="col-md-6">
                             <div class="input-group">
                                 <input type="password" name="db-password" class="form-control" id="password"
-                                       value="$instance.config.get("dbPassword")"/>
+                                       value="$instance.com.cometproject.networking.api.config.get("dbPassword")"/>
 
                                 <div class="input-group-btn">
                                     <button type="button" class="btn btn-default" tabindex="-1" id="showPassword">
@@ -133,13 +133,13 @@
                     <div class="row settings">
                         <div class="col-md-6">MySQL Database</div>
                         <div class="col-md-6"><input type="text" name="db-database" class="form-control"
-                                                     value="$instance.config.get("dbName")"/></div>
+                                                     value="$instance.com.cometproject.networking.api.config.get("dbName")"/></div>
                     </div>
 
                     <div class="row settings">
                         <div class="col-md-6">MySQL Pool</div>
                         <div class="col-md-6"><input type="text" disabled name="db-pool" class="form-control"
-                                                     value="$instance.config.get("dbPoolMax")"/></div>
+                                                     value="$instance.com.cometproject.networking.api.config.get("dbPoolMax")"/></div>
                     </div>
 
                     <div class="row settings">

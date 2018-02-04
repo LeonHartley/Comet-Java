@@ -19,9 +19,9 @@ public class Configuration extends Properties {
 
     /**
      * Initialize the configuration object
-     * This configuration will be loaded from the *.properties files in /config
+     * This configuration will be loaded from the *.properties files in /com.cometproject.networking.api.config
      *
-     * @param file The name of the config file
+     * @param file The name of the com.cometproject.networking.api.config file
      */
     public Configuration(String file) {
         super();
@@ -40,7 +40,7 @@ public class Configuration extends Properties {
     /**
      * Override configuration
      *
-     * @param config The config strings which you want to override
+     * @param config The com.cometproject.networking.api.config strings which you want to override
      */
     public void override(Map<String, String> config) {
         for (Map.Entry<String, String> configOverride : config.entrySet()) {
@@ -57,7 +57,7 @@ public class Configuration extends Properties {
     /**
      * Get a string from the configuration
      *
-     * @param key Retrieve a value from the config by the key
+     * @param key Retrieve a value from the com.cometproject.networking.api.config by the key
      * @return Value from the configuration
      */
     public String get(String key) {

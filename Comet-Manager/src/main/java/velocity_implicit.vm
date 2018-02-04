@@ -2,4 +2,4 @@
 #* @vtlvariable name="authenticated" type="java.lang.Boolean" *#
 #* @vtlvariable name="instances" type="java.util.List<com.cometproject.manager.repositories.instances.Instance>" *#
 #* @vtlvariable name="customer" type="com.cometproject.manager.repositories.customers.Customer" *#
-#* @vtlvariable name="config" type="com.cometproject.manager.repositories.instances.Instance" *#
+#* @vtlvariable name="com.cometproject.networking.api.config" type="com.cometproject.manager.repositories.instances.Instance" *#

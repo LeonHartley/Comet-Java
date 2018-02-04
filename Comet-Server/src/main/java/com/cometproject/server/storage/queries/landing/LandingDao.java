@@ -53,11 +53,11 @@ public class LandingDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("SELECT id, username, figure, vip_points FROM players ORDER BY " + currency + " DESC LIMIT " + limit, sqlConnection);
+            preparedStatement = SqlHelper.prepare("SELECT id, username, figure, vip_points, gender FROM players ORDER BY " + currency + " DESC LIMIT " + limit, sqlConnection);
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                data.put(new PlayerAvatarData(resultSet.getInt("id"), resultSet.getString("username"), resultSet.getString("figure")), resultSet.getInt(currency));
+                data.put(new PlayerAvatarData(resultSet.getInt("id"), resultSet.getString("username"), resultSet.getString("figure"), resultSet.getString("gender")), resultSet.getInt(currency));
             }
 
         } catch (SQLException e) {

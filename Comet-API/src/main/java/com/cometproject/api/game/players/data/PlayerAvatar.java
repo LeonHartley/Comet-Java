@@ -18,6 +18,10 @@ public interface PlayerAvatar {
 
     void setMotto(String motto);
 
+    String getGender();
+
+    void setGender(String gender);
+
     default void tempData(final Object tempData) {
     }
 

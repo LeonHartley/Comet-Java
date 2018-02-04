@@ -27,6 +27,7 @@ public class ModToolRoomInfoMessageComposer extends MessageComposer {
         msg.writeBoolean(PlayerManager.getInstance().isOnline(room.getData().getOwnerId()));
         msg.writeInt(room.getData().getOwnerId());
         msg.writeString(room.getData().getOwner());
+
         msg.writeBoolean(true); // TODO: Allow for rooms that aren't active to show here ;-)
 
         msg.writeString(room.getData().getName());
@@ -36,7 +37,5 @@ public class ModToolRoomInfoMessageComposer extends MessageComposer {
         for (int i = 0; i < room.getData().getTags().length; i++) {
             msg.writeString(room.getData().getTags()[i]);
         }
-
-        msg.writeBoolean(false); // has event
     }
 }

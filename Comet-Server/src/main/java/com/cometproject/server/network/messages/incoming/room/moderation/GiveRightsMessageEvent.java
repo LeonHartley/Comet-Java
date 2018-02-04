@@ -1,7 +1,7 @@
 package com.cometproject.server.network.messages.incoming.room.moderation;
 
 import com.cometproject.server.game.rooms.RoomManager;
-import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
+import com.cometproject.api.game.rooms.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.NetworkManager;

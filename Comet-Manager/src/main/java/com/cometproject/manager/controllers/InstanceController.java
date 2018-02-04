@@ -72,7 +72,7 @@ public class InstanceController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/instance/{id}/config", method = RequestMethod.GET)
+    @RequestMapping(value = "/instance/{id}/com.cometproject.networking.api.config", method = RequestMethod.GET)
     public ModelAndView config(HttpServletRequest request, HttpServletResponse response, @PathVariable("id") String instanceId) throws IOException {
         if (request.getSession() == null || request.getSession().getAttribute("customer") == null) {
             response.sendRedirect("/");
@@ -86,7 +86,7 @@ public class InstanceController {
             return null;
         }
 
-        ModelAndView modelAndView = new ModelAndView("instance-config");
+        ModelAndView modelAndView = new ModelAndView("instance-com.cometproject.networking.api.config");
         modelAndView.addObject("customer", customer);
 
         if (request.getSession().getAttribute("saved") != null) {
@@ -99,7 +99,7 @@ public class InstanceController {
         final Host host = hostRepository.findOneByHostName(instance.getServer());
         final InstanceStatus instanceStatus = host.getInstanceStatus(this.restTemplate, instanceId);
 
-        modelAndView.addObject("pageName", "instance-config");
+        modelAndView.addObject("pageName", "instance-com.cometproject.networking.api.config");
         modelAndView.addObject("instance", instance);
         modelAndView.addObject("instanceStatus", instanceStatus);
 
@@ -179,7 +179,7 @@ public class InstanceController {
         this.instanceRepository.save(instance);
 
         request.getSession().setAttribute("saved", true);
-        response.sendRedirect("/instance/" + instanceId + "/config");
+        response.sendRedirect("/instance/" + instanceId + "/com.cometproject.networking.api.config");
     }
 
     @RequestMapping(value = "/instance/start/{id}", method = RequestMethod.GET)

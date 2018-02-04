@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.objects.entities;
 
+import com.cometproject.api.game.rooms.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.RoomFloorObject;
 import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Square;
@@ -12,7 +13,6 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.objects.items.types.floor.SeatFloorItem;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.game.rooms.types.components.games.GameTeam;
 import com.cometproject.server.game.rooms.types.mapping.RoomEntityMovementNode;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.game.rooms.types.tiles.RoomTileState;

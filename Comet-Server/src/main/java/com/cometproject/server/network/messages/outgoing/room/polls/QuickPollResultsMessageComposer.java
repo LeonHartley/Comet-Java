@@ -1,6 +1,7 @@
 package com.cometproject.server.network.messages.outgoing.room.polls;
 
 import com.cometproject.api.networking.messages.IComposer;
+import com.cometproject.server.protocol.headers.Composers;
 import com.cometproject.server.protocol.messages.MessageComposer;
 
 public class QuickPollResultsMessageComposer extends MessageComposer {
@@ -15,7 +16,7 @@ public class QuickPollResultsMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return 2498;
+        return Composers.QuickPollResultsMessageComposer;
     }
 
     @Override

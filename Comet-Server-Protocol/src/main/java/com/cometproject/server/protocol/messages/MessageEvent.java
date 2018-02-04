@@ -1,12 +1,13 @@
 package com.cometproject.server.protocol.messages;
 
+import com.cometproject.api.networking.messages.IMessageEvent;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 
 import java.nio.charset.Charset;
 import java.util.Arrays;
 
-public final class MessageEvent {
+public final class MessageEvent implements IMessageEvent  {
     private final short id;
     private final int length;
     private final ByteBuf buffer;
@@ -22,10 +23,12 @@ public final class MessageEvent {
         }
     }
 
+    @Override
     public short readShort() {
         return this.content().readShort();
     }
 
+    @Override
     public int readInt() {
         try {
             return this.content().readInt();
@@ -34,10 +37,12 @@ public final class MessageEvent {
         }
     }
 
+    @Override
     public boolean readBoolean() {
         return this.content().readByte() == 1;
     }
 
+    @Override
     public String readString() {
         int length = this.readShort();
         byte[] data = this.content().readBytes((length)).array();
@@ -45,6 +50,7 @@ public final class MessageEvent {
         return new String(data);
     }
 
+    @Override
     public byte[] readBytes(int length) {
         final byte[] bytes = new byte[length];
 
@@ -56,6 +62,7 @@ public final class MessageEvent {
         return bytes;
     }
 
+    @Override
     public byte[] toRawBytes() {
         byte[] complete = this.buffer.array();
         return Arrays.copyOfRange(complete, 6, complete.length);
@@ -71,6 +78,7 @@ public final class MessageEvent {
         return body;
     }
 
+    @Override
     public short getId() {
         return this.id;
     }
@@ -79,6 +87,7 @@ public final class MessageEvent {
         return this.buffer;
     }
 
+    @Override
     public int getLength() {
         return length;
     }

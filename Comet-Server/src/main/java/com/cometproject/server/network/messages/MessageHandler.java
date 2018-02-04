@@ -1,7 +1,15 @@
 package com.cometproject.server.network.messages;
 
+import com.cometproject.api.networking.messages.IMessageEvent;
+import com.cometproject.api.networking.messages.IMessageEventHandler;
+import com.cometproject.api.networking.sessions.ISession;
+import com.cometproject.networking.api.messages.IMessageHandler;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.api.config.Configuration;
+import com.cometproject.server.composers.gamecenter.GameAccountStatusMessageComposer;
+import com.cometproject.server.composers.gamecenter.GameStatusMessageComposer;
+import com.cometproject.server.composers.gamecenter.LoadGameMessageComposer;
+import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.incoming.catalog.*;
 import com.cometproject.server.network.messages.incoming.catalog.ads.CatalogPromotionGetRoomsMessageEvent;
@@ -13,6 +21,8 @@ import com.cometproject.server.network.messages.incoming.catalog.groups.BuyGroup
 import com.cometproject.server.network.messages.incoming.catalog.groups.GroupFurnitureCatalogMessageEvent;
 import com.cometproject.server.network.messages.incoming.catalog.pets.PetRacesMessageEvent;
 import com.cometproject.server.network.messages.incoming.catalog.pets.ValidatePetNameMessageEvent;
+import com.cometproject.server.network.messages.incoming.gamecenter.GetGameAchievementsMessageEvent;
+import com.cometproject.server.network.messages.incoming.gamecenter.GetGameListMessageEvent;
 import com.cometproject.server.network.messages.incoming.group.*;
 import com.cometproject.server.network.messages.incoming.group.favourite.ClearFavouriteGroupMessageEvent;
 import com.cometproject.server.network.messages.incoming.group.favourite.SetFavouriteGroupMessageEvent;
@@ -52,6 +62,7 @@ import com.cometproject.server.network.messages.incoming.quests.OpenQuestsMessag
 import com.cometproject.server.network.messages.incoming.quests.StartQuestMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.access.AnswerDoorbellMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.access.LoadRoomByDoorBellMessageEvent;
+import com.cometproject.server.network.messages.incoming.room.access.SpectateRoomMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.action.*;
 import com.cometproject.server.network.messages.incoming.room.bots.BotConfigMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.bots.ModifyBotMessageEvent;
@@ -104,16 +115,21 @@ import com.cometproject.server.network.messages.incoming.group.DeleteGroupMessag
 import com.cometproject.server.network.messages.outgoing.handshake.ConfirmUsernameMessageEvent;
 import com.cometproject.server.network.messages.types.tasks.MessageEventTask;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.protocol.headers.Composers;
 import com.cometproject.server.protocol.headers.Events;
 import com.cometproject.server.protocol.messages.MessageEvent;
+import com.google.common.collect.Maps;
 import org.apache.log4j.Logger;
 
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.*;
 
 public final class MessageHandler {
     public static Logger log = Logger.getLogger(MessageHandler.class.getName());
-    private final Map<Short, Event> messages = new ConcurrentHashMap<>();
+
+    private final Map<Short, Event> messages = Maps.newConcurrentMap();
+    private final Map<Short, IMessageEventHandler> eventHandlers = Maps.newConcurrentMap();
 
     private final ExecutorService eventExecutor;
     private final boolean asyncEventExecution;
@@ -168,8 +184,31 @@ public final class MessageHandler {
         this.registerMusic();
         this.registerCamera();
         this.registerGuideTool();
+        this.registerGameCenter();
 
         log.info("Loaded " + this.getMessages().size() + " message events");
+    }
+
+    private void registerGameCenter() {
+        this.getMessages().put(Events.GetGameListMessageEvent, new GetGameListMessageEvent());
+        this.getMessages().put(Events.GetGameAchievementsMessageEvent, new GetGameAchievementsMessageEvent());
+
+        this.getMessages().put(Events.GetGameStatusMessageEvent, (session, event) -> {
+            final int gameId = event.readInt();
+
+            session.send(new GameAccountStatusMessageComposer(gameId));
+            session.send(new GameStatusMessageComposer(gameId, 0));
+        });
+
+        this.getMessages().put(Events.JoinGameQueueMessageEvent, (session, event) -> {
+            final int gameId = event.readInt();
+
+            final UUID sessionId = UUID.randomUUID();
+
+            PlayerManager.getInstance().getSsoTicketToPlayerId().put(session.getPlayer().getId() + sessionId.toString(), session.getPlayer().getId());
+
+            session.send(new LoadGameMessageComposer(gameId, "http://localhost/comet/swf/games/gamecenter_basejump/BaseJump.swf", session.getPlayer().getId() + sessionId.toString(), "localhost", "30010", "30010", "http://localhost/comet/swf/games/gamecenter_basejump/BasicAssets.swf"));
+        });
     }
 
     private void registerMisc() {
@@ -289,6 +328,7 @@ public final class MessageHandler {
 
     public void registerRoom() {
         this.getMessages().put(Events.OpenFlatConnectionMessageEvent, new InitializeRoomMessageEvent());
+        this.getMessages().put(Events.SpectateRoomMessageEvent, new SpectateRoomMessageEvent());
         this.getMessages().put(Events.GetGuestRoomMessageEvent, new FollowRoomInfoMessageEvent());
         this.getMessages().put(Events.GetRoomEntryDataMessageEvent, new AddUserToRoomMessageEvent());
         this.getMessages().put(Events.GoToHotelViewMessageEvent, new ExitRoomMessageEvent());
