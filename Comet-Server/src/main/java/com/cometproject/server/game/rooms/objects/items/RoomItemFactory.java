@@ -38,6 +38,7 @@ import com.cometproject.server.game.rooms.objects.items.types.wall.PostItWallIte
 import com.cometproject.server.game.rooms.objects.items.types.wall.WheelWallItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.storage.queue.types.ItemStorageQueue;
+import com.cometproject.storage.mysql.MySQLStorageQueues;
 import org.apache.log4j.Logger;
 
 import java.lang.reflect.Constructor;
@@ -224,6 +225,12 @@ public class RoomItemFactory {
             if (roomItem != null) {
                 return ((RoomItemFloor) roomItem);
             }
+        }
+
+        String cachedData = MySQLStorageQueues.instance().getItemDataUpdateQueue().getQueued(itemData.getId());
+
+        if(cachedData != null) {
+            itemData.setData(cachedData);
         }
 
         RoomItemFloor floorItem = null;

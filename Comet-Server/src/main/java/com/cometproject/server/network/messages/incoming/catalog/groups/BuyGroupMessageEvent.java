@@ -5,6 +5,7 @@ import com.cometproject.api.game.GameContext;
 import com.cometproject.api.game.groups.IGroupItemService;
 import com.cometproject.api.game.groups.types.IGroup;
 import com.cometproject.api.game.groups.types.IGroupData;
+import com.cometproject.api.game.players.data.PlayerAvatar;
 import com.cometproject.server.composers.group.GroupBadgesMessageComposer;
 import com.cometproject.server.composers.group.GroupRoomMessageComposer;
 import com.cometproject.server.game.rooms.RoomManager;
@@ -68,7 +69,8 @@ public class BuyGroupMessageEvent implements Event {
 
         final IGroupItemService itemService = GameContext.getCurrent().getGroupService().getItemService();
 
-        final IGroupData groupData = new GroupDataFactory().create(name, desc, badge, client.getPlayer().getId(), client.getPlayer().getData().getUsername(), roomId, colour1, colour2);
+        final IGroupData groupData = new GroupDataFactory().create(name, desc, badge, client.getPlayer().getId(),
+                client.getPlayer().getData().getUsername(), roomId, colour1, colour2, client.getPlayer().getData());
         final IGroup group = GameContext.getCurrent().getGroupService().createGroup(groupData, client.getPlayer().getId());
 
 //        group.getMembers().createMembership(new GroupMemberFactory().create(client.getPlayer().getId(), group.getId(), GroupAccessLevel.OWNER));*/

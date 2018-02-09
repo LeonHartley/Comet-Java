@@ -2,6 +2,7 @@ package com.cometproject.storage.mysql.repositories;
 
 import com.cometproject.api.game.groups.types.GroupType;
 import com.cometproject.api.game.groups.types.IGroupData;
+import com.cometproject.storage.api.data.players.PlayerAvatarData;
 import com.cometproject.storage.api.repositories.IGroupRepository;
 import com.cometproject.storage.mysql.MySQLConnectionProvider;
 import com.cometproject.storage.mysql.data.results.IResultReader;
@@ -23,7 +24,7 @@ public class MySQLGroupRepository extends MySQLRepository implements IGroupRepos
     @Override
     public void getDataById(int groupId, Consumer<IGroupData> consumer) {
         select("SELECT g.id, g.name, g.description, g.badge, g.owner_id, g.room_id, g.created, g.`type`, g.colour1, " +
-                "g.colour2, g.members_deco, g.has_forum, p.username as owner_name FROM groups g " +
+                "g.colour2, g.members_deco, g.has_forum, p.username as owner_name, p.figure as owner_figure, p.motto as owner_motto FROM groups g " +
                 "RIGHT JOIN players AS p ON p.id = g.owner_id where g.id = ?", (data -> consumer.accept(this.readGroup(data))), groupId);
     }
 
@@ -92,8 +93,10 @@ public class MySQLGroupRepository extends MySQLRepository implements IGroupRepos
         final boolean membersDeco = data.readBoolean("members_deco");
         final boolean hasForum = data.readBoolean("has_forum");
         final String username = data.readString("owner_name");
+        final String ownerFigure = data.readString("owner_figure");
+        final String ownerMotto = data.readString("owner_motto");
 
         return this.groupDataFactory.create(groupId, name, description, badge, ownerId, username, roomId, created, groupType,
-                colour1, colour2, membersDeco, hasForum);
+                colour1, colour2, membersDeco, hasForum, new PlayerAvatarData(ownerId, username, ownerFigure, ownerMotto, "M"));
     }
 }

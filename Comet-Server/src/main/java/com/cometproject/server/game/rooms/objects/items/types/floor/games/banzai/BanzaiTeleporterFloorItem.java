@@ -25,6 +25,7 @@ public class BanzaiTeleporterFloorItem extends RoomItemFloor {
 
     public BanzaiTeleporterFloorItem(RoomItemData itemData, Room room) {
         super(itemData, room);
+        this.getItemData().setData(0);
     }
 
 //    @Override

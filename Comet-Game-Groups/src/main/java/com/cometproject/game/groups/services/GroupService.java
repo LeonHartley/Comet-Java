@@ -92,6 +92,19 @@ public class GroupService implements IGroupService {
             return null;
         }
 
+        boolean foundOwner = false;
+
+        for(IGroupMember member : groupMemberData.get()) {
+            if(member.getPlayerId() == groupData.getOwnerId()) {
+                foundOwner = true;
+            }
+        }
+
+        if(!foundOwner) {
+            this.groupMemberRepository.create(groupId, groupData.getOwnerId(), GroupAccessLevel.OWNER,
+                    (member) -> groupMemberData.get().add(member));
+        }
+
         return build(groupMemberData.get(), requestsData.get(), groupData);
     }
 
@@ -224,7 +237,6 @@ public class GroupService implements IGroupService {
                 }
             }
         }
-
         final IGroup group = this.groupFactory.createGroupInstance(groupData, groupMembers, requests,
                 administrators, forumSettings, pinnedThreads, forumThreads);
 

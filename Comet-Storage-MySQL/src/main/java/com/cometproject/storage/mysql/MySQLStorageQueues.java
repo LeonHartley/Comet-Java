@@ -34,6 +34,7 @@ public class MySQLStorageQueues {
         this.playerDataUpdateQueue = new PlayerDataUpdateQueue(1000, this.storageExecutor, connectionProvider);
         this.playerBadgeUpdateQueue = new PlayerBadgeUpdateQueue(5000, this.storageExecutor, connectionProvider);
     }
+
     public static MySQLStorageQueues instance() {
         return instance;
     }
@@ -70,4 +71,13 @@ public class MySQLStorageQueues {
         instance = storageContext;
     }
 
+    public void shutdown() {
+        this.playerStatusQueue.stop();
+        this.playerOfflineUpdateQueue.stop();
+        this.itemDataUpdateQueue.stop();
+        this.itemUpdateQueue.stop();
+        this.petStatsUpdateQueue.stop();
+        this.playerDataUpdateQueue.stop();
+        this.playerBadgeUpdateQueue.stop();
+    }
 }
