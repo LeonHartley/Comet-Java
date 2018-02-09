@@ -9,6 +9,7 @@ import com.cometproject.storage.mysql.models.factories.GroupMemberFactory;
 import com.cometproject.storage.mysql.repositories.MySQLGroupForumRepository;
 import com.cometproject.storage.mysql.repositories.MySQLGroupMemberRepository;
 import com.cometproject.storage.mysql.repositories.MySQLGroupRepository;
+import com.cometproject.storage.mysql.repositories.MySQLRoomItemRepository;
 
 public class MySQLStorageInitializer implements IStorageInitializer {
 
@@ -26,5 +27,7 @@ public class MySQLStorageInitializer implements IStorageInitializer {
         storageContext.setGroupRepository(new MySQLGroupRepository(new GroupDataFactory(), connectionProvider));
         storageContext.setGroupMemberRepository(new MySQLGroupMemberRepository(new GroupMemberFactory(), connectionProvider));
         storageContext.setGroupForumRepository(new MySQLGroupForumRepository(new GroupForumSettingsFactory(), new GroupForumMessageFactory(), connectionProvider));
+
+        storageContext.setRoomItemRepository(new MySQLRoomItemRepository(connectionProvider));
     }
 }

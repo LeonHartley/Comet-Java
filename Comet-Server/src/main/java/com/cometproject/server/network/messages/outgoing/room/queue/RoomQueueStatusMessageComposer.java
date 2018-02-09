@@ -13,7 +13,7 @@ public class RoomQueueStatusMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return 0;
+        return 2383;
     }
 
     @Override

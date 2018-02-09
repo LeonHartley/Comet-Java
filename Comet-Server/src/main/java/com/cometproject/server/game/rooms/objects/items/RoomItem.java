@@ -1,9 +1,9 @@
 package com.cometproject.server.game.rooms.objects.items;
 
-import com.cometproject.api.game.furniture.types.IFurnitureDefinition;
+import com.cometproject.api.game.furniture.types.FurnitureDefinition;
+import com.cometproject.api.game.rooms.objects.IRoomItemData;
 import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.server.game.items.rares.LimitedEditionItemData;
-import com.cometproject.server.game.items.types.ItemDefinition;
+import com.cometproject.api.game.rooms.objects.data.LimitedEditionItemData;
 import com.cometproject.server.game.items.types.LowPriorityItemProcessor;
 import com.cometproject.server.game.rooms.objects.BigRoomFloorObject;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
@@ -13,10 +13,10 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.SoundMachine
 import com.cometproject.server.game.rooms.objects.items.types.floor.football.FootballGateFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.games.banzai.BanzaiTeleporterFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredFloorItem;
-import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.utilities.attributes.Attributable;
 import com.google.common.collect.Sets;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,12 +24,6 @@ import java.util.Set;
 
 
 public abstract class RoomItem extends BigRoomFloorObject implements Attributable {
-    protected int itemId;
-    protected int ownerId;
-    protected String ownerName;
-
-    protected int rotation;
-
     protected int ticksTimer;
 
     private final Set<Long> wiredItems = Sets.newHashSet();
@@ -39,10 +33,46 @@ public abstract class RoomItem extends BigRoomFloorObject implements Attributabl
 
     private int moveDirection = -1;
 
-    public RoomItem(long id, Position position, Room room) {
-        super(id, position, room);
+    private final IRoomItemData itemData;
+
+    public RoomItem(IRoomItemData roomItemData, Room room) {
+        super(roomItemData.getId(), roomItemData.getPosition(), room);
+
+        this.itemData = roomItemData;
         this.ticksTimer = -1;
     }
+
+    public boolean toggleInteract(boolean state) {
+        if (!state) {
+            if (!(this instanceof WiredFloorItem))
+                this.getItemData().setData("0");
+
+            return true;
+        }
+
+        if (!StringUtils.isNumeric(this.getItemData().getData())) {
+            return true;
+        }
+
+        if (this.getDefinition().getInteractionCycleCount() > 1) {
+            if (this.getItemData().getData().isEmpty() || this.getItemData().getData().equals(" ")) {
+                this.getItemData().setData("0");
+            }
+
+            int i = Integer.parseInt(this.getItemData().getData()) + 1;
+
+            if (i > (this.getDefinition().getInteractionCycleCount() - 1)) { // take one because count starts at 0 (0, 1) = count(2)
+                this.getItemData().setData("0");
+            } else {
+                this.getItemData().setData(i + "");
+            }
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
     public Set<Long> getWiredItems() {
         return this.wiredItems;
@@ -50,18 +80,6 @@ public abstract class RoomItem extends BigRoomFloorObject implements Attributabl
 
     public void setLimitedEditionItemData(LimitedEditionItemData limitedEditionItemData) {
         this.limitedEditionItemData = limitedEditionItemData;
-    }
-
-    public int getItemId() {
-        return this.itemId;
-    }
-
-    public int getOwner() {
-        return this.ownerId;
-    }
-
-    public int getRotation() {
-        return this.rotation;
     }
 
     public final boolean requiresTick() {
@@ -134,11 +152,10 @@ public abstract class RoomItem extends BigRoomFloorObject implements Attributabl
         msg.writeInt(1);
         msg.writeInt(0);
 
-        //msg.writeString(isGift ? giftData.toString() : this.getExtraData());
         msg.writeString((this instanceof FootballGateFloorItem) ? "" :
                 (this instanceof WiredFloorItem) ? ((WiredFloorItem) this).getState() ? "1" : "0" :
                 (this instanceof SoundMachineFloorItem) ? ((SoundMachineFloorItem) this).getState() ? "1" : "0" :
-                        this.getExtraData());
+                        this.getItemData().getData());
     }
 
     @Override
@@ -156,7 +173,7 @@ public abstract class RoomItem extends BigRoomFloorObject implements Attributabl
 
     @Override
     public Object getAttribute(String attributeKey) {
-        if(this.attributes == null) {
+        if(this.attributes == null  ) {
             this.attributes = new HashMap<>();
         }
 
@@ -183,9 +200,7 @@ public abstract class RoomItem extends BigRoomFloorObject implements Attributabl
 
     public abstract void serialize(IComposer msg);
 
-    public abstract IFurnitureDefinition getDefinition();
-
-    public abstract boolean toggleInteract(boolean state);
+    public abstract FurnitureDefinition getDefinition();
 
     public abstract void sendUpdate();
 
@@ -193,20 +208,16 @@ public abstract class RoomItem extends BigRoomFloorObject implements Attributabl
 
     public abstract void saveData();
 
-    public abstract String getExtraData();
-
-    public abstract void setExtraData(String data);
-
     public void dispose() {
 
     }
 
-    public LimitedEditionItemData getLimitedEditionItemData() {
-        return limitedEditionItemData;
+    public IRoomItemData getItemData() {
+        return this.itemData;
     }
 
-    public String getOwnerName() {
-        return this.ownerName;
+    public LimitedEditionItemData getLimitedEditionItemData() {
+        return limitedEditionItemData;
     }
 
     public int getMoveDirection() {
@@ -216,4 +227,6 @@ public abstract class RoomItem extends BigRoomFloorObject implements Attributabl
     public void setMoveDirection(int moveDirection) {
         this.moveDirection = moveDirection;
     }
+
+    public abstract int getRotation();
 }

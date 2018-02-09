@@ -52,6 +52,7 @@ public class Events {
     public static final short RequestFurniInventoryMessageEvent = 3750;//2905
     public static final short ModerationKickMessageEvent = 794;//933
     public static final short OpenFlatConnectionMessageEvent = 2450;//1718
+    public static final short SpectateRoomMessageEvent = 1187;//aa
     public static final short DanceMessageEvent = 1126;//1527
     public static final short RemoveBuddyMessageEvent = 1106;//3022
     public static final short LatencyTestMessageEvent = 2348;//3978
@@ -270,7 +271,6 @@ public class Events {
     public static final short GetGameAchievementsMessageEvent = 97;
     public static final short GetGameStatusMessageEvent = 1740;
     public static final short JoinGameQueueMessageEvent = 3654;
-    public static final short SpectateRoomMessageEvent = 1187;
 
     private static Map<Short, String> eventPacketNames = new HashMap<>();
 

@@ -1,14 +1,9 @@
 package com.cometproject.server.storage.queries.rooms;
 
-import com.cometproject.server.game.items.ItemManager;
-import com.cometproject.server.game.items.rares.LimitedEditionItemData;
 import com.cometproject.server.game.rooms.objects.items.RoomItem;
-import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
-import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.storage.SqlHelper;
-import com.cometproject.server.utilities.collections.ConcurrentHashSet;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
@@ -23,44 +18,57 @@ public class RoomItemDao {
 
     private static Logger log = Logger.getLogger(RoomItemDao.class.getName());
 
-    public static void getItems(Room room, Map<Long, RoomItemFloor> floorItems, Map<Long, RoomItemWall> wallItems) {
-        Connection sqlConnection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-
-        try {
-            sqlConnection = SqlHelper.getConnection();
-
-            preparedStatement = SqlHelper.prepare("SELECT i.*, player.username AS user_name, ltd.limited_id, ltd.limited_total FROM items i LEFT JOIN items_limited_edition ltd ON ltd.item_id = i.id RIGHT JOIN players player ON player.id = i.user_id WHERE i.room_id = ?", sqlConnection);
-            preparedStatement.setInt(1, room.getId());
-
-            resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()) {
-                LimitedEditionItemData limitedEditionItemData = null;
-
-                if (resultSet.getInt("limited_id") != 0) {
-                    limitedEditionItemData = new LimitedEditionItemData(resultSet.getLong("id"), resultSet.getInt("limited_id"), resultSet.getInt("limited_total"));
-                }
-
-                if (ItemManager.getInstance().getDefinition(resultSet.getInt("base_item")) != null) {
-                    if (ItemManager.getInstance().getDefinition(resultSet.getInt("base_item")).getType().equals("s"))
-                        floorItems.put(resultSet.getLong("id"), RoomItemFactory.createFloor(resultSet.getLong("id"), resultSet.getInt("base_item"), room, resultSet.getInt("user_id"), resultSet.getString("user_name"), resultSet.getInt("x"), resultSet.getInt("y"), resultSet.getDouble("z"), resultSet.getInt("rot"), resultSet.getString("extra_data"), limitedEditionItemData));
-                    else
-                        wallItems.put(resultSet.getLong("id"), RoomItemFactory.createWall(resultSet.getLong("id"), resultSet.getInt("base_item"), room, resultSet.getInt("user_id"), resultSet.getString("user_name"), resultSet.getString("wall_pos"), resultSet.getString("extra_data"), limitedEditionItemData));
-
-                } else {
-                    log.warn("Item (" + resultSet.getInt("id") + ") with invalid definition ID: " + resultSet.getInt("base_item"));
-                }
-            }
-        } catch (SQLException e) {
-            SqlHelper.handleSqlException(e);
-        } finally {
-            SqlHelper.closeSilently(resultSet);
-            SqlHelper.closeSilently(preparedStatement);
-            SqlHelper.closeSilently(sqlConnection);
-        }
-    }
+//    public static void getItems(Room room, Map<Long, RoomItemFloor> floorItems, Map<Long, RoomItemWall> wallItems) {
+//        Connection sqlConnection = null;
+//        PreparedStatement preparedStatement = null;
+//        ResultSet resultSet = null;
+//
+//        try {
+//            sqlConnection = SqlHelper.getConnection();
+//
+//            preparedStatement = SqlHelper.prepare("SELECT i.*, player.username AS user_name, ltd.limited_id, ltd.limited_total FROM items i LEFT JOIN items_limited_edition ltd ON ltd.item_id = i.id RIGHT JOIN players player ON player.id = i.user_id WHERE i.room_id = ?", sqlConnection);
+//            preparedStatement.setInt(1, room.getId());
+//
+//            resultSet = preparedStatement.executeQuery();
+//
+//            while (resultSet.next()) {
+//                LimitedEditionItemData limitedEditionItemData = null;
+//
+//                if (resultSet.getInt("limited_id") != 0) {
+//                    limitedEditionItemData = new LimitedEditionItemData(resultSet.getLong("id"), resultSet.getInt("limited_id"), resultSet.getInt("limited_total"));
+//                }
+//
+//                final long id = resultSet.getLong("id");
+//                final int itemId = resultSet.getInt("base_item");
+//                final int ownerId = resultSet.getInt("user_id");
+//                final String ownerName = resultSet.getString("user_name");
+//                final int x = resultSet.getInt("x");
+//                final int y = resultSet.getInt("y");
+//                final double z = resultSet.getDouble("z");
+//                final int rotation = resultSet.getInt("rot");
+//                final String extraData = resultSet.getString("extra_data");
+//                final String wallPosition = resultSet.getString("wall_pos");
+//
+//                final RoomItemData itemData = new RoomItemData(id, itemId, ownerId, ownerName, new Position(x, y, z), rotation, extraData, wallPosition);
+//
+//                if (ItemManager.getInstance().getDefinition(resultSet.getInt("base_item")) != null) {
+//                    if (ItemManager.getInstance().getDefinition(resultSet.getInt("base_item")).getType().equals("s"))
+//                        floorItems.put(resultSet.getLong("id"), RoomItemFactory.createFloor(itemData, room, limitedEditionItemData));
+//                    else
+//                        wallItems.put(resultSet.getLong("id"), RoomItemFactory.createWall(itemData, room, limitedEditionItemData));
+//
+//                } else {
+//                    log.warn("Item (" + resultSet.getInt("id") + ") with invalid definition ID: " + resultSet.getInt("base_item"));
+//                }
+//            }
+//        } catch (SQLException e) {
+//            SqlHelper.handleSqlException(e);
+//        } finally {
+//            SqlHelper.closeSilently(resultSet);
+//            SqlHelper.closeSilently(preparedStatement);
+//            SqlHelper.closeSilently(sqlConnection);
+//        }
+//    }
 
     public static void removeItemFromRoom(long itemId, int userId, String finalState) {
         Connection sqlConnection = null;
@@ -257,7 +265,7 @@ public class RoomItemDao {
                 if (roomItem instanceof RoomItemFloor) {
                     data = ((RoomItemFloor) roomItem).getDataObject();
                 } else {
-                    data = roomItem.getExtraData();
+                    data = roomItem.getItemData().getData();
                 }
 
                 preparedStatement.setString(1, data);
@@ -373,7 +381,7 @@ public class RoomItemDao {
                 final int playerId = resultSet.getInt("player_id");
                 final String rewardData = resultSet.getString("reward_data");
 
-                if(!data.containsKey(playerId)) {
+                if (!data.containsKey(playerId)) {
                     data.put(playerId, new HashSet<>());
                 }
 

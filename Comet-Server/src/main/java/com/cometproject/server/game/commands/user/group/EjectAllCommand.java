@@ -24,13 +24,13 @@ public class EjectAllCommand extends ChatCommand {
             final List<RoomItem> itemsToRemove = Lists.newArrayList();
 
             for(RoomItemFloor roomItemFloor : client.getPlayer().getEntity().getRoom().getItems().getFloorItems().values()) {
-                if(roomItemFloor.getOwner() == client.getPlayer().getId()) {
+                if(roomItemFloor.getItemData().getOwnerId() == client.getPlayer().getId()) {
                     itemsToRemove.add(roomItemFloor);
                 }
             }
 
             for(RoomItemWall roomItemWall : client.getPlayer().getEntity().getRoom().getItems().getWallItems().values()) {
-                if(roomItemWall.getOwner() == client.getPlayer().getId()) {
+                if(roomItemWall.getItemData().getOwnerId() == client.getPlayer().getId()) {
                     itemsToRemove.add(roomItemWall);
                 }
             }
@@ -50,13 +50,13 @@ public class EjectAllCommand extends ChatCommand {
 
                 for (RoomItemFloor floorItem : room.getItems().getFloorItems().values()) {
 
-                    if (floorItem.getOwner() == playerWithItem) {
+                    if (floorItem.getItemData().getOwnerId() == playerWithItem) {
                         floorItemsOwnedByPlayer.add(floorItem);
                     }
                 }
 
                 for (RoomItemWall wallItem : room.getItems().getWallItems().values()) {
-                    if (wallItem.getOwner() == playerWithItem) {
+                    if (wallItem.getItemData().getOwnerId() == playerWithItem) {
                         floorItemsOwnedByPlayer.add(wallItem);
                     }
                 }
@@ -76,7 +76,7 @@ public class EjectAllCommand extends ChatCommand {
                     }
                 } else {
                     for (RoomItem roomItem : floorItemsOwnedByPlayer) {
-                        RoomItemDao.removeItemFromRoom(roomItem.getId(), playerWithItem, roomItem.getExtraData());
+                        RoomItemDao.removeItemFromRoom(roomItem.getId(), playerWithItem, roomItem.getItemData().getData());
                     }
                 }
 

@@ -1,15 +1,12 @@
 package com.cometproject.server.game.items;
 
 import com.cometproject.api.game.furniture.IFurnitureService;
-import com.cometproject.api.game.furniture.types.IFurnitureDefinition;
+import com.cometproject.api.game.furniture.types.FurnitureDefinition;
 import com.cometproject.api.game.furniture.types.IMusicData;
-import com.cometproject.server.game.items.music.MusicData;
-import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.storage.queries.items.ItemDao;
 import com.cometproject.server.storage.queries.items.MusicDao;
 import com.cometproject.server.storage.queries.items.TeleporterDao;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
-import com.cometproject.api.utilities.Initialisable;
 import org.apache.log4j.Logger;
 
 import java.util.HashMap;
@@ -23,7 +20,7 @@ public class ItemManager implements IFurnitureService {
 
     private Logger log = Logger.getLogger(ItemManager.class.getName());
 
-    private Map<Integer, IFurnitureDefinition> itemDefinitions;
+    private Map<Integer, FurnitureDefinition> itemDefinitions;
 
     private Map<Integer, Integer> itemSpriteIdToDefinitionId;
     private Map<Integer, IMusicData> musicData;
@@ -64,7 +61,7 @@ public class ItemManager implements IFurnitureService {
 
     @Override
     public void loadItemDefinitions() {
-        Map<Integer, IFurnitureDefinition> tempMap = this.itemDefinitions;
+        Map<Integer, FurnitureDefinition> tempMap = this.itemDefinitions;
         Map<Integer, Integer> tempSpriteIdItemMap = this.itemSpriteIdToDefinitionId;
 
         try {
@@ -80,7 +77,7 @@ public class ItemManager implements IFurnitureService {
         }
 
         if (this.itemDefinitions != null) {
-            for (IFurnitureDefinition itemDefinition : this.itemDefinitions.values()) {
+            for (FurnitureDefinition itemDefinition : this.itemDefinitions.values()) {
                 if(itemDefinition.getItemName().equals("horse_saddle1")) {
                     this.saddleId = itemDefinition.getId();
                 }
@@ -140,7 +137,7 @@ public class ItemManager implements IFurnitureService {
     }
 
     @Override
-    public IFurnitureDefinition getDefinition(int itemId) {
+    public FurnitureDefinition getDefinition(int itemId) {
         if (this.getItemDefinitions().containsKey(itemId)) {
             return this.getItemDefinitions().get(itemId);
         }
@@ -174,7 +171,7 @@ public class ItemManager implements IFurnitureService {
     }
 
     @Override
-    public IFurnitureDefinition getBySpriteId(int spriteId) {
+    public FurnitureDefinition getBySpriteId(int spriteId) {
         return this.itemDefinitions.get(this.itemSpriteIdToDefinitionId.get(spriteId));
     }
 
@@ -184,7 +181,7 @@ public class ItemManager implements IFurnitureService {
     }
 
     @Override
-    public Map<Integer, IFurnitureDefinition> getItemDefinitions() {
+    public Map<Integer, FurnitureDefinition> getItemDefinitions() {
         return this.itemDefinitions;
     }
 

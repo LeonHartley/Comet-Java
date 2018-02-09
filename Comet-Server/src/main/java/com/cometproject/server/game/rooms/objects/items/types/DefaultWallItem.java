@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types;
 
+import com.cometproject.api.game.rooms.objects.data.RoomItemData;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
@@ -7,8 +8,8 @@ import com.cometproject.server.game.rooms.types.Room;
 
 
 public final class DefaultWallItem extends RoomItemWall {
-    public DefaultWallItem(long id, int itemId, Room room, int owner, String ownerName, String position, String data) {
-        super(id, itemId, room, owner, ownerName, position, data);
+    public DefaultWallItem(RoomItemData roomItemData, Room room) {
+        super(roomItemData, room);
     }
 
     @Override

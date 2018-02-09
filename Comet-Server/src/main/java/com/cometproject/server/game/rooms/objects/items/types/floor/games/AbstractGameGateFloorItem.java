@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.games;
 
+import com.cometproject.api.game.rooms.objects.data.RoomItemData;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
@@ -12,13 +13,13 @@ import com.cometproject.server.game.rooms.types.components.games.GameType;
 
 
 public abstract class AbstractGameGateFloorItem extends DefaultFloorItem {
-    public AbstractGameGateFloorItem(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
+    public AbstractGameGateFloorItem(RoomItemData itemData, Room room) {
+        super(itemData, room);
     }
 
     @Override
     public void onLoad() {
-        if(!this.getRoom().getGame().getGates().get(this.getTeam()).contains(this)) {
+        if (!this.getRoom().getGame().getGates().get(this.getTeam()).contains(this)) {
             this.getRoom().getGame().getGates().get(this.getTeam()).add(this);
         }
     }
@@ -41,8 +42,8 @@ public abstract class AbstractGameGateFloorItem extends DefaultFloorItem {
 
             this.getRoom().getGame().removeFromTeam(playerEntity);
 
-            for(AbstractGameGateFloorItem timer : this.getRoom().getGame().getGates().get(this.getTeam())) {
-                timer.setExtraData("" + this.getRoom().getGame().getTeams().get(oldTeam).size());
+            for (AbstractGameGateFloorItem timer : this.getRoom().getGame().getGates().get(this.getTeam())) {
+                timer.getItemData().setData(this.getRoom().getGame().getTeams().get(oldTeam).size());
                 timer.sendUpdate();
             }
 
@@ -78,20 +79,20 @@ public abstract class AbstractGameGateFloorItem extends DefaultFloorItem {
     }
 
     private void updateTeamCount() {
-        this.setExtraData("" + this.getRoom().getGame().getTeams().get(this.getTeam()).size());
+        this.getItemData().setData("" + this.getRoom().getGame().getTeams().get(this.getTeam()).size());
         this.sendUpdate();
     }
 
     @Override
     public boolean isMovementCancelled(RoomEntity entity) {
-        if(!(entity instanceof PlayerEntity)) {
+        if (!(entity instanceof PlayerEntity)) {
             return true;
         }
 
         final PlayerEntity playerEntity = (PlayerEntity) entity;
 
         if (this.getRoom().getGame().getInstance() != null && this.getRoom().getGame().getInstance().isActive()) {
-            if(playerEntity.getGameTeam() != null && playerEntity.getGameTeam() != GameTeam.NONE) {
+            if (playerEntity.getGameTeam() != null && playerEntity.getGameTeam() != GameTeam.NONE) {
                 return false;
             }
 

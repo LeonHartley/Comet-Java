@@ -26,7 +26,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class  RevokeMembershipMessageEvent implements Event {
+public class RevokeMembershipMessageEvent implements Event {
+
     @Override
     public void handle(Session client, MessageEvent msg) throws Exception {
         int groupId = msg.readInt();
@@ -60,13 +61,13 @@ public class  RevokeMembershipMessageEvent implements Event {
 
 
             for (RoomItemFloor floorItem : room.getItems().getFloorItems().values()) {
-                if (floorItem.getOwner() == playerId) {
+                if (floorItem.getItemData().getOwnerId() == playerId) {
                     itemsToRemove.add(floorItem);
                 }
             }
 
             for (RoomItemWall wallItem : room.getItems().getWallItems().values()) {
-                if (wallItem.getOwner() == playerId) {
+                if (wallItem.getItemData().getOwnerId() == playerId) {
                     itemsToRemove.add(wallItem);
                 }
             }

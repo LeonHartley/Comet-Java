@@ -1,9 +1,9 @@
 package com.cometproject.server.game.rooms.objects.items;
 
 import com.cometproject.api.config.CometSettings;
-import com.cometproject.api.game.furniture.types.IFurnitureDefinition;
-import com.cometproject.server.game.items.ItemManager;
-import com.cometproject.server.game.items.rares.LimitedEditionItemData;
+import com.cometproject.api.game.furniture.types.FurnitureDefinition;
+import com.cometproject.api.game.rooms.objects.data.RoomItemData;
+import com.cometproject.api.game.rooms.objects.data.LimitedEditionItemData;
 import com.cometproject.server.game.rooms.objects.items.types.DefaultFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.DefaultWallItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.*;
@@ -218,21 +218,19 @@ public class RoomItemFactory {
         }};
     }
 
-    public static RoomItemFloor createFloor(long id, int baseId, Room room, int ownerId, String ownerName, int x, int y, double height, int rotation, String data, LimitedEditionItemData limitedEditionItemData) {
-        IFurnitureDefinition def = ItemManager.getInstance().getDefinition(baseId);
-
+    public static RoomItemFloor createFloor(RoomItemData itemData, Room room, FurnitureDefinition def) {
         if (CometSettings.storageItemQueueEnabled) {
-            final RoomItem roomItem = ItemStorageQueue.getInstance().getQueuedItem(id);
+            final RoomItem roomItem = ItemStorageQueue.getInstance().getQueuedItem(itemData.getId());
 
             if (roomItem != null) {
                 return ((RoomItemFloor) roomItem);
             }
         }
 
-        String cachedData = MySQLStorageQueues.instance().getItemDataUpdateQueue().getQueued(id);
+        String cachedData = MySQLStorageQueues.instance().getItemDataUpdateQueue().getQueued(itemData.getId());
 
         if(cachedData != null) {
-            data = cachedData;
+            itemData.setData(cachedData);
         }
 
         RoomItemFloor floorItem = null;
@@ -242,24 +240,24 @@ public class RoomItemFactory {
         }
 
         if (def.canSit()) {
-            floorItem = new SeatFloorItem(id, baseId, room, ownerId, ownerName, x, y, height, rotation, data);
+            floorItem = new SeatFloorItem(itemData, room);
         }
 
         if (def.getItemName().startsWith(STACK_TOOL)) {
-            floorItem = new MagicStackFloorItem(id, baseId, room, ownerId, ownerName, x, y, height, rotation, data);
+            floorItem = new MagicStackFloorItem(itemData, room);
         }
 
         if (def.isAdFurni()) {
-            floorItem = new AdsFloorItem(id, baseId, room, ownerId, ownerName, x, y, height, rotation, data);
+            floorItem = new AdsFloorItem(itemData, room);
         }
 
         if (def.getItemName().contains("yttv")) {
-            floorItem = new VideoPlayerFloorItem(id, baseId, room, ownerId, ownerName, x, y, height, rotation, data);
+            floorItem = new VideoPlayerFloorItem(itemData, room);
         }
 
-        if (data.startsWith(GIFT_DATA)) {
+        if (itemData.getData().startsWith(GIFT_DATA)) {
             try {
-                floorItem = new GiftFloorItem(id, baseId, room, ownerId, ownerName, x, y, height, rotation, data);
+                floorItem = new GiftFloorItem(itemData, room);
             } catch (Exception e) {
                 return null;
 //                floorItem = new DefaultFloorItem(id, baseId, room, ownerId, x, y, height, rot, "");
@@ -272,58 +270,58 @@ public class RoomItemFactory {
                     if (itemConstructorCache.containsKey(def.getInteraction())) {
                         constructor = itemConstructorCache.get(def.getInteraction());
                     } else {
-                        constructor = itemDefinitionMap.get(def.getInteraction()).getConstructor(long.class, int.class, Room.class, int.class, String.class, int.class, int.class, double.class, int.class, String.class);
+                        constructor = itemDefinitionMap.get(def.getInteraction()).getConstructor(RoomItemData.class, Room.class);
                         itemConstructorCache.put(def.getInteraction(), constructor);
                     }
 
                     if (constructor != null)
-                        floorItem = constructor.newInstance(id, baseId, room, ownerId, ownerName, x, y, height, rotation, data);
+                        floorItem = constructor.newInstance(itemData, room);
                 } catch (Exception e) {
-                    log.warn("Failed to create instance for item: " + id + ", type: " + def.getInteraction(), e);
+                    log.warn("Failed to create instance for item: " + itemData.getId() + ", type: " + def.getInteraction(), e);
                 }
             }
         }
 
+
         if (floorItem == null) {
-            floorItem = new DefaultFloorItem(id, baseId, room, ownerId, ownerName, x, y, height, rotation, data);
+            floorItem = new DefaultFloorItem(itemData, room);
         }
 
-        if (limitedEditionItemData != null) {
-            floorItem.setLimitedEditionItemData(limitedEditionItemData);
+        if (itemData.getLimitedEdition() != null) {
+            floorItem.setLimitedEditionItemData((LimitedEditionItemData) itemData.getLimitedEdition());
         }
 
         return floorItem;
     }
 
-    public static RoomItemWall createWall(long id, int baseId, Room room, int owner, String ownerName, String position, String data, LimitedEditionItemData limitedEditionItemData) {
-        IFurnitureDefinition def = ItemManager.getInstance().getDefinition(baseId);
+    public static RoomItemWall createWall(RoomItemData itemData, Room room, FurnitureDefinition def) {
         if (def == null) {
             return null;
         }
 
-        RoomItemWall wallItem;
+        RoomItemWall wallItem = null;
 
         switch (def.getInteraction()) {
             case "habbowheel": {
-                wallItem = new WheelWallItem(id, baseId, room, owner, ownerName, position, data);
+                wallItem = new WheelWallItem(itemData, room);
                 break;
             }
             case "dimmer": {
-                wallItem = new MoodlightWallItem(id, baseId, room, owner, ownerName, position, data);
+                wallItem = new MoodlightWallItem(itemData, room);
                 break;
             }
             case "postit": {
-                wallItem = new PostItWallItem(id, baseId, room, owner, ownerName, position, data);
+                wallItem = new PostItWallItem(itemData, room);
                 break;
             }
             default: {
-                wallItem = new DefaultWallItem(id, baseId, room, owner, ownerName, position, data);
+                wallItem = new DefaultWallItem(itemData, room);
                 break;
             }
         }
 
-        if (limitedEditionItemData != null) {
-            wallItem.setLimitedEditionItemData(limitedEditionItemData);
+        if (itemData.getLimitedEdition() != null) {
+            wallItem.setLimitedEditionItemData((LimitedEditionItemData) itemData.getLimitedEdition());
         }
 
         return wallItem;

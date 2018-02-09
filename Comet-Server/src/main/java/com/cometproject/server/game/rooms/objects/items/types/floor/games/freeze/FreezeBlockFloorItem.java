@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.games.freeze;
 
+import com.cometproject.api.game.rooms.objects.data.RoomItemData;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
@@ -15,8 +16,8 @@ public class FreezeBlockFloorItem extends RoomItemFloor {
     private boolean destroyed = false;
     private FreezePowerUp powerUp;
 
-    public FreezeBlockFloorItem(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
+    public FreezeBlockFloorItem(RoomItemData itemData, Room room) {
+        super(itemData, room);
     }
 
     @Override
@@ -28,19 +29,19 @@ public class FreezeBlockFloorItem extends RoomItemFloor {
 
         final PlayerEntity playerEntity = ((PlayerEntity) entity);
 
-        if(!this.isDestroyed()) {
+        if (!this.isDestroyed()) {
             return;
         }
 
         final RoomGame game = this.getRoom().getGame().getInstance();
 
-        if(this.getRoom().getGame().getInstance() == null || !(game instanceof FreezeGame)) {
+        if (this.getRoom().getGame().getInstance() == null || !(game instanceof FreezeGame)) {
             return;
         }
 
         final FreezeGame freezeGame = (FreezeGame) game;
 
-        if(playerEntity.getGameTeam() == null || playerEntity.getGameTeam() == GameTeam.NONE) {
+        if (playerEntity.getGameTeam() == null || playerEntity.getGameTeam() == GameTeam.NONE) {
             return;
         }
 
@@ -64,14 +65,14 @@ public class FreezeBlockFloorItem extends RoomItemFloor {
         this.destroyed = false;
         this.powerUp = null;
 
-        this.setExtraData("0");
+        this.getItemData().setData("0");
         this.sendUpdate();
 
         this.getTile().reload();
     }
 
     public void explode() {
-        if(this.destroyed) {
+        if (this.destroyed) {
             return;
         }
 
@@ -90,7 +91,7 @@ public class FreezeBlockFloorItem extends RoomItemFloor {
             }
         }
 
-        this.setExtraData(num);
+        this.getItemData().setData(num);
         this.sendUpdate();
     }
 

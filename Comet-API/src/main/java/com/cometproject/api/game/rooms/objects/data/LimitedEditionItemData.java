@@ -1,4 +1,4 @@
-package com.cometproject.server.game.items.rares;
+package com.cometproject.api.game.rooms.objects.data;
 
 public class LimitedEditionItemData implements com.cometproject.api.game.furniture.types.LimitedEditionItem {
     public static final LimitedEditionItemData NONE = new LimitedEditionItemData(0, 0, 0);

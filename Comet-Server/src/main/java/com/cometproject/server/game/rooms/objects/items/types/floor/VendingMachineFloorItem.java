@@ -1,5 +1,8 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
+import com.cometproject.api.game.rooms.objects.data.RoomItemData;
+
+
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.api.game.rooms.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
@@ -13,9 +16,7 @@ public class VendingMachineFloorItem extends RoomItemFloor {
     private RoomEntity vendingEntity;
     private int state = -1;
 
-    public VendingMachineFloorItem(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
-    }
+    public VendingMachineFloorItem(RoomItemData itemData, Room room) {        super(itemData, room);    }
 
     @Override
     public boolean onInteract(RoomEntity entity, int requestData, boolean isWiredTrigger) {
@@ -54,7 +55,7 @@ public class VendingMachineFloorItem extends RoomItemFloor {
     public void onTickComplete() {
         switch (this.state) {
             case 0: {
-                this.setExtraData("1");
+                this.getItemData().setData("1");
                 this.sendUpdate();
 
                 this.state = 1;
@@ -74,7 +75,7 @@ public class VendingMachineFloorItem extends RoomItemFloor {
             }
 
             case 2: {
-                this.setExtraData("0");
+                this.getItemData().setData("0");
                 this.sendUpdate();
 
                 this.state = 0;
@@ -86,6 +87,6 @@ public class VendingMachineFloorItem extends RoomItemFloor {
 
     @Override
     public void onPlaced() {
-        this.setExtraData("0");
+        this.getItemData().setData("0");
     }
 }

@@ -1,6 +1,6 @@
 package com.cometproject.server.storage.queries.items;
 
-import com.cometproject.server.game.items.rares.LimitedEditionItemData;
+import com.cometproject.api.game.rooms.objects.data.LimitedEditionItemData;
 import com.cometproject.server.storage.SqlHelper;
 
 import java.sql.Connection;

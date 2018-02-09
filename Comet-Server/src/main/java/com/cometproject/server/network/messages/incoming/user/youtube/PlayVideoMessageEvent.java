@@ -29,13 +29,13 @@ public class PlayVideoMessageEvent implements Event {
 
         PlayerSettings playerSettings;
 
-        playerSettings = PlayerDao.getSettingsById(item.getOwner());
+        playerSettings = PlayerDao.getSettingsById(item.getItemData().getOwnerId());
 
         if (playerSettings == null) {
             playerSettings = client.getPlayer().getSettings();
         }
 
-        if (client.getPlayer().getId() != item.getOwner()) {
+        if (client.getPlayer().getId() != item.getItemData().getOwnerId()) {
             if (item.hasAttribute("video")) {
                 for (int i = 0; i < playerSettings.getPlaylist().size(); i++) {
                     if (playerSettings.getPlaylist().get(i).getVideoId().equals(item.getAttribute("video"))) {

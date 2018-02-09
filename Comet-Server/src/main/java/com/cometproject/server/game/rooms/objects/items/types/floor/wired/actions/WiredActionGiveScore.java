@@ -1,5 +1,7 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions;
 
+import com.cometproject.api.game.rooms.objects.data.RoomItemData;
+
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
@@ -11,21 +13,8 @@ public class WiredActionGiveScore extends WiredActionItem {
     private final static int PARAM_SCORE = 0;
     private final static int PARAM_PER_GAME = 1;
 
-    /**
-     * The default constructor
-     *
-     * @param id       The ID of the item
-     * @param itemId   The ID of the item definition
-     * @param room     The instance of the room
-     * @param owner    The ID of the owner
-     * @param x        The position of the item on the X axis
-     * @param y        The position of the item on the Y axis
-     * @param z        The position of the item on the z axis
-     * @param rotation The orientation of the item
-     * @param data     The JSON object associated with this item
-     */
-    public WiredActionGiveScore(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
+    public WiredActionGiveScore(RoomItemData roomItemData, Room room) {
+        super(roomItemData, room);
 
         if (this.getWiredData().getParams().size() < 2) {
             this.getWiredData().getParams().clear();
@@ -44,6 +33,7 @@ public class WiredActionGiveScore extends WiredActionItem {
     public int getInterface() {
         return 6;
     }
+
     @Override
     public void onEventComplete(WiredItemEvent event) {
         if (!(event.entity instanceof PlayerEntity)) {

@@ -37,7 +37,7 @@ public class BanzaiGame extends RoomGame {
         }
 
         for (RoomItemFloor item : room.getItems().getByClass(BanzaiTimerFloorItem.class)) {
-            item.setExtraData((gameLength - timer) + "");
+            item.getItemData().setData((gameLength - timer) + "");
             item.sendUpdate();
         }
 
@@ -128,7 +128,7 @@ public class BanzaiGame extends RoomGame {
     public void updateScoreboard(GameTeam team) {
         for (RoomItemFloor scoreboard : this.getGameComponent().getRoom().getItems().getByInteraction("%_score")) {
             if (team == null || scoreboard.getDefinition().getInteraction().toUpperCase().startsWith(team.name())) {
-                scoreboard.setExtraData(team == null ? "0" : this.getScore(team) + "");
+                scoreboard.getItemData().setData(team == null ? "0" : this.getScore(team) + "");
                 scoreboard.sendUpdate();
             }
         }

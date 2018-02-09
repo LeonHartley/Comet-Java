@@ -3,6 +3,7 @@ package com.cometproject.storage.api;
 import com.cometproject.storage.api.repositories.IGroupForumRepository;
 import com.cometproject.storage.api.repositories.IGroupMemberRepository;
 import com.cometproject.storage.api.repositories.IGroupRepository;
+import com.cometproject.storage.api.repositories.IRoomItemRepository;
 
 public final class StorageContext {
     private static StorageContext storageContext;
@@ -10,6 +11,8 @@ public final class StorageContext {
     private IGroupRepository groupRepository;
     private IGroupMemberRepository groupMemberRepository;
     private IGroupForumRepository groupForumRepository;
+
+    private IRoomItemRepository roomItemRepository;
 
     public IGroupRepository getGroupRepository() {
         return groupRepository;
@@ -41,5 +44,13 @@ public final class StorageContext {
 
     public void setGroupForumRepository(IGroupForumRepository groupForumRepository) {
         this.groupForumRepository = groupForumRepository;
+    }
+
+    public IRoomItemRepository getRoomItemRepository() {
+        return roomItemRepository;
+    }
+
+    public void setRoomItemRepository(IRoomItemRepository roomItemRepository) {
+        this.roomItemRepository = roomItemRepository;
     }
 }

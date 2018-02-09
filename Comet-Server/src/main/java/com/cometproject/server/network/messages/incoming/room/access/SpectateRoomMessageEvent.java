@@ -26,6 +26,9 @@ public class SpectateRoomMessageEvent implements Event {
         client.getPlayer().setSpectatorRoomId(roomId);
 
         RoomQueue.getInstance().removePlayerFromQueue(roomId, client.getPlayer().getId());
-        client.send(new RoomForwardMessageComposer(roomId));
+        //client.send(new RoomForwardMessageComposer(roomId));
+
+        // re-do room checks like max player check etc
+        client.getPlayer().getEntity().joinRoom(client.getPlayer().getEntity().getRoom(), "");
     }
 }

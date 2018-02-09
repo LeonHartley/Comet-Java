@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.addons;
 
+import com.cometproject.api.game.rooms.objects.data.RoomItemData;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
@@ -13,10 +14,9 @@ public class WiredAddonVisualTimer extends RoomItemFloor {
 
     private boolean isStarted = false;
 
-    public WiredAddonVisualTimer(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
+    public WiredAddonVisualTimer(RoomItemData itemData, Room room) {
+        super(itemData, room);
     }
-
 
     @Override
     public boolean onInteract(RoomEntity entity, int requestData, boolean isWiredTriggered) {
@@ -36,8 +36,8 @@ public class WiredAddonVisualTimer extends RoomItemFloor {
         if (requestData == 2) {
             int time = 0;
 
-            if (!this.getExtraData().isEmpty() && StringUtils.isNumeric(this.getExtraData())) {
-                time = Integer.parseInt(this.getExtraData());
+            if (!this.getItemData().getData().isEmpty() && StringUtils.isNumeric(this.getItemData().getData())) {
+                time = Integer.parseInt(this.getItemData().getData());
             }
 
             if (time == 0 || time == 30 || time == 60 || time == 120 || time == 180 || time == 300 || time == 600) {
@@ -68,12 +68,12 @@ public class WiredAddonVisualTimer extends RoomItemFloor {
                 time = 0;
             }
 
-            this.setExtraData(time + "");
+            this.getItemData().setData(time + "");
             this.sendUpdate();
         } else {
             if (this.isStarted) {
                 this.isStarted = false;
-//                this.setExtraData("0");
+//                this.getItemData().setData("0");
 //                this.sendUpdate();
 
                 return true;
@@ -95,12 +95,12 @@ public class WiredAddonVisualTimer extends RoomItemFloor {
             return;
         }
 
-        if (this.getExtraData().isEmpty() || this.getExtraData().equals("0")) {
+        if (this.getItemData().getData().isEmpty() || this.getItemData().getData().equals("0")) {
             this.isStarted = false;
             return;
         }
 
-        int timeLength = Integer.parseInt(this.getExtraData());
+        int timeLength = Integer.parseInt(this.getItemData().getData());
 
         if (timeLength - 1 >= 1) {
             this.setTicks(RoomItemFactory.getProcessTime(1.0));
@@ -109,7 +109,7 @@ public class WiredAddonVisualTimer extends RoomItemFloor {
             this.isStarted = false;
         }
 
-        this.setExtraData("" + (timeLength - 1));
+        this.getItemData().setData("" + (timeLength - 1));
         this.sendUpdate();
         this.saveData();
     }

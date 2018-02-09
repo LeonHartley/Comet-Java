@@ -1,6 +1,7 @@
 package com.cometproject.server.game.rooms.objects.items.types;
 
 import com.cometproject.api.game.quests.QuestType;
+import com.cometproject.api.game.rooms.objects.data.RoomItemData;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
@@ -8,9 +9,7 @@ import com.cometproject.server.game.rooms.types.Room;
 
 
 public class DefaultFloorItem extends RoomItemFloor {
-    public DefaultFloorItem(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
-    }
+    public DefaultFloorItem(RoomItemData itemData, Room room) {        super(itemData, room);    }
 
     @Override
     public boolean onInteract(RoomEntity entity, int requestData, boolean isWiredTrigger) {

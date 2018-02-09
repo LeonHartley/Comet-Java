@@ -49,4 +49,14 @@ public class ResultSetReader implements IResultReader {
     public boolean readBoolean(int index) throws Exception {
         return this.resultSet.getBoolean(index);
     }
+
+    @Override
+    public double readDouble(String columnName) throws Exception {
+        return this.resultSet.getDouble(columnName);
+    }
+
+    @Override
+    public double readDouble(int index) throws Exception {
+        return this.resultSet.getDouble(index);
+    }
 }

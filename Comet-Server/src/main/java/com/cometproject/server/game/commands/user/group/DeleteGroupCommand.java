@@ -45,13 +45,13 @@ public class DeleteGroupCommand extends ChatCommand {
 
                 if (groupMemberId != group.getData().getOwnerId()) {
                     for (RoomItemFloor floorItem : room.getItems().getFloorItems().values()) {
-                        if (floorItem.getOwner() == groupMemberId) {
+                        if (floorItem.getItemData().getOwnerId() == groupMemberId) {
                             floorItemsOwnedByPlayer.add(floorItem);
                         }
                     }
 
                     for (RoomItemWall wallItem : room.getItems().getWallItems().values()) {
-                        if (wallItem.getOwner() == groupMemberId) {
+                        if (wallItem.getItemData().getOwnerId() == groupMemberId) {
                             floorItemsOwnedByPlayer.add(wallItem);
                         }
                     }
@@ -72,7 +72,7 @@ public class DeleteGroupCommand extends ChatCommand {
                     }
                 } else {
                     for (RoomItem roomItem : floorItemsOwnedByPlayer) {
-                        RoomItemDao.removeItemFromRoom(roomItem.getId(), groupMemberId, roomItem.getExtraData());
+                        RoomItemDao.removeItemFromRoom(roomItem.getId(), groupMemberId, roomItem.getItemData().getData());
                     }
                 }
 

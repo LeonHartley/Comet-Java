@@ -1,5 +1,8 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
+import com.cometproject.api.game.rooms.objects.data.RoomItemData;
+
+
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.AffectedTile;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
@@ -9,9 +12,7 @@ import com.cometproject.server.game.rooms.types.Room;
 
 
 public class GateFloorItem extends RoomItemFloor {
-    public GateFloorItem(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
-    }
+    public GateFloorItem(RoomItemData itemData, Room room) {        super(itemData, room);    }
 
     @Override
     public boolean onInteract(RoomEntity entity0, int requestData, boolean isWiredTrigger) {
@@ -57,6 +58,6 @@ public class GateFloorItem extends RoomItemFloor {
     }
 
     public boolean isOpen() {
-        return !this.getExtraData().equals("0");
+        return !this.getItemData().getData().equals("0");
     }
 }

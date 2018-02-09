@@ -1,5 +1,8 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
+import com.cometproject.api.game.rooms.objects.data.RoomItemData;
+
+
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
@@ -32,9 +35,7 @@ public abstract class RollableFloorItem extends RoomItemFloor {
 
     private int animationMode = -1;
 
-    public RollableFloorItem(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
-    }
+    public RollableFloorItem(RoomItemData itemData, Room room) {        super(itemData, room);    }
 
     public static void roll(RoomItemFloor item, Position from, Position to, Room room) {
         final RollableFloorItem rollableFloorItem = (RollableFloorItem) item;
@@ -78,7 +79,7 @@ delay: 169ms
         }
 
         if (entity instanceof PlayerEntity && this instanceof BanzaiPuckFloorItem) {
-            this.setExtraData((((PlayerEntity) entity).getGameTeam().getTeamId() + 1) + "");
+            this.getItemData().setData((((PlayerEntity) entity).getGameTeam().getTeamId() + 1) + "");
             this.sendUpdate();
         }
 
@@ -121,7 +122,7 @@ delay: 169ms
             return;
         }
 
-        this.rotation = rotation;
+        this.setRotation(rotation);
         this.isRolling = true;
         this.rollStage = 0;
 
@@ -190,7 +191,7 @@ delay: 169ms
             double distanceMoved = position.distanceTo(this.getPosition());
             this.rollStage += distanceMoved;
 
-            this.setExtraData("55");
+            this.getItemData().setData("55");
             this.sendUpdate();
 
             this.moveTo(position, position.getFlag());
@@ -214,8 +215,7 @@ delay: 169ms
                 newPosition.setFlag(kickerEntity.getBodyRotation());
             }
 
-            this.setExtraData((KICK_POWER - (this.rollStage - 1) == 0 ? 3 : (KICK_POWER - (this.rollStage - 1)) * 11));
-            System.out.println("setting extradata " + this.getExtraData());
+            this.getItemData().setData((KICK_POWER - (this.rollStage - 1) == 0 ? 3 : (KICK_POWER - (this.rollStage - 1)) * 11));
             this.sendUpdate();
 
             this.moveTo(newPosition, newPosition.getFlag());
@@ -347,7 +347,7 @@ delay: 169ms
             return;
         }
 
-        this.setExtraData("11");
+        this.getItemData().setData("11");
         this.moveTo(newPosition, entity.getBodyRotation());
         this.isRolling = false;
         this.wasDribbling = false;

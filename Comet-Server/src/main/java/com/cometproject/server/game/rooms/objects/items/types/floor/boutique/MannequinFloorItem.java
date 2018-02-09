@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.boutique;
 
+import com.cometproject.api.game.rooms.objects.data.RoomItemData;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
@@ -14,11 +15,11 @@ public class MannequinFloorItem extends RoomItemFloor {
     private String figure = "ch-210-62.lg-270-62";
     private String gender = "m";
 
-    public MannequinFloorItem(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
+    public MannequinFloorItem(RoomItemData roomItemData, Room room) {
+        super(roomItemData, room);
 
-        if (!this.getExtraData().isEmpty()) {
-            String[] splitData = this.getExtraData().split(";#;");
+        if (!this.getItemData().getData().isEmpty()) {
+            String[] splitData = this.getItemData().getData().split(";#;");
             if (splitData.length != 3) return;
 
             this.name = splitData[0];

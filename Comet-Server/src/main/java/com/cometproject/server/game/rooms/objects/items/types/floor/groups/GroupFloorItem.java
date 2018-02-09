@@ -2,6 +2,7 @@ package com.cometproject.server.game.rooms.objects.items.types.floor.groups;
 
 import com.cometproject.api.game.GameContext;
 import com.cometproject.api.game.groups.types.IGroupData;
+import com.cometproject.api.game.rooms.objects.data.RoomItemData;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.api.game.rooms.entities.RoomEntityStatus;
@@ -15,8 +16,10 @@ import org.apache.commons.lang.StringUtils;
 public class GroupFloorItem extends RoomItemFloor {
     private int groupId;
 
-    public GroupFloorItem(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
+    public GroupFloorItem(RoomItemData roomItemData, Room room) {
+        super(roomItemData, room);
+
+        final String data = this.getItemData().getData();
 
         if (!StringUtils.isNumeric(data) || data.isEmpty())
             this.groupId = 0;
@@ -36,7 +39,7 @@ public class GroupFloorItem extends RoomItemFloor {
                 msg.writeInt(2);
                 msg.writeInt(5);
                 msg.writeString(this instanceof GroupGateFloorItem ? ((GroupGateFloorItem) this).isOpen ? "1" : "0" : "0");
-                msg.writeString(this.getExtraData());
+                msg.writeString(this.getItemData().getData());
                 msg.writeString(groupData.getBadge());
 
                 String colourA = GameContext.getCurrent().getGroupService().getItemService().getSymbolColours().get(groupData.getColourA()) != null ? GameContext.getCurrent().getGroupService().getItemService().getSymbolColours().get(groupData.getColourA()).getFirstValue() : "ffffff";

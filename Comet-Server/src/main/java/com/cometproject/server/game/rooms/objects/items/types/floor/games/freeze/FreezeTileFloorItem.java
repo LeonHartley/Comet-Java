@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.games.freeze;
 
+import com.cometproject.api.game.rooms.objects.data.RoomItemData;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
@@ -13,8 +14,8 @@ import com.cometproject.server.game.rooms.types.mapping.RoomEntityMovementNode;
 import com.cometproject.server.utilities.RandomUtil;
 
 public class FreezeTileFloorItem extends RoomItemFloor {
-    public FreezeTileFloorItem(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
+    public FreezeTileFloorItem(RoomItemData itemData, Room room) {
+        super(itemData, room);
     }
 
     @Override
@@ -30,7 +31,7 @@ public class FreezeTileFloorItem extends RoomItemFloor {
         if (entity.getTile() != this.getTile()) {
             double distance = entity.getPosition().distanceTo(this.getPosition());
 
-            if(this.getTile().getMovementNode() != RoomEntityMovementNode.OPEN || distance > 1) {
+            if (this.getTile().getMovementNode() != RoomEntityMovementNode.OPEN || distance > 1) {
                 return false;
             }
 

@@ -171,7 +171,7 @@ public class GameComponent {
 
         for (RoomItemFloor scoreboard : this.getRoom().getItems().getByInteraction("%_score%")) {
             if (team == null || scoreboard.getDefinition().getInteraction().toUpperCase().startsWith(team.name()) || scoreboard.getDefinition().getItemName().endsWith("score_" + team.getTeamLetter())) {
-                scoreboard.setExtraData(team == null ? "0" : this.getScore(team) + "");
+                scoreboard.getItemData().setData(team == null ? "0" : this.getScore(team) + "");
                 scoreboard.sendUpdate();
             }
         }

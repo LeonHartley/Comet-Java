@@ -19,4 +19,8 @@ public class Data<T> {
     public boolean has() {
         return this.value != null;
     }
+
+    public static <T> Data<T> createEmpty() {
+        return new Data<T>();
+    }
 }

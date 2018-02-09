@@ -32,7 +32,7 @@ public class ExchangeItemMessageEvent implements Event {
             return;
         }
 
-        if (item.getOwner() != client.getPlayer().getId()) {
+        if (item.getItemData().getOwnerId() != client.getPlayer().getId()) {
             return;
         }
 

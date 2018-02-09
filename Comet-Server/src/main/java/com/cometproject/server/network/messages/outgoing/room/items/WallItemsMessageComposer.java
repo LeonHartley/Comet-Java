@@ -61,7 +61,7 @@ public class WallItemsMessageComposer extends MessageComposer {
             msg.writeString(item.getVirtualId());
             msg.writeInt(item.getDefinition().getSpriteId());
             msg.writeString(item.getWallPosition());
-            msg.writeString(item.getExtraData());
+            msg.writeString(item.getItemData().getData());
             msg.writeInt(0);
             msg.writeInt(room.getData().getOwnerId());
             msg.writeInt(0);

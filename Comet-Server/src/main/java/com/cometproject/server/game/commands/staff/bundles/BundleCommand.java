@@ -50,7 +50,7 @@ public class BundleCommand extends ChatCommand {
                         continue;
                     }
 
-                    bundleItems.add(new RoomBundleItem(floorItem.getItemId(),
+                    bundleItems.add(new RoomBundleItem(floorItem.getItemData().getItemId(),
                             floorItem.getPosition().getX(), floorItem.getPosition().getY(),
                             floorItem.getPosition().getZ(), floorItem.getRotation(), null,
                             floorItem.getDataObject()
@@ -58,9 +58,9 @@ public class BundleCommand extends ChatCommand {
                 }
 
                 for (RoomItemWall wallItem : room.getItems().getWallItems().values()) {
-                    bundleItems.add(new RoomBundleItem(wallItem.getItemId(),
+                    bundleItems.add(new RoomBundleItem(wallItem.getItemData().getItemId(),
                             -1, -1, -1, -1, wallItem.getWallPosition(),
-                            wallItem.getExtraData()
+                            wallItem.getItemData().getData()
                     ));
                 }
 

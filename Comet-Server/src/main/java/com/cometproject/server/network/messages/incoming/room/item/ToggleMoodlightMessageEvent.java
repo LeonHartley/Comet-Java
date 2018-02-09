@@ -40,7 +40,7 @@ public class ToggleMoodlightMessageEvent implements Event {
         MoodlightDao.updateMoodlight(moodlight);
 
         // set the mood!
-        moodlight.setExtraData(moodlight.generateExtraData());
+        moodlight.getItemData().setData(moodlight.generateExtraData());
         moodlight.saveData();
         moodlight.sendUpdate();
     }

@@ -1,5 +1,8 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
+import com.cometproject.api.game.rooms.objects.data.RoomItemData;
+
+
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.rooms.RoomManager;
@@ -31,10 +34,10 @@ public class TeleporterFloorItem extends AdvancedFloorItem<TeleporterFloorItem.T
     private long pairId = -1;
     boolean isDoor = false;
 
-    public TeleporterFloorItem(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
+    public TeleporterFloorItem(RoomItemData itemData, Room room) {
+        super(itemData, room);
 
-        this.setExtraData("0");
+        this.getItemData().setData("0");
 
         if (this.getDefinition().getInteraction().equals("teleport_door")) {
             this.isDoor = true;
@@ -153,8 +156,8 @@ public class TeleporterFloorItem extends AdvancedFloorItem<TeleporterFloorItem.T
                     event.state = 6;
 
                     if(event.incomingEntity.getPlayer() != null) {
-                        event.incomingEntity.setBodyRotation(this.rotation);
-                        event.incomingEntity.setHeadRotation(this.rotation);
+                        event.incomingEntity.setBodyRotation(this.getRotation());
+                        event.incomingEntity.setHeadRotation(this.getRotation());
 
                         event.incomingEntity.refresh();
                     }
@@ -204,7 +207,7 @@ public class TeleporterFloorItem extends AdvancedFloorItem<TeleporterFloorItem.T
                         this.toggleDoor(true);
 
                     if (event.outgoingEntity != null) {
-                        event.outgoingEntity.moveTo(this.getPosition().squareBehind(this.rotation).getX(), this.getPosition().squareBehind(this.rotation).getY());
+                        event.outgoingEntity.moveTo(this.getPosition().squareBehind(this.getRotation()).getX(), this.getPosition().squareBehind(this.getRotation()).getY());
                     }
 
                     event.state = 7;
@@ -294,7 +297,7 @@ public class TeleporterFloorItem extends AdvancedFloorItem<TeleporterFloorItem.T
 
     @Override
     public void onPlaced() {
-        this.setExtraData("0");
+        this.getItemData().setData("0");
     }
 
     private long getPairId() {
@@ -340,18 +343,18 @@ public class TeleporterFloorItem extends AdvancedFloorItem<TeleporterFloorItem.T
 
     protected void toggleDoor(boolean state) {
         if (state)
-            this.setExtraData("1");
+            this.getItemData().setData("1");
         else
-            this.setExtraData("0");
+            this.getItemData().setData("0");
 
         this.sendUpdate();
     }
 
     protected void toggleAnimation(boolean state) {
         if (state) {
-            this.setExtraData("2");
+            this.getItemData().setData("2");
         } else {
-            this.setExtraData("0");
+            this.getItemData().setData("0");
         }
 
         this.sendUpdate();

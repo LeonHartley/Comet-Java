@@ -186,7 +186,7 @@ public class RoomTile {
                     break;
 
                 case "wf_pyramid":
-                    movementNode = item.getExtraData().equals("1") ? RoomEntityMovementNode.OPEN : RoomEntityMovementNode.CLOSED;
+                    movementNode = item.getItemData().getData().equals("1") ? RoomEntityMovementNode.OPEN : RoomEntityMovementNode.CLOSED;
                     break;
 
                 case "freeze_block":

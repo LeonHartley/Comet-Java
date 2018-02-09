@@ -1,7 +1,7 @@
 package com.cometproject.server.game.players.components.types.inventory;
 
 import com.cometproject.api.game.GameContext;
-import com.cometproject.api.game.furniture.types.IFurnitureDefinition;
+import com.cometproject.api.game.furniture.types.FurnitureDefinition;
 import com.cometproject.api.game.furniture.types.IGiftData;
 import com.cometproject.api.game.furniture.types.LimitedEditionItem;
 import com.cometproject.api.game.groups.types.IGroupData;
@@ -9,7 +9,7 @@ import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.catalog.types.gifts.GiftData;
 import com.cometproject.server.game.items.ItemManager;
-import com.cometproject.server.game.items.rares.LimitedEditionItemData;
+import com.cometproject.api.game.rooms.objects.data.LimitedEditionItemData;
 import com.cometproject.api.game.furniture.types.ItemType;
 import com.cometproject.server.utilities.JsonUtil;
 import org.apache.commons.lang.StringUtils;
@@ -253,7 +253,6 @@ public class InventoryItem implements PlayerItem {
             msg.writeInt(limitedEditionItem.getLimitedRare());
             msg.writeInt(limitedEditionItem.getLimitedRareTotal());
         }
-
         msg.writeInt(0);
         msg.writeInt(0);
         msg.writeInt(0);
@@ -269,7 +268,7 @@ public class InventoryItem implements PlayerItem {
     }
 
     @Override
-    public IFurnitureDefinition getDefinition() {
+    public FurnitureDefinition getDefinition() {
         return ItemManager.getInstance().getDefinition(this.getBaseId());
     }
 

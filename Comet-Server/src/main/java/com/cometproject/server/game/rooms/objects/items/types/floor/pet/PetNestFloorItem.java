@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.pet;
 
+import com.cometproject.api.game.rooms.objects.data.RoomItemData;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
@@ -9,13 +10,13 @@ import com.cometproject.server.game.rooms.types.Room;
 public class PetNestFloorItem extends DefaultFloorItem {
     private PetEntity petEntity;
 
-    public PetNestFloorItem(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
+    public PetNestFloorItem(RoomItemData itemData, Room room) {
+        super(itemData, room);
     }
 
     @Override
     public void onEntityStepOn(RoomEntity entity) {
-        if(!(entity instanceof PetEntity)) {
+        if (!(entity instanceof PetEntity)) {
             return;
         }
 
@@ -29,7 +30,7 @@ public class PetNestFloorItem extends DefaultFloorItem {
 
     @Override
     public void onEntityStepOff(RoomEntity entity) {
-        if(!(entity instanceof PetEntity)) {
+        if (!(entity instanceof PetEntity)) {
             return;
         }
 
@@ -40,7 +41,7 @@ public class PetNestFloorItem extends DefaultFloorItem {
 
     @Override
     public void onTickComplete() {
-        if(this.petEntity != null) {
+        if (this.petEntity != null) {
             this.petEntity.getPetAI().nestingComplete();
         }
     }

@@ -34,7 +34,7 @@ public class LoadPlaylistMessageEvent implements Event {
         //    return;
         //}
 
-        playerSettings = PlayerDao.getSettingsById(item.getOwner());
+        playerSettings = PlayerDao.getSettingsById(item.getItemData().getOwnerId());
 
         if (playerSettings == null) {
             playerSettings = client.getPlayer().getSettings();

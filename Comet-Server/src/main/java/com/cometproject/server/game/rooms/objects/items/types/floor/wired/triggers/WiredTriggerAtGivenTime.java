@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers;
 
+import com.cometproject.api.game.rooms.objects.data.RoomItemData;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredTriggerItem;
 import com.cometproject.server.game.rooms.types.Room;
@@ -23,12 +24,10 @@ public class WiredTriggerAtGivenTime extends WiredTriggerItem {
      * @param rotation The orientation of the item
      * @param data     The JSON object associated with this item
      */
-    public WiredTriggerAtGivenTime(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
+    public WiredTriggerAtGivenTime(RoomItemData roomItemData, Room room) {
+        super(roomItemData, room);
 
-        if (this.getWiredData().getParams().get(PARAM_TICK_LENGTH) == null) {
-            this.getWiredData().getParams().put(PARAM_TICK_LENGTH, 2); // 1s
-        }
+        this.getWiredData().getParams().putIfAbsent(PARAM_TICK_LENGTH, 2); // 1s
     }
 
     @Override

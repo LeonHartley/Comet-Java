@@ -1,5 +1,8 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
+import com.cometproject.api.game.rooms.objects.data.RoomItemData;
+
+
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.api.game.rooms.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
@@ -11,8 +14,8 @@ import org.apache.commons.lang.StringUtils;
 
 
 public class AdjustableHeightFloorItem extends RoomItemFloor {
-    public AdjustableHeightFloorItem(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
+    public AdjustableHeightFloorItem(RoomItemData itemData, Room room) {
+        super(itemData, room);
     }
 
     @Override
@@ -59,12 +62,12 @@ public class AdjustableHeightFloorItem extends RoomItemFloor {
 
     @Override
     public double getOverrideHeight() {
-        if (this.getDefinition().getVariableHeights() != null && !this.getExtraData().isEmpty()) {
-            if (!StringUtils.isNumeric(this.getExtraData())) {
+        if (this.getDefinition().getVariableHeights() != null && !this.getItemData().getData().isEmpty()) {
+            if (!StringUtils.isNumeric(this.getItemData().getData())) {
                 return 0;
             }
 
-            int heightIndex = Integer.parseInt(this.getExtraData());
+            int heightIndex = Integer.parseInt(this.getItemData().getData());
 
             if (heightIndex >= this.getDefinition().getVariableHeights().length) {
                 return 0;
@@ -74,10 +77,10 @@ public class AdjustableHeightFloorItem extends RoomItemFloor {
         } else if (this.getDefinition().getVariableHeights() != null && this.getDefinition().getVariableHeights().length != 0) {
             return this.getDefinition().getVariableHeights()[0];
         } else {
-            if (this.getExtraData().isEmpty() || !StringUtils.isNumeric(this.getExtraData())) {
+            if (this.getItemData().getData().isEmpty() || !StringUtils.isNumeric(this.getItemData().getData())) {
                 return 0.5;
             } else {
-                return Double.parseDouble(this.getExtraData());
+                return Double.parseDouble(this.getItemData().getData());
             }
         }
     }

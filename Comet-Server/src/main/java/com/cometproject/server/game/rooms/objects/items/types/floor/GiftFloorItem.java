@@ -1,5 +1,8 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
+import com.cometproject.api.game.rooms.objects.data.RoomItemData;
+
+
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.catalog.types.gifts.GiftData;
@@ -16,10 +19,10 @@ public class GiftFloorItem extends RoomItemFloor {
     private GiftData giftData;
     private boolean isOpened = false;
 
-    public GiftFloorItem(long id, int itemId, Room room, int owner, String ownerName, int x, int y, double z, int rotation, String data) throws Exception {
-        super(id, itemId, room, owner, ownerName, x, y, z, rotation, data);
+    public GiftFloorItem(RoomItemData roomItemData, Room room) throws Exception {
+        super(roomItemData, room);
 
-        this.giftData = JsonUtil.getInstance().fromJson(data.split("GIFT::##")[1], GiftData.class);
+        this.giftData = JsonUtil.getInstance().fromJson(roomItemData.getData().split("GIFT::##")[1], GiftData.class);
 
         if (!CatalogManager.getInstance().getGiftBoxesNew().contains(giftData.getSpriteId()) && !CatalogManager.getInstance().getGiftBoxesOld().contains(giftData.getSpriteId())) {
             throw new Exception("some sad fucker used an exploit, bye bye gift.");
@@ -53,7 +56,7 @@ public class GiftFloorItem extends RoomItemFloor {
         this.isOpened = true;
 
         this.sendUpdate();
-        this.getRoom().getEntities().broadcastMessage(new RemoveFloorItemMessageComposer(this.getVirtualId(), this.ownerId, 1200));
+        this.getRoom().getEntities().broadcastMessage(new RemoveFloorItemMessageComposer(this.getVirtualId(), this.getItemData().getOwnerId(), 1200));
 //        this.getRoom().getEntities().broadcastMessage(new SendFloorItemMessageComposer(this));
 
         this.isOpened = false;

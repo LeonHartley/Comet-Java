@@ -28,11 +28,11 @@ public class NextVideoMessageEvent implements Event {
 
         PlayerSettings playerSettings;
 
-        if (client.getPlayer().getId() != item.getOwner()) {
+        if (client.getPlayer().getId() != item.getItemData().getOwnerId()) {
             return;
         }
 
-        playerSettings = PlayerDao.getSettingsById(item.getOwner());
+        playerSettings = PlayerDao.getSettingsById(item.getItemData().getOwnerId());
 
         if (playerSettings == null) {
             playerSettings = client.getPlayer().getSettings();

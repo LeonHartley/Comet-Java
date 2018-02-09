@@ -146,16 +146,16 @@ public class Room implements Attributable, IRoom {
 
         for (RoomItemFloor floorItem : this.getItems().getFloorItems().values()) {
             if (floorItem != null) {
-                floorItems.add(new FloorItemDataObject(floorItem.getId(), floorItem.getItemId(),
-                        this.getId(), floorItem.getOwner(), floorItem.getOwnerName(), floorItem.getDataObject(),
+                floorItems.add(new FloorItemDataObject(floorItem.getId(), floorItem.getItemData().getItemId(),
+                        this.getId(), floorItem.getItemData().getOwnerId(), floorItem.getItemData().getOwnerName(), floorItem.getDataObject(),
                         floorItem.getPosition(), floorItem.getRotation(), floorItem.getLimitedEditionItemData()));
             }
         }
 
         for (RoomItemWall wallItem : this.getItems().getWallItems().values()) {
             if (wallItem != null) {
-                wallItems.add(new WallItemDataObject(wallItem.getId(), wallItem.getItemId(),
-                        this.getId(), wallItem.getOwner(), wallItem.getOwnerName(), wallItem.getExtraData(),
+                wallItems.add(new WallItemDataObject(wallItem.getId(), wallItem.getItemData().getItemId(),
+                        this.getId(), wallItem.getItemData().getOwnerId(), wallItem.getItemData().getOwnerName(), wallItem.getItemData().getData(),
                         wallItem.getWallPosition(), wallItem.getLimitedEditionItemData()));
             }
         }

@@ -71,7 +71,7 @@ public class ConfirmLoveLockMessageEvent implements Event {
 
                 final String itemData = "1" + (char) 5 + leftPlayer.getUsername() + (char) 5 + rightPlayer.getUsername() + (char) 5 + leftPlayer.getFigure() + (char) 5 + rightPlayer.getFigure() + (char) 5 + date;
 
-                floorItem.setExtraData(itemData);
+                floorItem.getItemData().setData(itemData);
 
                 room.getEntities().broadcastMessage(new UpdateFloorItemMessageComposer(floorItem));
                 floorItem.saveData();
