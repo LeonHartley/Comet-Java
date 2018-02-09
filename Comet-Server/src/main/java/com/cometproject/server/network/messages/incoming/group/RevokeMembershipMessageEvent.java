@@ -49,7 +49,7 @@ public class RevokeMembershipMessageEvent implements Event {
 
         final IGroupMember revokerMembership = group.getMembers().getAll().get(client.getPlayer().getId());
 
-        if (!revokerMembership.getAccessLevel().isAdmin() || playerId == client.getPlayer().getId())
+        if (!revokerMembership.getAccessLevel().isAdmin() && playerId != client.getPlayer().getId())
             return;
 
         GameContext.getCurrent().getGroupService().removeGroupMember(group, groupMember);
@@ -80,7 +80,7 @@ public class RevokeMembershipMessageEvent implements Event {
             }
 
             if (client.getPlayer().getGroups().contains(groupId)) {
-                client.getPlayer().getGroups().remove(client.getPlayer().getGroups().indexOf(groupId));
+                client.getPlayer().getGroups().remove(new Integer(groupId));
 
                 client.send(new GroupInformationMessageComposer(group, RoomManager.getInstance().getRoomData(group.getData().getRoomId()), true,
                         client.getPlayer().getId() == group.getData().getOwnerId(), group.getMembers().getAdministrators().contains(client.getPlayer().getId()),

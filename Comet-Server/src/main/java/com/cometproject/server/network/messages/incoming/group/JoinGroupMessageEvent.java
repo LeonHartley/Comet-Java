@@ -23,11 +23,6 @@ public class JoinGroupMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) throws Exception {
         int groupId = msg.readInt();
 
-        if (client.getPlayer().getGroups().contains(groupId)) {
-            // Already joined, what you doing??
-            return;
-        }
-
         if(client.getPlayer().getGroups().size() >= 100) {
             return;
         }
@@ -35,6 +30,11 @@ public class JoinGroupMessageEvent implements Event {
         IGroup group = GameContext.getCurrent().getGroupService().getGroup(groupId);
 
         if (group == null || group.getData().getType() == GroupType.PRIVATE) {
+            return;
+        }
+
+        if (client.getPlayer().getGroups().contains(groupId) && group.getMembers().hasMembership(client.getPlayer().getId())) {
+            // Already joined, what you doing??
             return;
         }
 

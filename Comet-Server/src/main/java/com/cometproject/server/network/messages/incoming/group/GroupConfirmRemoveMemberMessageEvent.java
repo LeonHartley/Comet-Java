@@ -42,8 +42,10 @@ public class GroupConfirmRemoveMemberMessageEvent  implements Event {
             return;
         }
 
-        if ((!groupMember.getAccessLevel().isAdmin()) || (playerId == client.getPlayer().getId())) {
-            return;
+        if(playerId != client.getPlayer().getId()) {
+            if(!groupMember.getAccessLevel().isAdmin()) {
+                return;
+            }
         }
 
         List<RoomItem> itemsToRemove = Lists.newArrayList();

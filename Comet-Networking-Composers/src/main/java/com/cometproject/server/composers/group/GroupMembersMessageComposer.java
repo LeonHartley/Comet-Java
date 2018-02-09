@@ -79,13 +79,14 @@ public class GroupMembersMessageComposer extends MessageComposer {
                 msg.writeString(groupMember.tempData() != null ? GroupInformationMessageComposer.getDate(((IGroupMember) groupMember.tempData()).getDateJoined()) : "");
             }
 
-            msg.writeBoolean(isAdmin);
-            msg.writeInt(MEMBERS_PER_PAGE);
-            msg.writeInt(page);
-
-            msg.writeInt(requestType);
-            msg.writeString(searchQuery);
         }
+
+        msg.writeBoolean(isAdmin);
+        msg.writeInt(MEMBERS_PER_PAGE);
+        msg.writeInt(page);
+
+        msg.writeInt(requestType);
+        msg.writeString(searchQuery);
     }
 
     private List<List<PlayerAvatar>> paginateMembers(List<PlayerAvatar> originalList, int chunkSize) {
