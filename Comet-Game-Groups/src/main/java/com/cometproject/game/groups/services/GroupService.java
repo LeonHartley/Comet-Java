@@ -10,6 +10,7 @@ import com.cometproject.api.game.groups.types.components.forum.IForumThread;
 import com.cometproject.api.game.groups.types.components.membership.GroupAccessLevel;
 import com.cometproject.api.game.groups.types.components.membership.IGroupMember;
 import com.cometproject.game.groups.factories.GroupFactory;
+import com.cometproject.game.groups.types.Group;
 import com.cometproject.storage.api.data.Data;
 import com.cometproject.storage.api.repositories.IGroupForumRepository;
 import com.cometproject.storage.api.repositories.IGroupMemberRepository;
@@ -50,7 +51,7 @@ public class GroupService implements IGroupService {
 
     @Override
     public IGroupData getData(final int groupId) {
-        if(this.groupDataCache.contains(groupId)) {
+        if (this.groupDataCache.contains(groupId)) {
             return this.groupDataCache.get(groupId);
         }
 
@@ -58,7 +59,7 @@ public class GroupService implements IGroupService {
 
         this.groupRepository.getDataById(groupId, data::set);
 
-        if(data.has()) {
+        if (data.has()) {
             this.groupDataCache.add(groupId, data.get());
         }
 
@@ -67,7 +68,7 @@ public class GroupService implements IGroupService {
 
     @Override
     public IGroup getGroup(final int groupId) {
-        if(groupId == 0) {
+        if (groupId == 0) {
             return null;
         }
 
@@ -77,7 +78,7 @@ public class GroupService implements IGroupService {
 
         final IGroupData groupData = this.getData(groupId);
 
-        if(groupData == null) {
+        if (groupData == null) {
             return null;
         }
 
@@ -87,7 +88,7 @@ public class GroupService implements IGroupService {
         this.groupMemberRepository.getAllByGroupId(groupId, groupMemberData::set);
         this.groupMemberRepository.getAllRequests(groupId, requestsData::set);
 
-        if(!groupMemberData.has() || !requestsData.has()) {
+        if (!groupMemberData.has() || !requestsData.has()) {
             return null;
         }
 
@@ -122,17 +123,17 @@ public class GroupService implements IGroupService {
 
     @Override
     public void addGroupMember(IGroup group, IGroupMember groupMember) {
-        if(groupMember.getMembershipId() == 0) {
+        if (groupMember.getMembershipId() == 0) {
             this.groupMemberRepository.create(group.getId(), groupMember.getPlayerId(), groupMember.getAccessLevel(), (member) -> {
                 groupMember.setMembershipId(member.getMembershipId());
             });
         }
 
-        if(group.getMembers().getAll().containsKey(groupMember.getPlayerId())) {
+        if (group.getMembers().getAll().containsKey(groupMember.getPlayerId())) {
             group.getMembers().getAll().remove(groupMember.getPlayerId());
         }
 
-        if(groupMember.getAccessLevel().isAdmin()) {
+        if (groupMember.getAccessLevel().isAdmin()) {
             group.getMembers().getAdministrators().add(groupMember.getPlayerId());
         }
 
@@ -148,7 +149,7 @@ public class GroupService implements IGroupService {
 
     @Override
     public void createRequest(IGroup group, int playerId) {
-        if(group.getMembers().hasMembership(playerId) ||
+        if (group.getMembers().hasMembership(playerId) ||
                 group.getMembers().getMembershipRequests().contains(playerId)) {
             return;
         }
@@ -159,7 +160,7 @@ public class GroupService implements IGroupService {
 
     @Override
     public void removeRequest(IGroup group, int playerId) {
-        if(!group.getMembers().getMembershipRequests().contains(playerId)) {
+        if (!group.getMembers().getMembershipRequests().contains(playerId)) {
             return;
         }
 
@@ -187,8 +188,8 @@ public class GroupService implements IGroupService {
 
         requests.addAll(requestsData);
 
-        for(final IGroupMember groupMember : groupMemberData) {
-            if(groupMember.getAccessLevel().isAdmin())
+        for (final IGroupMember groupMember : groupMemberData) {
+            if (groupMember.getAccessLevel().isAdmin())
                 administrators.add(groupMember.getPlayerId());
 
             groupMembers.put(groupMember.getPlayerId(), groupMember);
@@ -201,14 +202,14 @@ public class GroupService implements IGroupService {
         Map<Integer, IForumThread> forumThreads = null;
         List<Integer> pinnedThreads = null;
 
-        if(groupData.hasForum()) {
+        if (groupData.hasForum()) {
             final Data<IForumSettings> forumSettingsData = new Data<>();
             final Data<Map<Integer, IForumThread>> forumThreadData = new Data<>();
             final Data<List<Integer>> pinnedThreadData = new Data<>();
 
             this.groupForumRepository.getSettingsByGroupId(groupData.getId(), forumSettingsData::set);
 
-            if(forumSettingsData.has()) {
+            if (forumSettingsData.has()) {
                 forumSettings = forumSettingsData.get();
 
                 // Now we have the forum settings, we can load the rest of the forum data
@@ -217,7 +218,7 @@ public class GroupService implements IGroupService {
                     pinnedThreadData.set(pinned);
                 });
 
-                if(forumThreadData.has() && pinnedThreadData.has()) {
+                if (forumThreadData.has() && pinnedThreadData.has()) {
                     forumThreads = forumThreadData.get();
                     pinnedThreads = pinnedThreadData.get();
                 }
@@ -244,6 +245,17 @@ public class GroupService implements IGroupService {
 
     @Override
     public void removeGroup(int id) {
-        // Delete group data & remove it from cache
+        final IGroup group = this.getGroup(id);
+
+        if (group == null) {
+            return;
+        }
+
+        group.dispose();
+
+        this.groupRepository.deleteGroup(id);
+
+        this.groupCache.remove(id);
+        this.groupDataCache.remove(id);
     }
 }

@@ -21,5 +21,7 @@ public interface IGroupMemberRepository {
 
     void clearRequests(int groupId);
 
+    void deleteAll(int groupId);
+
     void getAllRequests(int groupId, Consumer<List<Integer>> requestsConsumer);
 }
