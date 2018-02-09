@@ -158,7 +158,7 @@ public class GroupService implements IGroupService {
         this.groupMemberRepository.delete(groupMember.getMembershipId());
 
         if(groupMember.getAccessLevel().isAdmin()) {
-            group.getMembers().getAdministrators().remove(group.getId());
+            group.getMembers().getAdministrators().remove(groupMember.getPlayerId());
         }
 
         group.getMembers().getAll().remove(groupMember.getPlayerId());
