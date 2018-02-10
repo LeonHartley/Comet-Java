@@ -1,6 +1,5 @@
 package com.cometproject.server.game.players.types;
 
-import com.cometproject.api.game.groups.types.IGroupData;
 import com.cometproject.api.game.players.IPlayer;
 import com.cometproject.api.game.players.data.components.PlayerInventory;
 import com.cometproject.api.game.quests.IQuest;
@@ -70,7 +69,7 @@ public class Player implements IPlayer {
     private List<Integer> roomsWithRights = new ArrayList<>();
     private List<Integer> enteredRooms = new ArrayList<>();
 
-    private List<Integer> groups = new ArrayList<>();
+    private Set<Integer> groups = Sets.newConcurrentHashSet();
 
     private List<Integer> ignoredPlayers = new ArrayList<>();
     private long roomLastMessageTime = 0;
@@ -170,13 +169,8 @@ public class Player implements IPlayer {
         this.navigator = new NavigatorComponent(this);
         this.wardrobe = new WardrobeComponent(this);
 
-        this.groups = new ArrayList<>();
-
-        StorageContext.getCurrentContext().getGroupRepository().getGroupIdsByPlayerId(this.id, groups -> {
-            for(Integer groupId : groups) {
-                this.groups.add(groupId);
-            }
-        });
+        StorageContext.getCurrentContext().getGroupRepository().getGroupIdsByPlayerId(this.id,
+                groups -> this.groups.addAll(groups));
 
         this.entity = null;
         this.lastReward = Comet.getTime();
@@ -193,7 +187,7 @@ public class Player implements IPlayer {
             }
         }
 
-        if(this.helperSession != null) {
+        if (this.helperSession != null) {
             GuideManager.getInstance().finishPlayerDuty(this.helperSession);
             this.helperSession = null;
         }
@@ -240,7 +234,7 @@ public class Player implements IPlayer {
         this.eventLogCategories.clear();
         this.eventLogCategories = null;
 
-        if(this.recentPurchases != null) {
+        if (this.recentPurchases != null) {
             this.recentPurchases.clear();
             this.recentPurchases = null;
         }
@@ -285,7 +279,7 @@ public class Player implements IPlayer {
 
     @Override
     public void loadRoom(int id, String password) {
-        if(!this.usernameConfirmed) {
+        if (!this.usernameConfirmed) {
             session.send(new HotelViewMessageComposer());
             return;
         }
@@ -313,7 +307,7 @@ public class Player implements IPlayer {
         PlayerEntity playerEntity = room.getEntities().createEntity(this);
         setEntity(playerEntity);
 
-        if(!playerEntity.joinRoom(room, password)) {
+        if (!playerEntity.joinRoom(room, password)) {
             setEntity(null);
         }
 
@@ -518,8 +512,8 @@ public class Player implements IPlayer {
     }
 
     @Override
-    public List<Integer> getGroups() {
-        return groups == null ? Lists.newArrayList() : groups;
+    public Set<Integer> getGroups() {
+        return groups == null ? Sets.newHashSet() : groups;
     }
 
     @Override
@@ -807,7 +801,7 @@ public class Player implements IPlayer {
     }
 
     public Set<Integer> getRecentPurchases() {
-        if(this.recentPurchases == null) {
+        if (this.recentPurchases == null) {
             this.recentPurchases = new ConcurrentHashSet<>();
 
             this.recentPurchases.addAll(CatalogDao.findRecentPurchases(30, this.id));

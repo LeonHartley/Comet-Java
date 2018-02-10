@@ -120,7 +120,7 @@ public class RevokeMembershipMessageEvent implements Event {
                     }
 
                     if (session.getPlayer().getGroups().contains(groupId)) {
-                        session.getPlayer().getGroups().remove(session.getPlayer().getGroups().indexOf(groupId));
+                        session.getPlayer().getGroups().remove(groupId);
 
                         if (CometSettings.groupChatEnabled) {
                             session.send(new UpdateFriendStateMessageComposer(-1, -groupId));

@@ -1,6 +1,8 @@
 package com.cometproject.storage.mysql.models;
 
+import com.cometproject.api.game.GameContext;
 import com.cometproject.api.game.groups.types.components.forum.IForumThreadReply;
+import com.cometproject.api.game.players.data.PlayerAvatar;
 import com.cometproject.api.networking.messages.IComposer;
 
 public class GroupForumThreadMessageData implements IForumThreadReply {
@@ -31,24 +33,25 @@ public class GroupForumThreadMessageData implements IForumThreadReply {
 
     @Override
     public void compose(IComposer msg) {
-//        final PlayerAvatar playerAvatar = PlayerManager.getInstance().getAvatarByPlayerId(this.getAuthorId(),
-//                PlayerAvatar.USERNAME_FIGURE);
-//
-//        msg.writeInt(this.getId());
-//        msg.writeInt(this.index);
-//
-//        msg.writeInt(this.getAuthorId());
-//        msg.writeString(playerAvatar.getUsername());
-//        msg.writeString(playerAvatar.getFigure());
-//
-//        msg.writeInt((int) Comet.getTime() - this.getAuthorTimestamp());
-//        msg.writeString(this.getMessage());
-//        msg.writeByte(this.getState()); // state
-//
-//        msg.writeInt(this.adminId); // _adminId
-//        msg.writeString(this.adminUsername); // _adminName
-//        msg.writeInt(0); // _adminOperationTimeAsSeccondsAgo
+        final PlayerAvatar playerAvatar = GameContext.getCurrent().getPlayerService().getAvatarByPlayerId(this.getAuthorId(),
+                PlayerAvatar.USERNAME_FIGURE);
+
+        msg.writeInt(this.getId());
+        msg.writeInt(this.index);
+
+        msg.writeInt(this.getAuthorId());
+        msg.writeString(playerAvatar.getUsername());
+        msg.writeString(playerAvatar.getFigure());
+
+        msg.writeInt((int) (System.currentTimeMillis() / 1000l) - this.getAuthorTimestamp());
+        msg.writeString(this.getMessage());
+        msg.writeByte(this.getState()); // state
+
+        msg.writeInt(this.adminId); // _adminId
+        msg.writeString(this.adminUsername); // _adminName
+        msg.writeInt(0); // _adminOperationTimeAsSeccondsAgo
 //        msg.writeInt(GroupForumThreadDao.getPlayerMessageCount(playerAvatar.getId())); // messages by author todo: optimise if needed
+        msg.writeInt(0);
     }
 
     @Override

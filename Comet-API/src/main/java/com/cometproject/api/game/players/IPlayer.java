@@ -96,7 +96,7 @@ public interface IPlayer {
 
     void setLastMessage(String lastMessage);
 
-    List<Integer> getGroups();
+    Set<Integer> getGroups();
 
     int getNotifCooldown();
 

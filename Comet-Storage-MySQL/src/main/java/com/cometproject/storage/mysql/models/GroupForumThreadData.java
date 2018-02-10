@@ -1,7 +1,9 @@
 package com.cometproject.storage.mysql.models;
 
+import com.cometproject.api.game.GameContext;
 import com.cometproject.api.game.groups.types.components.forum.IForumThread;
 import com.cometproject.api.game.groups.types.components.forum.IForumThreadReply;
+import com.cometproject.api.game.players.data.PlayerAvatar;
 import com.cometproject.api.networking.messages.IComposer;
 import com.google.common.collect.Lists;
 
@@ -56,38 +58,38 @@ public class GroupForumThreadData implements IForumThread {
 
     @Override
     public void compose(IComposer msg) {
-//        msg.writeInt(this.getId());
-//
-//        final PlayerAvatar authorAvatar = PlayerManager.getInstance().getAvatarByPlayerId(this.getAuthorId(), PlayerAvatar.USERNAME_FIGURE);
-//
-//        msg.writeInt(authorAvatar == null ? 0 : authorAvatar.getId());
-//        msg.writeString(authorAvatar == null ? "Unknown Player" : authorAvatar.getUsername());
-//
-//        msg.writeString(this.getTitle());
-//        msg.writeBoolean(this.isPinned());
-//        msg.writeBoolean(this.isLocked());
-//        msg.writeInt((int) Comet.getTime() - this.getAuthorTimestamp());
-//        msg.writeInt(this.getReplies().size());
-//        msg.writeInt(0); // unread messages
-//        msg.writeInt(this.getMostRecentPost().getId());
-//
-//        final PlayerAvatar replyAuthor = PlayerManager.getInstance().getAvatarByPlayerId(this.getMostRecentPost().getAuthorId(), PlayerAvatar.USERNAME_FIGURE);
-//
-//        msg.writeInt(replyAuthor == null ? 0 : replyAuthor.getId());
-//        msg.writeString(replyAuthor == null ? "Unknown Player" : replyAuthor.getUsername());
-//        msg.writeInt((int) Comet.getTime() - this.getMostRecentPost().getAuthorTimestamp());
-//        msg.writeByte(this.getState());
-//        msg.writeInt(this.adminId); //admin id
-//        msg.writeString(this.adminUsername); // admin username
-//        msg.writeInt(0); // admin action time ago.
+        msg.writeInt(this.getId());
+
+        final PlayerAvatar authorAvatar = GameContext.getCurrent().getPlayerService().getAvatarByPlayerId(this.getAuthorId(), PlayerAvatar.USERNAME_FIGURE);
+
+        msg.writeInt(authorAvatar == null ? 0 : authorAvatar.getId());
+        msg.writeString(authorAvatar == null ? "Unknown Player" : authorAvatar.getUsername());
+
+        msg.writeString(this.getTitle());
+        msg.writeBoolean(this.isPinned());
+        msg.writeBoolean(this.isLocked());
+        msg.writeInt((int) (System.currentTimeMillis() / 1000) - this.getAuthorTimestamp());
+        msg.writeInt(this.getReplies().size());
+        msg.writeInt(0); // unread messages
+        msg.writeInt(this.getMostRecentPost().getId());
+
+        final PlayerAvatar replyAuthor = GameContext.getCurrent().getPlayerService().getAvatarByPlayerId(this.getMostRecentPost().getAuthorId(), PlayerAvatar.USERNAME_FIGURE);
+
+        msg.writeInt(replyAuthor == null ? 0 : replyAuthor.getId());
+        msg.writeString(replyAuthor == null ? "Unknown Player" : replyAuthor.getUsername());
+        msg.writeInt((int) (System.currentTimeMillis() / 1000) - this.getMostRecentPost().getAuthorTimestamp());
+        msg.writeByte(this.getState());
+        msg.writeInt(this.adminId); //admin id
+        msg.writeString(this.adminUsername); // admin username
+        msg.writeInt(0); // admin action time ago.
     }
 
     @Override
     public List<IForumThreadReply> getReplies(int start) {
         List<IForumThreadReply> replies = Lists.newArrayList();
 
-        for(int i = start; replies.size() < MAX_MESSAGES_PER_PAGE; i++) {
-            if(i >= this.replies.size())
+        for (int i = start; replies.size() < MAX_MESSAGES_PER_PAGE; i++) {
+            if (i >= this.replies.size())
                 break;
 
             replies.add(this.replies.get(i));
@@ -98,8 +100,8 @@ public class GroupForumThreadData implements IForumThread {
 
     @Override
     public IForumThreadReply getReplyById(final int id) {
-        for(IForumThreadReply reply : this.replies) {
-            if(reply.getId() == id) {
+        for (IForumThreadReply reply : this.replies) {
+            if (reply.getId() == id) {
                 return reply;
             }
         }

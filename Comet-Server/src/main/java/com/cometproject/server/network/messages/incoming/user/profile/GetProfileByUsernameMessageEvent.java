@@ -12,7 +12,9 @@ import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.storage.api.StorageContext;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 public class GetProfileByUsernameMessageEvent implements Event {
@@ -22,7 +24,7 @@ public class GetProfileByUsernameMessageEvent implements Event {
 
         PlayerData data = username.equals(client.getPlayer().getData().getUsername()) ? client.getPlayer().getData() : null;
         PlayerStatistics stats = data != null ? client.getPlayer().getStats() : null;
-        final List<Integer> groups = data != null ? client.getPlayer().getGroups() : new ArrayList<>();
+        final Set<Integer> groups = data != null ? client.getPlayer().getGroups() : new HashSet<>();
 
         if (data == null) {
             final Session session = NetworkManager.getInstance().getSessions().getByPlayerUsername(username);

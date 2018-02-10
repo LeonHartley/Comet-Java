@@ -13,16 +13,17 @@ import com.cometproject.server.protocol.headers.Composers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 
 public class LoadProfileMessageComposer extends MessageComposer {
     private final PlayerData player;
     private final PlayerStatistics stats;
-    private final List<Integer> groups;
+    private final Set<Integer> groups;
     private final boolean isMyFriend;
     private final boolean requestSent;
 
-    public LoadProfileMessageComposer(PlayerData player, PlayerStatistics stats, List<Integer> groups, boolean isMyFriend, boolean hasSentRequest) {
+    public LoadProfileMessageComposer(PlayerData player, PlayerStatistics stats, Set<Integer> groups, boolean isMyFriend, boolean hasSentRequest) {
         this.player = player;
         this.stats = stats;
         this.groups = groups;

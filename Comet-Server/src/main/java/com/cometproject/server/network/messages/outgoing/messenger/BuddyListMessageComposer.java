@@ -18,16 +18,17 @@ import com.google.common.collect.Maps;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class BuddyListMessageComposer extends MessageComposer {
     private final Player player;
     private final Map<Integer, IMessengerFriend> friends;
     private final List<PlayerAvatar> avatars;
-    private final List<Integer> groups;
+    private final Set<Integer> groups;
 
     private final boolean hasStaffChat;
 
-    public BuddyListMessageComposer(final Player player, Map<Integer, IMessengerFriend> friends, final boolean hasStaffChat, final List<Integer> groups) {
+    public BuddyListMessageComposer(final Player player, Map<Integer, IMessengerFriend> friends, final boolean hasStaffChat, final Set<Integer> groups) {
         this.hasStaffChat = hasStaffChat;
 
         this.player = player;

@@ -11,7 +11,7 @@ public class PlayerAvatarData implements PlayerAvatar {
     private String gender;
     private String motto;
 
-    private Object tempData = 0;
+    private Object tempData = null;
 
     public PlayerAvatarData(int id, String username, String figure, String gender, String motto) {
         this.id = id;

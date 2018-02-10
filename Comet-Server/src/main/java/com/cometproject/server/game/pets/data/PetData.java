@@ -193,7 +193,7 @@ public class PetData implements IPetData {
 
     @Override
     public int getExperienceGoal() {
-        return PetAI.levelBoundaries.get(this.level);
+        return this.level > (PetAI.levelBoundaries.size() - 1) ? PetAI.levelBoundaries.get(19) : PetAI.levelBoundaries.get(this.level);
     }
 
     @Override

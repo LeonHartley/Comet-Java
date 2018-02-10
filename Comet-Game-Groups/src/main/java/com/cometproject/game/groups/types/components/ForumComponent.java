@@ -97,11 +97,11 @@ public class ForumComponent implements IForumComponent {
 
     @Override
     public Map<Integer, IForumThread> getForumThreads() {
-        return null;
+        return this.forumThreads;
     }
 
     @Override
     public List<Integer> getPinnedThreads() {
-        return null;
+        return this.pinnedThreads;
     }
 }

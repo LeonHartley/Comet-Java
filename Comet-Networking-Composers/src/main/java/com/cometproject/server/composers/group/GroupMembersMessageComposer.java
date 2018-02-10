@@ -55,6 +55,8 @@ public class GroupMembersMessageComposer extends MessageComposer {
 
             msg.writeInt(paginatedMembers.get(page).size());
 
+            int dateJoined = 0;
+
             for (PlayerAvatar groupMember : paginatedMembers.get(page)) {
                 if (groupMember.tempData() == null) {
                     if (requestType == 1) {
@@ -76,7 +78,7 @@ public class GroupMembersMessageComposer extends MessageComposer {
                 msg.writeString(groupMember.getUsername());
                 msg.writeString(groupMember.getFigure());
 
-                msg.writeString(groupMember.tempData() != null ? GroupInformationMessageComposer.getDate(((IGroupMember) groupMember.tempData()).getDateJoined()) : "");
+                msg.writeString(groupMember.tempData() != null ? GroupInformationMessageComposer.getDate(dateJoined) : "");
             }
 
         }
