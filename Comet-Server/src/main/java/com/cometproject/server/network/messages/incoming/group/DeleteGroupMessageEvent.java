@@ -14,6 +14,7 @@ import com.cometproject.server.network.messages.outgoing.notification.AlertMessa
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
+import com.cometproject.storage.api.StorageContext;
 import com.google.common.collect.Lists;
 
 import java.util.List;
@@ -55,7 +56,7 @@ public class DeleteGroupMessageEvent implements Event {
             }
 
             if (groupMemberSession != null && groupMemberSession.getPlayer() != null) {
-                groupMemberSession.getPlayer().getGroups().remove(new Integer(group.getId()));
+                groupMemberSession.getPlayer().getGroups().remove(group.getId());
 
                 if (groupMemberSession.getPlayer().getData().getFavouriteGroup() == group.getId()) {
                     groupMemberSession.getPlayer().getData().setFavouriteGroup(0);
@@ -69,7 +70,7 @@ public class DeleteGroupMessageEvent implements Event {
                 }
             } else {
                 for (RoomItem roomItem : floorItemsOwnedByPlayer) {
-                    RoomItemDao.removeItemFromRoom(roomItem.getId(), groupMemberId, roomItem.getItemData().getData());
+                    StorageContext.getCurrentContext().getRoomItemRepository().removeItemFromRoom(roomItem.getId(), groupMemberId, roomItem.getItemData().getData());
                 }
             }
 

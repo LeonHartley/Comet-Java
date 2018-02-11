@@ -17,6 +17,7 @@ import com.cometproject.server.game.utilities.DistanceCalculator;
 import com.cometproject.server.network.messages.outgoing.room.items.SlideObjectBundleMessageComposer;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import com.cometproject.server.utilities.Direction;
+import com.cometproject.storage.api.StorageContext;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -405,7 +406,7 @@ delay: 169ms
         }
 
         this.getPosition().setZ(pos.getZ());
-        RoomItemDao.saveItemPosition(this.getPosition().getX(), this.getPosition().getY(), this.getPosition().getZ(), this.getRotation(), this.getId());
+        StorageContext.getCurrentContext().getRoomItemRepository().saveItemPosition(this.getPosition().getX(), this.getPosition().getY(), this.getPosition().getZ(), this.getRotation(), this.getId());
     }
 
     private double getDelay(int i) {

@@ -1,9 +1,8 @@
 package com.cometproject.server.game.players.components.types.settings;
 
 import com.cometproject.api.game.players.data.types.IVolumeData;
-import com.cometproject.server.utilities.JsonData;
 
-public class VolumeData implements JsonData, IVolumeData {
+public class VolumeData implements IVolumeData {
     private int systemVolume;
     private int furniVolume;
     private int traxVolume;

@@ -5,7 +5,7 @@ import com.cometproject.api.game.furniture.types.FurnitureDefinition;
 import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
 import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.api.game.catalog.types.ICatalogItem;
-import com.cometproject.server.game.catalog.types.gifts.GiftData;
+import com.cometproject.api.game.furniture.types.GiftData;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.api.game.furniture.types.ItemType;
 import com.cometproject.server.game.players.components.types.inventory.InventoryItem;
@@ -19,6 +19,7 @@ import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateIn
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
+import com.cometproject.storage.api.StorageContext;
 import com.google.common.collect.Sets;
 
 
@@ -61,13 +62,13 @@ public class OpenGiftMessageEvent implements Event {
             client.sendQueue(new OpenGiftMessageComposer(ItemManager.getInstance().getItemVirtualId(floorItemId), floorItem.getDefinition().getType(), ((GiftFloorItem) floorItem).getGiftData(), ItemManager.getInstance().getDefinition(catalogItem.getItems().get(0).getItemId())));
             client.flush();
 
-            RoomItemDao.removeItemFromRoom(floorItemId, client.getPlayer().getId(), giftData.getExtraData());
+            StorageContext.getCurrentContext().getRoomItemRepository().removeItemFromRoom(floorItemId, client.getPlayer().getId(), giftData.getExtraData());
         } else {
             client.getPlayer().getEntity().getRoom().getItems().placeFloorItem(new InventoryItem(floorItemId, Integer.parseInt(catalogItem.getItemId()), giftData.getExtraData()), floorItem.getPosition().getX(), floorItem.getPosition().getY(), floorItem.getRotation(), client.getPlayer());
             client.send(new OpenGiftMessageComposer(ItemManager.getInstance().getItemVirtualId(floorItemId), floorItem.getDefinition().getType(), ((GiftFloorItem) floorItem).getGiftData(), ItemManager.getInstance().getDefinition(catalogItem.getItems().get(0).getItemId())));
         }
 
         // Save the base item.
-        RoomItemDao.setBaseItem(floorItemId, itemDefinition.getId());
+        StorageContext.getCurrentContext().getRoomItemRepository().setBaseItem(floorItemId, itemDefinition.getId());
     }
 }

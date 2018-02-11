@@ -7,7 +7,7 @@ import com.cometproject.api.networking.sessions.ISessionService;
 import com.cometproject.api.networking.sessions.SessionManagerAccessor;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.players.PlayerManager;
-import com.cometproject.server.utilities.JsonUtil;
+import com.cometproject.api.utilities.JsonUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;

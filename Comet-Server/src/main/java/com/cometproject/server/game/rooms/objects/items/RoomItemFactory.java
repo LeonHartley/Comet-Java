@@ -37,7 +37,6 @@ import com.cometproject.server.game.rooms.objects.items.types.wall.MoodlightWall
 import com.cometproject.server.game.rooms.objects.items.types.wall.PostItWallItem;
 import com.cometproject.server.game.rooms.objects.items.types.wall.WheelWallItem;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.storage.queue.types.ItemStorageQueue;
 import com.cometproject.storage.mysql.MySQLStorageQueues;
 import org.apache.log4j.Logger;
 
@@ -219,14 +218,6 @@ public class RoomItemFactory {
     }
 
     public static RoomItemFloor createFloor(RoomItemData itemData, Room room, FurnitureDefinition def) {
-        if (CometSettings.storageItemQueueEnabled) {
-            final RoomItem roomItem = ItemStorageQueue.getInstance().getQueuedItem(itemData.getId());
-
-            if (roomItem != null) {
-                return ((RoomItemFloor) roomItem);
-            }
-        }
-
         String cachedData = MySQLStorageQueues.instance().getItemDataUpdateQueue().getQueued(itemData.getId());
 
         if(cachedData != null) {

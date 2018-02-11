@@ -13,7 +13,7 @@ import com.cometproject.server.network.messages.outgoing.notification.AlertMessa
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomForwardMessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
-import com.cometproject.server.utilities.JsonUtil;
+import com.cometproject.api.utilities.JsonUtil;
 
 
 public class SaveFloorMessageEvent implements Event {

@@ -19,6 +19,7 @@ import com.cometproject.server.network.messages.outgoing.room.items.SlideObjectB
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import com.cometproject.server.utilities.Direction;
 import com.cometproject.server.utilities.collections.ConcurrentHashSet;
+import com.cometproject.storage.api.StorageContext;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
@@ -242,7 +243,7 @@ public class RollerFloorItem extends AdvancedFloorItem<RollerFloorItemEvent> {
                 floor.onEntityStepOn(roomEntity);
             }
 
-            RoomItemDao.saveItemPosition(floor.getPosition().getX(), floor.getPosition().getY(), floor.getPosition().getZ(), floor.getRotation(), floor.getId());
+            StorageContext.getCurrentContext().getRoomItemRepository().saveItemPosition(floor.getPosition().getX(), floor.getPosition().getY(), floor.getPosition().getZ(), floor.getRotation(), floor.getId());
         }
 
         if (slidingItems.size() != 0)

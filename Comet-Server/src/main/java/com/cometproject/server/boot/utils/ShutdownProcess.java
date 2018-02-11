@@ -1,8 +1,6 @@
 package com.cometproject.server.boot.utils;
 
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.storage.queue.types.ItemStorageQueue;
-import com.cometproject.server.storage.queue.types.PlayerDataStorageQueue;
 import com.cometproject.server.logging.LogManager;
 import com.cometproject.server.logging.database.queries.LogQueries;
 import com.cometproject.server.storage.StorageManager;
@@ -28,9 +26,6 @@ public class ShutdownProcess {
         log.info("Comet is now shutting down");
 
         Comet.isRunning = false;
-
-        PlayerDataStorageQueue.getInstance().shutdown();
-        ItemStorageQueue.getInstance().shutdown();
 
         MySQLStorageQueues.instance().shutdown();
 

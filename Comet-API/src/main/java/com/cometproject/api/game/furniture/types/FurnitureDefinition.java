@@ -56,6 +56,8 @@ public interface FurnitureDefinition {
 
    boolean requiresRights();
 
+   boolean isWired();
+
    int getSongId();
 
     ItemType getItemType();

@@ -12,6 +12,7 @@ import com.cometproject.server.network.messages.outgoing.user.inventory.SongInve
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
+import com.cometproject.storage.api.StorageContext;
 
 public class PlaylistAddMessageEvent implements Event {
     @Override
@@ -42,7 +43,7 @@ public class PlaylistAddMessageEvent implements Event {
         soundMachineFloorItem.addSong(new SongItemData(inventoryItem.createSnapshot(), inventoryItem.getDefinition().getSongId()));
         soundMachineFloorItem.saveData();
 
-        RoomItemDao.removeItemFromRoom(inventoryItemId, 0, inventoryItem.getExtraData());
+        StorageContext.getCurrentContext().getRoomItemRepository().removeItemFromRoom(inventoryItemId, 0, inventoryItem.getExtraData());
         client.getPlayer().getInventory().removeItem(inventoryItem.getId());
 
         client.send(new SongInventoryMessageComposer(client.getPlayer().getInventory().getSongs()));

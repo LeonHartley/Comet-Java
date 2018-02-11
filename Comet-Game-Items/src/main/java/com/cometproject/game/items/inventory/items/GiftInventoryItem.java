@@ -1,26 +1,26 @@
-package com.cometproject.server.game.players.components.types.inventory.rewrite.items;
+package com.cometproject.game.items.inventory.items;
 
 import com.cometproject.api.game.furniture.types.FurnitureDefinition;
-import com.cometproject.api.game.furniture.types.LimitedEditionItem;
+import com.cometproject.api.game.furniture.types.GiftData;
+import com.cometproject.api.game.players.data.components.inventory.InventoryItemData;
 import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.server.game.catalog.types.gifts.GiftData;
-import com.cometproject.server.game.players.components.types.inventory.rewrite.InventoryItem;
-import com.cometproject.server.utilities.JsonUtil;
+import com.cometproject.api.utilities.JsonUtil;
+import com.cometproject.game.items.inventory.InventoryItem;
 
 public class GiftInventoryItem extends InventoryItem {
 
     private final GiftData giftData;
 
-    public GiftInventoryItem(long id, int virtualId, String data, FurnitureDefinition furnitureDefinition, LimitedEditionItem limitedEditionItem) {
-        super(id, virtualId, data, furnitureDefinition, limitedEditionItem);
+    public GiftInventoryItem(InventoryItemData inventoryItemData, FurnitureDefinition furnitureDefinition) {
+        super(inventoryItemData, furnitureDefinition);
 
-        this.giftData = this.getGiftData(data);
+        this.giftData = this.getGiftData(inventoryItemData.getExtraData());
     }
 
     private GiftData getGiftData(String data) {
 
         try {
-            if (this.getFurnitureDefinition().getInteraction().equals("gift")) {
+            if (this.getDefinition().getInteraction().equals("gift")) {
                 return JsonUtil.getInstance().fromJson(data.split("GIFT::##")[1], GiftData.class);
             }
 

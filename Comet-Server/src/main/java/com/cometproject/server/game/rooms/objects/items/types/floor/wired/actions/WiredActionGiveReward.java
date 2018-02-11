@@ -21,6 +21,8 @@ import com.cometproject.server.network.messages.outgoing.room.items.wired.WiredR
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
 import com.cometproject.server.storage.queries.items.ItemDao;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
+import com.cometproject.storage.api.StorageContext;
+import com.cometproject.storage.api.data.Data;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -72,7 +74,15 @@ public class WiredActionGiveReward extends WiredActionItem {
             this.ownerRank = 1;
         }
 
-        this.givenRewards = RoomItemDao.getGivenRewards(this.getId());
+        final Data<Map<Integer, Set<String>>> rewardData = Data.createEmpty();
+
+        StorageContext.getCurrentContext().getRoomItemRepository().getGivenRewards(this.getId(), rewardData::set);
+
+        if(rewardData.has()) {
+            this.givenRewards = rewardData.get();
+        } else {
+            this.givenRewards = Maps.newConcurrentMap();
+        }
     }
 
     @Override
@@ -129,7 +139,7 @@ public class WiredActionGiveReward extends WiredActionItem {
                         }
 
                         this.givenRewards.get(playerEntity.getPlayerId()).add(reward.productCode);
-                        RoomItemDao.saveReward(this.getId(), ((PlayerEntity) event.entity).getPlayerId(), reward.productCode);
+                        StorageContext.getCurrentContext().getRoomItemRepository().saveReward(this.getId(), ((PlayerEntity) event.entity).getPlayerId(), reward.productCode);
                     }
 
                     if (rewardTimings.get(this.getId()).containsKey(playerEntity.getPlayerId())) {

@@ -7,7 +7,7 @@ import com.cometproject.api.game.players.data.types.IWardrobeItem;
 import com.cometproject.server.game.players.components.types.settings.PlaylistItem;
 import com.cometproject.server.game.players.components.types.settings.VolumeData;
 import com.cometproject.server.game.players.components.types.settings.WardrobeItem;
-import com.cometproject.server.utilities.JsonUtil;
+import com.cometproject.api.utilities.JsonUtil;
 import com.google.gson.reflect.TypeToken;
 
 import java.sql.ResultSet;

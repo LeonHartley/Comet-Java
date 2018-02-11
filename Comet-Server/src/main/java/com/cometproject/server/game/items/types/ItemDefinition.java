@@ -207,6 +207,11 @@ public class ItemDefinition implements FurnitureDefinition {
         return requiresRights;
     }
 
+    @Override
+    public boolean isWired() {
+        return this.getInteraction().startsWith("wtf_act") || this.getInteraction().startsWith("wtf_trg") || this.getInteraction().startsWith("wf_cnd");
+    }
+
     public int getSongId() {
         return this.songId;
     }

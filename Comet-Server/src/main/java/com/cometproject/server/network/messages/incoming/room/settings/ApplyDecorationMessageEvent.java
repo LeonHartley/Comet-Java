@@ -10,6 +10,7 @@ import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateIn
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
+import com.cometproject.storage.api.StorageContext;
 import org.apache.log4j.Logger;
 
 import java.util.Map;
@@ -55,7 +56,7 @@ public class ApplyDecorationMessageEvent implements Event {
             }
 
             client.getPlayer().getInventory().removeItem(item);
-            RoomItemDao.deleteItem(itemId);
+            StorageContext.getCurrentContext().getRoomItemRepository().deleteItem(itemId);
             client.send(new UpdateInventoryMessageComposer());
 
             try {

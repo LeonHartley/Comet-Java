@@ -2,7 +2,7 @@ package com.cometproject.server.storage.cache;
 
 import com.cometproject.api.config.Configuration;
 import com.cometproject.api.utilities.Initialisable;
-import com.cometproject.server.utilities.JsonUtil;
+import com.cometproject.api.utilities.JsonUtil;
 import org.apache.log4j.Logger;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;

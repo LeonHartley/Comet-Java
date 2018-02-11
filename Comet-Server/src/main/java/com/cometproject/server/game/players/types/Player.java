@@ -29,7 +29,6 @@ import com.cometproject.server.network.messages.outgoing.user.purse.SendCreditsM
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.catalog.CatalogDao;
 import com.cometproject.server.storage.queries.player.PlayerDao;
-import com.cometproject.server.storage.queue.types.PlayerDataStorageQueue;
 import com.cometproject.server.utilities.collections.ConcurrentHashSet;
 import com.cometproject.storage.api.StorageContext;
 import com.cometproject.storage.mysql.MySQLStorageQueues;
@@ -143,18 +142,14 @@ public class Player implements IPlayer {
     public Player(ResultSet data, boolean isFallback) throws SQLException {
         this.id = data.getInt("playerId");
 
+        this.data = new PlayerData(data);
+
         if (isFallback) {
             this.settings = PlayerDao.getSettingsById(this.id);
             this.stats = PlayerDao.getStatisticsById(this.id);
         } else {
             this.settings = new PlayerSettings(data, true);
             this.stats = new PlayerStatistics(data, true);
-        }
-
-        if (PlayerDataStorageQueue.getInstance().isPlayerSaving(this.id)) {
-            this.data = PlayerDataStorageQueue.getInstance().getPlayerData(this.id);
-        } else {
-            this.data = new PlayerData(data);
         }
 
         this.permissions = new PermissionComponent(this);
@@ -190,11 +185,6 @@ public class Player implements IPlayer {
         if (this.helperSession != null) {
             GuideManager.getInstance().finishPlayerDuty(this.helperSession);
             this.helperSession = null;
-        }
-
-        if (PlayerDataStorageQueue.getInstance().isQueued(this.getData())) {
-            this.data.saveNow();
-            PlayerDataStorageQueue.getInstance().unqueue(this.getData());
         }
 
         this.getPets().dispose();

@@ -1,6 +1,6 @@
 package com.cometproject.server.api.transformers;
 
-import com.cometproject.server.utilities.JsonUtil;
+import com.cometproject.api.utilities.JsonUtil;
 import spark.ResponseTransformer;
 
 

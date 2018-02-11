@@ -30,8 +30,6 @@ import com.cometproject.server.modules.ModuleManager;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.storage.StorageManager;
 import com.cometproject.server.storage.queries.config.ConfigDao;
-import com.cometproject.server.storage.queue.types.ItemStorageQueue;
-import com.cometproject.server.storage.queue.types.PlayerDataStorageQueue;
 import com.cometproject.server.tasks.CometThreadManager;
 import org.apache.log4j.Logger;
 
@@ -88,9 +86,6 @@ public class CometServer {
         AchievementManager.getInstance().initialize();
         PollManager.getInstance().initialize();
         GuideManager.getInstance().initialize();
-
-        PlayerDataStorageQueue.getInstance().initialize();
-        ItemStorageQueue.getInstance().initialize();
 
         GameContext gameContext = new GameContext();
 

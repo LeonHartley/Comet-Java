@@ -13,6 +13,7 @@ import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorItemMessageComposer;
 import com.cometproject.server.utilities.attributes.Collidable;
+import com.cometproject.storage.api.StorageContext;
 import com.cometproject.storage.mysql.MySQLStorageQueues;
 import com.google.common.collect.Lists;
 
@@ -121,7 +122,8 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable, IFlo
             this.hasQueuedSave = true;
         }*/
 
-        MySQLStorageQueues.instance().getItemUpdateQueue().add(this.getId(), this);
+        this.getItemData().setData(this.getDataObject());
+        StorageContext.getCurrentContext().getRoomItemRepository().saveItem(this.getItemData());
     }
 
     @Override
@@ -132,7 +134,8 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable, IFlo
             RoomItemData.saveData(this.getId(), this.getDataObject());
         }*/
 
-        MySQLStorageQueues.instance().getItemDataUpdateQueue().add(this.getId(), this.getDataObject());
+        this.getItemData().setData(this.getDataObject());
+        StorageContext.getCurrentContext().getRoomItemRepository().saveData(this.getId(), this.getDataObject());
     }
 
     @Override

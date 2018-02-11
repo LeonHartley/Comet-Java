@@ -9,6 +9,7 @@ import com.cometproject.server.network.messages.outgoing.room.items.UpdateWallIt
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
+import com.cometproject.storage.api.StorageContext;
 
 
 public class ChangeWallItemPositionMessageEvent implements Event {
@@ -39,7 +40,7 @@ public class ChangeWallItemPositionMessageEvent implements Event {
                 return;
             }
 
-            RoomItemDao.placeWallItem(room.getId(), position, (item.getItemData().getData().isEmpty() || item.getItemData().getData().equals(" ")) ? "0" : item.getItemData().getData(), item.getId());
+            StorageContext.getCurrentContext().getRoomItemRepository().placeWallItem(room.getId(), position, (item.getItemData().getData().isEmpty() || item.getItemData().getData().equals(" ")) ? "0" : item.getItemData().getData(), item.getId());
 
             item.setWallPosition(position);
             room.getEntities().broadcastMessage(new UpdateWallItemMessageComposer(item, room.getData().getOwnerId(), room.getData().getOwner()));

@@ -12,7 +12,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.events
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.events.WiredItemFlashEvent;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.protocol.messages.MessageComposer;
-import com.cometproject.server.utilities.JsonUtil;
+import com.cometproject.api.utilities.JsonUtil;
 import com.cometproject.server.utilities.attributes.Stateable;
 import com.google.common.collect.Lists;
 

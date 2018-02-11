@@ -7,6 +7,7 @@ import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateWallItemMessageComposer;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
+import com.cometproject.storage.api.StorageContext;
 
 public abstract class RoomItemWall extends RoomItem {
     private FurnitureDefinition itemDefinition;
@@ -49,7 +50,7 @@ public abstract class RoomItemWall extends RoomItem {
 
     @Override
     public void saveData() {
-        RoomItemDao.saveData(this.getId(), this.getItemData().getData());
+        StorageContext.getCurrentContext().getRoomItemRepository().saveData(this.getId(), this.getItemData().getData());
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.types.components;
 
+import com.cometproject.api.game.GameContext;
 import com.cometproject.api.game.furniture.types.FurnitureDefinition;
 import com.cometproject.api.game.furniture.types.ItemType;
 import com.cometproject.api.game.furniture.types.LimitedEditionItem;
@@ -65,6 +66,8 @@ public class ItemsComponent {
     private long soundMachineId = 0;
     private long moodlightId;
 
+    private boolean wiredHidden = false;
+
     public ItemsComponent(Room room) {
         this.room = room;
         this.log = Logger.getLogger("Room Items Component [" + room.getData().getName() + "]");
@@ -105,11 +108,11 @@ public class ItemsComponent {
                 for (RoomItemData roomItem : items.get()) {
                     final FurnitureDefinition itemDefinition = ItemManager.getInstance().getDefinition(roomItem.getItemId());
 
-                    if(itemDefinition == null) continue;
+                    if (itemDefinition == null) continue;
 
                     if (itemDefinition.getItemType() == ItemType.FLOOR)
                         this.floorItems.put(roomItem.getId(), RoomItemFactory.createFloor(roomItem, room, itemDefinition));
-                    else if(itemDefinition.getItemType() == ItemType.WALL)
+                    else if (itemDefinition.getItemType() == ItemType.WALL)
                         this.wallItems.put(roomItem.getId(), RoomItemFactory.createWall(roomItem, room, itemDefinition));
                 }
             }
@@ -333,7 +336,7 @@ public class ItemsComponent {
     }
 
     public void removeItem(RoomItemWall item, int ownerId, Session client) {
-        RoomItemDao.removeItemFromRoom(item.getId(), ownerId, item.getItemData().getData());
+        StorageContext.getCurrentContext().getRoomItemRepository().removeItemFromRoom(item.getId(), ownerId, item.getItemData().getData());
 
         room.getEntities().broadcastMessage(new RemoveWallItemMessageComposer(ItemManager.getInstance().getItemVirtualId(item.getId()), ownerId));
         this.getWallItems().remove(item.getId());
@@ -403,7 +406,7 @@ public class ItemsComponent {
         this.getRoom().getEntities().broadcastMessage(new RemoveFloorItemMessageComposer(item.getVirtualId(), (session != null) ? owner : 0, !toInventory && item instanceof GiftFloorItem ? 5000 : 0));
         this.getFloorItems().remove(item.getId());
 
-        RoomItemDao.removeItemFromRoom(item.getId(), owner, item.getDataObject());
+        StorageContext.getCurrentContext().getRoomItemRepository().removeItemFromRoom(item.getId(), owner, item.getDataObject());
 
         if (toInventory && client != null) {
             final PlayerItem playerItem = client.getPlayer().getInventory().add(item.getId(), item.getItemData().getItemId(), item.getItemData().getData(), item instanceof GiftFloorItem ? ((GiftFloorItem) item).getGiftData() : null, item.getLimitedEditionItemData());
@@ -412,7 +415,7 @@ public class ItemsComponent {
             client.flush();
         } else {
             if (delete)
-                RoomItemDao.deleteItem(item.getId());
+                StorageContext.getCurrentContext().getRoomItemRepository().deleteItem(item.getId());
         }
 
         for (Position tileToUpdate : tilesToUpdate) {
@@ -431,7 +434,7 @@ public class ItemsComponent {
         this.getWallItems().remove(item.getId());
 
         if (toInventory) {
-            RoomItemDao.removeItemFromRoom(item.getId(), item.getItemData().getOwnerId(), item.getItemData().getData());
+            StorageContext.getCurrentContext().getRoomItemRepository().removeItemFromRoom(item.getId(), item.getItemData().getOwnerId(), item.getItemData().getData());
 
             Session session = client;
 
@@ -447,7 +450,7 @@ public class ItemsComponent {
                 }}));
             }
         } else {
-            RoomItemDao.deleteItem(item.getId());
+            StorageContext.getCurrentContext().getRoomItemRepository().deleteItem(item.getId());
         }
     }
 
@@ -618,7 +621,7 @@ public class ItemsComponent {
     public void placeWallItem(PlayerItem item, String position, Player player) {
         int roomId = this.room.getId();
 
-        RoomItemDao.placeWallItem(roomId, position, item.getExtraData().trim().isEmpty() ? "0" :
+        StorageContext.getCurrentContext().getRoomItemRepository().placeWallItem(roomId, position, item.getExtraData().trim().isEmpty() ? "0" :
                 item.getExtraData(), item.getId());
         player.getInventory().removeItem(item.getId());
 
@@ -677,7 +680,7 @@ public class ItemsComponent {
             }
         }
 
-        RoomItemDao.placeFloorItem(room.getId(), x, y, height, rot,
+        StorageContext.getCurrentContext().getRoomItemRepository().placeFloorItem(room.getId(), x, y, height, rot,
                 (item.getExtraData().isEmpty() || item.getExtraData().equals(" ")) ? "0" : item.getExtraData(), item.getId());
         player.getInventory().removeItem(item.getId());
 

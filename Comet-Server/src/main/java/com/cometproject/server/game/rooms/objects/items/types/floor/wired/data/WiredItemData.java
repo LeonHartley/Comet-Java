@@ -1,7 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.data;
 
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredItemSnapshot;
-import com.cometproject.server.utilities.JsonData;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.StringUtils;
@@ -10,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class WiredItemData implements JsonData {
+public class WiredItemData {
     private int selectionType = 0;
     private List<Long> selectedIds;
     private String text;

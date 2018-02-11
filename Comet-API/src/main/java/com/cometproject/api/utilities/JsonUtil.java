@@ -1,4 +1,4 @@
-package com.cometproject.server.utilities;
+package com.cometproject.api.utilities;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

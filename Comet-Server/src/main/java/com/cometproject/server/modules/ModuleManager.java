@@ -9,7 +9,7 @@ import com.cometproject.game.groups.GroupsModule;
 import com.cometproject.gamecenter.fastfood.FastFoodModule;
 import com.cometproject.server.modules.events.EventHandlerService;
 import com.cometproject.api.utilities.Initialisable;
-import com.cometproject.server.utilities.JsonUtil;
+import com.cometproject.api.utilities.JsonUtil;
 import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;
 import com.google.common.io.Resources;

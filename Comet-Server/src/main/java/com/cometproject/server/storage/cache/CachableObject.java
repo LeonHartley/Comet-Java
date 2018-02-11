@@ -1,6 +1,6 @@
 package com.cometproject.server.storage.cache;
 
-import com.cometproject.server.utilities.JsonUtil;
+import com.cometproject.api.utilities.JsonUtil;
 import com.google.gson.JsonObject;
 
 import java.io.Serializable;

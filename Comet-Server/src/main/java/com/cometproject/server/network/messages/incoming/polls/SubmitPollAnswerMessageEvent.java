@@ -5,7 +5,6 @@ import com.cometproject.server.game.polls.PollManager;
 import com.cometproject.server.game.polls.types.Poll;
 import com.cometproject.server.game.polls.types.PollQuestion;
 import com.cometproject.server.game.polls.types.questions.MultipleChoiceQuestion;
-import com.cometproject.server.game.polls.types.questions.WordedPollQuestion;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
@@ -13,8 +12,7 @@ import com.cometproject.server.network.messages.outgoing.room.polls.QuickPollVot
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.storage.queries.polls.PollDao;
-import com.cometproject.server.utilities.JsonUtil;
-import com.ctc.wstx.util.StringUtil;
+import com.cometproject.api.utilities.JsonUtil;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang.StringUtils;
 

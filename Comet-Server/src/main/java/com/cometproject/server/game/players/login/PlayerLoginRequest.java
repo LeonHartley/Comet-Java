@@ -53,150 +53,154 @@ public class PlayerLoginRequest implements CometTask {
             return;
         }
 
-        // TODO: Tell the hotel owners to remove the id:ticket stuff
-        Player player = null;
-        boolean normalPlayerLoad = false;
+        try {
+            // TODO: Tell the hotel owners to remove the id:ticket stuff
+            Player player = null;
+            boolean normalPlayerLoad = false;
 
-        if (ticket.contains(SSOTicketMessageEvent.TICKET_DELIMITER)) {
-            String[] ticketData = ticket.split(SSOTicketMessageEvent.TICKET_DELIMITER);
+            if (ticket.contains(SSOTicketMessageEvent.TICKET_DELIMITER)) {
+                String[] ticketData = ticket.split(SSOTicketMessageEvent.TICKET_DELIMITER);
 
-            if (ticketData.length == 2) {
-                String authTicket = ticketData[1];
+                if (ticketData.length == 2) {
+                    String authTicket = ticketData[1];
 
-                player = PlayerDao.getPlayer(authTicket);
+                    player = PlayerDao.getPlayer(authTicket);
+                } else {
+                    normalPlayerLoad = true;
+                }
             } else {
                 normalPlayerLoad = true;
             }
-        } else {
-            normalPlayerLoad = true;
-        }
 
-        if (normalPlayerLoad) {
-            player = PlayerDao.getPlayer(ticket);
-        }
-
-        if (player == null) {
-            player = PlayerDao.getPlayerFallback(ticket);
+            if (normalPlayerLoad) {
+                player = PlayerDao.getPlayer(ticket);
+            }
 
             if (player == null) {
-                client.disconnect();
-                return;
+                player = PlayerDao.getPlayerFallback(ticket);
+
+                if (player == null) {
+                    client.disconnect();
+                    return;
+                }
             }
-        }
 
-        Session cloneSession = NetworkManager.getInstance().getSessions().getByPlayerId(player.getId());
+            Session cloneSession = NetworkManager.getInstance().getSessions().getByPlayerId(player.getId());
 
-        if (cloneSession != null && cloneSession.getPlayer() != null && cloneSession.getPlayer().getData() != null) {
-            player.setData(cloneSession.getPlayer().getData());
-            cloneSession.disconnect();
-        }
+            if (cloneSession != null && cloneSession.getPlayer() != null && cloneSession.getPlayer().getData() != null) {
+                player.setData(cloneSession.getPlayer().getData());
+                cloneSession.disconnect();
+            }
 
-        if (BanManager.getInstance().hasBan(Integer.toString(player.getId()), BanType.USER)) {
-            client.getLogger().warn("Banned player: " + player.getId() + " tried logging in");
-            client.disconnect("banned");
-            return;
-        }
-
-        player.setSession(client);
-        client.setPlayer(player);
-
-        String ipAddress = client.getIpAddress();
-
-        if (ipAddress != null && !ipAddress.isEmpty()) {
-            if (BanManager.getInstance().hasBan(ipAddress, BanType.IP)) {
+            if (BanManager.getInstance().hasBan(Integer.toString(player.getId()), BanType.USER)) {
                 client.getLogger().warn("Banned player: " + player.getId() + " tried logging in");
                 client.disconnect("banned");
                 return;
             }
 
-            client.getPlayer().getData().setIpAddress(ipAddress);
+            player.setSession(client);
+            client.setPlayer(player);
 
-            if(PlayerManager.getInstance().getPlayerCountByIpAddress(ipAddress) > CometSettings.maxConnectionsPerIpAddress) {
-                client.disconnect();
-                return;
-            }
-        }
+            String ipAddress = client.getIpAddress();
 
-        if (CometSettings.saveLogins)
-            PlayerAccessDao.saveAccess(player.getId(), client.getUniqueId(), ipAddress);
+            if (ipAddress != null && !ipAddress.isEmpty()) {
+                if (BanManager.getInstance().hasBan(ipAddress, BanType.IP)) {
+                    client.getLogger().warn("Banned player: " + player.getId() + " tried logging in");
+                    client.disconnect("banned");
+                    return;
+                }
 
-        RoomManager.getInstance().loadRoomsForUser(player);
+                client.getPlayer().getData().setIpAddress(ipAddress);
 
-        client.getLogger().debug(client.getPlayer().getData().getUsername() + " logged in");
-
-        MySQLStorageQueues.instance().getPlayerStatusQueue().add(player.getId(),
-                new PlayerStatusUpdate(player.getId(), true, player.getSession().getIpAddress()));
-
-        //PlayerDao.updatePlayerStatus(player, true, true);
-
-        client.sendQueue(new UniqueIDMessageComposer(client.getUniqueId()))
-                .sendQueue(new AuthenticationOKMessageComposer()).
-                sendQueue(new FuserightsMessageComposer(client.getPlayer().getSubscription().exists(), client.getPlayer().getData().getRank())).
-                sendQueue(new FavouriteRoomsMessageComposer(client.getPlayer().getNavigator().getFavouriteRooms())).
-                sendQueue(new AvailabilityStatusMessageComposer()).
-                sendQueue(new PlayerSettingsMessageComposer(player.getSettings())).
-                sendQueue(new HomeRoomMessageComposer(player.getSettings().getHomeRoom(), player.getSettings().getHomeRoom())).
-                sendQueue(new EffectsInventoryMessageComposer(player.getInventory().getEffects(), player.getInventory().getEquippedEffect()));
-        client.sendQueue(new CfhTopicsInitMessageComposer());
-
-        if (client.getPlayer().getPermissions().getRank().modTool()) {
-            client.sendQueue(new ModToolMessageComposer());
-        }
-
-        if (CometSettings.motdEnabled) {
-            client.sendQueue(new MotdNotificationMessageComposer());
-        }
-
-        client.flush();
-
-        // Process the achievements
-        client.getPlayer().getAchievements().progressAchievement(AchievementType.LOGIN, 1);
-
-        int regDate = StringUtils.isNumeric(client.getPlayer().getData().getRegDate()) ? Integer.parseInt(client.getPlayer().getData().getRegDate()) : client.getPlayer().getData().getRegTimestamp();
-
-        if (regDate != 0) {
-            int daysSinceRegistration = (int) Math.floor((((int) Comet.getTime()) - regDate) / 86400);
-
-            if (!client.getPlayer().getAchievements().hasStartedAchievement(AchievementType.REGISTRATION_DURATION)) {
-                client.getPlayer().getAchievements().progressAchievement(AchievementType.REGISTRATION_DURATION, daysSinceRegistration);
-            } else {
-                // Progress their achievement from the last progress to now.
-                int progress = client.getPlayer().getAchievements().getProgress(AchievementType.REGISTRATION_DURATION).getProgress();
-                if (daysSinceRegistration > client.getPlayer().getAchievements().getProgress(AchievementType.REGISTRATION_DURATION).getProgress()) {
-                    int amountToProgress = daysSinceRegistration - progress;
-                    client.getPlayer().getAchievements().progressAchievement(AchievementType.REGISTRATION_DURATION, amountToProgress);
+                if (PlayerManager.getInstance().getPlayerCountByIpAddress(ipAddress) > CometSettings.maxConnectionsPerIpAddress) {
+                    client.disconnect();
+                    return;
                 }
             }
-        }
 
-        if (player.getData().getAchievementPoints() < 0) {
-            player.getData().setAchievementPoints(0);
-            player.getData().save();
-        }
+            if (CometSettings.saveLogins)
+                PlayerAccessDao.saveAccess(player.getId(), client.getUniqueId(), ipAddress);
 
-        if (!Comet.isDebugging) {
-            PlayerDao.nullifyAuthTicket(player.getData().getId());
-        }
+            RoomManager.getInstance().loadRoomsForUser(player);
 
-        if(ModuleManager.getInstance().getEventHandler().handleEvent(OnPlayerLoginEvent.class, new OnPlayerLoginEventArgs(client.getPlayer()))) {
-            client.disconnect();
-        }
+            client.getLogger().debug(client.getPlayer().getData().getUsername() + " logged in");
 
-        if (SessionManager.isLocked) {
-            client.send(new AlertMessageComposer("Hotel's closed, come back later!"));
+            MySQLStorageQueues.instance().getPlayerStatusQueue().add(player.getId(),
+                    new PlayerStatusUpdate(player.getId(), true, player.getSession().getIpAddress()));
 
-            CometThreadManager.getInstance().executeSchedule(() -> {
-                client.disconnect();
-            }, 5, TimeUnit.SECONDS);
-        }
-		
-        if (client.getPlayer().getData().getTimeMuted() != 0) {
-            if (client.getPlayer().getData().getTimeMuted() < (int) Comet.getTime()) {
-                PlayerDao.addTimeMute(player.getData().getId(), 0);
+            //PlayerDao.updatePlayerStatus(player, true, true);
+
+            client.sendQueue(new UniqueIDMessageComposer(client.getUniqueId()))
+                    .sendQueue(new AuthenticationOKMessageComposer()).
+                    sendQueue(new FuserightsMessageComposer(client.getPlayer().getSubscription().exists(), client.getPlayer().getData().getRank())).
+                    sendQueue(new FavouriteRoomsMessageComposer(client.getPlayer().getNavigator().getFavouriteRooms())).
+                    sendQueue(new AvailabilityStatusMessageComposer()).
+                    sendQueue(new PlayerSettingsMessageComposer(player.getSettings())).
+                    sendQueue(new HomeRoomMessageComposer(player.getSettings().getHomeRoom(), player.getSettings().getHomeRoom())).
+                    sendQueue(new EffectsInventoryMessageComposer(player.getInventory().getEffects(), player.getInventory().getEquippedEffect()));
+            client.sendQueue(new CfhTopicsInitMessageComposer());
+
+            if (client.getPlayer().getPermissions().getRank().modTool()) {
+                client.sendQueue(new ModToolMessageComposer());
             }
-        }
 
-        player.setSsoTicket(this.ticket);
-        PlayerManager.getInstance().getSsoTicketToPlayerId().put(this.ticket, player.getId());
+            if (CometSettings.motdEnabled) {
+                client.sendQueue(new MotdNotificationMessageComposer());
+            }
+
+            client.flush();
+
+            // Process the achievements
+            client.getPlayer().getAchievements().progressAchievement(AchievementType.LOGIN, 1);
+
+            int regDate = StringUtils.isNumeric(client.getPlayer().getData().getRegDate()) ? Integer.parseInt(client.getPlayer().getData().getRegDate()) : client.getPlayer().getData().getRegTimestamp();
+
+            if (regDate != 0) {
+                int daysSinceRegistration = (int) Math.floor((((int) Comet.getTime()) - regDate) / 86400);
+
+                if (!client.getPlayer().getAchievements().hasStartedAchievement(AchievementType.REGISTRATION_DURATION)) {
+                    client.getPlayer().getAchievements().progressAchievement(AchievementType.REGISTRATION_DURATION, daysSinceRegistration);
+                } else {
+                    // Progress their achievement from the last progress to now.
+                    int progress = client.getPlayer().getAchievements().getProgress(AchievementType.REGISTRATION_DURATION).getProgress();
+                    if (daysSinceRegistration > client.getPlayer().getAchievements().getProgress(AchievementType.REGISTRATION_DURATION).getProgress()) {
+                        int amountToProgress = daysSinceRegistration - progress;
+                        client.getPlayer().getAchievements().progressAchievement(AchievementType.REGISTRATION_DURATION, amountToProgress);
+                    }
+                }
+            }
+
+            if (player.getData().getAchievementPoints() < 0) {
+                player.getData().setAchievementPoints(0);
+                player.getData().save();
+            }
+
+            if (!Comet.isDebugging) {
+                PlayerDao.nullifyAuthTicket(player.getData().getId());
+            }
+
+            if (ModuleManager.getInstance().getEventHandler().handleEvent(OnPlayerLoginEvent.class, new OnPlayerLoginEventArgs(client.getPlayer()))) {
+                client.disconnect();
+            }
+
+            if (SessionManager.isLocked) {
+                client.send(new AlertMessageComposer("Hotel's closed, come back later!"));
+
+                CometThreadManager.getInstance().executeSchedule(() -> {
+                    client.disconnect();
+                }, 5, TimeUnit.SECONDS);
+            }
+
+            if (client.getPlayer().getData().getTimeMuted() != 0) {
+                if (client.getPlayer().getData().getTimeMuted() < (int) Comet.getTime()) {
+                    PlayerDao.addTimeMute(player.getData().getId(), 0);
+                }
+            }
+
+            player.setSsoTicket(this.ticket);
+            PlayerManager.getInstance().getSsoTicketToPlayerId().put(this.ticket, player.getId());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

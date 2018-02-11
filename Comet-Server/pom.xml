@@ -431,27 +431,6 @@
         </dependency>
         <dependency>
             <groupId>Comet</groupId>
-            <artifactId>Comet-Storage-MySQL</artifactId>
-            <version>2.1.2-TEST2</version>
-        </dependency>
-        <dependency>
-            <groupId>Comet</groupId>
-            <artifactId>Comet-Storage-MySQL</artifactId>
-            <version>2.1.2-TEST2</version>
-        </dependency>
-        <dependency>
-            <groupId>Comet</groupId>
-            <artifactId>Comet-Storage-MySQL</artifactId>
-            <version>2.1.2-TEST2</version>
-        </dependency>
-        <dependency>
-            <groupId>Comet</groupId>
-            <artifactId>Comet-Storage-MySQL</artifactId>
-            <version>2.1.2-TEST2</version>
-        </dependency>
-
-        <dependency>
-            <groupId>Comet</groupId>
             <artifactId>Comet-Common</artifactId>
             <version>2.1.2-TEST2</version>
         </dependency>
@@ -472,22 +451,12 @@
         </dependency>
         <dependency>
             <groupId>Comet</groupId>
-            <artifactId>Comet-Networking-API</artifactId>
-            <version>2.1.2-TEST2</version>
-        </dependency>
-        <dependency>
-            <groupId>Comet</groupId>
-            <artifactId>Comet-GameCenter-FastFood</artifactId>
-            <version>2.1.2-TEST2</version>
-        </dependency>
-        <dependency>
-            <groupId>Comet</groupId>
-            <artifactId>Comet-GameCenter-FastFood</artifactId>
-            <version>2.1.2-TEST2</version>
-        </dependency>
-        <dependency>
-            <groupId>Comet</groupId>
             <artifactId>Comet-Game-Groups</artifactId>
+            <version>2.1.2-TEST2</version>
+        </dependency>
+        <dependency>
+            <groupId>Comet</groupId>
+            <artifactId>Comet-GameCenter-FastFood</artifactId>
             <version>2.1.2-TEST2</version>
         </dependency>
     </dependencies>

@@ -6,6 +6,7 @@ import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
+import com.cometproject.storage.api.StorageContext;
 import com.google.common.collect.Lists;
 
 import java.util.List;
@@ -39,7 +40,7 @@ public class RedeemCreditsCommand extends ChatCommand {
 
                     itemsToRemove.add(playerItem.getId());
 
-                    RoomItemDao.deleteItem(playerItem.getId());
+                    StorageContext.getCurrentContext().getRoomItemRepository().deleteItem(playerItem.getId());
                 } catch (Exception ignored) {
 
                 }

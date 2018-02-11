@@ -1,16 +1,17 @@
-package com.cometproject.server.game.players.components.types.inventory.rewrite.items;
+package com.cometproject.game.items.inventory.items;
 
 import com.cometproject.api.game.GameContext;
 import com.cometproject.api.game.furniture.types.FurnitureDefinition;
 import com.cometproject.api.game.furniture.types.LimitedEditionItem;
 import com.cometproject.api.game.groups.types.IGroupData;
+import com.cometproject.api.game.players.data.components.inventory.InventoryItemData;
 import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.server.game.players.components.types.inventory.rewrite.InventoryItem;
+import com.cometproject.game.items.inventory.InventoryItem;
 import org.apache.commons.lang.StringUtils;
 
 public class GroupInventoryItem extends InventoryItem {
-    public GroupInventoryItem(long id, int virtualId, String data, FurnitureDefinition furnitureDefinition, LimitedEditionItem limitedEditionItem) {
-        super(id, virtualId, data, furnitureDefinition, limitedEditionItem);
+    public GroupInventoryItem(InventoryItemData inventoryItemData, FurnitureDefinition furnitureDefinition) {
+        super(inventoryItemData, furnitureDefinition);
     }
 
     @Override

@@ -8,7 +8,7 @@ import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.rooms.bundles.RoomBundleManager;
 import com.cometproject.server.game.rooms.bundles.types.RoomBundle;
 import com.cometproject.server.game.rooms.bundles.types.RoomBundleItem;
-import com.cometproject.server.utilities.JsonUtil;
+import com.cometproject.api.utilities.JsonUtil;
 import com.google.common.collect.Lists;
 import com.google.gson.reflect.TypeToken;
 
