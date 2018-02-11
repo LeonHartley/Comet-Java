@@ -14,16 +14,19 @@ import java.util.List;
 public class GetForumsMessageEvent implements Event {
     @Override
     public void handle(Session client, MessageEvent msg) throws Exception {
-        List<IGroup> myGroups = Lists.newArrayList();
+        List<IGroup> groups = Lists.newArrayList();
 
         for(int groupId : client.getPlayer().getGroups()) {
             final IGroupData groupData = GameContext.getCurrent().getGroupService().getData(groupId);
 
             if(groupData != null && groupData.hasForum()) {
-                myGroups.add(GameContext.getCurrent().getGroupService().getGroup(groupId));
+                final IGroup group = GameContext.getCurrent().getGroupService().getGroup(groupId);
+
+                if(group.getForum() != null)
+                    groups.add(group);
             }
         }
 
-        client.send(new GroupForumListMessageComposer(msg.readInt(), myGroups, client.getPlayer().getId()));
+        client.send(new GroupForumListMessageComposer(msg.readInt(), groups, client.getPlayer().getId()));
     }
 }
