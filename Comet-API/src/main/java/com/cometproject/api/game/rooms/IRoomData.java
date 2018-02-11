@@ -140,4 +140,8 @@ public interface IRoomData {
     String getDecorationString();
 
     void setThumbnail(String thumbnail);
+
+    boolean isWiredHidden();
+
+    void setIsWiredHidden(boolean hiddenWired);
 }

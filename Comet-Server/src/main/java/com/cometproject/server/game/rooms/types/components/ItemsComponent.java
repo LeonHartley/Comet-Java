@@ -66,8 +66,6 @@ public class ItemsComponent {
     private long soundMachineId = 0;
     private long moodlightId;
 
-    private boolean wiredHidden = false;
-
     public ItemsComponent(Room room) {
         this.room = room;
         this.log = Logger.getLogger("Room Items Component [" + room.getData().getName() + "]");

@@ -64,6 +64,8 @@ public class RoomData implements IRoomData {
     private String requiredBadge;
     private String thumbnail;
 
+    private boolean wiredHidden;
+
     public RoomData(int id, RoomType type, String name, String description, int ownerId, String owner, int category,
                     int maxUsers, RoomAccessType access, String password, String originalPassword,
                     RoomTradeState tradeState, int score, String[] tags, Map<String, String> decorations,
@@ -71,7 +73,7 @@ public class RoomData implements IRoomData {
                     boolean allowPets, String heightmap, RoomMuteState muteState, RoomKickState kickState,
                     RoomBanState banState, int bubbleMode, int bubbleType, int bubbleScroll, int chatDistance,
                     int antiFloodSettings, List<String> disabledCommands, int groupId, long lastReferenced,
-                    String requiredBadge, String thumbnail) {
+                    String requiredBadge, String thumbnail, boolean wiredHidden) {
         this.id = id;
         this.type = type;
         this.name = name;
@@ -107,6 +109,7 @@ public class RoomData implements IRoomData {
         this.lastReferenced = lastReferenced;
         this.requiredBadge = requiredBadge;
         this.thumbnail = thumbnail;
+        this.wiredHidden = wiredHidden;
     }
 
     public void save() {
@@ -136,7 +139,7 @@ public class RoomData implements IRoomData {
                 tagString, decorString.equals("") ? "" : decorString.substring(0, decorString.length() - 1),
                 model, hideWalls, thicknessWall, thicknessFloor, allowWalkthrough, allowPets, heightmap, tradeState,
                 muteState, kickState, banState, bubbleMode, bubbleType, bubbleScroll, chatDistance, antiFloodSettings,
-                this.disabledCommands.isEmpty() ? "" : StringUtils.join(this.disabledCommands, ","), this.groupId, this.requiredBadge, this.thumbnail
+                this.disabledCommands.isEmpty() ? "" : StringUtils.join(this.disabledCommands, ","), this.groupId, this.requiredBadge, this.thumbnail, this.wiredHidden
         );
     }
 
@@ -415,5 +418,15 @@ public class RoomData implements IRoomData {
 
     public void setThumbnail(String thumbnail) {
         this.thumbnail = thumbnail;
+    }
+
+    @Override
+    public boolean isWiredHidden() {
+        return this.wiredHidden;
+    }
+
+    @Override
+    public void setIsWiredHidden(boolean hiddenWired) {
+        this.wiredHidden = hiddenWired;
     }
 }

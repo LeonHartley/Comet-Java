@@ -154,6 +154,7 @@ public class CommandManager implements Initialisable {
         this.addCommand(Locale.get("command.handitem.name"), new HandItemCommand());
         this.addCommand(Locale.get("command.togglediagonal.name"), new ToggleDiagonalCommand());
         this.addCommand(Locale.get("command.fastwalk.name"), new FastWalkCommand());
+        this.addCommand(Locale.get("command.hidewired.name"), new HideWiredCommand());
 
         // Gimmick commands
         this.addCommand(Locale.get("command.slap.name"), new SlapCommand());

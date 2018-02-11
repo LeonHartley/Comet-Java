@@ -274,7 +274,7 @@ public class RoomDao {
                                   String password, int score, String tags, String decor, String model, boolean hideWalls, int thicknessWall,
                                   int thicknessFloor, boolean allowWalkthrough, boolean allowPets, String heightmap, RoomTradeState tradeState, RoomMuteState whoCanMute,
                                   RoomKickState whoCanKick, RoomBanState whoCanBan, int bubbleMode, int bubbleType, int bubbleScroll,
-                                  int chatDistance, int antiFloodSettings, String disabledCommands, int groupId, String requiredBadge, String thumbnail) {
+                                  int chatDistance, int antiFloodSettings, String disabledCommands, int groupId, String requiredBadge, String thumbnail, boolean hideWired) {
 
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
@@ -284,7 +284,7 @@ public class RoomDao {
             preparedStatement = SqlHelper.prepare("UPDATE rooms SET name = ?, description = ?, owner_id = ?, owner = ?, category = ?," +
                             " max_users = ?, access_type = ?, password = ?, score = ?, tags = ?, decorations = ?, model = ?, hide_walls = ?, thickness_wall = ?," +
                             " thickness_floor = ?, allow_walkthrough = ?, allow_pets = ?, heightmap = ?, mute_state = ?, ban_state = ?, kick_state = ?," +
-                            "bubble_mode = ?, bubble_type = ?, bubble_scroll = ?, chat_distance = ?, flood_level = ?, trade_state = ?, disabled_commands = ?, group_id = ?, required_badge = ?, thumbnail = ? WHERE id = ?",
+                            "bubble_mode = ?, bubble_type = ?, bubble_scroll = ?, chat_distance = ?, flood_level = ?, trade_state = ?, disabled_commands = ?, group_id = ?, required_badge = ?, thumbnail = ?, hide_wired = ? WHERE id = ?",
                     sqlConnection);
 
             preparedStatement.setString(1, name);
@@ -318,8 +318,9 @@ public class RoomDao {
             preparedStatement.setInt(29, groupId);
             preparedStatement.setString(30, requiredBadge);
             preparedStatement.setString(31, thumbnail);
+            preparedStatement.setString(32, hideWired ? "1" : "0");
 
-            preparedStatement.setInt(32, roomId);
+            preparedStatement.setInt(33, roomId);
 
             preparedStatement.execute();
         } catch (SQLException e) {
@@ -571,12 +572,13 @@ public class RoomDao {
         final List<String> disabledCommands = Lists.newArrayList(room.getString("disabled_commands").split(","));
         final int groupId = room.getInt("group_id");
         final String requiredBadge = room.getString("required_badge");
+        final boolean wiredHidden = room.getBoolean("hide_wired");
 
         return new RoomData(id, type, name, description, ownerId, owner, category, maxUsers, access, password,
                 originalPassword, tradeState, score, tags, decorations, model, hideWalls, thicknessWall, thicknessFloor,
                 allowWalkthrough, allowPets, heightmap, muteState, kickState, banState, bubbleMode, bubbleType,
                 bubbleScroll, chatDistance, antiFloodSettings, disabledCommands, groupId, System.currentTimeMillis(),
-                requiredBadge, thumbnail);
+                requiredBadge, thumbnail, wiredHidden);
     }
 
     private static void fillDecorations(Map<String, String> decorations, String[] decorationsArray) {

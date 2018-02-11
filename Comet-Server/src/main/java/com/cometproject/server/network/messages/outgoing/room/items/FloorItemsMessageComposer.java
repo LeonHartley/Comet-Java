@@ -2,10 +2,13 @@ package com.cometproject.server.network.messages.outgoing.room.items;
 
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredFloorItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
+import com.google.common.collect.Lists;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -58,11 +61,28 @@ public class FloorItemsMessageComposer extends MessageComposer {
                 }
             }*/
 
-            msg.writeInt(room.getItems().getFloorItems().size());
+            if (room.getData().isWiredHidden()) {
+                List<RoomItemFloor> items = Lists.newArrayList();
 
-            for (RoomItemFloor item : room.getItems().getFloorItems().values()) {
-                item.serialize((msg));
+                for (RoomItemFloor item : room.getItems().getFloorItems().values()) {
+                    if (!(item instanceof WiredFloorItem)) {
+                        items.add(item);
+                    }
+                }
+
+                msg.writeInt(items.size());
+
+                for (RoomItemFloor item : items) {
+                    item.serialize(msg);
+                }
+            } else {
+                msg.writeInt(room.getItems().getFloorItems().size());
+
+                for (RoomItemFloor item : room.getItems().getFloorItems().values()) {
+                    item.serialize((msg));
+                }
             }
+
         } else {
             msg.writeInt(0);
             msg.writeInt(0);
