@@ -35,6 +35,10 @@ public abstract class RoomItemWall extends RoomItem {
         msg.writeInt(1);
     }
 
+    public String getState() {
+        return this.getItemData().getData();
+    }
+
     @Override
     public void sendUpdate() {
         Room r = this.getRoom();

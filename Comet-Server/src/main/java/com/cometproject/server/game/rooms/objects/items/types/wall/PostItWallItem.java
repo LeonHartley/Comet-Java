@@ -21,7 +21,8 @@ public class PostItWallItem extends RoomItemWall {
             this.setExtraData("FFFF33 ");
     }
 
-    public String getExtraData() {
+    @Override
+    public String getState() {
         return colour;
     }
 
