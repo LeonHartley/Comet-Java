@@ -70,7 +70,7 @@ public class GroupMembersMessageComposer extends MessageComposer {
                     if (member.getAccessLevel().isAdmin()) {
                         msg.writeInt(group.getOwnerId() == groupMember.getId() ? 0 : 1);
                     } else {
-                        msg.writeInt(2);
+                        msg.writeInt(3);
                     }
                 }
 

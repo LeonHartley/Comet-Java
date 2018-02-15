@@ -27,9 +27,9 @@ public class OneWayGateFloorItem extends RoomItemFloor {
             return false;
         }
 
-        Position squareBehind = this.getPosition().squareBehind(this.getRotation());
+        Position squareBehind = this.getPosition().squareBehind(this.getItemData().getRotation());
 
-        if (!this.getRoom().getMapping().isValidStep(this.getPosition(), squareBehind, true)) {
+        if (!this.getRoom().getMapping().isValidStep(this.getItemData().getPosition(), squareBehind, true)) {
             return false;
         }
 
@@ -63,9 +63,5 @@ public class OneWayGateFloorItem extends RoomItemFloor {
 
     public RoomEntity getInteractingEntity() {
         return interactingEntity;
-    }
-
-    public void setInteractingEntity(RoomEntity interactingEntity) {
-        this.interactingEntity = interactingEntity;
     }
 }

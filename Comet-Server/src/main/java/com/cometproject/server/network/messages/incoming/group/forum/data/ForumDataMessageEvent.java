@@ -20,6 +20,10 @@ public class ForumDataMessageEvent implements Event {
             return;
         }
 
+        if(group.getForum() == null) {
+            return;
+        }
+
         if (group.getForum().getForumSettings().getReadPermission() == ForumPermission.MEMBERS) {
             if (!group.getMembers().getAll().containsKey(client.getPlayer().getId())) {
                 client.send(new NotificationMessageComposer("forums.error.access_denied"));

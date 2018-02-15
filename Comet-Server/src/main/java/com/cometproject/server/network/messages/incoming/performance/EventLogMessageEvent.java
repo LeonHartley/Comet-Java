@@ -21,7 +21,7 @@ public class EventLogMessageEvent implements Event {
         final String extraString = msg.readString();
         final int extraInt = msg.readInt();
 
-        if(client.getPlayer() == null) {
+        if(client.getPlayer() == null || client.getPlayer().isDisposed) {
             return;
         }
 
