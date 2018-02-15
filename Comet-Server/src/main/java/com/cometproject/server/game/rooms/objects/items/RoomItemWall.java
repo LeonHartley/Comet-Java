@@ -26,7 +26,7 @@ public abstract class RoomItemWall extends RoomItem {
         msg.writeInt(this.getDefinition().getSpriteId());
         msg.writeString(this.getWallPosition());
 
-        msg.writeString(this.getItemData().getData());
+        msg.writeString(this.getState());
         msg.writeInt(!this.getDefinition().getInteraction().equals("default") ? 1 : 0);
         msg.writeInt(-1);
         msg.writeInt(-1);
