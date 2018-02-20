@@ -241,6 +241,7 @@ public class GroupService implements IGroupService {
                 }
             }
         }
+
         final IGroup group = this.groupFactory.createGroupInstance(groupData, groupMembers, requests,
                 administrators, forumSettings, pinnedThreads, forumThreads);
 

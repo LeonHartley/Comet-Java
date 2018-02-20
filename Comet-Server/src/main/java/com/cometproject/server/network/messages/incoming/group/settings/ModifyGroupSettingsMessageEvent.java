@@ -3,10 +3,14 @@ package com.cometproject.server.network.messages.incoming.group.settings;
 import com.cometproject.api.game.GameContext;
 import com.cometproject.api.game.groups.types.IGroup;
 import com.cometproject.api.game.groups.types.GroupType;
+import com.cometproject.api.game.groups.types.components.membership.IGroupMember;
+import com.cometproject.api.game.rooms.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.RoomManager;
+import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomDataMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.permissions.YouAreControllerMessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 
@@ -42,6 +46,21 @@ public class ModifyGroupSettingsMessageEvent implements Event {
 
 //            room.getEntities().broadcastMessage(new RoomInfoUpdatedMessageComposer(room.getId()));
 //            room.getEntities().broadcastMessage(new SettingsUpdatedMessageComposer(room.getId()));
+
+            if(group.getData().canMembersDecorate()) {
+                for(IGroupMember groupMember : group.getMembers().getAll().values()) {
+                    PlayerEntity playerEntity = room.getEntities().getEntityByPlayerId(groupMember.getPlayerId());
+
+                    if(playerEntity != null) {
+                        playerEntity.removeStatus(RoomEntityStatus.CONTROLLER);
+                        playerEntity.addStatus(RoomEntityStatus.CONTROLLER, "1");
+
+                        playerEntity.markNeedsUpdate();
+                        playerEntity.getPlayer().getSession().send(new YouAreControllerMessageComposer(1));
+                    }
+                }
+
+            }
             room.getEntities().broadcastMessage(new RoomDataMessageComposer(room, false, false, false));
         }
     }
