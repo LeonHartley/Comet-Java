@@ -1,5 +1,6 @@
 package com.cometproject.server.boot.utils;
 
+import com.cometproject.api.game.GameContext;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.logging.LogManager;
 import com.cometproject.server.logging.database.queries.LogQueries;
@@ -38,6 +39,8 @@ public class ShutdownProcess {
         }
 
         log.info("Closing all database connections");
+
+        GameContext.setCurrent(null);
         StorageManager.getInstance().shutdown();
 
         if(exit) {

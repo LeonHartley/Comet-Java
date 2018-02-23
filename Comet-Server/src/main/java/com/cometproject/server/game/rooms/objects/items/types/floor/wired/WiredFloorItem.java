@@ -1,6 +1,7 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired;
 
 import com.cometproject.api.game.rooms.objects.data.RoomItemData;
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
@@ -67,13 +68,17 @@ public abstract class WiredFloorItem extends AdvancedFloorItem<WiredItemEvent> i
      * Turn the JSON object into a usable WiredItemData object
      */
     public void load() {
-        if (this.getItemData().getData().equals("{}")) {
-            this.wiredItemData = (this instanceof WiredActionItem) ? new WiredActionItemData() : new WiredItemData();
-            return;
-        }
+        try {
+            if (this.getItemData().getData().equals("{}")) {
+                this.wiredItemData = (this instanceof WiredActionItem) ? new WiredActionItemData() : new WiredItemData();
+                return;
+            }
 
-        this.wiredItemData = JsonUtil.getInstance().fromJson(this.getItemData().getData(), (this instanceof WiredActionItem) ? WiredActionItemData.class : WiredItemData.class);
-        this.onDataRefresh();
+            this.wiredItemData = JsonUtil.getInstance().fromJson(this.getItemData().getData(), (this instanceof WiredActionItem) ? WiredActionItemData.class : WiredItemData.class);
+            this.onDataRefresh();
+        } catch (Exception e) {
+            Comet.getServer().getLogger().warn("Invalid wired item data " + this.getItemData().getData() + " ID: " + this.getId());
+        }
     }
 
     @Override

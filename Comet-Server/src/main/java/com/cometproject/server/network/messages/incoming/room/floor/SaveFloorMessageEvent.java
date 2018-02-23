@@ -41,11 +41,17 @@ public class SaveFloorMessageEvent implements Event {
         String[] modelData = model.split(String.valueOf((char) 13));
 
         int sizeY = modelData.length;
+
+        if(sizeY < 1) {
+            client.send(new AdvancedAlertMessageComposer("Invalid Model", Locale.get("command.floor.size")));
+            return;
+        }
+
         int sizeX = modelData[0].length();
 
         if (sizeX < 2 || sizeY < 2 || (CometSettings.floorEditorMaxX != 0 && sizeX > CometSettings.floorEditorMaxX) || (CometSettings.floorEditorMaxY != 0 && sizeY > CometSettings.floorEditorMaxY) || (CometSettings.floorEditorMaxTotal != 0 && CometSettings.floorEditorMaxTotal < (sizeX * sizeY))) {
             client.send(new AdvancedAlertMessageComposer("Invalid Model", Locale.get("command.floor.size")));
-            return;
+           return;
         }
 
         boolean hasTiles = false;

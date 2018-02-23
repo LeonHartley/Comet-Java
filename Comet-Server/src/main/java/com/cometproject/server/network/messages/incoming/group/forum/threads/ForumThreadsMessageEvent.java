@@ -17,9 +17,10 @@ public class ForumThreadsMessageEvent implements Event {
 
         IGroup group = GameContext.getCurrent().getGroupService().getGroup(groupId);
 
-        if(group == null) {
+        if(group == null || !group.getData().hasForum() || group.getForum() == null) {
             return;
         }
+
 
         if(group.getForum().getForumSettings().getReadPermission() == ForumPermission.MEMBERS) {
             if(!group.getMembers().getAll().containsKey(client.getPlayer().getId())) {

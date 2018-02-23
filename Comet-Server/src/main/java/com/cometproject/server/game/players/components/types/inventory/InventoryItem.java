@@ -110,8 +110,14 @@ public class InventoryItem implements PlayerItem {
 
             msg.writeInt(17);
 
-            if (StringUtils.isNumeric(this.getExtraData())) {
-                groupId = Integer.parseInt(this.getExtraData());
+            try {
+                if (StringUtils.isNumeric(this.getExtraData())) {
+                    groupId = Integer.parseInt(this.getExtraData());
+                }
+
+            } catch(Exception e) {
+                // invalid integer
+
             }
 
             IGroupData groupData = groupId == 0 ? null : GameContext.getCurrent().getGroupService().getData(groupId);

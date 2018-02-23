@@ -72,6 +72,8 @@ public class RoomTile {
         }
 
         roomTiles.sort((left, right) -> {
+            if(left.getPosition() == null || right.getPosition() == null) return -1;
+
             final double distanceFromLeft = left.getPosition().distanceTo(from);
             final double distanceFromRight = right.getPosition().distanceTo(from);
 

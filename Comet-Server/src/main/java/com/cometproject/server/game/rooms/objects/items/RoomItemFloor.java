@@ -123,7 +123,8 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable, IFlo
         }*/
 
         this.getItemData().setData(this.getDataObject());
-        StorageContext.getCurrentContext().getRoomItemRepository().saveItem(this.getItemData());
+//        StorageContext.getCurrentContext().getRoomItemRepository().saveItem(this.getItemData());
+        MySQLStorageQueues.instance().getItemUpdateQueue().add(this.getId(), this);
     }
 
     @Override
@@ -135,7 +136,9 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable, IFlo
         }*/
 
         this.getItemData().setData(this.getDataObject());
-        StorageContext.getCurrentContext().getRoomItemRepository().saveData(this.getId(), this.getDataObject());
+//        StorageContext.getCurrentContext().getRoomItemRepository().saveData(this.getId(), this.getDataObject());
+
+        MySQLStorageQueues.instance().getItemDataUpdateQueue().add(this.getId(), this.getDataObject());
     }
 
     @Override

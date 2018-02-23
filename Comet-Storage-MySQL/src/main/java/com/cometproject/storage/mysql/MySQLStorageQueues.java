@@ -28,11 +28,14 @@ public class MySQLStorageQueues {
     public MySQLStorageQueues(MySQLConnectionProvider connectionProvider) {
         this.playerStatusQueue = new PlayerStatusUpdateQueue(2500, this.storageExecutor, connectionProvider);
         this.playerOfflineUpdateQueue = new PlayerOfflineUpdateQueue(1000, this.storageExecutor, connectionProvider);
-        this.itemDataUpdateQueue = new ItemDataUpdateQueue(2500, this.storageExecutor, connectionProvider);
-        this.itemUpdateQueue = new ItemUpdateQueue(2500, this.storageExecutor, connectionProvider);
+        this.itemDataUpdateQueue = new ItemDataUpdateQueue(connectionProvider);
+        this.itemUpdateQueue = new ItemUpdateQueue(connectionProvider);
         this.petStatsUpdateQueue = new PetStatsUpdateQueue(1000, this.storageExecutor, connectionProvider);
         this.playerDataUpdateQueue = new PlayerDataUpdateQueue(1000, this.storageExecutor, connectionProvider);
         this.playerBadgeUpdateQueue = new PlayerBadgeUpdateQueue(5000, this.storageExecutor, connectionProvider);
+
+        this.itemDataUpdateQueue.start();
+        this.itemUpdateQueue.start();
     }
 
     public static MySQLStorageQueues instance() {

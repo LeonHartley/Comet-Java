@@ -1,16 +1,17 @@
 package com.cometproject.storage.mysql.queues.items;
 
 import com.cometproject.api.game.rooms.objects.IFloorItem;
+import com.cometproject.storage.mysql.BlockingMySQLStorageQueue;
 import com.cometproject.storage.mysql.MySQLConnectionProvider;
 import com.cometproject.storage.mysql.MySQLStorageQueue;
 
 import java.sql.PreparedStatement;
 import java.util.concurrent.ScheduledExecutorService;
 
-public class ItemUpdateQueue extends MySQLStorageQueue<Long, IFloorItem> {
+public class ItemUpdateQueue extends BlockingMySQLStorageQueue<Long, IFloorItem> {
 
-    public ItemUpdateQueue(long delayMilliseconds, ScheduledExecutorService executorService, MySQLConnectionProvider connectionProvider) {
-        super("UPDATE items SET x = ?, y = ?, z = ?, rot = ?, extra_data = ? WHERE id = ?;", delayMilliseconds, executorService, connectionProvider);
+    public ItemUpdateQueue(MySQLConnectionProvider connectionProvider) {
+        super(connectionProvider, "UPDATE items SET x = ?, y = ?, z = ?, rot = ?, extra_data = ? WHERE id = ?;", 25);
     }
 
     @Override
