@@ -18,6 +18,7 @@ public class NewNavigatorSearchMessageEvent implements Event {
         String category = msg.readString();
         String data = msg.readString();
 
+
         NavigatorSearchService.getInstance().submitRequest(client.getPlayer(), category, data);
     }
 }

@@ -271,6 +271,7 @@ public class Events {
     public static final short GetGameAchievementsMessageEvent = 97;
     public static final short GetGameStatusMessageEvent = 1740;
     public static final short JoinGameQueueMessageEvent = 3654;
+    public static final short NavigatorSaveViewModeMessageEvent = 597;
 
     private static Map<Short, String> eventPacketNames = new HashMap<>();
 

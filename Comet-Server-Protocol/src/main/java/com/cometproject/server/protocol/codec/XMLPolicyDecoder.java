@@ -13,6 +13,7 @@ public class XMLPolicyDecoder extends ByteToMessageDecoder {
 
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
+
         in.markReaderIndex();
         if (in.readableBytes() < 1) return;
 

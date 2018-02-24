@@ -99,7 +99,10 @@ public class NavigatorSearchResultSetMessageComposer extends MessageComposer {
 
                 msg.writeInt(NavigatorSearchAllowance.getIntValue(category.getSearchAllowance()));
                 msg.writeBoolean(false);//is minimised
-                msg.writeInt(category.getViewMode() == NavigatorViewMode.REGULAR ? 0 : category.getViewMode() == NavigatorViewMode.THUMBNAIL ? 1 : 0);
+                msg.writeInt(this.player.getNavigator().getViewModes().containsKey(category.getCategoryId()) ?
+                        this.player.getNavigator().getViewModes().get(category.getCategoryId()) :
+                        category.getViewMode() == NavigatorViewMode.REGULAR ? 0 :
+                                category.getViewMode() == NavigatorViewMode.THUMBNAIL ? 1 : 0);
 
                 List<IRoomData> rooms = NavigatorSearchService.getInstance().search(category, this.player, this.categories.size() == 1);
 

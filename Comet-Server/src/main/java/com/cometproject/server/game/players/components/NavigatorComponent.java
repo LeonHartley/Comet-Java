@@ -12,6 +12,7 @@ import java.util.Set;
 public class NavigatorComponent extends PlayerComponent {
 
     private final Map<Integer, ISavedSearch> savedSearches;
+    private final Map<String, Integer> viewModes;
     private final Set<Integer> favouriteRooms;
 
     public NavigatorComponent(final Player player) {
@@ -19,11 +20,13 @@ public class NavigatorComponent extends PlayerComponent {
 
         this.savedSearches = PlayerDao.getSavedSearches(this.getPlayer().getId());
         this.favouriteRooms = PlayerDao.getFavouriteRooms(this.getPlayer().getId());
+        this.viewModes = PlayerDao.getViewModes(this.getPlayer().getId());
     }
 
     public void dispose() {
         this.savedSearches.clear();
         this.favouriteRooms.clear();
+        this.viewModes.clear();
     }
 
     public boolean isSearchSaved(SavedSearch newSearch) {
@@ -37,6 +40,10 @@ public class NavigatorComponent extends PlayerComponent {
 
     public Set<Integer> getFavouriteRooms() {
         return this.favouriteRooms;
+    }
+
+    public Map<String, Integer> getViewModes() {
+        return this.viewModes;
     }
 
     public Map<Integer, ISavedSearch> getSavedSearches() {

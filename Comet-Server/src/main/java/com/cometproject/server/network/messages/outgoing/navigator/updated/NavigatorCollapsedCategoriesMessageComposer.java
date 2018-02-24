@@ -5,6 +5,7 @@ import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
 
 public class NavigatorCollapsedCategoriesMessageComposer extends MessageComposer {
+
     @Override
     public short getId() {
         return Composers.NavigatorCollapsedCategoriesMessageComposer;

@@ -277,6 +277,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.FindRandomFriendingRoomMessageEvent, new FindRandomFriendingRoomMessageEvent());
         this.getMessages().put(Events.AddFavouriteRoomMessageEvent, new ToggleFavouriteRoomMessageEvent());
         this.getMessages().put(Events.DeleteFavouriteRoomMessageEvent, new ToggleFavouriteRoomMessageEvent());
+        this.getMessages().put(Events.NavigatorSaveViewModeMessageEvent, new NavigatorSaveViewModeMessageEvent());
     }
 
     public void registerUser() {
