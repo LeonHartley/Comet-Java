@@ -51,6 +51,10 @@ public class GroupService implements IGroupService {
 
     @Override
     public IGroupData getData(final int groupId) {
+        if(groupId == 0) {
+            return null;
+        }
+
         if (this.groupDataCache.contains(groupId)) {
             return this.groupDataCache.get(groupId);
         }
