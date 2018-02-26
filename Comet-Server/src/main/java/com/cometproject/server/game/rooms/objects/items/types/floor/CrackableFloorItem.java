@@ -77,6 +77,9 @@ public class CrackableFloorItem extends RoomItemFloor {
                     player.sendBalance();
                     player.getData().save();
                     break;
+
+                case BADGE:
+                    player.getInventory().addBadge(crackableReward.getRewardData(), true, true);
             }
         }
 
