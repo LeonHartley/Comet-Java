@@ -679,7 +679,7 @@ public class ItemsComponent {
         }
 
         StorageContext.getCurrentContext().getRoomItemRepository().placeFloorItem(room.getId(), x, y, height, rot,
-                (item.getExtraData().isEmpty() || item.getExtraData().equals(" ")) ? "0" : item.getExtraData(), item.getId());
+                (item.getExtraData().isEmpty() || item.getExtraData().equals(" ")) ? "0" : item.getExtraData(), item.getBaseId(), item.getId());
         player.getInventory().removeItem(item.getId());
 
         RoomItemFloor floorItem = room.getItems().addFloorItem(item.getId(), item.getBaseId(), room, player.getId(),

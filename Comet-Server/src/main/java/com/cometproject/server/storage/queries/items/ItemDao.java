@@ -1,5 +1,8 @@
 package com.cometproject.server.storage.queries.items;
 
+import com.cometproject.api.game.furniture.types.CrackableReward;
+import com.cometproject.api.game.furniture.types.CrackableRewardType;
+import com.cometproject.api.game.furniture.types.CrackableType;
 import com.cometproject.api.game.furniture.types.FurnitureDefinition;
 import com.cometproject.server.game.catalog.purchase.CatalogPurchase;
 import com.cometproject.server.game.items.ItemManager;
@@ -37,6 +40,38 @@ public class ItemDao {
                 } catch (Exception e) {
                     ItemManager.getInstance().getLogger().warn("Error while loading item definition for ID: " + resultSet.getInt("id"), e);
                 }
+            }
+
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(resultSet);
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+
+        return data;
+    }
+
+    public static Map<Integer, CrackableReward> getCrackableRewards() {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        Map<Integer, CrackableReward> data = new HashMap<>();
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("SELECT * FROM items_crackable_rewards", sqlConnection);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                data.put(resultSet.getInt("item_id"),
+                        new CrackableReward(resultSet.getInt("hit_requirement"),
+                                CrackableRewardType.valueOf(resultSet.getString("reward_type")),
+                                CrackableType.valueOf(resultSet.getString("crackable_type")),
+                                resultSet.getString("reward_data"), resultSet.getInt("reward_data_int")));
             }
 
         } catch (SQLException e) {

@@ -102,6 +102,7 @@ public abstract class BlockingMySQLStorageQueue<T, O> extends Thread {
     }
 
     public void add(T key, O obj) {
+        this.mapping.put(key, obj);
         this.queue.add(new Pair<>(key, obj));
     }
 

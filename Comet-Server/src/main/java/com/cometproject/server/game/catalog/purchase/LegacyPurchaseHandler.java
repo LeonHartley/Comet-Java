@@ -540,7 +540,7 @@ public class LegacyPurchaseHandler implements ICatalogPurchaseHandler {
                 long newItemId = ItemDao.createItem(client.getPlayer().getId(), roomBundleItem.getItemId(), roomBundleItem.getExtraData());
 
                 if (roomBundleItem.getWallPosition() == null) {
-                    StorageContext.getCurrentContext().getRoomItemRepository().placeFloorItem(roomId, roomBundleItem.getX(), roomBundleItem.getY(), roomBundleItem.getZ(), roomBundleItem.getRotation(), roomBundleItem.getExtraData(), newItemId);
+                    StorageContext.getCurrentContext().getRoomItemRepository().placeFloorItem(roomId, roomBundleItem.getX(), roomBundleItem.getY(), roomBundleItem.getZ(), roomBundleItem.getRotation(), roomBundleItem.getExtraData(), roomBundleItem.getItemId(), newItemId);
                 } else {
 
                     StorageContext.getCurrentContext().getRoomItemRepository().placeWallItem(roomId, roomBundleItem.getWallPosition(), roomBundleItem.getExtraData(), newItemId);

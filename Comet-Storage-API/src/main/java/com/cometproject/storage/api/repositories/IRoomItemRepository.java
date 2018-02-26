@@ -22,7 +22,7 @@ public interface IRoomItemRepository {
 
     void saveItemPosition(int x, int y, double height, int rotation, long id);
 
-    void placeFloorItem(long roomId, int x, int y, double height, int rot, String data, long itemId);
+    void placeFloorItem(long roomId, int x, int y, double height, int rot, String data, int baseItem, long itemId);
 
     void placeWallItem(int roomId, String wallPosition, String data, long itemId);
 

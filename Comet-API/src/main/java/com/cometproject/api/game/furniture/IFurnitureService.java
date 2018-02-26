@@ -1,5 +1,6 @@
 package com.cometproject.api.game.furniture;
 
+import com.cometproject.api.game.furniture.types.CrackableReward;
 import com.cometproject.api.game.furniture.types.FurnitureDefinition;
 import com.cometproject.api.game.furniture.types.IMusicData;
 import com.cometproject.api.utilities.Initialisable;
@@ -35,6 +36,8 @@ public interface IFurnitureService extends Initialisable {
     Logger getLogger();
 
     Map<Integer, FurnitureDefinition> getItemDefinitions();
+
+    Map<Integer, CrackableReward> getCrackableRewards();
 
     Integer getSaddleId();
 }

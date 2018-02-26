@@ -1,6 +1,7 @@
 package com.cometproject.server.game.items;
 
 import com.cometproject.api.game.furniture.IFurnitureService;
+import com.cometproject.api.game.furniture.types.CrackableReward;
 import com.cometproject.api.game.furniture.types.FurnitureDefinition;
 import com.cometproject.api.game.furniture.types.IMusicData;
 import com.cometproject.server.storage.queries.items.ItemDao;
@@ -29,6 +30,7 @@ public class ItemManager implements IFurnitureService {
 
     private Map<Long, Integer> itemIdToVirtualId;
     private Map<Integer, Long> virtualIdToItemId;
+    private Map<Integer, CrackableReward> crackableRewards;
 
     private AtomicInteger itemIdCounter;
     private Integer saddleId;
@@ -44,6 +46,7 @@ public class ItemManager implements IFurnitureService {
 
         this.itemIdToVirtualId = new ConcurrentHashMap<>();
         this.virtualIdToItemId = new ConcurrentHashMap<>();
+        this.crackableRewards = new ConcurrentHashMap<>();
 
         this.itemIdCounter = new AtomicInteger(1);
 
@@ -67,7 +70,10 @@ public class ItemManager implements IFurnitureService {
         Map<Integer, Integer> tempSpriteIdItemMap = this.itemSpriteIdToDefinitionId;
 
         try {
+            this.crackableRewards.clear();
+
             this.itemDefinitions = ItemDao.getDefinitions();
+            this.crackableRewards = ItemDao.getCrackableRewards();
             this.itemSpriteIdToDefinitionId = new HashMap<>();
         } catch (Exception e) {
             log.error("Error while loading item definitions", e);
@@ -198,5 +204,9 @@ public class ItemManager implements IFurnitureService {
     @Override
     public Integer getSaddleId() {
         return saddleId;
+    }
+
+    public Map<Integer, CrackableReward> getCrackableRewards() {
+        return crackableRewards;
     }
 }
