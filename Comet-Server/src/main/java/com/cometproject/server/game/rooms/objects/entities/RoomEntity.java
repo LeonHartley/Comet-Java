@@ -15,7 +15,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.SeatFloorIte
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.RoomEntityMovementNode;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
-import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
+import com.cometproject.api.game.rooms.models.RoomTileState;
 import com.cometproject.server.network.messages.outgoing.room.avatar.*;
 import com.cometproject.server.utilities.collections.ConcurrentHashSet;
 

@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.floor;
 
+import com.cometproject.api.game.rooms.models.IRoomModel;
 import com.cometproject.server.game.rooms.models.RoomModel;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.room.floor.FloorPlanDoorMessageComposer;
@@ -12,7 +13,7 @@ public class GetFloorPlanDoorMessageEvent implements Event {
     @Override
     public void handle(Session client, MessageEvent msg) throws Exception {
         if (client.getPlayer().getEntity() != null) {
-            RoomModel model = client.getPlayer().getEntity().getRoom().getModel();
+            IRoomModel model = client.getPlayer().getEntity().getRoom().getModel();
 
             if (model == null) return;
 

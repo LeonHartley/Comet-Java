@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms.bundles.types;
 
-import com.cometproject.server.game.rooms.models.CustomFloorMapData;
+import com.cometproject.api.game.rooms.models.CustomFloorMapData;
 
 import java.util.List;
 

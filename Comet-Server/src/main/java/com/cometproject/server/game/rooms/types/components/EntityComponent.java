@@ -72,7 +72,7 @@ public class EntityComponent {
     }
 
     public PlayerEntity createEntity(Player player) {
-        Position startPosition = new Position(this.getRoom().getModel().getDoorX(), this.getRoom().getModel().getDoorY(), this.getRoom().getModel().getDoorZ());
+        Position startPosition = new Position(this.getRoom().getModel().getRoomModelData().getDoorX(), this.getRoom().getModel().getRoomModelData().getDoorY(), this.getRoom().getModel().getDoorZ());
 
         if (player.isTeleporting()) {
             RoomItemFloor item = this.room.getItems().getFloorItem(player.getTeleportId());
@@ -82,7 +82,7 @@ public class EntityComponent {
             }
         }
 
-        int doorRotation = this.getRoom().getModel().getDoorRotation();
+        int doorRotation = this.getRoom().getModel().getRoomModelData().getDoorRotation();
 
         PlayerEntity entity = new PlayerEntity(player, this.getFreeId(), startPosition, doorRotation, doorRotation, this.getRoom());
 

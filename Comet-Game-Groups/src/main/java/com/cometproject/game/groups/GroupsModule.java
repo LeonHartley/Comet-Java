@@ -15,8 +15,6 @@ public class GroupsModule extends BaseModule {
 
     private GroupService groupService;
 
-//    private final
-
     public GroupsModule(ModuleConfig config, IGameService gameService) {
         super(config, gameService);
     }

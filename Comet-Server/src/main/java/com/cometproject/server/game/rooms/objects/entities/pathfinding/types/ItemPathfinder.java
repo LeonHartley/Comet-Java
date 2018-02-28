@@ -11,7 +11,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.groups.Group
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions.WiredActionChase;
 import com.cometproject.server.game.rooms.types.mapping.RoomEntityMovementNode;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
-import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
+import com.cometproject.api.game.rooms.models.RoomTileState;
 
 public class ItemPathfinder extends Pathfinder {
     private static ItemPathfinder pathfinderInstance;

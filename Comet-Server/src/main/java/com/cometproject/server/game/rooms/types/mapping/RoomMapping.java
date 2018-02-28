@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.types.mapping;
 
+import com.cometproject.api.game.rooms.models.IRoomModel;
 import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.models.RoomModel;
 import com.cometproject.server.game.rooms.objects.RoomFloorObject;
@@ -9,7 +10,7 @@ import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.types.floor.OneWayGateFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.pet.breeding.BreedingBoxFloorItem;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
+import com.cometproject.api.game.rooms.models.RoomTileState;
 import com.cometproject.server.utilities.RandomUtil;
 import com.google.common.collect.Lists;
 
@@ -372,7 +373,7 @@ public class RoomMapping {
         return this.room;
     }
 
-    public RoomModel getModel() {
+    public IRoomModel getModel() {
         return this.room.getModel();
     }
 

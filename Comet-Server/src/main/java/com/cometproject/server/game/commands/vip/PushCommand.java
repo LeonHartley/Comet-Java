@@ -1,5 +1,6 @@
 package com.cometproject.server.game.commands.vip;
 
+import com.cometproject.api.game.rooms.models.IRoomModel;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.game.rooms.models.RoomModel;
@@ -94,7 +95,7 @@ public class PushCommand extends ChatCommand {
                     break;
             }
 
-            RoomModel model = client.getPlayer().getEntity().getRoom().getModel();
+            IRoomModel model = client.getPlayer().getEntity().getRoom().getModel();
 
             if (model.getDoorX() == posX && model.getDoorY() == posY) {
                 return;
@@ -115,7 +116,6 @@ public class PushCommand extends ChatCommand {
             );
         } else {
             client.getPlayer().getSession().send(new WhisperMessageComposer(client.getPlayer().getEntity().getId(), Locale.getOrDefault("command.notaround", "Oops! %playername% is not near, walk to this player.").replace("%playername%", user.getPlayer().getData().getUsername()), 34));
-            return;
         }
     }
 

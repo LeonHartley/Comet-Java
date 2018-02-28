@@ -1,4 +1,4 @@
-package com.cometproject.server.game.utilities;
+package com.cometproject.api.utilities;
 
 public class ModelUtils {
     public static int getHeight(char c) {

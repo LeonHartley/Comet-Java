@@ -8,7 +8,7 @@ import com.cometproject.server.game.rooms.bundles.RoomBundleManager;
 import com.cometproject.server.game.rooms.bundles.types.RoomBundle;
 import com.cometproject.server.game.rooms.bundles.types.RoomBundleConfig;
 import com.cometproject.server.game.rooms.bundles.types.RoomBundleItem;
-import com.cometproject.server.game.rooms.models.CustomFloorMapData;
+import com.cometproject.api.game.rooms.models.CustomFloorMapData;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
 import com.cometproject.server.game.rooms.objects.items.types.floor.SoundMachineFloorItem;
@@ -41,7 +41,7 @@ public class BundleCommand extends ChatCommand {
 
                 CustomFloorMapData modelData = new CustomFloorMapData(
                         room.getModel().getDoorX(), room.getModel().getDoorY(),
-                        room.getModel().getDoorRotation(), room.getModel().getMap(), room.getModel().getWallHeight());
+                        room.getModel().getDoorRotation(), room.getModel().getMap(), room.getModel().getRoomModelData().getWallHeight());
 
                 List<RoomBundleItem> bundleItems = new ArrayList<>();
 

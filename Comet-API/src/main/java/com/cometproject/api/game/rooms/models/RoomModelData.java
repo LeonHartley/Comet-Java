@@ -1,8 +1,9 @@
-package com.cometproject.storage.api.data.rooms;
+package com.cometproject.api.game.rooms.models;
 
 public class RoomModelData {
     private final String name, heightmap;
-    private final int doorX, doorY, doorRotation, wallHeight;
+    private final int doorX, doorY, doorRotation;
+    private int wallHeight;
 
     public RoomModelData(String name, String heightmap, int doorX, int doorY, int doorRotation, int wallHeight) {
         this.name = name;
@@ -35,5 +36,9 @@ public class RoomModelData {
 
     public int getWallHeight() {
         return wallHeight;
+    }
+
+    public void setWallHeight(int wallHeight) {
+        this.wallHeight = wallHeight;
     }
 }

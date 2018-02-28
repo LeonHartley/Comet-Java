@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.navigator;
 
+import com.cometproject.api.game.GameContext;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.rooms.RoomManager;
@@ -30,7 +31,7 @@ public class CreateRoomMessageEvent implements Event {
             return;
         }
 
-        if (RoomManager.getInstance().getModel(model) == null) {
+        if (GameContext.getCurrent().getRoomModelService().getModel(model) == null) {
             client.send(new MotdNotificationMessageComposer("Invalid room model"));
             return;
         }

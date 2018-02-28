@@ -5,7 +5,7 @@ import com.cometproject.api.utilities.JsonUtil;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.rooms.RoomManager;
-import com.cometproject.server.game.rooms.models.CustomFloorMapData;
+import com.cometproject.api.game.rooms.models.CustomFloorMapData;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.RoomReloadListener;
 import com.cometproject.server.network.messages.incoming.Event;
@@ -85,7 +85,7 @@ public class SaveFloorMessageEvent implements Event {
         room.getData().setThicknessWall(wallThickness);
         room.getData().setThicknessFloor(floorThickness);
 
-        final CustomFloorMapData floorMapData = new CustomFloorMapData(doorX, doorY, doorRotation, model.trim(), wallHeight == 0 ? room.getModel().getWallHeight() : wallHeight);
+        final CustomFloorMapData floorMapData = new CustomFloorMapData(doorX, doorY, doorRotation, model.trim(), wallHeight == 0 ? room.getModel().getRoomModelData().getWallHeight() : wallHeight);
 
         room.getData().setHeightmap(JsonUtil.getInstance().toJson(floorMapData));
         room.getData().save();

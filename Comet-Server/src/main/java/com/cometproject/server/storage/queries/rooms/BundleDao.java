@@ -5,7 +5,7 @@ import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.rooms.bundles.types.RoomBundle;
 import com.cometproject.server.game.rooms.bundles.types.RoomBundleConfig;
 import com.cometproject.server.game.rooms.bundles.types.RoomBundleItem;
-import com.cometproject.server.game.rooms.models.CustomFloorMapData;
+import com.cometproject.api.game.rooms.models.CustomFloorMapData;
 import com.cometproject.server.storage.SqlHelper;
 import com.google.gson.reflect.TypeToken;
 

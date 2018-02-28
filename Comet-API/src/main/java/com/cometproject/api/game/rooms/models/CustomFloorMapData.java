@@ -1,4 +1,4 @@
-package com.cometproject.server.game.rooms.models;
+package com.cometproject.api.game.rooms.models;
 
 public class CustomFloorMapData {
     private final int doorX, doorY, doorRotation, wallHeight;

@@ -10,6 +10,7 @@ public final class StorageContext {
     private IGroupForumRepository groupForumRepository;
 
     private IRoomItemRepository roomItemRepository;
+    private IRoomRepository roomRepository;
     private IInventoryRepository inventoryRepository;
 
     public IGroupRepository getGroupRepository() {
@@ -58,5 +59,13 @@ public final class StorageContext {
 
     public void setInventoryRepository(IInventoryRepository inventoryRepository) {
         this.inventoryRepository = inventoryRepository;
+    }
+
+    public IRoomRepository getRoomRepository() {
+        return roomRepository;
+    }
+
+    public void setRoomRepository(IRoomRepository roomRepository) {
+        this.roomRepository = roomRepository;
     }
 }

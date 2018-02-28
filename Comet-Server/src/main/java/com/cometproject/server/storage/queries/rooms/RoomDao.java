@@ -5,7 +5,7 @@ import com.cometproject.api.game.rooms.RoomType;
 import com.cometproject.api.game.rooms.settings.*;
 import com.cometproject.api.utilities.JsonUtil;
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.game.rooms.models.CustomFloorMapData;
+import com.cometproject.api.game.rooms.models.CustomFloorMapData;
 import com.cometproject.server.game.rooms.models.types.StaticRoomModel;
 import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.game.rooms.types.RoomPromotion;

@@ -10,7 +10,7 @@ import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.rooms.filter.WordFilter;
-import com.cometproject.server.game.rooms.models.CustomFloorMapData;
+import com.cometproject.api.game.rooms.models.CustomFloorMapData;
 import com.cometproject.server.game.rooms.models.types.StaticRoomModel;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredUtil;
 import com.cometproject.server.game.rooms.types.Room;
@@ -83,7 +83,7 @@ public class RoomManager implements IRoomService {
         this.globalCycle = new RoomCycle();
 
         this.loadPromotedRooms();
-        this.loadModels();
+//        this.loadModels();
 
         this.globalCycle.start();
 
@@ -113,24 +113,24 @@ public class RoomManager implements IRoomService {
         });
     }
 
-    public void loadModels() {
-        if (this.models != null && this.getModels().size() != 0) {
-            this.getModels().clear();
-        }
+//    public void loadModels() {
+//        if (this.models != null && this.getModels().size() != 0) {
+//            this.getModels().clear();
+//        }
+//
+//        this.models = RoomDao.getModels();
+//
+//        log.info("Loaded " + this.getModels().size() + " room models");
+//    }
 
-        this.models = RoomDao.getModels();
-
-        log.info("Loaded " + this.getModels().size() + " room models");
-    }
-
-    public StaticRoomModel getModel(String id) {
-        if (this.models.containsKey(id))
-            return this.models.get(id);
-
-        log.debug("Couldn't find model: " + id);
-
-        return null;
-    }
+//    public StaticRoomModel getModel(String id) {
+//        if (this.models.containsKey(id))
+//            return this.models.get(id);
+//
+//        log.debug("Couldn't find model: " + id);
+//
+//        return null;
+//    }
 
     public Room get(int id) {
         if (id < 1 || id == 0) return null;
@@ -423,10 +423,6 @@ public class RoomManager implements IRoomService {
 
     private ConcurrentLRUCache<Integer, IRoomData> getRoomDataInstances() {
         return this.roomDataInstances;
-    }
-
-    public final Map<String, StaticRoomModel> getModels() {
-        return this.models;
     }
 
     public final RoomCycle getGlobalCycle() {

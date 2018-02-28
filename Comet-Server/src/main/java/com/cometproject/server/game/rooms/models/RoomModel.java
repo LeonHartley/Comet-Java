@@ -1,14 +1,13 @@
 package com.cometproject.server.game.rooms.models;
 
-import com.cometproject.api.networking.messages.IMessageComposer;
-import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
-import com.cometproject.server.game.utilities.ModelUtils;
-import com.cometproject.server.network.messages.outgoing.room.engine.RelativeHeightmapMessageComposer;
+import com.cometproject.api.game.rooms.models.IRoomModel;
+import com.cometproject.api.game.rooms.models.InvalidModelException;
+import com.cometproject.api.game.rooms.models.RoomTileState;
+import com.cometproject.api.utilities.ModelUtils;
 import org.apache.log4j.Logger;
 
 
 public abstract class RoomModel {
-    private final IMessageComposer floorMapMessageComposer;
     private String name;
     private String map = "";
     private int doorX;
@@ -85,8 +84,6 @@ public abstract class RoomModel {
         if (maxTileHeight >= 29) {
             this.wallHeight = 15;
         }
-
-        this.floorMapMessageComposer = new RelativeHeightmapMessageComposer(this);
     }
 
     public String getId() {
@@ -133,15 +130,7 @@ public abstract class RoomModel {
         return this.squareHeight;
     }
 
-    public IMessageComposer getRelativeHeightmapMessage() {
-        return this.floorMapMessageComposer;
-    }
-
     public int getWallHeight() {
         return wallHeight;
-    }
-
-    public class InvalidModelException extends Exception {
-
     }
 }

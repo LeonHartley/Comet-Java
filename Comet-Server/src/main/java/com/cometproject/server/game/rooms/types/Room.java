@@ -7,12 +7,13 @@ import com.cometproject.api.game.pets.IPetData;
 import com.cometproject.api.game.rooms.IRoom;
 import com.cometproject.api.game.rooms.IRoomData;
 import com.cometproject.api.game.rooms.RoomType;
+import com.cometproject.api.game.rooms.models.CustomFloorMapData;
+import com.cometproject.api.game.rooms.models.IRoomModel;
+import com.cometproject.api.game.rooms.models.RoomModelData;
 import com.cometproject.api.utilities.JsonUtil;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.RoomQueue;
-import com.cometproject.server.game.rooms.models.CustomFloorMapData;
 import com.cometproject.server.game.rooms.models.RoomModel;
-import com.cometproject.server.game.rooms.models.types.DynamicRoomModel;
 import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.data.PlayerBotData;
@@ -29,6 +30,7 @@ import com.cometproject.server.storage.cache.objects.items.FloorItemDataObject;
 import com.cometproject.server.storage.cache.objects.items.WallItemDataObject;
 import com.cometproject.server.storage.queries.rooms.RoomDao;
 import com.cometproject.server.utilities.attributes.Attributable;
+import com.cometproject.storage.mysql.models.factories.rooms.RoomModelDataFactory;
 import com.google.common.collect.Sets;
 import org.apache.log4j.Logger;
 
@@ -46,7 +48,7 @@ public class Room implements Attributable, IRoom {
 
     private final RoomDataObject cachedData;
     private final AtomicInteger wiredTimer = new AtomicInteger(0);
-    private RoomModel model;
+    private IRoomModel model;
     private RoomMapping mapping;
     private ProcessComponent process;
     private RightsComponent rights;
@@ -80,24 +82,26 @@ public class Room implements Attributable, IRoom {
     }
 
     public Room load() {
-        this.model = RoomManager.getInstance().getModel(this.getData().getModel());
+        this.model = GameContext.getCurrent().getRoomModelService().getModel(this.getData().getModel());
 
         if (this.getData().getHeightmap() != null) {
-            DynamicRoomModel dynamicRoomModel;
+            RoomModelData roomModelData;
 
-            if (this.getData().getHeightmap().startsWith("{")) {
-                CustomFloorMapData mapData = JsonUtil.getInstance().fromJson(this.getData().getHeightmap(), CustomFloorMapData.class);
+            try {
+                if (this.getData().getHeightmap().startsWith("{")) {
+                    CustomFloorMapData mapData = JsonUtil.getInstance().fromJson(this.getData().getHeightmap(), CustomFloorMapData.class);
+                    roomModelData = RoomModelDataFactory.instance.createData(mapData);
+                } else {
+                    roomModelData = RoomModelDataFactory.instance.createData("dynamic_heightmap", this.getData().getHeightmap(),
+                            this.getModel().getRoomModelData().getDoorX(), this.getModel().getRoomModelData().getDoorY(),
+                            this.getModel().getRoomModelData().getDoorRotation());
+                }
 
-                dynamicRoomModel = DynamicRoomModel.create("dynamic_heightmap", mapData.getModelData(),
-                        mapData.getDoorX(), mapData.getDoorY(), mapData.getDoorRotation(),
-                        mapData.getWallHeight());
-            } else {
-                dynamicRoomModel = DynamicRoomModel.create("dynamic_heightmap", this.getData().getHeightmap(),
-                        this.getModel().getDoorX(), this.getModel().getDoorY(), this.getModel().getDoorRotation(), -1);
-            }
-
-            if (dynamicRoomModel != null) {
-                this.model = dynamicRoomModel;
+                if (roomModelData != null) {
+                    this.model = GameContext.getCurrent().getRoomModelService().getRoomModelFactory().createModel(roomModelData);
+                }
+            } catch (Exception e) {
+                log.error("Failed to load dynamic room model", e);
             }
         }
 
@@ -326,7 +330,7 @@ public class Room implements Attributable, IRoom {
         return this.data;
     }
 
-    public RoomModel getModel() {
+    public IRoomModel getModel() {
         return this.model;
     }
 

@@ -141,7 +141,8 @@ public class ReloadCommand extends ChatCommand {
                 break;
 
             case "models":
-                RoomManager.getInstance().loadModels();
+                GameContext.getCurrent().getRoomModelService().loadModels();
+
                 sendNotif(Locale.get("command.reload.models"), client);
                 break;
 
