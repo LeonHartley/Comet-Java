@@ -30,8 +30,8 @@ public class NavigatorComponent extends PlayerComponent {
     }
 
     public boolean isSearchSaved(SavedSearch newSearch) {
-        for(ISavedSearch savedSearch : this.getSavedSearches().values()) {
-            if(savedSearch.getView().equals(newSearch.getView()) && savedSearch.getSearchQuery().equals(newSearch.getSearchQuery()))
+        for (ISavedSearch savedSearch : this.getSavedSearches().values()) {
+            if (savedSearch.getView().equals(newSearch.getView()) && savedSearch.getSearchQuery().equals(newSearch.getSearchQuery()))
                 return true;
         }
 

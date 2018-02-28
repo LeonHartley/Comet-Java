@@ -8,8 +8,8 @@ import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.room.avatar.WhisperMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.settings.RoomMuteMessageComposer;
-import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.protocol.messages.MessageEvent;
 
 
 public class MuteRoomMessageEvent implements Event {
@@ -23,9 +23,9 @@ public class MuteRoomMessageEvent implements Event {
         if (room.getData().getOwnerId() != client.getPlayer().getId() && !client.getPlayer().getPermissions().getRank().roomFullControl()) {
             return;
         }
-        
+
         if (room.hasRoomMute()) {
-            for(RoomEntity entity : room.getEntities().getAllEntities().values()) {
+            for (RoomEntity entity : room.getEntities().getAllEntities().values()) {
                 entity.setRoomMuted(false);
             }
 
@@ -38,12 +38,12 @@ public class MuteRoomMessageEvent implements Event {
 
             room.setRoomMute(false);
         } else {
-            for(RoomEntity entity : room.getEntities().getAllEntities().values()) {
+            for (RoomEntity entity : room.getEntities().getAllEntities().values()) {
                 entity.setRoomMuted(true);
             }
 
             room.setRoomMute(true);
-            
+
             for (RoomEntity entity : client.getPlayer().getEntity().getRoom().getEntities().getPlayerEntities()) {
                 if (entity.getEntityType() == RoomEntityType.PLAYER) {
                     PlayerEntity playerEntity = (PlayerEntity) entity;

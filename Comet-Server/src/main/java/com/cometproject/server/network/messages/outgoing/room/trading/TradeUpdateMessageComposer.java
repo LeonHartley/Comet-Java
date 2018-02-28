@@ -1,10 +1,10 @@
 package com.cometproject.server.network.messages.outgoing.room.trading;
 
-import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
+import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.players.components.types.inventory.InventoryItem;
-import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
+import com.cometproject.server.protocol.messages.MessageComposer;
 
 import java.util.Set;
 

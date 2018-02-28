@@ -1,7 +1,7 @@
 package com.cometproject.server.game.polls.types.questions;
 
-import com.cometproject.server.game.polls.types.PollQuestion;
 import com.cometproject.api.utilities.JsonUtil;
+import com.cometproject.server.game.polls.types.PollQuestion;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;

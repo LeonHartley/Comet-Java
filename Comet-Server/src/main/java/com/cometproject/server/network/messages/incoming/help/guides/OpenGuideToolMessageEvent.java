@@ -4,8 +4,8 @@ import com.cometproject.server.game.guides.GuideManager;
 import com.cometproject.server.game.guides.types.HelperSession;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.help.guides.GuideToolsMessageComposer;
-import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.protocol.messages.MessageEvent;
 
 public class OpenGuideToolMessageEvent implements Event {
     @Override
@@ -16,10 +16,10 @@ public class OpenGuideToolMessageEvent implements Event {
         final boolean handleHelpRequests = msg.readBoolean();
         final boolean handleBullyRequests = msg.readBoolean();
 
-        if(!onDuty && client.getPlayer().getHelperSession() != null) {
+        if (!onDuty && client.getPlayer().getHelperSession() != null) {
             GuideManager.getInstance().finishPlayerDuty(client.getPlayer().getHelperSession());
             client.getPlayer().setHelperSession(null);
-        } else if(onDuty) {
+        } else if (onDuty) {
             final HelperSession helperSession = new HelperSession(client.getPlayer().getId(), handleTourRequests, handleHelpRequests, handleBullyRequests);
 
             client.getPlayer().setHelperSession(helperSession);

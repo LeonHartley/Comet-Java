@@ -31,6 +31,40 @@ public class NavigatorSearchService implements CometTask {
 //        CometThreadManager.getInstance().executePeriodic(this, 0, 3000, TimeUnit.MILLISECONDS);
     }
 
+    public static List<IRoomData> order(List<IRoomData> rooms, int limit) {
+        try {
+            Collections.sort(rooms, (room1, room2) -> {
+                boolean is1Active = RoomManager.getInstance().isActive(room1.getId());
+                boolean is2Active = RoomManager.getInstance().isActive(room2.getId());
+
+                return ((!is2Active ? 0 : RoomManager.getInstance().get(room2.getId()).getEntities().playerCount()) -
+                        (!is1Active ? 0 : RoomManager.getInstance().get(room1.getId()).getEntities().playerCount()));
+            });
+        } catch (Exception ignored) {
+
+        }
+
+        List<IRoomData> returnRooms = new LinkedList<>();
+
+        for (IRoomData roomData : rooms) {
+            if (returnRooms.size() >= limit) {
+                break;
+            }
+
+            returnRooms.add(roomData);
+        }
+
+        return returnRooms;
+    }
+
+    public static NavigatorSearchService getInstance() {
+        if (searchServiceInstance == null) {
+            searchServiceInstance = new NavigatorSearchService();
+        }
+
+        return searchServiceInstance;
+    }
+
     @Override
     public void run() {
         // TODO: Cache navigator search results.
@@ -360,39 +394,5 @@ public class NavigatorSearchService implements CometTask {
         }
 
         return rooms;
-    }
-
-    public static List<IRoomData> order(List<IRoomData> rooms, int limit) {
-        try {
-            Collections.sort(rooms, (room1, room2) -> {
-                boolean is1Active = RoomManager.getInstance().isActive(room1.getId());
-                boolean is2Active = RoomManager.getInstance().isActive(room2.getId());
-
-                return ((!is2Active ? 0 : RoomManager.getInstance().get(room2.getId()).getEntities().playerCount()) -
-                        (!is1Active ? 0 : RoomManager.getInstance().get(room1.getId()).getEntities().playerCount()));
-            });
-        } catch (Exception ignored) {
-
-        }
-
-        List<IRoomData> returnRooms = new LinkedList<>();
-
-        for (IRoomData roomData : rooms) {
-            if (returnRooms.size() >= limit) {
-                break;
-            }
-
-            returnRooms.add(roomData);
-        }
-
-        return returnRooms;
-    }
-
-    public static NavigatorSearchService getInstance() {
-        if (searchServiceInstance == null) {
-            searchServiceInstance = new NavigatorSearchService();
-        }
-
-        return searchServiceInstance;
     }
 }

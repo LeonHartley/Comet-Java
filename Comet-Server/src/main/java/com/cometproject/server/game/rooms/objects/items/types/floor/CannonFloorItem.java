@@ -1,15 +1,13 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
 import com.cometproject.api.game.rooms.objects.data.RoomItemData;
-
-
+import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
-import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.google.common.collect.Lists;
@@ -20,7 +18,9 @@ public class CannonFloorItem extends RoomItemFloor {
 
     private List<PlayerEntity> entitiesToKick = Lists.newArrayList();
 
-    public CannonFloorItem(RoomItemData itemData, Room room) {        super(itemData, room);    }
+    public CannonFloorItem(RoomItemData itemData, Room room) {
+        super(itemData, room);
+    }
 
     @Override
     public boolean onInteract(RoomEntity entity, int requestData, boolean isWiredTrigger) {
@@ -56,7 +56,7 @@ public class CannonFloorItem extends RoomItemFloor {
 
         }
 
-        if(kickTile == null) {
+        if (kickTile == null) {
             kickTile = this.getPosition().squareInFront(rotationToFindTile);
         }
 
@@ -80,7 +80,7 @@ public class CannonFloorItem extends RoomItemFloor {
 
     @Override
     public void onTickComplete() {
-        for(PlayerEntity entity : this.entitiesToKick) {
+        for (PlayerEntity entity : this.entitiesToKick) {
             entity.kick();
         }
 

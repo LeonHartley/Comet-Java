@@ -4,8 +4,8 @@ import com.cometproject.server.game.moderation.ModerationManager;
 import com.cometproject.server.game.moderation.types.tickets.HelpTicket;
 import com.cometproject.server.game.moderation.types.tickets.HelpTicketState;
 import com.cometproject.server.network.messages.incoming.Event;
-import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.protocol.messages.MessageEvent;
 
 public class ModToolReleaseIssueMessageEvent implements Event {
     @Override

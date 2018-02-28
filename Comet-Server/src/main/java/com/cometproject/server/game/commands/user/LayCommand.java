@@ -1,8 +1,8 @@
 package com.cometproject.server.game.commands.user;
 
+import com.cometproject.api.game.rooms.entities.RoomEntityStatus;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
-import com.cometproject.api.game.rooms.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.network.sessions.Session;
 
@@ -26,7 +26,7 @@ public class LayCommand extends ChatCommand {
     public String getPermission() {
         return "lay_command";
     }
-    
+
     @Override
     public String getParameter() {
         return "";

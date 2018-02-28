@@ -10,8 +10,8 @@ import com.cometproject.server.network.messages.outgoing.user.details.UserObject
 import com.cometproject.server.network.messages.outgoing.user.inventory.BadgeInventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.permissions.AllowancesMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.wardrobe.FigureSetIdsMessageComposer;
-import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.protocol.messages.MessageEvent;
 
 
 public class InfoRetrieveMessageEvent implements Event {

@@ -1,8 +1,8 @@
 package com.cometproject.server.network.messages.outgoing.messenger;
 
 import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
+import com.cometproject.server.protocol.messages.MessageComposer;
 
 
 public class InstantChatMessageComposer extends MessageComposer {
@@ -37,7 +37,7 @@ public class InstantChatMessageComposer extends MessageComposer {
         msg.writeString(message);
         msg.writeInt(0);
 
-        if(this.username != null) { // we can assume the rest aren't null
+        if (this.username != null) { // we can assume the rest aren't null
             final String data = username + "/" + figure + "/" + playerId;
             msg.writeString(data);
         }

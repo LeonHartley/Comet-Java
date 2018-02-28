@@ -35,7 +35,7 @@ public abstract class RoomItemDataObject extends CachableObject {
         jsonObject.addProperty("ownerName", this.ownerName);
         jsonObject.addProperty("data", this.data);
 
-        if(this.limitedEditionItemData != null) {
+        if (this.limitedEditionItemData != null) {
             limitedItemData.addProperty("itemId", this.limitedEditionItemData.getItemId());
             limitedItemData.addProperty("limitedRare", this.limitedEditionItemData.getLimitedRare());
             limitedItemData.addProperty("limitedRareTotal", this.limitedEditionItemData.getLimitedRareTotal());

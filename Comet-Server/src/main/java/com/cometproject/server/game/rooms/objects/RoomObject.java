@@ -1,11 +1,11 @@
 package com.cometproject.server.game.rooms.objects;
 
-import com.cometproject.api.game.rooms.objects.IRoomObject;
 import com.cometproject.api.game.bots.BotType;
-import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
-import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
+import com.cometproject.api.game.rooms.objects.IRoomObject;
 import com.cometproject.api.game.utilities.Position;
 import com.cometproject.api.game.utilities.Positionable;
+import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
+import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.utilities.comporators.PositionComparator;
@@ -49,17 +49,6 @@ public abstract class RoomObject implements IRoomObject, Positionable {
     }
 
     /**
-     * Set the position to a new position
-     *
-     * @param newPosition The position to replace the instance one with
-     */
-    public void setPosition(Position newPosition) {
-        if (newPosition == null) return;
-
-        this.position = newPosition.copy();
-    }
-
-    /**
      * Checks whether or not the object is at the door tile
      *
      * @return Is the object on the door tile?
@@ -70,6 +59,7 @@ public abstract class RoomObject implements IRoomObject, Positionable {
 
     /**
      * Gets the closest player entity
+     *
      * @return The closest player entity | null if one couldn't be found
      */
     public PlayerEntity nearestPlayerEntity() {
@@ -81,7 +71,7 @@ public abstract class RoomObject implements IRoomObject, Positionable {
 
         for (PlayerEntity playerEntity : nearestEntities) {
 //            if (playerEntity.getTile().isReachable(this)) {
-                return playerEntity;
+            return playerEntity;
 //            }
         }
 
@@ -90,6 +80,7 @@ public abstract class RoomObject implements IRoomObject, Positionable {
 
     /**
      * Gets the closest bot entity
+     *
      * @param type The type of bot we want to find
      * @return Closest bot entity |
      */
@@ -99,7 +90,7 @@ public abstract class RoomObject implements IRoomObject, Positionable {
         List<BotEntity> bots = new ArrayList<>();
         List<BotEntity> nearestEntities = this.getRoom().getEntities().getBotEntities();
 
-        if(type == null) {
+        if (type == null) {
             bots.addAll(nearestEntities);
         } else {
             for (BotEntity botEntity : nearestEntities) {
@@ -111,13 +102,13 @@ public abstract class RoomObject implements IRoomObject, Positionable {
 
         Collections.sort(bots, positionComparator);
 
-        for(BotEntity botEntity : bots) {
-            if(this.getPosition().distanceTo(botEntity.getPosition()) < 4) {
+        for (BotEntity botEntity : bots) {
+            if (this.getPosition().distanceTo(botEntity.getPosition()) < 4) {
                 return botEntity;
             }
         }
 
-        if(bots.size() >= 1) {
+        if (bots.size() >= 1) {
             return bots.get(0); // no bots found, find the closest one.
         }
 
@@ -126,6 +117,7 @@ public abstract class RoomObject implements IRoomObject, Positionable {
 
     /**
      * Gets the closest bot entity
+     *
      * @return The closest bot entity
      */
     public BotEntity nearestBotEntity() {
@@ -148,5 +140,16 @@ public abstract class RoomObject implements IRoomObject, Positionable {
      */
     public Position getPosition() {
         return this.position;
+    }
+
+    /**
+     * Set the position to a new position
+     *
+     * @param newPosition The position to replace the instance one with
+     */
+    public void setPosition(Position newPosition) {
+        if (newPosition == null) return;
+
+        this.position = newPosition.copy();
     }
 }

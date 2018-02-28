@@ -45,7 +45,7 @@ public class TalkMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) {
         String message = msg.readString();
         int colour = msg.readInt();
-		
+
         final int timeMutedExpire = client.getPlayer().getData().getTimeMuted() - (int) Comet.getTime();
 
         PlayerEntity playerEntity = client.getPlayer().getEntity();
@@ -56,7 +56,7 @@ public class TalkMessageEvent implements Event {
         if (!playerEntity.isVisible() && !playerEntity.getPlayer().isInvisible()) {
             return;
         }
-		
+
         if (client.getPlayer().getData().getTimeMuted() != 0) {
             if (client.getPlayer().getData().getTimeMuted() > (int) Comet.getTime()) {
                 client.getPlayer().getSession().send(new MutedMessageComposer(timeMutedExpire));

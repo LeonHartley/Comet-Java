@@ -1,7 +1,7 @@
 package com.cometproject.server.game.rooms.objects;
 
-import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.api.game.utilities.Position;
+import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.rooms.types.Room;
 
 public abstract class BigRoomFloorObject extends RoomObject {
@@ -39,6 +39,7 @@ public abstract class BigRoomFloorObject extends RoomObject {
 
     /**
      * Get the virtual ID of this object
+     *
      * @return The virtual ID of this object
      */
     public int getVirtualId() {

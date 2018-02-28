@@ -10,7 +10,6 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import java.util.concurrent.TimeUnit;
 
 
-
 public class MonitorClient {
     public final String MONITOR_HOST = "monitor.comet.openhabbo.com";
     public final int MONITOR_PORT = 13337;

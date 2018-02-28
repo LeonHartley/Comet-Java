@@ -16,8 +16,8 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.condit
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.conditions.positive.WiredConditionTriggererOnFurni;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerEnterRoom;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.wired.dialog.WiredTriggerMessageComposer;
+import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.utilities.RandomUtil;
 import com.google.common.collect.Lists;
 import org.apache.log4j.Logger;
@@ -31,7 +31,20 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public abstract class WiredTriggerItem extends WiredFloorItem {
     private static Logger log = Logger.getLogger(WiredTriggerItem.class.getName());
 
-    public WiredTriggerItem(RoomItemData itemData, Room room) {        super(itemData, room);    }
+    public WiredTriggerItem(RoomItemData itemData, Room room) {
+        super(itemData, room);
+    }
+
+    public static <T extends RoomItemFloor> List<T> getTriggers(Room room, Class<T> clazz) {
+        final List<T> triggers = Lists.newArrayList();
+
+        for (RoomItemFloor floorItem : room.getItems().getByClass(clazz)) {
+            if (triggers.size() <= CometSettings.wiredMaxTriggers)
+                triggers.add((T) floorItem);
+        }
+
+        return triggers;
+    }
 
     @Override
     public boolean evaluate(RoomEntity entity, Object data) {
@@ -132,13 +145,13 @@ public abstract class WiredTriggerItem extends WiredFloorItem {
             boolean hasSuccessfulOnFurni = false;
 
             for (Map.Entry<WiredConditionItem, AtomicBoolean> conditionState : completedConditions.entrySet()) {
-                if(conditionState.getKey() instanceof WiredConditionHasFurniOn && !(conditionState.getKey() instanceof WiredNegativeConditionHasFurniOn)) {
+                if (conditionState.getKey() instanceof WiredConditionHasFurniOn && !(conditionState.getKey() instanceof WiredNegativeConditionHasFurniOn)) {
                     final WiredConditionHasFurniOn conditionHasFurniOn = (WiredConditionHasFurniOn) conditionState.getKey();
 
-                    if(conditionState.getValue().get() && conditionHasFurniOn.getMode() == 1) {
+                    if (conditionState.getValue().get() && conditionHasFurniOn.getMode() == 1) {
                         hasSuccessfulOnStack = true;
                     } else {
-                        if(!hasSuccessfulOnStack) {
+                        if (!hasSuccessfulOnStack) {
                             canExecute = false;
                         }
                     }
@@ -146,12 +159,12 @@ public abstract class WiredTriggerItem extends WiredFloorItem {
                     continue;
                 }
 
-                if(conditionState.getKey() instanceof WiredConditionTriggererOnFurni &&
+                if (conditionState.getKey() instanceof WiredConditionTriggererOnFurni &&
                         !(conditionState.getKey() instanceof WiredNegativeConditionTriggererOnFurni)) {
-                    if(conditionState.getValue().get()) {
+                    if (conditionState.getValue().get()) {
                         hasSuccessfulOnFurni = true;
                     } else {
-                        if(!hasSuccessfulOnFurni) {
+                        if (!hasSuccessfulOnFurni) {
                             canExecute = false;
                         }
                     }
@@ -162,7 +175,7 @@ public abstract class WiredTriggerItem extends WiredFloorItem {
                 }
             }
 
-            if(hasSuccessfulOnFurni || hasSuccessfulOnStack) {
+            if (hasSuccessfulOnFurni || hasSuccessfulOnStack) {
                 canExecute = true;
             }
 
@@ -216,17 +229,6 @@ public abstract class WiredTriggerItem extends WiredFloorItem {
 
         // tell the event that called the trigger that it was not a success!
         return false;
-    }
-
-    public static <T extends RoomItemFloor> List<T> getTriggers(Room room, Class<T> clazz) {
-        final List<T> triggers = Lists.newArrayList();
-
-        for (RoomItemFloor floorItem : room.getItems().getByClass(clazz)) {
-            if (triggers.size() <= CometSettings.wiredMaxTriggers)
-                triggers.add((T) floorItem);
-        }
-
-        return triggers;
     }
 
     private boolean executeEffect(WiredActionItem actionItem, RoomEntity entity, Object data) {

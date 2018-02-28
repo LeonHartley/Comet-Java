@@ -2,12 +2,12 @@ package com.cometproject.server.game.players.components;
 
 import com.cometproject.api.game.achievements.types.AchievementType;
 import com.cometproject.api.game.players.IPlayer;
+import com.cometproject.api.game.players.data.PlayerAvatar;
 import com.cometproject.api.game.players.data.components.PlayerMessenger;
 import com.cometproject.api.game.players.data.components.messenger.IMessengerFriend;
 import com.cometproject.api.networking.messages.IMessageComposer;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.components.types.messenger.MessengerSearchResult;
-import com.cometproject.api.game.players.data.PlayerAvatar;
 import com.cometproject.server.game.players.types.PlayerComponent;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.outgoing.messenger.MessengerSearchResultsMessageComposer;
@@ -41,10 +41,10 @@ public class MessengerComponent extends PlayerComponent implements PlayerMesseng
     public void dispose() {
         this.sendStatus(false, false);
 
-        if(this.getRequests() != null) {
+        if (this.getRequests() != null) {
             this.requests.clear();
         }
-        
+
         this.friends.clear();
         this.requests = null;
         this.friends = null;
@@ -223,12 +223,12 @@ public class MessengerComponent extends PlayerComponent implements PlayerMesseng
     }
 
     @Override
-    public void setInitialised(boolean initialised) {
-        this.initialised = initialised;
+    public boolean isInitialised() {
+        return initialised;
     }
 
     @Override
-    public boolean isInitialised() {
-        return initialised;
+    public void setInitialised(boolean initialised) {
+        this.initialised = initialised;
     }
 }

@@ -1,17 +1,17 @@
 package com.cometproject.server.network.messages.incoming.room.item;
 
-import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.api.game.quests.QuestType;
+import com.cometproject.api.game.utilities.Position;
+import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.AffectedTile;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerStateChanged;
-import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.room.engine.UpdateStackMapMessageComposer;
-import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.protocol.messages.MessageEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,7 @@ public class ChangeFloorItemStateMessageEvent implements Event {
 
         Long itemId = ItemManager.getInstance().getItemIdByVirtualId(virtualId);
 
-        if(itemId == null) {
+        if (itemId == null) {
             return;
         }
 
@@ -32,7 +32,7 @@ public class ChangeFloorItemStateMessageEvent implements Event {
             return;
         }
 
-        if(!client.getPlayer().getEntity().isVisible()) {
+        if (!client.getPlayer().getEntity().isVisible()) {
             return;
         }
 

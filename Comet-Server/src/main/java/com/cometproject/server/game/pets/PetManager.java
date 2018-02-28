@@ -2,40 +2,39 @@ package com.cometproject.server.game.pets;
 
 import com.cometproject.api.game.pets.IPetData;
 import com.cometproject.api.game.pets.IPetRace;
-import com.cometproject.api.game.pets.IPetStats;
+import com.cometproject.api.utilities.Initialisable;
 import com.cometproject.server.game.pets.data.PetSpeech;
 import com.cometproject.server.game.pets.races.PetBreedLevel;
 import com.cometproject.server.game.pets.races.PetRace;
 import com.cometproject.server.storage.queries.pets.PetDao;
-import com.cometproject.api.utilities.Initialisable;
-import com.cometproject.server.tasks.CometThreadManager;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class PetManager implements Initialisable {
     private static PetManager petManagerInstance;
+    private final Map<Integer, IPetData> pendingPetDataSaves = Maps.newConcurrentMap();
     private Logger log = Logger.getLogger(PetManager.class.getName());
-
     private List<PetRace> petRaces;
-
     private Map<Integer, PetSpeech> petMessages;
-
     private Map<String, String> transformablePets;
     private Map<Integer, Map<PetBreedLevel, Set<Integer>>> petBreedPallets;
 
-    private final Map<Integer, IPetData> pendingPetDataSaves = Maps.newConcurrentMap();
-
     public PetManager() {
 
+    }
+
+    public static PetManager getInstance() {
+        if (petManagerInstance == null)
+            petManagerInstance = new PetManager();
+
+        return petManagerInstance;
     }
 
     @Override
@@ -46,16 +45,9 @@ public class PetManager implements Initialisable {
         this.loadTransformablePets();
 
         // Set up the queue for saving pet data
-       // CometThreadManager.getInstance().executePeriodic(this::savePetStats, 1000, 1000, TimeUnit.MILLISECONDS);
+        // CometThreadManager.getInstance().executePeriodic(this::savePetStats, 1000, 1000, TimeUnit.MILLISECONDS);
 
         log.info("PetManager initialized");
-    }
-
-    public static PetManager getInstance() {
-        if (petManagerInstance == null)
-            petManagerInstance = new PetManager();
-
-        return petManagerInstance;
     }
 
     public void loadPetRaces() {
@@ -96,7 +88,7 @@ public class PetManager implements Initialisable {
             this.petMessages = PetDao.getMessages(petSpeechCount);
 
             log.info("Loaded " + this.petMessages.size() + " pet message sets and " + petSpeechCount.get() + " total messages");
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.error("Error while loading pet messages");
         }
     }
@@ -110,7 +102,7 @@ public class PetManager implements Initialisable {
             this.transformablePets = PetDao.getTransformablePets();
 
             log.info("Loaded " + this.transformablePets.size() + " transformable pets");
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.error("Error while loading transformable pets");
         }
     }

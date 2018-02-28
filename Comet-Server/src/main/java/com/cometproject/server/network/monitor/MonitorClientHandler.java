@@ -16,7 +16,6 @@ import java.nio.charset.Charset;
 import java.util.concurrent.TimeUnit;
 
 
-
 public class MonitorClientHandler extends SimpleChannelInboundHandler {
     public static boolean isConnected = false;
 

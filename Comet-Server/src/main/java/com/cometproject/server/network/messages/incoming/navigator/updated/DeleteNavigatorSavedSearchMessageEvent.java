@@ -11,7 +11,7 @@ public class DeleteNavigatorSavedSearchMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) throws Exception {
         final int savedSearch = msg.readInt();
 
-        if(client.getPlayer().getNavigator().getSavedSearches().containsKey(savedSearch)) {
+        if (client.getPlayer().getNavigator().getSavedSearches().containsKey(savedSearch)) {
             PlayerDao.deleteSearch(savedSearch);
             client.getPlayer().getNavigator().getSavedSearches().remove(savedSearch);
 

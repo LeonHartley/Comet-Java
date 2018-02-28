@@ -4,8 +4,8 @@ import com.cometproject.api.game.quests.QuestType;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.room.avatar.ActionMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.permissions.FloodFilterMessageComposer;
-import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.protocol.messages.MessageEvent;
 
 
 public class ApplyActionMessageEvent implements Event {
@@ -23,7 +23,7 @@ public class ApplyActionMessageEvent implements Event {
                 client.getPlayer().getQuests().progressQuest(QuestType.SOCIAL_WAVE);
             }
 
-            if(!client.getPlayer().getEntity().isVisible()) {
+            if (!client.getPlayer().getEntity().isVisible()) {
                 return;
             }
 

@@ -8,8 +8,8 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredF
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.data.WiredActionItemData;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.events.WiredItemEvent;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.wired.dialog.WiredActionMessageComposer;
+import com.cometproject.server.protocol.messages.MessageComposer;
 import com.google.common.collect.Lists;
 
 import java.util.List;
@@ -17,7 +17,9 @@ import java.util.List;
 
 public abstract class WiredActionItem extends WiredFloorItem {
 
-    public WiredActionItem(RoomItemData itemData, Room room) {        super(itemData, room);    }
+    public WiredActionItem(RoomItemData itemData, Room room) {
+        super(itemData, room);
+    }
 
     @Override
     public MessageComposer getDialog() {

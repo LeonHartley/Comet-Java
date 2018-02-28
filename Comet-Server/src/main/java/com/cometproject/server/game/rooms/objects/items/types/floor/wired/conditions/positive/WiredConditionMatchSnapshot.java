@@ -13,7 +13,9 @@ public class WiredConditionMatchSnapshot extends WiredConditionItem {
     private static final int PARAM_MATCH_ROTATION = 1;
     private static final int PARAM_MATCH_POSITION = 2;
 
-    public WiredConditionMatchSnapshot(RoomItemData itemData, Room room) {        super(itemData, room);    }
+    public WiredConditionMatchSnapshot(RoomItemData itemData, Room room) {
+        super(itemData, room);
+    }
 
     @Override
     public int getInterface() {

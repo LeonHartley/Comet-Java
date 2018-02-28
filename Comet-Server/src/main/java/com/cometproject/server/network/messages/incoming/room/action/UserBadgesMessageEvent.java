@@ -3,8 +3,8 @@ package com.cometproject.server.network.messages.incoming.room.action;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.user.profile.UserBadgesMessageComposer;
-import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.protocol.messages.MessageEvent;
 
 
 public class UserBadgesMessageEvent implements Event {
@@ -24,7 +24,7 @@ public class UserBadgesMessageEvent implements Event {
             return;
 
 
-        if(!client.getPlayer().getEntity().isVisible()) {
+        if (!client.getPlayer().getEntity().isVisible()) {
             return;
         }
 

@@ -4,7 +4,6 @@ import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
-import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.details.UserObjectMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 
@@ -28,7 +27,7 @@ public class FlagUserCommand extends ChatCommand {
 
         user.getPlayer().getData().setFlaggingUser(true);
         user.getPlayer().getData().setChangingName(true);
-        user.send(new AdvancedAlertMessageComposer(Locale.getOrDefault("command.flaguser.title", "Grrrr!"), Locale.getOrDefault("command.flaguser.message","Your name is inappropriate! You can change your name by clicking on yourself. Do this within a minute or you will be banned!")));
+        user.send(new AdvancedAlertMessageComposer(Locale.getOrDefault("command.flaguser.title", "Grrrr!"), Locale.getOrDefault("command.flaguser.message", "Your name is inappropriate! You can change your name by clicking on yourself. Do this within a minute or you will be banned!")));
         user.send(new UserObjectMessageComposer(user.getPlayer()));
     }
 

@@ -1,6 +1,5 @@
 package com.cometproject.server.game.commands.staff.alerts;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.network.NetworkManager;
@@ -39,7 +38,7 @@ public class MaintenanceCommand extends ChatCommand {
     public String getPermission() {
         return "maintenance_command";
     }
-    
+
     @Override
     public String getParameter() {
         return "%hour% %minute%";

@@ -1,14 +1,12 @@
 package com.cometproject.server.game.guides.types;
 
 public class HelperSession {
+    public HelpRequest handlingRequest;
     private int playerId;
-
     private boolean tourRequests;
     private boolean helpRequests;
     private boolean bullyReports;
 
-    public HelpRequest handlingRequest;
-    
     public HelperSession(int playerId, boolean tourRequests, boolean helpRequests, boolean bullyReports) {
         this.playerId = playerId;
 

@@ -3,8 +3,8 @@ package com.cometproject.server.network.messages.outgoing.room.engine;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.rooms.models.RoomModel;
 import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
-import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
+import com.cometproject.server.protocol.messages.MessageComposer;
 
 
 public class RelativeHeightmapMessageComposer extends MessageComposer {
@@ -36,7 +36,8 @@ public class RelativeHeightmapMessageComposer extends MessageComposer {
             for (int x = 0; x < model.getSizeX(); x++) {
                 /*if (x == model.getDoorX() && y == model.getDoorY()) {
                     builder.append(model.getDoorZ());
-                } else */if (model.getSquareState()[x][y] == RoomTileState.INVALID) {
+                } else */
+                if (model.getSquareState()[x][y] == RoomTileState.INVALID) {
                     builder.append("x");
                 } else {
                     builder.append(characters[(int) Math.floor(model.getSquareHeight()[x][y] + 0.5d)]);

@@ -1,13 +1,12 @@
 package com.cometproject.server.network.messages.incoming.user.profile;
 
 import com.cometproject.api.game.players.data.components.messenger.IMessengerFriend;
-import com.cometproject.server.game.players.components.RelationshipComponent;
-import com.cometproject.server.game.players.components.types.messenger.MessengerFriend;
 import com.cometproject.api.game.players.data.components.messenger.RelationshipLevel;
+import com.cometproject.server.game.players.components.RelationshipComponent;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.messenger.UpdateFriendStateMessageComposer;
-import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.storage.queries.player.relationships.RelationshipDao;
 
 
@@ -16,7 +15,7 @@ public class SetRelationshipMessageEvent implements Event {
         int user = msg.readInt();
         int level = msg.readInt();
 
-        if(client.getPlayer().getMessenger().getFriendById(user) == null) {
+        if (client.getPlayer().getMessenger().getFriendById(user) == null) {
             return;
         }
 
@@ -24,7 +23,7 @@ public class SetRelationshipMessageEvent implements Event {
 
         RelationshipComponent relationships = client.getPlayer().getRelationships();
 
-        if(relationships.getRelationships().size() >= 100) {
+        if (relationships.getRelationships().size() >= 100) {
             // TODO: Allow this to be configured.
             return;
         }

@@ -3,7 +3,6 @@ package com.cometproject.server.game.commands.user.room;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.network.sessions.Session;
-import org.apache.commons.lang.StringUtils;
 
 
 public class SetSpeedCommand extends ChatCommand {
@@ -19,7 +18,7 @@ public class SetSpeedCommand extends ChatCommand {
                 sendNotif(Locale.getOrDefault("command.need.rights", "You need rights to use this command!"), client);
                 return;
             }
-            
+
             try {
                 int speed = Integer.parseInt(params[0]);
 
@@ -31,8 +30,7 @@ public class SetSpeedCommand extends ChatCommand {
 
                 client.getPlayer().getEntity().getRoom().setAttribute("customRollerSpeed", speed);
                 sendNotif(Locale.get("command.setspeed.set").replace("%s", speed + ""), client);
-            }
-            catch(Exception e) {
+            } catch (Exception e) {
                 sendNotif(Locale.getOrDefault("command.setspeed.invalid", "Please, use numbers only!"), client);
             }
         }
@@ -42,7 +40,7 @@ public class SetSpeedCommand extends ChatCommand {
     public String getPermission() {
         return "setspeed_command";
     }
-    
+
     @Override
     public String getParameter() {
         return Locale.getOrDefault("command.parameter.number", "%number%");

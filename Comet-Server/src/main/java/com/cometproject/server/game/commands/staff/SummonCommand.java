@@ -41,7 +41,7 @@ public class SummonCommand extends ChatCommand {
     public String getPermission() {
         return "summon_command";
     }
-    
+
     @Override
     public String getParameter() {
         return Locale.getOrDefault("command.parameter.username", "%username%");

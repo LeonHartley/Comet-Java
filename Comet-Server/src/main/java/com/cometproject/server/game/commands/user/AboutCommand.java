@@ -1,13 +1,13 @@
 package com.cometproject.server.game.commands.user;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.api.config.CometSettings;
+import com.cometproject.api.stats.CometStats;
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.GameCycle;
 import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.sessions.Session;
-import com.cometproject.api.stats.CometStats;
 
 import java.text.NumberFormat;
 

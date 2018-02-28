@@ -21,7 +21,7 @@ public class MassEffectCommand extends ChatCommand {
 
             final Integer minimumRank = PermissionsManager.getInstance().getEffects().get(effectId);
 
-            if(minimumRank != null && client.getPlayer().getData().getRank() < minimumRank) {
+            if (minimumRank != null && client.getPlayer().getData().getRank() < minimumRank) {
                 effectId = 10;
             }
 

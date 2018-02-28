@@ -29,7 +29,7 @@ public class RoomChatLogEntry extends AbstractLogEntry {
     }
 
     public void compose(IComposer msg) {
-        msg.writeString(TimeSpan.millisecondsToDate((int)(Comet.getTime() - getTimestamp()) * 1000));
+        msg.writeString(TimeSpan.millisecondsToDate((int) (Comet.getTime() - getTimestamp()) * 1000));
 
         msg.writeInt(this.getPlayerId());
         msg.writeString(PlayerDao.getUsernameByPlayerId(this.getPlayerId()));

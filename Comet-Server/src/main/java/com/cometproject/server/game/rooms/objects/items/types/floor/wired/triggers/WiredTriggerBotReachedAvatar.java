@@ -12,16 +12,6 @@ public class WiredTriggerBotReachedAvatar extends WiredTriggerItem {
         super(itemData, room);
     }
 
-    @Override
-    public int getInterface() {
-        return 14;
-    }
-
-    @Override
-    public boolean suppliesPlayer() {
-        return true;
-    }
-
     public static boolean executeTriggers(RoomEntity entity) {
         boolean wasExecuted = false;
 
@@ -32,5 +22,15 @@ public class WiredTriggerBotReachedAvatar extends WiredTriggerItem {
         }
 
         return wasExecuted;
+    }
+
+    @Override
+    public int getInterface() {
+        return 14;
+    }
+
+    @Override
+    public boolean suppliesPlayer() {
+        return true;
     }
 }

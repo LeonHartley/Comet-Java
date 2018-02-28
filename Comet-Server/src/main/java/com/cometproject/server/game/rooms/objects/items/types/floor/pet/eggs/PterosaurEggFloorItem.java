@@ -1,9 +1,7 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.pet.eggs;
 
 import com.cometproject.api.game.rooms.objects.data.RoomItemData;
-import com.cometproject.server.game.pets.races.PetRace;
 import com.cometproject.server.game.pets.races.PetType;
-import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.utilities.RandomUtil;
 

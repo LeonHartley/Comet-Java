@@ -3,8 +3,6 @@ package com.cometproject.server.game.players.components;
 import com.cometproject.api.game.bots.IBotData;
 import com.cometproject.api.game.players.IPlayer;
 import com.cometproject.api.game.players.data.components.PlayerBots;
-import com.cometproject.api.game.players.data.components.bots.IPlayerBot;
-import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.players.types.PlayerComponent;
 import com.cometproject.server.storage.queries.bots.PlayerBotDao;
 

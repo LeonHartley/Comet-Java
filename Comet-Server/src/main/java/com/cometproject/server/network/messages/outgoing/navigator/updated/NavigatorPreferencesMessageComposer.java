@@ -2,8 +2,8 @@ package com.cometproject.server.network.messages.outgoing.navigator.updated;
 
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.players.types.PlayerSettings;
-import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
+import com.cometproject.server.protocol.messages.MessageComposer;
 
 public class NavigatorPreferencesMessageComposer extends MessageComposer {
 

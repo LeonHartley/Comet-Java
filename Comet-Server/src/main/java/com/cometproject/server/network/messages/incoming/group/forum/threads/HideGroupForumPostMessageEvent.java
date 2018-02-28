@@ -2,12 +2,12 @@ package com.cometproject.server.network.messages.incoming.group.forum.threads;
 
 import com.cometproject.api.game.GameContext;
 import com.cometproject.api.game.groups.types.IGroup;
+import com.cometproject.api.game.groups.types.components.forum.ForumPermission;
 import com.cometproject.api.game.groups.types.components.forum.IForumSettings;
 import com.cometproject.api.game.groups.types.components.forum.IForumThread;
 import com.cometproject.api.game.groups.types.components.forum.IForumThreadReply;
 import com.cometproject.server.composers.group.forums.GroupForumUpdateReplyMessageComposer;
 import com.cometproject.server.composers.group.forums.GroupForumUpdateThreadMessageComposer;
-import com.cometproject.api.game.groups.types.components.forum.ForumPermission;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.protocol.messages.MessageEvent;
@@ -49,11 +49,11 @@ public class HideGroupForumPostMessageEvent implements Event {
             return;
         }
 
-        if(!client.getPlayer().getPermissions().getRank().modTool() && state > 10) {
+        if (!client.getPlayer().getPermissions().getRank().modTool() && state > 10) {
             state = 10;
         }
 
-       if(messageId != -1) {
+        if (messageId != -1) {
             IForumThreadReply reply = forumThread.getReplyById(messageId);
 
             if (reply == null) {
@@ -63,8 +63,8 @@ public class HideGroupForumPostMessageEvent implements Event {
             reply.setState(state);
             client.send(new GroupForumUpdateReplyMessageComposer(reply, threadId, groupId));
         } else {
-           forumThread.setState(state);
-           client.send(new GroupForumUpdateThreadMessageComposer(groupId, forumThread));
+            forumThread.setState(state);
+            client.send(new GroupForumUpdateThreadMessageComposer(groupId, forumThread));
         }
 
         GroupForumThreadDao.saveMessageState(messageId != -1 ? messageId : threadId, state, client.getPlayer().getId(),

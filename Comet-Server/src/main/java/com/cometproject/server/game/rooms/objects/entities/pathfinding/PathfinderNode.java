@@ -11,6 +11,10 @@ public class PathfinderNode implements Comparable<PathfinderNode> {
     private boolean inOpen = false;
     private boolean inClosed = false;
 
+    public PathfinderNode(Position current) {
+        this.position = current;
+    }
+
     public Position getPosition() {
         return position;
     }
@@ -49,10 +53,6 @@ public class PathfinderNode implements Comparable<PathfinderNode> {
 
     public void setInClosed(boolean inClosed) {
         this.inClosed = inClosed;
-    }
-
-    public PathfinderNode(Position current) {
-        this.position = current;
     }
 
     @Override

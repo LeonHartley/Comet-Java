@@ -10,7 +10,7 @@ public abstract class CachableObject implements Serializable {
     public String toString() {
         final JsonObject jsonObject = this.toJson();
 
-        if(jsonObject != null) {
+        if (jsonObject != null) {
             return JsonUtil.getInstance().toJson(jsonObject);
         }
 

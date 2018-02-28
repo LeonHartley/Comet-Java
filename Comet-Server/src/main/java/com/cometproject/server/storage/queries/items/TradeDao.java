@@ -40,7 +40,7 @@ public class TradeDao {
 
             preparedStatement = SqlHelper.prepare("UPDATE items SET user_id = ? WHERE id = ?;", sqlConnection);
 
-            for(Map.Entry<Long, Integer> item : itemsToUpdate.entrySet()) {
+            for (Map.Entry<Long, Integer> item : itemsToUpdate.entrySet()) {
                 preparedStatement.setInt(1, item.getValue());
                 preparedStatement.setLong(2, item.getKey());
 

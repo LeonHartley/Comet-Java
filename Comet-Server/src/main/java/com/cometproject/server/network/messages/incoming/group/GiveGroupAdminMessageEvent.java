@@ -2,18 +2,16 @@ package com.cometproject.server.network.messages.incoming.group;
 
 import com.cometproject.api.game.GameContext;
 import com.cometproject.api.game.groups.types.IGroup;
-import com.cometproject.api.game.groups.types.components.membership.IGroupMember;
-import com.cometproject.server.composers.group.GroupMembersMessageComposer;
 import com.cometproject.api.game.groups.types.components.membership.GroupAccessLevel;
+import com.cometproject.api.game.groups.types.components.membership.IGroupMember;
 import com.cometproject.api.game.rooms.entities.RoomEntityStatus;
+import com.cometproject.server.composers.group.GroupMembersMessageComposer;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.room.permissions.YouAreControllerMessageComposer;
-import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.storage.api.StorageContext;
-
-import java.util.ArrayList;
 
 
 public class GiveGroupAdminMessageEvent implements Event {

@@ -5,7 +5,6 @@ import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorItemMessageComposer;
 
 
 public class GroupGateFloorItem extends GroupFloorItem {
@@ -30,7 +29,7 @@ public class GroupGateFloorItem extends GroupFloorItem {
 
     @Override
     public void onTickComplete() {
-        if(this.getTile().getEntities().size() != 0) {
+        if (this.getTile().getEntities().size() != 0) {
             return;
         }
 
@@ -40,7 +39,7 @@ public class GroupGateFloorItem extends GroupFloorItem {
 
     @Override
     public boolean isMovementCancelled(RoomEntity entity) {
-        if(!(entity instanceof PlayerEntity)) {
+        if (!(entity instanceof PlayerEntity)) {
             return true;
         }
 

@@ -7,7 +7,6 @@ import com.cometproject.api.game.furniture.types.IMusicData;
 import com.cometproject.server.storage.queries.items.ItemDao;
 import com.cometproject.server.storage.queries.items.MusicDao;
 import com.cometproject.server.storage.queries.items.TeleporterDao;
-import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import com.cometproject.storage.api.StorageContext;
 import com.cometproject.storage.api.data.Data;
 import org.apache.log4j.Logger;
@@ -39,6 +38,14 @@ public class ItemManager implements IFurnitureService {
 
     }
 
+    public static ItemManager getInstance() {
+        if (itemManagerInstance == null) {
+            itemManagerInstance = new ItemManager();
+        }
+
+        return itemManagerInstance;
+    }
+
     @Override
     public void initialize() {
         this.itemDefinitions = new HashMap<>();
@@ -54,14 +61,6 @@ public class ItemManager implements IFurnitureService {
         this.loadMusicData();
 
         log.info("ItemManager initialized");
-    }
-
-    public static ItemManager getInstance() {
-        if (itemManagerInstance == null) {
-            itemManagerInstance = new ItemManager();
-        }
-
-        return itemManagerInstance;
     }
 
     @Override
@@ -86,7 +85,7 @@ public class ItemManager implements IFurnitureService {
 
         if (this.itemDefinitions != null) {
             for (FurnitureDefinition itemDefinition : this.itemDefinitions.values()) {
-                if(itemDefinition.getItemName().equals("horse_saddle1")) {
+                if (itemDefinition.getItemName().equals("horse_saddle1")) {
                     this.saddleId = itemDefinition.getId();
                 }
 
@@ -109,7 +108,7 @@ public class ItemManager implements IFurnitureService {
 
     @Override
     public int getItemVirtualId(long itemId) {
-        if(this.itemIdToVirtualId.containsKey(itemId)) {
+        if (this.itemIdToVirtualId.containsKey(itemId)) {
             return this.itemIdToVirtualId.get(itemId);
         }
 
@@ -145,7 +144,7 @@ public class ItemManager implements IFurnitureService {
 
         StorageContext.getCurrentContext().getRoomItemRepository().getRoomIdByItemId(itemId, data::set);
 
-        if(data.has()) {
+        if (data.has()) {
             return data.get();
         }
 

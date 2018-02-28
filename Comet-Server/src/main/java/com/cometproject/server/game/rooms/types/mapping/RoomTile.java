@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.types.mapping;
 
+import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.objects.RoomObject;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.AffectedTile;
@@ -12,45 +13,37 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.games.freeze
 import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupGateFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.pet.breeding.BreedingBoxFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.snowboarding.SnowboardJumpFloorItem;
-import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
 import com.cometproject.server.utilities.collections.ConcurrentHashSet;
 import com.google.common.collect.Lists;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 
 
 public class RoomTile {
+    public Set<RoomEntity> entities;
     private RoomMapping mappingInstance;
     private Position position;
-
     private RoomEntityMovementNode movementNode;
     private RoomTileStatusType status;
     private RoomTileState state;
-
     private boolean canStack;
-
     private long topItem = 0;
     private double stackHeight = 0d;
-
     private long originalTopItem = 0;
     private double originalHeight = 0d;
-
     private Position redirect = null;
-
     private boolean canPlaceItemHere = false;
     private boolean hasItems = false;
     private boolean hasMagicTile = false;
-
     private boolean hasAdjustableHeight = false;
-
     private boolean hasGate = false;
-
     private List<RoomItemFloor> items;
-    public Set<RoomEntity> entities;
-
     private Map<Integer, Consumer<RoomEntity>> pendingEvents = new ConcurrentHashMap<>();
 
     public RoomTile(RoomMapping mappingInstance, Position position) {
@@ -65,14 +58,14 @@ public class RoomTile {
     public List<RoomTile> getAdjacentTiles(Position from) {
         final List<RoomTile> roomTiles = Lists.newArrayList();
 
-        for(int rotation : Position.COLLIDE_TILES) {
+        for (int rotation : Position.COLLIDE_TILES) {
             final RoomTile tile = this.mappingInstance.getTile(this.getPosition().squareInFront(rotation));
 
             roomTiles.add(tile);
         }
 
         roomTiles.sort((left, right) -> {
-            if(left.getPosition() == null || right.getPosition() == null) return -1;
+            if (left.getPosition() == null || right.getPosition() == null) return -1;
 
             final double distanceFromLeft = left.getPosition().distanceTo(from);
             final double distanceFromRight = right.getPosition().distanceTo(from);
@@ -142,7 +135,7 @@ public class RoomTile {
             if (item.getDefinition() == null)
                 continue;
 
-            if(item instanceof GateFloorItem || item instanceof GroupGateFloorItem) {
+            if (item instanceof GateFloorItem || item instanceof GroupGateFloorItem) {
                 this.hasGate = true;
             }
 
@@ -196,7 +189,7 @@ public class RoomTile {
                     break;
             }
 
-            if(item instanceof BreedingBoxFloorItem) {
+            if (item instanceof BreedingBoxFloorItem) {
                 movementNode = RoomEntityMovementNode.END_OF_ROUTE;
             }
 
@@ -348,12 +341,12 @@ public class RoomTile {
         return this.topItem;
     }
 
-    public RoomItemFloor getTopItemInstance() {
-        return this.mappingInstance.getRoom().getItems().getFloorItem(this.getTopItem());
-    }
-
     public void setTopItem(int topItem) {
         this.topItem = topItem;
+    }
+
+    public RoomItemFloor getTopItemInstance() {
+        return this.mappingInstance.getRoom().getItems().getFloorItem(this.getTopItem());
     }
 
     public Position getRedirect() {

@@ -1,10 +1,9 @@
 package com.cometproject.server.network.messages.incoming.quests;
 
 import com.cometproject.api.game.quests.IQuest;
-import com.cometproject.server.game.quests.types.Quest;
 import com.cometproject.server.game.quests.QuestManager;
-import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.protocol.messages.MessageEvent;
 
 public class StartQuestMessageEvent implements com.cometproject.server.network.messages.incoming.Event {
     @Override

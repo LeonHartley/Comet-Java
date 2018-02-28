@@ -27,11 +27,6 @@ public class WiredTriggerAtGivenTimeLong extends WiredTriggerAtGivenTime {
         this.getWiredData().getParams().putIfAbsent(PARAM_TICK_LENGTH, 2); // 1s
     }
 
-    @Override
-    public int getTime() {
-        return this.getWiredData().getParams().get(PARAM_TICK_LENGTH) * 10;
-    }
-
     public static boolean executeTriggers(Room room, int timer) {
         boolean wasExecuted = false;
 
@@ -44,5 +39,10 @@ public class WiredTriggerAtGivenTimeLong extends WiredTriggerAtGivenTime {
         }
 
         return wasExecuted;
+    }
+
+    @Override
+    public int getTime() {
+        return this.getWiredData().getParams().get(PARAM_TICK_LENGTH) * 10;
     }
 }

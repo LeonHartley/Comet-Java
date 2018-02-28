@@ -16,7 +16,7 @@ public class WiredAddonBlob extends RoomItemFloor {
     }
 
     public void onGameStarted() {
-        if(this.getRoom().getGame().getBlobCounter().get() < 2) {
+        if (this.getRoom().getGame().getBlobCounter().get() < 2) {
             this.getRoom().getGame().getBlobCounter().incrementAndGet();
 
             this.getItemData().setData("0");
@@ -35,13 +35,13 @@ public class WiredAddonBlob extends RoomItemFloor {
     public void onEntityStepOn(RoomEntity entity) {
         // award point
 
-        if(!(entity instanceof PlayerEntity) || this.getItemData().getData().equals("1")) {
+        if (!(entity instanceof PlayerEntity) || this.getItemData().getData().equals("1")) {
             return;
         }
 
         final PlayerEntity playerEntity = (PlayerEntity) entity;
 
-        if(playerEntity.getGameTeam() == GameTeam.NONE) {
+        if (playerEntity.getGameTeam() == GameTeam.NONE) {
             return;
         }
 

@@ -10,7 +10,6 @@ import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.ai.pets.PetAI;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
-import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.DefaultFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredUtil;
 import com.cometproject.server.game.rooms.types.Room;
@@ -18,7 +17,6 @@ import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarsMess
 import com.cometproject.server.network.messages.outgoing.room.pets.breeding.PetBreedingCompleteMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.pets.breeding.PetBreedingMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.pets.breeding.PetBreedingStartedMessageComposer;
-import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.pets.PetDao;
 import com.cometproject.server.utilities.RandomUtil;
 

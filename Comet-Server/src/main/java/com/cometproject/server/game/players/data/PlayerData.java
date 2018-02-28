@@ -71,7 +71,7 @@ public class PlayerData implements IPlayerData {
         this.timeMuted = timeMuted;
         this.nameColour = nameColour;
 
-        if(this.figure != null) {
+        if (this.figure != null) {
             if (!PlayerFigureValidator.isValidFigureCode(this.figure, this.gender.toLowerCase())) {
                 this.figure = DEFAULT_FIGURE;
             }
@@ -165,6 +165,10 @@ public class PlayerData implements IPlayerData {
         return this.rank;
     }
 
+    public void setRank(int rank) {
+        this.rank = rank;
+    }
+
     public String getUsername() {
         return this.username;
     }
@@ -175,6 +179,10 @@ public class PlayerData implements IPlayerData {
 
     public int getAchievementPoints() {
         return this.achievementPoints;
+    }
+
+    public void setAchievementPoints(int achievementPoints) {
+        this.achievementPoints = achievementPoints;
     }
 
     public String getMotto() {
@@ -189,8 +197,16 @@ public class PlayerData implements IPlayerData {
         return this.figure;
     }
 
+    public void setFigure(String figure) {
+        this.figure = figure;
+    }
+
     public String getGender() {
         return this.gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     public int getCredits() {
@@ -205,8 +221,16 @@ public class PlayerData implements IPlayerData {
         return this.vipPoints;
     }
 
+    public void setVipPoints(int vipPoints) {
+        this.vipPoints = vipPoints;
+    }
+
     public int getLastVisit() {
         return this.lastVisit;
+    }
+
+    public void setLastVisit(long time) {
+        this.lastVisit = (int) time;
     }
 
     public String getRegDate() {
@@ -219,18 +243,6 @@ public class PlayerData implements IPlayerData {
 
     public void setVip(boolean vip) {
         this.vip = vip;
-    }
-
-    public void setLastVisit(long time) {
-        this.lastVisit = (int) time;
-    }
-
-    public void setFigure(String figure) {
-        this.figure = figure;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
     }
 
     public int getRegTimestamp() {
@@ -273,14 +285,6 @@ public class PlayerData implements IPlayerData {
         this.activityPoints = activityPoints;
     }
 
-    public void setVipPoints(int vipPoints) {
-        this.vipPoints = vipPoints;
-    }
-
-    public void setRank(int rank) {
-        this.rank = rank;
-    }
-
     public String getTemporaryFigure() {
         return temporaryFigure;
     }
@@ -297,21 +301,29 @@ public class PlayerData implements IPlayerData {
         this.questId = questId;
     }
 
-    public int getTimeMuted() { return this.timeMuted; }
-
-    public void setTimeMuted(int Time) { this.timeMuted = Time; }
-
-    public void setAchievementPoints(int achievementPoints) {
-        this.achievementPoints = achievementPoints;
+    public int getTimeMuted() {
+        return this.timeMuted;
     }
 
-    public boolean getChangingName() { return this.changingName; }
+    public void setTimeMuted(int Time) {
+        this.timeMuted = Time;
+    }
 
-    public void setChangingName(boolean changingName) { this.changingName = changingName; }
+    public boolean getChangingName() {
+        return this.changingName;
+    }
 
-    public boolean getFlaggingUser() { return this.flaggingUser; }
+    public void setChangingName(boolean changingName) {
+        this.changingName = changingName;
+    }
 
-    public void setFlaggingUser(boolean flaggingUser) { this.flaggingUser = flaggingUser; }
+    public boolean getFlaggingUser() {
+        return this.flaggingUser;
+    }
+
+    public void setFlaggingUser(boolean flaggingUser) {
+        this.flaggingUser = flaggingUser;
+    }
 
     public String getNameColour() {
         return this.nameColour;

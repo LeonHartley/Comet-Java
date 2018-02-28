@@ -1,23 +1,15 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
 import com.cometproject.api.game.rooms.objects.data.RoomItemData;
-
-
+import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
-import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.events.types.RollerFloorItemEvent;
 import com.cometproject.server.game.rooms.objects.items.types.AdvancedFloorItem;
-import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupGateFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerWalksOffFurni;
-import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerWalksOnFurni;
-import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.network.messages.outgoing.room.items.SlideObjectBundleMessageComposer;
-import com.cometproject.server.storage.queries.rooms.RoomItemDao;
-import com.cometproject.server.utilities.Direction;
 import com.cometproject.server.utilities.collections.ConcurrentHashSet;
 import com.cometproject.storage.api.StorageContext;
 import com.google.common.collect.Maps;
@@ -29,17 +21,13 @@ import java.util.Set;
 
 
 public class RollerFloorItem extends AdvancedFloorItem<RollerFloorItemEvent> {
+    private final RollerFloorItemEvent event;
     private boolean hasRollScheduled = false;
     private long lastTick = 0;
-
     private boolean cycleCancelled = false;
-
     private Set<Integer> skippedEntities = Sets.newConcurrentHashSet();
     private Set<Integer> skippedItems = Sets.newConcurrentHashSet();
-
     private Set<RoomEntity> movedEntities = new ConcurrentHashSet<>();
-
-    private final RollerFloorItemEvent event;
 
     public RollerFloorItem(RoomItemData itemData, Room room) {
         super(itemData, room);
@@ -85,7 +73,7 @@ public class RollerFloorItem extends AdvancedFloorItem<RollerFloorItemEvent> {
         }
 
 //        if (!cycleCancelled) {
-            this.handleItems();
+        this.handleItems();
 //        }
 
         this.handleEntities();

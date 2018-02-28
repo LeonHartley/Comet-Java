@@ -9,7 +9,6 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.sessions.Session;
-import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import com.cometproject.storage.api.StorageContext;
 import com.google.common.collect.Lists;
 
@@ -24,20 +23,20 @@ public class EjectAllCommand extends ChatCommand {
         if (room.getData().getOwnerId() != client.getPlayer().getId()) {
             final List<RoomItem> itemsToRemove = Lists.newArrayList();
 
-            for(RoomItemFloor roomItemFloor : client.getPlayer().getEntity().getRoom().getItems().getFloorItems().values()) {
-                if(roomItemFloor.getItemData().getOwnerId() == client.getPlayer().getId()) {
+            for (RoomItemFloor roomItemFloor : client.getPlayer().getEntity().getRoom().getItems().getFloorItems().values()) {
+                if (roomItemFloor.getItemData().getOwnerId() == client.getPlayer().getId()) {
                     itemsToRemove.add(roomItemFloor);
                 }
             }
 
-            for(RoomItemWall roomItemWall : client.getPlayer().getEntity().getRoom().getItems().getWallItems().values()) {
-                if(roomItemWall.getItemData().getOwnerId() == client.getPlayer().getId()) {
+            for (RoomItemWall roomItemWall : client.getPlayer().getEntity().getRoom().getItems().getWallItems().values()) {
+                if (roomItemWall.getItemData().getOwnerId() == client.getPlayer().getId()) {
                     itemsToRemove.add(roomItemWall);
                 }
             }
 
-            for(RoomItem item : itemsToRemove) {
-                if(item instanceof RoomItemFloor) {
+            for (RoomItem item : itemsToRemove) {
+                if (item instanceof RoomItemFloor) {
                     client.getPlayer().getEntity().getRoom().getItems().removeItem((RoomItemFloor) item, client);
                 } else {
                     client.getPlayer().getEntity().getRoom().getItems().removeItem(((RoomItemWall) item), client, true);

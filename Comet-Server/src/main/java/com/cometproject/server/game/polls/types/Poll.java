@@ -87,7 +87,7 @@ public class Poll {
             save = true;
         }
 
-        if(save) {
+        if (save) {
             player.getData().save();
         }
     }

@@ -1,11 +1,11 @@
 package com.cometproject.server.game.rooms.types;
 
-import com.cometproject.api.game.rooms.RoomType;
+import com.cometproject.api.config.CometSettings;
 import com.cometproject.api.game.rooms.IRoomData;
 import com.cometproject.api.game.rooms.RoomCategory;
+import com.cometproject.api.game.rooms.RoomType;
 import com.cometproject.api.game.rooms.settings.*;
 import com.cometproject.server.boot.Comet;
-import com.cometproject.api.config.CometSettings;
 import com.cometproject.server.game.navigator.NavigatorManager;
 import com.cometproject.server.storage.queries.rooms.RoomDao;
 import org.apache.commons.lang3.StringUtils;
@@ -147,56 +147,112 @@ public class RoomData implements IRoomData {
         return this.id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getName() {
         return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {
         return this.description;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public int getOwnerId() {
         return this.ownerId;
+    }
+
+    public void setOwnerId(int ownerId) {
+        this.ownerId = ownerId;
     }
 
     public String getOwner() {
         return this.owner;
     }
 
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
     public RoomCategory getCategory() {
         return NavigatorManager.getInstance().getCategory(this.category);
+    }
+
+    public void setCategory(int category) {
+        this.category = category;
     }
 
     public int getMaxUsers() {
         return this.maxUsers;
     }
 
+    public void setMaxUsers(int maxUsers) {
+        this.maxUsers = maxUsers;
+    }
+
     public RoomAccessType getAccess() {
         return this.access;
+    }
+
+    public void setAccess(RoomAccessType access) {
+        this.access = access;
     }
 
     public String getPassword() {
         return this.password;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public int getScore() {
         return this.score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 
     public String[] getTags() {
         return this.tags;
     }
 
+    public void setTags(String[] tags) {
+        this.tags = tags;
+    }
+
     public Map<String, String> getDecorations() {
         return this.decorations;
+    }
+
+    public void setDecorations(Map<String, String> decorations) {
+        this.decorations = decorations;
     }
 
     public String getModel() {
         return this.model;
     }
 
+    public void setModel(String model) {
+        this.model = model;
+    }
+
     public boolean getHideWalls() {
         return this.hideWalls;
+    }
+
+    public void setHideWalls(boolean hideWalls) {
+        this.hideWalls = hideWalls;
     }
 
     public int getWallThickness() {
@@ -205,62 +261,6 @@ public class RoomData implements IRoomData {
 
     public int getFloorThickness() {
         return this.thicknessFloor;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setOwnerId(int ownerId) {
-        this.ownerId = ownerId;
-    }
-
-    public void setOwner(String owner) {
-        this.owner = owner;
-    }
-
-    public void setCategory(int category) {
-        this.category = category;
-    }
-
-    public void setMaxUsers(int maxUsers) {
-        this.maxUsers = maxUsers;
-    }
-
-    public void setAccess(RoomAccessType access) {
-        this.access = access;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
-    }
-
-    public void setTags(String[] tags) {
-        this.tags = tags;
-    }
-
-    public void setDecorations(Map<String, String> decorations) {
-        this.decorations = decorations;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
-    }
-
-    public void setHideWalls(boolean hideWalls) {
-        this.hideWalls = hideWalls;
     }
 
     public void setThicknessWall(int thicknessWall) {
@@ -279,12 +279,12 @@ public class RoomData implements IRoomData {
         this.allowWalkthrough = allowWalkthrough;
     }
 
-    public void setHeightmap(String heightmap) {
-        this.heightmap = heightmap;
-    }
-
     public String getHeightmap() {
         return this.heightmap;
+    }
+
+    public void setHeightmap(String heightmap) {
+        this.heightmap = heightmap;
     }
 
     public boolean isAllowPets() {

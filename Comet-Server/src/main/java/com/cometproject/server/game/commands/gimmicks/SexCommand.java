@@ -26,7 +26,7 @@ public class SexCommand extends ChatCommand {
             sendNotif(Locale.getOrDefault("command.sex.himself", "You can't sex yourself!"), client);
             return;
         }
-        
+
         if (entity == null) {
             sendNotif(Locale.getOrDefault("command.user.notinroom", "This user is not in a room."), client);
             return;
@@ -40,7 +40,7 @@ public class SexCommand extends ChatCommand {
     public String getPermission() {
         return "sex_command";
     }
-    
+
     @Override
     public String getParameter() {
         return Locale.getOrDefault("command.parameter.username", "%username%");

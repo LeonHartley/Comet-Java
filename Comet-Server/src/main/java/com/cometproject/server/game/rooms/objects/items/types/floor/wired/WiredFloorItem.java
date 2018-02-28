@@ -1,6 +1,7 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired;
 
 import com.cometproject.api.game.rooms.objects.data.RoomItemData;
+import com.cometproject.api.utilities.JsonUtil;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
@@ -13,7 +14,6 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.events
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.events.WiredItemFlashEvent;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.protocol.messages.MessageComposer;
-import com.cometproject.api.utilities.JsonUtil;
 import com.cometproject.server.utilities.attributes.Stateable;
 import com.google.common.collect.Lists;
 
@@ -30,6 +30,7 @@ public abstract class WiredFloorItem extends AdvancedFloorItem<WiredItemEvent> i
     private WiredItemData wiredItemData = null;
     private boolean state;
     private boolean hasTicked = false;
+    private boolean isFlashing = false;
 
     /**
      * The default constructor
@@ -103,7 +104,6 @@ public abstract class WiredFloorItem extends AdvancedFloorItem<WiredItemEvent> i
         return true;
     }
 
-
     @Override
     public void refreshSnapshots() {
         List<Long> toRemove = Lists.newArrayList();
@@ -127,10 +127,8 @@ public abstract class WiredFloorItem extends AdvancedFloorItem<WiredItemEvent> i
         this.save();
     }
 
-    private boolean isFlashing = false;
-
     public void flash() {
-        if(this.isFlashing) {
+        if (this.isFlashing) {
             return;
         }
 
@@ -143,7 +141,7 @@ public abstract class WiredFloorItem extends AdvancedFloorItem<WiredItemEvent> i
     }
 
     public void switchState() {
-        if(this.isFlashing) {
+        if (this.isFlashing) {
             this.isFlashing = false;
         }
 

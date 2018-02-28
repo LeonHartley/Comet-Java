@@ -5,11 +5,11 @@ import com.cometproject.api.events.EventHandler;
 import com.cometproject.api.game.GameContext;
 import com.cometproject.api.modules.BaseModule;
 import com.cometproject.api.server.IGameService;
+import com.cometproject.api.utilities.Initialisable;
+import com.cometproject.api.utilities.JsonUtil;
 import com.cometproject.game.groups.GroupsModule;
 import com.cometproject.gamecenter.fastfood.FastFoodModule;
 import com.cometproject.server.modules.events.EventHandlerService;
-import com.cometproject.api.utilities.Initialisable;
-import com.cometproject.api.utilities.JsonUtil;
 import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;
 import com.google.common.io.Resources;
@@ -24,9 +24,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ModuleManager implements Initialisable {
-    private static ModuleManager moduleManagerInstance;
     private static final Logger log = Logger.getLogger(ModuleManager.class.getName());
-
+    private static ModuleManager moduleManagerInstance;
     private EventHandler eventHandler;
     private CometGameService gameService;
 
@@ -85,7 +84,7 @@ public class ModuleManager implements Initialisable {
     }
 
     public void setupModules() {
-        for(BaseModule baseModule : this.modules.values()) {
+        for (BaseModule baseModule : this.modules.values()) {
             baseModule.setup();
 
             baseModule.initialiseServices(GameContext.getCurrent());
@@ -97,7 +96,7 @@ public class ModuleManager implements Initialisable {
 
         final List<CometModule> cometModules = Lists.newArrayList();
 
-        for(CometModule module : modulesConfig.getModules()) {
+        for (CometModule module : modulesConfig.getModules()) {
             try {
                 loadModule(module);
                 cometModules.add(module);
@@ -168,7 +167,7 @@ public class ModuleManager implements Initialisable {
     private class ModulesConfig {
         private final List<CometModule> modules;
 
-        public ModulesConfig(final List<CometModule> modules ) {
+        public ModulesConfig(final List<CometModule> modules) {
             this.modules = modules;
         }
 

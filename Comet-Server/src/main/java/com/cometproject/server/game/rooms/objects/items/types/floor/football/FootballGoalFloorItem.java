@@ -15,7 +15,7 @@ public class FootballGoalFloorItem extends RoomItemFloor {
 
     public FootballGoalFloorItem(RoomItemData roomItemData, Room room) {
         super(roomItemData, room);
-        
+
         switch (this.getDefinition().getItemName()) {
             case "fball_goal_b":
                 this.gameTeam = GameTeam.BLUE;
@@ -34,15 +34,15 @@ public class FootballGoalFloorItem extends RoomItemFloor {
 
     @Override
     public void onItemAddedToStack(RoomItemFloor floorItem) {
-        if(floorItem instanceof FootballFloorItem) {
+        if (floorItem instanceof FootballFloorItem) {
             this.getRoom().getGame().increaseScore(this.gameTeam, 1);
 
             final int playerId = this.getRoom().getData().getOwnerId();
 
-            if(PlayerManager.getInstance().isOnline(playerId)) {
+            if (PlayerManager.getInstance().isOnline(playerId)) {
                 Session session = NetworkManager.getInstance().getSessions().getByPlayerId(playerId);
 
-                if(session != null && session.getPlayer() != null && session.getPlayer().getAchievements() != null) {
+                if (session != null && session.getPlayer() != null && session.getPlayer().getAchievements() != null) {
                     session.getPlayer().getAchievements().progressAchievement(AchievementType.FOOTBALL_GOAL, 1);
                 }
             }

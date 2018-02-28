@@ -35,12 +35,24 @@ public class RoomPromotion {
         return this.roomId;
     }
 
+    public void setRoomId(int roomId) {
+        this.roomId = roomId;
+    }
+
     public String getPromotionName() {
         return this.promotionName;
     }
 
+    public void setPromotionName(String promotionName) {
+        this.promotionName = promotionName;
+    }
+
     public String getPromotionDescription() {
         return this.promotionDescription;
+    }
+
+    public void setPromotionDescription(String promotionDescription) {
+        this.promotionDescription = promotionDescription;
     }
 
     public boolean isExpired() {
@@ -51,28 +63,16 @@ public class RoomPromotion {
         return this.timestampStart;
     }
 
+    public void setTimestampStart(long timestampStart) {
+        this.timestampStart = timestampStart;
+    }
+
     public long getTimestampFinish() {
         return this.timestampFinish;
     }
 
     public void setTimestampFinish(long timestampFinish) {
         this.timestampFinish = timestampFinish;
-    }
-
-    public void setRoomId(int roomId) {
-        this.roomId = roomId;
-    }
-
-    public void setPromotionName(String promotionName) {
-        this.promotionName = promotionName;
-    }
-
-    public void setPromotionDescription(String promotionDescription) {
-        this.promotionDescription = promotionDescription;
-    }
-
-    public void setTimestampStart(long timestampStart) {
-        this.timestampStart = timestampStart;
     }
 
     public int minutesLeft() {

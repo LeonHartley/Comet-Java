@@ -31,9 +31,9 @@ public class FilterComponent {
     public String filter(PlayerEntity entity, String message) {
         String msg = message;
 
-        if(!entity.hasRights()) {
-            for(String word : this.filteredWords) {
-                if(message.contains(word)) {
+        if (!entity.hasRights()) {
+            for (String word : this.filteredWords) {
+                if (message.contains(word)) {
                     msg = msg.replace(word, Locale.getOrDefault("filter.bobba", "bobba"));
                 }
             }

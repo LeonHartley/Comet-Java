@@ -18,14 +18,14 @@ public class OpenPetPackageMessageEvent implements Event {
         final int itemId = msg.readInt();
         final String petName = msg.readString();
 
-        if(client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null) {
+        if (client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null) {
             return;
         }
 
         final Room room = client.getPlayer().getEntity().getRoom();
         final RoomItemFloor floor = room.getItems().getFloorItem(itemId);
 
-        if(floor == null || floor.getItemData().getOwnerId() != client.getPlayer().getId()) {
+        if (floor == null || floor.getItemData().getOwnerId() != client.getPlayer().getId()) {
             return;
         }
 

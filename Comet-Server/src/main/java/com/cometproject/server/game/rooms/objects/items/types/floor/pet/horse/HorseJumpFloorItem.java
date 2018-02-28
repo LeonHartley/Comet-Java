@@ -1,26 +1,25 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.pet.horse;
 
+import com.cometproject.api.game.rooms.entities.RoomEntityStatus;
 import com.cometproject.api.game.rooms.objects.data.RoomItemData;
+import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.pets.races.PetType;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
-import com.cometproject.api.game.rooms.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.types.DefaultFloorItem;
-import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.utilities.RandomUtil;
 
 public class HorseJumpFloorItem extends DefaultFloorItem {
+    private boolean restore = false;
+    private PetEntity petEntity;
+
     public HorseJumpFloorItem(RoomItemData itemData, Room room) {
         super(itemData, room);
 
         this.getItemData().setData("0");
     }
-
-    private boolean restore = false;
-
-    private PetEntity petEntity;
 
     @Override
     public void onTickComplete() {
@@ -34,18 +33,18 @@ public class HorseJumpFloorItem extends DefaultFloorItem {
 
         this.getItemData().setData("0");
 
-        if(this.petEntity.getData().getHappiness() == 0) {
+        if (this.petEntity.getData().getHappiness() == 0) {
             this.petEntity.getPetAI().applyGesture("sad");
             this.getItemData().setData("3");
-        } else if(this.petEntity.getData().getHunger() == 0) {
+        } else if (this.petEntity.getData().getHunger() == 0) {
             this.petEntity.getPetAI().applyGesture("hng");
             this.getItemData().setData("3");
-        } else if(this.petEntity.getData().getEnergy() == 0) {
+        } else if (this.petEntity.getData().getEnergy() == 0) {
             this.petEntity.getPetAI().applyGesture("nrg");
             this.getItemData().setData("3");
         }
 
-        if(this.getItemData().getData().equals("0")) {
+        if (this.getItemData().getData().equals("0")) {
             final int random = RandomUtil.getRandomInt(1, 100);
 
             if (random >= 66) {
@@ -82,7 +81,7 @@ public class HorseJumpFloorItem extends DefaultFloorItem {
 
         final PetEntity petEntity = (PetEntity) entity;
 
-        if(petEntity.getMountedEntity() == null) {
+        if (petEntity.getMountedEntity() == null) {
             return;
         }
 

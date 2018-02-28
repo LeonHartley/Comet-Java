@@ -17,6 +17,8 @@ import java.util.List;
 public class BanzaiTileFloorItem extends RoomItemFloor {
     private GameTeam gameTeam = GameTeam.NONE;
     private int points = 0;
+    private boolean needsChange = false;
+    private int ticker = 0;
 
     public BanzaiTileFloorItem(RoomItemData roomItemData, Room room) {
         super(roomItemData, room);
@@ -24,9 +26,85 @@ public class BanzaiTileFloorItem extends RoomItemFloor {
         this.getItemData().setData("0");
     }
 
+    private static List<BanzaiTileFloorItem> buildBanzaiRectangle(final BanzaiTileFloorItem triggerItem, final int x, final int y,
+                                                                  final int goX, final int goY, final int currentDirection, final int turns, final GameTeam team) {
+        final boolean[] directions = new boolean[4];
+
+        if (goX == -1 || goX == 0) {
+            directions[0] = true;
+        }
+        if (goX == 1 || goX == 0) {
+            directions[2] = true;
+        }
+        if (goY == -1 || goY == 0) {
+            directions[1] = true;
+        }
+        if (goY == 1 || goY == 0) {
+            directions[3] = true;
+        }
+
+        if ((goX != 0 || goY != 0) && triggerItem.getPosition().getX() == x && triggerItem.getPosition().getY() == y) {
+            return new LinkedList<>();
+        }
+
+        final Room room = triggerItem.getRoom();
+
+        for (int i = 0; i < 4; ++i) {
+            if (!directions[i]) {
+                continue;
+            }
+
+            int nextXStep = 0, nextYStep = 0;
+
+            if (i == 0 || i == 2) {
+                nextXStep = (i == 0) ? 1 : -1;
+            } else if (i == 1 || i == 3) {
+                nextYStep = (i == 1) ? 1 : -1;
+            }
+
+            final int nextX = x + nextXStep;
+            final int nextY = y + nextYStep;
+
+            if (room.getMapping().getTile(nextX, nextY) != null) {
+                RoomItemFloor obj = room.getItems().getFloorItem(room.getMapping().getTile(nextX, nextY).getTopItem());
+
+                if (obj != null && obj instanceof BanzaiTileFloorItem) {
+                    final BanzaiTileFloorItem item = (BanzaiTileFloorItem) obj;
+
+                    if (item.getTeam() == team && item.getPoints() == 3) {
+                        List<BanzaiTileFloorItem> foundPatches = null;
+                        if (currentDirection != i && currentDirection != -1) {
+                            if (turns > 0) {
+                                foundPatches = buildBanzaiRectangle(
+                                        triggerItem, nextX, nextY,
+                                        (nextXStep == 0) ? (goX * -1) : (nextXStep * -1),
+                                        (nextYStep == 0) ? (goY * -1) : (nextYStep * -1),
+                                        i, (turns - 1), team
+                                );
+                            }
+                        } else {
+                            foundPatches = buildBanzaiRectangle(
+                                    triggerItem, nextX, nextY,
+                                    (nextXStep == 0) ? goX : (nextXStep * -1),
+                                    (nextYStep == 0) ? goY : (nextYStep * -1),
+                                    i, turns, team
+                            );
+                        }
+                        if (foundPatches != null) {
+                            foundPatches.add(item);
+                            return foundPatches;
+                        }
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
+
     @Override
     public void onPickup() {
-        if(!(this.getRoom().getGame().getInstance() instanceof BanzaiGame)) {
+        if (!(this.getRoom().getGame().getInstance() instanceof BanzaiGame)) {
             return;
         }
 
@@ -35,7 +113,7 @@ public class BanzaiTileFloorItem extends RoomItemFloor {
 
     @Override
     public void onPlaced() {
-        if(!(this.getRoom().getGame().getInstance() instanceof BanzaiGame)) {
+        if (!(this.getRoom().getGame().getInstance() instanceof BanzaiGame)) {
             return;
         }
 
@@ -116,85 +194,6 @@ public class BanzaiTileFloorItem extends RoomItemFloor {
             }
         }
     }
-
-    private static List<BanzaiTileFloorItem> buildBanzaiRectangle(final BanzaiTileFloorItem triggerItem, final int x, final int y,
-                                                                  final int goX, final int goY, final int currentDirection, final int turns, final GameTeam team) {
-        final boolean[] directions = new boolean[4];
-
-        if (goX == -1 || goX == 0) {
-            directions[0] = true;
-        }
-        if (goX == 1 || goX == 0) {
-            directions[2] = true;
-        }
-        if (goY == -1 || goY == 0) {
-            directions[1] = true;
-        }
-        if (goY == 1 || goY == 0) {
-            directions[3] = true;
-        }
-
-        if ((goX != 0 || goY != 0) && triggerItem.getPosition().getX() == x && triggerItem.getPosition().getY() == y) {
-            return new LinkedList<>();
-        }
-
-        final Room room = triggerItem.getRoom();
-
-        for (int i = 0; i < 4; ++i) {
-            if (!directions[i]) {
-                continue;
-            }
-
-            int nextXStep = 0, nextYStep = 0;
-
-            if (i == 0 || i == 2) {
-                nextXStep = (i == 0) ? 1 : -1;
-            } else if (i == 1 || i == 3) {
-                nextYStep = (i == 1) ? 1 : -1;
-            }
-
-            final int nextX = x + nextXStep;
-            final int nextY = y + nextYStep;
-
-            if (room.getMapping().getTile(nextX, nextY) != null) {
-                RoomItemFloor obj = room.getItems().getFloorItem(room.getMapping().getTile(nextX, nextY).getTopItem());
-
-                if (obj != null && obj instanceof BanzaiTileFloorItem) {
-                    final BanzaiTileFloorItem item = (BanzaiTileFloorItem) obj;
-
-                    if (item.getTeam() == team && item.getPoints() == 3) {
-                        List<BanzaiTileFloorItem> foundPatches = null;
-                        if (currentDirection != i && currentDirection != -1) {
-                            if (turns > 0) {
-                                foundPatches = buildBanzaiRectangle(
-                                        triggerItem, nextX, nextY,
-                                        (nextXStep == 0) ? (goX * -1) : (nextXStep * -1),
-                                        (nextYStep == 0) ? (goY * -1) : (nextYStep * -1),
-                                        i, (turns - 1), team
-                                );
-                            }
-                        } else {
-                            foundPatches = buildBanzaiRectangle(
-                                    triggerItem, nextX, nextY,
-                                    (nextXStep == 0) ? goX : (nextXStep * -1),
-                                    (nextYStep == 0) ? goY : (nextYStep * -1),
-                                    i, turns, team
-                            );
-                        }
-                        if (foundPatches != null) {
-                            foundPatches.add(item);
-                            return foundPatches;
-                        }
-                    }
-                }
-            }
-        }
-
-        return null;
-    }
-
-    private boolean needsChange = false;
-    private int ticker = 0;
 
     @Override
     public void onTick() {

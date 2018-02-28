@@ -45,7 +45,7 @@ public class CoinsCommand extends ChatCommand {
     public String getPermission() {
         return "coins_command";
     }
-    
+
     @Override
     public String getParameter() {
         return Locale.getOrDefault("command.parameter.username" + " " + "command.parameter.amount", "%username% %amount%");

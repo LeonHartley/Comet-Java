@@ -15,7 +15,7 @@ public class SaveNavigatorSearchMessageEvent implements Event {
 
         final SavedSearch savedSearch = new SavedSearch(view, searchQuery);
 
-        if(!client.getPlayer().getNavigator().isSearchSaved(savedSearch)) {
+        if (!client.getPlayer().getNavigator().isSearchSaved(savedSearch)) {
             // Save the search
             final int searchId = PlayerDao.saveSearch(client.getPlayer().getId(), savedSearch);
 

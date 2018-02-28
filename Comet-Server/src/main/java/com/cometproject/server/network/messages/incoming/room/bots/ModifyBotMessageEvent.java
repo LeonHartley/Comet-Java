@@ -1,7 +1,7 @@
 package com.cometproject.server.network.messages.incoming.room.bots;
 
-import com.cometproject.server.config.Locale;
 import com.cometproject.api.game.bots.BotMode;
+import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.filter.FilterResult;
 import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
@@ -12,8 +12,8 @@ import com.cometproject.server.network.messages.outgoing.notification.AdvancedAl
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.DanceMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.UpdateInfoMessageComposer;
-import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.utilities.RandomUtil;
 import org.apache.commons.lang.StringUtils;
 
@@ -42,7 +42,7 @@ public class ModifyBotMessageEvent implements Event {
 
         BotEntity botEntity = room.getEntities().getEntityByBotId(botId);
 
-        if(botEntity.getData() == null) {
+        if (botEntity.getData() == null) {
             return;
         }
 
@@ -117,14 +117,14 @@ public class ModifyBotMessageEvent implements Event {
             case 5:
                 // Change name
                 final String botName = room.getBots().getAvailableName(data);
-                
+
                 FilterResult filterResult = RoomManager.getInstance().getFilter().filter(botName);
 
                 if (filterResult.isBlocked()) {
-                        client.send(new AdvancedAlertMessageComposer(Locale.get("game.message.blocked").replace("%s", filterResult.getMessage())));
-                        return;
+                    client.send(new AdvancedAlertMessageComposer(Locale.get("game.message.blocked").replace("%s", filterResult.getMessage())));
+                    return;
                 }
-                
+
                 room.getBots().changeBotName(botEntity.getUsername(), botName);
 
                 botEntity.getData().setUsername(botName);

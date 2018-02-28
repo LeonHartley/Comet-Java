@@ -1,8 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions;
 
 import com.cometproject.api.game.rooms.objects.data.RoomItemData;
-
-import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.events.WiredItemEvent;
 import com.cometproject.server.game.rooms.types.Room;
@@ -21,7 +19,9 @@ public class WiredActionComet extends WiredActionItem {
      * @param rotation The orientation of the item
      * @param data     The JSON object associated with this item
      */
-    public WiredActionComet(RoomItemData itemData, Room room) {        super(itemData, room);    }
+    public WiredActionComet(RoomItemData itemData, Room room) {
+        super(itemData, room);
+    }
 
     @Override
     public boolean requiresPlayer() {

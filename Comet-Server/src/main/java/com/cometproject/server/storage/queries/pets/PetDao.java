@@ -5,12 +5,11 @@ import com.cometproject.api.game.pets.IPetStats;
 import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.pets.data.PetData;
-import com.cometproject.server.game.pets.data.PetSpeech;
 import com.cometproject.server.game.pets.data.PetMessageType;
+import com.cometproject.server.game.pets.data.PetSpeech;
 import com.cometproject.server.game.pets.data.StaticPetProperties;
 import com.cometproject.server.game.pets.races.PetBreedLevel;
 import com.cometproject.server.game.pets.races.PetRace;
-import com.cometproject.server.game.pets.races.PetType;
 import com.cometproject.server.storage.SqlHelper;
 import com.google.common.collect.Lists;
 
@@ -291,7 +290,7 @@ public class PetDao {
 
             preparedStatement = SqlHelper.prepare("UPDATE pet_data SET scratches = ?, level = ?, happiness = ?, experience = ?, energy = ?, hunger = ? WHERE id = ?;", sqlConnection);
 
-            for(IPetStats pet : petStats) {
+            for (IPetStats pet : petStats) {
                 preparedStatement.setInt(1, pet.getScratches());
                 preparedStatement.setInt(2, pet.getLevel());
                 preparedStatement.setInt(3, pet.getHappiness());
@@ -305,7 +304,7 @@ public class PetDao {
             }
 
             preparedStatement.executeBatch();
-      } catch (SQLException e) {
+        } catch (SQLException e) {
             SqlHelper.handleSqlException(e);
         } finally {
             SqlHelper.closeSilently(preparedStatement);

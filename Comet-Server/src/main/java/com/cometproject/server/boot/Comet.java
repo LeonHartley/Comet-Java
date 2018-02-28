@@ -1,11 +1,11 @@
 package com.cometproject.server.boot;
 
+import com.cometproject.api.stats.CometStats;
 import com.cometproject.server.boot.utils.ConsoleCommands;
 import com.cometproject.server.boot.utils.ShutdownProcess;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.utilities.CometRuntime;
-import com.cometproject.api.stats.CometStats;
 import com.cometproject.server.utilities.TimeSpan;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -18,41 +18,34 @@ import java.util.*;
 
 public class Comet {
     public static String instanceId = UUID.randomUUID().toString();
-
-    /**
-     * Logging during start-up & console commands
-     */
-    private static Logger log = Logger.getLogger(Comet.class.getName());
-
-    /**
-     * The main server instance
-     */
-    private static CometServer server;
-
     /**
      * The time the server was started
      */
     public static long start;
-
     /**
      * Is a debugger attached?
      */
     public static volatile boolean isDebugging = false;
-
     /**
      * Is Comet running?
      */
     public static volatile boolean isRunning = true;
-
     /**
      * Whether or not we want to show the GUI
      */
     public static boolean showGui = false;
-
     /**
      * Whether we're running Comet in daemon mode or not
      */
     public static boolean daemon = false;
+    /**
+     * Logging during start-up & console commands
+     */
+    private static Logger log = Logger.getLogger(Comet.class.getName());
+    /**
+     * The main server instance
+     */
+    private static CometServer server;
 
     /**
      * Start the server!

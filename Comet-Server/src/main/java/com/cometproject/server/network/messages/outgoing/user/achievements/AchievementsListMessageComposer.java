@@ -1,14 +1,14 @@
 package com.cometproject.server.network.messages.outgoing.user.achievements;
 
+import com.cometproject.api.game.achievements.types.AchievementType;
 import com.cometproject.api.game.achievements.types.IAchievement;
 import com.cometproject.api.game.achievements.types.IAchievementGroup;
 import com.cometproject.api.game.players.data.components.achievements.IAchievementProgress;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.achievements.AchievementManager;
-import com.cometproject.api.game.achievements.types.AchievementType;
 import com.cometproject.server.game.players.components.AchievementComponent;
-import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
+import com.cometproject.server.protocol.messages.MessageComposer;
 
 import java.util.Map;
 
@@ -42,9 +42,9 @@ public class AchievementsListMessageComposer extends MessageComposer {
             msg.writeInt(0);
             msg.writeInt(achievementProgress != null ? achievementProgress.getProgress() : 0);
 
-            if(achievementProgress == null) {
+            if (achievementProgress == null) {
                 msg.writeBoolean(false);
-            } else if(achievementProgress.getLevel() >= entry.getValue().getLevelCount()) {
+            } else if (achievementProgress.getLevel() >= entry.getValue().getLevelCount()) {
                 msg.writeBoolean(true);
             } else {
                 msg.writeBoolean(false);

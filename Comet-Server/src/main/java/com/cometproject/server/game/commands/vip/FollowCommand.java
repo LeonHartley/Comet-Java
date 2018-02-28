@@ -16,12 +16,12 @@ public class FollowCommand extends ChatCommand {
         }
 
         Session leader = NetworkManager.getInstance().getSessions().getByPlayerUsername(params[0]);
-        
-        if(leader == client) {
+
+        if (leader == client) {
             sendNotif(Locale.getOrDefault("command.follow.playerhimself", "You can't follow yourself!"), client);
             return;
         }
-       
+
 
         if (leader != null && leader.getPlayer() != null && leader.getPlayer().getEntity() != null) {
             if (!leader.getPlayer().getSettings().getAllowFollow() && !client.getPlayer().getPermissions().getRank().modTool()) {
@@ -43,7 +43,7 @@ public class FollowCommand extends ChatCommand {
     public String getPermission() {
         return "follow_command";
     }
-    
+
     @Override
     public String getParameter() {
         return Locale.getOrDefault("command.parameter.username", "%username%");

@@ -19,7 +19,7 @@ public class CometGui extends JFrame {
 
         this.pack();
 
-        if(mainPanel == null) {
+        if (mainPanel == null) {
             return;
         }
 

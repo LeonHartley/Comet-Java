@@ -1,9 +1,9 @@
 package com.cometproject.server.network.sessions;
 
+import com.cometproject.api.config.CometSettings;
 import com.cometproject.api.networking.messages.IMessageComposer;
 import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.server.boot.Comet;
-import com.cometproject.api.config.CometSettings;
 import com.cometproject.server.game.moderation.ModerationManager;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.types.Player;
@@ -13,7 +13,6 @@ import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorI
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.protocol.security.exchange.DiffieHellman;
 import com.cometproject.server.storage.queries.player.PlayerDao;
-import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import org.apache.log4j.Logger;
 
@@ -22,17 +21,13 @@ import java.util.UUID;
 
 
 public class Session implements ISession {
-    private Logger logger = Logger.getLogger("Session");
     public static int CLIENT_VERSION = 0;
-
     private final ChannelHandlerContext channel;
+    private final UUID uuid = UUID.randomUUID();
+    private Logger logger = Logger.getLogger("Session");
     private SessionEventHandler eventHandler;
-
     private boolean isClone = false;
     private String uniqueId = "";
-
-    private final UUID uuid = UUID.randomUUID();
-
     private Player player;
     private boolean disconnectCalled = false;
 
@@ -45,25 +40,6 @@ public class Session implements ISession {
 
     public void initialise() {
         this.eventHandler = new SessionEventHandler(this);
-    }
-
-    public void setPlayer(Player player) {
-        if (player == null || player.getData() == null) {
-            return;
-        }
-
-        String username = player.getData().getUsername();
-
-        this.logger = Logger.getLogger("[" + username + "][" + player.getId() + "]");
-        this.player = player;
-
-        int channelId = this.channel.attr(SessionManager.CHANNEL_ID_ATTR).get();
-
-        PlayerManager.getInstance().put(player.getId(), channelId, username, this.getIpAddress());
-
-        if (player.getPermissions().getRank().modTool()) {
-            ModerationManager.getInstance().addModerator(player.getSession());
-        }
     }
 
     public void onDisconnect() {
@@ -93,7 +69,7 @@ public class Session implements ISession {
                 }
 
                 this.setPlayer(null);
-            } catch(Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         });
@@ -168,6 +144,25 @@ public class Session implements ISession {
         return this.player;
     }
 
+    public void setPlayer(Player player) {
+        if (player == null || player.getData() == null) {
+            return;
+        }
+
+        String username = player.getData().getUsername();
+
+        this.logger = Logger.getLogger("[" + username + "][" + player.getId() + "]");
+        this.player = player;
+
+        int channelId = this.channel.attr(SessionManager.CHANNEL_ID_ATTR).get();
+
+        PlayerManager.getInstance().put(player.getId(), channelId, username, this.getIpAddress());
+
+        if (player.getPermissions().getRank().modTool()) {
+            ModerationManager.getInstance().addModerator(player.getSession());
+        }
+    }
+
     public ChannelHandlerContext getChannel() {
         return this.channel;
     }
@@ -192,11 +187,11 @@ public class Session implements ISession {
         return diffieHellman;
     }
 
-    public void setLastPing(long lastPing) {
-        this.lastPing = lastPing;
-    }
-
     public long getLastPing() {
         return lastPing;
+    }
+
+    public void setLastPing(long lastPing) {
+        this.lastPing = lastPing;
     }
 }

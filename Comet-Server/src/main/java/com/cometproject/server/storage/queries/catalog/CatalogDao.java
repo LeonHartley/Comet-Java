@@ -6,7 +6,10 @@ import com.cometproject.api.game.catalog.types.ICatalogPage;
 import com.cometproject.api.game.catalog.types.IClothingItem;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.catalog.CatalogManager;
-import com.cometproject.server.game.catalog.types.*;
+import com.cometproject.server.game.catalog.types.CatalogFrontPageEntry;
+import com.cometproject.server.game.catalog.types.CatalogItem;
+import com.cometproject.server.game.catalog.types.CatalogPage;
+import com.cometproject.server.game.catalog.types.ClothingItem;
 import com.cometproject.server.storage.SqlHelper;
 
 import java.sql.Connection;

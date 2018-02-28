@@ -3,8 +3,8 @@ package com.cometproject.server.network.messages.incoming.room.item;
 import com.cometproject.server.game.rooms.objects.items.types.wall.MoodlightWallItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.Event;
-import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.storage.queries.items.MoodlightDao;
 
 
@@ -26,7 +26,7 @@ public class ToggleMoodlightMessageEvent implements Event {
             return;
         }
 
-        if(moodlight.getMoodlightData() == null) {
+        if (moodlight.getMoodlightData() == null) {
             return;
         }
 

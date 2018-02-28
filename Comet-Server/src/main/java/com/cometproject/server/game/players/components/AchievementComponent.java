@@ -1,12 +1,12 @@
 package com.cometproject.server.game.players.components;
 
+import com.cometproject.api.game.achievements.types.AchievementType;
 import com.cometproject.api.game.achievements.types.IAchievement;
 import com.cometproject.api.game.achievements.types.IAchievementGroup;
 import com.cometproject.api.game.players.IPlayer;
 import com.cometproject.api.game.players.data.components.PlayerAchievements;
 import com.cometproject.api.game.players.data.components.achievements.IAchievementProgress;
 import com.cometproject.server.game.achievements.AchievementManager;
-import com.cometproject.api.game.achievements.types.AchievementType;
 import com.cometproject.server.game.players.components.types.achievements.AchievementProgress;
 import com.cometproject.server.game.players.types.PlayerComponent;
 import com.cometproject.server.network.messages.outgoing.user.achievements.AchievementPointsMessageComposer;

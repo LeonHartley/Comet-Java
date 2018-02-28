@@ -23,7 +23,7 @@ public class FollowRoomInfoMessageEvent implements Event {
 
         boolean skipAuth = false;
 
-        if(room.getData().getAccess() != RoomAccessType.OPEN) {
+        if (room.getData().getAccess() != RoomAccessType.OPEN) {
             if (room.getRights().hasRights(client.getPlayer().getId())) {
                 skipAuth = true;
             } else if (client.getPlayer().isTeleporting() || client.getPlayer().isBypassingRoomAuth()) {

@@ -33,15 +33,15 @@ public class EventHandlerService implements EventHandler {
     }
 
     public void initialize() {
-        if(this.listeners != null) {
+        if (this.listeners != null) {
             this.listeners.clear();
         }
 
-        if(this.chatCommands != null) {
+        if (this.chatCommands != null) {
             this.chatCommands.clear();
         }
 
-        if(this.commandInfo != null) {
+        if (this.commandInfo != null) {
             this.commandInfo.clear();
         }
     }
@@ -86,13 +86,13 @@ public class EventHandlerService implements EventHandler {
 
     @Override
     public boolean handleCommand(ISession session, String commandExectutor, String[] arguments) {
-        if(!this.chatCommands.containsKey(commandExectutor) || !this.commandInfo.containsKey(commandExectutor)) {
+        if (!this.chatCommands.containsKey(commandExectutor) || !this.commandInfo.containsKey(commandExectutor)) {
             return false;
         }
 
         CommandInfo commandInfo = this.commandInfo.get(commandExectutor);
 
-        if(!session.getPlayer().getPermissions().hasCommand(commandInfo.getPermission()) && !commandInfo.getPermission().isEmpty()) {
+        if (!session.getPlayer().getPermissions().hasCommand(commandInfo.getPermission()) && !commandInfo.getPermission().isEmpty()) {
             return false;
         }
 
@@ -100,19 +100,19 @@ public class EventHandlerService implements EventHandler {
 
         try {
             chatCommand.accept(session, arguments);
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.warn("Failed to execute module command: " + commandExectutor);
         }
 
         return true;
     }
 
-    private  <T extends EventArgs> void invoke(Class<? extends Event> eventClass, T args) {
+    private <T extends EventArgs> void invoke(Class<? extends Event> eventClass, T args) {
         for (Event event : this.listeners.get(eventClass)) {
             try {
-                if(event.isAsync()) {
+                if (event.isAsync()) {
                     this.asyncEventExecutor.submit(() -> {
-                       event.consume(args);
+                        event.consume(args);
                     });
                 } else {
                     event.consume(args);

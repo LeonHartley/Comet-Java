@@ -9,7 +9,7 @@ public class HallOfFameCommand extends ChatCommand {
         final String username = params[0];
         final String badgeCode = params[1];
 
-        if(client.getPlayer() != null) {
+        if (client.getPlayer() != null) {
             // Check if they already have the badge
         } else {
             // Disconnect

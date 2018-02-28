@@ -3,7 +3,6 @@ package com.cometproject.server.network.messages.outgoing.navigator.updated;
 import com.cometproject.api.game.rooms.IRoomData;
 import com.cometproject.api.game.rooms.settings.RoomAccessType;
 import com.cometproject.api.networking.messages.IComposer;
-
 import com.cometproject.server.game.navigator.types.Category;
 import com.cometproject.server.game.navigator.types.categories.NavigatorSearchAllowance;
 import com.cometproject.server.game.navigator.types.categories.NavigatorViewMode;
@@ -12,8 +11,8 @@ import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.RoomWriter;
-import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
+import com.cometproject.server.protocol.messages.MessageComposer;
 
 import java.util.List;
 
@@ -43,7 +42,7 @@ public class NavigatorSearchResultSetMessageComposer extends MessageComposer {
         msg.writeString(this.category);
         msg.writeString(this.data);
 
-        if(this.categories == null) {
+        if (this.categories == null) {
             msg.writeInt(1);
             msg.writeString("query");
             msg.writeString("");

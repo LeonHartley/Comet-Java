@@ -1,8 +1,8 @@
 package com.cometproject.server.storage.queries.catalog;
 
-import com.cometproject.server.game.catalog.types.Voucher;
 import com.cometproject.api.game.catalog.types.vouchers.VoucherStatus;
 import com.cometproject.api.game.catalog.types.vouchers.VoucherType;
+import com.cometproject.server.game.catalog.types.Voucher;
 import com.cometproject.server.storage.SqlHelper;
 
 import java.sql.Connection;

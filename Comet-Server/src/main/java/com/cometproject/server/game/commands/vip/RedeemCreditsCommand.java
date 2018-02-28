@@ -1,11 +1,10 @@
 package com.cometproject.server.game.commands.vip;
 
+import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
-import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
 import com.cometproject.server.network.sessions.Session;
-import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import com.cometproject.storage.api.StorageContext;
 import com.google.common.collect.Lists;
 
@@ -78,7 +77,7 @@ public class RedeemCreditsCommand extends ChatCommand {
     public String getPermission() {
         return "redeemcredits_command";
     }
-    
+
     @Override
     public String getParameter() {
         return "";

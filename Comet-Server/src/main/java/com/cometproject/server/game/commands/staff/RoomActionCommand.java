@@ -2,16 +2,16 @@ package com.cometproject.server.game.commands.staff;
 
 import com.cometproject.api.game.bots.BotMode;
 import com.cometproject.api.game.bots.BotType;
+import com.cometproject.api.game.rooms.entities.RoomEntityStatus;
+import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.bots.BotData;
 import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
-import com.cometproject.api.game.rooms.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
 import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
-import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.objects.entities.types.data.PlayerBotData;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.DanceMessageComposer;
@@ -100,24 +100,24 @@ public class RoomActionCommand extends ChatCommand {
                     final String username = client.getPlayer().getData().getUsername() + "Minion" + i;
                     final String motto = "";
 
-                     BotData botData = new PlayerBotData(
-                             id,
-                             username,
-                             motto,
-                             client.getPlayer().getData().getFigure(),
-                             client.getPlayer().getData().getGender(),
-                             client.getPlayer().getData().getUsername(),
-                             client.getPlayer().getId(),
-                             "[]",
-                             true,
-                             7,
-                             BotType.MIMIC,
-                             BotMode.DEFAULT, "");
+                    BotData botData = new PlayerBotData(
+                            id,
+                            username,
+                            motto,
+                            client.getPlayer().getData().getFigure(),
+                            client.getPlayer().getData().getGender(),
+                            client.getPlayer().getData().getUsername(),
+                            client.getPlayer().getId(),
+                            "[]",
+                            true,
+                            7,
+                            BotType.MIMIC,
+                            BotMode.DEFAULT, "");
 
                     final BotEntity botEntity = client.getPlayer().getEntity().getRoom().getBots().addBot(botData,
                             entityPosition.getX(), entityPosition.getY(), entityPosition.getZ());
 
-                    if(botEntity != null) {
+                    if (botEntity != null) {
                         addedEntities.add(botEntity);
                     }
                 }
@@ -140,7 +140,7 @@ public class RoomActionCommand extends ChatCommand {
     public String getPermission() {
         return "roomaction_command";
     }
-    
+
     @Override
     public String getParameter() {
         return "";

@@ -2,7 +2,6 @@ package com.cometproject.server.game.groups.items;
 
 import com.cometproject.api.game.groups.IGroupItemService;
 import com.cometproject.api.game.groups.items.IGroupBadgeItem;
-import com.cometproject.server.game.groups.items.types.*;
 import com.cometproject.server.storage.queries.groups.GroupItemDao;
 import org.apache.log4j.Logger;
 
@@ -13,13 +12,12 @@ import java.util.Map;
 
 
 public class GroupItemManager implements IGroupItemService {
+    private static final Logger log = Logger.getLogger(GroupItemManager.class.getName());
     private List<IGroupBadgeItem> bases;
     private List<IGroupBadgeItem> symbols;
     private List<IGroupBadgeItem> baseColours;
     private Map<Integer, IGroupBadgeItem> symbolColours;
     private Map<Integer, IGroupBadgeItem> backgroundColours;
-
-    private static final Logger log = Logger.getLogger(GroupItemManager.class.getName());
 
     public GroupItemManager() {
         this.load();

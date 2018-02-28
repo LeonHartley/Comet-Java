@@ -1,11 +1,8 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions;
 
 import com.cometproject.api.game.rooms.objects.data.RoomItemData;
-
-import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
-import com.cometproject.server.game.rooms.objects.items.RoomItem;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.events.WiredItemEvent;
 import com.cometproject.server.game.rooms.types.Room;
@@ -22,7 +19,7 @@ public class WiredActionKickUser extends WiredActionShowMessage {
 
     @Override
     public void onEventComplete(WiredItemEvent event) {
-        if(event.entity != null && event.type == 1) {
+        if (event.entity != null && event.type == 1) {
             event.entity.leaveRoom(false, true, true);
             return;
         }

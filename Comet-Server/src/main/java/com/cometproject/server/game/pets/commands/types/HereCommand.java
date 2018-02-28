@@ -1,9 +1,9 @@
 package com.cometproject.server.game.pets.commands.types;
 
+import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.pets.commands.PetCommand;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
-import com.cometproject.api.game.utilities.Position;
 
 public class HereCommand extends PetCommand {
     @Override

@@ -9,16 +9,8 @@ import com.cometproject.server.game.rooms.types.Room;
 
 public class WiredTriggerWalksOnFurni extends WiredTriggerItem {
 
-    public WiredTriggerWalksOnFurni(RoomItemData itemData, Room room) {        super(itemData, room);    }
-
-    @Override
-    public boolean suppliesPlayer() {
-        return true;
-    }
-
-    @Override
-    public int getInterface() {
-        return 1;
+    public WiredTriggerWalksOnFurni(RoomItemData itemData, Room room) {
+        super(itemData, room);
     }
 
     public static boolean executeTriggers(RoomEntity entity, RoomItemFloor floorItem) {
@@ -32,5 +24,15 @@ public class WiredTriggerWalksOnFurni extends WiredTriggerItem {
         }
 
         return wasExecuted;
+    }
+
+    @Override
+    public boolean suppliesPlayer() {
+        return true;
+    }
+
+    @Override
+    public int getInterface() {
+        return 1;
     }
 }

@@ -1,15 +1,15 @@
 package com.cometproject.server.network.messages.incoming.room.pets;
 
 import com.cometproject.api.game.achievements.types.AchievementType;
+import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
-import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.room.pets.ScratchPetNotificationMessageComposer;
-import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.protocol.messages.MessageEvent;
 
 
 public class ScratchPetMessageEvent implements Event {
@@ -25,21 +25,21 @@ public class ScratchPetMessageEvent implements Event {
 
         if (petEntity == null) return;
 
-        if(!playerEntity.getPosition().touching(petEntity.getPosition())) {
+        if (!playerEntity.getPosition().touching(petEntity.getPosition())) {
             Position position = petEntity.getPosition().squareInFront(petEntity.getBodyRotation());
 
             RoomTile tile = room.getMapping().getTile(position.getX(), position.getY());
 
-            if(tile == null) {
+            if (tile == null) {
                 position = petEntity.getPosition().squareBehind(petEntity.getBodyRotation());
                 tile = room.getMapping().getTile(position.getX(), position.getY());
             }
 
-            if(tile != null) {
+            if (tile != null) {
                 petEntity.getPetAI().waitForInteraction();
                 petEntity.cancelWalk();
 
-                if(!tile.isReachable(playerEntity)) {
+                if (!tile.isReachable(playerEntity)) {
                     scratch(client, petEntity);
                 } else {
                     playerEntity.moveTo(position);
@@ -56,7 +56,7 @@ public class ScratchPetMessageEvent implements Event {
     }
 
     private void scratch(Session client, PetEntity petEntity) {
-        if(client.getPlayer() == null || client.getPlayer().getEntity() == null) {
+        if (client.getPlayer() == null || client.getPlayer().getEntity() == null) {
             return;
         }
 

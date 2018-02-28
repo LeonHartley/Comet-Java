@@ -4,8 +4,8 @@ import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
+import com.cometproject.server.protocol.messages.MessageComposer;
 import com.google.common.collect.Lists;
 
 import java.util.List;
@@ -19,9 +19,9 @@ public class AvatarsMessageComposer extends MessageComposer {
         this.entities = Lists.newArrayList();
 
         for (RoomEntity entity : room.getEntities().getAllEntities().values()) {
-            if(entity.isVisible()) {
-                if(entity instanceof PlayerEntity) {
-                    if(((PlayerEntity) entity).getPlayer() == null) continue;
+            if (entity.isVisible()) {
+                if (entity instanceof PlayerEntity) {
+                    if (((PlayerEntity) entity).getPlayer() == null) continue;
                 }
 
                 this.entities.add(entity);
@@ -54,7 +54,7 @@ public class AvatarsMessageComposer extends MessageComposer {
             this.singleEntity.compose(msg);
         } else {
             msg.writeInt(this.entities.size());
-            for(RoomEntity entity : this.entities) {
+            for (RoomEntity entity : this.entities) {
                 entity.compose(msg);
             }
         }

@@ -39,6 +39,7 @@
         <module>Comet-Game-Catalog</module>
         <module>Comet-Game-Achievements</module>
         <module>Comet-Game-Items</module>
+        <module>Comet-Game-Rooms</module>
 
         <module>Comet-GameCenter-FastFood</module>
         <module>Comet-GameCenter-SnowStorm</module>

@@ -20,7 +20,7 @@ public class EnableCommand extends ChatCommand {
             return;
         }
 
-        if(client.getPlayer().getEntity().getMountedEntity() != null) {
+        if (client.getPlayer().getEntity().getMountedEntity() != null) {
             return;
         }
 
@@ -40,7 +40,7 @@ public class EnableCommand extends ChatCommand {
     public String getPermission() {
         return "enablecommand_command";
     }
-    
+
     @Override
     public String getParameter() {
         return "";

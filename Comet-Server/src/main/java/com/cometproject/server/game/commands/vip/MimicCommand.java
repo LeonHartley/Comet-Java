@@ -2,7 +2,6 @@ package com.cometproject.server.game.commands.vip;
 
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
-import com.cometproject.server.game.rooms.objects.entities.RoomEntityType;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.outgoing.user.details.AvatarAspectUpdateMessageComposer;
@@ -29,7 +28,7 @@ public class MimicCommand extends ChatCommand {
             return;
         }
 
-        if(!user.getPlayer().getSettings().getAllowMimic() && client.getPlayer().getData().getRank() < 3) {
+        if (!user.getPlayer().getSettings().getAllowMimic() && client.getPlayer().getData().getRank() < 3) {
             sendNotif(Locale.getOrDefault("command.mimic.disabled", "You can't steal the look of this user."), client);
             return;
         }

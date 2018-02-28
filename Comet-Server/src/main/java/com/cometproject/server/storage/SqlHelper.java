@@ -3,7 +3,6 @@ package com.cometproject.server.storage;
 import com.cometproject.api.messaging.performance.QueryRequest;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.storage.mysql.MySQLConnectionProvider;
-import com.sun.scenario.effect.impl.sw.java.JSWBlend_EXCLUSIONPeer;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
@@ -16,18 +15,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class SqlHelper {
+    public static boolean queryLogEnabled = false;
+    public static Map<Integer, QueryLog> queryLog = new ConcurrentHashMap<>();
     private static MySQLConnectionProvider connectionProvider;
     private static Logger log = Logger.getLogger(SqlHelper.class.getName());
-
     private static Map<String, AtomicInteger> queryCounters = new ConcurrentHashMap<>();
-    public static boolean queryLogEnabled = false;
-
-    public static class QueryLog {
-        public long startTime = System.currentTimeMillis();
-        public String query;
-    }
-
-    public static Map<Integer, QueryLog> queryLog = new ConcurrentHashMap<>();
 
     public static void init(MySQLConnectionProvider connectionProvider) {
         SqlHelper.connectionProvider = connectionProvider;
@@ -75,11 +67,11 @@ public class SqlHelper {
                 return;
             }
 
-            if(queryLogEnabled && queryLog.containsKey(statement.hashCode())) {
+            if (queryLogEnabled && queryLog.containsKey(statement.hashCode())) {
                 final QueryLog log = queryLog.get(statement.hashCode());
                 final long timeTaken = (System.currentTimeMillis() - log.startTime);
 
-                if(NetworkManager.getInstance().getMessagingClient() != null) {
+                if (NetworkManager.getInstance().getMessagingClient() != null) {
                     NetworkManager.getInstance().getMessagingClient().sendMessage("com.cometproject:manager", new QueryRequest(log.query, timeTaken));
                 }
 
@@ -115,7 +107,7 @@ public class SqlHelper {
     }
 
     public static PreparedStatement prepare(String query, Connection con, boolean returnKeys) throws SQLException {
-        if(Thread.currentThread().getName().startsWith("Room-Processor"))
+        if (Thread.currentThread().getName().startsWith("Room-Processor"))
             log.trace("Executing query from room processor: " + query);
 
         if (!queryCounters.containsKey(query)) {
@@ -126,7 +118,7 @@ public class SqlHelper {
 
         final PreparedStatement statement = returnKeys ? con.prepareStatement(query, java.sql.Statement.RETURN_GENERATED_KEYS) : con.prepareStatement(query);
 
-        if(queryLogEnabled) {
+        if (queryLogEnabled) {
             final QueryLog log = new QueryLog();
             log.query = query;
 
@@ -137,7 +129,8 @@ public class SqlHelper {
     }
 
     public static void handleSqlException(SQLException e) {
-        if (e.getMessage().equals("Pool has been shutdown") || e.getMessage().contains("Data too long for column")) return;
+        if (e.getMessage().equals("Pool has been shutdown") || e.getMessage().contains("Data too long for column"))
+            return;
         log.error("Error while executing query", e);
     }
 
@@ -147,5 +140,10 @@ public class SqlHelper {
 
     public static Map<String, AtomicInteger> getQueryCounters() {
         return queryCounters;
+    }
+
+    public static class QueryLog {
+        public long startTime = System.currentTimeMillis();
+        public String query;
     }
 }

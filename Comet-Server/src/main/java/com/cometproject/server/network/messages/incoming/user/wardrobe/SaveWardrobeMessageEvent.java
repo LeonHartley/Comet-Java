@@ -1,12 +1,12 @@
 package com.cometproject.server.network.messages.incoming.user.wardrobe;
 
 import com.cometproject.api.game.players.data.types.IWardrobeItem;
+import com.cometproject.api.utilities.JsonUtil;
 import com.cometproject.server.game.players.components.types.settings.WardrobeItem;
 import com.cometproject.server.network.messages.incoming.Event;
-import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.storage.queries.player.PlayerDao;
-import com.cometproject.api.utilities.JsonUtil;
 
 import java.util.List;
 

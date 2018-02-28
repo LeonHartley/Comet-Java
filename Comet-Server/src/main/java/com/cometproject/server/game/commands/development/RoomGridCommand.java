@@ -1,7 +1,6 @@
 package com.cometproject.server.game.commands.development;
 
 import com.cometproject.server.game.commands.ChatCommand;
-import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.MotdNotificationMessageComposer;
 import com.cometproject.server.network.sessions.Session;
@@ -9,7 +8,7 @@ import com.cometproject.server.network.sessions.Session;
 public class RoomGridCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
-        if(params.length != 0) {
+        if (params.length != 0) {
             String str = "";
 
 
@@ -24,7 +23,7 @@ public class RoomGridCommand extends ChatCommand {
     public String getPermission() {
         return "debug";
     }
-    
+
     @Override
     public String getParameter() {
         return "";

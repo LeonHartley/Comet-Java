@@ -12,7 +12,7 @@ public class ToggleEventsCommand extends ChatCommand {
 
         final PlayerSettings playerSettings = client.getPlayer().getSettings();
 
-        if(playerSettings == null) {
+        if (playerSettings == null) {
             return;
         }
 

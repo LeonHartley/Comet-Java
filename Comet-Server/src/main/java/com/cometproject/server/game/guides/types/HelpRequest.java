@@ -2,7 +2,6 @@ package com.cometproject.server.game.guides.types;
 
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.sessions.Session;
-import com.cometproject.server.network.sessions.SessionManager;
 import com.google.common.collect.Sets;
 
 import java.util.Set;
@@ -12,13 +11,10 @@ public class HelpRequest {
 
     private final int type;
     private final String message;
-
+    public int guideId = -1;
     private boolean recommendation = false;
-
     private int processTicks = 60;
     private Set<Integer> declinedGuides = Sets.newConcurrentHashSet();
-
-    public int guideId = -1;
 
     public HelpRequest(final int playerId, final int type, final String message) {
         this.playerId = playerId;

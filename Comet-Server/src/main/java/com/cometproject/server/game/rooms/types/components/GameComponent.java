@@ -25,17 +25,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class GameComponent {
+    private final AtomicInteger blobCounter = new AtomicInteger(0);
     private Room room;
     private RoomGame instance;
-
     private Map<GameTeam, List<Integer>> teams;
     private Map<GameTeam, Integer> scores;
-
     private Map<GameTeam, Set<AbstractGameGateFloorItem>> gates;
-
     private Set<PlayerEntity> players;
-
-    private final AtomicInteger blobCounter = new AtomicInteger(0);
 
     public GameComponent(Room room) {
         this.teams = new HashMap<GameTeam, List<Integer>>() {{
@@ -63,7 +59,7 @@ public class GameComponent {
             entry.getValue().clear();
         }
 
-        for(Map.Entry<GameTeam, Set<AbstractGameGateFloorItem>> team : this.gates.entrySet()) {
+        for (Map.Entry<GameTeam, Set<AbstractGameGateFloorItem>> team : this.gates.entrySet()) {
             team.getValue().clear();
         }
 
@@ -100,7 +96,7 @@ public class GameComponent {
     }
 
     public void removeFromTeam(PlayerEntity entity) {
-        if(entity.getGameTeam() == null || entity.getGameTeam() == GameTeam.NONE) {
+        if (entity.getGameTeam() == null || entity.getGameTeam() == GameTeam.NONE) {
             return;
         }
 
@@ -156,7 +152,7 @@ public class GameComponent {
             put(GameTeam.RED, 0);
         }};
 
-        if(update) {
+        if (update) {
             this.scoreUpdated(GameTeam.BLUE);
             this.scoreUpdated(GameTeam.RED);
             this.scoreUpdated(GameTeam.GREEN);

@@ -1,8 +1,8 @@
 package com.cometproject.server.game.achievements;
 
+import com.cometproject.api.game.achievements.IAchievementsService;
 import com.cometproject.api.game.achievements.types.AchievementType;
 import com.cometproject.api.game.achievements.types.IAchievementGroup;
-import com.cometproject.api.game.achievements.IAchievementsService;
 import com.cometproject.server.storage.queries.achievements.AchievementDao;
 import org.apache.log4j.Logger;
 
@@ -10,13 +10,20 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class AchievementManager implements IAchievementsService {
-    private static AchievementManager achievementManager;
     private static final Logger log = Logger.getLogger(AchievementManager.class.getName());
-
+    private static AchievementManager achievementManager;
     private final Map<AchievementType, IAchievementGroup> achievementGroups;
 
     public AchievementManager() {
         this.achievementGroups = new ConcurrentHashMap<>();
+    }
+
+    public static AchievementManager getInstance() {
+        if (achievementManager == null) {
+            achievementManager = new AchievementManager();
+        }
+
+        return achievementManager;
     }
 
     @Override
@@ -52,13 +59,5 @@ public class AchievementManager implements IAchievementsService {
     @Override
     public Map<AchievementType, IAchievementGroup> getAchievementGroups() {
         return this.achievementGroups;
-    }
-
-    public static AchievementManager getInstance() {
-        if (achievementManager == null) {
-            achievementManager = new AchievementManager();
-        }
-
-        return achievementManager;
     }
 }

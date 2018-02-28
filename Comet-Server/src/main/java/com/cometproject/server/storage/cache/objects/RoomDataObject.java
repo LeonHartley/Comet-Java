@@ -3,10 +3,6 @@ package com.cometproject.server.storage.cache.objects;
 import com.cometproject.api.game.bots.IBotData;
 import com.cometproject.api.game.pets.IPetData;
 import com.cometproject.api.game.rooms.IRoomData;
-import com.cometproject.server.game.bots.BotData;
-import com.cometproject.server.game.pets.data.PetData;
-import com.cometproject.server.game.rooms.objects.entities.types.data.PlayerBotData;
-import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.storage.cache.CachableObject;
 import com.cometproject.server.storage.cache.objects.items.FloorItemDataObject;
 import com.cometproject.server.storage.cache.objects.items.WallItemDataObject;
@@ -78,7 +74,7 @@ public class RoomDataObject extends CachableObject {
 
         coreObject.addProperty("id", id);
 
-        for(int rightsId : rights) {
+        for (int rightsId : rights) {
             rightsArray.add(rightsId);
         }
 
@@ -97,7 +93,7 @@ public class RoomDataObject extends CachableObject {
 
         final JsonArray tagsArray = new JsonArray();
 
-        for(int i = 0; i < data.getTags().length; i++) {
+        for (int i = 0; i < data.getTags().length; i++) {
             tagsArray.add(data.getTags()[i]);
         }
 
@@ -105,7 +101,7 @@ public class RoomDataObject extends CachableObject {
 
         final JsonObject decorationsObject = new JsonObject();
 
-        for(Map.Entry<String, String> decoration : data.getDecorations().entrySet()) {
+        for (Map.Entry<String, String> decoration : data.getDecorations().entrySet()) {
             decorationsObject.addProperty(decoration.getKey(), decoration.getValue());
         }
 
@@ -127,7 +123,7 @@ public class RoomDataObject extends CachableObject {
 
         final JsonArray disabledCommands = new JsonArray();
 
-        for(String disabledCommand : data.getDisabledCommands()) {
+        for (String disabledCommand : data.getDisabledCommands()) {
             disabledCommands.add(disabledCommand);
         }
 
@@ -135,19 +131,19 @@ public class RoomDataObject extends CachableObject {
         roomDataObject.addProperty("groupId", data.getGroupId());
         roomDataObject.addProperty("requiredBadge", data.getRequiredBadge());
 
-        for(FloorItemDataObject floorItemDataObject : this.floorItems) {
+        for (FloorItemDataObject floorItemDataObject : this.floorItems) {
             floorItems.add(floorItemDataObject.toJsonObject());
         }
 
-        for(WallItemDataObject wallItemDataObject : this.wallItems) {
+        for (WallItemDataObject wallItemDataObject : this.wallItems) {
             wallItems.add(wallItemDataObject.toJsonObject());
         }
 
-        for(IPetData petData : this.pets) {
+        for (IPetData petData : this.pets) {
             pets.add(petData.toJsonObject());
         }
 
-        for(IBotData botData: this.bots) {
+        for (IBotData botData : this.bots) {
             bots.add(botData.toJsonObject());
         }
 

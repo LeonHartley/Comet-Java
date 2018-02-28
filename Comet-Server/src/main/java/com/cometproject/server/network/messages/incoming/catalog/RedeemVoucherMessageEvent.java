@@ -1,10 +1,10 @@
 package com.cometproject.server.network.messages.incoming.catalog;
 
+import com.cometproject.api.game.catalog.types.vouchers.VoucherStatus;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.composers.catalog.BoughtItemMessageComposer;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.catalog.types.Voucher;
-import com.cometproject.api.game.catalog.types.vouchers.VoucherStatus;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.bundles.RoomBundleManager;
 import com.cometproject.server.game.rooms.bundles.types.RoomBundle;
@@ -18,7 +18,6 @@ import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.storage.queries.catalog.VoucherDao;
 import com.cometproject.server.storage.queries.items.ItemDao;
-import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import com.cometproject.storage.api.StorageContext;
 import org.apache.commons.lang.StringUtils;
 
@@ -68,7 +67,7 @@ public class RedeemVoucherMessageEvent implements Event {
             }
 
             case DUCKETS: {
-                if(!StringUtils.isNumeric(voucher.getData())) {
+                if (!StringUtils.isNumeric(voucher.getData())) {
                     failure = true;
                     break;
                 }
@@ -85,7 +84,7 @@ public class RedeemVoucherMessageEvent implements Event {
             }
 
             case VIP_POINTS: {
-                if(!StringUtils.isNumeric(voucher.getData())) {
+                if (!StringUtils.isNumeric(voucher.getData())) {
                     failure = true;
                     break;
                 }
@@ -132,7 +131,7 @@ public class RedeemVoucherMessageEvent implements Event {
             }
         }
 
-        if(failure) {
+        if (failure) {
             client.getPlayer().sendMotd(Locale.getOrDefault("voucher.error", "The voucher was redeemed unsuccessfully"));
 
             client.getPlayer().getData().save();

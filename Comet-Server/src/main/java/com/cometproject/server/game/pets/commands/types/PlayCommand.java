@@ -1,6 +1,5 @@
 package com.cometproject.server.game.pets.commands.types;
 
-import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.game.pets.commands.PetCommand;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;

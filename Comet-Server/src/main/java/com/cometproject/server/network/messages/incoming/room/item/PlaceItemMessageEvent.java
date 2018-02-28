@@ -1,15 +1,15 @@
 package com.cometproject.server.network.messages.incoming.room.item;
 
-import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
 import com.cometproject.api.game.quests.QuestType;
-import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.api.game.utilities.Position;
+import com.cometproject.server.game.items.ItemManager;
+import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.notification.NotificationMessageComposer;
-import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.protocol.messages.MessageEvent;
 import com.google.common.collect.Maps;
 
 import java.util.Map;
@@ -24,7 +24,7 @@ public class PlaceItemMessageEvent implements Event {
 
         String data = msg.readString();
 
-        if(client.getPlayer() == null || client.getPlayer().getInventory() == null) return;
+        if (client.getPlayer() == null || client.getPlayer().getInventory() == null) return;
 
         if (data == null) return;
 
@@ -51,7 +51,7 @@ public class PlaceItemMessageEvent implements Event {
 
                 Long itemId = ItemManager.getInstance().getItemIdByVirtualId(id);
 
-                if(itemId == null) {
+                if (itemId == null) {
                     return;
                 }
 
@@ -69,7 +69,7 @@ public class PlaceItemMessageEvent implements Event {
 
                 Long itemId = ItemManager.getInstance().getItemIdByVirtualId(id);
 
-                if(itemId == null) {
+                if (itemId == null) {
                     return;
                 }
 
@@ -81,7 +81,7 @@ public class PlaceItemMessageEvent implements Event {
 
                 client.getPlayer().getEntity().getRoom().getItems().placeFloorItem(item, x, y, rot, client.getPlayer());
 
-                if(client.getPlayer().getEntity().getRoom().getItems() == null) {
+                if (client.getPlayer().getEntity().getRoom().getItems() == null) {
                     return;
                 }
 

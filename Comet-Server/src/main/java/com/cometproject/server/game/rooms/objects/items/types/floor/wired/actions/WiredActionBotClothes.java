@@ -1,21 +1,15 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions;
 
 import com.cometproject.api.game.rooms.objects.data.RoomItemData;
-
-import com.cometproject.api.game.rooms.objects.data.RoomItemData;
-import com.cometproject.server.config.Locale;
-import com.cometproject.server.game.rooms.RoomManager;
-import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
-import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.events.WiredItemEvent;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.UpdateInfoMessageComposer;
 
 public class WiredActionBotClothes extends WiredActionItem {
     private final static int PARAM_HANDITEM = 0;
+
     /**
      * The default constructor
      *
@@ -30,7 +24,9 @@ public class WiredActionBotClothes extends WiredActionItem {
      * @param rotation  The orientation of the item
      * @param data      The JSON object associated with this item
      */
-    public WiredActionBotClothes(RoomItemData itemData, Room room) {        super(itemData, room);    }
+    public WiredActionBotClothes(RoomItemData itemData, Room room) {
+        super(itemData, room);
+    }
 
     @Override
     public boolean requiresPlayer() {

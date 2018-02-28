@@ -16,21 +16,21 @@ public class SwitchTVCommand extends PetCommand {
         // find an item.
         RoomItemFloor tv = null;
 
-        for(RoomItemFloor floor : entity.getRoom().getItems().getFloorItems().values()) {
-            if(floor.getDefinition().getItemName().endsWith("_tv")) {
+        for (RoomItemFloor floor : entity.getRoom().getItems().getFloorItems().values()) {
+            if (floor.getDefinition().getItemName().endsWith("_tv")) {
                 tv = floor;
                 break;
             }
         }
 
-        if(tv == null) {
+        if (tv == null) {
             return false;
         }
 
         final RoomItemFloor television = tv;
         final RoomTile tileInFront = entity.getRoom().getMapping().getTile(tv.getPosition().squareInFront(tv.getRotation()));
 
-        if(tileInFront != null && tileInFront.getMovementNode() == RoomEntityMovementNode.OPEN) {
+        if (tileInFront != null && tileInFront.getMovementNode() == RoomEntityMovementNode.OPEN) {
             entity.moveTo(tileInFront.getPosition());
             tileInFront.scheduleEvent(entity.getId(), (e) -> {
                 e.lookTo(television.getPosition().getX(), television.getPosition().getY());

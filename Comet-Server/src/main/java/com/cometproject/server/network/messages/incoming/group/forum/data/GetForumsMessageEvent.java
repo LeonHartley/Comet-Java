@@ -16,13 +16,13 @@ public class GetForumsMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) throws Exception {
         List<IGroup> groups = Lists.newArrayList();
 
-        for(int groupId : client.getPlayer().getGroups()) {
+        for (int groupId : client.getPlayer().getGroups()) {
             final IGroupData groupData = GameContext.getCurrent().getGroupService().getData(groupId);
 
-            if(groupData != null && groupData.hasForum()) {
+            if (groupData != null && groupData.hasForum()) {
                 final IGroup group = GameContext.getCurrent().getGroupService().getGroup(groupId);
 
-                if(group.getForum() != null)
+                if (group.getForum() != null)
                     groups.add(group);
             }
         }

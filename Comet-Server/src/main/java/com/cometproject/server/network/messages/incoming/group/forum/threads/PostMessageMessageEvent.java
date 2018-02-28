@@ -2,6 +2,7 @@ package com.cometproject.server.network.messages.incoming.group.forum.threads;
 
 import com.cometproject.api.game.GameContext;
 import com.cometproject.api.game.groups.types.IGroup;
+import com.cometproject.api.game.groups.types.components.forum.ForumPermission;
 import com.cometproject.api.game.groups.types.components.forum.IForumSettings;
 import com.cometproject.api.game.groups.types.components.forum.IForumThread;
 import com.cometproject.api.game.groups.types.components.forum.IForumThreadReply;
@@ -9,7 +10,6 @@ import com.cometproject.server.boot.Comet;
 import com.cometproject.server.composers.group.forums.GroupForumPostReplyMessageComposer;
 import com.cometproject.server.composers.group.forums.GroupForumPostThreadMessageComposer;
 import com.cometproject.server.config.Locale;
-import com.cometproject.api.game.groups.types.components.forum.ForumPermission;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.filter.FilterResult;
 import com.cometproject.server.network.messages.incoming.Event;
@@ -34,8 +34,8 @@ public class PostMessageMessageEvent implements Event {
 
         if (message.length() < 10 || message.length() > 4000) return;
 
-        if(client.getPlayer().getLastForumPost() != 0) {
-            if((((int) Comet.getTime()) - client.getPlayer().getLastForumPost()) < 60) {
+        if (client.getPlayer().getLastForumPost() != 0) {
+            if ((((int) Comet.getTime()) - client.getPlayer().getLastForumPost()) < 60) {
                 return;
             }
         }
@@ -99,7 +99,7 @@ public class PostMessageMessageEvent implements Event {
 
             IForumThread forumThread = GroupForumThreadDao.createThread(groupId, subject, message, client.getPlayer().getId());
 
-            if(forumThread == null) {
+            if (forumThread == null) {
                 // Why u do dis?
                 return;
             }
@@ -132,20 +132,20 @@ public class PostMessageMessageEvent implements Event {
                 }
             }
 
-            if(!permissionToPost) {
+            if (!permissionToPost) {
                 // No permission notif?
                 return;
             }
 
             IForumThread forumThread = group.getForum().getForumThreads().get(threadId);
 
-            if(forumThread == null) {
+            if (forumThread == null) {
                 return;
             }
 
             IForumThreadReply reply = GroupForumThreadDao.createReply(groupId, threadId, message, client.getPlayer().getId());
 
-            if(reply == null) {
+            if (reply == null) {
                 return;
             }
 

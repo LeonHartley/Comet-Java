@@ -1,10 +1,10 @@
 package com.cometproject.server.network.messages.incoming.catalog.pets;
 
+import com.cometproject.server.composers.catalog.pets.ValidatePetNameMessageComposer;
 import com.cometproject.server.game.pets.PetManager;
 import com.cometproject.server.network.messages.incoming.Event;
-import com.cometproject.server.composers.catalog.pets.ValidatePetNameMessageComposer;
-import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.protocol.messages.MessageEvent;
 
 
 public class ValidatePetNameMessageEvent implements Event {

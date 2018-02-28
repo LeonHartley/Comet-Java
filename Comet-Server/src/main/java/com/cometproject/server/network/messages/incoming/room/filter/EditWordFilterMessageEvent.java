@@ -3,9 +3,8 @@ package com.cometproject.server.network.messages.incoming.room.filter;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.Event;
-import com.cometproject.server.network.messages.outgoing.room.filter.GetRoomFilterListMessageComposer;
-import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.protocol.messages.MessageEvent;
 
 public class EditWordFilterMessageEvent implements Event {
     @Override
@@ -18,7 +17,7 @@ public class EditWordFilterMessageEvent implements Event {
             return;
         }
 
-        if(!room.getRights().hasRights(client.getPlayer().getId())) {
+        if (!room.getRights().hasRights(client.getPlayer().getId())) {
             // they don't have rights, why should they know what words are in the filter?
             return;
         }
@@ -28,7 +27,7 @@ public class EditWordFilterMessageEvent implements Event {
 
         // todo: word filter word max length 25
 
-        if(!add) {
+        if (!add) {
             room.getFilter().remove(word);
         } else {
             room.getFilter().add(word);

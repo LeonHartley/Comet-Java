@@ -9,8 +9,8 @@ public class ConfirmUsernameMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) throws Exception {
         final String username = msg.readString();
 
-        if(client.getPlayer() != null) {
-            if(client.getPlayer().getData().getUsername().equals(username)) {
+        if (client.getPlayer() != null) {
+            if (client.getPlayer().getData().getUsername().equals(username)) {
                 client.getPlayer().setUsernameConfirmed(true);
             }
         }

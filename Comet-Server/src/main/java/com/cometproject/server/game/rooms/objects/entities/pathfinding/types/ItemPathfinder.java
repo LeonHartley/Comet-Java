@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.objects.entities.pathfinding.types;
 
+import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.objects.RoomObject;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Pathfinder;
@@ -8,7 +9,6 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.RollableFloo
 import com.cometproject.server.game.rooms.objects.items.types.floor.football.FootballFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupGateFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions.WiredActionChase;
-import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.types.mapping.RoomEntityMovementNode;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
@@ -78,14 +78,14 @@ public class ItemPathfinder extends Pathfinder {
             return false;
         }
 
-        if(roomFloorObject instanceof FootballFloorItem) {
-            for(RoomItemFloor floor : tile.getItems()) {
-                if(floor instanceof GroupGateFloorItem) {
+        if (roomFloorObject instanceof FootballFloorItem) {
+            for (RoomItemFloor floor : tile.getItems()) {
+                if (floor instanceof GroupGateFloorItem) {
                     return false;
                 }
             }
 
-            if(tile.getItems().size() == 1) {
+            if (tile.getItems().size() == 1) {
                 return tile.getStackHeight() <= 0.5 && tile.canPlaceItemHere();
             }
         }

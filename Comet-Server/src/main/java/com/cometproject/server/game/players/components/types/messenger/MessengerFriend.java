@@ -1,9 +1,9 @@
 package com.cometproject.server.game.players.components.types.messenger;
 
+import com.cometproject.api.game.players.data.PlayerAvatar;
 import com.cometproject.api.game.players.data.components.messenger.IMessengerFriend;
 import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.server.game.players.PlayerManager;
-import com.cometproject.api.game.players.data.PlayerAvatar;
 import com.cometproject.server.game.players.data.PlayerAvatarData;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.sessions.Session;

@@ -6,7 +6,6 @@ import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateWallItemMessageComposer;
-import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import com.cometproject.storage.api.StorageContext;
 
 public abstract class RoomItemWall extends RoomItem {
@@ -70,14 +69,14 @@ public abstract class RoomItemWall extends RoomItem {
         return this.wallPosition;
     }
 
+    public void setWallPosition(String wallPosition) {
+        this.wallPosition = wallPosition;
+    }
+
     public int getRotation() {
         return 0;
     }
 
     public void setRotation(int rotation) {
-    }
-
-    public void setWallPosition(String wallPosition) {
-        this.wallPosition = wallPosition;
     }
 }

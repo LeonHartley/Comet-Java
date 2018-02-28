@@ -51,7 +51,7 @@ public class MachineBanCommand extends ChatCommand {
     public String getPermission() {
         return "machineban_command";
     }
-    
+
     @Override
     public String getParameter() {
         return Locale.getOrDefault("command.parameter.ban", "%username% %time% %reason%");

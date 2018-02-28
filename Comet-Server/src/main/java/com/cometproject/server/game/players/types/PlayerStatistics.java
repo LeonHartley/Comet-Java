@@ -98,6 +98,11 @@ public class PlayerStatistics implements IPlayerStatistics {
         return this.dailyRespects;
     }
 
+    @Override
+    public void setDailyRespects(int points) {
+        this.dailyRespects = points;
+    }
+
     public int getRespectPoints() {
         return this.respectPoints;
     }
@@ -143,17 +148,12 @@ public class PlayerStatistics implements IPlayerStatistics {
     }
 
     @Override
-    public void setDailyRespects(int points) {
-        this.dailyRespects = points;
+    public int getScratches() {
+        return scratches;
     }
 
     @Override
     public void setScratches(int scratches) {
         this.scratches = scratches;
-    }
-
-    @Override
-    public int getScratches() {
-        return scratches;
     }
 }

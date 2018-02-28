@@ -1,15 +1,15 @@
 package com.cometproject.server.network.messages.incoming.room.item;
 
-import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.api.game.quests.QuestType;
-import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.api.game.utilities.Position;
+import com.cometproject.server.game.items.ItemManager;
+import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.notification.NotificationMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorItemMessageComposer;
-import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.protocol.messages.MessageEvent;
 import com.google.common.collect.Maps;
 import org.apache.log4j.Logger;
 
@@ -22,7 +22,7 @@ public class ChangeFloorItemPositionMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) {
         Long id = ItemManager.getInstance().getItemIdByVirtualId(msg.readInt());
 
-        if(id == null) {
+        if (id == null) {
             return;
         }
 

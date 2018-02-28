@@ -4,12 +4,12 @@ import com.cometproject.api.config.Configuration;
 import com.cometproject.api.game.players.IPlayerService;
 import com.cometproject.api.game.players.data.PlayerAvatar;
 import com.cometproject.api.networking.sessions.ISession;
+import com.cometproject.api.utilities.Initialisable;
 import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.game.players.login.PlayerLoginRequest;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.player.PlayerDao;
-import com.cometproject.api.utilities.Initialisable;
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
@@ -48,6 +48,13 @@ public class PlayerManager implements IPlayerService, Initialisable {
 
     }
 
+    public static PlayerManager getInstance() {
+        if (playerManagerInstance == null)
+            playerManagerInstance = new PlayerManager();
+
+        return playerManagerInstance;
+    }
+
     @Override
     public void initialize() {
         this.playerIdToSessionId = new ConcurrentHashMap<>();
@@ -77,13 +84,6 @@ public class PlayerManager implements IPlayerService, Initialisable {
         PlayerDao.resetOnlineStatus();
 
         log.info("PlayerManager initialized");
-    }
-
-    public static PlayerManager getInstance() {
-        if (playerManagerInstance == null)
-            playerManagerInstance = new PlayerManager();
-
-        return playerManagerInstance;
     }
 
     public void submitLoginRequest(ISession client, String ticket) {
@@ -194,10 +194,10 @@ public class PlayerManager implements IPlayerService, Initialisable {
 
         final List<Integer> playerIds = this.ipAddressToPlayerIds.get(ipAddress);
 
-        if(playerIds != null && playerIds.contains(playerId)) {
+        if (playerIds != null && playerIds.contains(playerId)) {
             playerIds.remove((Integer) playerId);
 
-            if(playerIds.size() == 0) {
+            if (playerIds.size() == 0) {
                 this.ipAddressToPlayerIds.remove(ipAddress);
             }
         }

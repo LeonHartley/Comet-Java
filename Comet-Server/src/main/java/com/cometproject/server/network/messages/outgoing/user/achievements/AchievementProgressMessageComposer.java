@@ -5,8 +5,8 @@ import com.cometproject.api.game.achievements.types.IAchievementGroup;
 import com.cometproject.api.game.players.data.components.achievements.IAchievementProgress;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.players.components.types.achievements.AchievementProgress;
-import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
+import com.cometproject.server.protocol.messages.MessageComposer;
 
 public class AchievementProgressMessageComposer extends MessageComposer {
 
@@ -30,13 +30,13 @@ public class AchievementProgressMessageComposer extends MessageComposer {
         msg.writeInt(achievementGroup.getId());
         msg.writeInt(achievement.getLevel());
         msg.writeString(achievementGroup.getGroupName() + achievement.getLevel());
-        msg.writeInt(achievement.getLevel() == 1 ? 0 :achievementGroup.getAchievement(achievement.getLevel() - 1).getProgressNeeded());
+        msg.writeInt(achievement.getLevel() == 1 ? 0 : achievementGroup.getAchievement(achievement.getLevel() - 1).getProgressNeeded());
         msg.writeInt(achievement.getProgressNeeded());
         msg.writeInt(achievement.getRewardActivityPoints());
         msg.writeInt(0);
         msg.writeInt(achievementProgress.getProgress());
 
-        if(achievementProgress.getLevel() >= achievementGroup.getLevelCount()) {
+        if (achievementProgress.getLevel() >= achievementGroup.getLevelCount()) {
             msg.writeBoolean(true);
         } else {
             msg.writeBoolean(false);

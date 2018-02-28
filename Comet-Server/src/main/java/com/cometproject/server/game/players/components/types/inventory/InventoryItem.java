@@ -1,17 +1,13 @@
 package com.cometproject.server.game.players.components.types.inventory;
 
 import com.cometproject.api.game.GameContext;
-import com.cometproject.api.game.furniture.types.FurnitureDefinition;
-import com.cometproject.api.game.furniture.types.IGiftData;
-import com.cometproject.api.game.furniture.types.LimitedEditionItem;
+import com.cometproject.api.game.furniture.types.*;
 import com.cometproject.api.game.groups.types.IGroupData;
 import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
-import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.api.game.furniture.types.GiftData;
-import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.api.game.rooms.objects.data.LimitedEditionItemData;
-import com.cometproject.api.game.furniture.types.ItemType;
+import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.api.utilities.JsonUtil;
+import com.cometproject.server.game.items.ItemManager;
 import org.apache.commons.lang.StringUtils;
 
 import java.sql.ResultSet;
@@ -62,7 +58,7 @@ public class InventoryItem implements PlayerItem {
     }
 
     public void compose(IComposer msg) {
-        if(this.getDefinition().getItemType() == ItemType.WALL) {
+        if (this.getDefinition().getItemType() == ItemType.WALL) {
             msg.writeInt(this.getVirtualId());
             msg.writeString(this.getDefinition().getType().toUpperCase());
             msg.writeInt(this.getVirtualId());
@@ -115,7 +111,7 @@ public class InventoryItem implements PlayerItem {
                     groupId = Integer.parseInt(this.getExtraData());
                 }
 
-            } catch(Exception e) {
+            } catch (Exception e) {
                 // invalid integer
 
             }
@@ -133,7 +129,7 @@ public class InventoryItem implements PlayerItem {
                 msg.writeString(groupData.getBadge());
 
                 String colourA = GameContext.getCurrent().getGroupService().getItemService().getSymbolColours().get(groupData.getColourA()) != null ? GameContext.getCurrent().getGroupService().getItemService().getSymbolColours().get(groupData.getColourA()).getFirstValue() : "ffffff";
-                String colourB = GameContext.getCurrent().getGroupService().getItemService().getBackgroundColours().get(groupData.getColourB()) != null ?  GameContext.getCurrent().getGroupService().getItemService().getBackgroundColours().get(groupData.getColourB()).getFirstValue() : "ffffff";
+                String colourB = GameContext.getCurrent().getGroupService().getItemService().getBackgroundColours().get(groupData.getColourB()) != null ? GameContext.getCurrent().getGroupService().getItemService().getBackgroundColours().get(groupData.getColourB()).getFirstValue() : "ffffff";
 
                 msg.writeString(colourA);
                 msg.writeString(colourB);
@@ -155,7 +151,7 @@ public class InventoryItem implements PlayerItem {
             String name = "";
             String date = "";
 
-            if(this.getExtraData().contains("~")) {
+            if (this.getExtraData().contains("~")) {
                 String[] data = this.getExtraData().split("~");
 
                 badge = data[0];
@@ -227,7 +223,7 @@ public class InventoryItem implements PlayerItem {
                 msg.writeString(groupData.getBadge());
 
                 String colourA = GameContext.getCurrent().getGroupService().getItemService().getSymbolColours().get(groupData.getColourA()) != null ? GameContext.getCurrent().getGroupService().getItemService().getSymbolColours().get(groupData.getColourA()).getFirstValue() : "ffffff";
-                String colourB = GameContext.getCurrent().getGroupService().getItemService().getBackgroundColours().get(groupData.getColourB()) != null ?  GameContext.getCurrent().getGroupService().getItemService().getBackgroundColours().get(groupData.getColourB()).getFirstValue() : "ffffff";
+                String colourB = GameContext.getCurrent().getGroupService().getItemService().getBackgroundColours().get(groupData.getColourB()) != null ? GameContext.getCurrent().getGroupService().getItemService().getBackgroundColours().get(groupData.getColourB()).getFirstValue() : "ffffff";
 
                 msg.writeString(colourA);
                 msg.writeString(colourB);

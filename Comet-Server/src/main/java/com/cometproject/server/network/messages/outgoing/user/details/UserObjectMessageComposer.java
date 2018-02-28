@@ -3,8 +3,8 @@ package com.cometproject.server.network.messages.outgoing.user.details;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.players.types.Player;
-import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
+import com.cometproject.server.protocol.messages.MessageComposer;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -17,6 +17,14 @@ public class UserObjectMessageComposer extends MessageComposer {
 
     public UserObjectMessageComposer(final Player player) {
         this.player = player;
+    }
+
+    public static String getDate(int timestamp) {
+        Date d = new Date(timestamp * 1000L);
+        SimpleDateFormat df = new SimpleDateFormat(Locale.getOrDefault("date.format", "MMM d yyyy 'at' HH:mm"));
+        df.setTimeZone(TimeZone.getTimeZone("GMT"));
+
+        return df.format(d);
     }
 
     @Override
@@ -44,13 +52,5 @@ public class UserObjectMessageComposer extends MessageComposer {
 
         msg.writeBoolean(player.getData().getChangingName()); // can change username
         msg.writeBoolean(false);
-    }
-
-    public static String getDate(int timestamp) {
-        Date d = new Date(timestamp * 1000L);
-        SimpleDateFormat df = new SimpleDateFormat(Locale.getOrDefault("date.format", "MMM d yyyy 'at' HH:mm"));
-        df.setTimeZone(TimeZone.getTimeZone("GMT"));
-
-        return df.format(d);
     }
 }

@@ -2,8 +2,9 @@ package com.cometproject.server.game.rooms.types.components;
 
 import com.cometproject.api.config.CometSettings;
 import com.cometproject.api.game.quests.QuestType;
-import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.api.game.rooms.entities.RoomEntityStatus;
+import com.cometproject.api.game.utilities.Position;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityType;
 import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Square;
@@ -16,7 +17,6 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.TeleportPadF
 import com.cometproject.server.game.rooms.objects.items.types.floor.pet.breeding.BreedingBoxFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerWalksOffFurni;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerWalksOnFurni;
-import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.RoomEntityMovementNode;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
@@ -299,7 +299,7 @@ public class ProcessComponent implements CometTask {
                 oldTile.getEntities().remove(entity);
             }
 
-            if(newTile != null) {
+            if (newTile != null) {
                 newTile.getEntities().add(entity);
             }
 
@@ -529,9 +529,9 @@ public class ProcessComponent implements CometTask {
                 entity.getProcessingPath().clear();
 
                 // RoomTile is blocked, let's try again!
-                if(!isLastStep) {
+                if (!isLastStep) {
                     entity.moveTo(entity.getWalkingGoal().getX(), entity.getWalkingGoal().getY());
-                } else{
+                } else {
                     final RoomTile goalTile = this.getRoom().getMapping().getTile(entity.getWalkingGoal());
 
                     if (goalTile != null) {
@@ -552,7 +552,7 @@ public class ProcessComponent implements CometTask {
             if (isPlayer && ((PlayerEntity) entity).isKicked())
                 return true;
 
-            if(entity.getPositionToSet() != null) {
+            if (entity.getPositionToSet() != null) {
                 this.updateEntityStuff(entity);
             }
         }

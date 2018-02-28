@@ -1,8 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
 import com.cometproject.api.game.rooms.objects.data.RoomItemData;
-
-
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
@@ -15,7 +13,9 @@ public class DiceFloorItem extends RoomItemFloor {
     private boolean isInUse = false;
     private int rigNumber = -1;
 
-    public DiceFloorItem(RoomItemData itemData, Room room) {        super(itemData, room);    }
+    public DiceFloorItem(RoomItemData itemData, Room room) {
+        super(itemData, room);
+    }
 
     @Override
     public boolean onInteract(RoomEntity entity, int requestData, boolean isWiredTrigger) {

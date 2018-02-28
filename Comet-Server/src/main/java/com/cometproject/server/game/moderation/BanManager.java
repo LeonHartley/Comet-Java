@@ -1,10 +1,10 @@
 package com.cometproject.server.game.moderation;
 
+import com.cometproject.api.utilities.Initialisable;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.moderation.types.Ban;
 import com.cometproject.server.game.moderation.types.BanType;
 import com.cometproject.server.storage.queries.moderation.BanDao;
-import com.cometproject.api.utilities.Initialisable;
 import com.corundumstudio.socketio.misc.ConcurrentHashSet;
 import com.google.common.collect.Lists;
 import org.apache.log4j.Logger;
@@ -16,14 +16,19 @@ import java.util.Set;
 
 public class BanManager implements Initialisable {
     public static BanManager banManagerInstance;
-
+    Logger log = Logger.getLogger(BanManager.class.getName());
     private Map<String, Ban> bans;
     private Set<Integer> mutedPlayers;
 
-    Logger log = Logger.getLogger(BanManager.class.getName());
-
     public BanManager() {
 
+    }
+
+    public static BanManager getInstance() {
+        if (banManagerInstance == null)
+            banManagerInstance = new BanManager();
+
+        return banManagerInstance;
     }
 
     @Override
@@ -32,13 +37,6 @@ public class BanManager implements Initialisable {
 
         loadBans();
         log.info("BanManager initialized");
-    }
-
-    public static BanManager getInstance() {
-        if (banManagerInstance == null)
-            banManagerInstance = new BanManager();
-
-        return banManagerInstance;
     }
 
     public void loadBans() {

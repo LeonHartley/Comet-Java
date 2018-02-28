@@ -1,7 +1,5 @@
 package com.cometproject.server.game.rooms.types.components.games;
 
-import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
-import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredUtil;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.addons.WiredAddonBlob;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.GameComponent;
@@ -17,18 +15,16 @@ import java.util.concurrent.TimeUnit;
 
 
 public abstract class RoomGame implements CometTask {
-    private GameType type;
-
     protected int timer;
     protected int gameLength;
-
     protected boolean active = false;
-
     protected boolean finished = false;
     protected Room room;
+    private GameType type;
     private ScheduledFuture future;
 
     private Logger log;
+
     public RoomGame(Room room, GameType gameType) {
         this.type = gameType;
         this.log = Logger.getLogger("RoomGame [" + room.getData().getName() + "][" + room.getData().getId() + "][" + this.type + "]");
@@ -43,7 +39,7 @@ public abstract class RoomGame implements CometTask {
                 final List<WiredAddonBlob> blobs = room.getItems().getByClass(WiredAddonBlob.class);
                 Collections.shuffle(blobs);
 
-                for(WiredAddonBlob blob : blobs) {
+                for (WiredAddonBlob blob : blobs) {
                     blob.onGameStarted();
                 }
 
@@ -51,12 +47,12 @@ public abstract class RoomGame implements CometTask {
             }
 
             try {
-                if(this.getGameComponent().getBlobCounter().get() < 2) {
-                    if(RandomUtil.getRandomBool(0.1)) {
+                if (this.getGameComponent().getBlobCounter().get() < 2) {
+                    if (RandomUtil.getRandomBool(0.1)) {
                         final List<WiredAddonBlob> blobs = room.getItems().getByClass(WiredAddonBlob.class);
                         Collections.shuffle(blobs);
 
-                        for(WiredAddonBlob blob : blobs) {
+                        for (WiredAddonBlob blob : blobs) {
                             blob.onGameStarted();
                         }
                     }
@@ -80,7 +76,7 @@ public abstract class RoomGame implements CometTask {
     }
 
     public void stop() {
-        for(WiredAddonBlob blob : room.getItems().getByClass(WiredAddonBlob.class)) {
+        for (WiredAddonBlob blob : room.getItems().getByClass(WiredAddonBlob.class)) {
             blob.hideBlob();
         }
 

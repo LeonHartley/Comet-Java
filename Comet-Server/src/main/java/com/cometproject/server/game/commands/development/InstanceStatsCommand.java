@@ -6,7 +6,6 @@ import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
 import com.cometproject.server.network.sessions.Session;
-import com.cometproject.server.storage.queries.player.PlayerDao;
 
 public class InstanceStatsCommand extends ChatCommand {
     @Override
@@ -32,7 +31,7 @@ public class InstanceStatsCommand extends ChatCommand {
     public String getPermission() {
         return "debug";
     }
-    
+
     @Override
     public String getParameter() {
         return "";

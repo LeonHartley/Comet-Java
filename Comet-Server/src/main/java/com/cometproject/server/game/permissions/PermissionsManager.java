@@ -1,11 +1,11 @@
 package com.cometproject.server.game.permissions;
 
+import com.cometproject.api.utilities.Initialisable;
 import com.cometproject.server.game.permissions.types.CommandPermission;
 import com.cometproject.server.game.permissions.types.OverrideCommandPermission;
 import com.cometproject.server.game.permissions.types.Perk;
 import com.cometproject.server.game.permissions.types.Rank;
 import com.cometproject.server.storage.queries.permissions.PermissionsDao;
-import com.cometproject.api.utilities.Initialisable;
 import org.apache.log4j.Logger;
 
 import java.util.HashMap;
@@ -14,17 +14,22 @@ import java.util.Map;
 
 public class PermissionsManager implements Initialisable {
     private static PermissionsManager permissionsManagerInstance;
-
+    private static Logger log = Logger.getLogger(PermissionsManager.class.getName());
     private Map<Integer, Perk> perks;
     private Map<Integer, Rank> ranks;
     private Map<String, CommandPermission> commands;
     private Map<String, OverrideCommandPermission> overridecommands;
     private Map<Integer, Integer> effects;
 
-    private static Logger log = Logger.getLogger(PermissionsManager.class.getName());
-
     public PermissionsManager() {
 
+    }
+
+    public static PermissionsManager getInstance() {
+        if (permissionsManagerInstance == null)
+            permissionsManagerInstance = new PermissionsManager();
+
+        return permissionsManagerInstance;
     }
 
     @Override
@@ -42,13 +47,6 @@ public class PermissionsManager implements Initialisable {
         this.loadEffects();
 
         log.info("PermissionsManager initialized");
-    }
-
-    public static PermissionsManager getInstance() {
-        if (permissionsManagerInstance == null)
-            permissionsManagerInstance = new PermissionsManager();
-
-        return permissionsManagerInstance;
     }
 
     public void loadPerks() {

@@ -1,8 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions;
 
 import com.cometproject.api.game.rooms.objects.data.RoomItemData;
-
-import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
@@ -31,6 +29,7 @@ public class WiredActionJoinTeam extends WiredActionItem {
     public int getInterface() {
         return 9;
     }
+
     @Override
     public void onEventComplete(WiredItemEvent event) {
         if (event.entity == null || !(event.entity instanceof PlayerEntity)) {

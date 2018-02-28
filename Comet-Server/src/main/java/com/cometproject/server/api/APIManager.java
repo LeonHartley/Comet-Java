@@ -1,27 +1,21 @@
 package com.cometproject.server.api;
 
+import com.cometproject.api.config.Configuration;
+import com.cometproject.api.utilities.Initialisable;
 import com.cometproject.server.api.routes.PhotoRoutes;
 import com.cometproject.server.api.routes.PlayerRoutes;
 import com.cometproject.server.api.routes.RoomRoutes;
 import com.cometproject.server.api.routes.SystemRoutes;
 import com.cometproject.server.api.transformers.JsonTransformer;
-import com.cometproject.api.config.Configuration;
-import com.cometproject.api.utilities.Initialisable;
 import org.apache.log4j.Logger;
 import spark.Spark;
 
 
 public class APIManager implements Initialisable {
     /**
-     * The global API Manager instance
-     */
-    private static APIManager apiManagerInstance;
-
-    /**
      * Logger
      */
     private static final Logger log = Logger.getLogger(APIManager.class.getName());
-
     /**
      * Create an array of config properties that are required before enabling the API
      * If none of these properties exist, the API will be automatically disabled
@@ -31,7 +25,10 @@ public class APIManager implements Initialisable {
             "comet.api.port",
             "comet.api.token"
     };
-
+    /**
+     * The global API Manager instance
+     */
+    private static APIManager apiManagerInstance;
     /**
      * Is the API enabled?
      */
@@ -60,6 +57,13 @@ public class APIManager implements Initialisable {
 
     }
 
+    public static APIManager getInstance() {
+        if (apiManagerInstance == null)
+            apiManagerInstance = new APIManager();
+
+        return apiManagerInstance;
+    }
+
     /**
      * Initialize the API
      */
@@ -68,13 +72,6 @@ public class APIManager implements Initialisable {
         this.initializeConfiguration();
         this.initializeSpark();
         this.initializeRouting();
-    }
-
-    public static APIManager getInstance() {
-        if (apiManagerInstance == null)
-            apiManagerInstance = new APIManager();
-
-        return apiManagerInstance;
     }
 
     /**

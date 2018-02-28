@@ -6,7 +6,6 @@ import com.cometproject.server.game.rooms.objects.items.RoomItem;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
 import com.cometproject.server.game.rooms.objects.items.queue.RoomItemEventQueue;
-import com.cometproject.server.game.rooms.objects.items.types.floor.RollableFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.RollerFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerPeriodically;
 import com.cometproject.server.game.rooms.types.Room;
@@ -15,13 +14,12 @@ import com.cometproject.server.tasks.CometThreadManager;
 import com.cometproject.server.utilities.TimeSpan;
 import org.apache.log4j.Logger;
 
-import java.util.Queue;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
-import java.util.Set;
-import java.util.HashSet;
 
 
 public class ItemProcessComponent implements CometTask {
@@ -29,16 +27,11 @@ public class ItemProcessComponent implements CometTask {
     //    private final int INTERVAL = Integer.parseInt(Configuration.currentConfig().get("comet.system.item_process.interval"));
     private static final int INTERVAL = 500;
     private static final int FLAG = 400;
-
+    private static final ExecutorService executorService = Executors.newFixedThreadPool(4);
     private final Room room;
     private final Logger log;
-
     private ScheduledFuture myFuture;
-
     private boolean active = false;
-
-    private static final ExecutorService executorService = Executors.newFixedThreadPool(4);
-
     // TODO: Finish the item event queue.
     private RoomItemEventQueue eventQueue;// = new RoomItemEventQueue();
 
@@ -96,21 +89,21 @@ public class ItemProcessComponent implements CometTask {
         if (this.getRoom().getEntities().realPlayerCount() == 0) return;
 
         final Set<String> positionsWithPeriodicTrigger = new HashSet<>();
-        
+
         for (RoomItemFloor item : this.getRoom().getItems().getFloorItems().values()) {
             try {
                 if (item != null && item.requiresTick() || item instanceof RollerFloorItem) {
-                    if(item instanceof WiredTriggerPeriodically) {
+                    if (item instanceof WiredTriggerPeriodically) {
                         final String posStr = item.getPosition().getX() + "_" + item.getPosition().getY();
-                        
-                        if(positionsWithPeriodicTrigger.contains(posStr)) {
+
+                        if (positionsWithPeriodicTrigger.contains(posStr)) {
                             continue;
                         } else {
                             positionsWithPeriodicTrigger.add(posStr);
                         }
                     }
 
-                    if(item.isStateSwitched()) {
+                    if (item.isStateSwitched()) {
                         item.restoreState();
                     }
 

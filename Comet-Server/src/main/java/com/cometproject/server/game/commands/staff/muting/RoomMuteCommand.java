@@ -16,7 +16,7 @@ public class RoomMuteCommand extends ChatCommand {
             for (PlayerEntity playerEntity : client.getPlayer().getEntity().getRoom().getEntities().getPlayerEntities()) {
                 playerEntity.setRoomMuted(false);
             }
-            
+
             for (RoomEntity entity : client.getPlayer().getEntity().getRoom().getEntities().getPlayerEntities()) {
                 if (entity.getEntityType() == RoomEntityType.PLAYER) {
                     PlayerEntity playerEntity = (PlayerEntity) entity;
@@ -31,7 +31,7 @@ public class RoomMuteCommand extends ChatCommand {
             }
 
             client.getPlayer().getEntity().getRoom().setRoomMute(true);
-            
+
             for (RoomEntity entity : client.getPlayer().getEntity().getRoom().getEntities().getPlayerEntities()) {
                 if (entity.getEntityType() == RoomEntityType.PLAYER) {
                     PlayerEntity playerEntity = (PlayerEntity) entity;
@@ -45,7 +45,7 @@ public class RoomMuteCommand extends ChatCommand {
     public String getPermission() {
         return "roommute_command";
     }
-    
+
     @Override
     public String getParameter() {
         return "";

@@ -1,5 +1,7 @@
 package com.cometproject.server.network;
 
+import com.cometproject.api.config.CometSettings;
+import com.cometproject.api.config.Configuration;
 import com.cometproject.api.messaging.console.ConsoleCommandRequest;
 import com.cometproject.api.messaging.exec.ExecCommandRequest;
 import com.cometproject.api.messaging.exec.ExecCommandResponse;
@@ -12,61 +14,41 @@ import com.cometproject.networking.api.config.NetworkingServerConfig;
 import com.cometproject.networking.api.sessions.INetSessionFactory;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.boot.utils.ConsoleCommands;
-import com.cometproject.api.config.CometSettings;
-import com.cometproject.api.config.Configuration;
 import com.cometproject.server.network.messages.GameMessageHandler;
 import com.cometproject.server.network.messages.MessageHandler;
 import com.cometproject.server.network.monitor.MonitorClient;
 import com.cometproject.server.network.sessions.SessionManager;
 import com.cometproject.server.network.sessions.net.NetSessionFactory;
 import com.cometproject.server.protocol.security.exchange.RSA;
-import com.cometproject.server.utilities.CometThreadFactory;
 import com.google.common.collect.Sets;
 import io.coerce.commons.config.CoerceConfiguration;
 import io.coerce.services.messaging.client.MessagingClient;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.buffer.PooledByteBufAllocator;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.DefaultMessageSizeEstimator;
-import io.netty.channel.EventLoopGroup;
-import io.netty.channel.epoll.Epoll;
-import io.netty.channel.epoll.EpollEventLoopGroup;
-import io.netty.channel.epoll.EpollServerSocketChannel;
-import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.util.ResourceLeakDetector;
 import io.netty.util.internal.logging.InternalLoggerFactory;
 import io.netty.util.internal.logging.Log4JLoggerFactory;
-import org.apache.hadoop.hdfs.DFSClient;
 import org.apache.log4j.Logger;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
-import java.net.InetSocketAddress;
 import java.util.Set;
 
 
 public class NetworkManager {
-    private static NetworkManager networkManagerInstance;
-
     public static boolean IDLE_TIMER_ENABLED = Boolean.parseBoolean(Configuration.currentConfig().get("comet.network.idleTimer.enabled", "false"));
     public static int IDLE_TIMER_READER_TIME = Integer.parseInt(Configuration.currentConfig().get("comet.network.idleTimer.readerIdleTime", "30"));
     public static int IDLE_TIMER_WRITER_TIME = Integer.parseInt(Configuration.currentConfig().get("comet.network.idleTimer.writerIdleTime", "30"));
     public static int IDLE_TIMER_ALL_TIME = Integer.parseInt(Configuration.currentConfig().get("comet.network.idleTimer.allIdleTime", "30"));
-
+    private static NetworkManager networkManagerInstance;
+    private static Logger log = Logger.getLogger(NetworkManager.class.getName());
     private int serverPort;
-
     private SessionManager sessions;
     private MessageHandler messageHandler;
-
     private RSA rsa;
-
     private MonitorClient monitorClient;
     private MessagingClient messagingClient;
-
-    private static Logger log = Logger.getLogger(NetworkManager.class.getName());
 
     public NetworkManager() {
 
@@ -88,7 +70,7 @@ public class NetworkManager {
 
         try {
             this.messagingClient = MessagingClient.create("com.cometproject:instance/" + Comet.instanceId + "/" +
-                    "" + CometSettings.hotelName.replace(" ", "-").toLowerCase(),
+                            "" + CometSettings.hotelName.replace(" ", "-").toLowerCase(),
                     new CoerceConfiguration("configuration/Coerce.json"));
 
             this.messagingClient.observe(ConsoleCommandRequest.class, (consoleCommandRequest -> {
@@ -154,8 +136,8 @@ public class NetworkManager {
 
         final Set<Short> portSet = Sets.newHashSet();
 
-        if(ports.contains(",")) {
-            for(String port : ports.split(",")) {
+        if (ports.contains(",")) {
+            for (String port : ports.split(",")) {
                 portSet.add(Short.parseShort(port));
             }
         } else {

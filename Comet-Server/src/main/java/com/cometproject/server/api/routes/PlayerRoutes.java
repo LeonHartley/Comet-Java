@@ -42,7 +42,7 @@ public class PlayerRoutes {
         PlayerData newPlayerData = PlayerDao.getDataById(playerId);
         PlayerData currentPlayerData = session.getPlayer().getData();
 
-        if(newPlayerData == null) {
+        if (newPlayerData == null) {
             result.put("error", "Unable to find the player's new data!");
             return result;
         }

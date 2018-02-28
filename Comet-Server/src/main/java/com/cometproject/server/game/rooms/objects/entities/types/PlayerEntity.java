@@ -1,32 +1,32 @@
 package com.cometproject.server.game.rooms.objects.entities.types;
 
-import com.cometproject.api.game.GameContext;
-import com.cometproject.api.game.groups.types.IGroupData;
-import com.cometproject.api.game.rooms.entities.PlayerRoomEntity;
-import com.cometproject.api.game.rooms.settings.RoomAccessType;
-import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.server.boot.Comet;
 import com.cometproject.api.config.CometSettings;
-import com.cometproject.server.config.Locale;
+import com.cometproject.api.game.GameContext;
 import com.cometproject.api.game.achievements.types.AchievementType;
 import com.cometproject.api.game.bots.BotMode;
 import com.cometproject.api.game.bots.BotType;
+import com.cometproject.api.game.groups.types.IGroupData;
+import com.cometproject.api.game.quests.QuestType;
+import com.cometproject.api.game.rooms.entities.PlayerRoomEntity;
+import com.cometproject.api.game.rooms.entities.RoomEntityStatus;
+import com.cometproject.api.game.rooms.settings.RoomAccessType;
+import com.cometproject.api.game.utilities.Position;
+import com.cometproject.api.networking.messages.IComposer;
+import com.cometproject.server.boot.Comet;
+import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.CommandManager;
 import com.cometproject.server.game.commands.vip.TransformCommand;
 import com.cometproject.server.game.moderation.BanManager;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.game.players.types.Player;
-import com.cometproject.api.game.quests.QuestType;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.RoomQueue;
 import com.cometproject.server.game.rooms.objects.entities.PlayerEntityAccess;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
-import com.cometproject.api.game.rooms.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.types.ai.bots.WaiterAI;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerPlayerSaysKeyword;
-import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.games.GameTeam;
 import com.cometproject.server.game.rooms.types.components.types.Trade;
@@ -86,6 +86,8 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
 
     // BUILDER STUFF
     private boolean builderFillFloor = false;
+    private int lastMessageCounter = 0;
+    private String lastMessage = "";
 
     public PlayerEntity(Player player, int identifier, Position startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
         super(identifier, startPosition, startBodyRotation, startHeadRotation, roomInstance);
@@ -346,11 +348,11 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
             }
         }
 
-        for(RoomEntity follower : this.getFollowingEntities()) {
-            if(follower instanceof BotEntity) {
+        for (RoomEntity follower : this.getFollowingEntities()) {
+            if (follower instanceof BotEntity) {
                 final BotEntity botEntity = ((BotEntity) follower);
 
-                if(botEntity.getData() != null) {
+                if (botEntity.getData() != null) {
                     if (botEntity.getData().getMode() == BotMode.RELAXED) {
                         botEntity.getData().setMode(BotMode.DEFAULT);
                     }
@@ -387,16 +389,13 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
         this.moveTo(this.getRoom().getModel().getDoorX(), this.getRoom().getModel().getDoorY());
     }
 
-    private int lastMessageCounter = 0;
-    private String lastMessage = "";
-
     @Override
     public boolean onChat(String message) {
         final long time = System.currentTimeMillis();
 
         final boolean isPlayerOnline = PlayerManager.getInstance().isOnline(this.getPlayerId());
 
-        if(!isPlayerOnline) {
+        if (!isPlayerOnline) {
             this.leaveRoom(true, false, false);
             return false;
         }
@@ -441,7 +440,7 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
         if (message.isEmpty() || message.length() > 100)
             return false;
 
-        if(!this.getPlayer().getData().getNameColour().equals("000000")) {
+        if (!this.getPlayer().getData().getNameColour().equals("000000")) {
             this.getRoom().getEntities().broadcastMessage(new UserNameChangeMessageComposer(this.getRoom().getId(), this.getId(), String.format("<font colour='#%s'>%s</font>", this.getPlayer().getData().getNameColour(), this.getUsername())));
         }
 
@@ -498,10 +497,10 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
             }
         }
 
-        if(isDrinkRequest) {
+        if (isDrinkRequest) {
             final BotEntity nearestBot = this.nearestBotEntity(BotType.WAITER);
 
-            if(nearestBot != null) {
+            if (nearestBot != null) {
                 nearestBot.getAI().onTalk(this, message);
                 return;
             }
@@ -512,8 +511,8 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
                 entity.getValue().getAI().onTalk(this, message);
         }
 
-        for(RoomEntity roomEntity : this.getRoom().getEntities().getAllEntities().values()) {
-            if(roomEntity.getId() != this.getId() && !roomEntity.isIdle())
+        for (RoomEntity roomEntity : this.getRoom().getEntities().getAllEntities().values()) {
+            if (roomEntity.getId() != this.getId() && !roomEntity.isIdle())
                 roomEntity.lookTo(this.getPosition().getX(), this.getPosition().getY(), false);
 
 //            final int rotation = Position.calculateRotation(roomEntity.getPosition().getX(), roomEntity.getPosition().getY(), this.getPosition().getX(), this.getPosition().getY(),false);
@@ -527,7 +526,7 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
 //            }
         }
 
-        if(!this.getPlayer().getData().getNameColour().equals("000000")) {
+        if (!this.getPlayer().getData().getNameColour().equals("000000")) {
             this.getRoom().getEntities().broadcastMessage(new UserNameChangeMessageComposer(this.getRoom().getId(), this.getId(), this.getUsername()));
         }
     }
@@ -576,6 +575,10 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
 
     public int getPlayerId() {
         return this.playerId;
+    }
+
+    public void setPlayerId(int playerId) {
+        this.playerId = playerId;
     }
 
     @Override
@@ -692,7 +695,7 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
     }
 
     public void setGameTeam(GameTeam gameTeam) {
-        if(gameTeam == null) {
+        if (gameTeam == null) {
             this.gameTeam = GameTeam.NONE;
         } else {
             this.gameTeam = gameTeam;
@@ -709,10 +712,6 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
 
     public void increaseKickWalkStage() {
         this.kickWalkStage++;
-    }
-
-    public void setPlayerId(int playerId) {
-        this.playerId = playerId;
     }
 
     public int getBanzaiPlayerAchievement() {

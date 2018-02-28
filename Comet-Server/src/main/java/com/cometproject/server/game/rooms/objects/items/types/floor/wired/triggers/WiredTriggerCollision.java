@@ -9,16 +9,8 @@ import com.cometproject.server.game.rooms.types.Room;
 
 public class WiredTriggerCollision extends WiredTriggerItem {
 
-    public WiredTriggerCollision(RoomItemData itemData, Room room) {        super(itemData, room);    }
-
-    @Override
-    public boolean suppliesPlayer() {
-        return true;
-    }
-
-    @Override
-    public int getInterface() {
-        return 9;
+    public WiredTriggerCollision(RoomItemData itemData, Room room) {
+        super(itemData, room);
     }
 
     public static boolean executeTriggers(RoomEntity entity, RoomItemFloor collidingItem) {
@@ -31,6 +23,16 @@ public class WiredTriggerCollision extends WiredTriggerItem {
         }
 
         return wasExecuted;
+    }
+
+    @Override
+    public boolean suppliesPlayer() {
+        return true;
+    }
+
+    @Override
+    public int getInterface() {
+        return 9;
     }
 
 }

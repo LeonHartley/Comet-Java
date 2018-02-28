@@ -1,13 +1,11 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
-import com.cometproject.api.game.rooms.objects.data.RoomItemData;
-
-
-import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.api.game.rooms.entities.RoomEntityStatus;
+import com.cometproject.api.game.rooms.objects.data.RoomItemData;
+import com.cometproject.api.game.utilities.Position;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
-import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.utilities.RandomUtil;
 
@@ -16,7 +14,9 @@ public class VendingMachineFloorItem extends RoomItemFloor {
     private RoomEntity vendingEntity;
     private int state = -1;
 
-    public VendingMachineFloorItem(RoomItemData itemData, Room room) {        super(itemData, room);    }
+    public VendingMachineFloorItem(RoomItemData itemData, Room room) {
+        super(itemData, room);
+    }
 
     @Override
     public boolean onInteract(RoomEntity entity, int requestData, boolean isWiredTrigger) {
@@ -29,7 +29,7 @@ public class VendingMachineFloorItem extends RoomItemFloor {
 
             try {
                 this.getRoom().getMapping().getTile(posInFront.getX(), posInFront.getY()).scheduleEvent(entity.getId(), (e) -> onInteract(e, requestData, false));
-            } catch(Exception e) {
+            } catch (Exception e) {
                 // this isn't important, if we can't find the tile then we might as well just end it here.
             }
             return false;

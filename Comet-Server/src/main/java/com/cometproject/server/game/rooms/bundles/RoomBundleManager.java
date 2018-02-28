@@ -17,6 +17,14 @@ public class RoomBundleManager {
         this.bundles = new ConcurrentHashMap<>();
     }
 
+    public static RoomBundleManager getInstance() {
+        if (roomBundleManager == null) {
+            roomBundleManager = new RoomBundleManager();
+        }
+
+        return roomBundleManager;
+    }
+
     public void initialize() {
         if (this.bundles.size() != 0) {
             this.bundles.clear();
@@ -38,13 +46,5 @@ public class RoomBundleManager {
 
     public RoomBundle getBundle(String alias) {
         return this.bundles.get(alias);
-    }
-
-    public static RoomBundleManager getInstance() {
-        if (roomBundleManager == null) {
-            roomBundleManager = new RoomBundleManager();
-        }
-
-        return roomBundleManager;
     }
 }

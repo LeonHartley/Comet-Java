@@ -15,7 +15,7 @@ public class MoonwalkCommand extends ChatCommand {
             return;
         }
 
-        if(client.getPlayer().getEntity().getMountedEntity() != null) {
+        if (client.getPlayer().getEntity().getMountedEntity() != null) {
             return;
         }
 
@@ -28,7 +28,7 @@ public class MoonwalkCommand extends ChatCommand {
     public String getPermission() {
         return "moonwalk_command";
     }
-    
+
     @Override
     public String getParameter() {
         return "";

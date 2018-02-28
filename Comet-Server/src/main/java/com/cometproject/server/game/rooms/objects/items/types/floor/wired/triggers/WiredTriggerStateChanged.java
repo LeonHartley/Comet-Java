@@ -13,16 +13,6 @@ public class WiredTriggerStateChanged extends WiredTriggerItem {
         super(itemData, room);
     }
 
-    @Override
-    public boolean suppliesPlayer() {
-        return true;
-    }
-
-    @Override
-    public int getInterface() {
-        return 1;
-    }
-
     public static boolean executeTriggers(RoomEntity entity, RoomItemFloor floorItem) {
         boolean wasExecuted = false;
 
@@ -34,5 +24,15 @@ public class WiredTriggerStateChanged extends WiredTriggerItem {
         }
 
         return wasExecuted;
+    }
+
+    @Override
+    public boolean suppliesPlayer() {
+        return true;
+    }
+
+    @Override
+    public int getInterface() {
+        return 1;
     }
 }

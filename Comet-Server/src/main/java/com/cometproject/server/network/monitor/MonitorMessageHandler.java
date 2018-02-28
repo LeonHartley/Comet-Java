@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
 public class MonitorMessageHandler {
     private List<String> messageRegistry;
     private Logger log = Logger.getLogger(MonitorMessageHandler.class.getName());

@@ -42,7 +42,7 @@ public class WaiterAI extends AbstractBotAI {
                     entity.getPlayer().getSession().send(new FloodFilterMessageComposer(entity.getPlayer().getRoomFloodTime()));
                     return false;
                 }
-                
+
                 if (entity.getPosition().distanceTo(this.getEntity().getPosition()) >= 4) {
                     this.getEntity().getRoom().getEntities().broadcastMessage(new TalkMessageComposer(this.getEntity().getId(), Locale.get("bots.chat.tooFar").replace("%username%", entity.getUsername()), RoomManager.getInstance().getEmotions().getEmotion(":("), 2));
                     return false;

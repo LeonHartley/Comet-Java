@@ -51,10 +51,10 @@ public class IpBanCommand extends ChatCommand {
 
         List<Integer> playerIds = PlayerManager.getInstance().getPlayerIdsByIpAddress(ipAddress);
 
-        for(int playerId : playerIds) {
+        for (int playerId : playerIds) {
             Session player = NetworkManager.getInstance().getSessions().getByPlayerId(playerId);
 
-            if(player != null) {
+            if (player != null) {
                 player.disconnect("banned");
             }
         }
@@ -66,7 +66,7 @@ public class IpBanCommand extends ChatCommand {
     public String getPermission() {
         return "ipban_command";
     }
-    
+
     @Override
     public String getParameter() {
         return Locale.getOrDefault("command.parameter.ban", "%username% %time% %reason%");

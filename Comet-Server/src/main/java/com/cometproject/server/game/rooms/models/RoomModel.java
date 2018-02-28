@@ -8,22 +8,17 @@ import org.apache.log4j.Logger;
 
 
 public abstract class RoomModel {
+    private final IMessageComposer floorMapMessageComposer;
     private String name;
     private String map = "";
-
     private int doorX;
     private int doorY;
     private int doorZ;
     private int doorRotation;
-
     private int mapSizeX;
     private int mapSizeY;
-
     private int[][] squareHeight;
     private RoomTileState[][] squareState;
-
-    private final IMessageComposer floorMapMessageComposer;
-
     private int wallHeight;
 
     public RoomModel(String name, String heightmap, int doorX, int doorY, int doorRotation, int wallHeight) throws InvalidModelException {

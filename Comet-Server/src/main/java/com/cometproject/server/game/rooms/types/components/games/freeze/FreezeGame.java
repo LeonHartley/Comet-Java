@@ -23,17 +23,18 @@ import com.cometproject.server.utilities.RandomUtil;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class FreezeGame extends RoomGame {
-
-    private final Map<Integer, FreezePlayer> players = Maps.newConcurrentMap();
-
-    private final Set<FreezeBall> activeBalls = Sets.newConcurrentHashSet();
 
     private static final Direction[] EXPLODE_NORMAL = new Direction[]{null, Direction.North, Direction.East, Direction.South, Direction.West};
     private static final Direction[] EXPLODE_DIAGONAL = new Direction[]{null, Direction.NorthEast, Direction.SouthEast, Direction.SouthWest, Direction.NorthWest};
     private static final Direction[] EXPLODE_MEGA = new Direction[]{null, Direction.North, Direction.NorthEast, Direction.East, Direction.SouthEast, Direction.South, Direction.SouthWest, Direction.West, Direction.NorthWest};
+    private final Map<Integer, FreezePlayer> players = Maps.newConcurrentMap();
+    private final Set<FreezeBall> activeBalls = Sets.newConcurrentHashSet();
 
     public FreezeGame(Room room) {
         super(room, GameType.FREEZE);
@@ -176,15 +177,15 @@ public class FreezeGame extends RoomGame {
 
         final FreezeExitFloorItem exitItem = this.getExitTile();
 
-        if(winningTeam != null) {
-            for(FreezePlayer freezePlayer : this.players.values()) {
-                if(freezePlayer.getEntity().getGameTeam() == winningTeam) {
+        if (winningTeam != null) {
+            for (FreezePlayer freezePlayer : this.players.values()) {
+                if (freezePlayer.getEntity().getGameTeam() == winningTeam) {
                     this.room.getEntities().broadcastMessage(new ActionMessageComposer(freezePlayer.getEntity().getId(), 1)); // wave o/
                 }
             }
         }
 
-        for(FreezePlayer freezePlayer : this.players.values()) {
+        for (FreezePlayer freezePlayer : this.players.values()) {
             freezePlayer.getEntity().teleportToItem(exitItem);
         }
     }

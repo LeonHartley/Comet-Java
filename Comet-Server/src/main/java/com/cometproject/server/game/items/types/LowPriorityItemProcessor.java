@@ -4,54 +4,23 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManager;
 import org.apache.log4j.Logger;
-import org.apache.lucene.util.NamedThreadFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class LowPriorityItemProcessor implements CometTask {
     private static final int processTime = 25;
-
-    private List<RoomItemFloor> itemsToProcess;
-
+    private static LowPriorityItemProcessor instance;
     private final Logger log = Logger.getLogger(LowPriorityItemProcessor.class);
+    private List<RoomItemFloor> itemsToProcess;
 
     public LowPriorityItemProcessor() {
         this.itemsToProcess = new CopyOnWriteArrayList<>();
 
         CometThreadManager.getInstance().executePeriodic(this, processTime, processTime, TimeUnit.MILLISECONDS);
     }
-
-    @Override
-    public void run() {
-        List<RoomItemFloor> itemsToRemove = new ArrayList<>();
-
-        for (RoomItemFloor roomItemFloor : itemsToProcess) {
-            try {
-                if (roomItemFloor.requiresTick()) {
-                    roomItemFloor.tick();
-                } else {
-                    itemsToRemove.add(roomItemFloor);
-                }
-            } catch(Exception e) {
-                log.error("Error while processing item " + roomItemFloor.getId() + " / " + roomItemFloor.getClass().getSimpleName(), e);
-            }
-        }
-
-        this.itemsToProcess.removeAll(itemsToRemove);
-
-        itemsToRemove.clear();
-    }
-
-    public void submit(RoomItemFloor floorItem) {
-        this.itemsToProcess.add(floorItem);
-    }
-
-    private static LowPriorityItemProcessor instance;
 
     public static LowPriorityItemProcessor getInstance() {
         if (instance == null) {
@@ -69,5 +38,30 @@ public class LowPriorityItemProcessor implements CometTask {
         }
 
         return (int) realTime;
+    }
+
+    @Override
+    public void run() {
+        List<RoomItemFloor> itemsToRemove = new ArrayList<>();
+
+        for (RoomItemFloor roomItemFloor : itemsToProcess) {
+            try {
+                if (roomItemFloor.requiresTick()) {
+                    roomItemFloor.tick();
+                } else {
+                    itemsToRemove.add(roomItemFloor);
+                }
+            } catch (Exception e) {
+                log.error("Error while processing item " + roomItemFloor.getId() + " / " + roomItemFloor.getClass().getSimpleName(), e);
+            }
+        }
+
+        this.itemsToProcess.removeAll(itemsToRemove);
+
+        itemsToRemove.clear();
+    }
+
+    public void submit(RoomItemFloor floorItem) {
+        this.itemsToProcess.add(floorItem);
     }
 }

@@ -11,11 +11,11 @@ public class EquipEffectMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) throws Exception {
         final int effectId = msg.readInt();
 
-        if(client.getPlayer() == null || client.getPlayer().getInventory() == null) {
+        if (client.getPlayer() == null || client.getPlayer().getInventory() == null) {
             return;
         }
 
-        if(!client.getPlayer().getInventory().hasEffect(effectId)) {
+        if (!client.getPlayer().getInventory().hasEffect(effectId)) {
             return;
         }
 

@@ -8,10 +8,8 @@ import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.games.GameTeam;
 import com.cometproject.server.game.rooms.types.components.games.RoomGame;
 import com.cometproject.server.game.rooms.types.components.games.freeze.FreezeGame;
-import com.cometproject.server.game.rooms.types.components.games.freeze.types.FreezeBall;
 import com.cometproject.server.game.rooms.types.components.games.freeze.types.FreezePlayer;
 import com.cometproject.server.game.rooms.types.mapping.RoomEntityMovementNode;
-import com.cometproject.server.utilities.RandomUtil;
 
 public class FreezeTileFloorItem extends RoomItemFloor {
     public FreezeTileFloorItem(RoomItemData itemData, Room room) {

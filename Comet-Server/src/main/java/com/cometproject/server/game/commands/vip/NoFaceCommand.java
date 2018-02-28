@@ -37,7 +37,7 @@ public class NoFaceCommand extends ChatCommand {
     public String getPermission() {
         return "noface_command";
     }
-    
+
     @Override
     public String getParameter() {
         return "";

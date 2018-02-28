@@ -14,8 +14,8 @@ public class QuickPollCommand extends ChatCommand {
 
         final Room room = client.getPlayer().getEntity().getRoom();
 
-        if(!room.getRights().hasRights(client.getPlayer().getId())) {
-            if(!client.getPlayer().getPermissions().getRank().modTool()) {
+        if (!room.getRights().hasRights(client.getPlayer().getId())) {
+            if (!client.getPlayer().getPermissions().getRank().modTool()) {
                 return;
             }
         }
@@ -33,7 +33,7 @@ public class QuickPollCommand extends ChatCommand {
     public String getPermission() {
         return "quickpoll_command";
     }
-    
+
     @Override
     public String getParameter() {
         return Locale.getOrDefault("command.parameter.message", "%message%");

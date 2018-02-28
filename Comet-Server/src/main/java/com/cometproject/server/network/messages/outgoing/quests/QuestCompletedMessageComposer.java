@@ -3,8 +3,8 @@ package com.cometproject.server.network.messages.outgoing.quests;
 import com.cometproject.api.game.players.IPlayer;
 import com.cometproject.api.game.quests.IQuest;
 import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
+import com.cometproject.server.protocol.messages.MessageComposer;
 
 public class QuestCompletedMessageComposer extends MessageComposer {
     private IQuest quest;

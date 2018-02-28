@@ -5,8 +5,8 @@ import com.cometproject.server.game.landing.LandingManager;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.landing.HotelViewItemMessageComposer;
 import com.cometproject.server.network.messages.outgoing.landing.SendHotelViewLooksMessageComposer;
-import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.protocol.messages.MessageEvent;
 
 
 public class LandingLoadWidgetMessageEvent implements Event {
@@ -18,7 +18,7 @@ public class LandingLoadWidgetMessageEvent implements Event {
         if (text.isEmpty() || splitText.length < 2) {
             client.send(new HotelViewItemMessageComposer("", ""));
 
-            if(CometSettings.hallOfFameEnabled) {
+            if (CometSettings.hallOfFameEnabled) {
                 client.send(new SendHotelViewLooksMessageComposer(CometSettings.hallOfFameTextsKey, LandingManager.getInstance().getHallOfFame()));
             }
 
@@ -29,7 +29,7 @@ public class LandingLoadWidgetMessageEvent implements Event {
 
         client.send(new HotelViewItemMessageComposer(text, splitText[1]));
 
-        if(CometSettings.hallOfFameEnabled) {
+        if (CometSettings.hallOfFameEnabled) {
             client.send(new SendHotelViewLooksMessageComposer(CometSettings.hallOfFameTextsKey, LandingManager.getInstance().getHallOfFame()));
         }
     }

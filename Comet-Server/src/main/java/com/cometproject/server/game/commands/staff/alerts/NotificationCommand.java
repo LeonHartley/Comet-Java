@@ -12,7 +12,7 @@ public class NotificationCommand extends ChatCommand {
         String image = "generic";
         String message = "";
 
-        if(params.length > 1) {
+        if (params.length > 1) {
             image = params[0];
             message = this.merge(params, 1);
         } else {
@@ -26,7 +26,7 @@ public class NotificationCommand extends ChatCommand {
     public String getPermission() {
         return "notification_command";
     }
-    
+
     @Override
     public String getParameter() {
         return Locale.getOrDefault("command.parameter.message", "%message%");

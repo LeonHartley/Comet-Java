@@ -24,7 +24,7 @@ public class ToggleFriendsCommand extends ChatCommand {
     public String getPermission() {
         return "togglefriends_command";
     }
-    
+
     @Override
     public String getParameter() {
         return "";

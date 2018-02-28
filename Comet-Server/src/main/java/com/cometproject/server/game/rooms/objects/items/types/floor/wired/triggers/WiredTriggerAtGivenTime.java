@@ -30,20 +30,6 @@ public class WiredTriggerAtGivenTime extends WiredTriggerItem {
         this.getWiredData().getParams().putIfAbsent(PARAM_TICK_LENGTH, 2); // 1s
     }
 
-    @Override
-    public boolean suppliesPlayer() {
-        return false;
-    }
-
-    @Override
-    public int getInterface() {
-        return 6;
-    }
-
-    public int getTime() {
-        return this.getWiredData().getParams().get(PARAM_TICK_LENGTH);
-    }
-
     public static boolean executeTriggers(Room room, int timer) {
         boolean wasExecuted = false;
 
@@ -60,6 +46,20 @@ public class WiredTriggerAtGivenTime extends WiredTriggerItem {
         }
 
         return wasExecuted;
+    }
+
+    @Override
+    public boolean suppliesPlayer() {
+        return false;
+    }
+
+    @Override
+    public int getInterface() {
+        return 6;
+    }
+
+    public int getTime() {
+        return this.getWiredData().getParams().get(PARAM_TICK_LENGTH);
     }
 
     public void setNeedsReset(boolean needsReset) {

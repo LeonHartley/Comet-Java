@@ -19,21 +19,21 @@ public class PhotoRoutes {
 
         final Integer playerId = PlayerManager.getInstance().getSsoTicketToPlayerId().get(ssoTicket);
 
-        if(playerId == null) {
+        if (playerId == null) {
             result.put("error", "Invalid SSO ticket");
             return result;
         }
 
         Session client = NetworkManager.getInstance().getSessions().getByPlayerId(playerId);
 
-        if(client == null) {
+        if (client == null) {
             result.put("error", "Cannot find Session for player ID: " + playerId);
             return result;
         }
 
         final long currentTime = System.currentTimeMillis();
 
-        if(currentTime < (client.getPlayer().getLastPhotoTaken() + 10000)) {
+        if (currentTime < (client.getPlayer().getLastPhotoTaken() + 10000)) {
             result.put("error", "Taking photos too fast");
             return result;
         }

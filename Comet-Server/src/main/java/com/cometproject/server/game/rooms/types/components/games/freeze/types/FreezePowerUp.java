@@ -1,6 +1,5 @@
 package com.cometproject.server.game.rooms.types.components.games.freeze.types;
 
-import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredUtil;
 import com.cometproject.server.utilities.RandomUtil;
 
 public enum FreezePowerUp {

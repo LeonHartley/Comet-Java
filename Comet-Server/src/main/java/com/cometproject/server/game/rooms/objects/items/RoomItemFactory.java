@@ -1,15 +1,14 @@
 package com.cometproject.server.game.rooms.objects.items;
 
-import com.cometproject.api.config.CometSettings;
 import com.cometproject.api.game.furniture.types.FurnitureDefinition;
-import com.cometproject.api.game.rooms.objects.data.RoomItemData;
 import com.cometproject.api.game.rooms.objects.data.LimitedEditionItemData;
+import com.cometproject.api.game.rooms.objects.data.RoomItemData;
 import com.cometproject.server.game.rooms.objects.items.types.DefaultFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.DefaultWallItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.*;
-import com.cometproject.server.game.rooms.objects.items.types.floor.games.banzai.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.boutique.MannequinFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.football.*;
+import com.cometproject.server.game.rooms.objects.items.types.floor.games.banzai.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.games.freeze.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupGateFloorItem;
@@ -47,11 +46,10 @@ import java.util.concurrent.ConcurrentHashMap;
 
 
 public class RoomItemFactory {
-    private static final int processMs = 500;
-    private static final String GIFT_DATA = "GIFT::##";
     public static final String STACK_TOOL = "tile_stackmagic";
     public static final String TELEPORT_PAD = "teleport_pad";
-
+    private static final int processMs = 500;
+    private static final String GIFT_DATA = "GIFT::##";
     private static final Logger log = Logger.getLogger(RoomItemFactory.class.getName());
 
     private static final Map<String, Class<? extends RoomItemFloor>> itemDefinitionMap;
@@ -220,7 +218,7 @@ public class RoomItemFactory {
     public static RoomItemFloor createFloor(RoomItemData itemData, Room room, FurnitureDefinition def) {
         String cachedData = MySQLStorageQueues.instance().getItemDataUpdateQueue().getQueued(itemData.getId());
 
-        if(cachedData != null) {
+        if (cachedData != null) {
             itemData.setData(cachedData);
         }
 

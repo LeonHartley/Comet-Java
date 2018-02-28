@@ -65,12 +65,12 @@ public class FreezePlayer {
         return balls;
     }
 
-    public void incrementBalls() {
-        this.balls += 1;
-    }
-
     public void setBalls(int balls) {
         this.balls = balls;
+    }
+
+    public void incrementBalls() {
+        this.balls += 1;
     }
 
     public int getShieldTimer() {

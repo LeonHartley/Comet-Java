@@ -1,7 +1,7 @@
 package com.cometproject.server.network.messages.incoming.room.trading;
 
-import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
+import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.rooms.types.components.types.Trade;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.sessions.Session;
@@ -12,7 +12,7 @@ public class TradingOfferItemsMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) throws Exception {
         int amount = msg.readInt();
 
-        if(amount > 100) {
+        if (amount > 100) {
             amount = 100;
         }
 
@@ -24,8 +24,8 @@ public class TradingOfferItemsMessageEvent implements Event {
 
         int i = 0;
 
-        for(PlayerItem playerItem : client.getPlayer().getInventory().getInventoryItems().values()) {
-            if(i >= amount)
+        for (PlayerItem playerItem : client.getPlayer().getInventory().getInventoryItems().values()) {
+            if (i >= amount)
                 break;
 
             if (playerItem.getBaseId() == item.getBaseId() && !trade.isOffered(playerItem)) {

@@ -23,7 +23,7 @@ public class PermissionComponent implements PlayerPermissions {
 
     @Override
     public boolean hasCommand(String key) {
-        if(this.player.getData().getRank() == 255) {
+        if (this.player.getData().getRank() == 255) {
             return true;
         }
 

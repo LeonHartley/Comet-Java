@@ -1,8 +1,8 @@
 package com.cometproject.server.api.routes;
 
-import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.boot.utils.ShutdownProcess;
+import com.cometproject.server.composers.catalog.CatalogPublishMessageComposer;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.commands.CommandManager;
@@ -14,7 +14,6 @@ import com.cometproject.server.game.navigator.NavigatorManager;
 import com.cometproject.server.game.permissions.PermissionsManager;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.network.NetworkManager;
-import com.cometproject.server.composers.catalog.CatalogPublishMessageComposer;
 import com.cometproject.server.network.messages.outgoing.moderation.ModToolMessageComposer;
 import com.cometproject.server.storage.queries.config.ConfigDao;
 import spark.Request;

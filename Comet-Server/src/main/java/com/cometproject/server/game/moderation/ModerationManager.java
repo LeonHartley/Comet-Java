@@ -1,5 +1,6 @@
 package com.cometproject.server.game.moderation;
 
+import com.cometproject.api.utilities.Initialisable;
 import com.cometproject.server.game.moderation.types.actions.ActionCategory;
 import com.cometproject.server.game.moderation.types.tickets.HelpTicket;
 import com.cometproject.server.game.moderation.types.tickets.HelpTicketState;
@@ -9,7 +10,6 @@ import com.cometproject.server.network.messages.outgoing.moderation.tickets.Help
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.moderation.PresetDao;
 import com.cometproject.server.storage.queries.moderation.TicketDao;
-import com.cometproject.api.utilities.Initialisable;
 import com.cometproject.server.utilities.collections.ConcurrentHashSet;
 import org.apache.log4j.Logger;
 
@@ -36,6 +36,13 @@ public class ModerationManager implements Initialisable {
 
     }
 
+    public static ModerationManager getInstance() {
+        if (moderationManagerInstance == null)
+            moderationManagerInstance = new ModerationManager();
+
+        return moderationManagerInstance;
+    }
+
     @Override
     public void initialize() {
         this.moderators = new ConcurrentHashSet<>();
@@ -44,13 +51,6 @@ public class ModerationManager implements Initialisable {
         loadActiveTickets();
 
         log.info("ModerationManager initialized");
-    }
-
-    public static ModerationManager getInstance() {
-        if (moderationManagerInstance == null)
-            moderationManagerInstance = new ModerationManager();
-
-        return moderationManagerInstance;
     }
 
     public void loadPresets() {

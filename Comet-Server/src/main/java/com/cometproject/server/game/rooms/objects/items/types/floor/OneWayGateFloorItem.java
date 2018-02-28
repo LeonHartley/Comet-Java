@@ -1,12 +1,10 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
 import com.cometproject.api.game.rooms.objects.data.RoomItemData;
-
-
+import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
-import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.types.Room;
 
 
@@ -14,7 +12,9 @@ public class OneWayGateFloorItem extends RoomItemFloor {
     private boolean isInUse = false;
     private RoomEntity interactingEntity;
 
-    public OneWayGateFloorItem(RoomItemData itemData, Room room) {        super(itemData, room);    }
+    public OneWayGateFloorItem(RoomItemData itemData, Room room) {
+        super(itemData, room);
+    }
 
     @Override
     public boolean onInteract(RoomEntity entity, int requestData, boolean isWiredTrigger) {
@@ -49,7 +49,7 @@ public class OneWayGateFloorItem extends RoomItemFloor {
 
     @Override
     public void onTickComplete() {
-        if(this.isInUse) {
+        if (this.isInUse) {
             this.interactingEntity.setOverriden(false);
             this.setTicks(RoomItemFactory.getProcessTime(1.0));
         }

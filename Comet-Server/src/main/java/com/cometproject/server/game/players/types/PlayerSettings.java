@@ -4,10 +4,10 @@ import com.cometproject.api.game.players.data.IPlayerSettings;
 import com.cometproject.api.game.players.data.types.IPlaylistItem;
 import com.cometproject.api.game.players.data.types.IVolumeData;
 import com.cometproject.api.game.players.data.types.IWardrobeItem;
+import com.cometproject.api.utilities.JsonUtil;
 import com.cometproject.server.game.players.components.types.settings.PlaylistItem;
 import com.cometproject.server.game.players.components.types.settings.VolumeData;
 import com.cometproject.server.game.players.components.types.settings.WardrobeItem;
-import com.cometproject.api.utilities.JsonUtil;
 import com.google.gson.reflect.TypeToken;
 
 import java.sql.ResultSet;
@@ -182,11 +182,11 @@ public class PlayerSettings implements IPlayerSettings {
     public boolean getAllowTrade() {
         return this.allowTrade;
     }
-    
+
     public boolean getAllowFollow() {
         return this.allowFollow;
     }
-    
+
     public boolean getAllowMimic() {
         return this.allowMimic;
     }

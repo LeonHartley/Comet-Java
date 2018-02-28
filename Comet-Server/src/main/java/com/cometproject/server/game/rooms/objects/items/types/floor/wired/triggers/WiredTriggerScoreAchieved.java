@@ -14,6 +14,20 @@ public class WiredTriggerScoreAchieved extends WiredTriggerItem {
         super(itemData, room);
     }
 
+    public static boolean executeTriggers(int score, GameTeam team, Room room) {
+        boolean wasExecuted = false;
+
+        for (RoomItemFloor floorItem : getTriggers(room, WiredTriggerScoreAchieved.class)) {
+            WiredTriggerScoreAchieved trigger = ((WiredTriggerScoreAchieved) floorItem);
+
+            if (trigger.scoreToAchieve() == score) {
+                wasExecuted = trigger.evaluate(null, team);
+            }
+        }
+
+        return wasExecuted;
+    }
+
     @Override
     public boolean suppliesPlayer() {
         return false;
@@ -30,19 +44,5 @@ public class WiredTriggerScoreAchieved extends WiredTriggerItem {
         }
 
         return 0;
-    }
-
-    public static boolean executeTriggers(int score, GameTeam team, Room room) {
-        boolean wasExecuted = false;
-
-        for (RoomItemFloor floorItem : getTriggers(room, WiredTriggerScoreAchieved.class)) {
-            WiredTriggerScoreAchieved trigger = ((WiredTriggerScoreAchieved) floorItem);
-
-            if (trigger.scoreToAchieve() == score) {
-                wasExecuted = trigger.evaluate(null, team);
-            }
-        }
-
-        return wasExecuted;
     }
 }

@@ -22,8 +22,8 @@ public class RoomReloadListener {
     }
 
     private void addPlayers(Room room) {
-        for(PlayerEntity playerEntity : room.getEntities().getPlayerEntities()) {
-            if(playerEntity.getPlayer() != null) {
+        for (PlayerEntity playerEntity : room.getEntities().getPlayerEntities()) {
+            if (playerEntity.getPlayer() != null) {
                 this.players.add(playerEntity.getPlayer());
             }
         }

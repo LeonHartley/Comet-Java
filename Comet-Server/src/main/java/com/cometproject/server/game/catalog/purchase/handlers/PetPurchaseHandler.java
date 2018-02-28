@@ -1,12 +1,12 @@
 package com.cometproject.server.game.catalog.purchase.handlers;
 
 import com.cometproject.api.game.achievements.types.AchievementType;
+import com.cometproject.api.game.catalog.types.ICatalogItem;
+import com.cometproject.server.composers.catalog.UnseenItemsMessageComposer;
 import com.cometproject.server.game.catalog.purchase.PurchaseHandler;
 import com.cometproject.server.game.catalog.purchase.PurchaseResult;
-import com.cometproject.api.game.catalog.types.ICatalogItem;
 import com.cometproject.server.game.pets.data.PetData;
 import com.cometproject.server.game.pets.data.StaticPetProperties;
-import com.cometproject.server.composers.catalog.UnseenItemsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.PetInventoryMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.pets.PetDao;

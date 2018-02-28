@@ -21,6 +21,14 @@ public class RoomQueue {
         this.roomQueues.put(1, new ArrayList<>());
     }
 
+    public static RoomQueue getInstance() {
+        if (instance == null) {
+            instance = new RoomQueue();
+        }
+
+        return instance;
+    }
+
     public boolean hasQueue(int roomId) {
         return this.roomQueues.containsKey(roomId);
     }
@@ -41,10 +49,10 @@ public class RoomQueue {
         if (this.hasQueue(roomId)) {
             this.roomQueues.get(roomId).remove(playerId);
 
-            for(int player : this.roomQueues.get(roomId)) {
+            for (int player : this.roomQueues.get(roomId)) {
                 Session session = NetworkManager.getInstance().getSessions().getByPlayerId(player);
 
-                if(session != null) {
+                if (session != null) {
                     session.send(new RoomQueueStatusMessageComposer(this.getQueueCount(roomId, player)));
                 }
             }
@@ -83,13 +91,5 @@ public class RoomQueue {
         }
 
         return size;
-    }
-
-    public static RoomQueue getInstance() {
-        if (instance == null) {
-            instance = new RoomQueue();
-        }
-
-        return instance;
     }
 }

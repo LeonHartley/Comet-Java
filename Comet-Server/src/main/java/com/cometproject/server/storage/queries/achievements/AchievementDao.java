@@ -1,10 +1,10 @@
 package com.cometproject.server.storage.queries.achievements;
 
+import com.cometproject.api.game.achievements.types.AchievementCategory;
+import com.cometproject.api.game.achievements.types.AchievementType;
 import com.cometproject.api.game.achievements.types.IAchievementGroup;
 import com.cometproject.server.game.achievements.AchievementGroup;
 import com.cometproject.server.game.achievements.types.Achievement;
-import com.cometproject.api.game.achievements.types.AchievementCategory;
-import com.cometproject.api.game.achievements.types.AchievementType;
 import com.cometproject.server.storage.SqlHelper;
 
 import java.sql.Connection;

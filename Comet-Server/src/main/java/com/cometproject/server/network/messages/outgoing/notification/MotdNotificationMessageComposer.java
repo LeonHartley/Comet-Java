@@ -1,9 +1,9 @@
 package com.cometproject.server.network.messages.outgoing.notification;
 
-import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.api.config.CometSettings;
-import com.cometproject.server.protocol.messages.MessageComposer;
+import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.protocol.headers.Composers;
+import com.cometproject.server.protocol.messages.MessageComposer;
 
 
 public class MotdNotificationMessageComposer extends MessageComposer {

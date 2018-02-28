@@ -114,6 +114,10 @@ public class MannequinFloorItem extends RoomItemFloor {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getFigure() {
         return figure;
     }
@@ -128,10 +132,6 @@ public class MannequinFloorItem extends RoomItemFloor {
 
     public void setGender(String gender) {
         this.gender = gender;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 }
 

@@ -1,9 +1,9 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.totem;
 
 import com.cometproject.api.game.rooms.objects.data.RoomItemData;
+import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
-import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import org.apache.commons.lang.StringUtils;
 
@@ -14,6 +14,14 @@ public abstract class TotemPartFloorItem extends RoomItemFloor {
         if (!StringUtils.isNumeric(this.getItemData().getData())) {
             this.getItemData().setData("0");
         }
+    }
+
+    public static int getDarkHead(int lightHead) {
+        switch (lightHead) {
+
+        }
+
+        return 0;
     }
 
     @Override
@@ -65,7 +73,6 @@ public abstract class TotemPartFloorItem extends RoomItemFloor {
         return hasHead && hasBody && hasPlanet;
     }
 
-
     @Override
     public void onPositionChanged(Position newPosition) {
         int totemState = Integer.parseInt(this.getItemData().getData());
@@ -74,13 +81,5 @@ public abstract class TotemPartFloorItem extends RoomItemFloor {
 
         this.sendUpdate();
         this.saveData();
-    }
-
-    public static int getDarkHead(int lightHead) {
-        switch (lightHead) {
-
-        }
-
-        return 0;
     }
 }

@@ -3,8 +3,8 @@ package com.cometproject.server.game.bots;
 import com.cometproject.api.game.bots.BotMode;
 import com.cometproject.api.game.bots.BotType;
 import com.cometproject.api.game.bots.IBotData;
-import com.cometproject.server.storage.queries.bots.RoomBotDao;
 import com.cometproject.api.utilities.JsonUtil;
+import com.cometproject.server.storage.queries.bots.RoomBotDao;
 import com.cometproject.server.utilities.RandomUtil;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -71,7 +71,8 @@ public abstract class BotData implements IBotData {
 
     /**
      * Initialize the bot
-     *  @param id            The ID of the bot
+     *
+     * @param id            The ID of the bot
      * @param username      The name of the bot
      * @param motto         The motto of the bot
      * @param figure        The figure of the bot
@@ -128,7 +129,7 @@ public abstract class BotData implements IBotData {
         jsonObject.addProperty("chatDelay", this.chatDelay);
         jsonObject.addProperty("isAutomaticChat", this.isAutomaticChat);
 
-        for(String message : this.messages) {
+        for (String message : this.messages) {
             jsonArray.add(message);
         }
 

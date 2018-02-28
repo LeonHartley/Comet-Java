@@ -16,6 +16,22 @@ public class MoodlightWallItem extends RoomItemWall {
         super(roomItemData, room);
     }
 
+    public static boolean isValidColour(String colour) {
+        switch (colour) {
+            case "#000000":
+            case "#0053F7":
+            case "#EA4532":
+            case "#82F349":
+            case "#74F5F5":
+            case "#E759DE":
+            case "#F2F851":
+                return true;
+
+            default:
+                return false;
+        }
+    }
+
     @Override
     public boolean onInteract(RoomEntity entity, int requestData, boolean isWiredTrigger) {
         return true;
@@ -42,22 +58,6 @@ public class MoodlightWallItem extends RoomItemWall {
     public void onPickup() {
         if (this.getRoom().getItems().isMoodlightMatches(this)) {
             this.getRoom().getItems().removeMoodlight();
-        }
-    }
-
-    public static boolean isValidColour(String colour) {
-        switch (colour) {
-            case "#000000":
-            case "#0053F7":
-            case "#EA4532":
-            case "#82F349":
-            case "#74F5F5":
-            case "#E759DE":
-            case "#F2F851":
-                return true;
-
-            default:
-                return false;
         }
     }
 

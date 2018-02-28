@@ -9,8 +9,8 @@ import java.util.List;
 
 
 public class TradeComponent {
-    private List<Trade> trades;
     private final Room room;
+    private List<Trade> trades;
 
     public TradeComponent(Room room) {
         this.room = room;

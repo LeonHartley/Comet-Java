@@ -1,11 +1,11 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.pet;
 
 import com.cometproject.api.game.rooms.objects.data.RoomItemData;
+import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
-import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.types.Room;
 
 public class PetFoodFloorItem extends RoomItemFloor {
@@ -27,7 +27,7 @@ public class PetFoodFloorItem extends RoomItemFloor {
 
         final PetEntity petEntity = (PetEntity) entity;
 
-        if(petEntity.getData().getHunger() >= 20) {
+        if (petEntity.getData().getHunger() >= 20) {
             this.pet = petEntity;
             this.pet.getPetAI().beginEating();
 
@@ -45,7 +45,7 @@ public class PetFoodFloorItem extends RoomItemFloor {
 
     @Override
     public void onTickComplete() {
-        if(this.pet != null && this.pet.getData().getHunger() >= 20) {
+        if (this.pet != null && this.pet.getData().getHunger() >= 20) {
             this.pet.getData().increaseHunger(-20);
             this.pet.getData().increaseHappiness(10);
 
@@ -55,18 +55,18 @@ public class PetFoodFloorItem extends RoomItemFloor {
             this.sendUpdate();
             this.saveData();
 
-            if(this.state >= this.getDefinition().getInteractionCycleCount()) {
+            if (this.state >= this.getDefinition().getInteractionCycleCount()) {
                 // there's no food left!
                 // delete the item & free the pet
 
-                if(this.pet.getData().getHunger() >= 20) {
+                if (this.pet.getData().getHunger() >= 20) {
                     this.pet.getPetAI().applyGesture("hng");
                 }
 
                 this.pet.getPetAI().eatingComplete();
                 this.getRoom().getItems().removeItem(this, null, false, true);
             } else {
-                if(this.pet.getData().getHunger() >= 20) {
+                if (this.pet.getData().getHunger() >= 20) {
                     this.setTicks(RoomItemFactory.getProcessTime(2.0));
                 } else {
                     // pet is no longer hungry. lets go!
@@ -79,7 +79,7 @@ public class PetFoodFloorItem extends RoomItemFloor {
 
     @Override
     public void onEntityStepOff(RoomEntity entity) {
-        if(entity == this.pet) {
+        if (entity == this.pet) {
             this.pet = null;
         }
 

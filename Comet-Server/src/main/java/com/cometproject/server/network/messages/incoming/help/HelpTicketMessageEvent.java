@@ -7,8 +7,8 @@ import com.cometproject.server.game.rooms.types.components.types.ChatMessage;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.help.TicketSentMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
-import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.protocol.messages.MessageEvent;
 import com.google.common.collect.Lists;
 
 import java.util.List;

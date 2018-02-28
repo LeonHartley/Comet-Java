@@ -3,7 +3,6 @@ package com.cometproject.server.game.navigator.types.featured;
 import com.cometproject.api.game.rooms.IRoomData;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.rooms.RoomManager;
-import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.game.rooms.types.RoomWriter;
 
 import java.sql.ResultSet;

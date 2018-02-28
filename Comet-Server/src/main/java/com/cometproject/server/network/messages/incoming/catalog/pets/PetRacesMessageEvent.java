@@ -1,12 +1,11 @@
 package com.cometproject.server.network.messages.incoming.catalog.pets;
 
 import com.cometproject.api.game.pets.IPetRace;
-import com.cometproject.server.game.pets.PetManager;
-import com.cometproject.server.game.pets.races.PetRace;
-import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.composers.catalog.pets.PetRacesMessageComposer;
-import com.cometproject.server.protocol.messages.MessageEvent;
+import com.cometproject.server.game.pets.PetManager;
+import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.protocol.messages.MessageEvent;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.List;

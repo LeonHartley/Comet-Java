@@ -9,7 +9,9 @@ import com.cometproject.server.game.rooms.types.Room;
 
 
 public class DefaultFloorItem extends RoomItemFloor {
-    public DefaultFloorItem(RoomItemData itemData, Room room) {        super(itemData, room);    }
+    public DefaultFloorItem(RoomItemData itemData, Room room) {
+        super(itemData, room);
+    }
 
     @Override
     public boolean onInteract(RoomEntity entity, int requestData, boolean isWiredTrigger) {

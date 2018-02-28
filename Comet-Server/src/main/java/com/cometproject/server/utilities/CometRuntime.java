@@ -7,11 +7,9 @@ import org.apache.log4j.Logger;
 
 
 public class CometRuntime {
-    private static final Logger log = Logger.getLogger(CometRuntime.class.getName());
-
     public static final String operatingSystem = System.getProperty("os.name");
     public static final String operatingSystemArchitecture = System.getProperty("os.arch");
-
+    private static final Logger log = Logger.getLogger(CometRuntime.class.getName());
     public static int processId = 0;
 
     static {

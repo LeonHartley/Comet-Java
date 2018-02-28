@@ -10,7 +10,7 @@ public class GameMessageHandler implements IMessageHandler {
 
     @Override
     public void handleMessage(IMessageEvent messageEvent, INetSession session) {
-        if(!(session instanceof NetSession)) {
+        if (!(session instanceof NetSession)) {
             return;
         }
 

@@ -22,7 +22,7 @@ public class HotelAlertLinkCommand extends ChatCommand {
     public String getPermission() {
         return "hotelalertlink_command";
     }
-    
+
     @Override
     public String getParameter() {
         return Locale.getOrDefault("command.parameter.message", "%message%");

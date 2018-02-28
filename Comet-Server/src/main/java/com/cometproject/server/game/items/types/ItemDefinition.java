@@ -1,7 +1,7 @@
 package com.cometproject.server.game.items.types;
 
-import com.cometproject.api.game.furniture.types.ItemType;
 import com.cometproject.api.game.furniture.types.FurnitureDefinition;
+import com.cometproject.api.game.furniture.types.ItemType;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -33,10 +33,8 @@ public class ItemDefinition implements FurnitureDefinition {
     private final int interactionCycleCount;
     private final String[] vendingIds;
     private final boolean requiresRights;
-
-    private int songId;
-
     private final Double[] variableHeights;
+    private int songId;
 
     public ItemDefinition(ResultSet data) throws SQLException {
         this.id = data.getInt("id");

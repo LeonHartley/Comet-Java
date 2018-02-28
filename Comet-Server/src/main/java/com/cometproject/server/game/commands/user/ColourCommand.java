@@ -10,9 +10,9 @@ public class ColourCommand extends ChatCommand {
     public void execute(Session client, String[] params) {
         if (params.length != 1) {
             client.getPlayer().setChatMessageColour(null);
-			
-			sendNotif(Locale.getOrDefault("command.colour.reset", "Your chat has been returned to normal!"), client);
-			return;
+
+            sendNotif(Locale.getOrDefault("command.colour.reset", "Your chat has been returned to normal!"), client);
+            return;
         }
 
         String colourString = "";
@@ -62,7 +62,7 @@ public class ColourCommand extends ChatCommand {
         } catch (Exception e) {
             sendNotif(Locale.getOrDefault(
                     "command.colour.invalid",
-                    "Invalid colour, available colours: %colours%").replace("%colours%",ChatMessageColour.getAllAvailable()), client);
+                    "Invalid colour, available colours: %colours%").replace("%colours%", ChatMessageColour.getAllAvailable()), client);
         }
     }
 

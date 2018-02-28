@@ -1,13 +1,13 @@
 package com.cometproject.server.network.messages.incoming.room.trading;
 
-import com.cometproject.api.game.rooms.settings.RoomTradeState;
 import com.cometproject.api.game.rooms.entities.RoomEntityStatus;
+import com.cometproject.api.game.rooms.settings.RoomTradeState;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.components.types.Trade;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.room.trading.TradeErrorMessageComposer;
-import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.protocol.messages.MessageEvent;
 
 
 public class BeginTradeMessageEvent implements Event {
@@ -29,7 +29,7 @@ public class BeginTradeMessageEvent implements Event {
             return;
         }
 
-        if(entity.getPlayer().getSettings() != null && !entity.getPlayer().getSettings().getAllowTrade()) {
+        if (entity.getPlayer().getSettings() != null && !entity.getPlayer().getSettings().getAllowTrade()) {
             client.send(new TradeErrorMessageComposer(4, entity.getUsername()));
             return;
         }
@@ -46,20 +46,20 @@ public class BeginTradeMessageEvent implements Event {
 
         long currentTime = System.currentTimeMillis();
 
-        if(client.getPlayer().getLastTradeFlood() != 0) {
+        if (client.getPlayer().getLastTradeFlood() != 0) {
             long timeFloodEnds = client.getPlayer().getLastTradeTime() + ((client.getPlayer().getLastTradeFlag() * 1000));
 
-            if(currentTime >= timeFloodEnds) {
+            if (currentTime >= timeFloodEnds) {
                 client.getPlayer().setLastTradeFlood(0);
             } else {
                 return;
             }
         }
 
-        if((currentTime - client.getPlayer().getLastTradeTime()) < 750) {
+        if ((currentTime - client.getPlayer().getLastTradeTime()) < 750) {
             client.getPlayer().setLastTradeTime(currentTime);
 
-            if(client.getPlayer().getLastTradeFlag() >= 3) {
+            if (client.getPlayer().getLastTradeFlag() >= 3) {
                 client.getPlayer().setLastTradeFlood(30);
                 return;
             }

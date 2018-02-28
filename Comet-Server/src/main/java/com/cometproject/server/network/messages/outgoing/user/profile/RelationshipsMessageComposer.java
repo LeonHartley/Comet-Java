@@ -1,12 +1,12 @@
 package com.cometproject.server.network.messages.outgoing.user.profile;
 
 import com.cometproject.api.game.players.data.PlayerAvatar;
-import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.api.game.players.data.components.PlayerRelationships;
 import com.cometproject.api.game.players.data.components.messenger.RelationshipLevel;
-import com.cometproject.server.protocol.messages.MessageComposer;
+import com.cometproject.api.networking.messages.IComposer;
+import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.protocol.headers.Composers;
+import com.cometproject.server.protocol.messages.MessageComposer;
 import com.google.common.collect.Lists;
 
 import java.util.Collections;

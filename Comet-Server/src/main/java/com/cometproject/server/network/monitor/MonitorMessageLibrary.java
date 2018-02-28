@@ -11,15 +11,11 @@ import io.netty.channel.ChannelHandlerContext;
 import org.apache.log4j.Logger;
 
 
-
 public class MonitorMessageLibrary {
     public static boolean isInitialized = false;
-
-    private static Logger log = Logger.getLogger(MonitorMessageLibrary.class.getName());
-
     public static String request;
     public static ChannelHandlerContext ctx;
-
+    private static Logger log = Logger.getLogger(MonitorMessageLibrary.class.getName());
     private static Gson gsonInstance = new Gson();
 
     // Hello message

@@ -1,26 +1,24 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions;
 
-import com.cometproject.api.game.rooms.objects.data.RoomItemData;
-
-import com.cometproject.api.game.furniture.types.FurnitureDefinition;
-import com.cometproject.server.boot.Comet;
 import com.cometproject.api.config.CometSettings;
+import com.cometproject.api.game.furniture.types.FurnitureDefinition;
+import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
+import com.cometproject.api.game.rooms.objects.data.RoomItemData;
+import com.cometproject.server.boot.Comet;
+import com.cometproject.server.composers.catalog.UnseenItemsMessageComposer;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.players.PlayerManager;
-import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
 import com.cometproject.server.game.players.components.types.inventory.InventoryItem;
 import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.events.WiredItemEvent;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.composers.catalog.UnseenItemsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.wired.WiredRewardMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
 import com.cometproject.server.storage.queries.items.ItemDao;
-import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import com.cometproject.storage.api.StorageContext;
 import com.cometproject.storage.api.data.Data;
 import com.google.common.collect.Lists;
@@ -32,32 +30,24 @@ import java.util.*;
 
 
 public class WiredActionGiveReward extends WiredActionItem {
-    private static final Map<Long, Map<Integer, Long>> rewardTimings = Maps.newConcurrentMap();
-    private static final Random RANDOM = new Random();
-
-    private static final int PARAM_HOW_OFTEN = 0;
-
-    private static final int PARAM_UNIQUE = 1;
-    private static final int PARAM_TOTAL_REWARD_LIMIT = 2;
-    private static final int REWARD_LIMIT_ONCE = 0;
-
-    private static final int REWARD_LIMIT_DAY = 1;
-    private static final int REWARD_LIMIT_HOUR = 2;
-
     public static final String REWARD_DIAMONDS = "diamonds";
     public static final String REWARD_COINS = "coins";
     public static final String REWARD_DUCKETS = "duckets";
-
+    private static final Map<Long, Map<Integer, Long>> rewardTimings = Maps.newConcurrentMap();
+    private static final Random RANDOM = new Random();
+    private static final int PARAM_HOW_OFTEN = 0;
+    private static final int PARAM_UNIQUE = 1;
+    private static final int PARAM_TOTAL_REWARD_LIMIT = 2;
+    private static final int REWARD_LIMIT_ONCE = 0;
+    private static final int REWARD_LIMIT_DAY = 1;
+    private static final int REWARD_LIMIT_HOUR = 2;
     private static final long ONE_DAY = 86400;
     private static final long ONE_HOUR = 3600;
-
+    private final int ownerRank;
     // increments and will be reset when the room is unloaded.
     private int totalRewardCounter = 0;
-
     private List<Reward> rewards;
     private Map<Integer, Set<String>> givenRewards;
-
-    private final int ownerRank;
 
     public WiredActionGiveReward(RoomItemData roomItemData, Room room) {
         super(roomItemData, room);
@@ -78,7 +68,7 @@ public class WiredActionGiveReward extends WiredActionItem {
 
         StorageContext.getCurrentContext().getRoomItemRepository().getGivenRewards(this.getId(), rewardData::set);
 
-        if(rewardData.has()) {
+        if (rewardData.has()) {
             this.givenRewards = rewardData.get();
         } else {
             this.givenRewards = Maps.newConcurrentMap();
@@ -131,10 +121,10 @@ public class WiredActionGiveReward extends WiredActionItem {
         for (Reward reward : this.rewards) {
             switch (howOften) {
                 case REWARD_LIMIT_ONCE:
-                    if(this.givenRewards.containsKey(playerEntity.getPlayerId()) && this.givenRewards.get(playerEntity.getPlayerId()).contains(reward.productCode)) {
+                    if (this.givenRewards.containsKey(playerEntity.getPlayerId()) && this.givenRewards.get(playerEntity.getPlayerId()).contains(reward.productCode)) {
                         errorCode = 1;
                     } else {
-                        if(!this.givenRewards.containsKey(playerEntity.getPlayerId())) {
+                        if (!this.givenRewards.containsKey(playerEntity.getPlayerId())) {
                             this.givenRewards.put(playerEntity.getPlayerId(), new HashSet<>());
                         }
 
@@ -253,7 +243,7 @@ public class WiredActionGiveReward extends WiredActionItem {
             }
         }
 
-        if(errorCode != -1) {
+        if (errorCode != -1) {
             playerEntity.getPlayer().getSession().send(new WiredRewardMessageComposer(errorCode));
             return;
         }

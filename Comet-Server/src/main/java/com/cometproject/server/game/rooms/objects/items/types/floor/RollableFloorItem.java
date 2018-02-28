@@ -1,21 +1,18 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
 import com.cometproject.api.game.rooms.objects.data.RoomItemData;
-
-
+import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.games.banzai.BanzaiPuckFloorItem;
-import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.RoomEntityMovementNode;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
 import com.cometproject.server.game.utilities.DistanceCalculator;
 import com.cometproject.server.network.messages.outgoing.room.items.SlideObjectBundleMessageComposer;
-import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import com.cometproject.server.utilities.Direction;
 import com.cometproject.storage.api.StorageContext;
 
@@ -36,7 +33,9 @@ public abstract class RollableFloorItem extends RoomItemFloor {
 
     private int animationMode = -1;
 
-    public RollableFloorItem(RoomItemData itemData, Room room) {        super(itemData, room);    }
+    public RollableFloorItem(RoomItemData itemData, Room room) {
+        super(itemData, room);
+    }
 
     public static void roll(RoomItemFloor item, Position from, Position to, Room room) {
         final RollableFloorItem rollableFloorItem = (RollableFloorItem) item;
@@ -162,7 +161,7 @@ delay: 169ms
             int tiles = 1;
             Position position = this.getNextPosition();
 
-            if(!this.isValidRoll(position)) {
+            if (!this.isValidRoll(position)) {
                 position = this.getNextPosition(position.getFlag(), position.squareBehind(position.getFlag()));
             }
 

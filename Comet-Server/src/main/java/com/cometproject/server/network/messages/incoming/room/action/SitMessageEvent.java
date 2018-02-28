@@ -3,8 +3,8 @@ package com.cometproject.server.network.messages.incoming.room.action;
 import com.cometproject.api.game.rooms.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.network.messages.incoming.Event;
-import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.protocol.messages.MessageEvent;
 
 public class SitMessageEvent implements Event {
     @Override
@@ -12,7 +12,7 @@ public class SitMessageEvent implements Event {
         if (client.getPlayer().getEntity() != null) {
             PlayerEntity playerEntity = client.getPlayer().getEntity();
 
-            if(!client.getPlayer().getEntity().isVisible()) {
+            if (!client.getPlayer().getEntity().isVisible()) {
                 return;
             }
 

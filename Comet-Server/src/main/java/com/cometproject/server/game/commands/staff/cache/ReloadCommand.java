@@ -1,6 +1,7 @@
 package com.cometproject.server.game.commands.staff.cache;
 
 import com.cometproject.api.game.GameContext;
+import com.cometproject.server.composers.catalog.CatalogPublishMessageComposer;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.achievements.AchievementManager;
 import com.cometproject.server.game.catalog.CatalogManager;
@@ -22,7 +23,6 @@ import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.RoomReloadListener;
 import com.cometproject.server.network.NetworkManager;
-import com.cometproject.server.composers.catalog.CatalogPublishMessageComposer;
 import com.cometproject.server.network.messages.outgoing.moderation.ModToolMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.MotdNotificationMessageComposer;
@@ -129,7 +129,7 @@ public class ReloadCommand extends ChatCommand {
                 ModerationManager.getInstance().loadPresets();
 
                 sendNotif(Locale.get("command.reload.modpresets"), client);
-            
+
                 ModerationManager.getInstance().getModerators().forEach((session -> {
                     session.send(new ModToolMessageComposer());
                 }));
@@ -175,7 +175,7 @@ public class ReloadCommand extends ChatCommand {
             case "polls":
                 PollManager.getInstance().initialize();
 
-                if(PollManager.getInstance().roomHasPoll(client.getPlayer().getEntity().getRoom().getId())) {
+                if (PollManager.getInstance().roomHasPoll(client.getPlayer().getEntity().getRoom().getId())) {
                     Poll poll = PollManager.getInstance().getPollByRoomId(client.getPlayer().getEntity().getRoom().getId());
 
                     client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new InitializePollMessageComposer(poll.getPollId(), poll.getPollTitle(), poll.getThanksMessage()));
@@ -212,7 +212,7 @@ public class ReloadCommand extends ChatCommand {
     public String getPermission() {
         return "reload_command";
     }
-    
+
     @Override
     public String getParameter() {
         return "";

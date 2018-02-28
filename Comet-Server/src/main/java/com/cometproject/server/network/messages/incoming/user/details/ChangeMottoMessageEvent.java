@@ -1,16 +1,16 @@
 package com.cometproject.server.network.messages.incoming.user.details;
 
-import com.cometproject.server.boot.Comet;
-import com.cometproject.server.config.Locale;
 import com.cometproject.api.game.achievements.types.AchievementType;
 import com.cometproject.api.game.quests.QuestType;
+import com.cometproject.server.boot.Comet;
+import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.filter.FilterResult;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.UpdateInfoMessageComposer;
-import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.protocol.messages.MessageEvent;
 import org.apache.commons.lang3.StringUtils;
 
 

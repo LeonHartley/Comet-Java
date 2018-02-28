@@ -4,8 +4,8 @@ import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.room.filter.GetRoomFilterListMessageComposer;
-import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.protocol.messages.MessageEvent;
 
 public class WordFilterListMessageEvent implements Event {
     @Override
@@ -18,7 +18,7 @@ public class WordFilterListMessageEvent implements Event {
             return;
         }
 
-        if(!room.getRights().hasRights(client.getPlayer().getId())) {
+        if (!room.getRights().hasRights(client.getPlayer().getId())) {
             // they don't have rights, why should they know what words are in the filter?
             return;
         }

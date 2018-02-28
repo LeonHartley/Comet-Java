@@ -3,8 +3,8 @@ package com.cometproject.server.network.messages.incoming.room.action;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Square;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.network.messages.incoming.Event;
-import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.protocol.messages.MessageEvent;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -22,7 +22,7 @@ public class WalkMessageEvent implements Event {
 
             PlayerEntity entity = client.getPlayer().getEntity();
 
-            if(!entity.isVisible()) return;
+            if (!entity.isVisible()) return;
 
             if (goalX == entity.getPosition().getX() && goalY == entity.getPosition().getY()) {
                 return;
@@ -31,7 +31,7 @@ public class WalkMessageEvent implements Event {
             if (entity.hasAttribute("teleport")) {
                 List<Square> squares = new LinkedList<>();
                 squares.add(new Square(goalX, goalY));
-                
+
                 entity.unIdle();
 
                 if (entity.getMountedEntity() != null) {
@@ -51,7 +51,7 @@ public class WalkMessageEvent implements Event {
 //                return;
 //            }
 
-            if(!entity.sendUpdateMessage()) {
+            if (!entity.sendUpdateMessage()) {
                 entity.setSendUpdateMessage(true);
             }
 

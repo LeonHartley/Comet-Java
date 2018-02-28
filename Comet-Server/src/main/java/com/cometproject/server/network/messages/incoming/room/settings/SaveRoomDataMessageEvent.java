@@ -11,7 +11,6 @@ import com.cometproject.server.game.navigator.types.Category;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.filter.FilterResult;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.game.rooms.types.RoomWriter;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
@@ -26,8 +25,8 @@ public class SaveRoomDataMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) {
         int id = msg.readInt();
 
-        if(id == 0) {
-            if(client.getPlayer().getEntity() != null && client.getPlayer().getEntity().getRoom() != null) {
+        if (id == 0) {
+            if (client.getPlayer().getEntity() != null && client.getPlayer().getEntity().getRoom() != null) {
                 id = client.getPlayer().getEntity().getRoom().getId();
             }
         }

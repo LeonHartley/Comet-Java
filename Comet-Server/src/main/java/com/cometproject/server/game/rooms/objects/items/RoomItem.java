@@ -2,8 +2,8 @@ package com.cometproject.server.game.rooms.objects.items;
 
 import com.cometproject.api.game.furniture.types.FurnitureDefinition;
 import com.cometproject.api.game.rooms.objects.IRoomItemData;
-import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.api.game.rooms.objects.data.LimitedEditionItemData;
+import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.items.types.LowPriorityItemProcessor;
 import com.cometproject.server.game.rooms.objects.BigRoomFloorObject;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
@@ -24,16 +24,12 @@ import java.util.Set;
 
 
 public abstract class RoomItem extends BigRoomFloorObject implements Attributable {
-    protected int ticksTimer;
-
     private final Set<Long> wiredItems = Sets.newHashSet();
-
+    private final IRoomItemData itemData;
+    protected int ticksTimer;
     private LimitedEditionItemData limitedEditionItemData;
     private Map<String, Object> attributes;
-
     private int moveDirection = -1;
-
-    private final IRoomItemData itemData;
 
     public RoomItem(IRoomItemData roomItemData, Room room) {
         super(roomItemData.getId(), roomItemData.getPosition(), room);
@@ -76,10 +72,6 @@ public abstract class RoomItem extends BigRoomFloorObject implements Attributabl
 
     public Set<Long> getWiredItems() {
         return this.wiredItems;
-    }
-
-    public void setLimitedEditionItemData(LimitedEditionItemData limitedEditionItemData) {
-        this.limitedEditionItemData = limitedEditionItemData;
     }
 
     public final boolean requiresTick() {
@@ -154,13 +146,13 @@ public abstract class RoomItem extends BigRoomFloorObject implements Attributabl
 
         msg.writeString((this instanceof FootballGateFloorItem) ? "" :
                 (this instanceof WiredFloorItem) ? ((WiredFloorItem) this).getState() ? "1" : "0" :
-                (this instanceof SoundMachineFloorItem) ? ((SoundMachineFloorItem) this).getState() ? "1" : "0" :
-                        this.getItemData().getData());
+                        (this instanceof SoundMachineFloorItem) ? ((SoundMachineFloorItem) this).getState() ? "1" : "0" :
+                                this.getItemData().getData());
     }
 
     @Override
     public void setAttribute(String attributeKey, Object attributeValue) {
-        if(this.attributes == null) {
+        if (this.attributes == null) {
             this.attributes = new HashMap<>();
         }
 
@@ -173,7 +165,7 @@ public abstract class RoomItem extends BigRoomFloorObject implements Attributabl
 
     @Override
     public Object getAttribute(String attributeKey) {
-        if(this.attributes == null  ) {
+        if (this.attributes == null) {
             this.attributes = new HashMap<>();
         }
 
@@ -182,7 +174,7 @@ public abstract class RoomItem extends BigRoomFloorObject implements Attributabl
 
     @Override
     public boolean hasAttribute(String attributeKey) {
-        if(this.attributes == null) {
+        if (this.attributes == null) {
             this.attributes = new HashMap<>();
         }
 
@@ -191,7 +183,7 @@ public abstract class RoomItem extends BigRoomFloorObject implements Attributabl
 
     @Override
     public void removeAttribute(String attributeKey) {
-        if(this.attributes == null) {
+        if (this.attributes == null) {
             this.attributes = new HashMap<>();
         }
 
@@ -218,6 +210,10 @@ public abstract class RoomItem extends BigRoomFloorObject implements Attributabl
 
     public LimitedEditionItemData getLimitedEditionItemData() {
         return limitedEditionItemData;
+    }
+
+    public void setLimitedEditionItemData(LimitedEditionItemData limitedEditionItemData) {
+        this.limitedEditionItemData = limitedEditionItemData;
     }
 
     public int getMoveDirection() {

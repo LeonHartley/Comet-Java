@@ -20,9 +20,11 @@ public class PlayerAvatarData implements PlayerAvatar {
         this.gender = gender;
         this.motto = motto;
 
-        if(figure == null) { return; }
+        if (figure == null) {
+            return;
+        }
 
-        if(!PlayerFigureValidator.isValidFigureCode(this.figure, gender)) {
+        if (!PlayerFigureValidator.isValidFigureCode(this.figure, gender)) {
             this.figure = PlayerData.DEFAULT_FIGURE;
         }
     }

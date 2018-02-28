@@ -16,7 +16,7 @@ public class ModerationMuteUserMessageEvent implements Event {
 
         // TODO: use length.
 
-        if(!client.getPlayer().getPermissions().getRank().modTool()) {
+        if (!client.getPlayer().getPermissions().getRank().modTool()) {
             client.disconnect();
 
             return;

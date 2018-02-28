@@ -1,14 +1,14 @@
 package com.cometproject.server.game.rooms.objects.entities.types.ai;
 
 import com.cometproject.api.game.bots.BotMode;
-import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.api.game.rooms.entities.RoomEntityStatus;
+import com.cometproject.api.game.utilities.Position;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.ai.pets.PetAI;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerBotReachedAvatar;
-import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.types.components.types.RoomMessageType;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.game.rooms.types.misc.ChatEmotion;
@@ -21,13 +21,10 @@ import java.util.concurrent.Executors;
 
 public abstract class AbstractBotAI implements BotAI {
     private static final ExecutorService botPathCalculator = Executors.newFixedThreadPool(2);
-
+    protected PlayerEntity followingPlayer;
     private RoomEntity entity;
-
     private long ticksUntilComplete = 0;
     private boolean walkNow = false;
-
-    protected PlayerEntity followingPlayer;
 
     public AbstractBotAI(RoomEntity entity) {
         this.entity = entity;
@@ -51,7 +48,7 @@ public abstract class AbstractBotAI implements BotAI {
             if (this.getEntity() instanceof BotEntity) {
                 BotEntity botEntity = ((BotEntity) this.getEntity());
 
-                if(botEntity.getData() == null) {
+                if (botEntity.getData() == null) {
                     return;
                 }
 
@@ -61,7 +58,7 @@ public abstract class AbstractBotAI implements BotAI {
             }
 
             if ((chance < 3 || this.walkNow) && newStep) {
-                if(this.walkNow) {
+                if (this.walkNow) {
                     this.walkNow = false;
                 }
 
@@ -105,11 +102,11 @@ public abstract class AbstractBotAI implements BotAI {
     public void onReachedTile(RoomTile tile) {
         final PlayerEntity closestEntity = this.entity.nearestPlayerEntity();
 
-        if(closestEntity != null) {
+        if (closestEntity != null) {
             // calculate the distance.
             final int distance = DistanceCalculator.calculate(this.entity.getPosition(), closestEntity.getPosition());
 
-            if(distance == 1) {
+            if (distance == 1) {
                 WiredTriggerBotReachedAvatar.executeTriggers(closestEntity);
             }
         }
@@ -180,7 +177,7 @@ public abstract class AbstractBotAI implements BotAI {
 
     @Override
     public boolean onRemovedFromRoom() {
-        if(this.followingPlayer != null) {
+        if (this.followingPlayer != null) {
             this.followingPlayer.getFollowingEntities().remove(this.entity);
             this.followingPlayer = null;
         }

@@ -24,7 +24,7 @@ public class SpyAI extends AbstractBotAI {
                 }
             }
         } else {
-            if(((SpyBotData) this.getBotEntity().getDataObject()).getVisitors().size() == 0) {
+            if (((SpyBotData) this.getBotEntity().getDataObject()).getVisitors().size() == 0) {
                 this.getBotEntity().say(Locale.getOrDefault("comet.game.bot.spy.noVisitors", "There have been no visitors while you've been away!!!"));
                 this.hasSaidYes = true;
             } else {
@@ -65,11 +65,11 @@ public class SpyAI extends AbstractBotAI {
                     }
                 }
 
-                if(!left.equals("")) {
+                if (!left.equals("")) {
                     this.getBotEntity().say(left);
                 }
 
-                if(!stillIn.equals("")) {
+                if (!stillIn.equals("")) {
                     this.getBotEntity().say(stillIn);
                 }
 

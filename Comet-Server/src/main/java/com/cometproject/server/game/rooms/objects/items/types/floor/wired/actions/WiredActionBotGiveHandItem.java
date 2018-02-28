@@ -1,10 +1,8 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions;
 
 import com.cometproject.api.game.rooms.objects.data.RoomItemData;
-
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.rooms.RoomManager;
-import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
@@ -28,7 +26,9 @@ public class WiredActionBotGiveHandItem extends WiredActionItem {
      * @param rotation The orientation of the item
      * @param data     The JSON object associated with this item
      */
-    public WiredActionBotGiveHandItem(RoomItemData itemData, Room room) {        super(itemData, room);    }
+    public WiredActionBotGiveHandItem(RoomItemData itemData, Room room) {
+        super(itemData, room);
+    }
 
     @Override
     public boolean requiresPlayer() {

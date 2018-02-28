@@ -1,11 +1,8 @@
 package com.cometproject.server.network.messages;
 
-import com.cometproject.api.networking.messages.IMessageEvent;
-import com.cometproject.api.networking.messages.IMessageEventHandler;
-import com.cometproject.api.networking.sessions.ISession;
-import com.cometproject.networking.api.messages.IMessageHandler;
-import com.cometproject.server.boot.Comet;
 import com.cometproject.api.config.Configuration;
+import com.cometproject.api.networking.messages.IMessageEventHandler;
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.composers.gamecenter.GameAccountStatusMessageComposer;
 import com.cometproject.server.composers.gamecenter.GameStatusMessageComposer;
 import com.cometproject.server.composers.gamecenter.LoadGameMessageComposer;
@@ -97,8 +94,8 @@ import com.cometproject.server.network.messages.incoming.room.settings.*;
 import com.cometproject.server.network.messages.incoming.room.trading.*;
 import com.cometproject.server.network.messages.incoming.user.achievements.AchievementsListMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.camera.PhotoPricingMessageEvent;
-import com.cometproject.server.network.messages.incoming.user.camera.RenderRoomMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.camera.PurchasePhotoMessageEvent;
+import com.cometproject.server.network.messages.incoming.user.camera.RenderRoomMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.camera.ThumbnailMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.club.ClubStatusMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.details.*;
@@ -111,11 +108,9 @@ import com.cometproject.server.network.messages.incoming.user.wardrobe.WardrobeM
 import com.cometproject.server.network.messages.incoming.user.youtube.LoadPlaylistMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.youtube.NextVideoMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.youtube.PlayVideoMessageEvent;
-import com.cometproject.server.network.messages.incoming.group.DeleteGroupMessageEvent;
 import com.cometproject.server.network.messages.outgoing.handshake.ConfirmUsernameMessageEvent;
 import com.cometproject.server.network.messages.types.tasks.MessageEventTask;
 import com.cometproject.server.network.sessions.Session;
-import com.cometproject.server.protocol.headers.Composers;
 import com.cometproject.server.protocol.headers.Events;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.google.common.collect.Maps;
@@ -123,7 +118,9 @@ import org.apache.log4j.Logger;
 
 import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ForkJoinPool;
 
 public final class MessageHandler {
     public static Logger log = Logger.getLogger(MessageHandler.class.getName());

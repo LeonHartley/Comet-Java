@@ -3,8 +3,8 @@ package com.cometproject.server.network.messages.outgoing.room.engine;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.RoomWriter;
-import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
+import com.cometproject.server.protocol.messages.MessageComposer;
 
 
 public class RoomDataMessageComposer extends MessageComposer {

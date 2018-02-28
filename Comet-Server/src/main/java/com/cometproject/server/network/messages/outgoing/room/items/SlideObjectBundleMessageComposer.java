@@ -1,9 +1,9 @@
 package com.cometproject.server.network.messages.outgoing.room.items;
 
-import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.api.game.utilities.Position;
-import com.cometproject.server.protocol.messages.MessageComposer;
+import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.protocol.headers.Composers;
+import com.cometproject.server.protocol.messages.MessageComposer;
 
 import java.util.Map;
 
@@ -42,7 +42,7 @@ public class SlideObjectBundleMessageComposer extends MessageComposer {
 
     @Override
     public void compose(IComposer msg) {
-        if(this.items == null) {
+        if (this.items == null) {
             composeLegacy(msg);
             return;
         }
@@ -55,7 +55,7 @@ public class SlideObjectBundleMessageComposer extends MessageComposer {
 
         msg.writeInt(this.items.size());
 
-        for(Map.Entry<Integer, Double> item : this.items.entrySet()) {
+        for (Map.Entry<Integer, Double> item : this.items.entrySet()) {
             msg.writeInt(item.getKey());
 
             // we want to ensure we slide to the same height as we were previously at.
@@ -65,7 +65,7 @@ public class SlideObjectBundleMessageComposer extends MessageComposer {
 
         msg.writeInt(this.rollerItemId);
 
-        if(this.avatarId != 0) {
+        if (this.avatarId != 0) {
             // 1 = mv, 2 = std
             msg.writeInt(2);
 

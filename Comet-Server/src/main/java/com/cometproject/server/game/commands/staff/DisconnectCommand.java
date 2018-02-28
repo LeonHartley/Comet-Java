@@ -11,7 +11,7 @@ public class DisconnectCommand extends ChatCommand {
     public void execute(Session client, String[] params) {
         if (params.length != 1) {
             sendNotif(Locale.getOrDefault("command.disconnect.none", "Who do you want to disconnect?"), client);
-            return;                     
+            return;
         }
 
         String username = params[0];
@@ -41,7 +41,7 @@ public class DisconnectCommand extends ChatCommand {
     public String getPermission() {
         return "disconnect_command";
     }
-    
+
     @Override
     public String getParameter() {
         return Locale.getOrDefault("command.parameter.username", "%username%");

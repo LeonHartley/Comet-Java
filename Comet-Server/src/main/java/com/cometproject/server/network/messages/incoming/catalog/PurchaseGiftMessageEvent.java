@@ -1,11 +1,11 @@
 package com.cometproject.server.network.messages.incoming.catalog;
 
 import com.cometproject.api.game.catalog.types.ICatalogOffer;
-import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.api.game.furniture.types.GiftData;
+import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.network.messages.incoming.Event;
-import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.protocol.messages.MessageEvent;
 
 
 public class PurchaseGiftMessageEvent implements Event {
@@ -14,10 +14,10 @@ public class PurchaseGiftMessageEvent implements Event {
         int pageId = msg.readInt();
         int itemId = msg.readInt();
 
-        if(pageId <= 0) {
+        if (pageId <= 0) {
             final ICatalogOffer catalogOffer = CatalogManager.getInstance().getCatalogOffers().get(itemId);
 
-            if(catalogOffer == null) {
+            if (catalogOffer == null) {
                 return;
             }
 
@@ -34,7 +34,7 @@ public class PurchaseGiftMessageEvent implements Event {
         int decorationType = msg.readInt();
         boolean showUsername = msg.readBoolean();
 
-        if(!CatalogManager.getInstance().getGiftBoxesNew().contains(spriteId) && !CatalogManager.getInstance().getGiftBoxesOld().contains(spriteId)) {
+        if (!CatalogManager.getInstance().getGiftBoxesNew().contains(spriteId) && !CatalogManager.getInstance().getGiftBoxesOld().contains(spriteId)) {
             client.disconnect();
             return;
         }

@@ -11,9 +11,8 @@ import java.util.Random;
 
 
 public class WheelWallItem extends RoomItemWall {
-    private boolean isInUse = false;
-
     private final Random r = new Random();
+    private boolean isInUse = false;
 
     public WheelWallItem(RoomItemData itemData, Room room) {
         super(itemData, room);

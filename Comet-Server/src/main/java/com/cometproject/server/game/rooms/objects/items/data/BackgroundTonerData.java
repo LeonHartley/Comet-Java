@@ -11,6 +11,24 @@ public class BackgroundTonerData {
         this.lightness = lightness;
     }
 
+    public static BackgroundTonerData get(String extradata) {
+        if (!extradata.contains(";#;")) {
+            return null;
+        }
+
+        String[] data = extradata.split(";#;");
+
+        if (data.length < 3) {
+            return null;
+        }
+
+        return new BackgroundTonerData(Integer.parseInt(data[0]), Integer.parseInt(data[1]), Integer.parseInt(data[2]));
+    }
+
+    public static String get(BackgroundTonerData data) {
+        return data.getHue() + ";#;" + data.getSaturation() + ";#;" + data.getLightness();
+    }
+
     public int getHue() {
         return hue;
     }
@@ -33,23 +51,5 @@ public class BackgroundTonerData {
 
     public void setLightness(int lightness) {
         this.lightness = lightness;
-    }
-
-    public static BackgroundTonerData get(String extradata) {
-        if (!extradata.contains(";#;")) {
-            return null;
-        }
-
-        String[] data = extradata.split(";#;");
-
-        if (data.length < 3) {
-            return null;
-        }
-
-        return new BackgroundTonerData(Integer.parseInt(data[0]), Integer.parseInt(data[1]), Integer.parseInt(data[2]));
-    }
-
-    public static String get(BackgroundTonerData data) {
-        return data.getHue() + ";#;" + data.getSaturation() + ";#;" + data.getLightness();
     }
 }

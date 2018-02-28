@@ -1,9 +1,9 @@
 package com.cometproject.server.network.messages.outgoing.room.floor;
 
-import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.api.game.utilities.Position;
-import com.cometproject.server.protocol.messages.MessageComposer;
+import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.protocol.headers.Composers;
+import com.cometproject.server.protocol.messages.MessageComposer;
 
 import java.util.List;
 

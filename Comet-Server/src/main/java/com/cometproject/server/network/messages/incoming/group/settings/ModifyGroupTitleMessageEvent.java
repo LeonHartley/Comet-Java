@@ -2,15 +2,14 @@ package com.cometproject.server.network.messages.incoming.group.settings;
 
 import com.cometproject.api.game.GameContext;
 import com.cometproject.api.game.groups.types.IGroup;
-import com.cometproject.api.game.groups.types.components.membership.IGroupMember;
 import com.cometproject.api.game.groups.types.components.membership.GroupAccessLevel;
+import com.cometproject.api.game.groups.types.components.membership.IGroupMember;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomDataMessageComposer;
-import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
-import com.cometproject.storage.api.StorageContext;
+import com.cometproject.server.protocol.messages.MessageEvent;
 
 
 public class ModifyGroupTitleMessageEvent implements Event {

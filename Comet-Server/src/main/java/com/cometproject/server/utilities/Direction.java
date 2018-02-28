@@ -10,12 +10,11 @@ public enum Direction {
     West,
     NorthWest;
 
+    public static final Direction[] VALUES = Direction.values();
+    public static final Direction NEUTRAL = Direction.East;
     public final int num;
     public final int modX;
     public final int modY;
-
-    public static final Direction[] VALUES = Direction.values();
-    public static final Direction NEUTRAL = Direction.East;
 
     Direction() {
         this.num = this.ordinal();
@@ -75,14 +74,6 @@ public enum Direction {
         }
     }
 
-    public final Direction invert() {
-        return VALUES[(this.num + (VALUES.length / 2)) % VALUES.length];
-    }
-
-    public final Direction transform(Direction dir) {
-        return VALUES[(this.num + dir.num) % VALUES.length];
-    }
-
     public static final Direction get(int num) {
         return VALUES[num];
     }
@@ -104,5 +95,13 @@ public enum Direction {
             if (y < y2) return South;
             else return North;
         }
+    }
+
+    public final Direction invert() {
+        return VALUES[(this.num + (VALUES.length / 2)) % VALUES.length];
+    }
+
+    public final Direction transform(Direction dir) {
+        return VALUES[(this.num + dir.num) % VALUES.length];
     }
 }

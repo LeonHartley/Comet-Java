@@ -1,8 +1,8 @@
 package com.cometproject.server.game.rooms.types.components;
 
+import com.cometproject.api.config.CometSettings;
 import com.cometproject.api.game.groups.types.IGroup;
 import com.cometproject.server.boot.Comet;
-import com.cometproject.api.config.CometSettings;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.types.RoomBan;
 import com.cometproject.server.game.rooms.types.components.types.RoomMute;
@@ -26,7 +26,7 @@ public class RightsComponent {
         this.room = room;
 
         try {
-            if(room.getCachedData() != null) {
+            if (room.getCachedData() != null) {
                 this.rights = room.getCachedData().getRights();
             } else {
                 this.rights = RightsDao.getRightsByRoomId(room.getId());
@@ -78,7 +78,7 @@ public class RightsComponent {
             }
         }
 
-        if(this.hasRights(playerId, false) && CometSettings.playerRightsItemPlacement) {
+        if (this.hasRights(playerId, false) && CometSettings.playerRightsItemPlacement) {
             return true;
         }
 
@@ -122,7 +122,7 @@ public class RightsComponent {
     }
 
     public int getMuteTime(int playerId) {
-        if(this.hasMute(playerId)) {
+        if (this.hasMute(playerId)) {
             return this.mutedPlayers.get(playerId).getTicksLeft() / 2;
         }
 

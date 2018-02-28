@@ -3,15 +3,15 @@ package com.cometproject.server.network.messages.incoming.room.action;
 import com.cometproject.api.game.rooms.entities.RoomEntityStatus;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.room.permissions.FloodFilterMessageComposer;
-import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.protocol.messages.MessageEvent;
 
 
 public class ApplySignMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) {
         if (client.getPlayer() == null || client.getPlayer().getEntity() == null) return;
 
-        if(!client.getPlayer().getEntity().isVisible()) {
+        if (!client.getPlayer().getEntity().isVisible()) {
             return;
         }
 
@@ -37,7 +37,7 @@ public class ApplySignMessageEvent implements Event {
 
             client.getPlayer().setRoomLastMessageTime(time);
         }
-        
+
         // / UnIdle the entity
         client.getPlayer().getEntity().unIdle();
 

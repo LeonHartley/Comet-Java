@@ -2,19 +2,18 @@ package com.cometproject.server.network.messages.incoming.group;
 
 import com.cometproject.api.config.CometSettings;
 import com.cometproject.api.game.GameContext;
-import com.cometproject.api.game.groups.types.IGroup;
-import com.cometproject.server.composers.group.GroupBadgesMessageComposer;
-
-import com.cometproject.api.game.groups.types.components.membership.GroupAccessLevel;
 import com.cometproject.api.game.groups.types.GroupType;
+import com.cometproject.api.game.groups.types.IGroup;
+import com.cometproject.api.game.groups.types.components.membership.GroupAccessLevel;
+import com.cometproject.api.game.rooms.entities.RoomEntityStatus;
+import com.cometproject.server.composers.group.GroupBadgesMessageComposer;
 import com.cometproject.server.composers.group.GroupInformationMessageComposer;
 import com.cometproject.server.game.rooms.RoomManager;
-import com.cometproject.api.game.rooms.entities.RoomEntityStatus;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.messenger.UpdateFriendStateMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.permissions.YouAreControllerMessageComposer;
-import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.storage.mysql.models.factories.GroupMemberFactory;
 
 
@@ -23,7 +22,7 @@ public class JoinGroupMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) throws Exception {
         int groupId = msg.readInt();
 
-        if(client.getPlayer().getGroups().size() >= 100) {
+        if (client.getPlayer().getGroups().size() >= 100) {
             return;
         }
 

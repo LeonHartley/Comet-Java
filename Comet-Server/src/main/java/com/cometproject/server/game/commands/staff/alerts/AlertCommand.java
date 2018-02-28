@@ -29,7 +29,7 @@ public class AlertCommand extends ChatCommand {
     public String getPermission() {
         return "alert_command";
     }
-    
+
     @Override
     public String getParameter() {
         return Locale.getOrDefault("command.parameter.name" + " " + "command.parameter.message", "%username% %message%");

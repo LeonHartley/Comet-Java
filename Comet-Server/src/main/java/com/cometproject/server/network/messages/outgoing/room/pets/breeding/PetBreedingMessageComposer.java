@@ -4,8 +4,8 @@ import com.cometproject.api.game.pets.IPetData;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.pets.PetManager;
 import com.cometproject.server.game.pets.races.PetBreedLevel;
-import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
+import com.cometproject.server.protocol.messages.MessageComposer;
 
 import java.util.Map;
 import java.util.Set;
@@ -48,7 +48,7 @@ public class PetBreedingMessageComposer extends MessageComposer {
         msg.writeString(this.father.getColour());
         msg.writeString(this.father.getOwnerName());
 
-        if(!PetManager.getInstance().getPetBreedPallets().containsKey(this.babyType)) {
+        if (!PetManager.getInstance().getPetBreedPallets().containsKey(this.babyType)) {
             msg.writeInt(0);//levels
         } else {
             final Map<PetBreedLevel, Set<Integer>> availableBreeds = PetManager.getInstance().getPetBreedPallets().get(this.babyType);
@@ -59,28 +59,28 @@ public class PetBreedingMessageComposer extends MessageComposer {
             msg.writeInt(1); // 1% probability
             msg.writeInt(availableBreeds.get(PetBreedLevel.EPIC).size());
 
-            for(Integer palletId : availableBreeds.get(PetBreedLevel.EPIC)) {
+            for (Integer palletId : availableBreeds.get(PetBreedLevel.EPIC)) {
                 msg.writeInt(palletId);
             }
 
             msg.writeInt(2); // 2% probability
             msg.writeInt(availableBreeds.get(PetBreedLevel.RARE).size());
 
-            for(Integer palletId : availableBreeds.get(PetBreedLevel.RARE)) {
+            for (Integer palletId : availableBreeds.get(PetBreedLevel.RARE)) {
                 msg.writeInt(palletId);
             }
 
             msg.writeInt(5); // 5% probability
             msg.writeInt(availableBreeds.get(PetBreedLevel.UNCOMMON).size());
 
-            for(Integer palletId : availableBreeds.get(PetBreedLevel.UNCOMMON)) {
+            for (Integer palletId : availableBreeds.get(PetBreedLevel.UNCOMMON)) {
                 msg.writeInt(palletId);
             }
 
             msg.writeInt(92); // 92% probability
             msg.writeInt(availableBreeds.get(PetBreedLevel.COMMON).size());
 
-            for(Integer palletId : availableBreeds.get(PetBreedLevel.COMMON)) {
+            for (Integer palletId : availableBreeds.get(PetBreedLevel.COMMON)) {
                 msg.writeInt(palletId);
             }
         }

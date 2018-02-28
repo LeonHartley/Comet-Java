@@ -1,7 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.games.freeze;
 
 import com.cometproject.api.game.rooms.objects.data.RoomItemData;
-import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.games.AbstractGameGateFloorItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.games.GameTeam;
@@ -17,11 +16,11 @@ public class FreezeGateFloorItem extends AbstractGameGateFloorItem {
 
         this.getItemData().setData("0");
 
-        if(itemName.endsWith("y")) {
+        if (itemName.endsWith("y")) {
             this.gameTeam = GameTeam.YELLOW;
-        } else if(itemName.endsWith("b")) {
+        } else if (itemName.endsWith("b")) {
             this.gameTeam = GameTeam.BLUE;
-        } else if(itemName.endsWith("r")) {
+        } else if (itemName.endsWith("r")) {
             this.gameTeam = GameTeam.RED;
         } else {
             this.gameTeam = GameTeam.GREEN;

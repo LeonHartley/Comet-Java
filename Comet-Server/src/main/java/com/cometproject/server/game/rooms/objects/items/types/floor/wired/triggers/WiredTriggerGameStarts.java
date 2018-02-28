@@ -12,16 +12,6 @@ public class WiredTriggerGameStarts extends WiredTriggerItem {
         super(itemData, room);
     }
 
-    @Override
-    public boolean suppliesPlayer() {
-        return false;
-    }
-
-    @Override
-    public int getInterface() {
-        return 9;
-    }
-
     public static boolean executeTriggers(Room room) {
         boolean wasExecuted = false;
 
@@ -32,5 +22,15 @@ public class WiredTriggerGameStarts extends WiredTriggerItem {
         }
 
         return wasExecuted;
+    }
+
+    @Override
+    public boolean suppliesPlayer() {
+        return false;
+    }
+
+    @Override
+    public int getInterface() {
+        return 9;
     }
 }

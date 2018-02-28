@@ -14,8 +14,8 @@ import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.MutedMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.WhisperMessageComposer;
-import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.protocol.messages.MessageEvent;
 
 
 public class WhisperMessageEvent implements Event {
@@ -24,17 +24,17 @@ public class WhisperMessageEvent implements Event {
 
         String user = text.split(" ")[0];
         String message = text.substring(user.length() + 1);
-		
+
         final int timeMutedExpire = client.getPlayer().getData().getTimeMuted() - (int) Comet.getTime();
 
         if (client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null) {
             return;
         }
 
-        if(!client.getPlayer().getEntity().isVisible()) {
+        if (!client.getPlayer().getEntity().isVisible()) {
             return;
         }
-		
+
         if (client.getPlayer().getData().getTimeMuted() != 0) {
             if (client.getPlayer().getData().getTimeMuted() > (int) Comet.getTime()) {
                 client.getPlayer().getSession().send(new MutedMessageComposer(timeMutedExpire));
@@ -48,7 +48,7 @@ public class WhisperMessageEvent implements Event {
 
         if (userTo == null || user.equals(client.getPlayer().getData().getUsername()))
             return;
-            
+
         if (!((PlayerEntity) userTo).getPlayer().getEntity().isVisible())
             return;
 

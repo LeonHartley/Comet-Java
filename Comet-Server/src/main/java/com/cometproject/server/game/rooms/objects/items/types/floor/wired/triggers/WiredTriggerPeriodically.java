@@ -1,9 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers;
 
 import com.cometproject.api.game.rooms.objects.data.RoomItemData;
-import com.cometproject.server.boot.Comet;
-import com.cometproject.server.boot.CometServer;
-import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredTriggerItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.events.WiredItemEvent;
 import com.cometproject.server.game.rooms.types.Room;
@@ -52,7 +49,7 @@ public class WiredTriggerPeriodically extends WiredTriggerItem {
     public int getTickCount() {
         int tickLength = this.getWiredData().getParams().get(PARAM_TICK_LENGTH);
 
-        if(tickLength <= 0) {
+        if (tickLength <= 0) {
             tickLength = 2;
         }
 

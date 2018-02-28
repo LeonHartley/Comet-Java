@@ -1,13 +1,11 @@
 package com.cometproject.server.storage.queries.player;
 
-import com.cometproject.server.game.catalog.types.ClothingItem;
 import com.cometproject.server.storage.SqlHelper;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Map;
 import java.util.Set;
 
 public class PlayerClothingDao {

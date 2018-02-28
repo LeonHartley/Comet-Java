@@ -14,7 +14,7 @@ public class GetPollMessageEvent implements Event {
 
         Poll poll = PollManager.getInstance().getPollbyId(pollId);
 
-        if(poll == null) {
+        if (poll == null) {
             return;
         }
 

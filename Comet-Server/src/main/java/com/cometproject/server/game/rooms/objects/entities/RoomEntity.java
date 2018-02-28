@@ -1,6 +1,7 @@
 package com.cometproject.server.game.rooms.objects.entities;
 
 import com.cometproject.api.game.rooms.entities.RoomEntityStatus;
+import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.objects.RoomFloorObject;
 import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Square;
@@ -10,7 +11,6 @@ import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.ai.BotAI;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
-import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.objects.items.types.floor.SeatFloorItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.RoomEntityMovementNode;
@@ -25,42 +25,30 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity {
+    public int updatePhase = 0;
+    public boolean needsForcedUpdate = false;
     private RoomEntityType entityType;
-
     private Position walkingGoal;
     private Position positionToSet;
-
     private int bodyRotation;
     private int headRotation;
-
     private List<Square> processingPath;
     private List<Square> walkingPath;
-
     private Square futureSquare;
-
     private int previousSteps = 0;
-
     private int idleTime;
     private int signTime;
-
     private int danceId;
-
     private PlayerEffect teamEffect;
     private PlayerEffect lastEffect;
     private PlayerEffect effect;
-
     private int handItem;
     private int handItemTimer;
-
     private boolean needsUpdate;
     private boolean isMoonwalking;
     private boolean overriden;
     private boolean isVisible;
-
     private boolean cancelNextUpdate;
-
-    public int updatePhase = 0;
-    public boolean needsForcedUpdate = false;
     private boolean doorbellAnswered;
     private boolean walkCancelled = false;
     private boolean canWalk = true;
@@ -80,6 +68,8 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
 
     private boolean fastWalkEnabled = false;
     private boolean isWarped;
+    private boolean sendUpdateMessage = true;
+    private boolean hasMount = false;
 
     public RoomEntity(int identifier, Position startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
         super(identifier, startPosition, roomInstance);
@@ -244,7 +234,7 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
         if (!this.hasStatus(RoomEntityStatus.SIT) && !this.hasStatus(RoomEntityStatus.LAY)) {
             if (rotationDifference == 1 || rotationDifference == -1 || rotationDifference == -7) {
                 this.setHeadRotation(rotation);
-            } else if(body) {
+            } else if (body) {
                 this.setHeadRotation(rotation);
                 this.setBodyRotation(rotation);
             }
@@ -372,8 +362,6 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
         this.sendUpdateMessage = sendUpdateMessage;
     }
 
-    private boolean sendUpdateMessage = true;
-
     public void markNeedsUpdate(boolean sendMessage) {
         this.needsUpdate = true;
         this.sendUpdateMessage = sendMessage;
@@ -491,10 +479,6 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
     @Override
     public PlayerEffect getCurrentEffect() {
         return this.effect;
-    }
-
-    public void setLastEffect(PlayerEffect lastEffect) {
-        this.lastEffect = lastEffect;
     }
 
     @Override
@@ -637,7 +621,7 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
             tile.getEntities().add(this);
 
             if (tile.getTopItemInstance() != null) {
-                if(tile.getTopItemInstance() instanceof SeatFloorItem)
+                if (tile.getTopItemInstance() instanceof SeatFloorItem)
                     ((SeatFloorItem) tile.getTopItemInstance()).onEntityStepOn(this, false);
                 else
                     tile.getTopItemInstance().onEntityStepOn(this);
@@ -684,6 +668,10 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
         return lastEffect;
     }
 
+    public void setLastEffect(PlayerEffect lastEffect) {
+        this.lastEffect = lastEffect;
+    }
+
     public boolean isWalkCancelled() {
         return walkCancelled;
     }
@@ -705,8 +693,6 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
     public void setMountedEntity(RoomEntity mountedEntity) {
         this.mountedEntity = mountedEntity;
     }
-
-    private boolean hasMount = false;
 
     public boolean hasMount() {
         return hasMount;

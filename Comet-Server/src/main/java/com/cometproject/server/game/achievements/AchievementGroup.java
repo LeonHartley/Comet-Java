@@ -1,8 +1,8 @@
 package com.cometproject.server.game.achievements;
 
+import com.cometproject.api.game.achievements.types.AchievementCategory;
 import com.cometproject.api.game.achievements.types.IAchievement;
 import com.cometproject.api.game.achievements.types.IAchievementGroup;
-import com.cometproject.api.game.achievements.types.AchievementCategory;
 
 import java.util.Map;
 

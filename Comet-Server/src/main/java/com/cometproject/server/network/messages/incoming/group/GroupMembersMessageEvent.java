@@ -5,19 +5,13 @@ import com.cometproject.api.game.groups.types.IGroup;
 import com.cometproject.api.game.groups.types.components.membership.IGroupMember;
 import com.cometproject.api.game.players.data.PlayerAvatar;
 import com.cometproject.server.composers.group.GroupMembersMessageComposer;
-
 import com.cometproject.server.game.players.PlayerManager;
-import com.cometproject.server.game.players.types.Player;
-import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
-import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.incoming.Event;
-import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
-import com.cometproject.server.storage.queries.player.PlayerDao;
+import com.cometproject.server.protocol.messages.MessageEvent;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -40,32 +34,35 @@ public class GroupMembersMessageEvent implements Event {
 
         switch (requestType) {
             default: {
-                for(IGroupMember groupMember : group.getMembers().getMembersAsList()) {
+                for (IGroupMember groupMember : group.getMembers().getMembersAsList()) {
                     addPlayerAvatar(groupMember.getPlayerId(), playerAvatars, (playerAvatar -> {
                         playerAvatar.tempData(groupMember);
                     }));
                 }
-            } break;
+            }
+            break;
             case 1: {
-                for(Integer adminId : group.getMembers().getAdministrators()) {
+                for (Integer adminId : group.getMembers().getAdministrators()) {
                     addPlayerAvatar(adminId, playerAvatars);
                 }
 
-            } break;
+            }
+            break;
 
             case 2: {
-                for(Integer requestPlayerId : group.getMembers().getMembershipRequests()) {
+                for (Integer requestPlayerId : group.getMembers().getMembershipRequests()) {
                     addPlayerAvatar(requestPlayerId, playerAvatars);
                 }
-            } break;
+            }
+            break;
 
         }
 
         final Set<PlayerAvatar> playersToRemove = Sets.newHashSet();
 
-        if(!searchQuery.isEmpty()) {
-            for(PlayerAvatar playerAvatar : playerAvatars) {
-                if(!playerAvatar.getUsername().toLowerCase().startsWith(searchQuery.toLowerCase())) {
+        if (!searchQuery.isEmpty()) {
+            for (PlayerAvatar playerAvatar : playerAvatars) {
+                if (!playerAvatar.getUsername().toLowerCase().startsWith(searchQuery.toLowerCase())) {
                     playersToRemove.add(playerAvatar);
                 }
             }
@@ -80,8 +77,8 @@ public class GroupMembersMessageEvent implements Event {
 
         final PlayerAvatar playerAvatar = PlayerManager.getInstance().getAvatarByPlayerId(playerId, PlayerAvatar.USERNAME_FIGURE);
 
-        if(playerAvatar != null) {
-            if(avatarConsumer != null) {
+        if (playerAvatar != null) {
+            if (avatarConsumer != null) {
                 avatarConsumer.accept(playerAvatar);
             }
 

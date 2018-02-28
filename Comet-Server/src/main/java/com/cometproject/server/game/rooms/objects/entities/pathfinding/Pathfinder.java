@@ -1,9 +1,9 @@
 package com.cometproject.server.game.rooms.objects.entities.pathfinding;
 
+import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.objects.RoomObject;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
-import com.cometproject.api.game.utilities.Position;
 import com.google.common.collect.Lists;
 import com.google.common.collect.MinMaxPriorityQueue;
 
@@ -14,6 +14,22 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public abstract class Pathfinder {
     public static final byte DISABLE_DIAGONAL = 0;
     public static final byte ALLOW_DIAGONAL = 1;
+    private final Position[] diagonalMovePoints = {
+            new Position(-1, -1),
+            new Position(0, -1),
+            new Position(1, 1),
+            new Position(0, 1),
+            new Position(1, -1),
+            new Position(1, 0),
+            new Position(-1, 1),
+            new Position(-1, 0)
+    };
+    private final Position[] movePoints = new Position[]{
+            new Position(0, -1),
+            new Position(1, 0),
+            new Position(0, 1),
+            new Position(-1, 0)
+    };
 
     public List<Square> makePath(RoomObject roomFloorObject, Position end) {
         return this.makePath(roomFloorObject, end, ALLOW_DIAGONAL, false);
@@ -116,22 +132,4 @@ public abstract class Pathfinder {
                 from, to, lastStep, roomObject instanceof RoomItemFloor, isRetry) ||
                 (roomObject instanceof RoomEntity && ((RoomEntity) roomObject).isOverriden()));
     }
-
-    private final Position[] diagonalMovePoints = {
-            new Position(-1, -1),
-            new Position(0, -1),
-            new Position(1, 1),
-            new Position(0, 1),
-            new Position(1, -1),
-            new Position(1, 0),
-            new Position(-1, 1),
-            new Position(-1, 0)
-    };
-
-    private final Position[] movePoints = new Position[]{
-            new Position(0, -1),
-            new Position(1, 0),
-            new Position(0, 1),
-            new Position(-1, 0)
-    };
 }

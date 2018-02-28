@@ -2,8 +2,8 @@ package com.cometproject.server.network.messages.outgoing.moderation;
 
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.logging.entries.RoomChatLogEntry;
-import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
+import com.cometproject.server.protocol.messages.MessageComposer;
 
 import java.util.List;
 

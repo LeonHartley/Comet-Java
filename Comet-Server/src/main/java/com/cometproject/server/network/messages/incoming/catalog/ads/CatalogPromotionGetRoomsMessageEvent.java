@@ -2,11 +2,11 @@ package com.cometproject.server.network.messages.incoming.catalog.ads;
 
 import com.cometproject.api.game.rooms.IRoomData;
 import com.cometproject.api.game.rooms.settings.RoomAccessType;
+import com.cometproject.server.composers.catalog.ads.CatalogPromotionGetRoomsMessageComposer;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.network.messages.incoming.Event;
-import com.cometproject.server.composers.catalog.ads.CatalogPromotionGetRoomsMessageComposer;
-import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.protocol.messages.MessageEvent;
 import com.google.common.collect.Lists;
 
 import java.util.List;

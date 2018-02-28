@@ -8,7 +8,6 @@ import com.cometproject.server.game.moderation.types.BanType;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.sessions.Session;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
@@ -47,10 +46,10 @@ public class AdvBanCommand extends ChatCommand {
 
         List<Integer> playerIds = PlayerManager.getInstance().getPlayerIdsByIpAddress(ipAddress);
 
-        for(int playerId : playerIds) {
+        for (int playerId : playerIds) {
             Session player = NetworkManager.getInstance().getSessions().getByPlayerId(playerId);
 
-            if(player != null) {
+            if (player != null) {
                 player.disconnect("banned");
             }
         }

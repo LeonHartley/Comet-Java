@@ -1,7 +1,7 @@
 package com.cometproject.server.network.messages.incoming.room.moderation;
 
-import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.api.game.rooms.entities.RoomEntityStatus;
+import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.room.permissions.YouAreControllerMessageComposer;
 import com.cometproject.server.network.sessions.Session;

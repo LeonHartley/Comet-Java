@@ -11,11 +11,11 @@ public class ToggleFavouriteRoomMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) throws Exception {
         final int roomId = msg.readInt();
 
-        if(client.getPlayer() == null || client.getPlayer().getNavigator() == null) {
+        if (client.getPlayer() == null || client.getPlayer().getNavigator() == null) {
             return;
         }
 
-        if(client.getPlayer().getNavigator().getFavouriteRooms().contains(roomId)) {
+        if (client.getPlayer().getNavigator().getFavouriteRooms().contains(roomId)) {
             client.getPlayer().getNavigator().getFavouriteRooms().remove(roomId);
             PlayerDao.deleteFavouriteRoom(client.getPlayer().getId(), roomId);
         } else {

@@ -1,15 +1,11 @@
 package com.cometproject.server.network;
 
-import com.cometproject.api.networking.sessions.SessionManagerAccessor;
 import com.cometproject.networking.api.sessions.INetSessionFactory;
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.network.clients.ClientHandler;
 import com.cometproject.server.network.sessions.SessionAccessLog;
-import com.cometproject.server.network.sessions.SessionManager;
 import com.cometproject.server.protocol.codec.MessageDecoder;
 import com.cometproject.server.protocol.codec.MessageEncoder;
 import com.cometproject.server.protocol.codec.XMLPolicyDecoder;
-import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.string.StringEncoder;
@@ -43,10 +39,10 @@ public class NetworkChannelInitializer extends ChannelInitializer<SocketChannel>
 
         final Map<String, SessionAccessLog> accessLog = NetworkManager.getInstance().getSessions().getAccessLog();
 
-        if(NetworkManager.getInstance().getSessions().getAccessLog().containsKey(ipAddress)) {
+        if (NetworkManager.getInstance().getSessions().getAccessLog().containsKey(ipAddress)) {
             final SessionAccessLog sessionAccessLog = accessLog.get(ipAddress);
 
-            if(sessionAccessLog.isSuspicious()) {
+            if (sessionAccessLog.isSuspicious()) {
                 ch.disconnect();
                 log.warn(String.format("Client denied, address: %s", ipAddress));
                 return;

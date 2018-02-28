@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.types.components;
 
+import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityType;
@@ -8,12 +9,11 @@ import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.TeleporterFloorItem;
-import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.types.RoomMessageType;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
-import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.settings.RoomRatingMessageComposer;
+import com.cometproject.server.protocol.messages.MessageComposer;
 import com.google.common.collect.Lists;
 import org.apache.log4j.Logger;
 
@@ -27,15 +27,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class EntityComponent {
     private static Logger log = Logger.getLogger(EntityComponent.class.getName());
-
-    private Room room;
-
-    private AtomicInteger entityIdGenerator = new AtomicInteger();
     private final Map<Integer, RoomEntity> entities = new ConcurrentHashMap<>();
-
     private final Map<Integer, Integer> playerIdToEntity = new ConcurrentHashMap<>();
     private final Map<Integer, Integer> botIdToEntity = new ConcurrentHashMap<>();
     private final Map<Integer, Integer> petIdToEntity = new ConcurrentHashMap<>();
+    private Room room;
+    private AtomicInteger entityIdGenerator = new AtomicInteger();
 
     public EntityComponent(Room room) {
         this.room = room;
@@ -66,8 +63,8 @@ public class EntityComponent {
         RoomTile tile = this.getRoom().getMapping().getTile(position.getX(), position.getY());
 
         if (tile != null) {
-            for(RoomEntity entity : tile.getEntities()) {
-                if(!ignoredEntities.contains(entity)) return true;
+            for (RoomEntity entity : tile.getEntities()) {
+                if (!ignoredEntities.contains(entity)) return true;
             }
         }
 
@@ -161,11 +158,11 @@ public class EntityComponent {
                     continue;
                 }
 
-                if(type == RoomMessageType.BOT_CHAT && playerEntity.getPlayer().botsMuted()) {
+                if (type == RoomMessageType.BOT_CHAT && playerEntity.getPlayer().botsMuted()) {
                     continue;
                 }
 
-                if(type == RoomMessageType.PET_CHAT && playerEntity.getPlayer().petsMuted()) {
+                if (type == RoomMessageType.PET_CHAT && playerEntity.getPlayer().petsMuted()) {
                     continue;
                 }
 
@@ -336,14 +333,14 @@ public class EntityComponent {
         try {
             for (RoomEntity entity : this.entities.values()) {
                 if (entity instanceof PlayerEntity && entity.isVisible()) {
-                    if(!countedEntities.contains(((PlayerEntity) entity).getPlayerId())) {
+                    if (!countedEntities.contains(((PlayerEntity) entity).getPlayerId())) {
                         countedEntities.add(((PlayerEntity) entity).getPlayerId());
                     }
                 }
             }
 
             return countedEntities.size();
-        } catch(Exception e) {
+        } catch (Exception e) {
             return 0;
         } finally {
             countedEntities.clear();

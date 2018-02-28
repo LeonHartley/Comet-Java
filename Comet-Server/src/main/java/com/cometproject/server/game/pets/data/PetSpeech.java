@@ -1,6 +1,5 @@
 package com.cometproject.server.game.pets.data;
 
-import com.cometproject.server.game.pets.PetManager;
 import com.cometproject.server.utilities.RandomUtil;
 
 import java.util.HashMap;
@@ -17,7 +16,7 @@ public class PetSpeech {
     public String getMessageByType(PetMessageType type) {
         final List<String> availableMessages = messages.get(type);
 
-        if(availableMessages == null || availableMessages.size() == 0) {
+        if (availableMessages == null || availableMessages.size() == 0) {
             return null;
 //
 //            final String genericPetMsg = PetManager.getInstance().getSpeech(-1).getMessageByType(type);

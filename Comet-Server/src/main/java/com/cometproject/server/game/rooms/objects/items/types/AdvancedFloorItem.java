@@ -4,11 +4,9 @@ import com.cometproject.api.game.rooms.objects.data.RoomItemData;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.state.FloorItemEvent;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.tasks.CometThreadManager;
 import com.cometproject.server.utilities.collections.ConcurrentHashSet;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public abstract class AdvancedFloorItem<T extends FloorItemEvent> extends RoomItemFloor {

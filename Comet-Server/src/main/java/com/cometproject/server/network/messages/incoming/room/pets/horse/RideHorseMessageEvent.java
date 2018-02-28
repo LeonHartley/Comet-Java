@@ -1,9 +1,9 @@
 package com.cometproject.server.network.messages.incoming.room.pets.horse;
 
+import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
-import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.utilities.DistanceCalculator;
 import com.cometproject.server.network.messages.incoming.Event;
@@ -72,11 +72,11 @@ public class RideHorseMessageEvent implements Event {
             return;
         }
 
-        if(horse.getData().getOwnerId() != client.getPlayer().getId() && !horse.getData().isAnyRider()) {
+        if (horse.getData().getOwnerId() != client.getPlayer().getId() && !horse.getData().isAnyRider()) {
             return;
         }
 
-        if(horse.getMountedEntity() != null) {
+        if (horse.getMountedEntity() != null) {
             return;
         }
 

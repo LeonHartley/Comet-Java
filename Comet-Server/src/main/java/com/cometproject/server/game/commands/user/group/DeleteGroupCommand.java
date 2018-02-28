@@ -12,7 +12,6 @@ import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
 import com.cometproject.server.network.sessions.Session;
-import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import com.cometproject.storage.api.StorageContext;
 import com.google.common.collect.Lists;
 
@@ -103,7 +102,7 @@ public class DeleteGroupCommand extends ChatCommand {
     public String getParameter() {
         return "";
     }
-    
+
     @Override
     public String getDescription() {
         return Locale.get("command.deletegroup.description");

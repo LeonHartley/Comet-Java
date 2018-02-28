@@ -75,7 +75,7 @@ public class AddUserToRoomMessageEvent implements Event {
         client.sendQueue(new RoomEntryInfoMessageComposer(room.getId(), room.getData().getOwnerId() == client.getPlayer().getId() || client.getPlayer().getPermissions().getRank().roomFullControl()));
         client.sendQueue(new AvatarsMessageComposer(room));
 
-        if(client.getPlayer().getInventory().getEquippedEffect() != -1) {
+        if (client.getPlayer().getInventory().getEquippedEffect() != -1) {
             client.getPlayer().getEntity().applyEffect(new PlayerEffect(client.getPlayer().getInventory().getEquippedEffect(), false));
         }
 

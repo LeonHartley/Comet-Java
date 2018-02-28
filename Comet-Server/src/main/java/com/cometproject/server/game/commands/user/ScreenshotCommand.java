@@ -14,7 +14,7 @@ public class ScreenshotCommand extends ChatCommand {
     public String getPermission() {
         return "dev";
     }
-    
+
     @Override
     public String getParameter() {
         return "";

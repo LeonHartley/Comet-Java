@@ -1,13 +1,12 @@
 package com.cometproject.server.network.messages.incoming.messenger;
 
+import com.cometproject.api.config.CometSettings;
 import com.cometproject.api.game.GameContext;
 import com.cometproject.api.game.groups.types.IGroup;
 import com.cometproject.api.game.players.data.components.messenger.IMessengerFriend;
 import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.server.boot.Comet;
-import com.cometproject.api.config.CometSettings;
 import com.cometproject.server.config.Locale;
-
 import com.cometproject.server.game.moderation.ModerationManager;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.filter.FilterResult;
@@ -81,11 +80,11 @@ public class PrivateChatMessageEvent implements Event {
             return;
         }
 
-        if(userId < 0 && CometSettings.groupChatEnabled) {
+        if (userId < 0 && CometSettings.groupChatEnabled) {
             final int groupId = -userId;
             final IGroup group = GameContext.getCurrent().getGroupService().getGroup(groupId);
 
-            if(group != null && client.getPlayer().getGroups().contains(groupId)) {
+            if (group != null && client.getPlayer().getGroups().contains(groupId)) {
                 group.getMembers().broadcastMessage(NetworkManager.getInstance().getSessions(), new InstantChatMessageComposer(message, userId, client.getPlayer().getData().getUsername(), client.getPlayer().getData().getFigure(), client.getPlayer().getId()), client.getPlayer().getId());
             }
 

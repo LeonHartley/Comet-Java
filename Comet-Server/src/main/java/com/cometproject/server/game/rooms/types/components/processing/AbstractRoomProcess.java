@@ -2,8 +2,9 @@ package com.cometproject.server.game.rooms.types.components.processing;
 
 import com.cometproject.api.config.CometSettings;
 import com.cometproject.api.game.quests.QuestType;
-import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.api.game.rooms.entities.RoomEntityStatus;
+import com.cometproject.api.game.utilities.Position;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityType;
 import com.cometproject.server.game.rooms.objects.entities.WiredTriggerExecutor;
 import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
@@ -17,7 +18,6 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.TeleportPadF
 import com.cometproject.server.game.rooms.objects.items.types.floor.pet.breeding.BreedingBoxFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerWalksOffFurni;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerWalksOnFurni;
-import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer;
@@ -84,7 +84,7 @@ public abstract class AbstractRoomProcess implements CometTask {
         long timeStart = System.currentTimeMillis();
 
         try {
-            if(this.update)
+            if (this.update)
                 this.getRoom().tick();
         } catch (Exception e) {
             log.error("Error while cycling room: " + room.getData().getId() + ", " + room.getData().getName(), e);
@@ -97,7 +97,7 @@ public abstract class AbstractRoomProcess implements CometTask {
             entitiesToUpdate = new ArrayList<>();
 
             for (RoomEntity entity : entities.values()) {
-                if(entity.isFastWalkEnabled() || this.update)
+                if (entity.isFastWalkEnabled() || this.update)
                     this.startProcessing(entity);
             }
 
@@ -252,7 +252,7 @@ public abstract class AbstractRoomProcess implements CometTask {
                     }
                 }
 
-                if(entity.isWarped()) {
+                if (entity.isWarped()) {
                     entity.setWarped(false);
                 }
 
@@ -301,7 +301,7 @@ public abstract class AbstractRoomProcess implements CometTask {
             entity.updateAndSetPosition(null);
             entity.setPosition(newPosition);
 
-            if(entity instanceof BotEntity) {
+            if (entity instanceof BotEntity) {
                 entity.getAI().onReachedTile(newTile);
             }
 
@@ -482,8 +482,8 @@ public abstract class AbstractRoomProcess implements CometTask {
                         isCancelled = false;
                     }
 
-                    if(entityOnTile instanceof PetEntity && entity instanceof PetEntity) {
-                        if(entityOnTile.getTile().getTopItemInstance() instanceof BreedingBoxFloorItem) {
+                    if (entityOnTile instanceof PetEntity && entity instanceof PetEntity) {
+                        if (entityOnTile.getTile().getTopItemInstance() instanceof BreedingBoxFloorItem) {
                             isCancelled = false;
                         }
                     }

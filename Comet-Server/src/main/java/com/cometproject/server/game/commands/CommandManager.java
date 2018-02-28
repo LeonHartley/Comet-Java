@@ -1,6 +1,7 @@
 package com.cometproject.server.game.commands;
 
 import com.cometproject.api.commands.CommandInfo;
+import com.cometproject.api.utilities.Initialisable;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.development.*;
@@ -11,11 +12,7 @@ import com.cometproject.server.game.commands.gimmicks.SlapCommand;
 import com.cometproject.server.game.commands.notifications.NotificationManager;
 import com.cometproject.server.game.commands.staff.*;
 import com.cometproject.server.game.commands.staff.alerts.*;
-import com.cometproject.server.game.commands.staff.banning.BanCommand;
-import com.cometproject.server.game.commands.staff.banning.IpBanCommand;
-import com.cometproject.server.game.commands.staff.banning.MachineBanCommand;
-import com.cometproject.server.game.commands.staff.banning.SoftBanCommand;
-import com.cometproject.server.game.commands.staff.banning.AdvBanCommand;
+import com.cometproject.server.game.commands.staff.banning.*;
 import com.cometproject.server.game.commands.staff.bundles.BundleCommand;
 import com.cometproject.server.game.commands.staff.cache.ReloadCommand;
 import com.cometproject.server.game.commands.staff.cache.ReloadGroupCommand;
@@ -46,7 +43,6 @@ import com.cometproject.server.logging.LogManager;
 import com.cometproject.server.logging.entries.CommandLogEntry;
 import com.cometproject.server.modules.ModuleManager;
 import com.cometproject.server.network.sessions.Session;
-import com.cometproject.api.utilities.Initialisable;
 import com.google.common.collect.Lists;
 import org.apache.log4j.Logger;
 
@@ -72,6 +68,14 @@ public class CommandManager implements Initialisable {
 
     }
 
+    public static CommandManager getInstance() {
+        if (commandManagerInstance == null) {
+            commandManagerInstance = new CommandManager();
+        }
+
+        return commandManagerInstance;
+    }
+
     @Override
     public void initialize() {
         this.commands = new HashMap<>();
@@ -81,14 +85,6 @@ public class CommandManager implements Initialisable {
 
         this.notifications = new NotificationManager();
         log.info("CommandManager initialized");
-    }
-
-    public static CommandManager getInstance() {
-        if (commandManagerInstance == null) {
-            commandManagerInstance = new CommandManager();
-        }
-
-        return commandManagerInstance;
     }
 
     public void reloadAllCommands() {
@@ -206,7 +202,7 @@ public class CommandManager implements Initialisable {
         this.addCommand(Locale.get("command.notification.name"), new NotificationCommand());
         this.addCommand(Locale.get("command.quickpoll.name"), new QuickPollCommand());
         this.addCommand(Locale.get("command.roomoption.name"), new RoomOptionCommand());
-        
+
         // New
         this.addCommand(Locale.get("command.advban.name"), new AdvBanCommand());
         this.addCommand(Locale.get("command.softban.name"), new SoftBanCommand());
@@ -234,15 +230,15 @@ public class CommandManager implements Initialisable {
     public boolean isCommand(String message) {
         if (message.length() <= 1) return false;
 
-        if(message.equals(" ")) {
+        if (message.equals(" ")) {
             return false;
         }
 
-        if(message.startsWith(" ")) return false;
+        if (message.startsWith(" ")) return false;
 
         String executor = message.split(" ")[0].toLowerCase();
 
-        if(executor.startsWith(" ")) {
+        if (executor.startsWith(" ")) {
             executor = executor.substring(1);
         }
 
@@ -273,14 +269,14 @@ public class CommandManager implements Initialisable {
 
         final ChatCommand chatCommand = this.get(executor);
 
-        if(message.startsWith(" "))
+        if (message.startsWith(" "))
             return false;
 
         final CommandInfo moduleCommandInfo = ModuleManager.getInstance().getEventHandler().getCommands().get(executor);
 
         String commandName = chatCommand == null ? (moduleCommandInfo != null ? moduleCommandInfo.getPermission() : null) : chatCommand.getPermission();
 
-        if(commandName == null) {
+        if (commandName == null) {
             return false;
         }
 

@@ -3,8 +3,8 @@ package com.cometproject.server.network.messages.outgoing.user.club;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.players.components.SubscriptionComponent;
-import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
+import com.cometproject.server.protocol.messages.MessageComposer;
 
 
 public class ClubStatusMessageComposer extends MessageComposer {

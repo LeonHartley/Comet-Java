@@ -2,27 +2,27 @@ package com.cometproject.server.game.rooms.objects.items.types.floor.wired.highs
 
 import com.cometproject.api.game.rooms.objects.data.RoomItemData;
 import com.cometproject.api.networking.messages.IComposer;
+import com.cometproject.api.utilities.JsonUtil;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.data.ScoreboardItemData;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.api.utilities.JsonUtil;
 import com.google.common.collect.Lists;
 
 import java.util.List;
 
 public class HighscoreClassicFloorItem extends RoomItemFloor {
 
-    private boolean state;
     private final ScoreboardItemData itemData;
+    private boolean state;
 
     public HighscoreClassicFloorItem(RoomItemData roomItemData, Room room) {
         super(roomItemData, room);
 
         final String data = roomItemData.getData();
 
-        if(roomItemData.getData().startsWith("1{") || roomItemData.getData().startsWith("0{")) {
+        if (roomItemData.getData().startsWith("1{") || roomItemData.getData().startsWith("0{")) {
             this.state = data.startsWith("1");
             this.itemData = JsonUtil.getInstance().fromJson(data.substring(1), ScoreboardItemData.class);
         } else {
@@ -86,15 +86,15 @@ public class HighscoreClassicFloorItem extends RoomItemFloor {
 
         int x = 0;
 
-        for(ScoreboardItemData.HighscoreEntry entry : this.getScoreData().getEntries()) {
+        for (ScoreboardItemData.HighscoreEntry entry : this.getScoreData().getEntries()) {
             x++;
 
-            if(x > 50) break;
+            if (x > 50) break;
 
             msg.writeInt(entry.getScore());
             msg.writeInt(entry.getUsers().size());
 
-            for(String name : entry.getUsers()) {
+            for (String name : entry.getUsers()) {
                 msg.writeString(name);
             }
         }

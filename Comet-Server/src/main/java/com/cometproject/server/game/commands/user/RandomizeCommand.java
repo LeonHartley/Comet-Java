@@ -32,7 +32,7 @@ public class RandomizeCommand extends ChatCommand {
             Room room = client.getPlayer().getEntity().getRoom();
             PlayerEntity playerEntity = room.getEntities().getEntityByPlayerId(client.getPlayer().getId());
 
-            room.getEntities().broadcastMessage(new TalkMessageComposer(playerEntity.getId(), Locale.getOrDefault("command.randomize.done","I randomized the number: %output% between %min% and %max%!").replace("%output%", "" + (int) Math.floor(Math.random() * (max - min) + min)).replace("%min%", min + "").replace("%max%", max + ""), ChatEmotion.NONE, 8));
+            room.getEntities().broadcastMessage(new TalkMessageComposer(playerEntity.getId(), Locale.getOrDefault("command.randomize.done", "I randomized the number: %output% between %min% and %max%!").replace("%output%", "" + (int) Math.floor(Math.random() * (max - min) + min)).replace("%min%", min + "").replace("%max%", max + ""), ChatEmotion.NONE, 8));
             isExecuted(client);
         } catch (Exception e) {
             sendNotif(Locale.get("command.randomize.invalidnumbers"), client);

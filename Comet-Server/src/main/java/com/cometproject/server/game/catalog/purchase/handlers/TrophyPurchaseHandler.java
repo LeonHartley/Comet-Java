@@ -1,9 +1,9 @@
 package com.cometproject.server.game.catalog.purchase.handlers;
 
+import com.cometproject.api.game.catalog.types.ICatalogItem;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.catalog.purchase.PurchaseHandler;
 import com.cometproject.server.game.catalog.purchase.PurchaseResult;
-import com.cometproject.api.game.catalog.types.ICatalogItem;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.filter.FilterResult;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;

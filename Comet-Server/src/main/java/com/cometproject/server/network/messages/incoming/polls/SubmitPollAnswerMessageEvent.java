@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.polls;
 
+import com.cometproject.api.utilities.JsonUtil;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.polls.PollManager;
 import com.cometproject.server.game.polls.types.Poll;
@@ -12,7 +13,6 @@ import com.cometproject.server.network.messages.outgoing.room.polls.QuickPollVot
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.storage.queries.polls.PollDao;
-import com.cometproject.api.utilities.JsonUtil;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang.StringUtils;
 
@@ -89,7 +89,7 @@ public class SubmitPollAnswerMessageEvent implements Event {
                 return;
             }
 
-            if(poll.isFinalQuestion(questionId)) {
+            if (poll.isFinalQuestion(questionId)) {
                 poll.onPlayerFinishedPoll(client.getPlayer());
             }
 

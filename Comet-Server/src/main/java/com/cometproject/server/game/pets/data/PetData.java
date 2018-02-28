@@ -1,9 +1,9 @@
 package com.cometproject.server.game.pets.data;
 
 import com.cometproject.api.game.pets.IPetData;
+import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.rooms.objects.entities.types.ai.pets.PetAI;
-import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.storage.queries.pets.PetDao;
 import com.cometproject.storage.mysql.MySQLStorageQueues;
 import com.google.gson.JsonObject;
@@ -182,6 +182,11 @@ public class PetData implements IPetData {
     }
 
     @Override
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    @Override
     public int getHappiness() {
         return happiness;
     }
@@ -231,6 +236,11 @@ public class PetData implements IPetData {
     }
 
     @Override
+    public void setRaceId(int raceId) {
+        this.raceId = raceId;
+    }
+
+    @Override
     public String getLook() {
         return this.getTypeId() + " " + this.getRaceId() + " " + this.getColour();
     }
@@ -241,8 +251,18 @@ public class PetData implements IPetData {
     }
 
     @Override
+    public void setHairDye(int hairDye) {
+        this.hairDye = hairDye;
+    }
+
+    @Override
     public int getHair() {
         return this.hair;
+    }
+
+    @Override
+    public void setHair(int hair) {
+        this.hair = hair;
     }
 
     @Override
@@ -258,16 +278,6 @@ public class PetData implements IPetData {
     @Override
     public void setRoomPosition(Position position) {
         this.roomPosition = position;
-    }
-
-    @Override
-    public void setHairDye(int hairDye) {
-        this.hairDye = hairDye;
-    }
-
-    @Override
-    public void setHair(int hair) {
-        this.hair = hair;
     }
 
     @Override
@@ -296,11 +306,6 @@ public class PetData implements IPetData {
     }
 
     @Override
-    public void setRaceId(int raceId) {
-        this.raceId = raceId;
-    }
-
-    @Override
     public int getBirthday() {
         return birthday;
     }
@@ -318,11 +323,6 @@ public class PetData implements IPetData {
     @Override
     public void setOwnerName(final String ownerName) {
         this.ownerName = ownerName;
-    }
-
-    @Override
-    public void setLevel(int level) {
-        this.level = level;
     }
 
     @Override

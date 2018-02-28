@@ -1,10 +1,10 @@
 package com.cometproject.server.game.navigator;
 
+import com.cometproject.api.utilities.Initialisable;
 import com.cometproject.server.game.navigator.types.Category;
 import com.cometproject.server.game.navigator.types.categories.NavigatorCategoryType;
 import com.cometproject.server.game.navigator.types.publics.PublicRoom;
 import com.cometproject.server.storage.queries.navigator.NavigatorDao;
-import com.cometproject.api.utilities.Initialisable;
 import com.google.common.collect.Lists;
 import org.apache.log4j.Logger;
 
@@ -15,16 +15,20 @@ import java.util.Set;
 
 public class NavigatorManager implements Initialisable {
     private static NavigatorManager navigatorManagerInstance;
-
+    private final Logger log = Logger.getLogger(NavigatorManager.class.getName());
     private Map<Integer, Category> categories;
     private List<Category> userCategories;
-
     private Map<Integer, PublicRoom> publicRooms;
     private Set<Integer> staffPicks;
 
-    private final Logger log = Logger.getLogger(NavigatorManager.class.getName());
-
     public NavigatorManager() {
+    }
+
+    public static NavigatorManager getInstance() {
+        if (navigatorManagerInstance == null)
+            navigatorManagerInstance = new NavigatorManager();
+
+        return navigatorManagerInstance;
     }
 
     @Override
@@ -34,13 +38,6 @@ public class NavigatorManager implements Initialisable {
         this.loadStaffPicks();
 
         log.info("NavigatorManager initialized");
-    }
-
-    public static NavigatorManager getInstance() {
-        if (navigatorManagerInstance == null)
-            navigatorManagerInstance = new NavigatorManager();
-
-        return navigatorManagerInstance;
     }
 
     public void loadPublicRooms() {
@@ -79,7 +76,7 @@ public class NavigatorManager implements Initialisable {
                 this.categories.clear();
             }
 
-            if(this.userCategories == null) {
+            if (this.userCategories == null) {
                 this.userCategories = Lists.newArrayList();
             } else {
                 this.userCategories.clear();
@@ -87,8 +84,8 @@ public class NavigatorManager implements Initialisable {
 
             this.categories = NavigatorDao.getCategories();
 
-            for(Category category : this.categories.values()) {
-                if(category.getCategoryType() == NavigatorCategoryType.CATEGORY) {
+            for (Category category : this.categories.values()) {
+                if (category.getCategoryType() == NavigatorCategoryType.CATEGORY) {
                     this.userCategories.add(category);
                 }
             }

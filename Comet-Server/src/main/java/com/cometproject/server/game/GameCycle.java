@@ -1,9 +1,10 @@
 package com.cometproject.server.game;
 
-import com.cometproject.api.networking.sessions.ISession;
-import com.cometproject.server.boot.Comet;
 import com.cometproject.api.config.CometSettings;
 import com.cometproject.api.game.achievements.types.AchievementType;
+import com.cometproject.api.networking.sessions.ISession;
+import com.cometproject.api.utilities.Initialisable;
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.moderation.BanManager;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.network.NetworkManager;
@@ -13,7 +14,6 @@ import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.storage.queries.system.StatisticsDao;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManager;
-import com.cometproject.api.utilities.Initialisable;
 import org.apache.log4j.Logger;
 
 import java.util.Calendar;
@@ -40,19 +40,19 @@ public class GameCycle implements CometTask, Initialisable {
 
     }
 
+    public static GameCycle getInstance() {
+        if (gameThreadInstance == null)
+            gameThreadInstance = new GameCycle();
+
+        return gameThreadInstance;
+    }
+
     @Override
     public void initialize() {
         this.gameFuture = CometThreadManager.getInstance().executePeriodic(this, interval, interval, TimeUnit.MINUTES);
         this.active = true;
 
         this.onlineRecord = StatisticsDao.getPlayerRecord();
-    }
-
-    public static GameCycle getInstance() {
-        if (gameThreadInstance == null)
-            gameThreadInstance = new GameCycle();
-
-        return gameThreadInstance;
     }
 
     @Override
@@ -107,7 +107,7 @@ public class GameCycle implements CometTask, Initialisable {
                         continue;
                     }
 
-                    if((Comet.getTime() - ((Session) client).getLastPing()) >= 300) {
+                    if ((Comet.getTime() - ((Session) client).getLastPing()) >= 300) {
                         client.disconnect();
                         continue;
                     }
@@ -143,7 +143,7 @@ public class GameCycle implements CometTask, Initialisable {
                 }
             }
 
-            if(updateDaily) {
+            if (updateDaily) {
                 PlayerDao.dailyPlayerUpdate(dailyRespects, dailyScratches);
             }
         }

@@ -11,7 +11,6 @@ import com.cometproject.server.network.messages.outgoing.user.inventory.RemoveOb
 import com.cometproject.server.network.messages.outgoing.user.inventory.SongInventoryMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.protocol.messages.MessageEvent;
-import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import com.cometproject.storage.api.StorageContext;
 
 public class PlaylistAddMessageEvent implements Event {

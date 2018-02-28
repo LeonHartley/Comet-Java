@@ -3,8 +3,8 @@ package com.cometproject.server.network.messages.incoming.room.action;
 import com.cometproject.api.game.quests.QuestType;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.room.avatar.DanceMessageComposer;
-import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.protocol.messages.MessageEvent;
 
 
 public class ApplyDanceMessageEvent implements Event {
@@ -17,7 +17,7 @@ public class ApplyDanceMessageEvent implements Event {
 
         client.getPlayer().getEntity().unIdle();
 
-        if(!client.getPlayer().getEntity().isVisible()) {
+        if (!client.getPlayer().getEntity().isVisible()) {
             return;
         }
 

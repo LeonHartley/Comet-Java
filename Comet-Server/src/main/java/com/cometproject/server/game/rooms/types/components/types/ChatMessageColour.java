@@ -1,7 +1,5 @@
 package com.cometproject.server.game.rooms.types.components.types;
 
-import java.util.Arrays;
-
 public enum ChatMessageColour {
     red,
     blue,

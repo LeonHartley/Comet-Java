@@ -1,13 +1,12 @@
 package com.cometproject.server.game.catalog;
 
-import com.cometproject.api.game.catalog.*;
+import com.cometproject.api.game.catalog.ICatalogService;
 import com.cometproject.api.game.catalog.types.*;
 import com.cometproject.api.game.catalog.types.purchase.ICatalogPurchaseHandler;
 import com.cometproject.server.game.catalog.purchase.LegacyPurchaseHandler;
 import com.cometproject.server.storage.queries.catalog.CatalogDao;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import org.apache.commons.collections4.map.ListOrderedMap;
 import org.apache.log4j.Logger;
 
@@ -16,47 +15,38 @@ import java.util.*;
 
 public class CatalogManager implements ICatalogService {
     private static CatalogManager catalogManagerInstance;
-
-    /**
-     * The pages within the catalog
-     */
-    private Map<Integer, ICatalogPage> pages;
-
-    /**
-     * The items within the catalog
-     */
-    private Map<Integer, ICatalogItem> items;
-
-    /**
-     * The catalog item IDs to page IDs map
-     */
-    private Map<Integer, Integer> catalogItemIdToPageId;
-
     /**
      * Maps the offer ID of an item to the page ID.
      */
     private final Map<Integer, ICatalogOffer> catalogOffers = new HashMap<>();
-
     /**
      * The new style of gift boxes
      */
     private final List<Integer> giftBoxesNew = Lists.newArrayList();
-
     /**
      * The old style of gift boxes
      */
     private final List<Integer> giftBoxesOld = Lists.newArrayList();
-
     /**
      * Featured catalog pages (they are displayed on the front page)
      */
     private final List<ICatalogFrontPageEntry> frontPageEntries = new ArrayList<>();
-
     /**
      * Redeemable clothing items
      */
     private final Map<String, IClothingItem> clothingItems = Maps.newConcurrentMap();
-
+    /**
+     * The pages within the catalog
+     */
+    private Map<Integer, ICatalogPage> pages;
+    /**
+     * The items within the catalog
+     */
+    private Map<Integer, ICatalogItem> items;
+    /**
+     * The catalog item IDs to page IDs map
+     */
+    private Map<Integer, Integer> catalogItemIdToPageId;
     /**
      * The handler of everything catalog-purchase related
      */
@@ -68,7 +58,7 @@ public class CatalogManager implements ICatalogService {
     private Logger log = Logger.getLogger(CatalogManager.class.getName());
 
     /**
-     *  Parent pages
+     * Parent pages
      */
     private List<ICatalogPage> parentPages = Lists.newCopyOnWriteArrayList();
 
@@ -77,6 +67,14 @@ public class CatalogManager implements ICatalogService {
      */
     public CatalogManager() {
 
+    }
+
+    public static CatalogManager getInstance() {
+        if (catalogManagerInstance == null) {
+            catalogManagerInstance = new CatalogManager();
+        }
+
+        return catalogManagerInstance;
     }
 
     @Override
@@ -100,7 +98,7 @@ public class CatalogManager implements ICatalogService {
      */
     @Override
     public void loadItemsAndPages() {
-        if(this.items.size() >= 1) {
+        if (this.items.size() >= 1) {
             this.items.clear();
         }
 
@@ -108,7 +106,7 @@ public class CatalogManager implements ICatalogService {
             this.getPages().clear();
         }
 
-        if(this.frontPageEntries.size() >= 1) {
+        if (this.frontPageEntries.size() >= 1) {
             this.frontPageEntries.clear();
         }
 
@@ -155,7 +153,7 @@ public class CatalogManager implements ICatalogService {
 
     @Override
     public void loadClothingItems() {
-        if(this.clothingItems.size() >= 1) {
+        if (this.clothingItems.size() >= 1) {
             this.clothingItems.clear();
         }
 
@@ -185,8 +183,8 @@ public class CatalogManager implements ICatalogService {
     public void sortCatalogChildren() {
         this.parentPages.clear();
 
-        for(ICatalogPage catalogPage : this.pages.values()) {
-            if(catalogPage.getParentId() != -1) {
+        for (ICatalogPage catalogPage : this.pages.values()) {
+            if (catalogPage.getParentId() != -1) {
                 final ICatalogPage parentPage = this.getPage(catalogPage.getParentId());
 
                 parentPage.getChildren().add(catalogPage);
@@ -214,7 +212,7 @@ public class CatalogManager implements ICatalogService {
 
     @Override
     public ICatalogPage getCatalogPageByCatalogItemId(int id) {
-        if(!this.catalogItemIdToPageId.containsKey(id)) {
+        if (!this.catalogItemIdToPageId.containsKey(id)) {
             return null;
         }
 
@@ -234,8 +232,8 @@ public class CatalogManager implements ICatalogService {
     public Map<Integer, ICatalogItem> getItemsForPage(int pageId) {
         Map<Integer, ICatalogItem> items = Maps.newHashMap();
 
-        for(Map.Entry<Integer, ICatalogItem> catalogItem : this.items.entrySet()) {
-            if(catalogItem.getValue().getPageId() == pageId) {
+        for (Map.Entry<Integer, ICatalogItem> catalogItem : this.items.entrySet()) {
+            if (catalogItem.getValue().getPageId() == pageId) {
                 items.put(catalogItem.getKey(), catalogItem.getValue());
             }
         }
@@ -322,6 +320,7 @@ public class CatalogManager implements ICatalogService {
 
     /**
      * List all front page entries
+     *
      * @return List of all front page entries
      */
     @Override
@@ -342,13 +341,5 @@ public class CatalogManager implements ICatalogService {
     @Override
     public List<ICatalogPage> getParentPages() {
         return parentPages;
-    }
-
-    public static CatalogManager getInstance() {
-        if(catalogManagerInstance == null) {
-            catalogManagerInstance = new CatalogManager();
-        }
-
-        return catalogManagerInstance;
     }
 }

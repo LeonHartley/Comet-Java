@@ -26,7 +26,7 @@ public class GotoRoomCommand extends ChatCommand {
     public String getPermission() {
         return "gotoroom_command";
     }
-    
+
     @Override
     public String getParameter() {
         return Locale.getOrDefault("command.parameter.roomid", "%roomid%");

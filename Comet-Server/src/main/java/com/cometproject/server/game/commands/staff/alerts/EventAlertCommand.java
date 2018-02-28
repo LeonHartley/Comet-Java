@@ -26,7 +26,7 @@ public class EventAlertCommand extends ChatCommand {
     public String getPermission() {
         return "eventalert_command";
     }
-    
+
     @Override
     public String getParameter() {
         return "";

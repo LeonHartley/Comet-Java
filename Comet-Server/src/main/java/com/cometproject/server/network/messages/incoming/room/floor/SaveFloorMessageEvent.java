@@ -1,6 +1,7 @@
 package com.cometproject.server.network.messages.incoming.room.floor;
 
 import com.cometproject.api.config.CometSettings;
+import com.cometproject.api.utilities.JsonUtil;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.rooms.RoomManager;
@@ -11,9 +12,8 @@ import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomForwardMessageComposer;
-import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
-import com.cometproject.api.utilities.JsonUtil;
+import com.cometproject.server.protocol.messages.MessageEvent;
 
 
 public class SaveFloorMessageEvent implements Event {
@@ -42,7 +42,7 @@ public class SaveFloorMessageEvent implements Event {
 
         int sizeY = modelData.length;
 
-        if(sizeY < 1) {
+        if (sizeY < 1) {
             client.send(new AdvancedAlertMessageComposer("Invalid Model", Locale.get("command.floor.size")));
             return;
         }
@@ -51,7 +51,7 @@ public class SaveFloorMessageEvent implements Event {
 
         if (sizeX < 2 || sizeY < 2 || (CometSettings.floorEditorMaxX != 0 && sizeX > CometSettings.floorEditorMaxX) || (CometSettings.floorEditorMaxY != 0 && sizeY > CometSettings.floorEditorMaxY) || (CometSettings.floorEditorMaxTotal != 0 && CometSettings.floorEditorMaxTotal < (sizeX * sizeY))) {
             client.send(new AdvancedAlertMessageComposer("Invalid Model", Locale.get("command.floor.size")));
-           return;
+            return;
         }
 
         boolean hasTiles = false;
@@ -95,12 +95,12 @@ public class SaveFloorMessageEvent implements Event {
         room.getItems().commit();
 
         final RoomReloadListener reloadListener = new RoomReloadListener(room, (players, newRoom) -> {
-           for(Player player : players) {
-               if(player.getEntity() == null) {
-                   player.getSession().send(new AlertMessageComposer(Locale.get("command.floor.complete")));
-                   player.getSession().send(new RoomForwardMessageComposer(newRoom.getId()));
-               }
-           }
+            for (Player player : players) {
+                if (player.getEntity() == null) {
+                    player.getSession().send(new AlertMessageComposer(Locale.get("command.floor.complete")));
+                    player.getSession().send(new RoomForwardMessageComposer(newRoom.getId()));
+                }
+            }
         });
 
         RoomManager.getInstance().addReloadListener(room.getId(), reloadListener);

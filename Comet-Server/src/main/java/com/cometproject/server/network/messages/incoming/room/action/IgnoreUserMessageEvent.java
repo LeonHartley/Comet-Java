@@ -5,8 +5,8 @@ import com.cometproject.server.game.rooms.objects.entities.RoomEntityType;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.room.avatar.UpdateIgnoreStatusMessageComposer;
-import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.protocol.messages.MessageEvent;
 
 
 public class IgnoreUserMessageEvent implements Event {
@@ -18,7 +18,7 @@ public class IgnoreUserMessageEvent implements Event {
             return;
         }
 
-        if(!client.getPlayer().getEntity().isVisible()) {
+        if (!client.getPlayer().getEntity().isVisible()) {
             return;
         }
 
@@ -31,7 +31,7 @@ public class IgnoreUserMessageEvent implements Event {
                 return;
             }
 
-            if(!rank.roomIgnorable()) {
+            if (!rank.roomIgnorable()) {
                 return;
             }
 

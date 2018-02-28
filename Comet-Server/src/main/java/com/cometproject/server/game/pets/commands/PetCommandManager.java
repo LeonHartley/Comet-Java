@@ -17,8 +17,15 @@ public class PetCommandManager {
         this.initialize();
     }
 
+    public static PetCommandManager getInstance() {
+        if (petCommandManager == null)
+            petCommandManager = new PetCommandManager();
+
+        return petCommandManager;
+    }
+
     public void initialize() {
-        if(this.petCommands != null) {
+        if (this.petCommands != null) {
             this.petCommands.clear();
         }
 
@@ -36,27 +43,20 @@ public class PetCommandManager {
     }
 
     public boolean executeCommand(String commandKey, PlayerEntity executor, PetEntity petEntity) {
-        if(!this.petCommands.containsKey(commandKey)) {
+        if (!this.petCommands.containsKey(commandKey)) {
             return false;
         }
 
         PetCommand command = this.petCommands.get(commandKey);
 
-        if(command.getRequiredLevel() > petEntity.getData().getLevel()) {
+        if (command.getRequiredLevel() > petEntity.getData().getLevel()) {
             // too low of a level!
             return false;
         }
 
-        if(command.requiresOwner() && executor.getPlayerId() != petEntity.getData().getOwnerId())
+        if (command.requiresOwner() && executor.getPlayerId() != petEntity.getData().getOwnerId())
             return false;
 
         return command.execute(executor, petEntity);
-    }
-
-    public static PetCommandManager getInstance() {
-        if (petCommandManager == null)
-            petCommandManager = new PetCommandManager();
-
-        return petCommandManager;
     }
 }

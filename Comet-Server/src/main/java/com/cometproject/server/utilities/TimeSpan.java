@@ -3,6 +3,10 @@ package com.cometproject.server.utilities;
 public class TimeSpan {
     private long difference;
 
+    public TimeSpan(long start, long finish) {
+        this.difference = finish - start;
+    }
+
     public static String millisecondsToDate(long time) {
 
         int SECOND = 1000;
@@ -28,10 +32,6 @@ public class TimeSpan {
         }
 
         return text.toString();
-    }
-
-    public TimeSpan(long start, long finish) {
-        this.difference = finish - start;
     }
 
     public long toSeconds() {

@@ -1,12 +1,11 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions;
 
 import com.cometproject.api.game.rooms.objects.data.RoomItemData;
-
+import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.DiceFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.events.WiredItemEvent;
-import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.items.SlideObjectBundleMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorItemMessageComposer;
@@ -17,6 +16,7 @@ import java.util.Random;
 public class WiredActionMoveRotate extends WiredActionItem {
     private static final int PARAM_MOVEMENT = 0;
     private static final int PARAM_ROTATION = 1;
+    private final Random random = new Random();
 
     /**
      * The default constructor
@@ -31,7 +31,9 @@ public class WiredActionMoveRotate extends WiredActionItem {
      * @param rotation The orientation of the item
      * @param data     The JSON object associated with this item
      */
-    public WiredActionMoveRotate(RoomItemData itemData, Room room) {        super(itemData, room);    }
+    public WiredActionMoveRotate(RoomItemData itemData, Room room) {
+        super(itemData, room);
+    }
 
     @Override
     public boolean requiresPlayer() {
@@ -74,8 +76,6 @@ public class WiredActionMoveRotate extends WiredActionItem {
             }
         }
     }
-
-    private final Random random = new Random();
 
     private Position handleMovement(Position point, int movementType) {
         final boolean dir = Math.random() < 0.5;

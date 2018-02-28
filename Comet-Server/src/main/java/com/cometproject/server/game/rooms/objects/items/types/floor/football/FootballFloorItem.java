@@ -6,5 +6,7 @@ import com.cometproject.server.game.rooms.types.Room;
 
 
 public class FootballFloorItem extends RollableFloorItem {
-    public FootballFloorItem(RoomItemData itemData, Room room) {        super(itemData, room);    }
+    public FootballFloorItem(RoomItemData itemData, Room room) {
+        super(itemData, room);
+    }
 }

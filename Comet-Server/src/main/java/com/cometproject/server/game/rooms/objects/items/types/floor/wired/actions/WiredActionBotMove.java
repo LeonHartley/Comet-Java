@@ -1,13 +1,12 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions;
 
 import com.cometproject.api.game.rooms.objects.data.RoomItemData;
-
+import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredUtil;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.events.WiredItemEvent;
-import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.types.Room;
 
 
@@ -25,7 +24,9 @@ public class WiredActionBotMove extends WiredActionItem {
      * @param rotation The orientation of the item
      * @param data     The JSON object associated with this item
      */
-    public WiredActionBotMove(RoomItemData itemData, Room room) {        super(itemData, room);    }
+    public WiredActionBotMove(RoomItemData itemData, Room room) {
+        super(itemData, room);
+    }
 
     @Override
     public void onEventComplete(WiredItemEvent event) {
@@ -51,7 +52,7 @@ public class WiredActionBotMove extends WiredActionItem {
 
         final BotEntity botEntity = this.getRoom().getBots().getBotByName(entityName);
 
-        if(botEntity == null) {
+        if (botEntity == null) {
             return;
         }
 

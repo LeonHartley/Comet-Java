@@ -1,22 +1,22 @@
 package com.cometproject.server.game.rooms.objects.entities.types;
 
 import com.cometproject.api.game.bots.IBotData;
+import com.cometproject.api.game.utilities.Position;
 import com.cometproject.api.networking.messages.IComposer;
+import com.cometproject.api.utilities.JsonUtil;
 import com.cometproject.server.game.bots.BotData;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
-import com.cometproject.server.game.rooms.objects.entities.types.ai.*;
+import com.cometproject.server.game.rooms.objects.entities.types.ai.BotAI;
 import com.cometproject.server.game.rooms.objects.entities.types.ai.bots.DefaultAI;
 import com.cometproject.server.game.rooms.objects.entities.types.ai.bots.MinionAI;
 import com.cometproject.server.game.rooms.objects.entities.types.ai.bots.SpyAI;
 import com.cometproject.server.game.rooms.objects.entities.types.ai.bots.WaiterAI;
 import com.cometproject.server.game.rooms.objects.entities.types.data.BotDataObject;
 import com.cometproject.server.game.rooms.objects.entities.types.data.types.SpyBotData;
-import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.misc.ChatEmotion;
 import com.cometproject.server.network.messages.outgoing.room.avatar.LeaveRoomMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessageComposer;
-import com.cometproject.api.utilities.JsonUtil;
 
 import java.util.LinkedList;
 import java.util.Map;

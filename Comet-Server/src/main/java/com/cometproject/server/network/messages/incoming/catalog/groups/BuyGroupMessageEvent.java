@@ -5,14 +5,13 @@ import com.cometproject.api.game.GameContext;
 import com.cometproject.api.game.groups.IGroupItemService;
 import com.cometproject.api.game.groups.types.IGroup;
 import com.cometproject.api.game.groups.types.IGroupData;
-import com.cometproject.api.game.players.data.PlayerAvatar;
+import com.cometproject.server.composers.catalog.BoughtItemMessageComposer;
 import com.cometproject.server.composers.group.GroupBadgesMessageComposer;
 import com.cometproject.server.composers.group.GroupRoomMessageComposer;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.Event;
-import com.cometproject.server.composers.catalog.BoughtItemMessageComposer;
 import com.cometproject.server.network.messages.outgoing.messenger.UpdateFriendStateMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.LeaveRoomMessageComposer;
@@ -20,8 +19,8 @@ import com.cometproject.server.network.messages.outgoing.room.engine.RoomForward
 import com.cometproject.server.network.messages.outgoing.room.permissions.RemoveRightsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.permissions.YouAreControllerMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.purse.SendCreditsMessageComposer;
-import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.utilities.BadgeUtil;
 import com.cometproject.storage.mysql.models.factories.GroupDataFactory;
 
@@ -81,8 +80,8 @@ public class BuyGroupMessageEvent implements Event {
 
         final Room room = RoomManager.getInstance().get(roomId);
 
-        if(room != null) {
-            if(client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() != null &&
+        if (room != null) {
+            if (client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() != null &&
                     client.getPlayer().getEntity().getRoom().getId() != roomId) {
 
                 client.send(new RoomForwardMessageComposer(roomId));

@@ -1,8 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
 import com.cometproject.api.game.rooms.objects.data.RoomItemData;
-
-
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
@@ -12,7 +10,9 @@ import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorI
 
 
 public class BackgroundTonerFloorItem extends RoomItemFloor {
-    public BackgroundTonerFloorItem(RoomItemData itemData, Room room) {        super(itemData, room);    }
+    public BackgroundTonerFloorItem(RoomItemData itemData, Room room) {
+        super(itemData, room);
+    }
 
     @Override
     public void composeItemData(IComposer msg) {

@@ -1,7 +1,5 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions;
 
-import com.cometproject.api.game.rooms.objects.data.RoomItemData;
-
 import com.cometproject.api.game.bots.BotMode;
 import com.cometproject.api.game.rooms.objects.data.RoomItemData;
 import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
@@ -27,7 +25,9 @@ public class WiredActionBotFollowAvatar extends WiredActionItem {
      * @param rotation  The orientation of the item
      * @param data      The JSON object associated with this item
      */
-    public WiredActionBotFollowAvatar(RoomItemData itemData, Room room) {        super(itemData, room);    }
+    public WiredActionBotFollowAvatar(RoomItemData itemData, Room room) {
+        super(itemData, room);
+    }
 
     @Override
     public void onEventComplete(WiredItemEvent event) {
@@ -47,7 +47,7 @@ public class WiredActionBotFollowAvatar extends WiredActionItem {
         final BotEntity botEntity = this.getRoom().getBots().getBotByName(botName);
 
         if (botEntity != null) {
-            if(param == 1) {
+            if (param == 1) {
                 botEntity.getData().setMode(BotMode.RELAXED);
                 event.entity.getFollowingEntities().add(botEntity);
             } else {

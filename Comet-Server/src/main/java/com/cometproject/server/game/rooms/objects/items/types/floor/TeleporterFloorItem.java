@@ -1,8 +1,7 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
 import com.cometproject.api.game.rooms.objects.data.RoomItemData;
-
-
+import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.rooms.RoomManager;
@@ -12,28 +11,15 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.AdvancedFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.state.FloorItemEvent;
-import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomForwardMessageComposer;
 
 public class TeleporterFloorItem extends AdvancedFloorItem<TeleporterFloorItem.TeleporterItemEvent> {
-    class TeleporterItemEvent extends FloorItemEvent {
-
-        public int state;
-        public PlayerEntity outgoingEntity;
-        public PlayerEntity incomingEntity;
-
-        protected TeleporterItemEvent(int delay) {
-            super(delay);
-        }
-    }
-
+    boolean isDoor = false;
     private boolean inUse = false;
 
     private long pairId = -1;
-    boolean isDoor = false;
-
     public TeleporterFloorItem(RoomItemData itemData, Room room) {
         super(itemData, room);
 
@@ -155,7 +141,7 @@ public class TeleporterFloorItem extends AdvancedFloorItem<TeleporterFloorItem.T
                     this.toggleAnimation(false);
                     event.state = 6;
 
-                    if(event.incomingEntity.getPlayer() != null) {
+                    if (event.incomingEntity.getPlayer() != null) {
                         event.incomingEntity.setBodyRotation(this.getRotation());
                         event.incomingEntity.setHeadRotation(this.getRotation());
 
@@ -172,7 +158,7 @@ public class TeleporterFloorItem extends AdvancedFloorItem<TeleporterFloorItem.T
                         this.toggleDoor(true);
 
                     if (event.incomingEntity != null) {
-                        if(event.incomingEntity.getCurrentEffect() != null) {
+                        if (event.incomingEntity.getCurrentEffect() != null) {
                             event.incomingEntity.applyEffect(event.incomingEntity.getCurrentEffect());
                         }
                         event.incomingEntity.moveTo(this.getPosition().squareInFront(this.getRotation()).getX(), this.getPosition().squareInFront(this.getRotation()).getY());
@@ -193,7 +179,7 @@ public class TeleporterFloorItem extends AdvancedFloorItem<TeleporterFloorItem.T
                         event.incomingEntity = null;
                     }
 
-                    if (event.outgoingEntity!= null) {
+                    if (event.outgoingEntity != null) {
                         event.outgoingEntity.setOverriden(false);
                         event.outgoingEntity = null;
                     }
@@ -273,7 +259,7 @@ public class TeleporterFloorItem extends AdvancedFloorItem<TeleporterFloorItem.T
 
         this.inUse = true;
 
-        if(entity.isOverriden()) return;
+        if (entity.isOverriden()) return;
 
         final TeleporterItemEvent event = new TeleporterItemEvent(RoomItemFactory.getProcessTime(0.01));
         event.outgoingEntity = (PlayerEntity) entity;
@@ -362,5 +348,16 @@ public class TeleporterFloorItem extends AdvancedFloorItem<TeleporterFloorItem.T
 
     protected RoomItemFloor getPartner(long pairId) {
         return this.getRoom().getItems().getFloorItem(pairId);
+    }
+
+    class TeleporterItemEvent extends FloorItemEvent {
+
+        public int state;
+        public PlayerEntity outgoingEntity;
+        public PlayerEntity incomingEntity;
+
+        protected TeleporterItemEvent(int delay) {
+            super(delay);
+        }
     }
 }

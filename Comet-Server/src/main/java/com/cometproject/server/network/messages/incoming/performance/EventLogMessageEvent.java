@@ -8,7 +8,7 @@ public class EventLogMessageEvent implements Event {
 
     @Override
     public void handle(Session client, MessageEvent msg) throws Exception {
-    //
+        //
         /* private var _category:String;
         private var _type:String;
         private var _action:String;
@@ -21,7 +21,7 @@ public class EventLogMessageEvent implements Event {
         final String extraString = msg.readString();
         final int extraInt = msg.readInt();
 
-        if(client.getPlayer() == null || client.getPlayer().isDisposed) {
+        if (client.getPlayer() == null || client.getPlayer().isDisposed) {
             return;
         }
 

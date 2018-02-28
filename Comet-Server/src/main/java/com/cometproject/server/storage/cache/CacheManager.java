@@ -14,13 +14,11 @@ import java.io.IOException;
 
 public class CacheManager implements Initialisable {
     private static CacheManager cacheManager;
-
-    private boolean enabled;
     private final Logger log = Logger.getLogger(CacheManager.class.getName());
-
-    private JedisPool jedis;
     private final String keyPrefix;
     private final String connectionString;
+    private boolean enabled;
+    private JedisPool jedis;
 
     public CacheManager() {
         this.enabled = Boolean.parseBoolean((String) Configuration.currentConfig().getOrDefault("comet.cache.enabled", "false"));
@@ -28,12 +26,19 @@ public class CacheManager implements Initialisable {
         this.connectionString = (String) Configuration.currentConfig().getOrDefault("comet.cache.connection.url", "");
     }
 
+    public static CacheManager getInstance() {
+        if (cacheManager == null)
+            cacheManager = new CacheManager();
+
+        return cacheManager;
+    }
+
     @Override
     public void initialize() {
         if (!this.enabled)
             return;
 
-        if(this.connectionString.isEmpty()) {
+        if (this.connectionString.isEmpty()) {
             log.error("Invalid redis connection string");
 
             this.enabled = false;
@@ -95,7 +100,7 @@ public class CacheManager implements Initialisable {
     }
 
     public void put(final String key, CachableObject object) {
-        if(this.jedis == null) {
+        if (this.jedis == null) {
             return;
         }
 
@@ -117,7 +122,7 @@ public class CacheManager implements Initialisable {
     }
 
     public void putString(final String key, final String value) {
-        if(this.jedis == null) {
+        if (this.jedis == null) {
             return;
         }
 
@@ -187,12 +192,5 @@ public class CacheManager implements Initialisable {
 
     public boolean isEnabled() {
         return this.enabled;
-    }
-
-    public static CacheManager getInstance() {
-        if (cacheManager == null)
-            cacheManager = new CacheManager();
-
-        return cacheManager;
     }
 }

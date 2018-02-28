@@ -20,7 +20,7 @@ public class WiredItemEvent extends FloorItemEvent {
 
     @Override
     public void onCompletion(RoomItemFloor floor) {
-        if(floor instanceof WiredActionItem) {
+        if (floor instanceof WiredActionItem) {
             ((WiredFloorItem) floor).flash();
         }
     }

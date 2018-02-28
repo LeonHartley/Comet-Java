@@ -1,14 +1,15 @@
 package com.cometproject.server.game.rooms.objects.entities.types.ai.pets;
 
+import com.cometproject.api.game.players.data.PlayerAvatar;
+import com.cometproject.api.game.rooms.entities.RoomEntityStatus;
+import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.pets.PetManager;
 import com.cometproject.server.game.pets.commands.PetCommandManager;
 import com.cometproject.server.game.pets.data.PetMessageType;
 import com.cometproject.server.game.pets.data.PetSpeech;
 import com.cometproject.server.game.pets.races.PetType;
 import com.cometproject.server.game.players.PlayerManager;
-import com.cometproject.api.game.players.data.PlayerAvatar;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
-import com.cometproject.api.game.rooms.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.ai.AbstractBotAI;
@@ -18,7 +19,6 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.pet.PetToyFl
 import com.cometproject.server.game.rooms.objects.items.types.floor.pet.breeding.BreedingBoxFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.pet.breeding.types.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredUtil;
-import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.game.rooms.types.misc.ChatEmotion;
 import com.cometproject.server.network.messages.outgoing.room.pets.AddExperiencePointsMessageComposer;
@@ -29,13 +29,11 @@ import java.util.List;
 
 
 public class PetAI extends AbstractBotAI {
+    public static final List<Integer> levelBoundaries = Arrays.asList(0, 100, 200, 400, 600, 900, 1300,
+            1800, 2400, 3200, 4300, 5700, 7600, 10100, 13300, 17500, 23000, 30200, 39600, 51900);
     private static final PetAction[] possibleActions = {
             PetAction.LAY, PetAction.SIT, PetAction.TALK, PetAction.PLAY
     };
-
-    public static final List<Integer> levelBoundaries = Arrays.asList(0, 100, 200, 400, 600, 900, 1300,
-            1800, 2400, 3200, 4300, 5700, 7600, 10100, 13300, 17500, 23000, 30200, 39600, 51900);
-
     private String ownerName = "";
 
     private int playTimer = 0;
@@ -51,7 +49,7 @@ public class PetAI extends AbstractBotAI {
     public PetAI(RoomEntity entity) {
         super(entity);
 
-        this.setTicksUntilCompleteInSeconds(RandomUtil.getRandomInt(0,50));
+        this.setTicksUntilCompleteInSeconds(RandomUtil.getRandomInt(0, 50));
     }
 
     @Override
@@ -106,14 +104,14 @@ public class PetAI extends AbstractBotAI {
 
             // attempt to eat food.
             this.tryEat();
-        } else if(this.getPetEntity().getData().getEnergy() == 0) {
+        } else if (this.getPetEntity().getData().getEnergy() == 0) {
             // nest!
-            if(this.nesting) {
+            if (this.nesting) {
                 this.say(this.getMessage(PetMessageType.SLEEPING));
             } else {
                 this.tryNest();
             }
-        }else {
+        } else {
             PetAction petAction = possibleActions[RandomUtil.getRandomInt(0, possibleActions.length - 1)];
 
             switch (petAction) {
@@ -137,7 +135,7 @@ public class PetAI extends AbstractBotAI {
 
         this.getPetEntity().getData().saveStats();
 
-        if(RandomUtil.getRandomBool(0.5)) {
+        if (RandomUtil.getRandomBool(0.5)) {
             this.getPetEntity().getData().decreaseEnergy(5);
         }
 
@@ -200,7 +198,7 @@ public class PetAI extends AbstractBotAI {
 
                 // attempt to eat food.
                 this.tryEat();
-            } else if(this.getPetEntity().getData().getEnergy() < 10) {
+            } else if (this.getPetEntity().getData().getEnergy() < 10) {
                 this.tryNest();
             } else {
                 if (PetCommandManager.getInstance().executeCommand(commandKey.toLowerCase(), entity, this.getPetEntity())) {
@@ -212,7 +210,7 @@ public class PetAI extends AbstractBotAI {
                         this.getPetEntity().getData().decreaseEnergy(10);
                     }
 
-                    if(increaseHunger) {
+                    if (increaseHunger) {
                         this.getPetEntity().getData().increaseHunger(10);
                     }
 
@@ -256,7 +254,7 @@ public class PetAI extends AbstractBotAI {
             decreaseHappiness = true;
         }
 
-        if(decreaseHappiness && RandomUtil.getRandomBool(0.5)) {
+        if (decreaseHappiness && RandomUtil.getRandomBool(0.5)) {
             this.applyGesture("sad");
             this.getPetEntity().getData().increaseHappiness(-10);
         }
@@ -358,7 +356,7 @@ public class PetAI extends AbstractBotAI {
             this.getPetEntity().removeStatus(RoomEntityStatus.PLAY);
         }
 
-        if(this.getPetEntity().hasStatus(RoomEntityStatus.EAT)) {
+        if (this.getPetEntity().hasStatus(RoomEntityStatus.EAT)) {
             this.getPetEntity().removeStatus(RoomEntityStatus.EAT);
         }
     }
@@ -389,7 +387,7 @@ public class PetAI extends AbstractBotAI {
     private PetSpeech getPetSpeech() {
         final PetSpeech petSpeech = PetManager.getInstance().getSpeech(this.getPetEntity().getData().getTypeId());
 
-        if(petSpeech == null) {
+        if (petSpeech == null) {
             return PetManager.getInstance().getSpeech(-1);
         }
 
@@ -403,7 +401,7 @@ public class PetAI extends AbstractBotAI {
 
         String message = this.getPetSpeech().getMessageByType(type);
 
-        if(message == null) {
+        if (message == null) {
             return null;
         }
 
@@ -501,12 +499,12 @@ public class PetAI extends AbstractBotAI {
             }
         }
 
-        if(availableBoxes == null) {
+        if (availableBoxes == null) {
             return null;
         }
 
-        for(BreedingBoxFloorItem box : availableBoxes) {
-            if(box.getTile().getEntities().size() <= 1) { // make sure there's either 1 or 0
+        for (BreedingBoxFloorItem box : availableBoxes) {
+            if (box.getTile().getEntities().size() <= 1) { // make sure there's either 1 or 0
                 return box;
             }
         }

@@ -1,8 +1,8 @@
 package com.cometproject.server.tasks;
 
 import com.cometproject.api.config.Configuration;
-import com.cometproject.server.game.rooms.types.components.ProcessComponent;
 import com.cometproject.api.utilities.Initialisable;
+import com.cometproject.server.game.rooms.types.components.ProcessComponent;
 import org.apache.log4j.Logger;
 
 import java.util.concurrent.*;
@@ -10,10 +10,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class CometThreadManager implements Initialisable {
-    private static CometThreadManager cometThreadManagerInstance;
-
     public static int POOL_SIZE = 0;
-
+    private static CometThreadManager cometThreadManagerInstance;
     private ScheduledExecutorService coreExecutor;
     private ScheduledExecutorService roomProcessingExecutor;
 
@@ -63,7 +61,7 @@ public class CometThreadManager implements Initialisable {
     }
 
     public ScheduledFuture executePeriodic(CometTask task, long initialDelay, long period, TimeUnit unit) {
-        if(task instanceof ProcessComponent) {
+        if (task instanceof ProcessComponent) {
             // Handle room processing in a different pool, this should help against
             return this.roomProcessingExecutor.scheduleAtFixedRate(task, initialDelay, period, unit);
         }
@@ -72,7 +70,7 @@ public class CometThreadManager implements Initialisable {
     }
 
     public ScheduledFuture executeSchedule(CometTask task, long delay, TimeUnit unit) {
-        if(task instanceof ProcessComponent) {
+        if (task instanceof ProcessComponent) {
             return this.roomProcessingExecutor.schedule(task, delay, unit);
         }
 

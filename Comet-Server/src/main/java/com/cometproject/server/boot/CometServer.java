@@ -1,9 +1,9 @@
 package com.cometproject.server.boot;
 
+import com.cometproject.api.config.Configuration;
 import com.cometproject.api.game.GameContext;
 import com.cometproject.server.api.APIManager;
 import com.cometproject.server.boot.utils.gui.CometGui;
-import com.cometproject.api.config.Configuration;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.GameCycle;
 import com.cometproject.server.game.achievements.AchievementManager;
@@ -19,7 +19,6 @@ import com.cometproject.server.game.navigator.NavigatorManager;
 import com.cometproject.server.game.permissions.PermissionsManager;
 import com.cometproject.server.game.pets.PetManager;
 import com.cometproject.server.game.players.PlayerManager;
-import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.polls.PollManager;
 import com.cometproject.server.game.quests.QuestManager;
 import com.cometproject.server.game.rooms.RoomManager;
@@ -37,9 +36,8 @@ import java.util.Map;
 
 
 public class CometServer {
-    private final Logger log = Logger.getLogger(CometServer.class.getName());
-
     public static final String CLIENT_VERSION = "PRODUCTION-201709192204-203982672";
+    private final Logger log = Logger.getLogger(CometServer.class.getName());
 
     public CometServer(Map<String, String> overridenConfig) {
         Configuration.setConfiguration(new Configuration("./config/comet.properties"));
@@ -107,7 +105,7 @@ public class CometServer {
 
         GameCycle.getInstance().initialize();
 
-        if(Comet.showGui) {
+        if (Comet.showGui) {
             CometGui gui = new CometGui();
             gui.setVisible(true);
         }

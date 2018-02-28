@@ -14,18 +14,18 @@ public class HideWiredCommand extends ChatCommand {
     public void execute(Session client, String[] params) {
         final Room room = client.getPlayer().getEntity().getRoom();
 
-        if(!client.getPlayer().getPermissions().getRank().roomFullControl() && !client.getPlayer().getEntity().hasRights()) {
+        if (!client.getPlayer().getPermissions().getRank().roomFullControl() && !client.getPlayer().getEntity().hasRights()) {
             return;
         }
 
         String msg = "";
 
-        if(client.getPlayer().getEntity().getRoom().getData().isWiredHidden()) {
+        if (client.getPlayer().getEntity().getRoom().getData().isWiredHidden()) {
             // show wireds
             room.getData().setIsWiredHidden(false);
             msg = Locale.getOrDefault("command.hidewired.shown", "Wired is now visible");
 
-            for(RoomItemFloor floorItem : room.getItems().getFloorItems().values()) {
+            for (RoomItemFloor floorItem : room.getItems().getFloorItems().values()) {
                 if (floorItem instanceof WiredFloorItem) {
                     room.getEntities().broadcastMessage(new SendFloorItemMessageComposer(floorItem));
                 }
@@ -36,9 +36,9 @@ public class HideWiredCommand extends ChatCommand {
             room.getData().setIsWiredHidden(true);
             msg = Locale.getOrDefault("command.hidewired.hidden", "Wired is now hidden");
 
-            for(RoomItemFloor floorItem : room.getItems().getFloorItems().values()) {
+            for (RoomItemFloor floorItem : room.getItems().getFloorItems().values()) {
 
-                if(floorItem instanceof WiredFloorItem) {
+                if (floorItem instanceof WiredFloorItem) {
                     room.getEntities().broadcastMessage(new RemoveFloorItemMessageComposer(floorItem.getVirtualId(),
                             client.getPlayer().getId()));
                 }

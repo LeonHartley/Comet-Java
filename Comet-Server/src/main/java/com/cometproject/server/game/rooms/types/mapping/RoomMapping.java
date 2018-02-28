@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.types.mapping;
 
+import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.models.RoomModel;
 import com.cometproject.server.game.rooms.objects.RoomFloorObject;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
@@ -7,7 +8,6 @@ import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.types.floor.OneWayGateFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.pet.breeding.BreedingBoxFloorItem;
-import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
 import com.cometproject.server.utilities.RandomUtil;
@@ -59,7 +59,7 @@ public class RoomMapping {
             for (int y = 0; y < tiles[x].length; y++) {
                 RoomTile tile = this.tiles[x][y];
 
-                if(tile != null) {
+                if (tile != null) {
                     tile.dispose();
                 }
             }
@@ -150,7 +150,7 @@ public class RoomMapping {
                 }
             }
 
-            if(entity instanceof PetEntity && entity.getTile().getTopItemInstance() instanceof BreedingBoxFloorItem) {
+            if (entity instanceof PetEntity && entity.getTile().getTopItemInstance() instanceof BreedingBoxFloorItem) {
                 return false;
             }
 //
@@ -217,7 +217,7 @@ public class RoomMapping {
 
         final boolean isAtDoor = this.getModel().getDoorX() == from.getX() && this.getModel().getDoorY() == from.getY();
 
-        if(to.getX() == this.getModel().getDoorX() && to.getY() == this.getModel().getDoorY() && !lastStep) {
+        if (to.getX() == this.getModel().getDoorX() && to.getY() == this.getModel().getDoorY() && !lastStep) {
             return false;
         }
 
@@ -231,8 +231,8 @@ public class RoomMapping {
             entityId = entity;
         }
 
-        if(isFloorItem) {
-            if(this.getTile(to).hasGate()) {
+        if (isFloorItem) {
+            if (this.getTile(to).hasGate()) {
                 return false;
             }
         }
@@ -303,10 +303,10 @@ public class RoomMapping {
         }
 
         // todo: we need a per-item canStepOn(Entity entity) boolean or something.
-        if(tile.getTopItemInstance() instanceof OneWayGateFloorItem) {
+        if (tile.getTopItemInstance() instanceof OneWayGateFloorItem) {
             final OneWayGateFloorItem item = (OneWayGateFloorItem) tile.getTopItemInstance();
 
-            if(entity != null && item.getInteractingEntity() != null && item.getInteractingEntity().getId() == entity) {
+            if (entity != null && item.getInteractingEntity() != null && item.getInteractingEntity().getId() == entity) {
                 return true;
             }
         }
@@ -315,17 +315,17 @@ public class RoomMapping {
             return false;
         }
 
-        if(ignoreHeight) {
+        if (ignoreHeight) {
             return true;
         }
 
         final double fromHeight = this.getStepHeight(from);
         final double toHeight = this.getStepHeight(to);
 
-        if(isAtDoor) return true;
+        if (isAtDoor) return true;
 
-        if(fromHeight > toHeight) {
-            if(fromHeight - toHeight >= 3) {
+        if (fromHeight > toHeight) {
+            if (fromHeight - toHeight >= 3) {
                 return false;
             }
         }

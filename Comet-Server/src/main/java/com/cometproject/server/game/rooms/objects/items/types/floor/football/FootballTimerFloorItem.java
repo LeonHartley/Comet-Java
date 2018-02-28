@@ -13,7 +13,9 @@ import com.cometproject.server.game.rooms.types.Room;
 public class FootballTimerFloorItem extends RoomItemFloor {
     private int time = 0;
 
-    public FootballTimerFloorItem(RoomItemData itemData, Room room) {        super(itemData, room);    }
+    public FootballTimerFloorItem(RoomItemData itemData, Room room) {
+        super(itemData, room);
+    }
 
 
     @Override
@@ -67,7 +69,7 @@ public class FootballTimerFloorItem extends RoomItemFloor {
             this.sendUpdate();
         } else {
             // Force it to be finished before restarting.
-            if(this.time != 0) {
+            if (this.time != 0) {
                 return false;
             }
 

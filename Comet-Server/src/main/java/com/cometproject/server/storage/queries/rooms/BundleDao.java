@@ -1,12 +1,12 @@
 package com.cometproject.server.storage.queries.rooms;
 
+import com.cometproject.api.utilities.JsonUtil;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.rooms.bundles.types.RoomBundle;
 import com.cometproject.server.game.rooms.bundles.types.RoomBundleConfig;
 import com.cometproject.server.game.rooms.bundles.types.RoomBundleItem;
 import com.cometproject.server.game.rooms.models.CustomFloorMapData;
 import com.cometproject.server.storage.SqlHelper;
-import com.cometproject.api.utilities.JsonUtil;
 import com.google.gson.reflect.TypeToken;
 
 import java.sql.Connection;
@@ -40,7 +40,8 @@ public class BundleDao {
 
                     final List<RoomBundleItem> bundleItems = JsonUtil.getInstance().fromJson(
                             resultSet.getString("bundle_data"),
-                            new TypeToken<ArrayList<RoomBundleItem>>() {}.getType());
+                            new TypeToken<ArrayList<RoomBundleItem>>() {
+                            }.getType());
 
                     bundles.put(alias, new RoomBundle(bundleId, resultSet.getInt("room_id"), alias, roomModelData, bundleItems, resultSet.getInt("cost_credits"), resultSet.getInt("cost_seasonal"), resultSet.getInt("cost_vip"), JsonUtil.getInstance().fromJson(resultSet.getString("room_config"), RoomBundleConfig.class)));
                 } catch (Exception e) {

@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms;
 
-import com.cometproject.api.game.groups.types.IGroupData;
+import com.cometproject.api.config.Configuration;
 import com.cometproject.api.game.players.IPlayer;
 import com.cometproject.api.game.rooms.IRoomData;
 import com.cometproject.api.game.rooms.IRoomService;
@@ -8,8 +8,6 @@ import com.cometproject.api.game.rooms.settings.RoomAccessType;
 import com.cometproject.api.game.rooms.settings.RoomTradeState;
 import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.server.boot.Comet;
-import com.cometproject.api.config.Configuration;
-
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.rooms.filter.WordFilter;
 import com.cometproject.server.game.rooms.models.CustomFloorMapData;
@@ -24,7 +22,6 @@ import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.cache.CacheManager;
 import com.cometproject.server.storage.cache.objects.RoomDataObject;
 import com.cometproject.server.storage.queries.rooms.RoomDao;
-import com.cometproject.api.utilities.Initialisable;
 import org.apache.log4j.Logger;
 import org.apache.solr.util.ConcurrentLRUCache;
 
@@ -39,12 +36,10 @@ import java.util.concurrent.Executors;
 
 public class RoomManager implements IRoomService {
 
-    private static RoomManager roomManagerInstance;
     public static final Logger log = Logger.getLogger(RoomManager.class.getName());
-
     public static final int LRU_MAX_ENTRIES = Integer.parseInt(Configuration.currentConfig().getProperty("comet.game.rooms.data.max"));
     public static final int LRU_MAX_LOWER_WATERMARK = Integer.parseInt(Configuration.currentConfig().getProperty("comet.game.rooms.data.lowerWatermark"));
-
+    private static RoomManager roomManagerInstance;
     private ConcurrentLRUCache<Integer, IRoomData> roomDataInstances;
 
     private Map<Integer, Room> loadedRoomInstances;
@@ -64,6 +59,13 @@ public class RoomManager implements IRoomService {
 
     public RoomManager() {
 
+    }
+
+    public static RoomManager getInstance() {
+        if (roomManagerInstance == null)
+            roomManagerInstance = new RoomManager();
+
+        return roomManagerInstance;
     }
 
     @Override
@@ -94,13 +96,6 @@ public class RoomManager implements IRoomService {
         });
 
         log.info("RoomManager initialized");
-    }
-
-    public static RoomManager getInstance() {
-        if (roomManagerInstance == null)
-            roomManagerInstance = new RoomManager();
-
-        return roomManagerInstance;
     }
 
     public void loadPromotedRooms() {

@@ -2,8 +2,8 @@ package com.cometproject.server.network.messages.outgoing.landing;
 
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.landing.types.PromoArticle;
-import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
+import com.cometproject.server.protocol.messages.MessageComposer;
 
 import java.util.Map;
 

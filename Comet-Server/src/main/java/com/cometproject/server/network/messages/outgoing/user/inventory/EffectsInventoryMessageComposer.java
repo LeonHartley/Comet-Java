@@ -1,8 +1,8 @@
 package com.cometproject.server.network.messages.outgoing.user.inventory;
 
 import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
+import com.cometproject.server.protocol.messages.MessageComposer;
 
 import java.util.Set;
 
@@ -26,7 +26,7 @@ public class EffectsInventoryMessageComposer extends MessageComposer {
     public void compose(IComposer msg) {
         msg.writeInt(this.effects.size());
 
-        for(int effect : this.effects) {
+        for (int effect : this.effects) {
             msg.writeInt(effect);
             msg.writeInt(0);
             msg.writeInt(-1);//duration

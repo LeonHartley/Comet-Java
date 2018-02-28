@@ -27,7 +27,7 @@ public class HandItemCommand extends ChatCommand {
     public String getPermission() {
         return Locale.get("handitem_command");
     }
-    
+
     @Override
     public String getParameter() {
         return Locale.getOrDefault("command.parameter.number", "%number%");

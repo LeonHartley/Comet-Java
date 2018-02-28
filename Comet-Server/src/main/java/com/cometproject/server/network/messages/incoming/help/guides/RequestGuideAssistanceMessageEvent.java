@@ -15,13 +15,13 @@ public class RequestGuideAssistanceMessageEvent implements Event {
 
         final HelpRequest existingHelpRequest = GuideManager.getInstance().getHelpRequestByCreator(client.getPlayer().getId());
 
-        if(existingHelpRequest != null) {
+        if (existingHelpRequest != null) {
             // Error to the user.
             client.send(new GuideSessionErrorMessageComposer(GuideSessionErrorMessageComposer.SOMETHING_WRONG_REQUEST));
             return;
         }
 
-        if(GuideManager.getInstance().getActiveGuideCount() == 0) {
+        if (GuideManager.getInstance().getActiveGuideCount() == 0) {
             client.send(new GuideSessionErrorMessageComposer(GuideSessionErrorMessageComposer.NO_HELPERS_AVAILABLE));
             return;
         }

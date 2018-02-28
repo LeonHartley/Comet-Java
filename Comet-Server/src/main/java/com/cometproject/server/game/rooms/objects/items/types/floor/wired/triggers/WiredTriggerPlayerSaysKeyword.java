@@ -15,16 +15,6 @@ public class WiredTriggerPlayerSaysKeyword extends WiredTriggerItem {
         super(itemData, room);
     }
 
-    @Override
-    public boolean suppliesPlayer() {
-        return true;
-    }
-
-    @Override
-    public int getInterface() {
-        return 0;
-    }
-
     public static boolean executeTriggers(PlayerEntity playerEntity, String message) {
         boolean wasExecuted = false;
 
@@ -46,5 +36,15 @@ public class WiredTriggerPlayerSaysKeyword extends WiredTriggerItem {
         }
 
         return wasExecuted;
+    }
+
+    @Override
+    public boolean suppliesPlayer() {
+        return true;
+    }
+
+    @Override
+    public int getInterface() {
+        return 0;
     }
 }

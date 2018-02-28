@@ -1,12 +1,13 @@
 package com.cometproject.server.game.rooms.types.components;
 
-import com.cometproject.api.game.GameContext;
+import com.cometproject.api.config.CometSettings;
 import com.cometproject.api.game.furniture.types.FurnitureDefinition;
 import com.cometproject.api.game.furniture.types.ItemType;
 import com.cometproject.api.game.furniture.types.LimitedEditionItem;
 import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
-import com.cometproject.api.config.CometSettings;
 import com.cometproject.api.game.rooms.objects.data.RoomItemData;
+import com.cometproject.api.game.utilities.Position;
+import com.cometproject.server.composers.catalog.UnseenItemsMessageComposer;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.players.types.Player;
@@ -22,11 +23,9 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.MagicStackFl
 import com.cometproject.server.game.rooms.objects.items.types.floor.SoundMachineFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.wall.MoodlightWallItem;
-import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.network.NetworkManager;
-import com.cometproject.server.composers.catalog.UnseenItemsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.NotificationMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.UpdateStackMapMessageComposer;
@@ -38,7 +37,6 @@ import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateIn
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.cache.objects.items.FloorItemDataObject;
 import com.cometproject.server.storage.cache.objects.items.WallItemDataObject;
-import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import com.cometproject.storage.api.StorageContext;
 import com.cometproject.storage.api.data.Data;
 import com.google.common.collect.Lists;
@@ -52,17 +50,13 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class ItemsComponent {
 
-    private Room room;
     private final Logger log;
-
     private final Map<Long, RoomItemFloor> floorItems = new ConcurrentHashMap<>();
     private final Map<Long, RoomItemWall> wallItems = new ConcurrentHashMap<>();
-
+    private final Map<Integer, String> itemOwners = new ConcurrentHashMap<>();
+    private Room room;
     private Map<Class<? extends RoomItemFloor>, Set<Long>> itemClassIndex = new ConcurrentHashMap<>();
     private Map<String, Set<Long>> itemInteractionIndex = new ConcurrentHashMap<>();
-
-    private final Map<Integer, String> itemOwners = new ConcurrentHashMap<>();
-
     private long soundMachineId = 0;
     private long moodlightId;
 

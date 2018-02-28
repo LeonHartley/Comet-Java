@@ -32,9 +32,9 @@ public class ApplyHorseEffectMessageEvent implements Event {
             return;
         }
 
-        if(effectItem.getDefinition().getItemName().contains("saddle")) {
+        if (effectItem.getDefinition().getItemName().contains("saddle")) {
             petEntity.getData().setSaddled(true);
-        } else if(effectItem.getDefinition().getItemName().startsWith("horse_dye")) {
+        } else if (effectItem.getDefinition().getItemName().startsWith("horse_dye")) {
             int race = Integer.valueOf(effectItem.getDefinition().getItemName().split("_")[2]);
             int raceType = race * 4 - 2;
             if (race >= 13 && race <= 16) {
@@ -42,9 +42,9 @@ public class ApplyHorseEffectMessageEvent implements Event {
             }
 
             petEntity.getData().setRaceId(raceType);
-        } else if(effectItem.getDefinition().getItemName().startsWith("horse_hairdye")) {
+        } else if (effectItem.getDefinition().getItemName().startsWith("horse_hairdye")) {
             petEntity.getData().setHairDye(48 + Integer.parseInt(effectItem.getDefinition().getItemName().split("_")[2]));
-        } else if(effectItem.getDefinition().getItemName().startsWith("horse_hairstyle")) {
+        } else if (effectItem.getDefinition().getItemName().startsWith("horse_hairstyle")) {
             petEntity.getData().setHair(100 + Integer.parseInt(effectItem.getDefinition().getItemName().split("_")[2]));
         }
 

@@ -13,16 +13,6 @@ public class WiredTriggerEnterRoom extends WiredTriggerItem {
         super(itemData, room);
     }
 
-    @Override
-    public int getInterface() {
-        return 7;
-    }
-
-    @Override
-    public boolean suppliesPlayer() {
-        return true;
-    }
-
     public static void executeTriggers(PlayerEntity playerEntity) {
         if (playerEntity == null || playerEntity.getRoom() == null || playerEntity.getRoom().getItems() == null) {
             return;
@@ -37,5 +27,15 @@ public class WiredTriggerEnterRoom extends WiredTriggerItem {
                 trigger.evaluate(playerEntity, null);
             }
         }
+    }
+
+    @Override
+    public int getInterface() {
+        return 7;
+    }
+
+    @Override
+    public boolean suppliesPlayer() {
+        return true;
     }
 }

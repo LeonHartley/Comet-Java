@@ -4,15 +4,15 @@ import com.cometproject.api.game.furniture.types.IGiftData;
 import com.cometproject.api.game.furniture.types.LimitedEditionItem;
 import com.cometproject.api.game.furniture.types.SongItem;
 import com.cometproject.api.game.players.data.components.PlayerInventory;
+import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
+import com.cometproject.server.composers.catalog.UnseenItemsMessageComposer;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.items.ItemManager;
-import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
 import com.cometproject.server.game.items.music.SongItemData;
 import com.cometproject.server.game.players.components.types.inventory.InventoryItem;
 import com.cometproject.server.game.players.components.types.inventory.InventoryItemSnapshot;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.players.types.PlayerComponent;
-import com.cometproject.server.composers.catalog.UnseenItemsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.wired.WiredRewardMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.BadgeInventoryMessageComposer;
@@ -25,7 +25,10 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.log4j.Logger;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 
@@ -53,7 +56,7 @@ public class InventoryComponent extends PlayerComponent implements PlayerInvento
     }
 
     public void loadEffects() {
-        if(this.effects != null) {
+        if (this.effects != null) {
             this.effects.clear();
             this.effects = null;
         }
@@ -65,7 +68,7 @@ public class InventoryComponent extends PlayerComponent implements PlayerInvento
     public void loadItems() {
         this.itemsLoaded = true;
 
-        if(this.inventoryItems.size() >= 1) {
+        if (this.inventoryItems.size() >= 1) {
             this.inventoryItems.clear();
         }
 
@@ -109,7 +112,7 @@ public class InventoryComponent extends PlayerComponent implements PlayerInvento
                     send(new UnseenItemsMessageComposer(new HashMap<Integer, List<Integer>>() {{
                         put(4, Lists.newArrayList(1));
                     }}));
-            
+
             if (sendAlert) {
                 this.getPlayer().getSession().send(new WiredRewardMessageComposer(7));
             }
@@ -118,7 +121,7 @@ public class InventoryComponent extends PlayerComponent implements PlayerInvento
     }
 
     public void send() {
-        if(this.inventoryItems.size() == 0) {
+        if (this.inventoryItems.size() == 0) {
             this.getPlayer().getSession().send(new InventoryMessageComposer(1, 0, Maps.newHashMap()));
             return;
         }
@@ -129,11 +132,11 @@ public class InventoryComponent extends PlayerComponent implements PlayerInvento
         int currentPage = 0;
         Map<Long, PlayerItem> inventoryItems = new HashMap<>();
 
-        for(Map.Entry<Long, PlayerItem> item : this.getInventoryItems().entrySet()) {
+        for (Map.Entry<Long, PlayerItem> item : this.getInventoryItems().entrySet()) {
             totalSent++;
             inventoryItems.put(item.getKey(), item.getValue());
 
-            if(inventoryItems.size() >= InventoryMessageComposer.ITEMS_PER_PAGE || totalSent == this.inventoryItems.size()) {
+            if (inventoryItems.size() >= InventoryMessageComposer.ITEMS_PER_PAGE || totalSent == this.inventoryItems.size()) {
                 this.getPlayer().getSession().send(new InventoryMessageComposer(totalPages + 1, currentPage, inventoryItems));
 
                 inventoryItems = new HashMap<>();
@@ -199,12 +202,12 @@ public class InventoryComponent extends PlayerComponent implements PlayerInvento
     public String[] equippedBadges() {
         final String[] badges = new String[6];
 
-       // Map<String, Integer> badges = new ConcurrentHashMap<>();
+        // Map<String, Integer> badges = new ConcurrentHashMap<>();
 
         for (Map.Entry<String, Integer> badge : this.getBadges().entrySet()) {
             if (badge.getValue() > 0)
                 badges[badge.getValue()] = badge.getKey();
-                //badges.put(badge.getKey(), badge.getValue());
+            //badges.put(badge.getKey(), badge.getValue());
         }
 
         return badges;
@@ -265,7 +268,7 @@ public class InventoryComponent extends PlayerComponent implements PlayerInvento
 
     @Override
     public void dispose() {
-        for(PlayerItem inventoryItem : this.inventoryItems.values()) {
+        for (PlayerItem inventoryItem : this.inventoryItems.values()) {
             ItemManager.getInstance().disposeItemVirtualId(inventoryItem.getId());
         }
 

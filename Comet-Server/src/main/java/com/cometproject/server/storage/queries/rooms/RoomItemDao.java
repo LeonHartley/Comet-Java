@@ -1,17 +1,6 @@
 package com.cometproject.server.storage.queries.rooms;
 
-import com.cometproject.server.game.rooms.objects.items.RoomItem;
-import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
-import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
-import com.cometproject.server.storage.SqlHelper;
 import org.apache.log4j.Logger;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 
 public class RoomItemDao {

@@ -33,12 +33,12 @@ public class MoodlightData {
         return enabled;
     }
 
-    public int getActivePreset() {
-        return activePreset;
-    }
-
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public int getActivePreset() {
+        return activePreset;
     }
 
     public void setActivePreset(int activePreset) {

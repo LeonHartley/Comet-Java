@@ -1,18 +1,17 @@
 package com.cometproject.server.network.messages.outgoing.messenger;
 
+import com.cometproject.api.config.CometSettings;
 import com.cometproject.api.game.GameContext;
 import com.cometproject.api.game.groups.types.IGroup;
 import com.cometproject.api.game.players.data.PlayerAvatar;
 import com.cometproject.api.game.players.data.components.messenger.IMessengerFriend;
-import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.api.config.CometSettings;
-
 import com.cometproject.api.game.players.data.components.messenger.RelationshipLevel;
+import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.network.NetworkManager;
-import com.cometproject.server.protocol.messages.MessageComposer;
-import com.cometproject.server.protocol.headers.Composers;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.protocol.headers.Composers;
+import com.cometproject.server.protocol.messages.MessageComposer;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
@@ -69,7 +68,7 @@ public class BuddyListMessageComposer extends MessageComposer {
             msg.writeString(playerAvatar.getUsername());
             msg.writeInt(77); // Male.
 
-            boolean isOnline = friends.get(playerAvatar.getId()) .isOnline();
+            boolean isOnline = friends.get(playerAvatar.getId()).isOnline();
             boolean isInRoom = friends.get(playerAvatar.getId()).isInRoom();
 
             if (friends.get(playerAvatar.getId()).isOnline()) {

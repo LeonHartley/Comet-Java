@@ -25,7 +25,7 @@ public class GiveBadgeCommand extends ChatCommand {
         } else {
             int playerId = PlayerDao.getIdByUsername(username);
 
-            if(playerId == 0) {
+            if (playerId == 0) {
                 sendNotif(Locale.get("command.givebadge.fail").replace("%username%", username).replace("%badge%", badge), client);
             } else {
                 InventoryDao.addBadge(badge, playerId);
@@ -38,7 +38,7 @@ public class GiveBadgeCommand extends ChatCommand {
     public String getPermission() {
         return "givebadge_command";
     }
-    
+
     @Override
     public String getParameter() {
         return Locale.getOrDefault("command.parameter.username" + " " + "command.parameter.badge", "%username% %badge%");

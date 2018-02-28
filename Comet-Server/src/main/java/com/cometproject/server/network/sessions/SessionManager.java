@@ -5,9 +5,9 @@ import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.api.networking.sessions.ISessionManager;
 import com.cometproject.api.networking.sessions.ISessionService;
 import com.cometproject.api.networking.sessions.SessionManagerAccessor;
+import com.cometproject.api.utilities.JsonUtil;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.players.PlayerManager;
-import com.cometproject.api.utilities.JsonUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
@@ -24,15 +24,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 public final class SessionManager implements ISessionManager, ISessionService {
     public static final AttributeKey<Session> SESSION_ATTR = AttributeKey.valueOf("Session.attr");
     public static final AttributeKey<Integer> CHANNEL_ID_ATTR = AttributeKey.valueOf("ChannelId.attr");
-
+    public static boolean isLocked = false;
     private final AtomicInteger idGenerator = new AtomicInteger();
     private final Map<Integer, ISession> sessions = new ConcurrentHashMap<>();
-
     private final Map<String, SessionAccessLog> accessLog = new ConcurrentHashMap<>();
-
     private final ChannelGroup channelGroup = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
-
-    public static boolean isLocked = false;
 
     public SessionManager() {
         SessionManagerAccessor.getInstance().setSessionManager(this);
@@ -51,7 +47,7 @@ public final class SessionManager implements ISessionManager, ISessionService {
     }
 
     public boolean remove(ChannelHandlerContext channel) {
-        if(channel.attr(CHANNEL_ID_ATTR).get() == null) {
+        if (channel.attr(CHANNEL_ID_ATTR).get() == null) {
             return false;
         }
 

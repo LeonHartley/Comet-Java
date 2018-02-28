@@ -6,8 +6,8 @@ import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.navigator.CreateRoomMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.MotdNotificationMessageComposer;
-import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.protocol.messages.MessageEvent;
 
 
 public class CreateRoomMessageEvent implements Event {
@@ -19,13 +19,13 @@ public class CreateRoomMessageEvent implements Event {
         int maxVisitors = msg.readInt();
         int tradeState = msg.readInt();
 
-        if(client.getPlayer().getRooms().size() >= 100) {
+        if (client.getPlayer().getRooms().size() >= 100) {
             return;
         }
 
         int lastRoomCreatedDifference = ((int) Comet.getTime()) - client.getPlayer().getLastRoomCreated();
 
-        if(lastRoomCreatedDifference < 30) {
+        if (lastRoomCreatedDifference < 30) {
             client.send(new MotdNotificationMessageComposer(Locale.getOrDefault("room.creation.time", "Due to abuse, you can only create 1 room every 30 seconds (You have " + (30 - lastRoomCreatedDifference) + " seconds left)!")));
             return;
         }

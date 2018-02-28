@@ -1,12 +1,13 @@
 package com.cometproject.server.game.rooms.types;
 
 import com.cometproject.api.game.GameContext;
-import com.cometproject.api.game.groups.types.IGroup;
-import com.cometproject.api.game.rooms.IRoomData;
-import com.cometproject.api.game.rooms.RoomType;
 import com.cometproject.api.game.bots.IBotData;
+import com.cometproject.api.game.groups.types.IGroup;
 import com.cometproject.api.game.pets.IPetData;
 import com.cometproject.api.game.rooms.IRoom;
+import com.cometproject.api.game.rooms.IRoomData;
+import com.cometproject.api.game.rooms.RoomType;
+import com.cometproject.api.utilities.JsonUtil;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.RoomQueue;
 import com.cometproject.server.game.rooms.models.CustomFloorMapData;
@@ -27,7 +28,6 @@ import com.cometproject.server.storage.cache.objects.RoomDataObject;
 import com.cometproject.server.storage.cache.objects.items.FloorItemDataObject;
 import com.cometproject.server.storage.cache.objects.items.WallItemDataObject;
 import com.cometproject.server.storage.queries.rooms.RoomDao;
-import com.cometproject.api.utilities.JsonUtil;
 import com.cometproject.server.utilities.attributes.Attributable;
 import com.google.common.collect.Sets;
 import org.apache.log4j.Logger;
@@ -45,10 +45,9 @@ public class Room implements Attributable, IRoom {
     private final IRoomData data;
 
     private final RoomDataObject cachedData;
-
+    private final AtomicInteger wiredTimer = new AtomicInteger(0);
     private RoomModel model;
     private RoomMapping mapping;
-
     private ProcessComponent process;
     private RightsComponent rights;
     private ItemsComponent items;
@@ -60,19 +59,15 @@ public class Room implements Attributable, IRoom {
     private EntityComponent entities;
     private FilterComponent filter;
     private IGroup group;
-
     private Map<String, Object> attributes;
     private Set<Integer> ratings;
-
     private String question;
     private Set<Integer> yesVotes;
     private Set<Integer> noVotes;
-
     private boolean isDisposed = false;
     private int idleTicks = 0;
-    private final AtomicInteger wiredTimer = new AtomicInteger(0);
-
     private boolean isReloading = false;
+    private boolean forcedUnload = false;
 
     public Room(IRoomData data) {
         this.data = data;
@@ -190,8 +185,6 @@ public class Room implements Attributable, IRoom {
 
         return false;
     }
-
-    private boolean forcedUnload = false;
 
     public void setIdleNow() {
         this.idleTicks = 600;

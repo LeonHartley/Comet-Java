@@ -6,7 +6,6 @@ import com.cometproject.server.logging.LogManager;
 import com.cometproject.server.logging.database.queries.LogQueries;
 import com.cometproject.server.storage.StorageManager;
 import com.cometproject.server.storage.queries.system.StatisticsDao;
-import com.cometproject.storage.mysql.MySQLStorageQueue;
 import com.cometproject.storage.mysql.MySQLStorageQueues;
 import org.apache.log4j.Logger;
 
@@ -43,7 +42,7 @@ public class ShutdownProcess {
         GameContext.setCurrent(null);
         StorageManager.getInstance().shutdown();
 
-        if(exit) {
+        if (exit) {
             System.exit(0);
         }
     }

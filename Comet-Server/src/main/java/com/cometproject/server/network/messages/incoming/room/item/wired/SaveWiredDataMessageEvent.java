@@ -15,8 +15,8 @@ import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.wired.SaveWiredMessageComposer;
-import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.protocol.messages.MessageEvent;
 
 
 public class SaveWiredDataMessageEvent implements Event {
@@ -42,7 +42,7 @@ public class SaveWiredDataMessageEvent implements Event {
         WiredFloorItem wiredItem = ((WiredFloorItem) room.getItems().getFloorItem(itemId));
 
         if (wiredItem == null) return;
-        
+
         if (wiredItem instanceof WiredActionGiveReward && CometSettings.roomWiredRewardMinimumRank > client.getPlayer().getData().getRank()) {
             client.send(new SaveWiredMessageComposer());
             return;
@@ -82,7 +82,7 @@ public class SaveWiredDataMessageEvent implements Event {
 
             final RoomItemFloor floor = room.getItems().getFloorItem(selectedItem);
 
-            if(floor == null) {
+            if (floor == null) {
                 continue;
             }
 

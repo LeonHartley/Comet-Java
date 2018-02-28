@@ -1,10 +1,10 @@
 package com.cometproject.server.network.messages.incoming.user.wardrobe;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.api.config.CometSettings;
-import com.cometproject.server.config.Locale;
 import com.cometproject.api.game.achievements.types.AchievementType;
 import com.cometproject.api.game.quests.QuestType;
+import com.cometproject.server.boot.Comet;
+import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.utilities.validator.PlayerFigureValidator;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
@@ -18,7 +18,7 @@ public class ChangeLooksMessageEvent implements Event {
         String gender = msg.readString();
         String figure = msg.readString();
 
-        if(figure == null) return;
+        if (figure == null) return;
 
         if (!PlayerFigureValidator.isValidFigureCode(figure, gender.toLowerCase())) {
             client.send(new AlertMessageComposer(Locale.getOrDefault("game.figure.invalid", "That figure is invalid!")));

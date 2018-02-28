@@ -5,8 +5,8 @@ import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.moderation.chatlog.UserChatlogContainer;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.logging.entries.RoomChatLogEntry;
-import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
+import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 
 

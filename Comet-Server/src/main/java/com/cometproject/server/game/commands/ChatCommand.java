@@ -8,14 +8,6 @@ import com.cometproject.server.network.sessions.Session;
 
 
 public abstract class ChatCommand {
-    public abstract void execute(Session client, String[] params);
-
-    public abstract String getPermission();
-    
-    public abstract String getParameter();
-
-    public abstract String getDescription();
-
     public static void sendNotif(String msg, Session session) {
         session.send(new NotificationMessageComposer("generic", msg));
     }
@@ -31,7 +23,15 @@ public abstract class ChatCommand {
     public static void isExecuted(Session session) {
         session.send(new NotificationMessageComposer("up", Locale.getOrDefault("command.executed", "Command is executed succesfully.")));
     }
-    
+
+    public abstract void execute(Session client, String[] params);
+
+    public abstract String getPermission();
+
+    public abstract String getParameter();
+
+    public abstract String getDescription();
+
     public final String merge(String[] params) {
         final StringBuilder stringBuilder = new StringBuilder();
 

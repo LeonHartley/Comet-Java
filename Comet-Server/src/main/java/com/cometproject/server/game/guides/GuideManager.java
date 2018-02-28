@@ -1,10 +1,10 @@
 package com.cometproject.server.game.guides;
 
+import com.cometproject.api.utilities.Initialisable;
 import com.cometproject.server.game.guides.types.HelpRequest;
 import com.cometproject.server.game.guides.types.HelperSession;
 import com.cometproject.server.network.messages.outgoing.help.guides.GuideSessionAttachedMessageComposer;
 import com.cometproject.server.tasks.CometThreadManager;
-import com.cometproject.api.utilities.Initialisable;
 import com.cometproject.server.utilities.collections.ConcurrentHashSet;
 
 import java.util.Map;
@@ -22,6 +22,14 @@ public class GuideManager implements Initialisable {
 
     private final Map<Integer, HelpRequest> activeHelpRequests = new ConcurrentHashMap<>();
 
+    public static GuideManager getInstance() {
+        if (guideManagerInstance == null) {
+            guideManagerInstance = new GuideManager();
+        }
+
+        return guideManagerInstance;
+    }
+
     @Override
     public void initialize() {
         CometThreadManager.getInstance().executePeriodic(this::processRequests, 1000L, 1000L, TimeUnit.MILLISECONDS);
@@ -31,13 +39,13 @@ public class GuideManager implements Initialisable {
         // Loop through every request and make sure it has an attached guide, if it doesn't.. find a guide that hasn't
         // declined it yet.
 
-        for(HelpRequest helpRequest : this.activeHelpRequests.values()) {
-            if(!helpRequest.hasGuide()) {
-                if(helpRequest.getProcessTicks() >= 60) {
+        for (HelpRequest helpRequest : this.activeHelpRequests.values()) {
+            if (!helpRequest.hasGuide()) {
+                if (helpRequest.getProcessTicks() >= 60) {
                     // Find a guide!
-                    for(Map.Entry<Integer, Boolean> activeGuide : activeGuides.entrySet()) {
-                        if(!activeGuide.getValue()) { // Guide is available!
-                            if(!helpRequest.declined(activeGuide.getKey())) {
+                    for (Map.Entry<Integer, Boolean> activeGuide : activeGuides.entrySet()) {
+                        if (!activeGuide.getValue()) { // Guide is available!
+                            if (!helpRequest.declined(activeGuide.getKey())) {
                                 helpRequest.setGuide(activeGuide.getKey());
 
                                 helpRequest.getPlayerSession().send(new GuideSessionAttachedMessageComposer(helpRequest, false));
@@ -47,7 +55,7 @@ public class GuideManager implements Initialisable {
                         }
                     }
 
-                    if(helpRequest.hasGuide()) {
+                    if (helpRequest.hasGuide()) {
                         this.activeGuides.put(helpRequest.guideId, true);
                     }
 
@@ -63,11 +71,11 @@ public class GuideManager implements Initialisable {
     public void startPlayerDuty(final HelperSession helperSession) {
         this.sessions.put(helperSession.getPlayerId(), helperSession);
 
-        if(helperSession.handlesHelpRequests()) {
+        if (helperSession.handlesHelpRequests()) {
             this.activeGuides.put(helperSession.getPlayerId(), false);
         }
 
-        if(helperSession.handlesBullyReports()) {
+        if (helperSession.handlesBullyReports()) {
             this.activeGuardians.add(helperSession.getPlayerId());
         }
     }
@@ -75,15 +83,15 @@ public class GuideManager implements Initialisable {
     public void finishPlayerDuty(final HelperSession helperSession) {
         //check if they have any on-going stuff?
 
-        if(this.sessions.containsKey(helperSession.getPlayerId())) {
+        if (this.sessions.containsKey(helperSession.getPlayerId())) {
             this.sessions.remove(helperSession.getPlayerId());
         }
 
-        if(helperSession.handlesHelpRequests()) {
+        if (helperSession.handlesHelpRequests()) {
             this.activeGuides.remove(helperSession.getPlayerId());
         }
 
-        if(helperSession.handlesBullyReports()) {
+        if (helperSession.handlesBullyReports()) {
             this.activeGuardians.remove(helperSession.getPlayerId());
         }
     }
@@ -102,13 +110,5 @@ public class GuideManager implements Initialisable {
 
     public int getActiveGuardianCount() {
         return this.activeGuardians.size();
-    }
-
-    public static GuideManager getInstance() {
-        if(guideManagerInstance == null) {
-            guideManagerInstance = new GuideManager();
-        }
-
-        return guideManagerInstance;
     }
 }

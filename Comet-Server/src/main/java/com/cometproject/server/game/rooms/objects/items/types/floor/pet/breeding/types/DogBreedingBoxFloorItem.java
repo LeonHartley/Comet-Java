@@ -6,7 +6,9 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.pet.breeding
 import com.cometproject.server.game.rooms.types.Room;
 
 public class DogBreedingBoxFloorItem extends BreedingBoxFloorItem {
-    public DogBreedingBoxFloorItem(RoomItemData itemData, Room room) {        super(itemData, room);    }
+    public DogBreedingBoxFloorItem(RoomItemData itemData, Room room) {
+        super(itemData, room);
+    }
 
     @Override
     protected int getBabyType() {

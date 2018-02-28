@@ -3,17 +3,15 @@ package com.cometproject.server.network.messages.incoming.user.details;
 import com.cometproject.api.game.rooms.IRoomData;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.players.PlayerManager;
-import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.filter.FilterResult;
-import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomForwardMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.UserNameChangeMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.details.UpdateUsernameMessageComposer;
-import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.storage.queries.rooms.RoomDao;
 

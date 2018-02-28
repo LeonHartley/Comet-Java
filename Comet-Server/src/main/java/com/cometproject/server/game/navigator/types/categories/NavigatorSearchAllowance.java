@@ -6,7 +6,7 @@ public enum NavigatorSearchAllowance {
     GO_BACK;
 
     public static int getIntValue(NavigatorSearchAllowance allowance) {
-        switch(allowance) {
+        switch (allowance) {
             default:
             case NOTHING:
                 return 0;

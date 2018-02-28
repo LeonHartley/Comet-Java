@@ -1,6 +1,5 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.events;
 
-import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredFloorItem;
 
@@ -14,7 +13,7 @@ public class WiredItemFlashEvent extends WiredItemEvent {
 
     @Override
     public void onCompletion(final RoomItemFloor floorItem) {
-        if(floorItem instanceof WiredFloorItem) {
+        if (floorItem instanceof WiredFloorItem) {
             ((WiredFloorItem) floorItem).switchState();
         }
     }

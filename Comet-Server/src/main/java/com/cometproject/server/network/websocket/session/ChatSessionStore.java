@@ -13,6 +13,14 @@ public class ChatSessionStore {
         this.chatSessions = new HashMap<>();
     }
 
+    public static ChatSessionStore getInstance() {
+        if (instance == null) {
+            instance = new ChatSessionStore();
+        }
+
+        return instance;
+    }
+
     public ChatSession store(UUID uuid, ChatSession chatSession) {
         this.chatSessions.put(uuid, chatSession);
 
@@ -29,13 +37,5 @@ public class ChatSessionStore {
 
     public Map<UUID, ChatSession> getChatSessions() {
         return this.chatSessions;
-    }
-
-    public static ChatSessionStore getInstance() {
-        if (instance == null) {
-            instance = new ChatSessionStore();
-        }
-
-        return instance;
     }
 }

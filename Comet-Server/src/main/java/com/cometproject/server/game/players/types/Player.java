@@ -1,11 +1,12 @@
 package com.cometproject.server.game.players.types;
 
+import com.cometproject.api.config.CometSettings;
 import com.cometproject.api.game.players.IPlayer;
 import com.cometproject.api.game.players.data.components.PlayerInventory;
 import com.cometproject.api.game.quests.IQuest;
+import com.cometproject.api.game.quests.QuestType;
 import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.server.boot.Comet;
-import com.cometproject.api.config.CometSettings;
 import com.cometproject.server.game.guides.GuideManager;
 import com.cometproject.server.game.guides.types.HelpRequest;
 import com.cometproject.server.game.guides.types.HelperSession;
@@ -13,12 +14,10 @@ import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.components.*;
 import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.game.quests.QuestManager;
-import com.cometproject.api.game.quests.QuestType;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.types.ChatMessageColour;
-import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.MotdNotificationMessageComposer;
 import com.cometproject.server.network.messages.outgoing.quests.QuestStartedMessageComposer;
@@ -27,12 +26,12 @@ import com.cometproject.server.network.messages.outgoing.room.engine.HotelViewMe
 import com.cometproject.server.network.messages.outgoing.user.purse.CurrenciesMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.purse.SendCreditsMessageComposer;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.storage.queries.catalog.CatalogDao;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.utilities.collections.ConcurrentHashSet;
 import com.cometproject.storage.api.StorageContext;
 import com.cometproject.storage.mysql.MySQLStorageQueues;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 import java.sql.ResultSet;
@@ -40,17 +39,6 @@ import java.sql.SQLException;
 import java.util.*;
 
 public class Player implements IPlayer {
-
-    private int id;
-
-    private PlayerSettings settings;
-    private PlayerData data;
-    private PlayerStatistics stats;
-
-    private PlayerEntity entity;
-    private Session session;
-
-    private HelperSession helperSession;
 
     private final PermissionComponent permissions;
     private final InventoryComponent inventory;
@@ -63,69 +51,52 @@ public class Player implements IPlayer {
     private final AchievementComponent achievements;
     private final NavigatorComponent navigator;
     private final WardrobeComponent wardrobe;
-
+    public boolean cancelPageOpen = false;
+    public boolean isDisposed = false;
+    public int lastBannedListRequest = 0;
+    private int id;
+    private PlayerSettings settings;
+    private PlayerData data;
+    private PlayerStatistics stats;
+    private PlayerEntity entity;
+    private Session session;
+    private HelperSession helperSession;
     private List<Integer> rooms = new ArrayList<>();
     private List<Integer> roomsWithRights = new ArrayList<>();
     private List<Integer> enteredRooms = new ArrayList<>();
-
     private Set<Integer> groups = Sets.newConcurrentHashSet();
-
     private List<Integer> ignoredPlayers = new ArrayList<>();
     private long roomLastMessageTime = 0;
     private double roomFloodTime = 0;
     private int lastForumPost = 0;
-
     private long lastRoomRequest = 0;
     private long lastBadgeUpdate = 0;
     private int lastFigureUpdate = 0;
-
     private int roomFloodFlag = 0;
     private long messengerLastMessageTime = 0;
-
     private double messengerFloodTime = 0;
     private int messengerFloodFlag = 0;
-
     private boolean usernameConfirmed = false;
-
     private long teleportId = 0;
     private int teleportRoomId = 0;
     private String lastMessage = "";
-
     private int lastVoucherRedeemAttempt = 0;
     private int voucherRedeemAttempts = 0;
-
     private int notifCooldown = 0;
     private int lastRoomId;
-
     private int lastGift = 0;
-
     private int lastRoomCreated = 0;
-    public boolean cancelPageOpen = false;
-
     private boolean isDeletingGroup = false;
-
     private long deletingGroupAttempt = 0;
-
     private boolean bypassRoomAuth;
-
-    public boolean isDisposed = false;
-
     private long lastReward = 0;
-
     private boolean invisible = false;
-
     private int lastTradePlayer = 0;
     private long lastTradeTime = 0;
     private int lastTradeFlag = 0;
-
     private int lastTradeFlood = 0;
-
     private long lastPhotoTaken = 0;
-
     private String ssoTicket;
-
-    public int lastBannedListRequest = 0;
-
     private Set<Integer> recentPurchases;
 
     private Set<String> eventLogCategories = Sets.newConcurrentHashSet();
@@ -138,6 +109,8 @@ public class Player implements IPlayer {
     private boolean botsMuted;
 
     private String lastPhoto = null;
+    private int roomQueueId = 0;
+    private int spectatorRoomId = 0;
 
     public Player(ResultSet data, boolean isFallback) throws SQLException {
         this.id = data.getInt("playerId");
@@ -353,28 +326,23 @@ public class Player implements IPlayer {
     }
 
     @Override
-    public List<Integer> getRoomsWithRights() {
-        return roomsWithRights;
-    }
-
-    @Override
     public void setRooms(List<Integer> rooms) {
         this.rooms = rooms;
     }
 
     @Override
-    public void setSession(ISession client) {
-        this.session = ((Session) client);
-    }
-
-    //    @Override
-    public void setEntity(PlayerEntity avatar) {
-        this.entity = avatar;
+    public List<Integer> getRoomsWithRights() {
+        return roomsWithRights;
     }
 
     //    @Override
     public PlayerEntity getEntity() {
         return this.entity;
+    }
+
+    //    @Override
+    public void setEntity(PlayerEntity avatar) {
+        this.entity = avatar;
     }
 
     @Override
@@ -383,8 +351,17 @@ public class Player implements IPlayer {
     }
 
     @Override
+    public void setSession(ISession client) {
+        this.session = ((Session) client);
+    }
+
+    @Override
     public PlayerData getData() {
         return this.data;
+    }
+
+    public void setData(PlayerData playerData) {
+        this.data = playerData;
     }
 
     @Override
@@ -632,10 +609,6 @@ public class Player implements IPlayer {
         this.lastForumPost = lastForumPost;
     }
 
-    private int roomQueueId = 0;
-
-    private int spectatorRoomId = 0;
-
     public boolean hasQueued(int id) {
         if (roomQueueId == id) return true;
 
@@ -722,12 +695,12 @@ public class Player implements IPlayer {
         this.lastTradeFlood = lastTradeFlood;
     }
 
-    public void setSsoTicket(final String ssoTicket) {
-        this.ssoTicket = ssoTicket;
-    }
-
     public String getSsoTicket() {
         return this.ssoTicket;
+    }
+
+    public void setSsoTicket(final String ssoTicket) {
+        this.ssoTicket = ssoTicket;
     }
 
     public long getLastPhotoTaken() {
@@ -818,10 +791,6 @@ public class Player implements IPlayer {
 
     public void setBotsMuted(boolean botsMuted) {
         this.botsMuted = botsMuted;
-    }
-
-    public void setData(PlayerData playerData) {
-        this.data = playerData;
     }
 
     public WardrobeComponent getWardrobe() {
