@@ -82,7 +82,8 @@ public class DeleteGroupMessageEvent implements Event {
         room.setGroup(null);
 
         room.getData().setGroupId(0);
-        room.getData().save();
+
+        GameContext.getCurrent().getRoomService().saveRoomData(room.getData());
 
         room.setIdleNow();
     }

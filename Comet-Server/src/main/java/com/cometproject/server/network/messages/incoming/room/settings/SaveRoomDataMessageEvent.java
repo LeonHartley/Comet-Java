@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.settings;
 
+import com.cometproject.api.game.GameContext;
 import com.cometproject.api.game.rooms.IRoomData;
 import com.cometproject.api.game.rooms.settings.RoomBanState;
 import com.cometproject.api.game.rooms.settings.RoomKickState;
@@ -41,7 +42,7 @@ public class SaveRoomDataMessageEvent implements Event {
                 data = room.getData();
             }
         } else {
-            data = RoomManager.getInstance().getRoomData(id);
+            data = GameContext.getCurrent().getRoomService().getRoomData(id);
         }
 
         if (data == null) return;
@@ -143,7 +144,7 @@ public class SaveRoomDataMessageEvent implements Event {
         }
 
         data.setAccess(RoomWriter.roomAccessToString(state));
-        data.setCategory(categoryId);
+        data.setCategoryId(categoryId);
         data.setName(filteredName);
         data.setDescription(filteredDescription);
         data.setPassword(password);
@@ -167,7 +168,7 @@ public class SaveRoomDataMessageEvent implements Event {
         data.setAntiFloodSettings(antiFloodSettings);
 
         try {
-            data.save();
+            GameContext.getCurrent().getRoomService().saveRoomData(data);
 
             room.getEntities().broadcastMessage(new RoomVisualizationSettingsMessageComposer(hideWall, wallThick, floorThick));
 //            room.getEntities().broadcastMessage(new RoomDataMessageComposer(room, true, room.getRights().hasRights(client.getPlayer().getId()) || client.getPlayer().getPermissions().getRank().roomFullControl()));

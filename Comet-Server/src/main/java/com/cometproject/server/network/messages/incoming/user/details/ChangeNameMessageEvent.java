@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.user.details;
 
+import com.cometproject.api.game.GameContext;
 import com.cometproject.api.game.rooms.IRoomData;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.players.PlayerManager;
@@ -87,8 +88,10 @@ public class ChangeNameMessageEvent implements Event {
         PlayerManager.getInstance().updateUsernameCache(oldName, newName);
 
         for (Map.Entry<Integer, IRoomData> roomEntry : rooms.entrySet()) {
-            IRoomData roomData = RoomManager.getInstance().getRoomData(roomEntry.getValue().getId());
+            IRoomData roomData = GameContext.getCurrent().getRoomService().getRoomData(roomEntry.getValue().getId());
             roomData.setOwner(newName);
+
+            GameContext.getCurrent().getRoomService().saveRoomData(roomData);
         }
 
         client.getPlayer().getData().save();

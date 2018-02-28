@@ -80,7 +80,7 @@ public class RevokeMembershipMessageEvent implements Event {
             if (client.getPlayer().getGroups().contains(groupId)) {
                 client.getPlayer().getGroups().remove(new Integer(groupId));
 
-                client.send(new GroupInformationMessageComposer(group, RoomManager.getInstance().getRoomData(group.getData().getRoomId()), true,
+                client.send(new GroupInformationMessageComposer(group, GameContext.getCurrent().getRoomService().getRoomData(group.getData().getRoomId()), true,
                         client.getPlayer().getId() == group.getData().getOwnerId(), group.getMembers().getAdministrators().contains(client.getPlayer().getId()),
                         group.getMembers().getAll().containsKey(client.getPlayer().getId()) ? 1 : group.getMembers().getMembershipRequests().contains(client.getPlayer().getId()) ? 2 : 0));
 

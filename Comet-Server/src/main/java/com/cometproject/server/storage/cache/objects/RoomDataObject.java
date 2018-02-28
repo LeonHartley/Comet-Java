@@ -84,7 +84,7 @@ public class RoomDataObject extends CachableObject {
         roomDataObject.addProperty("description", data.getDescription());
         roomDataObject.addProperty("ownerId", data.getOwnerId());
         roomDataObject.addProperty("owner", data.getOwner());
-        roomDataObject.addProperty("category", data.getCategory().getId());
+        roomDataObject.addProperty("category", data.getCategoryId());
         roomDataObject.addProperty("maxUsers", data.getMaxUsers());
         roomDataObject.addProperty("access", data.getAccess().toString());
         roomDataObject.addProperty("password", data.getPassword());

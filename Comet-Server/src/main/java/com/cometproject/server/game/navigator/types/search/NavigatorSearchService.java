@@ -162,7 +162,8 @@ public class NavigatorSearchService implements CometTask {
                                 IGroupData groupData = GameContext.getCurrent().getGroupService().getData(groupId);
 
                                 if (groupData != null) {
-                                    IRoomData roomData = RoomManager.getInstance().getRoomData(groupData.getRoomId());
+                                    IRoomData roomData =
+                                            GameContext.getCurrent().getRoomService().getRoomData(groupData.getRoomId());
 
                                     if (roomData != null) {
                                         groupHomeRoomsNotEmpty = true;
@@ -214,9 +215,9 @@ public class NavigatorSearchService implements CometTask {
                 }
 
                 for (Integer roomId : new LinkedList<>(player.getRooms())) {
-                    if (RoomManager.getInstance().getRoomData(roomId) == null) continue;
+                    if (GameContext.getCurrent().getRoomService().getRoomData(roomId) == null) continue;
 
-                    rooms.add(RoomManager.getInstance().getRoomData(roomId));
+                    rooms.add(GameContext.getCurrent().getRoomService().getRoomData(roomId));
                 }
                 break;
 
@@ -230,7 +231,7 @@ public class NavigatorSearchService implements CometTask {
                 for (Integer roomId : player.getNavigator().getFavouriteRooms()) {
                     if (favouriteRooms.size() == 50) break;
 
-                    final IRoomData roomData = RoomManager.getInstance().getRoomData(roomId);
+                    final IRoomData roomData = GameContext.getCurrent().getRoomService().getRoomData(roomId);
 
                     if (roomData != null) {
                         favouriteRooms.add(roomData);
@@ -254,7 +255,7 @@ public class NavigatorSearchService implements CometTask {
 
                 for (RoomPromotion roomPromotion : RoomManager.getInstance().getRoomPromotions().values()) {
                     if (roomPromotion != null) {
-                        IRoomData roomData = RoomManager.getInstance().getRoomData(roomPromotion.getRoomId());
+                        IRoomData roomData = GameContext.getCurrent().getRoomService().getRoomData(roomPromotion.getRoomId());
 
                         if (roomData != null) {
                             promotedRooms.add(roomData);
@@ -268,7 +269,7 @@ public class NavigatorSearchService implements CometTask {
 
             case PUBLIC:
                 for (PublicRoom publicRoom : NavigatorManager.getInstance().getPublicRooms().values()) {
-                    IRoomData roomData = RoomManager.getInstance().getRoomData(publicRoom.getRoomId());
+                    IRoomData roomData = GameContext.getCurrent().getRoomService().getRoomData(publicRoom.getRoomId());
 
                     if (roomData != null) {
                         rooms.add(roomData);
@@ -280,7 +281,7 @@ public class NavigatorSearchService implements CometTask {
                 List<IRoomData> staffPicks = Lists.newArrayList();
 
                 for (int roomId : NavigatorManager.getInstance().getStaffPicks()) {
-                    IRoomData roomData = RoomManager.getInstance().getRoomData(roomId);
+                    IRoomData roomData = GameContext.getCurrent().getRoomService().getRoomData(roomId);
 
                     if (roomData != null) {
                         staffPicks.add(roomData);
@@ -298,7 +299,7 @@ public class NavigatorSearchService implements CometTask {
                     IGroupData groupData = GameContext.getCurrent().getGroupService().getData(groupId);
 
                     if (groupData != null) {
-                        IRoomData roomData = RoomManager.getInstance().getRoomData(groupData.getRoomId());
+                        IRoomData roomData = GameContext.getCurrent().getRoomService().getRoomData(groupData.getRoomId());
 
                         if (roomData != null) {
                             groupHomeRooms.add(roomData);
@@ -386,9 +387,9 @@ public class NavigatorSearchService implements CometTask {
                 }
 
                 for (Integer roomId : new LinkedList<>(player.getRoomsWithRights())) {
-                    if (RoomManager.getInstance().getRoomData(roomId) == null) continue;
+                    if (GameContext.getCurrent().getRoomService().getRoomData(roomId) == null) continue;
 
-                    rooms.add(RoomManager.getInstance().getRoomData(roomId));
+                    rooms.add(GameContext.getCurrent().getRoomService().getRoomData(roomId));
                 }
                 break;
         }

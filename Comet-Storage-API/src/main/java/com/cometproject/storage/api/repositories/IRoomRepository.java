@@ -11,7 +11,7 @@ public interface IRoomRepository {
 
     void getAllModels(Consumer<Map<String, RoomModelData>> modelConsumer);
 
-//    void getRoomDataById(int roomId, Consumer<IRoomData> dataConsumer);
+    void getRoomDataById(int roomId, Consumer<IRoomData> dataConsumer);
 //
 //    void getRoomsByPlayerId(int playerId, Consumer<Map<Integer, IRoomData>> dataConsumer);
 //
@@ -21,7 +21,7 @@ public interface IRoomRepository {
 //
 //    void createRoom(IRoomData data);
 //
-//    void updateRoom(IRoomData data);
+    void updateRoom(IRoomData data);
 //
 //    void deleteRoom(int id);
 

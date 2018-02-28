@@ -85,7 +85,7 @@ public class DeleteGroupCommand extends ChatCommand {
             room.setGroup(null);
 
             room.getData().setGroupId(0);
-            room.getData().save();
+            GameContext.getCurrent().getRoomService().saveRoomData(room.getData());
 
             room.setIdleNow();
         } else {

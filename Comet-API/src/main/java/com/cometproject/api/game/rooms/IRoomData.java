@@ -6,9 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 public interface IRoomData {
-
-    public void save();
-
     int getId();
 
     String getName();
@@ -18,8 +15,6 @@ public interface IRoomData {
     int getOwnerId();
 
     String getOwner();
-
-    RoomCategory getCategory();
 
     int getMaxUsers();
 
@@ -46,12 +41,14 @@ public interface IRoomData {
     void setName(String name);
 
     void setDescription(String description);
-    
+
     void setOwnerId(int ownerId);
 
     void setOwner(String owner);
 
-    void setCategory(int category);
+    int getCategoryId();
+
+    void setCategoryId(int category);
 
     void setMaxUsers(int maxUsers);
 
@@ -75,6 +72,8 @@ public interface IRoomData {
 
     boolean getAllowWalkthrough();
 
+    boolean isAllowWalkthrough();
+
     void setAllowWalkthrough(boolean allowWalkthrough);
 
     void setHeightmap(String heightmap);
@@ -85,7 +84,9 @@ public interface IRoomData {
 
     void setAllowPets(boolean allowPets);
 
-    long getLastReferenced();
+    String getOriginalPassword();
+
+    void setOriginalPassword(String originalPassword);
 
     RoomTradeState getTradeState();
 
@@ -134,8 +135,6 @@ public interface IRoomData {
     String getThumbnail();
 
     void setGroupId(int groupId);
-
-    IRoomData setLastReferenced(long time);
 
     String getDecorationString();
 

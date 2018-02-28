@@ -1,21 +1,14 @@
-package com.cometproject.server.game.rooms.types;
+package com.cometproject.storage.api.data.rooms;
 
-import com.cometproject.api.config.CometSettings;
 import com.cometproject.api.game.rooms.IRoomData;
-import com.cometproject.api.game.rooms.RoomCategory;
 import com.cometproject.api.game.rooms.RoomType;
 import com.cometproject.api.game.rooms.settings.*;
-import com.cometproject.server.boot.Comet;
-import com.cometproject.server.game.navigator.NavigatorManager;
-import com.cometproject.server.storage.queries.rooms.RoomDao;
-import org.apache.commons.lang3.StringUtils;
-import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.List;
 import java.util.Map;
 
-
 public class RoomData implements IRoomData {
+
     private int id;
     private RoomType type;
 
@@ -59,8 +52,6 @@ public class RoomData implements IRoomData {
 
     private int groupId;
 
-    private long lastReferenced = Comet.getTime();
-
     private String requiredBadge;
     private String thumbnail;
 
@@ -72,7 +63,7 @@ public class RoomData implements IRoomData {
                     String model, boolean hideWalls, int thicknessWall, int thicknessFloor, boolean allowWalkthrough,
                     boolean allowPets, String heightmap, RoomMuteState muteState, RoomKickState kickState,
                     RoomBanState banState, int bubbleMode, int bubbleType, int bubbleScroll, int chatDistance,
-                    int antiFloodSettings, List<String> disabledCommands, int groupId, long lastReferenced,
+                    int antiFloodSettings, List<String> disabledCommands, int groupId,
                     String requiredBadge, String thumbnail, boolean wiredHidden) {
         this.id = id;
         this.type = type;
@@ -106,282 +97,22 @@ public class RoomData implements IRoomData {
         this.antiFloodSettings = antiFloodSettings;
         this.disabledCommands = disabledCommands;
         this.groupId = groupId;
-        this.lastReferenced = lastReferenced;
         this.requiredBadge = requiredBadge;
         this.thumbnail = thumbnail;
         this.wiredHidden = wiredHidden;
     }
 
-    public void save() {
-        String tagString = "";
-
-        for (int i = 0; i < tags.length; i++) {
-            if (i != 0) {
-                tagString += ",";
-            }
-
-            tagString += tags[i];
-        }
-
-        String decorString = "";
-
-        for (Map.Entry<String, String> decoration : decorations.entrySet()) {
-            decorString += decoration.getKey() + "=" + decoration.getValue() + ",";
-        }
-
-        if (CometSettings.roomEncryptPasswords) {
-            if (!this.password.equals(this.originalPassword)) {
-                this.password = BCrypt.hashpw(this.password, BCrypt.gensalt(CometSettings.roomPasswordEncryptionRounds));
-            }
-        }
-
-        RoomDao.updateRoom(id, name, StringUtils.abbreviate(description, 255), ownerId, owner, category, maxUsers, access, password, score,
-                tagString, decorString.equals("") ? "" : decorString.substring(0, decorString.length() - 1),
-                model, hideWalls, thicknessWall, thicknessFloor, allowWalkthrough, allowPets, heightmap, tradeState,
-                muteState, kickState, banState, bubbleMode, bubbleType, bubbleScroll, chatDistance, antiFloodSettings,
-                this.disabledCommands.isEmpty() ? "" : StringUtils.join(this.disabledCommands, ","), this.groupId, this.requiredBadge, this.thumbnail, this.wiredHidden
-        );
-    }
-
+    @Override
     public int getId() {
-        return this.id;
+        return id;
     }
 
+    @Override
     public void setId(int id) {
         this.id = id;
     }
 
-    public String getName() {
-        return this.name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return this.description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public int getOwnerId() {
-        return this.ownerId;
-    }
-
-    public void setOwnerId(int ownerId) {
-        this.ownerId = ownerId;
-    }
-
-    public String getOwner() {
-        return this.owner;
-    }
-
-    public void setOwner(String owner) {
-        this.owner = owner;
-    }
-
-    public RoomCategory getCategory() {
-        return NavigatorManager.getInstance().getCategory(this.category);
-    }
-
-    public void setCategory(int category) {
-        this.category = category;
-    }
-
-    public int getMaxUsers() {
-        return this.maxUsers;
-    }
-
-    public void setMaxUsers(int maxUsers) {
-        this.maxUsers = maxUsers;
-    }
-
-    public RoomAccessType getAccess() {
-        return this.access;
-    }
-
-    public void setAccess(RoomAccessType access) {
-        this.access = access;
-    }
-
-    public String getPassword() {
-        return this.password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public int getScore() {
-        return this.score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
-    }
-
-    public String[] getTags() {
-        return this.tags;
-    }
-
-    public void setTags(String[] tags) {
-        this.tags = tags;
-    }
-
-    public Map<String, String> getDecorations() {
-        return this.decorations;
-    }
-
-    public void setDecorations(Map<String, String> decorations) {
-        this.decorations = decorations;
-    }
-
-    public String getModel() {
-        return this.model;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
-    }
-
-    public boolean getHideWalls() {
-        return this.hideWalls;
-    }
-
-    public void setHideWalls(boolean hideWalls) {
-        this.hideWalls = hideWalls;
-    }
-
-    public int getWallThickness() {
-        return this.thicknessWall;
-    }
-
-    public int getFloorThickness() {
-        return this.thicknessFloor;
-    }
-
-    public void setThicknessWall(int thicknessWall) {
-        this.thicknessWall = thicknessWall;
-    }
-
-    public void setThicknessFloor(int thicknessFloor) {
-        this.thicknessFloor = thicknessFloor;
-    }
-
-    public boolean getAllowWalkthrough() {
-        return this.allowWalkthrough;
-    }
-
-    public void setAllowWalkthrough(boolean allowWalkthrough) {
-        this.allowWalkthrough = allowWalkthrough;
-    }
-
-    public String getHeightmap() {
-        return this.heightmap;
-    }
-
-    public void setHeightmap(String heightmap) {
-        this.heightmap = heightmap;
-    }
-
-    public boolean isAllowPets() {
-        return allowPets;
-    }
-
-    public void setAllowPets(boolean allowPets) {
-        this.allowPets = allowPets;
-    }
-
-    public long getLastReferenced() {
-        return lastReferenced;
-    }
-
-    public RoomData setLastReferenced(long lastReferenced) {
-        this.lastReferenced = lastReferenced;
-
-        return this;
-    }
-
-    public RoomTradeState getTradeState() {
-        return tradeState;
-    }
-
-    public void setTradeState(RoomTradeState tradeState) {
-        this.tradeState = tradeState;
-    }
-
-    public int getBubbleMode() {
-        return bubbleMode;
-    }
-
-    public void setBubbleMode(int bubbleMode) {
-        this.bubbleMode = bubbleMode;
-    }
-
-    public int getBubbleType() {
-        return bubbleType;
-    }
-
-    public void setBubbleType(int bubbleType) {
-        this.bubbleType = bubbleType;
-    }
-
-    public int getBubbleScroll() {
-        return bubbleScroll;
-    }
-
-    public void setBubbleScroll(int bubbleScroll) {
-        this.bubbleScroll = bubbleScroll;
-    }
-
-    public int getChatDistance() {
-        return chatDistance;
-    }
-
-    public void setChatDistance(int chatDistance) {
-        this.chatDistance = chatDistance;
-    }
-
-    public int getAntiFloodSettings() {
-        return antiFloodSettings;
-    }
-
-    public void setAntiFloodSettings(int antiFloodSettings) {
-        this.antiFloodSettings = antiFloodSettings;
-    }
-
-    public RoomMuteState getMuteState() {
-        return muteState;
-    }
-
-    public void setMuteState(RoomMuteState muteState) {
-        this.muteState = muteState;
-    }
-
-    public RoomKickState getKickState() {
-        return kickState;
-    }
-
-    public void setKickState(RoomKickState kickState) {
-        this.kickState = kickState;
-    }
-
-    public RoomBanState getBanState() {
-        return banState;
-    }
-
-    public void setBanState(RoomBanState banState) {
-        this.banState = banState;
-    }
-
     @Override
-    public List<String> getDisabledCommands() {
-        return this.disabledCommands;
-    }
-
     public RoomType getType() {
         return type;
     }
@@ -390,39 +121,329 @@ public class RoomData implements IRoomData {
         this.type = type;
     }
 
-    public String getDecorationString() {
-        String decorString = "";
-
-        for (Map.Entry<String, String> decoration : decorations.entrySet()) {
-            decorString += decoration.getKey() + "=" + decoration.getValue() + ",";
-        }
-
-        return decorString;
+    @Override
+    public String getName() {
+        return name;
     }
 
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String getDescription() {
+        return description;
+    }
+
+    @Override
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    @Override
+    public int getOwnerId() {
+        return ownerId;
+    }
+
+    @Override
+    public void setOwnerId(int ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    @Override
+    public String getOwner() {
+        return owner;
+    }
+
+    @Override
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
+    @Override
+    public int getCategoryId() {
+        return category;
+    }
+
+    @Override
+    public void setCategoryId(int category) {
+        this.category = category;
+    }
+
+    @Override
+    public int getMaxUsers() {
+        return maxUsers;
+    }
+
+    @Override
+    public void setMaxUsers(int maxUsers) {
+        this.maxUsers = maxUsers;
+    }
+
+    @Override
+    public RoomAccessType getAccess() {
+        return access;
+    }
+
+    @Override
+    public void setAccess(RoomAccessType access) {
+        this.access = access;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    @Override
+    public String getOriginalPassword() {
+        return originalPassword;
+    }
+
+    @Override
+    public void setOriginalPassword(String originalPassword) {
+        this.originalPassword = originalPassword;
+    }
+
+    @Override
+    public RoomTradeState getTradeState() {
+        return tradeState;
+    }
+
+    @Override
+    public void setTradeState(RoomTradeState tradeState) {
+        this.tradeState = tradeState;
+    }
+
+    @Override
+    public int getScore() {
+        return score;
+    }
+
+    @Override
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    @Override
+    public String[] getTags() {
+        return tags;
+    }
+
+    @Override
+    public void setTags(String[] tags) {
+        this.tags = tags;
+    }
+
+    @Override
+    public Map<String, String> getDecorations() {
+        return decorations;
+    }
+
+    @Override
+    public void setDecorations(Map<String, String> decorations) {
+        this.decorations = decorations;
+    }
+
+    @Override
+    public String getModel() {
+        return model;
+    }
+
+    @Override
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    @Override
+    public boolean getHideWalls() {
+        return hideWalls;
+    }
+
+    @Override
+    public int getWallThickness() {
+        return this.thicknessWall;
+    }
+
+    @Override
+    public int getFloorThickness() {
+        return this.thicknessFloor;
+    }
+
+    @Override
+    public void setHideWalls(boolean hideWalls) {
+        this.hideWalls = hideWalls;
+    }
+
+    @Override
+    public void setThicknessWall(int thicknessWall) {
+        this.thicknessWall = thicknessWall;
+    }
+
+    @Override
+    public void setThicknessFloor(int thicknessFloor) {
+        this.thicknessFloor = thicknessFloor;
+    }
+
+    @Override
+    public boolean getAllowWalkthrough() {
+        return this.allowWalkthrough;
+    }
+
+    @Override
+    public boolean isAllowWalkthrough() {
+        return allowWalkthrough;
+    }
+
+    @Override
+    public void setAllowWalkthrough(boolean allowWalkthrough) {
+        this.allowWalkthrough = allowWalkthrough;
+    }
+
+    @Override
+    public boolean isAllowPets() {
+        return allowPets;
+    }
+
+    @Override
+    public void setAllowPets(boolean allowPets) {
+        this.allowPets = allowPets;
+    }
+
+    @Override
+    public String getHeightmap() {
+        return heightmap;
+    }
+
+    @Override
+    public void setHeightmap(String heightmap) {
+        this.heightmap = heightmap;
+    }
+
+    @Override
+    public RoomMuteState getMuteState() {
+        return muteState;
+    }
+
+    @Override
+    public void setMuteState(RoomMuteState muteState) {
+        this.muteState = muteState;
+    }
+
+    @Override
+    public RoomKickState getKickState() {
+        return kickState;
+    }
+
+    @Override
+    public void setKickState(RoomKickState kickState) {
+        this.kickState = kickState;
+    }
+
+    @Override
+    public RoomBanState getBanState() {
+        return banState;
+    }
+
+    @Override
+    public void setBanState(RoomBanState banState) {
+        this.banState = banState;
+    }
+
+    @Override
+    public int getBubbleMode() {
+        return bubbleMode;
+    }
+
+    @Override
+    public void setBubbleMode(int bubbleMode) {
+        this.bubbleMode = bubbleMode;
+    }
+
+    @Override
+    public int getBubbleType() {
+        return bubbleType;
+    }
+
+    @Override
+    public void setBubbleType(int bubbleType) {
+        this.bubbleType = bubbleType;
+    }
+
+    @Override
+    public int getBubbleScroll() {
+        return bubbleScroll;
+    }
+
+    @Override
+    public void setBubbleScroll(int bubbleScroll) {
+        this.bubbleScroll = bubbleScroll;
+    }
+
+    @Override
+    public int getChatDistance() {
+        return chatDistance;
+    }
+
+    @Override
+    public void setChatDistance(int chatDistance) {
+        this.chatDistance = chatDistance;
+    }
+
+    @Override
+    public int getAntiFloodSettings() {
+        return antiFloodSettings;
+    }
+
+    @Override
+    public void setAntiFloodSettings(int antiFloodSettings) {
+        this.antiFloodSettings = antiFloodSettings;
+    }
+
+    @Override
+    public List<String> getDisabledCommands() {
+        return disabledCommands;
+    }
+
+    @Override
     public int getGroupId() {
-        return this.groupId;
+        return groupId;
     }
 
+    @Override
     public void setGroupId(int groupId) {
         this.groupId = groupId;
     }
 
-    public String getRequiredBadge() {
-        return this.requiredBadge;
+    @Override
+    public String getDecorationString() {
+        return null;
     }
 
+    @Override
+    public String getRequiredBadge() {
+        return requiredBadge;
+    }
+
+    @Override
     public String getThumbnail() {
         return thumbnail;
     }
 
+    @Override
     public void setThumbnail(String thumbnail) {
         this.thumbnail = thumbnail;
     }
 
     @Override
     public boolean isWiredHidden() {
-        return this.wiredHidden;
+        return wiredHidden;
     }
 
     @Override

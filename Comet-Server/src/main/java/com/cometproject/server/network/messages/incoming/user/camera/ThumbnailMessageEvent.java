@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.user.camera;
 
+import com.cometproject.api.game.GameContext;
 import com.cometproject.api.game.rooms.IRoomData;
 import com.cometproject.server.api.ApiClient;
 import com.cometproject.server.network.messages.incoming.Event;
@@ -27,7 +28,8 @@ public class ThumbnailMessageEvent implements Event {
         }
 
         roomData.setThumbnail("navigator-thumbnail/" + roomData.getId() + ".png");
-        roomData.save();
+
+        GameContext.getCurrent().getRoomService().saveRoomData(roomData);
 //
         // Save image URL in database
 //        client.getPlayer().sendMotd(imageId.toString());

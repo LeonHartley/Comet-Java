@@ -7,7 +7,6 @@ import com.cometproject.api.utilities.JsonUtil;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.api.game.rooms.models.CustomFloorMapData;
 import com.cometproject.server.game.rooms.models.types.StaticRoomModel;
-import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.game.rooms.types.RoomPromotion;
 import com.cometproject.server.storage.SqlHelper;
 import com.google.common.collect.Lists;
@@ -574,11 +573,11 @@ public class RoomDao {
         final String requiredBadge = room.getString("required_badge");
         final boolean wiredHidden = room.getBoolean("hide_wired");
 
-        return new RoomData(id, type, name, description, ownerId, owner, category, maxUsers, access, password,
-                originalPassword, tradeState, score, tags, decorations, model, hideWalls, thicknessWall, thicknessFloor,
-                allowWalkthrough, allowPets, heightmap, muteState, kickState, banState, bubbleMode, bubbleType,
-                bubbleScroll, chatDistance, antiFloodSettings, disabledCommands, groupId, System.currentTimeMillis(),
-                requiredBadge, thumbnail, wiredHidden);
+        return null;//new RoomData(id, type, name, description, ownerId, owner, category, maxUsers, access, password,
+//                originalPassword, tradeState, score, tags, decorations, model, hideWalls, thicknessWall, thicknessFloor,
+//                allowWalkthrough, allowPets, heightmap, muteState, kickState, banState, bubbleMode, bubbleType,
+//                bubbleScroll, chatDistance, antiFloodSettings, disabledCommands, groupId, System.currentTimeMillis(),
+//                requiredBadge, thumbnail, wiredHidden);
     }
 
     private static void fillDecorations(Map<String, String> decorations, String[] decorationsArray) {

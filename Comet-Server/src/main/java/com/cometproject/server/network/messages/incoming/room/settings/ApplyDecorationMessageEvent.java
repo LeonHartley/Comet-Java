@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.settings;
 
+import com.cometproject.api.game.GameContext;
 import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
 import com.cometproject.api.game.quests.QuestType;
 import com.cometproject.server.game.items.ItemManager;
@@ -59,7 +60,7 @@ public class ApplyDecorationMessageEvent implements Event {
             client.send(new UpdateInventoryMessageComposer());
 
             try {
-                room.getData().save();
+                GameContext.getCurrent().getRoomService().saveRoomData(room.getData());
                 room.getEntities().broadcastMessage(new RoomPropertyMessageComposer(type, data));
             } catch (Exception e) {
                 Logger.getLogger(ApplyDecorationMessageEvent.class.getName()).error("Error while saving room data", e);

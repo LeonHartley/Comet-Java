@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.catalog.ads;
 
+import com.cometproject.api.game.GameContext;
 import com.cometproject.api.game.catalog.types.ICatalogItem;
 import com.cometproject.api.game.catalog.types.ICatalogPage;
 import com.cometproject.api.game.rooms.IRoomData;
@@ -30,7 +31,7 @@ public class PromoteRoomMessageEvent implements Event {
 
         if (item == null) return;
 
-        IRoomData roomData = RoomManager.getInstance().getRoomData(msg.readInt());
+        IRoomData roomData = GameContext.getCurrent().getRoomService().getRoomData(msg.readInt());
 
         if (roomData == null || roomData.getOwnerId() != client.getPlayer().getId() || roomData.getAccess() != RoomAccessType.OPEN) {
             return;

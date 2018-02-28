@@ -1,5 +1,6 @@
 package com.cometproject.server.game.commands.user.settings;
 
+import com.cometproject.api.game.GameContext;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.game.commands.CommandManager;
@@ -25,7 +26,7 @@ public class DisableCommand extends ChatCommand {
 
         if (CommandManager.getInstance().isCommand(disabledCommand) && CommandManager.getInstance().getChatCommands().get(disabledCommand).canDisable()) {
             room.getData().getDisabledCommands().add(disabledCommand);
-            room.getData().save();
+            GameContext.getCurrent().getRoomService().saveRoomData(room.getData());
 
             sendNotif(Locale.get("command.disablecommand.success"), client);
         } else {

@@ -25,6 +25,8 @@ public class GameContext {
     }
 
     public void setCatalogService(ICatalogService catalogService) {
+        logger.info("CatalogService initialised, " + catalogService.getClass().getName());
+
         this.catalogService = catalogService;
     }
 
@@ -33,6 +35,8 @@ public class GameContext {
     }
 
     public void setFurnitureService(IFurnitureService furnitureService) {
+        logger.info("FurnitureService initialised, " + furnitureService.getClass().getName());
+
         this.furnitureService = furnitureService;
     }
 
@@ -72,6 +76,8 @@ public class GameContext {
     }
 
     public void setRoomService(IRoomService roomService) {
+        logger.info("RoomService initialised, " + roomService.getClass().getName());
+
         this.roomService = roomService;
     }
 
@@ -80,6 +86,8 @@ public class GameContext {
     }
 
     public void setRoomModelService(IRoomModelService roomModelService) {
+        logger.info("RoomModelService initialised, " + roomModelService.getClass().getName());
+
         this.roomModelService = roomModelService;
     }
 }

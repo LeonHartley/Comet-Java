@@ -31,7 +31,7 @@ public class RoomWriter {
         msg.writeInt(room.getTradeState().getState());
         msg.writeInt(room.getScore());
         msg.writeInt(0);
-        msg.writeInt(room.getCategory() == null ? 1 : room.getCategory().getId());
+        msg.writeInt(room.getCategoryId());
 
         msg.writeInt(room.getTags().length);
 

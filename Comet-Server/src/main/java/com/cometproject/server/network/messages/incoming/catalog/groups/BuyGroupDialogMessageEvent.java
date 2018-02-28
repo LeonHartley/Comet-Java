@@ -18,7 +18,7 @@ public class BuyGroupDialogMessageEvent implements Event {
         final List<IRoomData> roomData = Lists.newArrayList();
 
         for (Integer roomId : client.getPlayer().getRooms()) {
-            final IRoomData room = RoomManager.getInstance().getRoomData(roomId);
+            final IRoomData room = GameContext.getCurrent().getRoomService().getRoomData(roomId);
 
             if (room.getGroupId() < 1) {
                 roomData.add(room);

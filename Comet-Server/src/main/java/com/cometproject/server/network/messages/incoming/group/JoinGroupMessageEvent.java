@@ -51,7 +51,7 @@ public class JoinGroupMessageEvent implements Event {
 
             GameContext.getCurrent().getGroupService().addGroupMember(group, new GroupMemberFactory().create(client.getPlayer().getId(), group.getId(), GroupAccessLevel.MEMBER));
 
-            client.send(new GroupInformationMessageComposer(group, RoomManager.getInstance().getRoomData(group.getData().getRoomId()), false,
+            client.send(new GroupInformationMessageComposer(group, GameContext.getCurrent().getRoomService().getRoomData(group.getData().getRoomId()), false,
                     client.getPlayer().getId() == group.getData().getOwnerId(), group.getMembers().getAdministrators().contains(client.getPlayer().getId()),
                     group.getMembers().getAll().containsKey(client.getPlayer().getId()) ? 1 : group.getMembers().getMembershipRequests().contains(client.getPlayer().getId()) ? 2 : 0));
 
@@ -69,7 +69,7 @@ public class JoinGroupMessageEvent implements Event {
         } else {
             GameContext.getCurrent().getGroupService().createRequest(group, client.getPlayer().getId());
 
-            client.send(new GroupInformationMessageComposer(group, RoomManager.getInstance().getRoomData(group.getData().getRoomId()), true,
+            client.send(new GroupInformationMessageComposer(group, GameContext.getCurrent().getRoomService().getRoomData(group.getData().getRoomId()), true,
                     client.getPlayer().getId() == group.getData().getOwnerId(), group.getMembers().getAdministrators().contains(client.getPlayer().getId()),
                     group.getMembers().getAll().containsKey(client.getPlayer().getId()) ? 1 : group.getMembers().getMembershipRequests().contains(client.getPlayer().getId()) ? 2 : 0));
 

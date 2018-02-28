@@ -2,7 +2,6 @@ package com.cometproject.server.api.rooms;
 
 import com.cometproject.api.game.rooms.IRoomData;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.game.rooms.types.RoomData;
 
 
 public class RoomStats {
@@ -59,7 +58,7 @@ public class RoomStats {
      *
      * @param data The data of the room
      */
-    public void setData(RoomData data) {
+    public void setData(IRoomData data) {
         this.data = data;
     }
 

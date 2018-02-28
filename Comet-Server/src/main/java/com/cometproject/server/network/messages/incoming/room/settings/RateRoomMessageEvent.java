@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.settings;
 
+import com.cometproject.api.game.GameContext;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.sessions.Session;
@@ -32,6 +33,6 @@ public class RateRoomMessageEvent implements Event {
         room.getData().setScore(score);
         room.getEntities().refreshScore();
 
-        room.getData().save();
+        GameContext.getCurrent().getRoomService().saveRoomData(room.getData());
     }
 }

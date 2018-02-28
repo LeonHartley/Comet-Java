@@ -1,6 +1,7 @@
 package com.cometproject.server.game.commands.user.room;
 
 import com.cometproject.api.config.CometSettings;
+import com.cometproject.api.game.GameContext;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.game.rooms.types.Room;
@@ -29,7 +30,7 @@ public class SetMaxCommand extends ChatCommand {
                 }
 
                 room.getData().setMaxUsers(maxPlayers);
-                room.getData().save();
+                GameContext.getCurrent().getRoomService().saveRoomData(room.getData());
 
                 sendNotif(Locale.get("command.setmax.done").replace("%i", maxPlayers + ""), client);
                 room.getEntities().broadcastMessage(new RoomDataMessageComposer(room));

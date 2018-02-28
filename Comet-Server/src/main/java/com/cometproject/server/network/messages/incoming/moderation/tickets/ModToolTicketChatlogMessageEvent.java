@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.moderation.tickets;
 
+import com.cometproject.api.game.GameContext;
 import com.cometproject.api.game.rooms.IRoomData;
 import com.cometproject.server.game.moderation.ModerationManager;
 import com.cometproject.server.game.moderation.types.tickets.HelpTicket;
@@ -26,7 +27,7 @@ public class ModToolTicketChatlogMessageEvent implements Event {
             return;
         }
 
-        final IRoomData roomData = RoomManager.getInstance().getRoomData(helpTicket.getRoomId());
+        final IRoomData roomData = GameContext.getCurrent().getRoomService().getRoomData(helpTicket.getRoomId());
 
         if (roomData == null) return;
 

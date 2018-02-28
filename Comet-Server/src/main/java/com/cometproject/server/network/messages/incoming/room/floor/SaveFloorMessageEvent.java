@@ -1,6 +1,7 @@
 package com.cometproject.server.network.messages.incoming.room.floor;
 
 import com.cometproject.api.config.CometSettings;
+import com.cometproject.api.game.GameContext;
 import com.cometproject.api.utilities.JsonUtil;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.players.types.Player;
@@ -88,7 +89,7 @@ public class SaveFloorMessageEvent implements Event {
         final CustomFloorMapData floorMapData = new CustomFloorMapData(doorX, doorY, doorRotation, model.trim(), wallHeight == 0 ? room.getModel().getRoomModelData().getWallHeight() : wallHeight);
 
         room.getData().setHeightmap(JsonUtil.getInstance().toJson(floorMapData));
-        room.getData().save();
+        GameContext.getCurrent().getRoomService().saveRoomData(room.getData());
 
 //        client.send(new AdvancedAlertMessageComposer("Model Saved", Locale.get("command.floor.complete"), "Go", "event:navigator/goto/" + client.getPlayer().getEntity().getRoom().getId(), ""));
 

@@ -46,7 +46,7 @@ public class BuyGroupMessageEvent implements Event {
         int colour1 = msg.readInt();
         int colour2 = msg.readInt();
 
-        if (!client.getPlayer().getRooms().contains(roomId) || RoomManager.getInstance().getRoomData(roomId) == null) {
+        if (!client.getPlayer().getRooms().contains(roomId) || GameContext.getCurrent().getRoomService().getRoomData(roomId) == null) {
             return;
         }
 
@@ -114,7 +114,8 @@ public class BuyGroupMessageEvent implements Event {
             room.setGroup(group);
 
             room.getData().setGroupId(group.getId());
-            room.getData().save();
+
+            GameContext.getCurrent().getRoomService().saveRoomData(room.getData());
 
             room.getEntities().broadcastMessage(new GroupBadgesMessageComposer(group.getId(), group.getData().getBadge()));
 

@@ -1,12 +1,14 @@
 package com.cometproject.server.game.rooms;
 
 import com.cometproject.api.config.Configuration;
+import com.cometproject.api.game.GameContext;
 import com.cometproject.api.game.players.IPlayer;
 import com.cometproject.api.game.rooms.IRoomData;
 import com.cometproject.api.game.rooms.IRoomService;
 import com.cometproject.api.game.rooms.settings.RoomAccessType;
 import com.cometproject.api.game.rooms.settings.RoomTradeState;
 import com.cometproject.api.networking.sessions.ISession;
+import com.cometproject.api.utilities.Initialisable;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.rooms.filter.WordFilter;
@@ -34,7 +36,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 
-public class RoomManager implements IRoomService {
+public class RoomManager implements Initialisable {
 
     public static final Logger log = Logger.getLogger(RoomManager.class.getName());
     public static final int LRU_MAX_ENTRIES = Integer.parseInt(Configuration.currentConfig().getProperty("comet.game.rooms.data.max"));
@@ -154,7 +156,7 @@ public class RoomManager implements IRoomService {
         }
 
         if (room == null) {
-            IRoomData data = this.getRoomData(id);
+            IRoomData data = GameContext.getCurrent().getRoomService().getRoomData(id);
 
             if (data == null) {
                 return null;
@@ -178,20 +180,20 @@ public class RoomManager implements IRoomService {
         }
         room.getItems().onLoaded();
     }
-
-    public IRoomData getRoomData(int id) {
-        if (this.getRoomDataInstances().getMap().containsKey(id)) {
-            return this.getRoomDataInstances().get(id).setLastReferenced(Comet.getTime());
-        }
-
-        IRoomData roomData = RoomDao.getRoomDataById(id);
-
-        if (roomData != null) {
-            this.getRoomDataInstances().put(id, roomData);
-        }
-
-        return roomData;
-    }
+//
+//    public IRoomData getRoomData(int id) {
+//        if (this.getRoomDataInstances().getMap().containsKey(id)) {
+//            return this.getRoomDataInstances().get(id).setLastReferenced(Comet.getTime());
+//        }
+//
+//        IRoomData roomData = RoomDao.getRoomDataById(id);
+//
+//        if (roomData != null) {
+//            this.getRoomDataInstances().put(id, roomData);
+//        }
+//
+//        return roomData;
+//    }
 
     public void unloadIdleRooms() {
         for (Room room : this.unloadingRoomInstances.values()) {
@@ -363,7 +365,7 @@ public class RoomManager implements IRoomService {
         List<IRoomData> rooms = new ArrayList<>();
 
         for (Room room : this.getRoomInstances().values()) {
-            if (category != -1 && (room.getData().getCategory() == null || room.getData().getCategory().getId() != category)) {
+            if (category != -1 && (room.getCategory() == null || room.getCategory().getId() != category)) {
                 continue;
             }
 

@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.navigator;
 
+import com.cometproject.api.game.GameContext;
 import com.cometproject.api.game.rooms.IRoomData;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.types.RoomPromotion;
@@ -19,7 +20,7 @@ public class PromotedRoomsMessageEvent implements Event {
 
         for (RoomPromotion roomPromotion : RoomManager.getInstance().getRoomPromotions().values()) {
             if (roomPromotion != null) {
-                IRoomData roomData = RoomManager.getInstance().getRoomData(roomPromotion.getRoomId());
+                IRoomData roomData = GameContext.getCurrent().getRoomService().getRoomData(roomPromotion.getRoomId());
 
                 if (roomData != null) {
                     promotedRooms.add(roomData);

@@ -1,5 +1,6 @@
 package com.cometproject.server.game.commands.vip;
 
+import com.cometproject.api.game.GameContext;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
@@ -46,7 +47,8 @@ public class HideWiredCommand extends ChatCommand {
         }
 
         sendNotif(msg, client);
-        room.getData().save();
+
+        GameContext.getCurrent().getRoomService().saveRoomData(room.getData());
     }
 
     @Override

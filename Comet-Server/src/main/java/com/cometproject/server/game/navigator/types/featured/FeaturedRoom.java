@@ -1,5 +1,6 @@
 package com.cometproject.server.game.navigator.types.featured;
 
+import com.cometproject.api.game.GameContext;
 import com.cometproject.api.game.rooms.IRoomData;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.rooms.RoomManager;
@@ -38,7 +39,7 @@ public class FeaturedRoom {
         this.isCategory = data.getString("type").equals("category");
 
         // cache the room data so we dont have to get it every time we load the nav
-        if (!isCategory) this.room = RoomManager.getInstance().getRoomData(roomId);
+        if (!isCategory) this.room = GameContext.getCurrent().getRoomService().getRoomData(roomId);
     }
 
     public FeaturedRoom(int id, BannerType bannerType, String caption, String description, String image, ImageType imageType, int roomId, int categoryId, boolean enabled, boolean recommended, boolean isCategory) {
@@ -54,7 +55,7 @@ public class FeaturedRoom {
         this.recommended = recommended;
         this.isCategory = isCategory;
 
-        if (!isCategory) this.room = RoomManager.getInstance().getRoomData(roomId);
+        if (!isCategory) this.room = GameContext.getCurrent().getRoomService().getRoomData(roomId);
     }
 
     public void compose(IComposer msg) {

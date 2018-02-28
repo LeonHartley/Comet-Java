@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.moderation;
 
+import com.cometproject.api.game.GameContext;
 import com.cometproject.api.game.rooms.IRoomData;
 import com.cometproject.api.game.rooms.settings.RoomAccessType;
 import com.cometproject.server.config.Locale;
@@ -28,7 +29,7 @@ public class ModToolRoomActionMessageEvent implements Event {
         final boolean changeRoomName = msg.readInt() == 1;
         final boolean kickAll = msg.readInt() == 1;
 
-        IRoomData roomData = RoomManager.getInstance().getRoomData(roomId);
+        IRoomData roomData = GameContext.getCurrent().getRoomService().getRoomData(roomId);
         boolean isActive = RoomManager.getInstance().isActive(roomId);
 
         if (roomData == null)
@@ -47,7 +48,7 @@ public class ModToolRoomActionMessageEvent implements Event {
             if (lockDoor)
                 room.getData().setAccess(RoomAccessType.DOORBELL);
 
-            room.getData().save();
+            GameContext.getCurrent().getRoomService().saveRoomData(room.getData());
 
             if (kickAll) {
                 for (PlayerEntity entity : room.getEntities().getPlayerEntities()) {
@@ -66,6 +67,6 @@ public class ModToolRoomActionMessageEvent implements Event {
             }
         }
 
-        roomData.save();
+        GameContext.getCurrent().getRoomService().saveRoomData(roomData);
     }
 }

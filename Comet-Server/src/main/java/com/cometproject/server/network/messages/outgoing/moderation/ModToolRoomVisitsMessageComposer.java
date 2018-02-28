@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.outgoing.moderation;
 
+import com.cometproject.api.game.GameContext;
 import com.cometproject.api.game.rooms.IRoomData;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.rooms.RoomManager;
@@ -35,7 +36,7 @@ public class ModToolRoomVisitsMessageComposer extends MessageComposer {
         msg.writeInt(roomVisitLogEntries.size());
 
         for (RoomVisitLogEntry roomVisit : roomVisitLogEntries) {
-            IRoomData roomData = RoomManager.getInstance().getRoomData(roomVisit.getRoomId());
+            IRoomData roomData = GameContext.getCurrent().getRoomService().getRoomData(roomVisit.getRoomId());
             DateTime dateTime = new DateTime(roomVisit.getEntryTime() * 1000L);
 
             msg.writeInt(roomData == null ? 0 : roomData.getId());
