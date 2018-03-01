@@ -74,11 +74,12 @@ public abstract class MySQLRepository {
      * @param parameters The parameters to bind in the query
      */
     public void update(String query, Transaction transaction, Object... parameters) {
-        Connection connection = null;
+        Connection connection = transaction != null ? transaction.getConnection() : null;
         PreparedStatement preparedStatement = null;
 
         try {
-            connection = this.connectionProvider.getConnection();
+            if(connection == null)
+                connection = this.connectionProvider.getConnection();
 
             preparedStatement = connection.prepareStatement(query);
 
@@ -90,7 +91,9 @@ public abstract class MySQLRepository {
             log.error("Failed to update data", e);
         } finally {
             this.connectionProvider.closeStatement(preparedStatement);
-            this.connectionProvider.closeConnection(connection);
+
+            if(transaction == null)
+                this.connectionProvider.closeConnection(connection);
         }
     }
 
@@ -138,11 +141,11 @@ public abstract class MySQLRepository {
         } catch (Exception e) {
             log.error("Failed to update data", e);
         } finally {
+            this.connectionProvider.closeStatement(preparedStatement);
+
             if(transaction == null) {
                 this.connectionProvider.closeConnection(connection);
             }
-
-            this.connectionProvider.closeStatement(preparedStatement);
         }
     }
 
