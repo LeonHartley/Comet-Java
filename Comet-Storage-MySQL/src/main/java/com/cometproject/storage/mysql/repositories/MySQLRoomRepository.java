@@ -5,6 +5,7 @@ import com.cometproject.api.game.rooms.IRoomData;
 import com.cometproject.api.game.rooms.RoomType;
 import com.cometproject.api.game.rooms.models.RoomModelData;
 import com.cometproject.api.game.rooms.settings.*;
+import com.cometproject.api.utilities.JsonUtil;
 import com.cometproject.storage.api.repositories.IRoomRepository;
 import com.cometproject.storage.mysql.MySQLConnectionProvider;
 import com.cometproject.storage.mysql.data.results.IResultReader;
@@ -54,7 +55,7 @@ public class MySQLRoomRepository extends MySQLRepository implements IRoomReposit
         select("SELECT * FROM rooms WHERE id = ? LIMIT 1;", (data) -> {
             final IRoomData roomData = readRoomData(data);
 
-            if(roomData != null) {
+            if (roomData != null) {
                 dataConsumer.accept(roomData);
             }
         }, roomId);
@@ -62,6 +63,31 @@ public class MySQLRoomRepository extends MySQLRepository implements IRoomReposit
 
     @Override
     public void updateRoom(IRoomData data) {
+        StringBuilder tagString = new StringBuilder();
+
+        for (int i = 0; i < data.getTags().length; i++) {
+            if (i != 0) {
+                tagString.append(",");
+            }
+
+            tagString.append(data.getTags()[i]);
+        }
+
+        StringBuilder decorString = new StringBuilder();
+
+        for (Map.Entry<String, String> decoration : data.getDecorations().entrySet()) {
+            decorString.append(decoration.getKey()).append("=").append(decoration.getValue()).append(",");
+        }
+
+        update("UPDATE rooms SET name = ?, description = ?, owner_id = ?, owner = ?, category = ?," +
+                        " max_users = ?, access_type = ?, password = ?, score = ?, tags = ?, decorations = ?, model = ?, hide_walls = ?, thickness_wall = ?," +
+                        " thickness_floor = ?, allow_walkthrough = ?, allow_pets = ?, heightmap = ?, mute_state = ?, ban_state = ?, kick_state = ?," +
+                        "bubble_mode = ?, bubble_type = ?, bubble_scroll = ?, chat_distance = ?, flood_level = ?, trade_state = ?, disabled_commands = ?, group_id = ?, required_badge = ?, thumbnail = ?, hide_wired = ? WHERE id = ?;",
+                data.getName(), data.getDescription(), data.getOwnerId(), data.getOwner(), data.getCategoryId(), data.getMaxUsers(), data.getAccess().toString().toLowerCase(),
+                data.getPassword(), data.getScore(), tagString.toString(), decorString.toString(), data.getModel(), data.getHideWalls() ? "1" : "0", data.isAllowPets() ? "1" : "0",
+                data.getHeightmap(), data.getMuteState().toString(), data.getBanState().toString(), data.getKickState().toString(), data.getBubbleMode(),
+                data.getBubbleType(), data.getChatDistance(), data.getTradeState().toString(), JsonUtil.getInstance().toJson(data.getDisabledCommands()),
+                data.getGroupId(), data.getRequiredBadge(), data.getThumbnail(), data.isWiredHidden() ? "1" : "0", data.getId());
 
     }
 
