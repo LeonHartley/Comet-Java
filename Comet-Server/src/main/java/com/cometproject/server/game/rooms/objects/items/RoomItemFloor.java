@@ -27,12 +27,9 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable, IFlo
     private boolean hasQueuedSave;
     private String coreState;
     private boolean stateSwitched = false;
-    private int rotation;
 
     public RoomItemFloor(RoomItemData itemData, Room room) {
         super(itemData, room);
-
-        this.rotation = itemData.getRotation();
     }
 
     public void serialize(IComposer msg, boolean isNew) {
@@ -246,10 +243,10 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable, IFlo
     }
 
     public int getRotation() {
-        return this.rotation;
+        return this.getItemData().getRotation();
     }
 
     public void setRotation(int rotation) {
-        this.rotation = rotation;
+        this.getItemData().setRotation(rotation);
     }
 }
