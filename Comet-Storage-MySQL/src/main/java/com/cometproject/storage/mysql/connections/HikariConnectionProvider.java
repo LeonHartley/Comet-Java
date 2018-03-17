@@ -81,6 +81,11 @@ public class HikariConnectionProvider extends MySQLConnectionProvider {
 
     @Override
     public void closeResults(ResultSet resultSet) {
+        try {
+            resultSet.close();
+        } catch (Exception e) {
+            log.error("Failed to close the result set");
+        }
     }
 
     public void shutdown() {

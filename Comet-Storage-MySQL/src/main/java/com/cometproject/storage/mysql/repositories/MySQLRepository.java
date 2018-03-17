@@ -1,4 +1,4 @@
- package com.cometproject.storage.mysql.repositories;
+package com.cometproject.storage.mysql.repositories;
 
 import com.cometproject.storage.mysql.MySQLConnectionProvider;
 import com.cometproject.storage.mysql.data.results.IResultReader;
@@ -28,14 +28,15 @@ public abstract class MySQLRepository {
 
     /**
      * Executes a query and then for every result, resultConsumer is invoked with the provided ResultSet
-     * @param query The query you'd like to run
+     *
+     * @param query          The query you'd like to run
      * @param resultConsumer Callback to be executed for every row returned by the query
-     * @param parameters Any parameters you'd like to bind to the prepared statement
+     * @param parameters     Any parameters you'd like to bind to the prepared statement
      */
     public void select(String query, ResultReaderConsumer resultConsumer, Object... parameters) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet;
+        ResultSet resultSet = null;
 
         try {
             connection = this.connectionProvider.getConnection();
@@ -47,12 +48,13 @@ public abstract class MySQLRepository {
 
             final IResultReader reader = new ResultSetReader(resultSet);
 
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 resultConsumer.accept(reader);
             }
         } catch (Exception e) {
             log.error("Failed to select data", e);
         } finally {
+            this.connectionProvider.closeResults(resultSet);
             this.connectionProvider.closeConnection(connection);
             this.connectionProvider.closeStatement(preparedStatement);
         }
@@ -60,7 +62,8 @@ public abstract class MySQLRepository {
 
     /**
      * Runs the update query with any parameters
-     * @param query The query to run
+     *
+     * @param query      The query to run
      * @param parameters The parameters to bind in the query
      */
     public void update(String query, Object... parameters) {
@@ -69,16 +72,17 @@ public abstract class MySQLRepository {
 
     /**
      * Runs the update query with any parameters
-     * @param query The query to run
+     *
+     * @param query       The query to run
      * @param transaction The transaction in which to execute the query within
-     * @param parameters The parameters to bind in the query
+     * @param parameters  The parameters to bind in the query
      */
     public void update(String query, Transaction transaction, Object... parameters) {
         Connection connection = transaction != null ? transaction.getConnection() : null;
         PreparedStatement preparedStatement = null;
 
         try {
-            if(connection == null)
+            if (connection == null)
                 connection = this.connectionProvider.getConnection();
 
             preparedStatement = connection.prepareStatement(query);
@@ -92,7 +96,7 @@ public abstract class MySQLRepository {
         } finally {
             this.connectionProvider.closeStatement(preparedStatement);
 
-            if(transaction == null)
+            if (transaction == null)
                 this.connectionProvider.closeConnection(connection);
         }
     }
@@ -100,9 +104,10 @@ public abstract class MySQLRepository {
 
     /**
      * Runs the insert query and accepts a consumer for the new generated keys (if any)
-     * @param query The query to execute
+     *
+     * @param query       The query to execute
      * @param keyConsumer The consumer to accept the newly generated keys
-     * @param parameters The parameters to bind in the query
+     * @param parameters  The parameters to bind in the query
      */
     public void insert(String query, ResultReaderConsumer keyConsumer, Object... parameters) {
         insert(query, keyConsumer, Transaction.NULL, parameters);
@@ -110,18 +115,19 @@ public abstract class MySQLRepository {
 
     /**
      * Runs the insert query with a provided transaction object (which allows rollback etc.)
-     * @param query The query to execute
+     *
+     * @param query       The query to execute
      * @param transaction The transaction in which to execute the query within;
      * @param keyConsumer The key consumer
-     * @param parameters The parameters to bind to the query
+     * @param parameters  The parameters to bind to the query
      */
     public void insert(String query, ResultReaderConsumer keyConsumer, Transaction transaction, Object... parameters) {
         Connection connection = transaction == Transaction.NULL ? null : transaction.getConnection();
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet;
+        ResultSet resultSet = null;
 
         try {
-            if(connection == null) {
+            if (connection == null) {
                 connection = this.connectionProvider.getConnection();
             }
 
@@ -134,16 +140,18 @@ public abstract class MySQLRepository {
             resultSet = preparedStatement.getGeneratedKeys();
             final IResultReader resultReader = new ResultSetReader(resultSet);
 
-            if(resultSet.next()) {
+            if (resultSet.next()) {
                 keyConsumer.accept(resultReader);
             }
+
             preparedStatement.execute();
         } catch (Exception e) {
             log.error("Failed to update data", e);
         } finally {
+            this.connectionProvider.closeResults(resultSet);
             this.connectionProvider.closeStatement(preparedStatement);
 
-            if(transaction == null) {
+            if (transaction == null) {
                 this.connectionProvider.closeConnection(connection);
             }
         }
@@ -151,6 +159,7 @@ public abstract class MySQLRepository {
 
     /**
      * Allows a MySQL connection to be shared throughout multiple queries and also support rollback etc
+     *
      * @param transactionConsumer The consumer in which the transaction will be used
      */
     public void transaction(TransactionConsumer transactionConsumer) {
@@ -165,7 +174,7 @@ public abstract class MySQLRepository {
             transactionConsumer.accept(transaction);
         } catch (Exception e) {
             try {
-                if(transaction != null) {
+                if (transaction != null) {
                     transaction.rollback();
 
                     // TODO: make sure we perform any checks here for if the connection is closed, we can't have
@@ -181,22 +190,23 @@ public abstract class MySQLRepository {
 
     /**
      * Dynamically sets parameters to the prepared statement
+     *
      * @param preparedStatement The statement of which to set the parameters
-     * @param parameters List of parameters defined as objects
+     * @param parameters        List of parameters defined as objects
      * @throws Exception Exception when setting the parameters
      */
     private void addParameters(PreparedStatement preparedStatement, Object... parameters) throws Exception {
         int parameterIndex = 1;
         for (Object obj : parameters) {
-            if(obj instanceof Integer) {
+            if (obj instanceof Integer) {
                 preparedStatement.setInt(parameterIndex++, (Integer) obj);
-            } else if(obj instanceof String) {
+            } else if (obj instanceof String) {
                 preparedStatement.setString(parameterIndex++, (String) obj);
-            } else if(obj instanceof Long) {
+            } else if (obj instanceof Long) {
                 preparedStatement.setLong(parameterIndex++, (Long) obj);
-            } else if(obj instanceof Boolean) {
+            } else if (obj instanceof Boolean) {
                 preparedStatement.setBoolean(parameterIndex++, (Boolean) obj);
-            } else if(obj instanceof Double) {
+            } else if (obj instanceof Double) {
                 preparedStatement.setDouble(parameterIndex++, (Double) obj);
             } else {
                 throw new UnexpectedTypeException("You can only bind types: Integer, String and Long to a statement!");
