@@ -17,6 +17,10 @@ public class CometSettings {
     public static boolean onlineRewardEnabled = false;
     public static int onlineRewardCredits = 0;
     public static int onlineRewardDuckets = 0;
+
+    public static int onlineRewardDiamondsInterval = 45;
+    public static int onlineRewardDiamonds = 0;
+
     public static int onlineRewardInterval = 15;
 
     public static int groupCost = 0;

@@ -23,7 +23,6 @@ import java.util.concurrent.TimeUnit;
 
 public class GameCycle implements CometTask, Initialisable {
     private static final int interval = 1;
-    private static final int PLAYER_REWARD_INTERVAL = 15; // minutes
 
     private static GameCycle gameThreadInstance;
 
@@ -122,15 +121,24 @@ public class GameCycle implements CometTask, Initialisable {
 
                     ((Session) client).getPlayer().getAchievements().progressAchievement(AchievementType.ONLINE_TIME, 1);
 
-                    final boolean needsReward = (Comet.getTime() - client.getPlayer().getLastReward()) >= (60 * PLAYER_REWARD_INTERVAL);
+                    final boolean needsReward = (Comet.getTime() - client.getPlayer().getLastReward()) >= (60 * CometSettings.onlineRewardInterval);
+                    final boolean needsDiamondsReward = (Comet.getTime() - client.getPlayer().getLastReward()) >= (60 * CometSettings.onlineRewardInterval);
 
-                    if (needsReward) {
-                        if (CometSettings.onlineRewardCredits > 0) {
-                            client.getPlayer().getData().increaseCredits(CometSettings.onlineRewardCredits);
+                    if (needsReward || needsDiamondsReward) {
+                        if(needsReward) {
+                            if (CometSettings.onlineRewardCredits > 0) {
+                                client.getPlayer().getData().increaseCredits(CometSettings.onlineRewardCredits);
+                            }
+
+                            if (CometSettings.onlineRewardDuckets > 0) {
+                                client.getPlayer().getData().increaseActivityPoints(CometSettings.onlineRewardDuckets);
+                            }
                         }
 
-                        if (CometSettings.onlineRewardDuckets > 0) {
-                            client.getPlayer().getData().increaseActivityPoints(CometSettings.onlineRewardDuckets);
+                        if(needsDiamondsReward) {
+                            if(CometSettings.onlineRewardDiamonds > 0) {
+                                client.getPlayer().getData().increasePoints(CometSettings.onlineRewardDiamonds);
+                            }
                         }
 
                         client.getPlayer().sendBalance();

@@ -73,6 +73,9 @@ public class ConfigDao {
                 CometSettings.wiredMaxTriggers = config.getInt("room_wired_max_triggers");
                 CometSettings.wiredMaxExecuteStacks = config.getInt("room_wired_max_execute_stacks");
 
+                CometSettings.onlineRewardDiamondsInterval = config.getInt("online_reward_diamonds_interval");
+                CometSettings.onlineRewardDiamonds = config.getInt("online_reward_diamonds");
+
                 final String characters = config.getString("word_filter_strict_chars");
 
                 CometSettings.strictFilterCharacters.clear();
