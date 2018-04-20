@@ -89,6 +89,7 @@ public class Player implements IPlayer {
     private boolean isDeletingGroup = false;
     private long deletingGroupAttempt = 0;
     private boolean bypassRoomAuth;
+    private long lastDiamondReward = 0;
     private long lastReward = 0;
     private boolean invisible = false;
     private int lastTradePlayer = 0;
@@ -599,6 +600,16 @@ public class Player implements IPlayer {
     @Override
     public void setLastReward(long lastReward) {
         this.lastReward = lastReward;
+    }
+
+    @Override
+    public long getLastDiamondReward() {
+        return lastDiamondReward;
+    }
+
+    @Override
+    public void setLastDiamondReward(long lastDiamondReward) {
+        this.lastDiamondReward = lastDiamondReward;
     }
 
     public int getLastForumPost() {

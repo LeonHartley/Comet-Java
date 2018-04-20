@@ -142,6 +142,10 @@ public interface IPlayer {
 
     void setLastReward(long lastReward);
 
+    long getLastDiamondReward();
+
+    void setLastDiamondReward(long lastDiamondReward);
+
     Set<Integer> getRecentPurchases();
 
     int getLastRoomCreated();

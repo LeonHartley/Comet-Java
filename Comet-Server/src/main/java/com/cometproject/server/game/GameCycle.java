@@ -122,7 +122,7 @@ public class GameCycle implements CometTask, Initialisable {
                     ((Session) client).getPlayer().getAchievements().progressAchievement(AchievementType.ONLINE_TIME, 1);
 
                     final boolean needsReward = (Comet.getTime() - client.getPlayer().getLastReward()) >= (60 * CometSettings.onlineRewardInterval);
-                    final boolean needsDiamondsReward = (Comet.getTime() - client.getPlayer().getLastReward()) >= (60 * CometSettings.onlineRewardDiamondsInterval);
+                    final boolean needsDiamondsReward = (Comet.getTime() - client.getPlayer().getLastDiamondReward()) >= (60 * CometSettings.onlineRewardDiamondsInterval);
 
                     if (needsReward || needsDiamondsReward) {
                         if(needsReward) {
@@ -139,6 +139,8 @@ public class GameCycle implements CometTask, Initialisable {
                             if(CometSettings.onlineRewardDiamonds > 0) {
                                 client.getPlayer().getData().increasePoints(CometSettings.onlineRewardDiamonds);
                             }
+
+                            client.getPlayer().setLastDiamondReward(Comet.getTime());
                         }
 
                         client.getPlayer().sendBalance();
