@@ -94,6 +94,27 @@ public class MessengerDao {
         }
     }
 
+
+    public static void deleteAllFriendships(int playerId) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("DELETE from messenger_friendships WHERE user_one_id = ? OR user_two_id = ?", sqlConnection);
+            preparedStatement.setInt(1, playerId);
+            preparedStatement.setInt(2, playerId);
+
+            SqlHelper.executeStatementSilently(preparedStatement, false);
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+    }
+
     public static void deleteRequestDataByRecieverId(int userId) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;

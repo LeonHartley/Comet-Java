@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 public class PermissionsManager implements Initialisable {
@@ -20,6 +21,7 @@ public class PermissionsManager implements Initialisable {
     private Map<String, CommandPermission> commands;
     private Map<String, OverrideCommandPermission> overridecommands;
     private Map<Integer, Integer> effects;
+    private Map<Integer, Integer> chatBubbles;
 
     public PermissionsManager() {
 
@@ -34,17 +36,19 @@ public class PermissionsManager implements Initialisable {
 
     @Override
     public void initialize() {
-        this.perks = new HashMap<>();
-        this.commands = new HashMap<>();
-        this.overridecommands = new HashMap<>();
-        this.ranks = new HashMap<>();
-        this.effects = new HashMap<>();
+        this.perks = new ConcurrentHashMap<>();
+        this.commands = new ConcurrentHashMap<>();
+        this.overridecommands = new ConcurrentHashMap<>();
+        this.ranks = new ConcurrentHashMap<>();
+        this.effects = new ConcurrentHashMap<>();
+        this.chatBubbles = new ConcurrentHashMap<>();
 
         this.loadPerks();
         this.loadRankPermissions();
         this.loadCommands();
         this.loadOverrideCommands();
         this.loadEffects();
+        this.loadChatBubbles();
 
         log.info("PermissionsManager initialized");
     }
@@ -129,6 +133,17 @@ public class PermissionsManager implements Initialisable {
         log.info("Loaded " + this.getEffects().size() + " effect permissions");
     }
 
+    public void loadChatBubbles() {
+        if (this.chatBubbles.size() != 0) {
+            this.chatBubbles.clear();
+        }
+
+        this.chatBubbles = PermissionsDao.getChatBubbles();
+
+        log.info("Loaded " + this.getEffects().size() + " chat bubbles");
+    }
+
+
     public Rank getRank(final int playerRankId) {
         final Rank rank = this.ranks.get(playerRankId);
 
@@ -158,5 +173,9 @@ public class PermissionsManager implements Initialisable {
 
     public Map<Integer, Integer> getEffects() {
         return effects;
+    }
+
+    public Map<Integer, Integer> getChatBubbles() {
+        return this.chatBubbles;
     }
 }

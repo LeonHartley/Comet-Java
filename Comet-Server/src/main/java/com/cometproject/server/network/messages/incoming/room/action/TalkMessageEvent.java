@@ -2,6 +2,7 @@ package com.cometproject.server.network.messages.incoming.room.action;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
+import com.cometproject.server.game.permissions.PermissionsManager;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.filter.FilterResult;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
@@ -15,36 +16,14 @@ import com.cometproject.server.network.messages.outgoing.room.avatar.MutedMessag
 import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.protocol.messages.MessageEvent;
+import com.cometproject.server.storage.queries.permissions.PermissionsDao;
 import com.google.common.primitives.Ints;
 
 
 public class TalkMessageEvent implements Event {
-    private static int[] allowedColours = new int[]{
-            0, 3, 4, 5, 6, 7, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 29, 37
-    };
-
-    public static boolean isValidColour(int colour, Session client) {
-        if (!Ints.contains(allowedColours, colour)) {
-            return false;
-        }
-
-        if ((colour == 23 || colour == 37) && !client.getPlayer().getPermissions().getRank().modTool())
-            return false;
-
-        return true;
-    }
-
-    public static String filterMessage(String message) {
-        if (message.contains("You can type here to talk!")) {
-            message = message.replace("You can type here to talk!", "");
-        }
-
-        return message.replace((char) 13 + "", "");
-    }
-
     public void handle(Session client, MessageEvent msg) {
         String message = msg.readString();
-        int colour = msg.readInt();
+        int bubble = msg.readInt();
 
         final int timeMutedExpire = client.getPlayer().getData().getTimeMuted() - (int) Comet.getTime();
 
@@ -64,8 +43,17 @@ public class TalkMessageEvent implements Event {
             }
         }
 
-        if (!TalkMessageEvent.isValidColour(colour, client))
-            colour = 0;
+        if(bubble != 0) {
+            final Integer bubbleMinRank = PermissionsManager.getInstance().getChatBubbles().get(bubble);
+
+            if(bubbleMinRank == null) {
+                bubble = 0;
+            } else {
+                if(client.getPlayer().getData().getRank() < bubbleMinRank) {
+                    bubble = 0;
+                }
+            }
+        }
 
         if (client.getPlayer().getChatMessageColour() != null) {
             message = "@" + client.getPlayer().getChatMessageColour() + "@" + message;
@@ -107,13 +95,21 @@ public class TalkMessageEvent implements Event {
                 RoomItemFloor floorItem = client.getPlayer().getEntity().getRoom().getItems().getFloorItem(client.getPlayer().getEntity().getPrivateChatItemId());
 
                 if (floorItem != null) {
-                    ((PrivateChatFloorItem) floorItem).broadcastMessage(new TalkMessageComposer(client.getPlayer().getEntity().getId(), filteredMessage, RoomManager.getInstance().getEmotions().getEmotion(filteredMessage), colour));
+                    ((PrivateChatFloorItem) floorItem).broadcastMessage(new TalkMessageComposer(client.getPlayer().getEntity().getId(), filteredMessage, RoomManager.getInstance().getEmotions().getEmotion(filteredMessage), bubble));
                 }
             } else {
-                client.getPlayer().getEntity().getRoom().getEntities().broadcastChatMessage(new TalkMessageComposer(client.getPlayer().getEntity().getId(), filteredMessage, RoomManager.getInstance().getEmotions().getEmotion(filteredMessage), colour), client.getPlayer().getEntity());
+                client.getPlayer().getEntity().getRoom().getEntities().broadcastChatMessage(new TalkMessageComposer(client.getPlayer().getEntity().getId(), filteredMessage, RoomManager.getInstance().getEmotions().getEmotion(filteredMessage), bubble), client.getPlayer().getEntity());
             }
         }
 
         playerEntity.postChat(filteredMessage);
+    }
+
+    public static String filterMessage(String message) {
+        if (message.contains("You can type here to talk!")) {
+            message = message.replace("You can type here to talk!", "");
+        }
+
+        return message.replace((char) 13 + "", "");
     }
 }

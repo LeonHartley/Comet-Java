@@ -103,7 +103,7 @@ public class CommandManager implements Initialisable {
         }
 
         this.addCommand("itemid", new ItemVirtualIdCommand());
-        this.addCommand("comet", new CometCommand());
+//        this.addCommand("comet", new CometCommand());
     }
 
     /**
@@ -134,6 +134,7 @@ public class CommandManager implements Initialisable {
         this.addCommand(Locale.get("command.mutebots.name"), new MuteBotsCommand());
         this.addCommand(Locale.get("command.mutepets.name"), new MutePetsCommand());
         this.addCommand(Locale.get("command.toggleevents.name"), new ToggleEventsCommand());
+        this.addCommand(Locale.get("command.emptyfriends.name"), new EmptyFriendsCommand());
 
         // VIP commands
         this.addCommand(Locale.get("command.push.name"), new PushCommand());
@@ -207,7 +208,7 @@ public class CommandManager implements Initialisable {
         this.addCommand(Locale.get("command.advban.name"), new AdvBanCommand());
         this.addCommand(Locale.get("command.softban.name"), new SoftBanCommand());
         this.addCommand(Locale.get("command.masseffect.name"), new MassEffectCommand());
-        this.addCommand(Locale.get("command.masshanditem.name"), new MassHandItemCommand());
+        this.addCommand(Locale.get("command.masshandi   tem.name"), new MassHandItemCommand());
         this.addCommand(Locale.get("command.freeze.name"), new FreezeCommand());
         this.addCommand(Locale.get("command.unfreeze.name"), new UnfreezeCommand());
         this.addCommand(Locale.get("command.eventreward.name"), new EventRewardCommand());

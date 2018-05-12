@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 public class PermissionsDao {
@@ -21,7 +22,7 @@ public class PermissionsDao {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        Map<Integer, Perk> data = new HashMap<>();
+        Map<Integer, Perk> data = new ConcurrentHashMap<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();
@@ -49,7 +50,7 @@ public class PermissionsDao {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        Map<Integer, Rank> data = new HashMap<>();
+        Map<Integer, Rank> data = new ConcurrentHashMap<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();
@@ -96,7 +97,7 @@ public class PermissionsDao {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        Map<String, CommandPermission> data = new HashMap<>();
+        Map<String, CommandPermission> data = new ConcurrentHashMap<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();
@@ -127,7 +128,7 @@ public class PermissionsDao {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        Map<String, OverrideCommandPermission> data = new HashMap<>();
+        Map<String, OverrideCommandPermission> data = new ConcurrentHashMap<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();
@@ -158,7 +159,7 @@ public class PermissionsDao {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        Map<Integer, Integer> data = new HashMap<>();
+        Map<Integer, Integer> data = new ConcurrentHashMap<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();
@@ -167,6 +168,37 @@ public class PermissionsDao {
 
             while (resultSet.next()) {
                 data.put(resultSet.getInt("effect_id"), resultSet.getInt("minimum_rank"));
+            }
+
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(resultSet);
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+
+        return data;
+    }
+
+    public static Map<Integer, Integer> getChatBubbles() {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        Map<Integer, Integer> data = new ConcurrentHashMap<>();
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+            preparedStatement = SqlHelper.prepare("SELECT `bubble_id`, `minimum_rank` FROM permissions_chat_bubbles", sqlConnection);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                try {
+                    data.put(resultSet.getInt("bubble_id"), resultSet.getInt("minimum_rank"));
+                } catch (Exception ignored) {
+
+                }
             }
 
         } catch (SQLException e) {

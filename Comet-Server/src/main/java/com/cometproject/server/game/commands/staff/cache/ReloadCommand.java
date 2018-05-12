@@ -48,7 +48,7 @@ public class ReloadCommand extends ChatCommand {
                                 "- permissions\n" +
                                 "- catalog\n" +
                                 "- news\n" +
-                                "- com.cometproject.networking.api.config\n" +
+                                "- config\n" +
                                 "- items\n" +
                                 "- filter\n" +
                                 "- locale\n" +

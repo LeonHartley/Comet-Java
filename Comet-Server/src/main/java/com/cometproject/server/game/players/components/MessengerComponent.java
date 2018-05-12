@@ -8,8 +8,11 @@ import com.cometproject.api.game.players.data.components.messenger.IMessengerFri
 import com.cometproject.api.networking.messages.IMessageComposer;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.components.types.messenger.MessengerSearchResult;
+import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.players.types.PlayerComponent;
 import com.cometproject.server.network.NetworkManager;
+import com.cometproject.server.network.messages.outgoing.messenger.BuddyListMessageComposer;
+import com.cometproject.server.network.messages.outgoing.messenger.FriendRequestsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.messenger.MessengerSearchResultsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.messenger.UpdateFriendStateMessageComposer;
 import com.cometproject.server.network.sessions.Session;
@@ -233,5 +236,20 @@ public class MessengerComponent extends PlayerComponent implements PlayerMesseng
     @Override
     public void setInitialised(boolean initialised) {
         this.initialised = initialised;
+    }
+
+    public void initialise() {
+        this.getPlayer().getSession().send(new BuddyListMessageComposer((Player) this.getPlayer(),
+                this.getFriends(),
+                this.getPlayer().getPermissions().getRank().messengerStaffChat(),
+                this.getPlayer().getGroups()));
+
+        this.getPlayer().getSession().send(new FriendRequestsMessageComposer(this.getRequestAvatars()));
+
+        if (!this.getPlayer().getAchievements().hasStartedAchievement(AchievementType.FRIENDS_LIST)) {
+            this.getPlayer().getAchievements().progressAchievement(AchievementType.FRIENDS_LIST, this.getFriends().size());
+        }
+
+        this.setInitialised(true);
     }
 }

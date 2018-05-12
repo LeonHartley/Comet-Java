@@ -2,6 +2,7 @@ package com.cometproject.server.network.messages.incoming.room.action;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
+import com.cometproject.server.game.permissions.PermissionsManager;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.filter.FilterResult;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
@@ -20,14 +21,22 @@ import com.cometproject.server.protocol.messages.MessageEvent;
 public class ShoutMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) {
         String message = msg.readString();
-        int colour = msg.readInt();
+        int bubble = msg.readInt();
 
         final int timeMutedExpire = client.getPlayer().getData().getTimeMuted() - (int) Comet.getTime();
 
         if (message.length() < 1) return;
 
-        if (!TalkMessageEvent.isValidColour(colour, client)) {
-            colour = 0;
+        if(bubble != 0) {
+            final Integer bubbleMinRank = PermissionsManager.getInstance().getChatBubbles().get(bubble);
+
+            if(bubbleMinRank == null) {
+                bubble = 0;
+            } else {
+                if(client.getPlayer().getData().getRank() < bubbleMinRank) {
+                    bubble = 0;
+                }
+            }
         }
 
         if (client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null)
@@ -87,10 +96,10 @@ public class ShoutMessageEvent implements Event {
                 RoomItemFloor floorItem = playerEntity.getRoom().getItems().getFloorItem(playerEntity.getPrivateChatItemId());
 
                 if (floorItem != null) {
-                    ((PrivateChatFloorItem) floorItem).broadcastMessage(new ShoutMessageComposer(playerEntity.getId(), filteredMessage, RoomManager.getInstance().getEmotions().getEmotion(filteredMessage), colour));
+                    ((PrivateChatFloorItem) floorItem).broadcastMessage(new ShoutMessageComposer(playerEntity.getId(), filteredMessage, RoomManager.getInstance().getEmotions().getEmotion(filteredMessage), bubble));
                 }
             } else {
-                playerEntity.getRoom().getEntities().broadcastChatMessage(new ShoutMessageComposer(playerEntity.getId(), filteredMessage, RoomManager.getInstance().getEmotions().getEmotion(filteredMessage), colour), client.getPlayer().getEntity());
+                playerEntity.getRoom().getEntities().broadcastChatMessage(new ShoutMessageComposer(playerEntity.getId(), filteredMessage, RoomManager.getInstance().getEmotions().getEmotion(filteredMessage), bubble), client.getPlayer().getEntity());
             }
         }
 

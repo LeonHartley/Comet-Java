@@ -27,6 +27,7 @@ import com.cometproject.server.game.utilities.validator.PlayerFigureValidator;
 import com.cometproject.server.logging.LogManager;
 import com.cometproject.server.modules.ModuleManager;
 import com.cometproject.server.network.NetworkManager;
+import com.cometproject.server.network.messages.incoming.room.action.TalkMessageEvent;
 import com.cometproject.server.storage.StorageManager;
 import com.cometproject.server.storage.queries.config.ConfigDao;
 import com.cometproject.server.tasks.CometThreadManager;
