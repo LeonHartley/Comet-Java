@@ -210,6 +210,7 @@ public class CommandManager implements Initialisable {
         this.addCommand(Locale.get("command.masshanditem.name"), new MassHandItemCommand());
         this.addCommand(Locale.get("command.freeze.name"), new FreezeCommand());
         this.addCommand(Locale.get("command.unfreeze.name"), new UnfreezeCommand());
+        this.addCommand(Locale.get("command.eventreward.name"), new EventRewardCommand());
 
         // Room bundles
         this.addCommand(Locale.get("command.bundle.name"), new BundleCommand());
