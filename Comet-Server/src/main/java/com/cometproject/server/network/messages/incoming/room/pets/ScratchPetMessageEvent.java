@@ -60,6 +60,12 @@ public class ScratchPetMessageEvent implements Event {
             return;
         }
 
+        if(client.getPlayer().getStats().getScratches() == 0) {
+            return;
+        }
+
+        client.getPlayer().getStats().setScratches(client.getPlayer().getStats().getScratches() - 1);
+
         client.getPlayer().getEntity().lookTo(petEntity.getPosition().getX(), petEntity.getPosition().getY());
         client.getPlayer().getEntity().markNeedsUpdate();
 

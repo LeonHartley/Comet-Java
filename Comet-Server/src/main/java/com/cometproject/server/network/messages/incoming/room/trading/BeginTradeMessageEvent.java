@@ -34,37 +34,33 @@ public class BeginTradeMessageEvent implements Event {
             return;
         }
 
-        if (client == null || client.getPlayer().getEntity().hasStatus(RoomEntityStatus.TRADE) || client.getPlayer() == null || client.getPlayer().getSession() == null) {
+        if (client.getPlayer().getEntity().hasStatus(RoomEntityStatus.TRADE) || client.getPlayer() == null || client.getPlayer().getSession() == null) {
             client.send(new TradeErrorMessageComposer(7, ""));
             return;
         }
 
-        if (entity == null || entity.hasStatus(RoomEntityStatus.TRADE) || entity.getPlayer() == null || entity.getPlayer().getSession() == null) {
-            client.send(new TradeErrorMessageComposer(8, entity != null ? entity.getUsername() : "Unknown Player"));
+        if (entity.hasStatus(RoomEntityStatus.TRADE) || entity.getPlayer() == null || entity.getPlayer().getSession() == null) {
+            client.send(new TradeErrorMessageComposer(8, entity.getUsername()));
             return;
         }
 
-        long currentTime = System.currentTimeMillis();
+        final long time = System.currentTimeMillis();
 
-        if (client.getPlayer().getLastTradeFlood() != 0) {
-            long timeFloodEnds = client.getPlayer().getLastTradeTime() + ((client.getPlayer().getLastTradeFlag() * 1000));
+        if (!client.getPlayer().getPermissions().getRank().floodBypass()) {
+            if (time - client.getPlayer().getLastTradeTime() < 750) {
+                client.getPlayer().setLastTradeFlag(client.getPlayer().getLastTradeFlag() + 1);
 
-            if (currentTime >= timeFloodEnds) {
-                client.getPlayer().setLastTradeFlood(0);
-            } else {
-                return;
+                if (client.getPlayer().getLastTradeFlag() >= 4) {
+                    client.getPlayer().setLastTradeFlood(time / 1000L + client.getPlayer().getPermissions().getRank().floodTime());
+                    client.getPlayer().setLastTradeFlag(0);
+                }
             }
-        }
 
-        if ((currentTime - client.getPlayer().getLastTradeTime()) < 750) {
-            client.getPlayer().setLastTradeTime(currentTime);
-
-            if (client.getPlayer().getLastTradeFlag() >= 3) {
-                client.getPlayer().setLastTradeFlood(30);
+            if ((time / 1000L) < client.getPlayer().getLastTradeFlood()) {
                 return;
             }
 
-            client.getPlayer().setLastTradeFlag(client.getPlayer().getLastTradeFlag() + 1);
+            client.getPlayer().setLastTradeTime(time);
         }
 
         client.getPlayer().getEntity().getRoom().getTrade().add(new Trade(client.getPlayer().getEntity(), entity));

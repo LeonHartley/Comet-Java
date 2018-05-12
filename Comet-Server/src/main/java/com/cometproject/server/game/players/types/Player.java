@@ -95,7 +95,7 @@ public class Player implements IPlayer {
     private int lastTradePlayer = 0;
     private long lastTradeTime = 0;
     private int lastTradeFlag = 0;
-    private int lastTradeFlood = 0;
+    private long lastTradeFlood = 0;
     private long lastPhotoTaken = 0;
     private String ssoTicket;
     private Set<Integer> recentPurchases;
@@ -698,11 +698,11 @@ public class Player implements IPlayer {
         this.lastTradeFlag = lastTradeFlag;
     }
 
-    public int getLastTradeFlood() {
+    public long getLastTradeFlood() {
         return lastTradeFlood;
     }
 
-    public void setLastTradeFlood(int lastTradeFlood) {
+    public void setLastTradeFlood(long lastTradeFlood) {
         this.lastTradeFlood = lastTradeFlood;
     }
 

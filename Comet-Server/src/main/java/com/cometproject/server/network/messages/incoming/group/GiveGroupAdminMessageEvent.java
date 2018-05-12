@@ -26,7 +26,7 @@ public class GiveGroupAdminMessageEvent implements Event {
 
         IGroup group = GameContext.getCurrent().getGroupService().getGroup(groupId);
 
-        if (group == null)
+        if (group == null || group.getData() == null || group.getData().getOwnerId() != client.getPlayer().getId())
             return;
 
         if (!group.getMembers().getAll().containsKey(playerId))

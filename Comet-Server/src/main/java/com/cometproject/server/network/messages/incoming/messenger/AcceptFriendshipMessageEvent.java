@@ -37,6 +37,8 @@ public class AcceptFriendshipMessageEvent implements Event {
 
             client.getPlayer().getMessenger().addFriend(new MessengerFriend(request));
             client.getPlayer().getMessenger().sendStatus(true, client.getPlayer().getEntity() != null);
+
+            client.getPlayer().getMessenger().removeRequest(request);
         }
 
         requests.clear();

@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 public class MessengerDao {
@@ -20,7 +21,7 @@ public class MessengerDao {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        Map<Integer, IMessengerFriend> data = new HashMap<>();
+        Map<Integer, IMessengerFriend> data = new ConcurrentHashMap<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();

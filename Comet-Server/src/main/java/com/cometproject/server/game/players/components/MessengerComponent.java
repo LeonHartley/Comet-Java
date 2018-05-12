@@ -77,8 +77,11 @@ public class MessengerComponent extends PlayerComponent implements PlayerMesseng
 
     @Override
     public void addFriend(IMessengerFriend friend) {
-        this.getFriends().put(friend.getUserId(), friend);
+        if(this.getFriends().containsKey(friend.getUserId())) {
+            return;
+        }
 
+        this.getFriends().put(friend.getUserId(), friend);
         this.getPlayer().getAchievements().progressAchievement(AchievementType.FRIENDS_LIST, 1);
     }
 
