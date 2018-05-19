@@ -209,6 +209,10 @@ public abstract class MySQLRepository {
             } else if (obj instanceof Double) {
                 preparedStatement.setDouble(parameterIndex++, (Double) obj);
             } else {
+                if(obj == null) {
+                    preparedStatement.setString(parameterIndex++, null);
+                    return;
+                }
                 throw new UnexpectedTypeException("You can only bind types: Integer, String and Long to a statement!");
             }
         }

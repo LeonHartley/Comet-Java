@@ -16,6 +16,7 @@ import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManager;
 import org.apache.log4j.Logger;
 
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
@@ -90,11 +91,13 @@ public class GameCycle implements CometTask, Initialisable {
 
     private void processSession() throws Exception {
 
+        final LocalDate date = LocalDate.now();
         final Calendar calendar = Calendar.getInstance();
 
         final int hour = calendar.get(Calendar.HOUR_OF_DAY);
         final int minute = calendar.get(Calendar.MINUTE);
 
+        final boolean doubleRewards = CometSettings.onlineRewardDoubleDays.contains(date.getDayOfWeek());
         final boolean updateDaily = hour == 0 && minute == 0;
         final int dailyRespects = 3;
         final int dailyScratches = 3;
@@ -127,17 +130,17 @@ public class GameCycle implements CometTask, Initialisable {
                     if (needsReward || needsDiamondsReward) {
                         if(needsReward) {
                             if (CometSettings.onlineRewardCredits > 0) {
-                                client.getPlayer().getData().increaseCredits(CometSettings.onlineRewardCredits);
+                                client.getPlayer().getData().increaseCredits(CometSettings.onlineRewardCredits * (doubleRewards ? 2 : 1));
                             }
 
                             if (CometSettings.onlineRewardDuckets > 0) {
-                                client.getPlayer().getData().increaseActivityPoints(CometSettings.onlineRewardDuckets);
+                                client.getPlayer().getData().increaseActivityPoints(CometSettings.onlineRewardDuckets * (doubleRewards ? 2 : 1));
                             }
                         }
 
                         if(needsDiamondsReward) {
                             if(CometSettings.onlineRewardDiamonds > 0) {
-                                client.getPlayer().getData().increasePoints(CometSettings.onlineRewardDiamonds);
+                                client.getPlayer().getData().increasePoints(CometSettings.onlineRewardDiamonds * (doubleRewards ? 2 : 1));
                             }
 
                             client.getPlayer().setLastDiamondReward(Comet.getTime());

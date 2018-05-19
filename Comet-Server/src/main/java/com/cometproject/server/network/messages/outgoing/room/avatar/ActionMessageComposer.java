@@ -4,7 +4,6 @@ import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.protocol.headers.Composers;
 import com.cometproject.server.protocol.messages.MessageComposer;
 
-
 public class ActionMessageComposer extends MessageComposer {
     private final int playerId;
     private final int actionId;

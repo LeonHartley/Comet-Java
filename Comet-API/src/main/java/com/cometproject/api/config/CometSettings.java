@@ -2,9 +2,12 @@ package com.cometproject.api.config;
 
 import com.cometproject.api.game.rooms.filter.FilterMode;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import org.apache.log4j.Logger;
 
+import java.time.DayOfWeek;
 import java.util.Map;
+import java.util.Set;
 
 
 public class CometSettings {
@@ -20,8 +23,8 @@ public class CometSettings {
 
     public static int onlineRewardDiamondsInterval = 45;
     public static int onlineRewardDiamonds = 0;
-
     public static int onlineRewardInterval = 15;
+    public static Set<DayOfWeek> onlineRewardDoubleDays = Sets.newHashSet();
 
     public static int groupCost = 0;
 
@@ -57,7 +60,7 @@ public class CometSettings {
     public static boolean messengerLogMessages = false;
 
     public static int cameraPhotoItemId = 50001;
-    public static String cameraPhotoUrl = "http://localhost/photos/photos/%photoId%";
+    public static String cameraPhotoUrl = "http://localhost:8080/camera/photo/%photoId%";
     public static String cameraUploadUrl = "http://localhost:8080/camera/upload/%photoId%";
 
     public static int roomWiredRewardMinimumRank = 7;

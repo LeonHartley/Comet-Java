@@ -129,7 +129,6 @@ public class LegacyPurchaseHandler implements ICatalogPurchaseHandler {
                         client.disconnect();
                         return;
                     }
-
                 }
 
                 item = page.getItems().get(itemId);
@@ -137,7 +136,7 @@ public class LegacyPurchaseHandler implements ICatalogPurchaseHandler {
                 return;
             }
 
-            if (item == null) {
+            if (item == null || page == null || item.getPageId() != page.getId()) {
                 return;
             }
 

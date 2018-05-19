@@ -190,7 +190,7 @@ public class PermissionsDao {
 
         try {
             sqlConnection = SqlHelper.getConnection();
-            preparedStatement = SqlHelper.prepare("SELECT `bubble_id`, `minimum_rank` FROM permissions_chat_bubbles", sqlConnection);
+            preparedStatement = SqlHelper.prepare("SELECT `bubble_id`, `minimum_rank` FROM permission_chat_bubbles", sqlConnection);
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {

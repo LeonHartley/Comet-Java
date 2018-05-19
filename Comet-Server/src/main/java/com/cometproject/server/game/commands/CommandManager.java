@@ -135,6 +135,7 @@ public class CommandManager implements Initialisable {
         this.addCommand(Locale.get("command.mutepets.name"), new MutePetsCommand());
         this.addCommand(Locale.get("command.toggleevents.name"), new ToggleEventsCommand());
         this.addCommand(Locale.get("command.emptyfriends.name"), new EmptyFriendsCommand());
+        this.addCommand(Locale.get("command.reward.name"), new RewardCommand());
 
         // VIP commands
         this.addCommand(Locale.get("command.push.name"), new PushCommand());

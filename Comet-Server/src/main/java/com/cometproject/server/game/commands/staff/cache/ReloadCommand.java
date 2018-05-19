@@ -94,10 +94,10 @@ public class ReloadCommand extends ChatCommand {
                 sendNotif(Locale.get("command.reload.permissions"), client);
                 break;
 
-            case "com.cometproject.networking.api.config":
+            case "config":
                 ConfigDao.getAll();
 
-                sendNotif(Locale.get("command.reload.com.cometproject.networking.api.config"), client);
+                sendNotif(Locale.get("command.reload.config"), client);
                 break;
 
             case "news":

@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.DayOfWeek;
 
 
 public class ConfigDao {
@@ -89,6 +90,18 @@ public class ConfigDao {
                         CometSettings.strictFilterCharacters.put(chars[0], chars[1]);
                     } else {
                         CometSettings.strictFilterCharacters.put(chars[0], "");
+                    }
+                }
+
+
+                final String doubleDays = config.getString("online_reward_double_days");
+                CometSettings.onlineRewardDoubleDays.clear();
+
+                if(doubleDays.length() > 1) {
+                    final String[] days = doubleDays.split(",");
+
+                    for(String day : days) {
+                        CometSettings.onlineRewardDoubleDays.add(DayOfWeek.valueOf(day.toUpperCase()));
                     }
                 }
             }

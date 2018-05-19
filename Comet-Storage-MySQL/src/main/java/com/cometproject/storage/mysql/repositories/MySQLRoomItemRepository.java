@@ -71,7 +71,7 @@ public class MySQLRoomItemRepository extends MySQLRepository implements IRoomIte
     @Override
     public void placeWallItem(int roomId, String wallPosition, String data, long itemId) {
         update("UPDATE items SET room_id = ?, wall_pos = ?, extra_data = ? WHERE id = ?;",
-                roomId, wallPosition, itemId);
+                roomId, wallPosition, data, itemId);
     }
 
     @Override

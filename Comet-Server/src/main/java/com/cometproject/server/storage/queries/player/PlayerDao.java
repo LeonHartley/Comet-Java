@@ -890,7 +890,7 @@ public class PlayerDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("UPDATE player_settings SET navigator_x = ?, navigator_y = ?, navigator_height = ?, navigator_width = ?, navigator_show_searches = ?, view_mode = ? WHERE player_id = ?", sqlConnection);
+            preparedStatement = SqlHelper.prepare("UPDATE player_settings SET navigator_x = ?, navigator_y = ?, navigator_height = ?, navigator_width = ?, navigator_show_searches = ? WHERE player_id = ?", sqlConnection);
 
             preparedStatement.setInt(1, navigatorX);
             preparedStatement.setInt(2, navigatorY);

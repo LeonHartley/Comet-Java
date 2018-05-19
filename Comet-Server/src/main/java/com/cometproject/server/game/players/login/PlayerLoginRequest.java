@@ -5,6 +5,7 @@ import com.cometproject.api.events.players.OnPlayerLoginEvent;
 import com.cometproject.api.events.players.args.OnPlayerLoginEventArgs;
 import com.cometproject.api.game.achievements.types.AchievementType;
 import com.cometproject.server.boot.Comet;
+import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.moderation.BanManager;
 import com.cometproject.server.game.moderation.types.BanType;
 import com.cometproject.server.game.players.PlayerManager;
@@ -34,7 +35,10 @@ import com.cometproject.server.tasks.CometThreadManager;
 import com.cometproject.storage.mysql.MySQLStorageQueues;
 import com.cometproject.storage.mysql.queues.players.objects.PlayerStatusUpdate;
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.concurrent.TimeUnit;
 
 public class PlayerLoginRequest implements CometTask {
@@ -146,6 +150,14 @@ public class PlayerLoginRequest implements CometTask {
 
             if (CometSettings.motdEnabled) {
                 client.sendQueue(new MotdNotificationMessageComposer());
+            }
+
+            if(CometSettings.onlineRewardDoubleDays.size() != 0) {
+                LocalDate date = LocalDate.now();
+
+                if (CometSettings.onlineRewardDoubleDays.contains(date.getDayOfWeek())) {
+                    client.sendQueue(new MotdNotificationMessageComposer(Locale.getOrDefault("reward.double.points", "Hey %username%, \n\nToday we're giving out double points!").replace("%username%", player.getData().getUsername())));
+                }
             }
 
             client.flush();

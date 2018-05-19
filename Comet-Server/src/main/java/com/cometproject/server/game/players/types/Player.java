@@ -227,14 +227,14 @@ public class Player implements IPlayer {
 
     @Override
     public MessageComposer composeCreditBalance() {
-        return new SendCreditsMessageComposer(CometSettings.playerInfiniteBalance ? com.cometproject.server.game.players.types.Player.INFINITE_BALANCE : session.getPlayer().getData().getCredits());
+        return new SendCreditsMessageComposer(CometSettings.playerInfiniteBalance ? INFINITE_BALANCE : session.getPlayer().getData().getCredits());
     }
 
     @Override
     public MessageComposer composeCurrenciesBalance() {
         Map<Integer, Integer> currencies = new HashMap<>();
 
-        currencies.put(0, CometSettings.playerInfiniteBalance ? com.cometproject.server.game.players.types.Player.INFINITE_BALANCE : getData().getActivityPoints());
+        currencies.put(0, CometSettings.playerInfiniteBalance ? INFINITE_BALANCE : getData().getActivityPoints());
         currencies.put(105, getData().getVipPoints());
         currencies.put(5, getData().getVipPoints());
 

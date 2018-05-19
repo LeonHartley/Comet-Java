@@ -7,6 +7,8 @@ import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.protocol.messages.MessageEvent;
 
 import java.util.UUID;
+import java.util.zip.Deflater;
+import java.util.zip.Inflater;
 
 public class RenderRoomMessageEvent implements Event {
     @Override
@@ -14,16 +16,14 @@ public class RenderRoomMessageEvent implements Event {
         final int length = msg.readInt();
         final byte[] payload = msg.readBytes(length);
 
-        // Save the image
-        final UUID photoId = UUID.randomUUID();
-        final String response = ApiClient.getInstance().savePhoto(payload, photoId.toString());
+        final String response = ApiClient.getInstance().savePhoto(payload, UUID.randomUUID().toString());
 
         if (response.isEmpty()) {
             // Failed, send feedback to client
             return;
         }
 
-        client.getPlayer().setLastPhoto(photoId.toString());
-        client.send(new PhotoPreviewMessageComposer(photoId.toString()));
+        client.getPlayer().setLastPhoto(response);
+        client.send(new PhotoPreviewMessageComposer(response));
     }
 }

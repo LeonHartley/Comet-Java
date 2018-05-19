@@ -26,13 +26,16 @@ import java.util.List;
 public class RoomActionCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
-        if (params.length < 2) {
+        if (params.length < 1) {
             return;
         }
 
         final String action = params[0];
 
         switch (action) {
+            case "list":
+                sendAlert("- effect %effectid% \n- say %msg% \n- dance %danceid%\n- sign %signid%\n- bots %count% <i>(To remove, say \"minions leave\")</i>\n- handitem %itemid%", client);
+                break;
             case "effect":
                 if (!StringUtils.isNumeric(params[1])) {
                     return;
