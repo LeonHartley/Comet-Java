@@ -13,7 +13,7 @@ public class Events {
     public static final short GetPetInventoryMessageEvent = 567;//2326
     public static final short DropHandItemMessageEvent = 2846;//1454
     public static final short ReleaseTicketMessageEvent = 3042;//893
-    public static final short GetModeratorRoomInfoMessageEvent = -1701;//1701
+    public static final short GetModeratorRoomInfoMessageEvent = 1299;//1701
     public static final short KickUserMessageEvent = 3838;//310
     public static final short SaveWiredEffectConfigMessageEvent = 1843;//3789
     public static final short RespectPetMessageEvent = 31;//856
@@ -203,7 +203,7 @@ public class Events {
     public static final short GetBadgesMessageEvent = 1723;//916
     public static final short UseFurnitureMessageEvent = 788;//3119
     public static final short GoToFlatMessageEvent = 586;//3021
-    public static final short GetModeratorUserRoomVisitsMessageEvent = 1299;//757
+    public static final short GetModeratorUserRoomVisitsMessageEvent = 2828;//757
     public static final short GetSanctionStatusMessageEvent = 1654;//25
     public static final short SetChatPreferenceMessageEvent = 3378;//3027
     public static final short ResizeNavigatorMessageEvent = 3072;//3831
