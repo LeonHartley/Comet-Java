@@ -31,7 +31,8 @@ public class SaveFootballGateMessageEvent implements Event {
         String gender = msg.readString().toUpperCase();
         String figure = msg.readString();
 
-        floorItem.setFigure(gender.toUpperCase(), figure.split(";")[gender.equals("M") ? 0 : 1]);
+        floorItem.setFigure(gender.toUpperCase(), figure.contains(";") ?
+                figure.split(";")[gender.equals("M") ? 0 : 1] : figure);
         floorItem.saveData();
 
         floorItem.sendUpdate();

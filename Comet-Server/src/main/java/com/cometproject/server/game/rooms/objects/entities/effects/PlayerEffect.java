@@ -1,5 +1,7 @@
 package com.cometproject.server.game.rooms.objects.entities.effects;
 
+import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
+
 public class PlayerEffect {
     private int effectId;
     private int duration;
@@ -11,6 +13,10 @@ public class PlayerEffect {
         this.duration = duration;
         this.expires = duration != 0;
         this.isItemEffect = false;
+    }
+
+    public PlayerEffect(int id) {
+        this(id, 0);
     }
 
     public PlayerEffect(int id, boolean isItemEffect) {

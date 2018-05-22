@@ -204,6 +204,8 @@ public class CommandManager implements Initialisable {
         this.addCommand(Locale.get("command.notification.name"), new NotificationCommand());
         this.addCommand(Locale.get("command.quickpoll.name"), new QuickPollCommand());
         this.addCommand(Locale.get("command.roomoption.name"), new RoomOptionCommand());
+        this.addCommand(Locale.get("command.massfreeze.name"), new MassFreezeCommand());
+        this.addCommand(Locale.get("command.massteleport.name"), new MassTeleportCommand());
 
         // New
         this.addCommand(Locale.get("command.advban.name"), new AdvBanCommand());

@@ -62,7 +62,7 @@ public abstract class AbstractBotAI implements BotAI {
                     this.walkNow = false;
                 }
 
-                if (!this.getEntity().isWalking() && this.canMove() && this.followingPlayer == null) {
+                if (!this.getEntity().isWalking() && this.canMove() && this.getEntity().canWalk() && this.followingPlayer == null) {
                     botPathCalculator.submit(() -> {
                         RoomTile reachableTile = this.getEntity().getRoom().getMapping().getRandomReachableTile(this.getEntity());
 

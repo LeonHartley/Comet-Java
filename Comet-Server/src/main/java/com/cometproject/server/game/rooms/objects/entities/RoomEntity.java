@@ -3,6 +3,7 @@ package com.cometproject.server.game.rooms.objects.entities;
 import com.cometproject.api.game.rooms.entities.RoomEntityStatus;
 import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.objects.RoomFloorObject;
+import com.cometproject.server.game.rooms.objects.RoomObject;
 import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Square;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.types.EntityPathfinder;
@@ -70,6 +71,7 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
     private boolean isWarped;
     private boolean sendUpdateMessage = true;
     private boolean hasMount = false;
+    private boolean warping;
 
     public RoomEntity(int identifier, Position startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
         super(identifier, startPosition, roomInstance);
@@ -131,6 +133,10 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
 
     @Override
     public void moveTo(int x, int y) {
+        if(this.isWarped()) {
+            return;
+        }
+
         RoomTile tile = this.getRoom().getMapping().getTile(x, y);
 
         if (tile == null)
@@ -591,14 +597,22 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
     }
 
     public void teleportToItem(RoomItemFloor itemFloor) {
+        this.teleportToObject(itemFloor);
+    }
+
+    public void teleportToEntity(RoomEntity entity) {
+        this.teleportToObject(entity);
+    }
+
+    public void teleportToObject(RoomObject roomObject) {
         this.applyEffect(new PlayerEffect(4, 5));
 
-        final Position position = itemFloor.getPosition();
+        final Position position = roomObject.getPosition();
 
-        position.setZ(itemFloor.getTile().getWalkHeight());
+        position.setZ(roomObject.getTile().getWalkHeight());
 
         this.cancelWalk();
-        this.warp(itemFloor.getPosition());
+        this.warp(roomObject.getPosition());
     }
 
     public void warp(Position position, boolean cancelNextUpdate) {
@@ -634,6 +648,7 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
     public void warp(Position position) {
 //        if (this.needsForcedUpdate) return;
 
+        this.warping = true;
         this.warp(position, true);
     }
 
@@ -791,5 +806,13 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
 
     public boolean sendUpdateMessage() {
         return sendUpdateMessage;
+    }
+
+    public boolean isWarping() {
+        return warping;
+    }
+
+    public void setWarping(boolean warping) {
+        this.warping = warping;
     }
 }
