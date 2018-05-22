@@ -197,7 +197,7 @@ public class WiredActionGiveReward extends WiredActionItem {
                                 break;
 
                             case REWARD_DIAMONDS:
-                                playerEntity.getPlayer().getData().increasePoints(amount);
+                                playerEntity.getPlayer().getData().increaseVipPoints(amount);
                                 playerEntity.getPlayer().getSession().send(new AlertMessageComposer(
                                         Locale.getOrDefault("wired.reward.diamonds", "You received %s diamond(s)!").replace("%s", amount + "")));
                                 break;

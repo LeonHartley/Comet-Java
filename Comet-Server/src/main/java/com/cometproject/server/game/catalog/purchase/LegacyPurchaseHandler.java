@@ -184,6 +184,7 @@ public class LegacyPurchaseHandler implements ICatalogPurchaseHandler {
             int totalCostCredits;
             int totalCostPoints;
             int totalCostActivityPoints;
+            int totalCostSeasonal;
 
             if (item.getLimitedSells() >= item.getLimitedTotal() && item.getLimitedTotal() != 0) {
 //                client.send(new LimitedEditionSoldOutMessageComposer());
@@ -203,12 +204,14 @@ public class LegacyPurchaseHandler implements ICatalogPurchaseHandler {
 
             if (item.allowOffer()) {
                 totalCostCredits = amount > 1 ? ((item.getCostCredits() * amount) - ((int) Math.floor((double) amount / 6) * item.getCostCredits())) : item.getCostCredits();
-                totalCostPoints = amount > 1 ? ((item.getCostOther() * amount) - ((int) Math.floor((double) amount / 6) * item.getCostOther())) : item.getCostOther();
+                totalCostPoints = amount > 1 ? ((item.getCostDiamonds() * amount) - ((int) Math.floor((double) amount / 6) * item.getCostDiamonds())) : item.getCostDiamonds();
                 totalCostActivityPoints = amount > 1 ? ((item.getCostActivityPoints() * amount) - ((int) Math.floor((double) amount / 6) * item.getCostActivityPoints())) : item.getCostActivityPoints();
+                totalCostSeasonal = amount > 1 ? ((item.getCostSeasonal() * amount) - ((int) Math.floor((double) amount / 6) * item.getCostSeasonal())) : item.getCostSeasonal();
             } else {
                 totalCostCredits = item.getCostCredits();
-                totalCostPoints = item.getCostOther();
+                totalCostPoints = item.getCostDiamonds();
                 totalCostActivityPoints = item.getCostActivityPoints();
+                totalCostSeasonal = item.getCostSeasonal();
             }
 
             if ((!CometSettings.playerInfiniteBalance && (client.getPlayer().getData().getCredits() < totalCostCredits || client.getPlayer().getData().getActivityPoints() < totalCostActivityPoints)) || client.getPlayer().getData().getVipPoints() < totalCostPoints) {
@@ -227,7 +230,8 @@ public class LegacyPurchaseHandler implements ICatalogPurchaseHandler {
                 client.getPlayer().getData().decreaseActivityPoints(totalCostActivityPoints);
             }
 
-            client.getPlayer().getData().decreasePoints(totalCostPoints);
+            client.getPlayer().getData().decreaseVipPoints(totalCostPoints);
+            client.getPlayer().getData().decreaseSeasonalPoints(totalCostSeasonal);
 
             client.getPlayer().sendBalance();
             client.getPlayer().getData().save();

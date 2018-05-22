@@ -292,7 +292,8 @@ public class RoomTile {
             if (roomItemFloor instanceof SnowboardJumpFloorItem) {
                 height += 1.0;
             } else {
-                height -= roomItemFloor.getDefinition().getHeight();
+                if(roomItemFloor instanceof SeatFloorItem)
+                    height -= roomItemFloor.getDefinition().getHeight();
             }
         }
 

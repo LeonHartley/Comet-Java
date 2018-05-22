@@ -31,7 +31,6 @@ import com.cometproject.server.storage.queries.catalog.CatalogDao;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.utilities.collections.ConcurrentHashSet;
 import com.cometproject.storage.api.StorageContext;
-import com.cometproject.storage.mysql.MySQLStorageQueues;
 import com.google.common.collect.Sets;
 
 import java.sql.ResultSet;
@@ -51,6 +50,7 @@ public class Player implements IPlayer {
     private final AchievementComponent achievements;
     private final NavigatorComponent navigator;
     private final WardrobeComponent wardrobe;
+
     public boolean cancelPageOpen = false;
     public boolean isDisposed = false;
     public int lastBannedListRequest = 0;
@@ -178,7 +178,7 @@ public class Player implements IPlayer {
 
         this.session.getLogger().debug(this.getData().getUsername() + " logged out");
 
-        MySQLStorageQueues.instance().getPlayerOfflineUpdateQueue().add(this.getId(), new Object());
+        PlayerDao.updatePlayerStatus(this, false, false);
 
         this.rooms.clear();
         this.rooms = null;
@@ -237,6 +237,7 @@ public class Player implements IPlayer {
         currencies.put(0, CometSettings.playerInfiniteBalance ? INFINITE_BALANCE : getData().getActivityPoints());
         currencies.put(105, getData().getVipPoints());
         currencies.put(5, getData().getVipPoints());
+        currencies.put(106, getData().getSeasonalPoints());
 
         return new CurrenciesMessageComposer(currencies);
     }

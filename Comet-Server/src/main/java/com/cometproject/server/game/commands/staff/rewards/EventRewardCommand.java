@@ -36,11 +36,15 @@ public class EventRewardCommand extends ChatCommand {
         if (received.has() && received.get()) {
             sendWhisper(Locale.getOrDefault("command.eventreward.already_got", "This player has already received this reward!"), client);
         } else {
-            final int points = Integer.parseInt(Locale.getOrDefault("command.eventreward.points", "1"));
-            StorageContext.getCurrentContext().getRewardRepository().giveReward(playerId, badge, points);
+            final int vipPoints = Integer.parseInt(Locale.getOrDefault("command.eventreward.vip_points", "1"));
+            final int seasonalPoints = Integer.parseInt(Locale.getOrDefault("command.eventreward.seasonal_points", "1"));
+
+            StorageContext.getCurrentContext().getRewardRepository().giveReward(playerId, badge, vipPoints, seasonalPoints);
 
             if (session != null) {
-                session.getPlayer().getData().increasePoints(points);
+                session.getPlayer().getData().increaseVipPoints(vipPoints);
+                session.getPlayer().getData().increaseSeasonalPoints(seasonalPoints);
+
                 session.getPlayer().getInventory().addBadge(badge, false, true);
                 session.getPlayer().sendBalance();
 

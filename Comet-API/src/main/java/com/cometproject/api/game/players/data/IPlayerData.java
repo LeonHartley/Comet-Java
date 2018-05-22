@@ -8,15 +8,17 @@ public interface IPlayerData extends PlayerAvatar {
 
     void increaseCredits(int amount);
 
-    void decreasePoints(int points);
+    void decreaseVipPoints(int points);
 
-    void increasePoints(int points);
+    void increaseVipPoints(int points);
 
     void increaseActivityPoints(int points);
 
     void decreaseActivityPoints(int points);
 
-    void setPoints(int points);
+    void increaseSeasonalPoints(int points);
+
+    void decreaseSeasonalPoints(int points);
 
     int getId();
 
@@ -43,6 +45,10 @@ public interface IPlayerData extends PlayerAvatar {
     void setCredits(int credits);
 
     int getVipPoints();
+
+    int getSeasonalPoints();
+
+    void setSeasonalPoints(int points);
 
     int getLastVisit();
 

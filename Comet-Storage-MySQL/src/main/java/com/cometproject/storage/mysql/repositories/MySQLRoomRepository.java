@@ -79,15 +79,72 @@ public class MySQLRoomRepository extends MySQLRepository implements IRoomReposit
             decorString.append(decoration.getKey()).append("=").append(decoration.getValue()).append(",");
         }
 
-        update("UPDATE rooms SET name = ?, description = ?, owner_id = ?, owner = ?, category = ?," +
-                        " max_users = ?, access_type = ?, password = ?, score = ?, tags = ?, decorations = ?, model = ?, hide_walls = ?, thickness_wall = ?," +
-                        " thickness_floor = ?, allow_walkthrough = ?, allow_pets = ?, heightmap = ?, mute_state = ?, ban_state = ?, kick_state = ?," +
-                        "bubble_mode = ?, bubble_type = ?, bubble_scroll = ?, chat_distance = ?, flood_level = ?, trade_state = ?, disabled_commands = ?, group_id = ?, required_badge = ?, thumbnail = ?, hide_wired = ? WHERE id = ?;",
-                data.getName(), data.getDescription(), data.getOwnerId(), data.getOwner(), data.getCategoryId(), data.getMaxUsers(), data.getAccess().toString().toLowerCase(),
-                data.getPassword(), data.getScore(), tagString.toString(), decorString.toString(), data.getModel(), data.getHideWalls() ? "1" : "0", data.isAllowPets() ? "1" : "0",
-                data.getHeightmap(), data.getMuteState().toString(), data.getBanState().toString(), data.getKickState().toString(), data.getBubbleMode(),
-                data.getBubbleType(), data.getChatDistance(), data.getTradeState().toString(), JsonUtil.getInstance().toJson(data.getDisabledCommands()),
-                data.getGroupId(), data.getRequiredBadge(), data.getThumbnail(), data.isWiredHidden() ? "1" : "0", data.getId());
+        update("UPDATE rooms SET name = ?, " +
+                        "description = ?, " +
+                        "owner_id = ?, " +
+                        "owner = ?, " +
+                        "category = ?, " +
+                        "max_users = ?, " +
+                        "access_type = ?, " +
+                        "password = ?, " +
+                        "score = ?, " +
+                        "tags = ?, " +
+                        "decorations = ?, " +
+                        "model = ?, " +
+                        "hide_walls = ?, " +
+                        "thickness_wall = ?, " +
+                        "thickness_floor = ?, " +
+                        "allow_walkthrough = ?, " +
+                        "allow_pets = ?, " +
+                        "heightmap = ?, " +
+                        "mute_state = ?, " +
+                        "ban_state = ?, " +
+                        "kick_state = ?, " +
+                        "bubble_mode = ?, " +
+                        "bubble_type = ?, " +
+                        "bubble_scroll = ?, " +
+                        "chat_distance = ?, " +
+                        "flood_level = ?, " +
+                        "trade_state = ?, " +
+                        "disabled_commands = ?, " +
+                        "group_id = ?, " +
+                        "required_badge = ?, " +
+                        "thumbnail = ?, " +
+                        "hide_wired = ? " +
+                        "WHERE id = ?;",
+                data.getName(),
+                data.getDescription(),
+                data.getOwnerId(),
+                data.getOwner(),
+                data.getCategoryId(),
+                data.getMaxUsers(),
+                data.getAccess().toString().toLowerCase(),
+                data.getPassword(),
+                data.getScore(),
+                tagString.toString(),
+                decorString.toString(),
+                data.getModel(),
+                data.getHideWalls() ? "1" : "0",
+                data.getWallThickness(),
+                data.getFloorThickness(),
+                data.isAllowWalkthrough() ? "1" : "0",
+                data.isAllowPets() ? "1" : "0",
+                data.getHeightmap(),
+                data.getMuteState().toString(),
+                data.getBanState().toString(),
+                data.getKickState().toString(),
+                data.getBubbleMode(),
+                data.getBubbleType(),
+                data.getBubbleScroll(),
+                data.getChatDistance(),
+                data.getAntiFloodSettings(),
+                data.getTradeState().toString(),
+                JsonUtil.getInstance().toJson(data.getDisabledCommands()),
+                data.getGroupId(),
+                data.getRequiredBadge(),
+                data.getThumbnail(),
+                data.isWiredHidden() ? "1" : "0",
+                data.getId());
 
     }
 

@@ -62,7 +62,7 @@ public class CrackableFloorItem extends RoomItemFloor {
                     break;
 
                 case VIP_POINTS:
-                    player.getData().increasePoints(crackableReward.getRewardDataInt());
+                    player.getData().increaseVipPoints(crackableReward.getRewardDataInt());
                     player.sendBalance();
                     player.getData().save();
                     break;

@@ -7,7 +7,6 @@ import com.cometproject.server.network.messages.outgoing.user.profile.UserBadges
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.storage.queries.player.inventory.InventoryDao;
-import com.cometproject.storage.mysql.MySQLStorageQueues;
 import com.cometproject.storage.mysql.queues.players.objects.PlayerBadgeUpdate;
 import com.google.common.collect.Sets;
 

@@ -3,7 +3,6 @@ package com.cometproject.server.game.players.data;
 import com.cometproject.api.game.players.data.IPlayerData;
 import com.cometproject.server.game.utilities.validator.PlayerFigureValidator;
 import com.cometproject.server.storage.queries.player.PlayerDao;
-import com.cometproject.storage.mysql.MySQLStorageQueues;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -26,6 +25,7 @@ public class PlayerData implements IPlayerData {
     private int credits;
     private int vipPoints;
     private int activityPoints;
+    private int seasonalPoints;
 
     private String regDate;
     private int lastVisit;
@@ -49,7 +49,7 @@ public class PlayerData implements IPlayerData {
     private Object tempData = null;
 
     public PlayerData(int id, String username, String motto, String figure, String gender, String email, int rank, int credits, int vipPoints, int activityPoints,
-                      String reg, int lastVisit, boolean vip, int achievementPoints, int regTimestamp, int favouriteGroup, String ipAddress, int questId, int timeMuted, String nameColour) {
+                      int seasonalPoints, String reg, int lastVisit, boolean vip, int achievementPoints, int regTimestamp, int favouriteGroup, String ipAddress, int questId, int timeMuted, String nameColour) {
         this.id = id;
         this.username = username;
         this.motto = motto;
@@ -58,6 +58,7 @@ public class PlayerData implements IPlayerData {
         this.credits = credits;
         this.vipPoints = vipPoints;
         this.activityPoints = activityPoints;
+        this.seasonalPoints = seasonalPoints;
         this.gender = gender;
         this.vip = vip;
         this.achievementPoints = achievementPoints;
@@ -89,6 +90,7 @@ public class PlayerData implements IPlayerData {
                 data.getInt("playerData_credits"),
                 data.getInt("playerData_vipPoints"),
                 data.getInt("playerData_activityPoints"),
+                data.getInt("playerData_seasonalPoints"),
                 data.getString("playerData_regDate"),
                 data.getInt("playerData_lastOnline"),
                 data.getString("playerData_vip").equals("1"),
@@ -112,17 +114,15 @@ public class PlayerData implements IPlayerData {
     }
 
     public void save() {
-        /*if(CometSettings.storagePlayerQueueEnabled) {
-            PlayerDataStorageQueue.getInstance().queueSave(this);
-        } else {
+//        if(CometSettings.storagePlayerQueueEnabled) {
+//            PlayerDataStorageQueue.getInstance().queueSave(this);
+//        } else {
             this.saveNow();
-        }*/
-
-        MySQLStorageQueues.instance().getPlayerDataUpdateQueue().add(this.getId(), this);
+//        }
     }
 
     public void saveNow() {
-        PlayerDao.updatePlayerData(id, username, motto, figure, credits, vipPoints, gender, favouriteGroup, activityPoints, questId, achievementPoints);
+        PlayerDao.updatePlayerData(id, username, motto, figure, credits, vipPoints, gender, favouriteGroup, activityPoints, seasonalPoints, questId, achievementPoints);
     }
 
     public void decreaseCredits(int amount) {
@@ -133,11 +133,11 @@ public class PlayerData implements IPlayerData {
         this.credits += amount;
     }
 
-    public void decreasePoints(int points) {
+    public void decreaseVipPoints(int points) {
         this.vipPoints -= points;
     }
 
-    public void increasePoints(int points) {
+    public void increaseVipPoints(int points) {
         this.vipPoints += points;
     }
 
@@ -149,12 +149,16 @@ public class PlayerData implements IPlayerData {
         this.activityPoints -= points;
     }
 
-    public void increaseAchievementPoints(int points) {
-        this.achievementPoints += points;
+    public void increaseSeasonalPoints(int points) {
+        this.seasonalPoints += points;
     }
 
-    public void setPoints(int points) {
-        this.vipPoints = points;
+    public void decreaseSeasonalPoints(int points) {
+        this.seasonalPoints -= points;
+    }
+
+    public void increaseAchievementPoints(int points) {
+        this.achievementPoints += points;
     }
 
     public int getId() {
@@ -327,5 +331,13 @@ public class PlayerData implements IPlayerData {
 
     public String getNameColour() {
         return this.nameColour;
+    }
+
+    public int getSeasonalPoints() {
+        return seasonalPoints;
+    }
+
+    public void setSeasonalPoints(int seasonalPoints) {
+        this.seasonalPoints = seasonalPoints;
     }
 }

@@ -38,7 +38,7 @@ public class PromoteRoomMessageEvent implements Event {
         }
 
         final int totalCostCredits = item.getCostCredits();
-        final int totalCostPoints = item.getCostOther();
+        final int totalCostPoints = item.getCostDiamonds();
         final int totalCostActivityPoints = item.getCostActivityPoints();
 
         if (client.getPlayer().getData().getCredits() < totalCostCredits || client.getPlayer().getData().getVipPoints() < totalCostPoints || client.getPlayer().getData().getActivityPoints() < totalCostActivityPoints) {
@@ -48,7 +48,7 @@ public class PromoteRoomMessageEvent implements Event {
         }
 
         client.getPlayer().getData().decreaseCredits(totalCostCredits);
-        client.getPlayer().getData().decreasePoints(totalCostPoints);
+        client.getPlayer().getData().decreaseVipPoints(totalCostPoints);
         client.getPlayer().getData().decreaseActivityPoints(totalCostActivityPoints);
 
         client.getPlayer().sendBalance();

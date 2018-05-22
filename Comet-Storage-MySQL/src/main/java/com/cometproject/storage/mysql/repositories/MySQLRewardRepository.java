@@ -21,15 +21,15 @@ public class MySQLRewardRepository extends MySQLRepository implements IRewardRep
             final int count = data.readInteger(1);
 
             consumer.accept(count == 1);
-        }, playerId);
+        }, playerId, badgeCode);
     }
 
     @Override
-    public void giveReward(int playerId, String badgeCode, int points) {
+    public void giveReward(int playerId, String badgeCode, int vipPoints, int seasonalPoints) {
         transaction(transaction -> {
-            update("INSERT into player_events (player_id, events) VALUES(?, 1) ON DUPLICATE KEY UPDATE events = events + 1;", transaction, playerId);
+            update("INSERT into player_events (player_id, events) VALUES(?, 1) ON DUPLICATE KEY UPDATE  events = events + 1;", transaction, playerId);
             update("INSERT into player_badges (player_id, badge_code) VALUES(?, ?);", transaction, playerId, badgeCode);
-            update("UPDATE players SET vip_points = vip_points + ? WHERE id = ?", transaction, points, playerId);
+            update("UPDATE players SET vip_points = vip_points + ?, seasonal_points = seasonal_points + ? WHERE id = ?", transaction, vipPoints, seasonalPoints, playerId);
 
             transaction.commit();
         });
@@ -39,8 +39,8 @@ public class MySQLRewardRepository extends MySQLRepository implements IRewardRep
     public void getActiveRewards(Consumer<Map<String, RewardData>> consumer) {
         final Map<String, RewardData> rewards = Maps.newConcurrentMap();
 
-        select("SELECT code, badge, diamonds FROM player_rewards WHERE active = ?", (data) -> {
-            rewards.put(data.readString("code"), new RewardData(data.readString("code"), data.readString("badge"), data.readInteger("diamonds")));
+        select("SELECT code, badge, vip_points, seasonal_points FROM player_rewards WHERE active = ?", (data) -> {
+            rewards.put(data.readString("code"), new RewardData(data.readString("code"), data.readString("badge"), data.readInteger("vip_points"), data.readInteger("seasonal_points")));
         }, "1");
 
         consumer.accept(rewards);
@@ -56,11 +56,11 @@ public class MySQLRewardRepository extends MySQLRepository implements IRewardRep
     }
 
     @Override
-    public void redeemReward(int playerId, String rewardCode, String badgeCode, int diamonds) {
+    public void redeemReward(int playerId, RewardData data) {
         transaction(transaction -> {
-            update("INSERT into player_rewards_redeemed (player_id, reward_code) VALUES(?, ?);", transaction, playerId, rewardCode);
-            update("INSERT into player_badges (player_id, badge_code) VALUES(?, ?);", transaction, playerId, badgeCode);
-            update("UPDATE players SET vip_points = vip_points + ? WHERE id = ?", transaction, diamonds, playerId);
+            update("INSERT into player_rewards_redeemed (player_id, reward_code) VALUES(?, ?);", transaction, playerId, data.getCode());
+            update("INSERT into player_badges (player_id, badge_code) VALUES(?, ?);", transaction, playerId, data.getBadge());
+            update("UPDATE players SET vip_points = vip_points + ?, seasonal_points = seasonal_points + 1 WHERE id = ?", transaction, data.getDiamonds(), data.getSeasonal(), playerId);
 
             transaction.commit();
         });

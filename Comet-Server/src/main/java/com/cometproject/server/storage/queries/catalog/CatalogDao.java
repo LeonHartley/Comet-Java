@@ -305,6 +305,7 @@ public class CatalogDao {
         final int costCredits = resultSet.getInt("cost_credits");
         final int costPixels = resultSet.getInt("cost_pixels");
         final int costDiamonds = resultSet.getInt("cost_diamonds");
+        final int costSeasonal = resultSet.getInt("cost_seasonal");
         final int amount = resultSet.getInt("amount");
         final boolean vip = resultSet.getBoolean("vip");
         final int limitedStack = resultSet.getInt("limited_stack");
@@ -315,7 +316,7 @@ public class CatalogDao {
         final int pageId = resultSet.getInt("page_id");
 
         return new CatalogItem(id, itemIds, catalogName, costCredits, costPixels,
-                costDiamonds, amount, vip, limitedStack, limitedSells, offerActive, badgeId,
+                costDiamonds, costSeasonal, amount, vip, limitedStack, limitedSells, offerActive, badgeId,
                 extraData, pageId);
     }
 }

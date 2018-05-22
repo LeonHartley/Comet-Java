@@ -32,12 +32,9 @@ import com.cometproject.server.storage.queries.player.PlayerAccessDao;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManager;
-import com.cometproject.storage.mysql.MySQLStorageQueues;
 import com.cometproject.storage.mysql.queues.players.objects.PlayerStatusUpdate;
 import org.apache.commons.lang.StringUtils;
-import org.joda.time.DateTime;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.concurrent.TimeUnit;
 
@@ -129,10 +126,10 @@ public class PlayerLoginRequest implements CometTask {
 
             client.getLogger().debug(client.getPlayer().getData().getUsername() + " logged in");
 
-            MySQLStorageQueues.instance().getPlayerStatusQueue().add(player.getId(),
-                    new PlayerStatusUpdate(player.getId(), true, player.getSession().getIpAddress()));
+//            MySQLStorageQueues.instance().getPlayerStatusQueue().add(player.getId(),
+//                    new PlayerStatusUpdate(player.getId(), true, player.getSession().getIpAddress()));
 
-            //PlayerDao.updatePlayerStatus(player, true, true);
+            PlayerDao.updatePlayerStatus(player, true, true);
 
             client.sendQueue(new UniqueIDMessageComposer(client.getUniqueId()))
                     .sendQueue(new AuthenticationOKMessageComposer()).

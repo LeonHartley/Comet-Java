@@ -4,7 +4,6 @@ import com.cometproject.api.utilities.Initialisable;
 import com.cometproject.server.storage.cache.CacheManager;
 import com.cometproject.storage.api.StorageContext;
 import com.cometproject.storage.mysql.MySQLStorageInitializer;
-import com.cometproject.storage.mysql.MySQLStorageQueues;
 import com.cometproject.storage.mysql.connections.HikariConnectionProvider;
 
 public class StorageManager implements Initialisable {
@@ -25,11 +24,6 @@ public class StorageManager implements Initialisable {
 
     @Override
     public void initialize() {
-
-        final MySQLStorageQueues tmpStorageQueues = new MySQLStorageQueues(hikariConnectionProvider);
-
-        MySQLStorageQueues.setInstance(tmpStorageQueues);
-
         final MySQLStorageInitializer initializer = new MySQLStorageInitializer(hikariConnectionProvider);
         final StorageContext storageContext = new StorageContext();
 

@@ -39,9 +39,14 @@ public class CatalogItem implements ICatalogItem {
     private int costActivityPoints;
 
     /**
-     * The seasonal currency cost of the items (usually diamonds)
+     * The diamonds cost of the item
      */
-    private int costOther;
+    private int costDiamonds;
+
+    /**
+     * The seasonal currency cost of the item
+     */
+    private int costSeasonal;
 
     /**
      * The amount of items you get if you purchase this
@@ -88,17 +93,18 @@ public class CatalogItem implements ICatalogItem {
      */
     private int pageId;
 
-    public CatalogItem(int id, String itemId, String displayName, int costCredits, int costActivityPoints, int costOther, int amount, boolean vip, int limitedTotal, int limitedSells, boolean allowOffer, String badgeId, String presetData, int pageId) {
-        this(id, itemId, null, displayName, costCredits, costActivityPoints, costOther, amount, vip, limitedTotal, limitedSells, allowOffer, badgeId, presetData, pageId);
+    public CatalogItem(int id, String itemId, String displayName, int costCredits, int costActivityPoints, int costDiamonds, int costSeasonal, int amount, boolean vip, int limitedTotal, int limitedSells, boolean allowOffer, String badgeId, String presetData, int pageId) {
+        this(id, itemId, null, displayName, costCredits, costActivityPoints, costDiamonds, costSeasonal, amount, vip, limitedTotal, limitedSells, allowOffer, badgeId, presetData, pageId);
     }
 
-    public CatalogItem(int id, String itemId, List<ICatalogBundledItem> bundledItems, String displayName, int costCredits, int costActivityPoints, int costOther, int amount, boolean vip, int limitedTotal, int limitedSells, boolean allowOffer, String badgeId, String presetData, int pageId) {
+    public CatalogItem(int id, String itemId, List<ICatalogBundledItem> bundledItems, String displayName, int costCredits, int costActivityPoints, int costDiamonds, int costSeasonal, int amount, boolean vip, int limitedTotal, int limitedSells, boolean allowOffer, String badgeId, String presetData, int pageId) {
         this.id = id;
         this.itemId = itemId;
         this.displayName = displayName;
         this.costCredits = costCredits;
         this.costActivityPoints = costActivityPoints;
-        this.costOther = costOther;
+        this.costDiamonds = costDiamonds;
+        this.costSeasonal = costSeasonal;
         this.amount = amount;
         this.vip = vip;
         this.limitedTotal = limitedTotal;
@@ -179,12 +185,15 @@ public class CatalogItem implements ICatalogItem {
 
         msg.writeInt(this.getCostCredits());
 
-        if (this.getCostOther() > 0) {
-            msg.writeInt(this.getCostOther());
+        if (this.getCostDiamonds() > 0) {
+            msg.writeInt(this.getCostDiamonds());
             msg.writeInt(105);
         } else if (this.getCostActivityPoints() > 0) {
             msg.writeInt(this.getCostActivityPoints());
             msg.writeInt(0);
+        } else if(this.getCostSeasonal() > 0) {
+            msg.writeInt(this.getCostSeasonal());
+            msg.writeInt(106);
         } else {
             msg.writeInt(0);
             msg.writeInt(0);
@@ -261,8 +270,13 @@ public class CatalogItem implements ICatalogItem {
     }
 
     @Override
-    public int getCostOther() {
-        return costOther;
+    public int getCostDiamonds() {
+        return costDiamonds;
+    }
+
+    @Override
+    public int getCostSeasonal() {
+        return costSeasonal;
     }
 
     @Override

@@ -59,7 +59,7 @@ public class RedeemCreditsCommand extends ChatCommand {
         client.send(new UpdateInventoryMessageComposer());
 
         if (diamondsToGive > 0) {
-            client.getPlayer().getData().increasePoints(diamondsToGive);
+            client.getPlayer().getData().increaseVipPoints(diamondsToGive);
         }
 
         if (coinsToGive > 0) {

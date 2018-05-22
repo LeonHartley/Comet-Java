@@ -15,7 +15,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.SoundMachine
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorItemMessageComposer;
 import com.cometproject.server.utilities.attributes.Collidable;
-import com.cometproject.storage.mysql.MySQLStorageQueues;
+import com.cometproject.storage.api.StorageContext;
 import com.google.common.collect.Lists;
 
 import java.util.List;
@@ -121,8 +121,8 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable, IFlo
         }*/
 
         this.getItemData().setData(this.getDataObject());
-//        StorageContext.getCurrentContext().getRoomItemRepository().saveItem(this.getItemData());
-        MySQLStorageQueues.instance().getItemUpdateQueue().add(this.getId(), this);
+        StorageContext.getCurrentContext().getRoomItemRepository().saveItem(this.getItemData());
+//        MySQLStorageQueues.instance().getItemUpdateQueue().add(this.getId(), this);
     }
 
     @Override
@@ -134,9 +134,9 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable, IFlo
         }*/
 
         this.getItemData().setData(this.getDataObject());
-//        StorageContext.getCurrentContext().getRoomItemRepository().saveData(this.getId(), this.getDataObject());
+        StorageContext.getCurrentContext().getRoomItemRepository().saveData(this.getId(), this.getDataObject());
 
-        MySQLStorageQueues.instance().getItemDataUpdateQueue().add(this.getId(), this.getDataObject());
+//        MySQLStorageQueues.instance().getItemDataUpdateQueue().add(this.getId(), this.getDataObject());
     }
 
     @Override

@@ -140,7 +140,7 @@ public class GameCycle implements CometTask, Initialisable {
 
                         if(needsDiamondsReward) {
                             if(CometSettings.onlineRewardDiamonds > 0) {
-                                client.getPlayer().getData().increasePoints(CometSettings.onlineRewardDiamonds * (doubleRewards ? 2 : 1));
+                                client.getPlayer().getData().increaseVipPoints(CometSettings.onlineRewardDiamonds * (doubleRewards ? 2 : 1));
                             }
 
                             client.getPlayer().setLastDiamondReward(Comet.getTime());

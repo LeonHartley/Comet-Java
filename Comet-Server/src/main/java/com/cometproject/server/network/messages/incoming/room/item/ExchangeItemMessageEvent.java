@@ -53,7 +53,7 @@ public class ExchangeItemMessageEvent implements Event {
         room.getItems().removeItem(item, client, false, true);
 
         if (isDiamond) {
-            client.getPlayer().getData().increasePoints(value);
+            client.getPlayer().getData().increaseVipPoints(value);
         } else {
             client.getPlayer().getData().increaseCredits(value);
         }

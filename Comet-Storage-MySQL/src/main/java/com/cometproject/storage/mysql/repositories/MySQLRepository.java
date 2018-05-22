@@ -211,7 +211,7 @@ public abstract class MySQLRepository {
             } else {
                 if(obj == null) {
                     preparedStatement.setString(parameterIndex++, null);
-                    return;
+                    continue;
                 }
                 throw new UnexpectedTypeException("You can only bind types: Integer, String and Long to a statement!");
             }

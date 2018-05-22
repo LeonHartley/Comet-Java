@@ -6,9 +6,7 @@ import com.cometproject.server.network.sessions.Session;
 import com.cometproject.storage.api.StorageContext;
 import com.cometproject.storage.api.data.Data;
 import com.cometproject.storage.api.data.rewards.RewardData;
-import org.apache.hadoop.hdfs.server.common.Storage;
 
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -32,12 +30,13 @@ public class RewardCommand extends ChatCommand {
                             rewardData.getCode(), received::set);
 
                     if (!received.get()) {
-                        client.getPlayer().getData().increasePoints(rewardData.getDiamonds());
+                        client.getPlayer().getData().increaseVipPoints(rewardData.getDiamonds());
+                        client.getPlayer().getData().increaseSeasonalPoints(rewardData.getSeasonal());
                         client.getPlayer().getInventory().addBadge(rewardData.getBadge(), false, true);
                         client.getPlayer().sendBalance();
 
                         StorageContext.getCurrentContext().getRewardRepository().redeemReward(client.getPlayer().getId(),
-                                reward, rewardData.getBadge(), rewardData.getDiamonds());
+                                rewardData);
 
                         sendAlert(Locale.get("command.reward.redeemed").replace("%diamonds%", rewardData.getDiamonds() + "").replace("%badge_id%", rewardData.getBadge()), client);
                     }
@@ -61,7 +60,7 @@ public class RewardCommand extends ChatCommand {
             });
         }
 
-        if(counter.get() == 0) {
+        if (counter.get() == 0) {
             return Locale.get("command.reward.none");
         }
 

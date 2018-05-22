@@ -91,7 +91,7 @@ public class RedeemVoucherMessageEvent implements Event {
 
                 final int vipPointAmount = Integer.parseInt(voucher.getData());
 
-                client.getPlayer().getData().increasePoints(vipPointAmount);
+                client.getPlayer().getData().increaseVipPoints(vipPointAmount);
                 client.getPlayer().getData().save();
                 client.send(client.getPlayer().composeCurrenciesBalance());
                 client.send(new AdvancedAlertMessageComposer(

@@ -17,11 +17,18 @@ public class PointsCommand extends ChatCommand {
 
         String username = params[0];
         int points;
+        boolean diamonds = true;
 
         try {
             points = Integer.parseInt(params[1]);
         } catch (Exception e) {
             return;
+        }
+
+        if(params.length > 2) {
+            if(params[2].equals("seasonal")) {
+                diamonds = false;
+            }
         }
 
         Session session = NetworkManager.getInstance().getSessions().getByPlayerUsername(username);
@@ -31,12 +38,22 @@ public class PointsCommand extends ChatCommand {
 
             if (playerData == null) return;
 
-            playerData.increasePoints(points);
+            if(diamonds) {
+                playerData.increaseVipPoints(points);
+            } else {
+                playerData.increaseSeasonalPoints(points);
+            }
+
             playerData.save();
             return;
         }
 
-        session.getPlayer().getData().increasePoints(points);
+        if(diamonds) {
+            session.getPlayer().getData().increaseVipPoints(points);
+        } else {
+            session.getPlayer().getData().increaseSeasonalPoints(points);
+        }
+
         session.getPlayer().getData().save();
 
         session.send(new AdvancedAlertMessageComposer(

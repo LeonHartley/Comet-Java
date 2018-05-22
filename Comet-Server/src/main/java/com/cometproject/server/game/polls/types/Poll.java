@@ -79,7 +79,7 @@ public class Poll {
         }
 
         if (this.rewardVipPoints != 0) {
-            player.getData().increasePoints(this.rewardVipPoints);
+            player.getData().increaseVipPoints(this.rewardVipPoints);
             player.getSession().send(player.composeCurrenciesBalance());
 
             player.getSession().send(new AlertMessageComposer(

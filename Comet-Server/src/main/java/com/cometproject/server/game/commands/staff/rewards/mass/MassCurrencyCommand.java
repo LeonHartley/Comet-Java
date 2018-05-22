@@ -28,7 +28,7 @@ public abstract class MassCurrencyCommand extends ChatCommand {
                     session.getPlayer().getData().increaseActivityPoints(amount);
 
                 } else if (this instanceof MassPointsCommand) {
-                    session.getPlayer().getData().increasePoints(amount);
+                    session.getPlayer().getData().increaseVipPoints(amount);
 
                     session.send(new AdvancedAlertMessageComposer(
                             Locale.get("command.points.successtitle"),

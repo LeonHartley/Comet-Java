@@ -13,6 +13,10 @@ public class RunDiceMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) {
         int virtualId = msg.readInt();
 
+        if (ItemManager.getInstance() == null) {
+            return;
+        }
+
         long itemId = ItemManager.getInstance().getItemIdByVirtualId(virtualId);
 
         if (client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null) {

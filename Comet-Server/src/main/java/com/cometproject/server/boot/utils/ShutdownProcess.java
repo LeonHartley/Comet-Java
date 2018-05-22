@@ -6,7 +6,6 @@ import com.cometproject.server.logging.LogManager;
 import com.cometproject.server.logging.database.queries.LogQueries;
 import com.cometproject.server.storage.StorageManager;
 import com.cometproject.server.storage.queries.system.StatisticsDao;
-import com.cometproject.storage.mysql.MySQLStorageQueues;
 import org.apache.log4j.Logger;
 
 
@@ -26,8 +25,6 @@ public class ShutdownProcess {
         log.info("Comet is now shutting down");
 
         Comet.isRunning = false;
-
-        MySQLStorageQueues.instance().shutdown();
 
         log.info("Resetting statistics");
         StatisticsDao.saveStatistics(0, 0, Comet.getBuild());

@@ -54,7 +54,7 @@ public class GiftFloorItem extends RoomItemFloor {
         this.isOpened = true;
 
         this.sendUpdate();
-        this.getRoom().getEntities().broadcastMessage(new RemoveFloorItemMessageComposer(this.getVirtualId(), this.getItemData().getOwnerId(), 1200));
+//        this.getRoom().getEntities().broadcastMessage(new RemoveFloorItemMessageComposer(this.getVirtualId(), this.getItemData().getOwnerId(), 1200));
 //        this.getRoom().getEntities().broadcastMessage(new SendFloorItemMessageComposer(this));
 
         this.isOpened = false;

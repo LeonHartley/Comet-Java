@@ -19,7 +19,9 @@ public interface ICatalogItem {
 
     int getCostActivityPoints();
 
-    int getCostOther();
+    int getCostDiamonds();
+
+    int getCostSeasonal();
 
     int getAmount();
 

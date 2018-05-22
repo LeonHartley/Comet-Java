@@ -124,11 +124,11 @@ public class BuddyListMessageComposer extends MessageComposer {
                 final IGroup group = GameContext.getCurrent().getGroupService().getGroup(groupId);
 
                 msg.writeInt(-groupId);
-                msg.writeString(group.getData().getTitle());
+                msg.writeString(group == null || group.getData() == null ? "Unknown Group" : group.getData().getTitle());
                 msg.writeInt(0);
                 msg.writeBoolean(true);
                 msg.writeBoolean(false);
-                msg.writeString(group.getData().getBadge());
+                msg.writeString(group == null || group.getData() == null ? "" : group.getData().getBadge());
                 msg.writeInt(1);
                 msg.writeString("");
                 msg.writeString("");

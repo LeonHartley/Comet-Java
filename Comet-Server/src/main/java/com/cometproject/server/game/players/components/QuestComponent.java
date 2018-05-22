@@ -136,7 +136,7 @@ public class QuestComponent extends PlayerComponent implements PlayerQuests {
                         break;
 
                     case VIP_POINTS:
-                        this.getPlayer().getData().increasePoints(quest.getReward());
+                        this.getPlayer().getData().increaseVipPoints(quest.getReward());
                         refreshCurrenciesBalance = true;
                         break;
 
