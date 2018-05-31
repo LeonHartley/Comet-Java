@@ -213,7 +213,7 @@ public abstract class MySQLRepository {
                     preparedStatement.setString(parameterIndex++, null);
                     continue;
                 }
-                throw new UnexpectedTypeException("You can only bind types: Integer, String and Long to a statement!");
+                throw new UnexpectedTypeException("You can only bind types: Integer, String, Boolean, Long and Double to a statement!");
             }
         }
     }

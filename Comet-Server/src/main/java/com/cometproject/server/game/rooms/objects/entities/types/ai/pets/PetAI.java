@@ -261,17 +261,33 @@ public class PetAI extends AbstractBotAI {
     }
 
     public void applyGesture(String gestureType) {
-//        this.gestureTimer = 15;
-//
-//        if(this.getPetEntity().getData().getName().equals("york")) {
-//            System.out.println(String.join(", ", this.getPetEntity().getStatuses().values()));
-//        }
-//
-//        //this.say(String.format("applying gesture status %s", gestureType));
-//        this.getPetEntity().addStatus(RoomEntityStatus.GESTURE, gestureType);
-//
-//        if(!this.getPetEntity().isWalking())
-//            this.getPetEntity().markNeedsUpdate();
+        if (!this.canGesture()) {
+            return;
+        }
+
+        this.gestureTimer = 15;
+
+        this.say(String.format("applying gesture status %s", gestureType));
+        this.getPetEntity().addStatus(RoomEntityStatus.GESTURE, gestureType);
+
+//        getPetEntity().sendUpdateMessage()
+
+//        if (!this.getPetEntity().isWalking())
+        this.getPetEntity().markNeedsUpdate();
+    }
+
+    private boolean canGesture() {
+        switch (this.getPetEntity().getData().getTypeId()) {
+            case PetType.DRAGON:
+            case PetType.HORSE:
+            case PetType.SPIDER:
+            case PetType.FROG:
+            case PetType.CHICKEN:
+            case PetType.TURTLE:
+                return true;
+        }
+
+        return false;
     }
 
     public void waitForInteraction() {

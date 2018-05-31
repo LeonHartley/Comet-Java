@@ -1,6 +1,9 @@
 package com.boot;
 
 import com.cometproject.server.boot.Comet;
+import com.google.common.collect.Maps;
+
+import java.util.Map;
 
 
 public class Main {

@@ -19,7 +19,7 @@ public class GroupForumThreadsMessageComposer extends MessageComposer {
         this.threads = threads;
 
         this.start = start;
-    }
+}
 
     @Override
     public short getId() {

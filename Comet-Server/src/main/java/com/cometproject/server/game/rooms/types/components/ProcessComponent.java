@@ -396,6 +396,8 @@ public class ProcessComponent implements CometTask {
 
         if (entity.hasStatus(RoomEntityStatus.MOVE)) {
             entity.removeStatus(RoomEntityStatus.MOVE);
+            entity.removeStatus(RoomEntityStatus.GESTURE);
+
             entity.markNeedsUpdate();
         }
 

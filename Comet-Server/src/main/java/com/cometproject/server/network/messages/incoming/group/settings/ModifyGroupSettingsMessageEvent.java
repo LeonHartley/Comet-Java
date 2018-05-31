@@ -39,7 +39,10 @@ public class ModifyGroupSettingsMessageEvent implements Event {
 
         // 0 = members, 1 = admins only.
         group.getData().setCanMembersDecorate(rightsType == 0);
-        GameContext.getCurrent().getGroupService().saveForumSettings(group.getForum().getForumSettings());
+
+        if(group.getForum() != null) {
+            GameContext.getCurrent().getGroupService().saveForumSettings(group.getForum().getForumSettings());
+        }
 
         if (RoomManager.getInstance().isActive(group.getData().getRoomId())) {
             Room room = RoomManager.getInstance().get(group.getData().getRoomId());
