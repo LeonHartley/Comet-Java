@@ -94,7 +94,7 @@ public class PlayerFigureValidator {
                     }
 
                     if (Integer.valueOf(setTypeElement.getAttribute("mand_f_0")) > 0) {
-                        PlayerFigureValidator.mandatorySetTypes.get("f").get(0).add(typeName);
+                        PlayerFigureValidator.mandatorySetTypes.get("m").get(0).add(typeName);
                     }
 
                     if (Integer.valueOf(setTypeElement.getAttribute("mand_m_1")) > 0) {
@@ -103,8 +103,8 @@ public class PlayerFigureValidator {
                     }
 
                     if (Integer.valueOf(setTypeElement.getAttribute("mand_f_1")) > 0) {
-                        PlayerFigureValidator.mandatorySetTypes.get("f").get(1).add(typeName);
-                        PlayerFigureValidator.mandatorySetTypes.get("f").get(2).add(typeName);
+                        PlayerFigureValidator.mandatorySetTypes.get("m").get(1).add(typeName);
+                        PlayerFigureValidator.mandatorySetTypes.get("m").get(2).add(typeName);
                     }
 
                     final Map<Integer, PlayerFigureSet> setMap = new ConcurrentHashMap<>();
@@ -155,7 +155,7 @@ public class PlayerFigureValidator {
         }
 
         try {
-            final String gender = genderCode.toLowerCase();
+            final String gender = "m"; //genderCode.toLowerCase();
 
             if (!gender.equals("m") && !gender.equals("f")) {
                 return false;
