@@ -32,5 +32,7 @@ public interface ICatalogPage {
 
     CatalogPageType getType();
 
+    int getOrder();
+
     List<ICatalogPage> getChildren();
 }
