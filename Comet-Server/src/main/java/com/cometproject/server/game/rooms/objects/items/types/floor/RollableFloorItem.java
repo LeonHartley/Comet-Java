@@ -141,7 +141,6 @@ delay: 169ms
 
         this.rollStage++;
 
-        System.out.println(rollStage);
         boolean isStart = this.rollStage == 1;
         boolean isLast = this.rollStage >= KICK_POWER;
 //

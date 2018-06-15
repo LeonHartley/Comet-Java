@@ -253,8 +253,6 @@ public class Room implements Attributable, IRoom {
             this.log.warn("Room [" + this.getData().getId() + "][" + this.getData().getName() + "] took " + timeTaken + "ms to dispose");
         }
 
-        RoomDao.saveUserCount(this.getId(), 0);
-
         this.log.debug("Room has been disposed");
     }
 

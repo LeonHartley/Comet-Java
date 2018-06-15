@@ -14,15 +14,21 @@ import com.cometproject.storage.mysql.models.factories.rooms.RoomDataFactory;
 import com.cometproject.storage.mysql.models.factories.rooms.RoomModelDataFactory;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
 public class MySQLRoomRepository extends MySQLRepository implements IRoomRepository {
+    private static final Type STRING_LIST_TYPE = new TypeToken<List<String>>() {
+    }.getType();
+
     private final RoomDataFactory roomDataFactory;
     private final RoomModelDataFactory roomModelDataFactory;
 
@@ -139,7 +145,7 @@ public class MySQLRoomRepository extends MySQLRepository implements IRoomReposit
                 data.getChatDistance(),
                 data.getAntiFloodSettings(),
                 data.getTradeState().toString(),
-                JsonUtil.getInstance().toJson(data.getDisabledCommands()),
+                data.getDisabledCommands().isEmpty() ? null : JsonUtil.getInstance().toJson(data.getDisabledCommands()),
                 data.getGroupId(),
                 data.getRequiredBadge(),
                 data.getThumbnail(),
@@ -205,7 +211,7 @@ public class MySQLRoomRepository extends MySQLRepository implements IRoomReposit
         final int antiFloodSettings = room.readInteger("flood_level");
         final int chatDistance = room.readInteger("chat_distance");
 
-        final List<String> disabledCommands = Lists.newArrayList(room.readString("disabled_commands").split(","));
+        final List<String> disabledCommands = JsonUtil.getInstance().fromJson(room.readString("disabled_commands"), STRING_LIST_TYPE);
         final int groupId = room.readInteger("group_id");
         final String requiredBadge = room.readString("required_badge");
         final boolean wiredHidden = room.readBoolean("hide_wired");
@@ -213,6 +219,7 @@ public class MySQLRoomRepository extends MySQLRepository implements IRoomReposit
         return this.roomDataFactory.createRoomData(id, type, name, description, ownerId, owner, category, maxUsers, access, password,
                 originalPassword, tradeState, score, tags, decorations, model, hideWalls, thicknessWall, thicknessFloor,
                 allowWalkthrough, allowPets, heightmap, muteState, kickState, banState, bubbleMode, bubbleType,
-                bubbleScroll, chatDistance, antiFloodSettings, disabledCommands, groupId, requiredBadge, thumbnail, wiredHidden);
+                bubbleScroll, chatDistance, antiFloodSettings, disabledCommands == null ? Lists.newArrayList() : disabledCommands,
+                groupId, requiredBadge, thumbnail, wiredHidden);
     }
 }

@@ -30,6 +30,7 @@ public class CatalogPage implements ICatalogPage {
     private String template;
     private int parentId;
     private String linkName;
+    private int order;
 
     private boolean enabled;
 
@@ -53,6 +54,7 @@ public class CatalogPage implements ICatalogPage {
         this.linkName = data.getString("link");
         this.type = CatalogPageType.valueOf(data.getString("type"));
         this.extraData = data.getString("extra_data");
+        this.order = data.getInt("order_num");
 
         if (data.getString("page_images") == null || data.getString("page_images").isEmpty()) {
             this.images = new ArrayList<>();
@@ -191,5 +193,13 @@ public class CatalogPage implements ICatalogPage {
     @Override
     public CatalogPageType getType() {
         return type;
+    }
+
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
     }
 }

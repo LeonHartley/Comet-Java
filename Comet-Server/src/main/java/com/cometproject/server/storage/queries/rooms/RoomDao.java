@@ -11,8 +11,10 @@ import com.cometproject.server.game.rooms.types.RoomPromotion;
 import com.cometproject.server.storage.SqlHelper;
 import com.cometproject.storage.api.data.rooms.RoomData;
 import com.google.common.collect.Lists;
+import com.google.gson.reflect.TypeToken;
 import org.apache.commons.collections4.map.ListOrderedMap;
 
+import java.lang.reflect.Type;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -121,7 +123,7 @@ public class RoomDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("SELECT * FROM rooms WHERE id IN (SELECT room_id FROM room_rights WHERE player_id = ?) AND group_id = 0 ORDER BY SUBSTRING(users_now FROM 1 FOR 1) DESC, name ASC LIMIT 50", sqlConnection);
+            preparedStatement = SqlHelper.prepare("SELECT * FROM rooms WHERE id IN (SELECT room_id FROM room_rights WHERE player_id = ?) AND group_id = 0 ORDER BY id DESC, name ASC LIMIT 50", sqlConnection);
             preparedStatement.setInt(1, playerId);
 
             resultSet = preparedStatement.executeQuery();
@@ -157,12 +159,12 @@ public class RoomDao {
                 preparedStatement = SqlHelper.prepare("SELECT * FROM rooms WHERE owner = ? ORDER BY name ASC", sqlConnection);
                 preparedStatement.setString(1, query.split("owner:")[1]);
             } else if (query.startsWith("tag:")) {
-                preparedStatement = SqlHelper.prepare("SELECT * FROM rooms WHERE tags LIKE ? ORDER BY SUBSTRING(users_now FROM 1 FOR 1) DESC, name ASC LIMIT 50", sqlConnection);
+                preparedStatement = SqlHelper.prepare("SELECT * FROM rooms WHERE tags LIKE ? ORDER id BY DESC, name ASC LIMIT 50", sqlConnection);
 
                 String tagName = SqlHelper.escapeWildcards(query.split("tag:")[1]);
                 preparedStatement.setString(1, tagName + "%");
             } else if (query.startsWith("group:")) {
-                preparedStatement = SqlHelper.prepare("SELECT * FROM rooms WHERE group_id IN (SELECT id FROM groups WHERE name LIKE ?) ORDER BY SUBSTRING(users_now FROM 1 FOR 1) DESC, name ASC LIMIT 50", sqlConnection);
+                preparedStatement = SqlHelper.prepare("SELECT * FROM rooms WHERE group_id IN (SELECT id FROM groups WHERE name LIKE ?) ORDER BY id DESC, name ASC LIMIT 50", sqlConnection);
 
                 String groupName = SqlHelper.escapeWildcards(query.split("group:")[1]);
                 preparedStatement.setString(1, groupName + "%");
@@ -170,9 +172,8 @@ public class RoomDao {
                 // escape wildcard characters
                 query = SqlHelper.escapeWildcards(query);
 
-                preparedStatement = SqlHelper.prepare("(SELECT * FROM rooms WHERE owner = ? ORDER BY users_now DESC LIMIT 50) UNION (SELECT * FROM rooms WHERE name LIKE ? ORDER BY SUBSTRING(users_now FROM 1 FOR 1) DESC, name ASC LIMIT 50)", sqlConnection);
+                preparedStatement = SqlHelper.prepare("SELECT * FROM rooms WHERE name LIKE ? ORDER BY id DESC, name ASC LIMIT 50;", sqlConnection);
                 preparedStatement.setString(1, query);
-                preparedStatement.setString(2, query + "%");
             }
 
             resultSet = preparedStatement.executeQuery();
@@ -268,68 +269,6 @@ public class RoomDao {
         }
 
         return 0;
-    }
-
-    public static void updateRoom(int roomId, String name, String description, int ownerId, String owner, int category, int maxUsers, RoomAccessType access,
-                                  String password, int score, String tags, String decor, String model, boolean hideWalls, int thicknessWall,
-                                  int thicknessFloor, boolean allowWalkthrough, boolean allowPets, String heightmap, RoomTradeState tradeState, RoomMuteState whoCanMute,
-                                  RoomKickState whoCanKick, RoomBanState whoCanBan, int bubbleMode, int bubbleType, int bubbleScroll,
-                                  int chatDistance, int antiFloodSettings, String disabledCommands, int groupId, String requiredBadge, String thumbnail, boolean hideWired) {
-
-        Connection sqlConnection = null;
-        PreparedStatement preparedStatement = null;
-
-        try {
-            sqlConnection = SqlHelper.getConnection();
-            preparedStatement = SqlHelper.prepare("UPDATE rooms SET name = ?, description = ?, owner_id = ?, owner = ?, category = ?," +
-                            " max_users = ?, access_type = ?, password = ?, score = ?, tags = ?, decorations = ?, model = ?, hide_walls = ?, thickness_wall = ?," +
-                            " thickness_floor = ?, allow_walkthrough = ?, allow_pets = ?, heightmap = ?, mute_state = ?, ban_state = ?, kick_state = ?," +
-                            "bubble_mode = ?, bubble_type = ?, bubble_scroll = ?, chat_distance = ?, flood_level = ?, trade_state = ?, disabled_commands = ?, group_id = ?, required_badge = ?, thumbnail = ?, hide_wired = ? WHERE id = ?",
-                    sqlConnection);
-
-            preparedStatement.setString(1, name);
-            preparedStatement.setString(2, description);
-            preparedStatement.setInt(3, ownerId);
-            preparedStatement.setString(4, owner);
-            preparedStatement.setInt(5, category);
-            preparedStatement.setInt(6, maxUsers);
-            preparedStatement.setString(7, access.toString().toLowerCase());
-            preparedStatement.setString(8, password);
-            preparedStatement.setInt(9, score);
-            preparedStatement.setString(10, tags);
-            preparedStatement.setString(11, decor);
-            preparedStatement.setString(12, model);
-            preparedStatement.setString(13, hideWalls ? "1" : "0");
-            preparedStatement.setInt(14, thicknessWall);
-            preparedStatement.setInt(15, thicknessFloor);
-            preparedStatement.setString(16, allowWalkthrough ? "1" : "0");
-            preparedStatement.setString(17, allowPets ? "1" : "0");
-            preparedStatement.setString(18, heightmap);
-            preparedStatement.setString(19, whoCanMute.toString());
-            preparedStatement.setString(20, whoCanBan.toString());
-            preparedStatement.setString(21, whoCanKick.toString());
-            preparedStatement.setInt(22, bubbleMode);
-            preparedStatement.setInt(23, bubbleType);
-            preparedStatement.setInt(24, bubbleScroll);
-            preparedStatement.setInt(25, chatDistance);
-            preparedStatement.setInt(26, antiFloodSettings);
-            preparedStatement.setString(27, tradeState.toString());
-            preparedStatement.setString(28, disabledCommands);
-            preparedStatement.setInt(29, groupId);
-            preparedStatement.setString(30, requiredBadge);
-            preparedStatement.setString(31, thumbnail);
-            preparedStatement.setString(32, hideWired ? "1" : "0");
-
-            preparedStatement.setInt(33, roomId);
-
-            preparedStatement.execute();
-        } catch (SQLException e) {
-            Comet.getServer().getLogger().error("Failed to save room data" + (e.getMessage().contains("access_type") ? " - Access type: " + access.toString().toLowerCase() : ""));
-            SqlHelper.handleSqlException(e);
-        } finally {
-            SqlHelper.closeSilently(preparedStatement);
-            SqlHelper.closeSilently(sqlConnection);
-        }
     }
 
     public static void deleteRoom(int roomId) {
@@ -517,6 +456,8 @@ public class RoomDao {
         }
     }
 
+    private static final Type STRING_LIST_TYPE = new TypeToken<List<String>>() {}.getType();
+
     private static IRoomData roomDataFromResultSet(final ResultSet room) throws SQLException {
         final int id = room.getInt("id");
         final RoomType type = RoomType.valueOf(room.getString("type"));
@@ -569,7 +510,7 @@ public class RoomDao {
         final int antiFloodSettings = room.getInt("flood_level");
         final int chatDistance = room.getInt("chat_distance");
 
-        final List<String> disabledCommands = Lists.newArrayList(room.getString("disabled_commands").split(","));
+        final List<String> disabledCommands = JsonUtil.getInstance().fromJson(room.getString("disabled_commands"), STRING_LIST_TYPE);
         final int groupId = room.getInt("group_id");
         final String requiredBadge = room.getString("required_badge");
         final boolean wiredHidden = room.getBoolean("hide_wired");

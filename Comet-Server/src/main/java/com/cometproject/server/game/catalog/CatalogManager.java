@@ -187,13 +187,17 @@ public class CatalogManager implements ICatalogService {
             if (catalogPage.getParentId() != -1) {
                 final ICatalogPage parentPage = this.getPage(catalogPage.getParentId());
 
-                parentPage.getChildren().add(catalogPage);
+                if(parentPage == null) {
+                    log.warn("Page " + catalogPage.getId() + " with invalid parent id: " + catalogPage.getParentId());
+                } else {
+                    parentPage.getChildren().add(catalogPage);
+                }
             } else {
                 this.parentPages.add(catalogPage);
             }
         }
 
-        this.parentPages.sort(Comparator.comparing(ICatalogPage::getId).reversed());
+        this.parentPages.sort(Comparator.comparing(ICatalogPage::getOrder));
     }
 
     @Override

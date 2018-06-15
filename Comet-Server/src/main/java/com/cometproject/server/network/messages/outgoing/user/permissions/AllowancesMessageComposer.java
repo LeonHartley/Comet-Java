@@ -31,9 +31,9 @@ public class AllowancesMessageComposer extends MessageComposer {
             msg.writeString(perk.getValue().getData());
 
             if (perk.getValue().doesOverride()) {
-                msg.writeBooleanean(perk.getValue().getDefault());
+                msg.writeBoolean(perk.getValue().getDefault());
             } else {
-                msg.writeBooleanean(perk.getValue().getRank() <= rank);
+                msg.writeBoolean(perk.getValue().getRank() <= rank);
             }
         }*/
         msg.writeInt(16); // Count

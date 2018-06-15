@@ -126,6 +126,10 @@ public class Trade {
      * @param item The chosen item
      */
     public void addItem(int user, PlayerItem item, boolean update) {
+        if(this.user1Accepted || this.user2Accepted) {
+            return;
+        }
+
         if (user == 1) {
             if (!this.user1Items.contains(item)) {
 
@@ -176,6 +180,10 @@ public class Trade {
      * @param item The chosen item
      */
     public void removeItem(int user, PlayerItem item) {
+        if(this.user1Accepted || this.user2Accepted) {
+            return;
+        }
+
         if (user == 1) {
             if (this.user1Items.contains(item)) {
                 this.user1Items.remove(item);

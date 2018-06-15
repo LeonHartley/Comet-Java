@@ -10,10 +10,7 @@ import com.cometproject.storage.mysql.data.transactions.TransactionConsumer;
 import org.apache.log4j.Logger;
 
 import javax.validation.UnexpectedTypeException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.Arrays;
 import java.util.function.Consumer;
 
@@ -55,8 +52,8 @@ public abstract class MySQLRepository {
             log.error("Failed to select data", e);
         } finally {
             this.connectionProvider.closeResults(resultSet);
-            this.connectionProvider.closeConnection(connection);
             this.connectionProvider.closeStatement(preparedStatement);
+            this.connectionProvider.closeConnection(connection);
         }
     }
 
@@ -185,6 +182,13 @@ public abstract class MySQLRepository {
             }
 
             log.error("Failed to run transaction, rolling back", e);
+        } finally {
+            try {
+                if (transaction != null)
+                    transaction.getConnection().close();
+            } catch (SQLException e) {
+                log.error("Failed to close connection");
+            }
         }
     }
 
@@ -209,7 +213,7 @@ public abstract class MySQLRepository {
             } else if (obj instanceof Double) {
                 preparedStatement.setDouble(parameterIndex++, (Double) obj);
             } else {
-                if(obj == null) {
+                if (obj == null) {
                     preparedStatement.setString(parameterIndex++, null);
                     continue;
                 }
