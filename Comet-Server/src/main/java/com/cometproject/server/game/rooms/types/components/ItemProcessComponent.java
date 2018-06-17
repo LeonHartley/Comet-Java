@@ -23,26 +23,17 @@ import java.util.concurrent.TimeUnit;
 
 
 public class ItemProcessComponent implements CometTask {
-
-    //    private final int INTERVAL = Integer.parseInt(Configuration.currentConfig().get("comet.system.item_process.interval"));
     private static final int INTERVAL = 500;
     private static final int FLAG = 400;
-    private static final ExecutorService executorService = Executors.newFixedThreadPool(4);
     private final Room room;
     private final Logger log;
-    private ScheduledFuture myFuture;
+    private ScheduledFuture future;
     private boolean active = false;
-    // TODO: Finish the item event queue.
-    private RoomItemEventQueue eventQueue;// = new RoomItemEventQueue();
 
     public ItemProcessComponent(Room room) {
         this.room = room;
 
         log = Logger.getLogger("Item Process [" + room.getData().getName() + "]");
-    }
-
-    public RoomItemEventQueue getEventQueue() {
-        return this.eventQueue;
     }
 
     public void start() {
@@ -51,12 +42,12 @@ public class ItemProcessComponent implements CometTask {
             return;
         }
 
-        if (this.myFuture != null && this.active) {
+        if (this.future != null && this.active) {
             stop();
         }
 
         this.active = true;
-        this.myFuture = CometThreadManager.getInstance().executePeriodic(this, 0, INTERVAL, TimeUnit.MILLISECONDS);
+        this.future = CometThreadManager.getInstance().executePeriodic(this, 0, INTERVAL, TimeUnit.MILLISECONDS);
 
         log.debug("Processing started");
     }
@@ -67,9 +58,9 @@ public class ItemProcessComponent implements CometTask {
             return;
         }
 
-        if (this.myFuture != null) {
+        if (this.future != null) {
             this.active = false;
-            this.myFuture.cancel(false);
+            this.future.cancel(false);
 
             log.debug("Processing stopped");
         }
@@ -124,13 +115,6 @@ public class ItemProcessComponent implements CometTask {
             }
         }
 
-        // Now lets process any queued events last
-//        try {
-//            this.eventQueue.processBans();
-//        } catch (NullPointerException | IndexOutOfBoundsException e) {
-//            this.handleSupressedExceptions(e);
-//        }
-
         TimeSpan span = new TimeSpan(timeStart, System.currentTimeMillis());
 
         if (span.toMilliseconds() > FLAG && Comet.isDebugging) {
@@ -144,7 +128,8 @@ public class ItemProcessComponent implements CometTask {
     }
 
     public void queueAction(WiredTriggerExecutor action) {
-        executorService.execute(action);
+        // TODO: monitor this
+        CometThreadManager.getInstance().executeOnce(action);
     }
 
     protected void handleException(RoomItem item, Exception e) {
