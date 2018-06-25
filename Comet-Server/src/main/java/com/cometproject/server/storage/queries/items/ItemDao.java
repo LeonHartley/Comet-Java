@@ -4,7 +4,7 @@ import com.cometproject.api.game.furniture.types.CrackableReward;
 import com.cometproject.api.game.furniture.types.CrackableRewardType;
 import com.cometproject.api.game.furniture.types.CrackableType;
 import com.cometproject.api.game.furniture.types.FurnitureDefinition;
-import com.cometproject.server.game.catalog.purchase.CatalogPurchase;
+import com.cometproject.api.game.catalog.types.purchase.CatalogPurchase;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.storage.SqlHelper;
@@ -84,87 +84,4 @@ public class ItemDao {
 
         return data;
     }
-
-    public static long createItem(int userId, int itemId, String data) {
-        Connection sqlConnection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-
-        try {
-            sqlConnection = SqlHelper.getConnection();
-
-            preparedStatement = SqlHelper.prepare("INSERT into items (`user_id`, `room_id`, `base_item`, `extra_data`, `x`, `y`, `z`, `rot`, `wall_pos`) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);", sqlConnection, true);
-
-            preparedStatement.setInt(1, userId);
-            preparedStatement.setInt(2, 0);
-            preparedStatement.setInt(3, itemId);
-            preparedStatement.setString(4, data);
-            preparedStatement.setInt(5, 0);
-            preparedStatement.setInt(6, 0);
-            preparedStatement.setInt(7, 0);
-            preparedStatement.setInt(8, 0);
-            preparedStatement.setString(9, "");
-
-            SqlHelper.executeStatementSilently(preparedStatement, false);
-
-            resultSet = preparedStatement.getGeneratedKeys();
-
-            while (resultSet.next()) {
-                return resultSet.getLong(1);
-            }
-        } catch (SQLException e) {
-            SqlHelper.handleSqlException(e);
-        } finally {
-            SqlHelper.closeSilently(resultSet);
-            SqlHelper.closeSilently(preparedStatement);
-            SqlHelper.closeSilently(sqlConnection);
-        }
-
-        return 0;
-    }
-
-    public static List<Long> createItems(List<CatalogPurchase> catalogPurchases) {
-        Connection sqlConnection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-
-        List<Long> data = new ArrayList<>();
-
-        try {
-            sqlConnection = SqlHelper.getConnection();
-
-            preparedStatement = SqlHelper.prepare("INSERT into items (`user_id`, `room_id`, `base_item`, `extra_data`, `x`, `y`, `z`, `rot`, `wall_pos`) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);", sqlConnection, true);
-
-            for (CatalogPurchase purchase : catalogPurchases) {
-                preparedStatement.setInt(1, purchase.getPlayerId());
-                preparedStatement.setInt(2, 0);
-                preparedStatement.setInt(3, purchase.getItemBaseId());
-                preparedStatement.setString(4, purchase.getData());
-                preparedStatement.setInt(5, 0);
-                preparedStatement.setInt(6, 0);
-                preparedStatement.setInt(7, 0);
-                preparedStatement.setInt(8, 0);
-                preparedStatement.setString(9, "");
-
-                preparedStatement.addBatch();
-            }
-
-            preparedStatement.executeBatch();
-
-            resultSet = preparedStatement.getGeneratedKeys();
-
-            while (resultSet.next()) {
-                data.add(resultSet.getLong(1));
-            }
-        } catch (SQLException e) {
-            SqlHelper.handleSqlException(e);
-        } finally {
-            SqlHelper.closeSilently(resultSet);
-            SqlHelper.closeSilently(preparedStatement);
-            SqlHelper.closeSilently(sqlConnection);
-        }
-
-        return data;
-    }
-
 }

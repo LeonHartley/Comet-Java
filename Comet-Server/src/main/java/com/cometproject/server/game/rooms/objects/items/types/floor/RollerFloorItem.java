@@ -231,7 +231,7 @@ public class RollerFloorItem extends AdvancedFloorItem<RollerFloorItemEvent> {
                 floor.onEntityStepOn(roomEntity);
             }
 
-            StorageContext.getCurrentContext().getRoomItemRepository().saveItemPosition(floor.getPosition().getX(), floor.getPosition().getY(), floor.getPosition().getZ(), floor.getRotation(), floor.getId());
+            this.getRoom().getItemProcess().saveItem(floor);
         }
 
         if (slidingItems.size() != 0)

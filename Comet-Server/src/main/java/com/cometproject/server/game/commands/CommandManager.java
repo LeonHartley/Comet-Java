@@ -14,6 +14,7 @@ import com.cometproject.server.game.commands.staff.*;
 import com.cometproject.server.game.commands.staff.alerts.*;
 import com.cometproject.server.game.commands.staff.banning.*;
 import com.cometproject.server.game.commands.staff.bundles.BundleCommand;
+import com.cometproject.server.game.commands.staff.bundles.CloneRoomCommand;
 import com.cometproject.server.game.commands.staff.cache.ReloadCommand;
 import com.cometproject.server.game.commands.staff.cache.ReloadGroupCommand;
 import com.cometproject.server.game.commands.staff.fun.RollCommand;
@@ -30,9 +31,7 @@ import com.cometproject.server.game.commands.user.group.DeleteGroupCommand;
 import com.cometproject.server.game.commands.user.group.EjectAllCommand;
 import com.cometproject.server.game.commands.user.muting.MuteBotsCommand;
 import com.cometproject.server.game.commands.user.muting.MutePetsCommand;
-import com.cometproject.server.game.commands.user.room.PickAllCommand;
-import com.cometproject.server.game.commands.user.room.SetMaxCommand;
-import com.cometproject.server.game.commands.user.room.SetSpeedCommand;
+import com.cometproject.server.game.commands.user.room.*;
 import com.cometproject.server.game.commands.user.settings.DisableCommand;
 import com.cometproject.server.game.commands.user.settings.EnableCommand;
 import com.cometproject.server.game.commands.user.settings.ToggleEventsCommand;
@@ -136,6 +135,7 @@ public class CommandManager implements Initialisable {
         this.addCommand(Locale.get("command.toggleevents.name"), new ToggleEventsCommand());
         this.addCommand(Locale.get("command.emptyfriends.name"), new EmptyFriendsCommand());
         this.addCommand(Locale.get("command.reward.name"), new RewardCommand());
+        this.addCommand(Locale.get("command.height.name"), new HeightCommand());
 
         // VIP commands
         this.addCommand(Locale.get("command.push.name"), new PushCommand());
@@ -206,18 +206,21 @@ public class CommandManager implements Initialisable {
         this.addCommand(Locale.get("command.roomoption.name"), new RoomOptionCommand());
         this.addCommand(Locale.get("command.massfreeze.name"), new MassFreezeCommand());
         this.addCommand(Locale.get("command.massteleport.name"), new MassTeleportCommand());
+        this.addCommand(Locale.get("command.listen.name"), new ListenCommand());
 
         // New
         this.addCommand(Locale.get("command.advban.name"), new AdvBanCommand());
         this.addCommand(Locale.get("command.softban.name"), new SoftBanCommand());
         this.addCommand(Locale.get("command.masseffect.name"), new MassEffectCommand());
-        this.addCommand(Locale.get("command.masshandi   tem.name"), new MassHandItemCommand());
+        this.addCommand(Locale.get("command.masshanditem.name"), new MassHandItemCommand());
         this.addCommand(Locale.get("command.freeze.name"), new FreezeCommand());
         this.addCommand(Locale.get("command.unfreeze.name"), new UnfreezeCommand());
         this.addCommand(Locale.get("command.eventreward.name"), new EventRewardCommand());
+        this.addCommand(Locale.get("command.eventwon.name"), new EventWonCommand());
 
         // Room bundles
         this.addCommand(Locale.get("command.bundle.name"), new BundleCommand());
+        this.addCommand(Locale.get("command.cloneroom.name"), new CloneRoomCommand());
 
         // Cache
         this.addCommand(Locale.get("command.reloadgroup.name"), new ReloadGroupCommand());

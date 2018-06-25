@@ -2,6 +2,7 @@ package com.cometproject.server.tasks;
 
 import com.cometproject.api.config.Configuration;
 import com.cometproject.api.utilities.Initialisable;
+import com.cometproject.server.game.rooms.types.components.ItemProcessComponent;
 import com.cometproject.server.game.rooms.types.components.ProcessComponent;
 import org.apache.log4j.Logger;
 
@@ -61,7 +62,7 @@ public class CometThreadManager implements Initialisable {
     }
 
     public ScheduledFuture executePeriodic(CometTask task, long initialDelay, long period, TimeUnit unit) {
-        if (task instanceof ProcessComponent) {
+        if (task instanceof ProcessComponent || task instanceof ItemProcessComponent) {
             // Handle room processing in a different pool, this should help against
             return this.roomProcessingExecutor.scheduleAtFixedRate(task, initialDelay, period, unit);
         }

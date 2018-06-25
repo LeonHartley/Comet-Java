@@ -25,6 +25,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import org.apache.commons.lang.StringUtils;
+import org.apache.hadoop.hdfs.server.common.Storage;
 
 import java.util.*;
 
@@ -33,18 +34,25 @@ public class WiredActionGiveReward extends WiredActionItem {
     public static final String REWARD_DIAMONDS = "diamonds";
     public static final String REWARD_COINS = "coins";
     public static final String REWARD_DUCKETS = "duckets";
+
     private static final Map<Long, Map<Integer, Long>> rewardTimings = Maps.newConcurrentMap();
+
     private static final Random RANDOM = new Random();
+
     private static final int PARAM_HOW_OFTEN = 0;
     private static final int PARAM_UNIQUE = 1;
     private static final int PARAM_TOTAL_REWARD_LIMIT = 2;
+
     private static final int REWARD_LIMIT_ONCE = 0;
     private static final int REWARD_LIMIT_DAY = 1;
     private static final int REWARD_LIMIT_HOUR = 2;
+
     private static final long ONE_DAY = 86400;
     private static final long ONE_HOUR = 3600;
+
     private final int ownerRank;
     // increments and will be reset when the room is unloaded.
+
     private int totalRewardCounter = 0;
     private List<Reward> rewards;
     private Map<Integer, Set<String>> givenRewards;
@@ -227,9 +235,10 @@ public class WiredActionGiveReward extends WiredActionItem {
                         FurnitureDefinition itemDefinition = ItemManager.getInstance().getDefinition(itemId);
 
                         if (itemDefinition != null) {
-                            long newItem = ItemDao.createItem(playerEntity.getPlayerId(), itemId, extraData);
+                            final Data<Long> newItem = Data.createEmpty();
+                            StorageContext.getCurrentContext().getRoomItemRepository().createItem(playerEntity.getPlayerId(), itemId, extraData, newItem::set);
 
-                            PlayerItem playerItem = new InventoryItem(newItem, itemId, extraData);
+                            PlayerItem playerItem = new InventoryItem(newItem.get(), itemId, extraData);
 
                             playerEntity.getPlayer().getInventory().addItem(playerItem);
 

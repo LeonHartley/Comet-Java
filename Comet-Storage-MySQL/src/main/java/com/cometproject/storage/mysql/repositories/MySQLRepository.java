@@ -1,6 +1,7 @@
 package com.cometproject.storage.mysql.repositories;
 
 import com.cometproject.storage.mysql.MySQLConnectionProvider;
+import com.cometproject.storage.mysql.data.StatementConsumer;
 import com.cometproject.storage.mysql.data.results.IResultReader;
 import com.cometproject.storage.mysql.data.results.ResultReaderConsumer;
 import com.cometproject.storage.mysql.data.results.ResultSetReader;
@@ -15,7 +16,7 @@ import java.util.Arrays;
 import java.util.function.Consumer;
 
 public abstract class MySQLRepository {
-    private final Logger log = Logger.getLogger(MySQLRepository.class);
+    protected final Logger log = Logger.getLogger(MySQLRepository.class);
 
     private final MySQLConnectionProvider connectionProvider;
 
@@ -98,6 +99,101 @@ public abstract class MySQLRepository {
         }
     }
 
+    /**
+     * Runs update query as a batch (allows you to update multiple rows in 1 command)
+     *
+     * @param query       Query to run
+     * @param transaction transaction (will run via this if provided)
+     * @param params      Consumer to provide the statement with the params of the multiple rows
+     *                    Note: use statement.addBatch() for every item in the batch
+     */
+    public void updateBatch(final String query, Transaction transaction, StatementConsumer params) {
+        Connection connection = transaction != null ? transaction.getConnection() : null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            if (connection == null)
+                connection = this.connectionProvider.getConnection();
+
+            preparedStatement = connection.prepareStatement(query);
+
+            params.accept(preparedStatement);
+
+            // We could return or accept a consumer of the affected rows or something?
+            preparedStatement.executeBatch();
+        } catch (Exception e) {
+            log.error("Failed to update data", e);
+        } finally {
+            this.connectionProvider.closeStatement(preparedStatement);
+
+            if (transaction == null)
+                this.connectionProvider.closeConnection(connection);
+        }
+    }
+
+    /**
+     * Runs update query as a batch (allows you to update multiple rows in 1 command)
+     *
+     * @param query  Query to run
+     * @param params Consumer to provide the statement with the params of the multiple rows
+     *               Note: use statement.addBatch() for every item in the batch
+     */
+    public void updateBatch(final String query, StatementConsumer params) {
+        updateBatch(query, null, params);
+    }
+
+    /**
+     * Runs insert query as a batch (allows you to insert multiple rows in 1 command) and retrieve their primary key
+     *
+     * @param query       Query to run
+     * @param params      Consumer to provide the statement with the params of the multiple rows
+     *                    Note: use statement.addBatch() for every item in the batch
+     * @param keyConsumer Consumer to retrieve the primary key of their respective inserted row
+     */
+    public void insertBatch(final String query, Transaction transaction, StatementConsumer params, ResultReaderConsumer keyConsumer) {
+        Connection connection = transaction != null ? transaction.getConnection() : null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            if (connection == null)
+                connection = this.connectionProvider.getConnection();
+
+            preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+
+            params.accept(preparedStatement);
+
+            preparedStatement.executeBatch();
+
+            resultSet = preparedStatement.getGeneratedKeys();
+
+            final IResultReader resultReader = new ResultSetReader(resultSet);
+
+            while (resultSet.next()) {
+                keyConsumer.accept(resultReader);
+            }
+        } catch (Exception e) {
+            log.error("Failed to update data", e);
+        } finally {
+            this.connectionProvider.closeResults(resultSet);
+            this.connectionProvider.closeStatement(preparedStatement);
+
+            if (transaction == null)
+                this.connectionProvider.closeConnection(connection);
+        }
+    }
+
+    /**
+     * Runs insert query as a batch (allows you to insert multiple rows in 1 command) and retrieve their primary key
+     *
+     * @param query       Query to run
+     * @param params      Consumer to provide the statement with the params of the multiple rows
+     *                    Note: use statement.addBatch() for every item in the batch
+     * @param keyConsumer Consumer to retrieve the primary key of their respective inserted row
+     */
+    public void insertBatch(final String query, StatementConsumer params, ResultReaderConsumer keyConsumer) {
+        insertBatch(query, null, params, keyConsumer);
+    }
 
     /**
      * Runs the insert query and accepts a consumer for the new generated keys (if any)
@@ -140,8 +236,6 @@ public abstract class MySQLRepository {
             if (resultSet.next()) {
                 keyConsumer.accept(resultReader);
             }
-
-            preparedStatement.execute();
         } catch (Exception e) {
             log.error("Failed to update data", e);
         } finally {

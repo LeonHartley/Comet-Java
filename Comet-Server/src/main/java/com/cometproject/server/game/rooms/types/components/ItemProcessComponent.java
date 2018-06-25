@@ -1,23 +1,29 @@
 package com.cometproject.server.game.rooms.types.components;
 
+import com.cometproject.api.game.rooms.objects.IRoomItemData;
+import com.cometproject.api.game.rooms.objects.data.RoomItemData;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.rooms.objects.entities.WiredTriggerExecutor;
 import com.cometproject.server.game.rooms.objects.items.RoomItem;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
-import com.cometproject.server.game.rooms.objects.items.queue.RoomItemEventQueue;
 import com.cometproject.server.game.rooms.objects.items.types.floor.RollerFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerPeriodically;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManager;
 import com.cometproject.server.utilities.TimeSpan;
+import com.cometproject.storage.api.StorageContext;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Queues;
+import com.google.common.collect.Sets;
 import org.apache.log4j.Logger;
 
 import java.util.HashSet;
+import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -27,7 +33,12 @@ public class ItemProcessComponent implements CometTask {
     private static final int FLAG = 400;
     private final Room room;
     private final Logger log;
+
     private ScheduledFuture future;
+    private ScheduledFuture saveFuture;
+
+    private final Queue<RoomItem> saveQueue = Queues.newConcurrentLinkedQueue();
+
     private boolean active = false;
 
     public ItemProcessComponent(Room room) {
@@ -47,9 +58,23 @@ public class ItemProcessComponent implements CometTask {
         }
 
         this.active = true;
+
         this.future = CometThreadManager.getInstance().executePeriodic(this, 0, INTERVAL, TimeUnit.MILLISECONDS);
+        this.saveFuture = CometThreadManager.getInstance().executePeriodic(this::saveQueueTick, 1000, 1000, TimeUnit.MILLISECONDS);
 
         log.debug("Processing started");
+    }
+
+    private void saveQueueTick() {
+        RoomItem roomItem;
+
+        final Set<IRoomItemData> items = Sets.newHashSet();
+
+        while((roomItem = this.saveQueue.poll()) != null) {
+            items.add(roomItem.getItemData());
+        }
+
+        StorageContext.getCurrentContext().getRoomItemRepository().saveItemBatch(items);
     }
 
     public void stop() {
@@ -60,7 +85,11 @@ public class ItemProcessComponent implements CometTask {
 
         if (this.future != null) {
             this.active = false;
+
             this.future.cancel(false);
+            this.saveFuture.cancel(false);
+
+            this.saveQueueTick();
 
             log.debug("Processing stopped");
         }
@@ -70,7 +99,7 @@ public class ItemProcessComponent implements CometTask {
         return this.active;
     }
 
-    public void tick() {
+    public void processTick() {
         if (!this.active) {
             return;
         }
@@ -124,12 +153,20 @@ public class ItemProcessComponent implements CometTask {
 
     @Override
     public void run() {
-        this.tick();
+        this.processTick();
     }
 
     public void queueAction(WiredTriggerExecutor action) {
         // TODO: monitor this
         CometThreadManager.getInstance().executeOnce(action);
+    }
+
+    public void saveItem(RoomItem roomItem) {
+        if(this.saveQueue.contains(roomItem)) {
+            this.saveQueue.remove(roomItem);
+        }
+
+        this.saveQueue.add(roomItem);
     }
 
     protected void handleException(RoomItem item, Exception e) {

@@ -1,4 +1,4 @@
-package com.cometproject.server.game.rooms.bundles.types;
+package com.cometproject.api.game.catalog.types.bundles;
 
 public class RoomBundleConfig {
     private String roomName;

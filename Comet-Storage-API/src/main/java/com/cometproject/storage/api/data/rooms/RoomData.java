@@ -423,7 +423,13 @@ public class RoomData implements IRoomData {
 
     @Override
     public String getDecorationString() {
-        return null;
+        StringBuilder decorString = new StringBuilder();
+
+        for (Map.Entry<String, String> decoration : this.getDecorations().entrySet()) {
+            decorString.append(decoration.getKey()).append("=").append(decoration.getValue()).append(",");
+        }
+
+        return decorString.toString();
     }
 
     @Override

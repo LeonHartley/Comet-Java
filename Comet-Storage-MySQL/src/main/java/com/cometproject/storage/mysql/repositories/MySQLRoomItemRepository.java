@@ -1,5 +1,6 @@
 package com.cometproject.storage.mysql.repositories;
 
+import com.cometproject.api.game.catalog.types.purchase.CatalogPurchase;
 import com.cometproject.api.game.furniture.types.LimitedEditionItem;
 import com.cometproject.api.game.rooms.objects.IRoomItemData;
 import com.cometproject.api.game.rooms.objects.data.LimitedEditionItemData;
@@ -111,7 +112,74 @@ public class MySQLRoomItemRepository extends MySQLRepository implements IRoomIte
                 roomItemData.getData(), roomItemData.getId());
     }
 
-    private RoomItemData buildItem(IResultReader data) throws Exception {
+    @Override
+    public void createItem(int playerId, int itemId, String data, Consumer<Long> idConsumer) {
+        insert("INSERT into items (`user_id`, `room_id`, `base_item`, `extra_data`, `x`, `y`, `z`, `rot`, `wall_pos`) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);", (key) -> {
+            idConsumer.accept(key.readLong(1));
+        }, playerId, 0, itemId, data, 0, 0, 0, 0, "");
+    }
+
+    @Override
+    public void purchaseItems(List<CatalogPurchase> purchases, Consumer<List<Long>> idConsumer) {
+        final List<Long> itemIds = Lists.newArrayList();
+
+        insertBatch("INSERT into items (`user_id`, `room_id`, `base_item`, `extra_data`, `x`, `y`, `z`, `rot`, `wall_pos`) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);", (stmt) -> {
+            for(CatalogPurchase catalogPurchase : purchases) {
+                stmt.setInt(1, catalogPurchase.getPlayerId());
+                stmt.setInt(2, 0);
+                stmt.setInt(3, catalogPurchase.getItemBaseId());
+                stmt.setString(4, catalogPurchase.getData());
+                stmt.setInt(5, 0);
+                stmt.setInt(6, 0);
+                stmt.setInt(7, 0);
+                stmt.setInt(8, 0);
+                stmt.setString(9, "");
+
+                stmt.addBatch();
+            }
+        }, (id) -> {
+            itemIds.add(id.readLong(1));
+        });
+
+        idConsumer.accept(itemIds);
+    }
+
+    @Override
+    public void saveItemBatch(final Set<IRoomItemData> data) {
+        updateBatch("UPDATE items SET x = ?, y = ?, z = ?, rot = ?, extra_data = ? WHERE id = ?;", (stmt) -> {
+            for (IRoomItemData item : data) {
+                stmt.setInt(1, item.getPosition().getX());
+                stmt.setInt(2, item.getPosition().getY());
+                stmt.setDouble(3, item.getPosition().getZ());
+                stmt.setInt(4, item.getRotation());
+                stmt.setString(5, item.getData());
+                stmt.setLong(6, item.getId());
+
+                stmt.addBatch();
+            }
+        });
+    }
+
+    @Override
+    public void placeBundle(int roomId, Set<IRoomItemData> bundle) {
+        updateBatch("INSERT into items (`user_id`, `room_id`, `base_item`, `extra_data`, `x`, `y`, `z`, `rot`, `wall_pos`) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);", (stmt) -> {
+            for (IRoomItemData item : bundle) {
+                stmt.setInt(1, item.getOwnerId());
+                stmt.setInt(2, roomId);
+                stmt.setInt(3, item.getItemId());
+                stmt.setString(4, item.getData());
+                stmt.setInt(5, item.getPosition() == null ? 0 : item.getPosition().getX());
+                stmt.setInt(6, item.getPosition() == null ? 0 : item.getPosition().getY());
+                stmt.setDouble(7, item.getPosition() == null ? 0 : item.getPosition().getZ());
+                stmt.setInt(8, item.getRotation());
+                stmt.setString(9, item.getWallPosition() == null ? "" : item.getWallPosition());
+
+                stmt.addBatch();
+            }
+        });
+    }
+
+    protected RoomItemData buildItem(IResultReader data) throws Exception {
         LimitedEditionItem limitedEditionItemData = null;
 
         if (data.readInteger("limited_id") != 0) {

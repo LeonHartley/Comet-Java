@@ -79,12 +79,6 @@ public class MySQLRoomRepository extends MySQLRepository implements IRoomReposit
             tagString.append(data.getTags()[i]);
         }
 
-        StringBuilder decorString = new StringBuilder();
-
-        for (Map.Entry<String, String> decoration : data.getDecorations().entrySet()) {
-            decorString.append(decoration.getKey()).append("=").append(decoration.getValue()).append(",");
-        }
-
         update("UPDATE rooms SET name = ?, " +
                         "description = ?, " +
                         "owner_id = ?, " +
@@ -128,7 +122,7 @@ public class MySQLRoomRepository extends MySQLRepository implements IRoomReposit
                 data.getPassword(),
                 data.getScore(),
                 tagString.toString(),
-                decorString.toString(),
+                data.getDecorationString(),
                 data.getModel(),
                 data.getHideWalls() ? "1" : "0",
                 data.getWallThickness(),

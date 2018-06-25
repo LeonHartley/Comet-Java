@@ -4,11 +4,12 @@ import com.cometproject.api.game.catalog.types.vouchers.VoucherStatus;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.composers.catalog.BoughtItemMessageComposer;
 import com.cometproject.server.config.Locale;
+import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.catalog.types.Voucher;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.bundles.RoomBundleManager;
 import com.cometproject.server.game.rooms.bundles.types.RoomBundle;
-import com.cometproject.server.game.rooms.bundles.types.RoomBundleItem;
+import com.cometproject.api.game.catalog.types.bundles.RoomBundleItem;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.MotdNotificationMessageComposer;
@@ -104,29 +105,7 @@ public class RedeemVoucherMessageEvent implements Event {
             case ROOM_BUNDLE: {
                 RoomBundle roomBundle = RoomBundleManager.getInstance().getBundle(voucher.getData());
 
-                try {
-                    int roomId = RoomManager.getInstance().createRoom(roomBundle.getConfig().getRoomName().replace("%username%", client.getPlayer().getData().getUsername()), "", roomBundle.getRoomModelData(), 0, 20, 0, client, roomBundle.getConfig().getThicknessWall(), roomBundle.getConfig().getThicknessFloor(), roomBundle.getConfig().getDecorations(), roomBundle.getConfig().isHideWalls());
-
-                    for (RoomBundleItem roomBundleItem : roomBundle.getRoomBundleData()) {
-                        long newItemId = ItemDao.createItem(client.getPlayer().getId(), roomBundleItem.getItemId(), roomBundleItem.getExtraData());
-
-                        if (roomBundleItem.getWallPosition() == null) {
-                            StorageContext.getCurrentContext().getRoomItemRepository().placeFloorItem(roomId, roomBundleItem.getX(), roomBundleItem.getY(), roomBundleItem.getZ(), roomBundleItem.getRotation(), roomBundleItem.getExtraData(), roomBundleItem.getItemId(), newItemId);
-                        } else {
-
-                            StorageContext.getCurrentContext().getRoomItemRepository().placeWallItem(roomId, roomBundleItem.getWallPosition(), roomBundleItem.getExtraData(), newItemId);
-                        }
-                    }
-
-                    client.send(new RoomForwardMessageComposer(roomId));
-                    client.send(new EnforceRoomCategoryMessageComposer());
-                    client.send(new BoughtItemMessageComposer(BoughtItemMessageComposer.PurchaseType.BADGE));
-                    client.getPlayer().setLastRoomCreated((int) Comet.getTime());
-
-                } catch (Exception e) {
-                    client.send(new MotdNotificationMessageComposer("Invalid room bundle data, please contact an administrator."));
-                    client.send(new BoughtItemMessageComposer(BoughtItemMessageComposer.PurchaseType.BADGE));
-                }
+                CatalogManager.getInstance().getPurchaseHandler().purchaseBundle(roomBundle, client);
                 break;
             }
         }

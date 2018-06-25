@@ -1,4 +1,4 @@
-package com.cometproject.server.game.catalog.purchase;
+package com.cometproject.api.game.catalog.types.purchase;
 
 /**
  * Catalog purchase object used for batching multiple purchases together
@@ -18,10 +18,6 @@ public class CatalogPurchase {
      * The data generated for items such as trophies etc
      */
     private String data;
-
-    /**
-     *
-     */
 
     /**
      * Initialize the catalog purchase object

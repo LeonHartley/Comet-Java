@@ -10,6 +10,8 @@ import com.cometproject.api.game.catalog.types.CatalogPageType;
 import com.cometproject.api.game.catalog.types.ICatalogBundledItem;
 import com.cometproject.api.game.catalog.types.ICatalogItem;
 import com.cometproject.api.game.catalog.types.ICatalogPage;
+import com.cometproject.api.game.catalog.types.bundles.IRoomBundle;
+import com.cometproject.api.game.catalog.types.purchase.CatalogPurchase;
 import com.cometproject.api.game.catalog.types.purchase.ICatalogPurchaseHandler;
 import com.cometproject.api.game.furniture.types.FurnitureDefinition;
 import com.cometproject.api.game.furniture.types.IGiftData;
@@ -17,7 +19,10 @@ import com.cometproject.api.game.furniture.types.IMusicData;
 import com.cometproject.api.game.furniture.types.ItemType;
 import com.cometproject.api.game.groups.types.IGroup;
 import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
+import com.cometproject.api.game.rooms.objects.IRoomItemData;
 import com.cometproject.api.game.rooms.objects.data.LimitedEditionItemData;
+import com.cometproject.api.game.rooms.objects.data.RoomItemData;
+import com.cometproject.api.game.utilities.Position;
 import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.api.utilities.JsonUtil;
 import com.cometproject.server.boot.Comet;
@@ -32,7 +37,7 @@ import com.cometproject.server.game.pets.data.StaticPetProperties;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.bundles.RoomBundleManager;
 import com.cometproject.server.game.rooms.bundles.types.RoomBundle;
-import com.cometproject.server.game.rooms.bundles.types.RoomBundleItem;
+import com.cometproject.api.game.catalog.types.bundles.RoomBundleItem;
 import com.cometproject.server.game.rooms.objects.entities.types.data.PlayerBotData;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.outgoing.notification.*;
@@ -45,12 +50,12 @@ import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateIn
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.bots.PlayerBotDao;
 import com.cometproject.server.storage.queries.catalog.CatalogDao;
-import com.cometproject.server.storage.queries.items.ItemDao;
 import com.cometproject.server.storage.queries.items.LimitedEditionDao;
 import com.cometproject.server.storage.queries.items.TeleporterDao;
 import com.cometproject.server.storage.queries.pets.PetDao;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.storage.api.StorageContext;
+import com.cometproject.storage.api.data.Data;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -442,7 +447,15 @@ public class LegacyPurchaseHandler implements ICatalogPurchaseHandler {
                     }
                 }
 
-                List<Long> newItems = ItemDao.createItems(purchases);
+                final List<Long> newItems;
+                final Data<List<Long>> idsData = Data.createEmpty();
+                StorageContext.getCurrentContext().getRoomItemRepository().purchaseItems(purchases, idsData::set);
+
+                if (!idsData.has()) {
+                    throw new Exception("Failed to insert items");
+                }
+
+                newItems = idsData.get();
 
                 for (long newItem : newItems) {
                     if (item.getLimitedTotal() > 0) {
@@ -532,22 +545,18 @@ public class LegacyPurchaseHandler implements ICatalogPurchaseHandler {
     }
 
     @Override
-    public void purchaseBundle(ICatalogPage page, ISession client) {
-        RoomBundle roomBundle = RoomBundleManager.getInstance().getBundle(page.getExtraData());
-
+    public void purchaseBundle(IRoomBundle roomBundle, ISession client) {
         try {
             int roomId = RoomManager.getInstance().createRoom(roomBundle.getConfig().getRoomName().replace("%username%", client.getPlayer().getData().getUsername()), "", roomBundle.getRoomModelData(), 0, 20, 0, client, roomBundle.getConfig().getThicknessWall(), roomBundle.getConfig().getThicknessFloor(), roomBundle.getConfig().getDecorations(), roomBundle.getConfig().isHideWalls());
+            final Set<IRoomItemData> roomItemData = Sets.newHashSet();
 
             for (RoomBundleItem roomBundleItem : roomBundle.getRoomBundleData()) {
-                long newItemId = ItemDao.createItem(client.getPlayer().getId(), roomBundleItem.getItemId(), roomBundleItem.getExtraData());
+                final Position position = roomBundleItem.getWallPosition() == null ? new Position(roomBundleItem.getX(), roomBundleItem.getY(), roomBundleItem.getZ()) : null;
 
-                if (roomBundleItem.getWallPosition() == null) {
-                    StorageContext.getCurrentContext().getRoomItemRepository().placeFloorItem(roomId, roomBundleItem.getX(), roomBundleItem.getY(), roomBundleItem.getZ(), roomBundleItem.getRotation(), roomBundleItem.getExtraData(), roomBundleItem.getItemId(), newItemId);
-                } else {
-
-                    StorageContext.getCurrentContext().getRoomItemRepository().placeWallItem(roomId, roomBundleItem.getWallPosition(), roomBundleItem.getExtraData(), newItemId);
-                }
+                roomItemData.add(new RoomItemData(-1, roomBundleItem.getItemId(), client.getPlayer().getId(), "", position, roomBundleItem.getRotation(), roomBundleItem.getExtraData(), roomBundleItem.getWallPosition(), null));
             }
+
+            StorageContext.getCurrentContext().getRoomItemRepository().placeBundle(roomId, roomItemData);
 
             client.send(new RoomForwardMessageComposer(roomId));
             client.send(new EnforceRoomCategoryMessageComposer());
@@ -558,5 +567,11 @@ public class LegacyPurchaseHandler implements ICatalogPurchaseHandler {
             client.send(new MotdNotificationMessageComposer("Invalid room bundle data, please contact an administrator."));
             client.send(new BoughtItemMessageComposer(BoughtItemMessageComposer.PurchaseType.BADGE));
         }
+    }
+
+    @Override
+    public void purchaseBundle(ICatalogPage page, ISession client) {
+        RoomBundle roomBundle = RoomBundleManager.getInstance().getBundle(page.getExtraData());
+        purchaseBundle(roomBundle, client);
     }
 }

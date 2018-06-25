@@ -404,7 +404,7 @@ delay: 169ms
         }
 
         this.getPosition().setZ(pos.getZ());
-        StorageContext.getCurrentContext().getRoomItemRepository().saveItemPosition(this.getPosition().getX(), this.getPosition().getY(), this.getPosition().getZ(), this.getRotation(), this.getId());
+        this.getRoom().getItemProcess().saveItem(this);
     }
 
     private double getDelay(int i) {

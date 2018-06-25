@@ -34,15 +34,13 @@ import com.cometproject.server.logging.LogManager;
 import com.cometproject.server.logging.entries.RoomVisitLogEntry;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.incoming.room.engine.InitializeRoomMessageEvent;
+import com.cometproject.server.network.messages.outgoing.messenger.InstantChatMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.access.DoorbellRequestComposer;
 import com.cometproject.server.network.messages.outgoing.room.access.RoomReadyMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.alerts.CantConnectMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.alerts.DoorbellNoAnswerComposer;
 import com.cometproject.server.network.messages.outgoing.room.alerts.RoomErrorMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarsMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.avatar.IdleStatusMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.avatar.LeaveRoomMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.avatar.MutedMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.avatar.*;
 import com.cometproject.server.network.messages.outgoing.room.engine.*;
 import com.cometproject.server.network.messages.outgoing.room.events.RoomPromotionMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.permissions.FloodFilterMessageComposer;
@@ -402,6 +400,18 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
 
         if (WiredTriggerPlayerSaysKeyword.executeTriggers(this, message)) {
             return false;
+        }
+
+        if (this.getPlayer().getListeningPlayers().size() != 0) {
+            for (Integer listeningPlayerId : this.getPlayer().getListeningPlayers()) {
+                final Session session = NetworkManager.getInstance().getSessions().getByPlayerId(listeningPlayerId);
+
+                if (session != null) {
+                    session.send(new WhisperMessageComposer(session.getPlayer().getId(),
+                            Locale.get("command.listen.message").replace("%username%",
+                                    this.getUsername()).replace("%message%", message)));
+                }
+            }
         }
 
         if (!this.getPlayer().getPermissions().getRank().floodBypass()) {

@@ -53,7 +53,7 @@ public class CometStressTest {
 
     public void initialize() {
         for (int i = 0; i < botCount; i++) {
-            final CometClientConnection clientConnection = new CometClientConnection(new CometClientConfig("localhost", 40000, "comet-testing-" + i), this.clientLoopGroup);
+            final CometClientConnection clientConnection = new CometClientConnection(new CometClientConfig("localhost", 30000, "comet-testing-" + i), this.clientLoopGroup);
 
             connections.add(clientConnection);
         }

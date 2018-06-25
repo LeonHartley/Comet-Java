@@ -212,7 +212,7 @@ public class RoomDao {
             preparedStatement.setString(8, tradeState.toString());
             preparedStatement.setInt(9, wallThickness);
             preparedStatement.setInt(10, floorThickness);
-            preparedStatement.setString(11, decorations);
+            preparedStatement.setString(11, decorations == null ? "" : decorations);
             preparedStatement.setString(12, hideWalls ? "1" : "0");
 
             preparedStatement.execute();

@@ -392,7 +392,7 @@ public final class MessageHandler {
 
     public void registerItems() {
         this.getMessages().put(Events.PlaceObjectMessageEvent, new PlaceItemMessageEvent());
-        this.getMessages().put(Events.MoveObjectMessageEvent, new ChangeFloorItemPositionMessageEvent());
+        this.getMessages().put(Events.MoveObjectMessageEvent, new MoveFloorItemMessageEvent());
         this.getMessages().put(Events.MoveWallItemMessageEvent, new ChangeWallItemPositionMessageEvent());
         this.getMessages().put(Events.PickupObjectMessageEvent, new PickUpItemMessageEvent());
         this.getMessages().put(Events.UseFurnitureMessageEvent, new ChangeFloorItemStateMessageEvent());

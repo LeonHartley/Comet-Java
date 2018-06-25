@@ -1,5 +1,6 @@
 package com.cometproject.storage.api.repositories;
 
+import com.cometproject.api.game.catalog.types.purchase.CatalogPurchase;
 import com.cometproject.api.game.rooms.objects.IRoomItemData;
 import com.cometproject.api.game.rooms.objects.data.RoomItemData;
 
@@ -26,7 +27,15 @@ public interface IRoomItemRepository {
 
     void placeWallItem(int roomId, String wallPosition, String data, long itemId);
 
+    void placeBundle(int roomId, final Set<IRoomItemData> bundle);
+
     void saveItem(IRoomItemData itemData);
+
+    void createItem(int playerId, int itemId, String data, Consumer<Long> idConsumer);
+
+    void purchaseItems(List<CatalogPurchase> purchases, Consumer<List<Long>> idConsumer);
+
+    void saveItemBatch(final Set<IRoomItemData> data);
 
     void setBaseItem(long itemId, int baseId);
 

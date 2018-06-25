@@ -113,28 +113,23 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable, IFlo
 
     @Override
     public void save() {
-        /*if (CometSettings.storageItemQueueEnabled) {
-            ItemStorageQueue.getInstance().queueSave(this);
-        } else {
-            RoomItemData.saveItem(this);
-            this.hasQueuedSave = true;
-        }*/
-
         this.getItemData().setData(this.getDataObject());
-        StorageContext.getCurrentContext().getRoomItemRepository().saveItem(this.getItemData());
-//        MySQLStorageQueues.instance().getItemUpdateQueue().add(this.getId(), this);
+        this.getRoom().getItemProcess().saveItem(this);
+//        StorageContext.getCurrentContext().getRoomItemRepository().saveItem(this.getItemData());
     }
 
     @Override
     public void saveData() {
-        /*if (CometSettings.storageItemQueueEnabled) {
-            ItemStorageQueue.getInstance().queueSaveData(this);
-        } else {
-            RoomItemData.saveData(this.getId(), this.getDataObject());
-        }*/
-
-        this.getItemData().setData(this.getDataObject());
-        StorageContext.getCurrentContext().getRoomItemRepository().saveData(this.getId(), this.getDataObject());
+        //kek
+        this.save();
+//        /*if (CometSettings.storageItemQueueEnabled) {
+//            ItemStorageQueue.getInstance().queueSaveData(this);
+//        } else {
+//            RoomItemData.saveData(this.getId(), this.getDataObject());
+//        }*/
+//
+//        this.getItemData().setData(this.getDataObject());
+//        StorageContext.getCurrentContext().getRoomItemRepository().saveData(this.getId(), this.getDataObject());
 
 //        MySQLStorageQueues.instance().getItemDataUpdateQueue().add(this.getId(), this.getDataObject());
     }

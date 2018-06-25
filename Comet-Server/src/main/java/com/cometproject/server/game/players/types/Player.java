@@ -97,8 +97,11 @@ public class Player implements IPlayer {
     private int lastTradeFlag = 0;
     private long lastTradeFlood = 0;
     private long lastPhotoTaken = 0;
+    private double itemPlacementHeight = -1;
     private String ssoTicket;
     private Set<Integer> recentPurchases;
+
+    private Set<Integer> listeningPlayers = Sets.newConcurrentHashSet();
 
     private Set<String> eventLogCategories = Sets.newConcurrentHashSet();
 
@@ -202,6 +205,8 @@ public class Player implements IPlayer {
             this.recentPurchases.clear();
             this.recentPurchases = null;
         }
+
+        this.listeningPlayers.clear();
 
         this.settings = null;
         this.data = null;
@@ -815,5 +820,21 @@ public class Player implements IPlayer {
 
     public void setLastPhoto(String lastPhoto) {
         this.lastPhoto = lastPhoto;
+    }
+
+    public double getItemPlacementHeight() {
+        return itemPlacementHeight;
+    }
+
+    public void setItemPlacementHeight(double itemPlacementHeight) {
+        this.itemPlacementHeight = itemPlacementHeight;
+    }
+
+    public Set<Integer> getListeningPlayers() {
+        return listeningPlayers;
+    }
+
+    public void setListeningPlayers(Set<Integer> listeningPlayers) {
+        this.listeningPlayers = listeningPlayers;
     }
 }

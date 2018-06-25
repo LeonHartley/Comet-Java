@@ -103,33 +103,7 @@ public abstract class WiredTriggerItem extends WiredFloorItem {
             }
 
             final Map<WiredConditionItem, AtomicBoolean> completedConditions = new HashMap<>();
-/*
-            final Map<String, AtomicBoolean> completedConditions = new HashMap<>();
 
-            // loop through the conditions and check whether or not we can perform the action
-            for (WiredConditionItem conditionItem : wiredConditions) {
-                conditionItem.flash();
-
-                if(conditionItem instanceof WiredConditionTriggererOnFurni)
-                {
-                    if(!completedConditions.containsKey(conditionItem.getClass() + "")) {
-                        completedConditions.put(conditionItem.getClass() + "", new AtomicBoolean(false));
-                    }
-
-                    if (conditionItem.evaluate(entity, data)) {
-                        completedConditions.get(conditionItem.getClass() + "").set(true);
-                    }
-
-                } else {
-                    completedConditions.put(conditionItem.getClass() + "" + conditionItem.getVirtualId(), new AtomicBoolean(false));
-
-                    if (conditionItem.evaluate(entity, data)) {
-                        completedConditions.get(conditionItem.getClass() + "" + conditionItem.getVirtualId()).set(true);
-                    }
-                }
-
-            }
-*/
             // loop through the conditions and check whether or not we can perform the action
             for (WiredConditionItem conditionItem : wiredConditions) {
                 conditionItem.flash();

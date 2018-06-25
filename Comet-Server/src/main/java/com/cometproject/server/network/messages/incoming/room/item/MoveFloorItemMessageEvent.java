@@ -16,8 +16,8 @@ import org.apache.log4j.Logger;
 import java.util.Map;
 
 
-public class ChangeFloorItemPositionMessageEvent implements Event {
-    private static Logger log = Logger.getLogger(ChangeFloorItemPositionMessageEvent.class);
+public class MoveFloorItemMessageEvent implements Event {
+    private static Logger log = Logger.getLogger(MoveFloorItemMessageEvent.class);
 
     public void handle(Session client, MessageEvent msg) {
         Long id = ItemManager.getInstance().getItemIdByVirtualId(msg.readInt());
@@ -52,7 +52,7 @@ public class ChangeFloorItemPositionMessageEvent implements Event {
         }
 
         try {
-            if (room.getItems().moveFloorItem(id, new Position(x, y), rot, true)) {
+            if (room.getItems().moveFloorItem(id, new Position(x, y), rot, true, true, client.getPlayer())) {
                 if (floorItem != null && floorItem.getTile().getItems().size() > 1) {
                     client.getPlayer().getQuests().progressQuest(QuestType.FURNI_STACK);
                 }

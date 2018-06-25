@@ -14,6 +14,8 @@ import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateIn
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.storage.queries.items.ItemDao;
+import com.cometproject.storage.api.StorageContext;
+import com.cometproject.storage.api.data.Data;
 import com.google.common.collect.Sets;
 
 public class PurchasePhotoMessageEvent implements Event {
@@ -25,8 +27,10 @@ public class PurchasePhotoMessageEvent implements Event {
                 client.getPlayer().getData().getUsername() + "\",\"m\":\"\",\"s\":" + client.getPlayer().getId() + ",\"w\":\"" +
                 CometSettings.cameraPhotoUrl.replace("%photoId%", code) + "\"}";
 
-        long itemId = ItemDao.createItem(client.getPlayer().getId(), CometSettings.cameraPhotoItemId, itemExtraData);
-        final PlayerItem playerItem = new InventoryItem(itemId, CometSettings.cameraPhotoItemId, itemExtraData);
+        final Data<Long> itemIdData = Data.createEmpty();
+        StorageContext.getCurrentContext().getRoomItemRepository().createItem(client.getPlayer().getId(), CometSettings.cameraPhotoItemId, itemExtraData, itemIdData::set);
+
+        final PlayerItem playerItem = new InventoryItem(itemIdData.get(), CometSettings.cameraPhotoItemId, itemExtraData);
 
         client.getPlayer().getInventory().addItem(playerItem);
 
