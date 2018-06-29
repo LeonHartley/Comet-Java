@@ -73,6 +73,7 @@ public class ModifyBotMessageEvent implements Event {
                     FilterResult filterResult = RoomManager.getInstance().getFilter().filter(message);
 
                     if (filterResult.isBlocked()) {
+                        filterResult.sendLogToStaffs(client, "<ModifyBot>");
                         client.send(new AdvancedAlertMessageComposer(Locale.get("game.message.blocked").replace("%s", filterResult.getMessage())));
                         return;
                     }
@@ -121,6 +122,7 @@ public class ModifyBotMessageEvent implements Event {
                 FilterResult filterResult = RoomManager.getInstance().getFilter().filter(botName);
 
                 if (filterResult.isBlocked()) {
+                    filterResult.sendLogToStaffs(client, "<ModifyBot>");
                     client.send(new AdvancedAlertMessageComposer(Locale.get("game.message.blocked").replace("%s", filterResult.getMessage())));
                     return;
                 }

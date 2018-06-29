@@ -15,6 +15,11 @@ public class LayCommand extends ChatCommand {
             playerEntity.removeStatus(RoomEntityStatus.LAY);
             playerEntity.markNeedsUpdate();
             isExecuted(client);
+        } else if (playerEntity.hasStatus(RoomEntityStatus.SIT)) {
+            playerEntity.removeStatus(RoomEntityStatus.SIT);
+            playerEntity.addStatus(RoomEntityStatus.LAY, "0.5");
+            playerEntity.markNeedsUpdate();
+            isExecuted(client);
         } else {
             playerEntity.addStatus(RoomEntityStatus.LAY, "0.5");
             playerEntity.markNeedsUpdate();

@@ -73,6 +73,7 @@ public class TalkMessageEvent implements Event {
             FilterResult filterResult = RoomManager.getInstance().getFilter().filter(filteredMessage);
 
             if (filterResult.isBlocked()) {
+                filterResult.sendLogToStaffs(client, "<Room: " + playerEntity.getRoom().getData().getId() + ">");
                 client.send(new AdvancedAlertMessageComposer(Locale.get("game.message.blocked").replace("%s", filterResult.getMessage())));
                 return;
             } else if (filterResult.wasModified()) {

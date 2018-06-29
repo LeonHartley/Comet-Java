@@ -58,6 +58,7 @@ public class PrivateChatMessageEvent implements Event {
             FilterResult filterResult = RoomManager.getInstance().getFilter().filter(message);
 
             if (filterResult.isBlocked()) {
+                filterResult.sendLogToStaffs(client, "<ConsoleMessage>");
                 client.send(new AdvancedAlertMessageComposer(Locale.get("game.message.blocked").replace("%s", filterResult.getMessage())));
                 return;
             } else if (filterResult.wasModified()) {

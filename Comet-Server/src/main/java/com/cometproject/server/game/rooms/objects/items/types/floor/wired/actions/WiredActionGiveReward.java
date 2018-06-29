@@ -16,6 +16,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.W
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.events.WiredItemEvent;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.engine.RoomForwardMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.wired.WiredRewardMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
 import com.cometproject.server.storage.queries.items.ItemDao;
@@ -31,9 +32,12 @@ import java.util.*;
 
 
 public class WiredActionGiveReward extends WiredActionItem {
-    public static final String REWARD_DIAMONDS = "diamonds";
-    public static final String REWARD_COINS = "coins";
-    public static final String REWARD_DUCKETS = "duckets";
+    private static final String REWARD_DIAMONDS = "diamonds";
+    private static final String REWARD_COINS = "coins";
+    private static final String REWARD_DUCKETS = "duckets";
+    private static final String REWARD_SEASONAL = "seasonal";
+
+    private static final String REWARD_GOROOM = "goto";
 
     private static final Map<Long, Map<Integer, Long>> rewardTimings = Maps.newConcurrentMap();
 
@@ -215,6 +219,16 @@ public class WiredActionGiveReward extends WiredActionItem {
                                 playerEntity.getPlayer().getSession().send(new AlertMessageComposer(
                                         Locale.getOrDefault("wired.reward.duckets", "You received %s ducket(s)!").replace("%s", amount + "")));
                                 break;
+
+                            case REWARD_SEASONAL:
+                                playerEntity.getPlayer().getData().increaseSeasonalPoints(amount);
+                                playerEntity.getPlayer().getSession().send(new AlertMessageComposer(
+                                        Locale.getOrDefault("wired.reward.seasonal", "You received %s seasonal(s)!").replace("%s", amount + "")));
+                                break;
+
+                            case REWARD_GOROOM:
+                                playerEntity.getPlayer().getSession().send(new RoomForwardMessageComposer(amount));
+                                break;
                         }
 
                         playerEntity.getPlayer().getData().save();
@@ -271,7 +285,8 @@ public class WiredActionGiveReward extends WiredActionItem {
     }
 
     private boolean isCurrencyReward(final String key) {
-        return (key.equals(REWARD_COINS) || key.equals(REWARD_DIAMONDS) || key.equals(REWARD_DUCKETS));
+        return (key.equals(REWARD_COINS) || key.equals(REWARD_DIAMONDS) || key.equals(REWARD_DUCKETS)
+                || key.equals(REWARD_SEASONAL) || key.equals(REWARD_GOROOM));
     }
 
     @Override

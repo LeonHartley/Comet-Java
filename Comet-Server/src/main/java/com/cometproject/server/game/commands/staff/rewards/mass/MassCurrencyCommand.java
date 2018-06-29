@@ -20,23 +20,30 @@ public abstract class MassCurrencyCommand extends ChatCommand {
         for (ISession session : NetworkManager.getInstance().getSessions().getSessions().values()) {
             try {
 
+                String currencyType = "coins";
+
                 if (this instanceof MassCoinsCommand) {
                     session.getPlayer().getData().increaseCredits(amount);
-                    session.send(new AdvancedAlertMessageComposer(Locale.get("command.coins.title"), Locale.get("command.coins.received").replace("%amount%", String.valueOf(amount))));
-
                 } else if (this instanceof MassDucketsCommand) {
                     session.getPlayer().getData().increaseActivityPoints(amount);
-
+                    currencyType = "activity.points";
                 } else if (this instanceof MassPointsCommand) {
                     session.getPlayer().getData().increaseVipPoints(amount);
+                    currencyType = "vip.points";
+                } else if (this instanceof MassSeasonalCommand) {
+                    session.getPlayer().getData().increaseSeasonalPoints(amount);
+                    currencyType = "seasonal";
+                }
 
-                    session.send(new AdvancedAlertMessageComposer(
-                            Locale.get("command.points.successtitle"),
-                            Locale.get("command.points.successmessage").replace("%amount%", String.valueOf(amount))
-                    ));
-
+                if(!currencyType.equals("coins")) {
                     session.send(session.getPlayer().composeCurrenciesBalance());
                 }
+
+                session.send(new AdvancedAlertMessageComposer(
+                        Locale.get("command.points.successtitle"),
+                        Locale.get("command.points.successmessage").replace("%amount%", String.valueOf(amount))
+                                .replace("%type%", Locale.get(currencyType + ".name"))
+                ));
 
                 session.getPlayer().getData().save();
                 session.getPlayer().sendBalance();

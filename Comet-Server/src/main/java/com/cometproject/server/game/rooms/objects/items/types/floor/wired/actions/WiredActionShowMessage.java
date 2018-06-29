@@ -1,6 +1,7 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions;
 
 import com.cometproject.api.game.rooms.objects.data.RoomItemData;
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.events.WiredItemEvent;
@@ -41,7 +42,7 @@ public class WiredActionShowMessage extends WiredActionItem {
 
     @Override
     public void onEventComplete(WiredItemEvent event) {
-        if (event.entity == null || !(event.entity instanceof PlayerEntity)) {
+        if (!(event.entity instanceof PlayerEntity)) {
             return;
         }
 
@@ -55,6 +56,11 @@ public class WiredActionShowMessage extends WiredActionItem {
             return;
         }
 
-        playerEntity.getPlayer().getSession().send(new WhisperMessageComposer(playerEntity.getId(), this.getWiredData().getText(), isWhisperBubble ? 0 : 34));
+        String finalText = this.getWiredData().getText();
+        finalText = finalText.replace("%username%", playerEntity.getPlayer().getData().getUsername());
+        finalText = finalText.replace("%roomname%", getRoom().getData().getName());
+        finalText = finalText.replace("%usersonline%", Integer.toString(Comet.getStats().getPlayers()));
+
+        playerEntity.getPlayer().getSession().send(new WhisperMessageComposer(playerEntity.getId(), finalText, isWhisperBubble ? 0 : 34));
     }
 }

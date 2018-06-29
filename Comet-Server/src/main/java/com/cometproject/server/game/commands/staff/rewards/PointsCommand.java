@@ -18,6 +18,7 @@ public class PointsCommand extends ChatCommand {
         String username = params[0];
         int points;
         boolean diamonds = true;
+        boolean seasonal = false;
 
         try {
             points = Integer.parseInt(params[1]);
@@ -28,6 +29,10 @@ public class PointsCommand extends ChatCommand {
         if(params.length > 2) {
             if(params[2].equals("seasonal")) {
                 diamonds = false;
+                seasonal = true;
+            } else if (params[2].equals("duckets")) {
+                diamonds = false;
+                seasonal = false;
             }
         }
 
@@ -40,8 +45,10 @@ public class PointsCommand extends ChatCommand {
 
             if(diamonds) {
                 playerData.increaseVipPoints(points);
-            } else {
+            } else if (seasonal) {
                 playerData.increaseSeasonalPoints(points);
+            } else {
+                playerData.increaseActivityPoints(points);
             }
 
             playerData.save();
@@ -50,8 +57,10 @@ public class PointsCommand extends ChatCommand {
 
         if(diamonds) {
             session.getPlayer().getData().increaseVipPoints(points);
-        } else {
+        } else if (seasonal) {
             session.getPlayer().getData().increaseSeasonalPoints(points);
+        } else {
+            session.getPlayer().getData().increaseActivityPoints(points);
         }
 
         session.getPlayer().getData().save();

@@ -27,7 +27,7 @@ public class BanCommand extends ChatCommand {
             return;
         }
 
-        if (user == client || !user.getPlayer().getPermissions().getRank().bannable()) {
+        if (user == client || !user.getPlayer().getPermissions().getRank().bannable() || user.getPlayer().getPermissions().getRank().getId() >= client.getPlayer().getPermissions().getRank().getId()) {
             sendNotif(Locale.getOrDefault("command.user.notbannable", "You're not able to ban this user!"), client);
             return;
         }

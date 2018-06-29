@@ -73,6 +73,7 @@ public class ShoutMessageEvent implements Event {
             FilterResult filterResult = RoomManager.getInstance().getFilter().filter(message);
 
             if (filterResult.isBlocked()) {
+                filterResult.sendLogToStaffs(client, "<Shout: " + playerEntity.getRoom().getData().getId() + ">");
                 client.send(new AdvancedAlertMessageComposer(Locale.get("game.message.blocked").replace("%s", filterResult.getMessage())));
                 client.getLogger().info("Filter detected a blacklisted word in message: \"" + message + "\"");
                 return;

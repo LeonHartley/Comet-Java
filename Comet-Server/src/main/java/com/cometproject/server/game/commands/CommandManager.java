@@ -7,8 +7,8 @@ import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.development.*;
 import com.cometproject.server.game.commands.gimmicks.KissCommand;
 import com.cometproject.server.game.commands.gimmicks.PunchCommand;
-import com.cometproject.server.game.commands.gimmicks.SexCommand;
-import com.cometproject.server.game.commands.gimmicks.SlapCommand;
+import com.cometproject.server.game.commands.gimmicks.HugCommand;
+import com.cometproject.server.game.commands.gimmicks.RobCommand;
 import com.cometproject.server.game.commands.notifications.NotificationManager;
 import com.cometproject.server.game.commands.staff.*;
 import com.cometproject.server.game.commands.staff.alerts.*;
@@ -22,10 +22,7 @@ import com.cometproject.server.game.commands.staff.muting.MuteCommand;
 import com.cometproject.server.game.commands.staff.muting.RoomMuteCommand;
 import com.cometproject.server.game.commands.staff.muting.UnmuteCommand;
 import com.cometproject.server.game.commands.staff.rewards.*;
-import com.cometproject.server.game.commands.staff.rewards.mass.MassBadgeCommand;
-import com.cometproject.server.game.commands.staff.rewards.mass.MassCoinsCommand;
-import com.cometproject.server.game.commands.staff.rewards.mass.MassDucketsCommand;
-import com.cometproject.server.game.commands.staff.rewards.mass.MassPointsCommand;
+import com.cometproject.server.game.commands.staff.rewards.mass.*;
 import com.cometproject.server.game.commands.user.*;
 import com.cometproject.server.game.commands.user.group.DeleteGroupCommand;
 import com.cometproject.server.game.commands.user.group.EjectAllCommand;
@@ -155,9 +152,9 @@ public class CommandManager implements Initialisable {
         this.addCommand(Locale.get("command.hidewired.name"), new HideWiredCommand());
 
         // Gimmick commands
-        this.addCommand(Locale.get("command.slap.name"), new SlapCommand());
+        this.addCommand(Locale.get("command.rob.name"), new RobCommand());
         this.addCommand(Locale.get("command.kiss.name"), new KissCommand());
-        this.addCommand(Locale.get("command.sex.name"), new SexCommand());
+        this.addCommand(Locale.get("command.hug.name"), new HugCommand());
         this.addCommand(Locale.get("command.punch.name"), new PunchCommand());
     }
 
@@ -195,6 +192,7 @@ public class CommandManager implements Initialisable {
         this.addCommand(Locale.get("command.massbadge.name"), new MassBadgeCommand());
         this.addCommand(Locale.get("command.massduckets.name"), new MassDucketsCommand());
         this.addCommand(Locale.get("command.masspoints.name"), new MassPointsCommand());
+        this.addCommand(Locale.get("command.mass.seasonal.name"), new MassSeasonalCommand());
         this.addCommand(Locale.get("command.playerinfo.name"), new PlayerInfoCommand());
         this.addCommand(Locale.get("command.roombadge.name"), new RoomBadgeCommand());
         this.addCommand(Locale.get("command.shutdown.name"), new ShutdownCommand());
@@ -207,6 +205,7 @@ public class CommandManager implements Initialisable {
         this.addCommand(Locale.get("command.massfreeze.name"), new MassFreezeCommand());
         this.addCommand(Locale.get("command.massteleport.name"), new MassTeleportCommand());
         this.addCommand(Locale.get("command.listen.name"), new ListenCommand());
+        this.addCommand(Locale.get("command.staffalert.name"), new StaffAlertCommand());
 
         // New
         this.addCommand(Locale.get("command.advban.name"), new AdvBanCommand());
@@ -361,7 +360,10 @@ public class CommandManager implements Initialisable {
     }
 
     private void addCommand(String executor, ChatCommand command) {
-        this.commands.put(":" + executor, command);
+        final List<String> keyList = Lists.newArrayList(executor.split(","));
+        for(String key : keyList) {
+            this.commands.put(":" + key, command);
+        }
     }
 
     public NotificationManager getNotifications() {
