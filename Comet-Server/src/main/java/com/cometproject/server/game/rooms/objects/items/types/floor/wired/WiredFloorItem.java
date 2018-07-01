@@ -207,6 +207,14 @@ public abstract class WiredFloorItem extends AdvancedFloorItem<WiredItemEvent> i
 
     }
 
+    /**
+     * If Wired uses Delay
+     * @return boolean
+     */
+    public boolean usesDelay() {
+        return true;
+    }
+
     @Override
     public boolean getState() {
         return this.state;

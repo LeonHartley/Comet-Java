@@ -27,6 +27,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.totem.TotemB
 import com.cometproject.server.game.rooms.objects.items.types.floor.totem.TotemHeadFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.totem.TotemPlanetFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions.*;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions.custom.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.addons.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.conditions.negative.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.conditions.positive.*;
@@ -151,6 +152,13 @@ public class RoomItemFactory {
             put("wf_pyramid", WiredAddonPyramid.class);//new
             put("wf_visual_timer", WiredAddonVisualTimer.class);//new
             put("wf_blob", WiredAddonBlob.class);//new
+
+            // Custom Ken's wireds
+            put("wf_cstm_freeze", WiredCustomFreeze.class);
+            put("wf_cstm_fswalk", WiredCustomFastWalk.class);
+            put("wf_cstm_dancee", WiredCustomDance.class);
+            put("wf_cstm_enable", WiredCustomEnable.class);
+            put("wf_cstm_hnitem", WiredCustomHanditem.class);
 
             put("highscore_classic", HighscoreClassicFloorItem.class);
 
