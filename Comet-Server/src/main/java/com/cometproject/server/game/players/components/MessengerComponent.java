@@ -242,6 +242,7 @@ public class MessengerComponent extends PlayerComponent implements PlayerMesseng
         this.getPlayer().getSession().send(new BuddyListMessageComposer((Player) this.getPlayer(),
                 this.getFriends(),
                 this.getPlayer().getPermissions().getRank().messengerStaffChat(),
+                this.getPlayer().getPermissions().getRank().messengerLogChat(),
                 this.getPlayer().getGroups()));
 
         this.getPlayer().getSession().send(new FriendRequestsMessageComposer(this.getRequestAvatars()));

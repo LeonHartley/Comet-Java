@@ -34,10 +34,12 @@ import com.cometproject.server.game.commands.user.settings.EnableCommand;
 import com.cometproject.server.game.commands.user.settings.ToggleEventsCommand;
 import com.cometproject.server.game.commands.user.settings.ToggleFriendsCommand;
 import com.cometproject.server.game.commands.vip.*;
+import com.cometproject.server.game.moderation.ModerationManager;
 import com.cometproject.server.game.permissions.PermissionsManager;
 import com.cometproject.server.logging.LogManager;
 import com.cometproject.server.logging.entries.CommandLogEntry;
 import com.cometproject.server.modules.ModuleManager;
+import com.cometproject.server.network.messages.outgoing.messenger.InstantChatMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import com.google.common.collect.Lists;
 import org.apache.log4j.Logger;
@@ -167,6 +169,7 @@ public class CommandManager implements Initialisable {
         this.addCommand(Locale.get("command.hotelalert.name"), new HotelAlertCommand());
         this.addCommand(Locale.get("command.invisible.name"), new InvisibleCommand());
         this.addCommand(Locale.get("command.ban.name"), new BanCommand());
+        this.addCommand(Locale.get("command.unban.name"), new UnBanCommand());
         this.addCommand(Locale.get("command.kick.name"), new KickCommand());
         this.addCommand(Locale.get("command.disconnect.name"), new DisconnectCommand());
         this.addCommand(Locale.get("command.ipban.name"), new IpBanCommand());
@@ -206,6 +209,7 @@ public class CommandManager implements Initialisable {
         this.addCommand(Locale.get("command.massteleport.name"), new MassTeleportCommand());
         this.addCommand(Locale.get("command.listen.name"), new ListenCommand());
         this.addCommand(Locale.get("command.staffalert.name"), new StaffAlertCommand());
+        this.addCommand(Locale.get("command.staffinfo.name"), new StaffInfoCommand());
 
         // New
         this.addCommand(Locale.get("command.advban.name"), new AdvBanCommand());
@@ -306,8 +310,19 @@ public class CommandManager implements Initialisable {
             }
 
             try {
-                if (LogManager.ENABLED)
+                if (LogManager.ENABLED) {
                     LogManager.getInstance().getStore().getLogEntryContainer().put(new CommandLogEntry(client.getPlayer().getEntity().getRoom().getId(), client.getPlayer().getId(), message));
+                    if(client.getPlayer().getData().getRank() >= Integer.parseInt(Locale.getOrDefault("logchat.minrank", "5"))) {
+                        for (Session player : ModerationManager.getInstance().getLogChatUsers()) {
+                            player.send(new InstantChatMessageComposer(Locale.getOrDefault("logchat.message", "%s executed command: %b at %c in Room: %d; [ID: %f]")
+                                    .replace("%s", client.getPlayer().getData().getUsername())
+                                    .replace("%b", message)
+                                    .replace("%c", Comet.getDate())
+                                    .replace("%d", client.getPlayer().getEntity().getRoom().getData().getName())
+                                    .replace("%f", Integer.toString(client.getPlayer().getEntity().getRoom().getData().getId())), Integer.MAX_VALUE - 1));
+                        }
+                    }
+                }
             } catch (Exception ignored) {
 
             }

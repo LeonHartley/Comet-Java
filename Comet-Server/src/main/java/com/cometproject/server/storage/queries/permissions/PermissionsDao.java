@@ -76,6 +76,7 @@ public class PermissionsDao {
                         resultSet.getString("room_staff_pick").equals("1"),
                         resultSet.getString("room_see_whispers").equals("1"),
                         resultSet.getString("messenger_staff_chat").equals("1"),
+                        resultSet.getString("messenger_log_chat").equals("1"),
                         resultSet.getInt("messenger_max_friends"),
                         resultSet.getString("about_detailed").equals("1"),
                         resultSet.getString("about_stats").equals("1")));

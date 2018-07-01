@@ -20,11 +20,11 @@ public class RobCommand extends ChatCommand {
 
         String robbedPlayer = params[0];
         if(RandomUtil.getRandomInt(0, 100) <= 50) {
-            object = Locale.getOrDefault("command.rob.success", "%s le robó a %b")
+            object = Locale.getOrDefault("command.rob.success", "%s robbed %b")
                     .replace("%s", client.getPlayer().getData().getUsername())
                     .replace("%b", robbedPlayer);
         } else {
-            object = Locale.getOrDefault("command.rob.failed", "%s le intentó robar a %b pero no lo consiguió")
+            object = Locale.getOrDefault("command.rob.failed", "%s tried to rob %b but he couldn't.")
                     .replace("%s", client.getPlayer().getData().getUsername())
                     .replace("%b", robbedPlayer);
         }

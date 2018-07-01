@@ -25,8 +25,9 @@ public class RoomBundle implements IRoomBundle {
     private int costCredits;
     private int costSeasonal;
     private int costVip;
+    private int costActivityPoints;
 
-    public RoomBundle(int id, int roomId, String alias, CustomFloorMapData roomModel, List<RoomBundleItem> bundleData, int costCredits, int costSeasonal, int costVip, RoomBundleConfig config) {
+    public RoomBundle(int id, int roomId, String alias, CustomFloorMapData roomModel, List<RoomBundleItem> bundleData, int costCredits, int costSeasonal, int costVip, int costActivityPoints, RoomBundleConfig config) {
         this.id = id;
         this.roomId = roomId;
         this.alias = alias;
@@ -35,6 +36,7 @@ public class RoomBundle implements IRoomBundle {
         this.costCredits = costCredits;
         this.costSeasonal = costSeasonal;
         this.costVip = costVip;
+        this.costActivityPoints = costActivityPoints;
         this.config = config;
     }
 
@@ -64,7 +66,7 @@ public class RoomBundle implements IRoomBundle {
             ));
         }
 
-        return new RoomBundle(-1, room.getId(), alias, modelData, bundleItems, 20, 0, 0, new RoomBundleConfig("%username%'s new room", room.getData().getDecorationString(), room.getData().getWallThickness(), room.getData().getFloorThickness(), room.getData().getHideWalls()));
+        return new RoomBundle(-1, room.getId(), alias, modelData, bundleItems, 20, 0, 0, 0, new RoomBundleConfig("%username%'s new room", room.getData().getDecorationString(), room.getData().getWallThickness(), room.getData().getFloorThickness(), room.getData().getHideWalls()));
     }
 
     @Override
@@ -145,6 +147,16 @@ public class RoomBundle implements IRoomBundle {
     @Override
     public void setCostVip(int costVip) {
         this.costVip = costVip;
+    }
+
+    @Override
+    public int getCostActivityPoints() {
+        return costActivityPoints;
+    }
+
+    @Override
+    public void setCostActivityPoints(int costActivityPoints) {
+        this.costActivityPoints = costActivityPoints;
     }
 
     @Override

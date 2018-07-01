@@ -33,6 +33,8 @@ public interface PlayerRank {
 
     boolean messengerStaffChat();
 
+    boolean messengerLogChat();
+
     int messengerMaxFriends();
 
     boolean aboutDetailed();

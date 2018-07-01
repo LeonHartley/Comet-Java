@@ -10,14 +10,20 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.PrivateChatFloorItem;
 import com.cometproject.server.logging.LogManager;
 import com.cometproject.server.logging.entries.RoomChatLogEntry;
+import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
+import com.cometproject.server.network.messages.outgoing.notification.NotificationMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.MutedMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.avatar.WhisperMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.storage.queries.permissions.PermissionsDao;
+import com.google.common.collect.Maps;
 import com.google.common.primitives.Ints;
+
+import java.util.Map;
 
 
 public class TalkMessageEvent implements Event {
@@ -84,6 +90,31 @@ public class TalkMessageEvent implements Event {
         }
 
         if (playerEntity.onChat(filteredMessage)) {
+            if(message.startsWith("@")) {
+                String finalName;
+                String[] splittedName = message.replace("@", "").split(" ");
+                finalName = splittedName[0];
+
+                Session player = NetworkManager.getInstance().getSessions().getByPlayerUsername(finalName);
+
+                if(player != null) {
+                    Map<String, String> notificationParams = Maps.newHashMap();
+
+                    notificationParams.put("message", Locale.getOrDefault("mention.message", "The user %s has mentioned you in a room (%b), click here to go to the room.")
+                            .replace("%s", client.getPlayer().getData().getUsername())
+                            .replace("%b", message));
+                    notificationParams.put("image", "${image.library.url}notifications/twitter.png");
+                    notificationParams.put("linkUrl", "event:navigator/goto/" + client.getPlayer().getEntity().getRoom().getData().getId());
+
+                    player.send(new NotificationMessageComposer("furni_placement_error", notificationParams));
+                    client.send(new WhisperMessageComposer(client.getPlayer().getData().getId(), Locale.getOrDefault("mention.success", "You've mention %s successfully")
+                            .replace("%s", finalName), 34));
+                } else {
+                    client.send(new WhisperMessageComposer(client.getPlayer().getData().getId(), Locale.getOrDefault("mention.notexist", "The user %s does not exist or it's disconnected")
+                            .replace("%s", finalName), 34));
+                }
+            }
+
             try {
                 if (LogManager.ENABLED && !message.replace(" ", "").isEmpty())
                     LogManager.getInstance().getStore().getLogEntryContainer().put(new RoomChatLogEntry(playerEntity.getRoom().getId(), client.getPlayer().getId(), message));

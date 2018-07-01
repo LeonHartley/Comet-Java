@@ -81,6 +81,10 @@ public class PrivateChatMessageEvent implements Event {
             return;
         }
 
+        if (userId == Integer.MAX_VALUE - 1 && client.getPlayer().getPermissions().getRank().messengerLogChat()) {
+            return;
+        }
+
         if (userId < 0 && CometSettings.groupChatEnabled) {
             final int groupId = -userId;
             final IGroup group = GameContext.getCurrent().getGroupService().getGroup(groupId);

@@ -75,4 +75,30 @@ public class BanDao {
 
         return 0;
     }
+
+    public static void deleteBan(String data) {
+
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("DELETE FROM bans WHERE data = ?", sqlConnection, true);
+
+            preparedStatement.setString(1, data);
+
+            SqlHelper.executeStatementSilently(preparedStatement, false);
+            resultSet = preparedStatement.getGeneratedKeys();
+
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(resultSet);
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+
+    }
 }

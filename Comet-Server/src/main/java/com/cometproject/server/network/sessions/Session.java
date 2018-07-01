@@ -61,6 +61,10 @@ public class Session implements ISession {
                         ModerationManager.getInstance().removeModerator(this);
                     }
 
+                    if (this.getPlayer().getPermissions().getRank().messengerLogChat()) {
+                        ModerationManager.getInstance().removeLogChatUser(this);
+                    }
+
                     try {
                         this.getPlayer().dispose();
                     } catch (Exception e) {
@@ -160,6 +164,10 @@ public class Session implements ISession {
 
         if (player.getPermissions().getRank().modTool()) {
             ModerationManager.getInstance().addModerator(player.getSession());
+        }
+
+        if (player.getPermissions().getRank().messengerLogChat()) {
+            ModerationManager.getInstance().addLogChatUser(player.getSession());
         }
     }
 
