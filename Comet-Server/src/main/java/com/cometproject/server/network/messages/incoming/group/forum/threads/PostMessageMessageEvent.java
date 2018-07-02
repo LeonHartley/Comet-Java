@@ -44,6 +44,7 @@ public class PostMessageMessageEvent implements Event {
             FilterResult messageFilter = RoomManager.getInstance().getFilter().filter(message);
 
             if (messageFilter.isBlocked()) {
+                messageFilter.sendLogToStaffs(client, "<PostMessage>");
                 client.send(new AdvancedAlertMessageComposer(Locale.get("game.message.blocked").replace("%s", messageFilter.getMessage())));
                 return;
             } else if (messageFilter.wasModified()) {
@@ -53,6 +54,7 @@ public class PostMessageMessageEvent implements Event {
             FilterResult subjectFilter = RoomManager.getInstance().getFilter().filter(subject);
 
             if (subjectFilter.isBlocked()) {
+                subjectFilter.sendLogToStaffs(client, "<PostMessage>");
                 client.send(new AdvancedAlertMessageComposer(Locale.get("game.message.blocked").replace("%s", subjectFilter.getMessage())));
                 return;
             } else if (subjectFilter.wasModified()) {

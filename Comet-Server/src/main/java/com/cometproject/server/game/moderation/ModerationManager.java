@@ -29,6 +29,7 @@ public class ModerationManager implements Initialisable {
     private Map<Integer, HelpTicket> tickets;
 
     private ConcurrentHashSet<Session> moderators;
+    private ConcurrentHashSet<Session> logChatUsers;
 
     private Logger log = Logger.getLogger(ModerationManager.class.getName());
 
@@ -46,6 +47,7 @@ public class ModerationManager implements Initialisable {
     @Override
     public void initialize() {
         this.moderators = new ConcurrentHashSet<>();
+        this.logChatUsers = new ConcurrentHashSet<>();
 
         loadPresets();
         loadActiveTickets();
@@ -88,6 +90,14 @@ public class ModerationManager implements Initialisable {
 
     public void addModerator(Session session) {
         this.moderators.add(session);
+    }
+
+    public void addLogChatUser(Session session) {
+        this.logChatUsers.add(session);
+    }
+
+    public void removeLogChatUser(Session session) {
+        this.logChatUsers.remove(session);
     }
 
     public void removeModerator(Session session) {
@@ -169,5 +179,9 @@ public class ModerationManager implements Initialisable {
 
     public ConcurrentHashSet<Session> getModerators() {
         return moderators;
+    }
+
+    public ConcurrentHashSet<Session> getLogChatUsers() {
+        return logChatUsers;
     }
 }

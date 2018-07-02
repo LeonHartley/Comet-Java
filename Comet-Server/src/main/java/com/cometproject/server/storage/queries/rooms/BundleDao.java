@@ -43,7 +43,7 @@ public class BundleDao {
                             new TypeToken<ArrayList<RoomBundleItem>>() {
                             }.getType());
 
-                    bundles.put(alias, new RoomBundle(bundleId, resultSet.getInt("room_id"), alias, roomModelData, bundleItems, resultSet.getInt("cost_credits"), resultSet.getInt("cost_seasonal"), resultSet.getInt("cost_vip"), JsonUtil.getInstance().fromJson(resultSet.getString("room_config"), RoomBundleConfig.class)));
+                    bundles.put(alias, new RoomBundle(bundleId, resultSet.getInt("room_id"), alias, roomModelData, bundleItems, resultSet.getInt("cost_credits"), resultSet.getInt("cost_seasonal"), resultSet.getInt("cost_vip"), resultSet.getInt("cost_activity_points"), JsonUtil.getInstance().fromJson(resultSet.getString("room_config"), RoomBundleConfig.class)));
                 } catch (Exception e) {
                     Comet.getServer().getLogger().warn("Failed to load room bundle with id: " + bundleId, e);
                 }

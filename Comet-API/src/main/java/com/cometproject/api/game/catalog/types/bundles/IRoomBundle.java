@@ -38,6 +38,10 @@ public interface IRoomBundle {
 
     void setCostVip(int costVip);
 
+    int getCostActivityPoints();
+
+    void setCostActivityPoints(int costActivityPoints);
+
     RoomBundleConfig getConfig();
 
     void setConfig(RoomBundleConfig config);

@@ -39,6 +39,7 @@ public class CheckValidNameMessageEvent implements Event {
         FilterResult filterResult = RoomManager.getInstance().getFilter().filter(name);
 
         if (filterResult.isBlocked()) {
+            filterResult.sendLogToStaffs(client, "<ChangingName>");
             client.send(new NameChangeUpdateMessageComposer(name, 4));
             return;
         }

@@ -64,6 +64,7 @@ public class SaveWiredDataMessageEvent implements Event {
             FilterResult filterResult = RoomManager.getInstance().getFilter().filter(filteredMessage);
 
             if (filterResult.isBlocked()) {
+                filterResult.sendLogToStaffs(client, "<SaveWired>");
                 client.send(new AdvancedAlertMessageComposer(Locale.get("game.message.blocked").replace("%s", filterResult.getMessage())));
                 return;
             } else if (filterResult.wasModified()) {

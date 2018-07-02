@@ -18,6 +18,7 @@ public class TrophyPurchaseHandler implements PurchaseHandler {
             FilterResult filterResult = RoomManager.getInstance().getFilter().filter(purchaseData);
 
             if (filterResult.isBlocked()) {
+                filterResult.sendLogToStaffs(session, "<PurchaseTrophy>");
                 session.send(new AdvancedAlertMessageComposer(Locale.get("game.message.blocked").replace("%s", filterResult.getMessage())));
                 return null;
             } else if (filterResult.wasModified()) {

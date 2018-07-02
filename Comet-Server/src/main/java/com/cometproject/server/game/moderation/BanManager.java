@@ -94,6 +94,22 @@ public class BanManager implements Initialisable {
         return false;
     }
 
+    public boolean unBan(String data) {
+        if(!data.equals("0")) {
+            if (this.bans.containsKey(data)) {
+                this.bans.remove(data);
+                removeBan(data);
+
+                initialize();
+                return true;
+            } else return false;
+        } else return false;
+    }
+
+    private void removeBan(String data) {
+        BanDao.deleteBan(data);
+    }
+
     public Ban get(String data) {
         return this.bans.get(data);
     }

@@ -20,6 +20,7 @@ import com.cometproject.server.game.polls.PollManager;
 import com.cometproject.server.game.polls.types.Poll;
 import com.cometproject.server.game.quests.QuestManager;
 import com.cometproject.server.game.rooms.RoomManager;
+import com.cometproject.server.game.rooms.bundles.RoomBundleManager;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.RoomReloadListener;
 import com.cometproject.server.network.NetworkManager;
@@ -59,7 +60,8 @@ public class ReloadCommand extends ChatCommand {
                                 "- quests\n" +
                                 "- achievements\n" +
                                 "- pets\n" +
-                                "- polls"
+                                "- polls\n" +
+                                "- bundles"
                 ));
 
                 break;
@@ -199,6 +201,13 @@ public class ReloadCommand extends ChatCommand {
 
                 RoomManager.getInstance().addReloadListener(client.getPlayer().getEntity().getRoom().getId(), reloadListener);
                 room.reload();
+                break;
+            }
+            case "bundles": {
+                RoomBundleManager.getInstance().initialize();
+
+                sendNotif(Locale.get("command.reload.bundles"), client);
+
                 break;
             }
         }

@@ -31,6 +31,7 @@ public class ChangeMottoMessageEvent implements Event {
             FilterResult filterResult = RoomManager.getInstance().getFilter().filter(motto);
 
             if (filterResult.isBlocked()) {
+                filterResult.sendLogToStaffs(client, "<ChangingMotto>");
                 client.send(new AdvancedAlertMessageComposer(Locale.get("game.message.blocked").replace("%s", filterResult.getMessage())));
                 return;
             } else if (filterResult.wasModified()) {

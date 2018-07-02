@@ -26,9 +26,11 @@ public class BuddyListMessageComposer extends MessageComposer {
     private final Set<Integer> groups;
 
     private final boolean hasStaffChat;
+    private final boolean hasLogChat;
 
-    public BuddyListMessageComposer(final Player player, Map<Integer, IMessengerFriend> friends, final boolean hasStaffChat, final Set<Integer> groups) {
+    public BuddyListMessageComposer(final Player player, Map<Integer, IMessengerFriend> friends, final boolean hasStaffChat, final boolean hasLogChat, final Set<Integer> groups) {
         this.hasStaffChat = hasStaffChat;
+        this.hasLogChat = hasLogChat;
 
         this.player = player;
         this.friends = Maps.newHashMap(friends);
@@ -58,9 +60,9 @@ public class BuddyListMessageComposer extends MessageComposer {
         msg.writeInt(0);//?
 
         if (CometSettings.groupChatEnabled) {
-            msg.writeInt(avatars.size() + (hasStaffChat ? 1 : 0) + this.groups.size());
+            msg.writeInt(avatars.size() + (hasStaffChat ? 1 : 0) + (hasLogChat ? 1 : 0) + this.groups.size());
         } else {
-            msg.writeInt(avatars.size() + (hasStaffChat ? 1 : 0));
+            msg.writeInt(avatars.size() + (hasStaffChat ? 1 : 0) + (hasLogChat ? 1 : 0));
         }
 
         for (PlayerAvatar playerAvatar : avatars) {
@@ -102,9 +104,26 @@ public class BuddyListMessageComposer extends MessageComposer {
             msg.writeShort(level == null ? 0 : level.getLevelId());
         }
 
+        if (hasLogChat) {
+            msg.writeInt(Integer.MAX_VALUE - 1);
+            msg.writeString("Log Chat");
+            msg.writeInt(77);
+            msg.writeBoolean(true);
+            msg.writeBoolean(false);
+            msg.writeString("ch-3215-92.hr-831-45.sh-290-64.fa-1206-91.lg-270-92.ha-3129-92.hd-180-2.cc-3039-92");
+            msg.writeInt(0);
+            msg.writeString("");
+            msg.writeString("");
+            msg.writeString("");
+            msg.writeBoolean(false);
+            msg.writeBoolean(false);
+            msg.writeBoolean(false);
+            msg.writeShort(0);
+        }
+
         if (hasStaffChat) {
             msg.writeInt(Integer.MAX_VALUE);
-            msg.writeString("Staff chat");
+            msg.writeString("Staff Chat");
             msg.writeInt(77);
             msg.writeBoolean(true);
             msg.writeBoolean(false);
@@ -118,6 +137,7 @@ public class BuddyListMessageComposer extends MessageComposer {
             msg.writeBoolean(false);
             msg.writeShort(0);
         }
+
 
         if (CometSettings.groupChatEnabled) {
             for (Integer groupId : this.groups) {

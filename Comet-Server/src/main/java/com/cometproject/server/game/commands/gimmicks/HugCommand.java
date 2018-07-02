@@ -4,12 +4,14 @@ import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityType;
+import com.cometproject.server.game.rooms.types.misc.ChatEmotion;
 import com.cometproject.server.network.messages.outgoing.room.avatar.ActionMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.WhisperMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 
 
-public class SexCommand extends ChatCommand {
+public class HugCommand extends ChatCommand {
 
     @Override
     public void execute(Session client, String[] params) {
@@ -23,7 +25,7 @@ public class SexCommand extends ChatCommand {
         RoomEntity entity = client.getPlayer().getEntity().getRoom().getEntities().getEntityByName(sexedPlayer, RoomEntityType.PLAYER);
 
         if (entity.getUsername() == client.getPlayer().getData().getUsername()) {
-            sendNotif(Locale.getOrDefault("command.sex.himself", "You can't sex yourself!"), client);
+            sendNotif(Locale.getOrDefault("command.hug.himself", "You can't hug yourself!"), client);
             return;
         }
 
@@ -32,13 +34,12 @@ public class SexCommand extends ChatCommand {
             return;
         }
 
-        client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new WhisperMessageComposer(client.getPlayer().getEntity().getId(), "* " + client.getPlayer().getData().getUsername() + " sexed " + entity.getUsername() + " *", 34));
-        client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new ActionMessageComposer(entity.getId(), 7));
+        client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new TalkMessageComposer(client.getPlayer().getEntity().getId(), "* " + client.getPlayer().getData().getUsername() + " abrazó a " + entity.getUsername() + " *", ChatEmotion.SMILE, 16));
     }
 
     @Override
     public String getPermission() {
-        return "sex_command";
+        return "hug_command";
     }
 
     @Override
@@ -48,6 +49,6 @@ public class SexCommand extends ChatCommand {
 
     @Override
     public String getDescription() {
-        return Locale.get("command.sex.description");
+        return Locale.get("command.hug.description");
     }
 }

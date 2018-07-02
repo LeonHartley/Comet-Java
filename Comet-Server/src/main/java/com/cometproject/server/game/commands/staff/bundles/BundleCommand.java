@@ -16,7 +16,7 @@ public class BundleCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
         if (params.length < 2) {
-            client.send(new AlertMessageComposer("Use :bundle create [alias] to create a bundle."));
+            client.send(new AlertMessageComposer(Locale.getOrDefault("command.bundle.create", "Use :bundle create [alias] to create a bundle.")));
             return;
         }
 

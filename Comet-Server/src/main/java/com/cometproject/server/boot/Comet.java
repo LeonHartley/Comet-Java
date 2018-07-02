@@ -13,6 +13,7 @@ import org.apache.log4j.PropertyConfigurator;
 
 import java.io.FileInputStream;
 import java.lang.management.ManagementFactory;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -161,6 +162,15 @@ public class Comet {
      */
     public static long getTime() {
         return (System.currentTimeMillis() / 1000L);
+    }
+
+    /**
+     * Get the instance date [HH:MM:SS]
+     *
+     * @return The date
+     */
+    public static String getDate() {
+        return new SimpleDateFormat("HH:mm:ss").format(new Date());
     }
 
     /**

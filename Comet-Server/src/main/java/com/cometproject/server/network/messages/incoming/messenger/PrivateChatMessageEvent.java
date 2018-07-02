@@ -58,6 +58,7 @@ public class PrivateChatMessageEvent implements Event {
             FilterResult filterResult = RoomManager.getInstance().getFilter().filter(message);
 
             if (filterResult.isBlocked()) {
+                filterResult.sendLogToStaffs(client, "<ConsoleMessage>");
                 client.send(new AdvancedAlertMessageComposer(Locale.get("game.message.blocked").replace("%s", filterResult.getMessage())));
                 return;
             } else if (filterResult.wasModified()) {
@@ -77,6 +78,10 @@ public class PrivateChatMessageEvent implements Event {
                 if (player == client) continue;
                 player.send(new InstantChatMessageComposer(client.getPlayer().getData().getUsername() + ": " + message, Integer.MAX_VALUE));
             }
+            return;
+        }
+
+        if (userId == Integer.MAX_VALUE - 1 && client.getPlayer().getPermissions().getRank().messengerLogChat()) {
             return;
         }
 
