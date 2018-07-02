@@ -215,6 +215,14 @@ public abstract class WiredFloorItem extends AdvancedFloorItem<WiredItemEvent> i
         return true;
     }
 
+    /**
+     * Custom Furni selection
+     * @return
+     */
+    public int getFurniSelection() {
+        return WiredUtil.MAX_FURNI_SELECTION;
+    }
+
     @Override
     public boolean getState() {
         return this.state;

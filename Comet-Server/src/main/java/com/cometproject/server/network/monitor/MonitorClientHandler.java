@@ -47,7 +47,7 @@ public class MonitorClientHandler extends SimpleChannelInboundHandler {
     }
 
     @Override
-    protected void channelRead0(ChannelHandlerContext channelHandlerContext, Object msg) throws Exception {
+    protected void channelRead0(ChannelHandlerContext channelHandlerContext, Object msg) {
         ByteBuf buffer = (ByteBuf) msg;
         String messageJson = buffer.toString(Charset.defaultCharset());
 
@@ -57,7 +57,7 @@ public class MonitorClientHandler extends SimpleChannelInboundHandler {
     }
 
     @Override
-    public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
+    public void channelReadComplete(ChannelHandlerContext ctx) {
         ctx.flush();
     }
 

@@ -34,8 +34,7 @@ public class FloorItemsMessageComposer extends MessageComposer {
                 msg.writeInt(itemOwner.getKey());
                 msg.writeString(itemOwner.getValue());
             }
-            ;
-           /* } else {
+            /* } else {
                 final Group group = room.getGroup();
 
                 if (group.getData().canMembersDecorate()) {

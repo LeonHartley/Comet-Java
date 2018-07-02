@@ -4,9 +4,9 @@ import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 
 
 public interface Collidable {
-    public RoomEntity getCollision();
+    RoomEntity getCollision();
 
-    public void setCollision(RoomEntity entity);
+    void setCollision(RoomEntity entity);
 
-    public void nullifyCollision();
+    void nullifyCollision();
 }

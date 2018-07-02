@@ -30,6 +30,6 @@ public class WiredConditionPlayerHasBadgeEquipped extends WiredConditionItem {
                 isEquipped = true;
         }
 
-        return isNegative ? !isEquipped : isEquipped;
+        return isNegative != isEquipped;
     }
 }

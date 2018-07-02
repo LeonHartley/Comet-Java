@@ -382,7 +382,7 @@ public class PetAI extends AbstractBotAI {
         final PetToyFloorItem floorItem = WiredUtil.getRandomElement(this.getPetEntity().getRoom().getItems().getByClass(PetToyFloorItem.class));
 
         if (floorItem != null) {
-            this.toyItem = (PetToyFloorItem) floorItem;
+            this.toyItem = floorItem;
 
             // 1 min play timer.
             this.playTimer = RandomUtil.getRandomInt(10, 50);

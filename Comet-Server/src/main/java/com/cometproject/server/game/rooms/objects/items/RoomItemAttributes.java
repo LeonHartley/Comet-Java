@@ -1,15 +1,15 @@
 package com.cometproject.server.game.rooms.objects.items;
 
 public interface RoomItemAttributes {
-    public int getId();
+    int getId();
 
-    public int getItemId();
+    int getItemId();
 
-    public int getOwner();
+    int getOwner();
 
-    public int getX();
+    int getX();
 
-    public int getY();
+    int getY();
 
-    public int getRotation();
+    int getRotation();
 }

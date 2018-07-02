@@ -115,8 +115,6 @@ public class ItemPathfinder extends Pathfinder {
         final double fromHeight = roomFloorObject.getRoom().getMapping().getStepHeight(from);
         final double toHeight = roomFloorObject.getRoom().getMapping().getStepHeight(to);
 
-        if (fromHeight < toHeight && (toHeight - fromHeight) > 1.0) return false;
-
-        return true;
+        return !(fromHeight < toHeight) || !((toHeight - fromHeight) > 1.0);
     }
 }

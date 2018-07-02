@@ -131,14 +131,9 @@ public class Trade {
         }
 
         if (user == 1) {
-            if (!this.user1Items.contains(item)) {
-
-                this.user1Items.add(item);
-            }
+            this.user1Items.add(item);
         } else {
-            if (!this.user2Items.contains(item)) {
-                this.user2Items.add(item);
-            }
+            this.user2Items.add(item);
         }
 
         if (user1 != null && user1.getPlayer() != null) {
@@ -185,13 +180,9 @@ public class Trade {
         }
 
         if (user == 1) {
-            if (this.user1Items.contains(item)) {
-                this.user1Items.remove(item);
-            }
+            this.user1Items.remove(item);
         } else {
-            if (this.user2Items.contains(item)) {
-                this.user2Items.remove(item);
-            }
+            this.user2Items.remove(item);
         }
 
         this.updateWindow();

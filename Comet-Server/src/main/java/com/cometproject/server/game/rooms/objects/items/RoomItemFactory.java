@@ -30,7 +30,9 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.action
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions.custom.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.addons.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.conditions.negative.*;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.conditions.negative.custom.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.conditions.positive.*;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.conditions.positive.custom.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.highscore.HighscoreClassicFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.*;
 import com.cometproject.server.game.rooms.objects.items.types.wall.MoodlightWallItem;
@@ -154,11 +156,23 @@ public class RoomItemFactory {
             put("wf_blob", WiredAddonBlob.class);//new
 
             // Custom Ken's wireds
-            put("wf_cstm_freeze", WiredCustomFreeze.class);
-            put("wf_cstm_fswalk", WiredCustomFastWalk.class);
-            put("wf_cstm_dancee", WiredCustomDance.class);
-            put("wf_cstm_enable", WiredCustomEnable.class);
-            put("wf_cstm_hnitem", WiredCustomHanditem.class);
+            put("wf_cstm_freeze", WiredCustomFreeze.class); // action
+            put("wf_cstm_fswalk", WiredCustomFastWalk.class); // action
+            put("wf_cstm_dancee", WiredCustomDance.class); // action
+            put("wf_cstm_enable", WiredCustomEnable.class); // action
+            put("wf_cstm_hnitem", WiredCustomHanditem.class); // action
+            put("wf_act_forwa", WiredCustomForwardRoom.class); // action
+            put("wf_act_raise_furni", WiredCustomFurniUp.class); // action
+            put("wf_act_lower_furni", WiredCustomFurniDown.class); // action
+            put("wf_act_usr_clothes", WiredCustomChangeClothes.class); // action
+            put("wf_cnd_habbo_has_diamonds", WiredConditionCustomHasDiamonds.class); // condition
+            put("wf_cnd_not_habbo_has_diamonds", WiredNegativeConditionCustomHasDiamonds.class); // condition
+            put("wf_cnd_habbo_has_duckets", WiredConditionCustomHasDuckets.class); // condition
+            put("wf_cnd_not_habbo_has_duckets", WiredNegativeConditionCustomHasDuckets.class); // condition
+            put("wf_cnd_habbo_has_diamondz", WiredConditionCustomHasDance.class); // condition
+            put("wf_cnd_habbo_not_danc", WiredNegativeConditionCustomHasDance.class); // condition
+            put("wf_cnd_habbo_has_rank", WiredConditionCustomHasRank.class); // condition
+            put("wf_cnd_habbo_not_rank", WiredNegativeConditionCustomHasRank.class); // condition
 
             put("highscore_classic", HighscoreClassicFloorItem.class);
 

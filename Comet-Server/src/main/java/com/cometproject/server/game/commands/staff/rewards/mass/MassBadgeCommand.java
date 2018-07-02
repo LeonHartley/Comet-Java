@@ -23,7 +23,7 @@ public class MassBadgeCommand extends ChatCommand {
 
         for (ISession session : NetworkManager.getInstance().getSessions().getSessions().values()) {
             try {
-                ((Player) session.getPlayer()).getInventory().addBadge(badgeCode, false);
+                session.getPlayer().getInventory().addBadge(badgeCode, false);
                 playersToInsertBadge.add(session.getPlayer().getId());
             } catch (Exception ignored) {
 

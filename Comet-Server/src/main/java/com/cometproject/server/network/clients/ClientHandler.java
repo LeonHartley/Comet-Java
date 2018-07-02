@@ -37,7 +37,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<MessageEvent> {
     }
 
     @Override
-    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+    public void channelActive(ChannelHandlerContext ctx) {
 
         final INetSession session = this.sessionFactory.createSession(ctx);
 
@@ -48,7 +48,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<MessageEvent> {
     }
 
     @Override
-    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+    public void channelInactive(ChannelHandlerContext ctx) {
         if (ctx.attr(ATTR_SESSION).get() == null) {
             return;
         }
@@ -65,7 +65,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<MessageEvent> {
     }
 
     @Override
-    public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
+    public void userEventTriggered(ChannelHandlerContext ctx, Object evt) {
         if (NetworkManager.IDLE_TIMER_ENABLED) {
             if (evt instanceof IdleStateEvent) {
                 IdleStateEvent e = (IdleStateEvent) evt;
@@ -83,7 +83,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<MessageEvent> {
     }
 
     @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         if (ctx.channel().isActive()) {
             ctx.close();
         }
@@ -94,7 +94,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<MessageEvent> {
     }
 
     @Override
-    public void channelRead0(ChannelHandlerContext channelHandlerContext, MessageEvent event) throws Exception {
+    public void channelRead0(ChannelHandlerContext channelHandlerContext, MessageEvent event) {
         try {
             final INetSession session = channelHandlerContext.attr(ATTR_SESSION).get();
 

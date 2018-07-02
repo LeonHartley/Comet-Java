@@ -17,9 +17,7 @@ public abstract class AbstractGameGateFloorItem extends DefaultFloorItem {
 
     @Override
     public void onLoad() {
-        if (!this.getRoom().getGame().getGates().get(this.getTeam()).contains(this)) {
-            this.getRoom().getGame().getGates().get(this.getTeam()).add(this);
-        }
+        this.getRoom().getGame().getGates().get(this.getTeam()).add(this);
     }
 
     @Override
@@ -90,11 +88,7 @@ public abstract class AbstractGameGateFloorItem extends DefaultFloorItem {
         final PlayerEntity playerEntity = (PlayerEntity) entity;
 
         if (this.getRoom().getGame().getInstance() != null && this.getRoom().getGame().getInstance().isActive()) {
-            if (playerEntity.getGameTeam() != null && playerEntity.getGameTeam() != GameTeam.NONE) {
-                return false;
-            }
-
-            return true;
+            return playerEntity.getGameTeam() == null || playerEntity.getGameTeam() == GameTeam.NONE;
         }
 
         return false;

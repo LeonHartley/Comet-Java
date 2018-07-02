@@ -6,7 +6,7 @@
  var socket = io.connect('http://$host.address:1232');
 
         socket.on('log', function (obj) {
-            append("INFO", obj)
+            append("INFO", obj);
 
             var consoleElement = document.getElementById("console");
 
@@ -45,8 +45,8 @@
         $(document).ready(function() {
             $("#consoleCommand").on("keypress", function(e) {
                 if (e.keyCode == 13) {
-                    socket.emit("Command", "command " + $(this).val())
-                    append(">", $(this).val())
+                    socket.emit("Command", "command " + $(this).val());
+                    append(">", $(this).val());
 
                     $(this).val("")
                 }

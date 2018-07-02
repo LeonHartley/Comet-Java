@@ -10,7 +10,7 @@ public enum AccessLevel {
 
     private int accessLevel;
 
-    private AccessLevel(int accessLevel) {
+    AccessLevel(int accessLevel) {
         this.accessLevel = accessLevel;
     }
 

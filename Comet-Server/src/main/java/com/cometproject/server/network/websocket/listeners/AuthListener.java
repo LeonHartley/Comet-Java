@@ -12,7 +12,7 @@ public class AuthListener implements DataListener<AuthenticationRequest> {
     private static final String AUTH_OK = "authok";
 
     @Override
-    public void onData(SocketIOClient socketIOClient, AuthenticationRequest authenticationRequest, AckRequest ackRequest) throws Exception {
+    public void onData(SocketIOClient socketIOClient, AuthenticationRequest authenticationRequest, AckRequest ackRequest) {
         System.out.println(authenticationRequest.getTicket());
 
         socketIOClient.sendJsonObject(new HashMap<String, Object>() {{

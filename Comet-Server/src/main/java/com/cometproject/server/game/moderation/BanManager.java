@@ -83,11 +83,7 @@ public class BanManager implements Initialisable {
             Ban ban = this.bans.get(data);
 
             if (ban != null && ban.getType() == type) {
-                if (ban.getExpire() != 0 && Comet.getTime() >= ban.getExpire()) {
-                    return false;
-                }
-
-                return true;
+                return ban.getExpire() == 0 || Comet.getTime() < ban.getExpire();
             }
         }
 

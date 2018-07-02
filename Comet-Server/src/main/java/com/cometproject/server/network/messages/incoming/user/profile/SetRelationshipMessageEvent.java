@@ -31,9 +31,7 @@ public class SetRelationshipMessageEvent implements Event {
         if (level == 0) {
             RelationshipDao.deleteRelationship(client.getPlayer().getId(), user);
 
-            if (relationships.getRelationships().containsKey(user)) {
-                relationships.getRelationships().remove(user);
-            }
+            relationships.getRelationships().remove(user);
         } else {
             final String levelString = level == 1 ? "HEART" : level == 2 ? "SMILE" : "BOBBA";
             final RelationshipLevel relationshipLevel = RelationshipLevel.valueOf(levelString);

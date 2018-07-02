@@ -29,7 +29,7 @@ public class CometClientConnection {
 
         bootstrap.handler(new ChannelInitializer<SocketChannel>() {
             @Override
-            protected void initChannel(SocketChannel socketChannel) throws Exception {
+            protected void initChannel(SocketChannel socketChannel) {
                 socketChannel.pipeline().addLast("encoder", new MessageEncoder());
                 socketChannel.pipeline().addLast("decoder", new MessageDecoder());
             }

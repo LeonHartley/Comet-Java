@@ -83,9 +83,7 @@ public class GuideManager implements Initialisable {
     public void finishPlayerDuty(final HelperSession helperSession) {
         //check if they have any on-going stuff?
 
-        if (this.sessions.containsKey(helperSession.getPlayerId())) {
-            this.sessions.remove(helperSession.getPlayerId());
-        }
+        this.sessions.remove(helperSession.getPlayerId());
 
         if (helperSession.handlesHelpRequests()) {
             this.activeGuides.remove(helperSession.getPlayerId());

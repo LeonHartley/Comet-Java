@@ -30,7 +30,7 @@ public class MonitorClient {
 
             bootstrap.handler(new ChannelInitializer<SocketChannel>() {
                 @Override
-                protected void initChannel(SocketChannel socketChannel) throws Exception {
+                protected void initChannel(SocketChannel socketChannel) {
                     socketChannel.pipeline().addLast(handler);
                 }
             });
@@ -49,7 +49,7 @@ public class MonitorClient {
         }
 
         @Override
-        public void operationComplete(ChannelFuture channelFuture) throws Exception {
+        public void operationComplete(ChannelFuture channelFuture) {
             if (!channelFuture.isSuccess()) {
                 MonitorClientHandler.isConnected = false;
 

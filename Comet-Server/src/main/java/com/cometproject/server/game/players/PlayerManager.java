@@ -165,13 +165,9 @@ public class PlayerManager implements IPlayerService, Initialisable {
     }
 
     public void put(int playerId, int sessionId, String username, String ipAddress) {
-        if (this.playerIdToSessionId.containsKey(playerId)) {
-            this.playerIdToSessionId.remove(playerId);
-        }
+        this.playerIdToSessionId.remove(playerId);
 
-        if (this.playerUsernameToPlayerId.containsKey(username.toLowerCase())) {
-            this.playerUsernameToPlayerId.remove(username.toLowerCase());
-        }
+        this.playerUsernameToPlayerId.remove(username.toLowerCase());
 
         if (!this.ipAddressToPlayerIds.containsKey(ipAddress)) {
             final List<Integer> list = new CopyOnWriteArrayList<Integer>() {{

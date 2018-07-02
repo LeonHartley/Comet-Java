@@ -6,7 +6,7 @@ import com.corundumstudio.socketio.listener.DataListener;
 
 public class MessageListener implements DataListener<String> {
     @Override
-    public void onData(SocketIOClient socketIOClient, String s, AckRequest ackRequest) throws Exception {
+    public void onData(SocketIOClient socketIOClient, String s, AckRequest ackRequest) {
 
     }
 }

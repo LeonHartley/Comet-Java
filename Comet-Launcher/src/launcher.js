@@ -74,7 +74,7 @@ var restart = function (instanceId) {
 
 var isRunning = function (instanceId ) {
     return instances[instanceId] !== undefined;
-}
+};
 
 exports.start = start;
 exports.restart = restart;

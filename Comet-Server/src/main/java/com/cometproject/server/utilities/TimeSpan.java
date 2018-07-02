@@ -16,7 +16,7 @@ public class TimeSpan {
 
         long ms = time;
 
-        StringBuffer text = new StringBuffer("");
+        StringBuffer text = new StringBuffer();
         if (ms > DAY) {
             text.append(ms / DAY).append("d ");
             ms %= DAY;

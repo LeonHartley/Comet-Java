@@ -275,9 +275,8 @@ public class CommandManager implements Initialisable {
      *
      * @param message The alias of the command and the parameters
      * @param client  The player who is attempting to execute the command
-     * @throws Exception
      */
-    public boolean parse(String message, Session client) throws Exception {
+    public boolean parse(String message, Session client) {
         String executor = message.split(" ")[0].toLowerCase();
 
         final ChatCommand chatCommand = this.get(executor);

@@ -10,7 +10,6 @@ public class HelpTicketMessageComposer extends MessageComposer {
 
     public HelpTicketMessageComposer(HelpTicket helpTicket) {
         this.helpTicket = helpTicket;
-        ;
     }
 
     @Override

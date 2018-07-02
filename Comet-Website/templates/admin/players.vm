@@ -10,11 +10,11 @@
 
 <script>
     $('#myTab a').click(function (e) {
-        e.preventDefault()
+        e.preventDefault();
         $(this).tab('show')
-    })
+    });
 
-    var playerStore = []
+    var playerStore = [];
 
 
     $(document).ready(function () {
@@ -23,12 +23,12 @@
         $('#playerUsername').on('input', function (e) {
             if (e.target.value === '') {
             } else {
-                var username = $('#playerUsername').val()
-                $('#usernameDisplay').html(username)
+                var username = $('#playerUsername').val();
+                $('#usernameDisplay').html(username);
 
                 var formData = {
                     'username': username //for get email
-                }
+                };
 
                 $.ajax({
                     url: "/admin/players/search",
@@ -42,11 +42,11 @@
         });
 
         function listPlayers(players) {
-            $('#playerList').empty()
-            playerStore = []
+            $('#playerList').empty();
+            playerStore = [];
 
             for (var i = 0; i < players.length; i++) {
-                playerStore[players[i].id] = players[i]
+                playerStore[players[i].id] = players[i];
 
                 $('#playerList').append(playerTemplate(players[i]))
             }
@@ -185,9 +185,9 @@
             <small class="text-muted">Rank: <i>{{rank}}</i></small>
             <br />
             <div class="btn-group" role="group">
-                <button type="button" class="btn btn-secondary" onclick="showPasswordModal({{id}})">Password</button>
-                <button type="button" class="btn btn-secondary" onclick="showModifyPlayer({{id}})">Modify</button>
-                <button type="button" class="btn btn-secondary" onclick="showInventory({{id}})">Inventory</button>
+                <button type="button" class="btn btn-secondary" onclick="showPasswordModal({;{id}})">Password</button>
+                <button type="button" class="btn btn-secondary" onclick="showModifyPlayer({;{id}})">Modify</button>
+                <button type="button" class="btn btn-secondary" onclick="showInventory({;{id}})">Inventory</button>
                 <button type="button" class="btn btn-secondary">Chatlog</button>
                 <button type="button" class="btn btn-secondary">Bans</button>
             </div>

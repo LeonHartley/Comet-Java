@@ -65,7 +65,7 @@ public class MannequinFloorItem extends RoomItemFloor {
 
         String newFigure = "";
 
-        for (String playerFigurePart : Arrays.asList(playerEntity.getFigure().split("\\."))) {
+        for (String playerFigurePart : playerEntity.getFigure().split("\\.")) {
             if (!playerFigurePart.startsWith("ch") && !playerFigurePart.startsWith("lg"))
                 newFigure += playerFigurePart + ".";
         }
@@ -84,7 +84,7 @@ public class MannequinFloorItem extends RoomItemFloor {
                 break;
         }
 
-        for (String newFigurePart : Arrays.asList(newFigureParts.split("\\."))) {
+        for (String newFigurePart : newFigureParts.split("\\.")) {
             if (newFigurePart.startsWith("hd"))
                 newFigureParts = newFigureParts.replace(newFigurePart, "");
         }

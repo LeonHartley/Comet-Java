@@ -89,7 +89,7 @@ public class GameCycle implements CometTask, Initialisable {
         }
     }
 
-    private void processSession() throws Exception {
+    private void processSession() {
 
         final LocalDate date = LocalDate.now();
         final Calendar calendar = Calendar.getInstance();

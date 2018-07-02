@@ -231,11 +231,7 @@ delay: 169ms
 
         if (tile != null) {
             if (tile.canPlaceItemHere() && tile.getMovementNode() == RoomEntityMovementNode.OPEN && tile.getState() == RoomTileState.VALID) {
-                if (tile.getEntities().size() != 0) {
-                    return false;
-                }
-
-                return true;
+                return tile.getEntities().size() == 0;
             }
         }
 
