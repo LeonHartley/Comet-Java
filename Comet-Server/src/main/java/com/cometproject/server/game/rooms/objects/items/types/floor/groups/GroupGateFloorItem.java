@@ -46,10 +46,7 @@ public class GroupGateFloorItem extends GroupFloorItem {
         final PlayerEntity playerEntity = (PlayerEntity) entity;
 
 
-        if (!playerEntity.getPlayer().getGroups().contains(this.getGroupId()) && playerEntity.getPlayer().getData().getRank() < 4) {
-            return true;
-        }
+        return !playerEntity.getPlayer().getGroups().contains(this.getGroupId()) && playerEntity.getPlayer().getData().getRank() < 4;
 
-        return false;
     }
 }

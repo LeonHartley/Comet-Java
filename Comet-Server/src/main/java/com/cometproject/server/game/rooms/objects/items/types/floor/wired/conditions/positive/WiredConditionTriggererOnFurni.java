@@ -25,7 +25,7 @@ public class WiredConditionTriggererOnFurni extends WiredConditionItem {
             }
         }
 
-        return isNegative ? !isOnFurni : isOnFurni;
+        return isNegative != isOnFurni;
     }
 
 

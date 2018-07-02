@@ -104,11 +104,7 @@ public class WiredActionChase extends WiredActionItem {
             final boolean xMatches = entity.getPosition().getX() == floorItem.getPosition().getX();
             final boolean yMatches = entity.getPosition().getY() == floorItem.getPosition().getY();
 
-            if (!xMatches && !yMatches) {
-                return false;
-            }
-
-            return true;
+            return xMatches || yMatches;
         }
 
         return false;

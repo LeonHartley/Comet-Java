@@ -54,6 +54,6 @@ public class WiredConditionHasFurniOn extends WiredConditionItem {
             if (selectedItemsWithFurni == this.getWiredData().getSelectedIds().size()) result = true;
         }
 
-        return this.isNegative ? !result : result;
+        return this.isNegative != result;
     }
 }

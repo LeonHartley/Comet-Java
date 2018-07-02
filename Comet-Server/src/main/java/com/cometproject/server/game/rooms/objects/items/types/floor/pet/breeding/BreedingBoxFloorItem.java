@@ -102,9 +102,7 @@ public abstract class BreedingBoxFloorItem extends DefaultFloorItem {
         final PetEntity petEntity = (PetEntity) entity;
 
         if (petEntity.getData() != null) {
-            if (petEntity.getData().getTypeId() == this.getPetType()) {
-                return false;
-            }
+            return petEntity.getData().getTypeId() != this.getPetType();
         }
 
         return true;

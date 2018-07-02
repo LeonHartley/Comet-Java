@@ -44,9 +44,7 @@ public class QuestComponent extends PlayerComponent implements PlayerQuests {
         if (quest == null) return false;
 
         if (this.questProgression.containsKey(questId)) {
-            if (this.questProgression.get(questId) >= quest.getGoalData()) {
-                return true;
-            }
+            return this.questProgression.get(questId) >= quest.getGoalData();
         }
 
         return false;

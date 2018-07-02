@@ -139,11 +139,8 @@ public class HorseJumpFloorItem extends DefaultFloorItem {
         final boolean barPosEq = (barPos[0].getX() == position.getX() && barPos[0].getY() == position.getY()) ||
                 (barPos[1].getX() == position.getX() && barPos[1].getY() == position.getY());
 
-        if (entity.getMountedEntity() == null && barPosEq) {
-            return true;
-        }
+        return entity.getMountedEntity() == null && barPosEq;
 
-        return false;
     }
 
     private Position[] getBarPositions() {

@@ -33,7 +33,7 @@ public class NetworkChannelInitializer extends ChannelInitializer<SocketChannel>
     }
 
     @Override
-    protected void initChannel(SocketChannel ch) throws Exception {
+    protected void initChannel(SocketChannel ch) {
         // Check if we should register the client or disconnect it
         final String ipAddress = ch.remoteAddress().getAddress().getHostAddress();
 

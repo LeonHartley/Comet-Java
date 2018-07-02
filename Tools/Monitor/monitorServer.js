@@ -6,7 +6,7 @@ var clients = [];
 var handshake = {
   "name": "hello",
   "message": ""
-}
+};
 
 net.createServer(function (socket) {
 
@@ -70,7 +70,7 @@ var broadcast = function(msg) {
   clients.forEach(function(cli) {
     cli.write(JSON.stringify(msg));
   });
-}
+};
 
 var getServerList = function() {
   var serverList = [];
@@ -80,7 +80,7 @@ var getServerList = function() {
   });
 
   return serverList;
-}
+};
 
 exports.broadcast = broadcast;
 exports.getServerList = getServerList;

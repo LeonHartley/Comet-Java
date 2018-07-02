@@ -10,10 +10,9 @@ public class JsonTransformer implements ResponseTransformer {
      *
      * @param o The object which we need to transform into JSON format
      * @return JSON formatted string
-     * @throws Exception
      */
     @Override
-    public String render(Object o) throws Exception {
+    public String render(Object o) {
         try {
             String gsonString = JsonUtil.getInstance().toJson(o);
 

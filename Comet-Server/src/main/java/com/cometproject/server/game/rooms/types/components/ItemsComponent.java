@@ -608,9 +608,7 @@ public class ItemsComponent {
         }
 
         if (!CometSettings.roomCanPlaceItemOnEntity) {
-            if (tile.getEntities().size() != 0) {
-                return false;
-            }
+            return tile.getEntities().size() == 0;
         }
 
         return true;

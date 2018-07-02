@@ -255,11 +255,8 @@ public class Position {
             return true;
         }
 
-        if (this.getX() == pos.getX() && this.getY() == pos.getY()) {
-            return true;
-        }
+        return this.getX() == pos.getX() && this.getY() == pos.getY();
 
-        return false;
     }
 
     public Position copy() {

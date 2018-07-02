@@ -52,8 +52,7 @@ public class EntityComponent {
         RoomTile tile = this.getRoom().getMapping().getTile(position.getX(), position.getY());
 
         if (tile != null) {
-            if (tile.getEntities().size() != 0)
-                return true;
+            return tile.getEntities().size() != 0;
         }
 
         return false;

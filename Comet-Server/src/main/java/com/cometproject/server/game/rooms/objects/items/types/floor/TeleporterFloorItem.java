@@ -104,7 +104,7 @@ public class TeleporterFloorItem extends AdvancedFloorItem<TeleporterFloorItem.T
 
                         if (RoomManager.getInstance().get(roomId) != null) {
                             if (event.outgoingEntity != null) {
-                                PlayerEntity pEntity = (PlayerEntity) event.outgoingEntity;
+                                PlayerEntity pEntity = event.outgoingEntity;
 
                                 if (pEntity.getPlayer() != null && pEntity.getPlayer().getSession() != null) {
                                     pEntity.getPlayer().setTeleportId(pairId);

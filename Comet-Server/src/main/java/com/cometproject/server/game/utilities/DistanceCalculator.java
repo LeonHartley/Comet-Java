@@ -17,11 +17,8 @@ public class DistanceCalculator {
             return true;
         }
 
-        if (pos1X == pos2X && pos1Y == pos2Y) {
-            return true;
-        }
+        return pos1X == pos2X && pos1Y == pos2Y;
 
-        return false;
     }
 
     public static boolean tilesTouching(Position pos1, Position pos2) {

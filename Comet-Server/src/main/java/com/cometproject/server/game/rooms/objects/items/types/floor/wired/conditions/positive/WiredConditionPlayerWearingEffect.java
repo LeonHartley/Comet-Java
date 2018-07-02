@@ -36,6 +36,6 @@ public class WiredConditionPlayerWearingEffect extends WiredConditionItem {
             }
         }
 
-        return isNegative ? !isWearingEffect : isWearingEffect;
+        return isNegative != isWearingEffect;
     }
 }

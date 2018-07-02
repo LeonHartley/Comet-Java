@@ -9,7 +9,7 @@ public class JsonRouteTransformer implements ResponseTransformer {
     private final Gson gson = new Gson();
 
     @Override
-    public String render(Object o) throws Exception {
+    public String render(Object o) {
         return gson.toJson(o);
     }
 

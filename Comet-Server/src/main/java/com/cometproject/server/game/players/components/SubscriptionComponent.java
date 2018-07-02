@@ -32,11 +32,7 @@ public class SubscriptionComponent extends PlayerComponent {
     }
 
     public boolean isValid() {
-        if (this.getExpire() <= Comet.getTime()) {
-            return false;
-        }
-
-        return true;
+        return this.getExpire() > Comet.getTime();
     }
 
     public boolean exists() {

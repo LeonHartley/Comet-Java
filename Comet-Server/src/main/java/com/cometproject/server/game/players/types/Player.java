@@ -627,9 +627,8 @@ public class Player implements IPlayer {
     }
 
     public boolean hasQueued(int id) {
-        if (roomQueueId == id) return true;
+        return roomQueueId == id;
 
-        return false;
     }
 
     public void setRoomQueueId(int id) {
@@ -637,11 +636,8 @@ public class Player implements IPlayer {
     }
 
     public boolean isSpectating(int id) {
-        if (this.spectatorRoomId == id) {
-            return true;
-        }
+        return this.spectatorRoomId == id;
 
-        return false;
     }
 
     public void setSpectatorRoomId(int id) {

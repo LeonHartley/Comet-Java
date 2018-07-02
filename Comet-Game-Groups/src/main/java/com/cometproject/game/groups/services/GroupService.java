@@ -146,9 +146,7 @@ public class GroupService implements IGroupService {
             });
         }
 
-        if (group.getMembers().getAll().containsKey(groupMember.getPlayerId())) {
-            group.getMembers().getAll().remove(groupMember.getPlayerId());
-        }
+        group.getMembers().getAll().remove(groupMember.getPlayerId());
 
         if (groupMember.getAccessLevel().isAdmin()) {
             group.getMembers().getAdministrators().add(groupMember.getPlayerId());

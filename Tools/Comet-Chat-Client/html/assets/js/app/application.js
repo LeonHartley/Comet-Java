@@ -7,4 +7,4 @@ var CometIM = {
 	},
 
 	isAuthenticated: false
-}
+};

@@ -38,10 +38,7 @@ public class MessengerFriend implements IMessengerFriend {
             return false;
         }
 
-        if (!client.getPlayer().getEntity().isVisible())
-            return false;
-
-        return true;
+        return client.getPlayer().getEntity().isVisible();
     }
 
     @Override

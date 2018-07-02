@@ -5,5 +5,5 @@ import com.cometproject.server.protocol.messages.MessageEvent;
 
 
 public interface Event {
-    public void handle(Session client, MessageEvent msg) throws Exception;
+    void handle(Session client, MessageEvent msg) throws Exception;
 }
