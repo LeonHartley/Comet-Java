@@ -95,4 +95,8 @@ public interface IPlayerData extends PlayerAvatar {
     int getQuestId();
 
     void setQuestId(int questId);
+
+    String getNameColour();
+
+    void setNameColour(String nameColour);
 }

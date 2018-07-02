@@ -19,20 +19,32 @@ import com.cometproject.server.network.messages.MessageHandler;
 import com.cometproject.server.network.monitor.MonitorClient;
 import com.cometproject.server.network.sessions.SessionManager;
 import com.cometproject.server.network.sessions.net.NetSessionFactory;
+import com.cometproject.server.network.websocket.WebSocketServer;
+import com.cometproject.server.network.ws.WsMessageHandler;
 import com.cometproject.server.protocol.security.exchange.RSA;
 import com.google.common.collect.Sets;
 import io.coerce.commons.config.CoerceConfiguration;
 import io.coerce.services.messaging.client.MessagingClient;
 import io.netty.bootstrap.ServerBootstrap;
+import io.netty.channel.ChannelInitializer;
+import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.SocketChannel;
+import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.http.HttpObjectAggregator;
+import io.netty.handler.codec.http.HttpRequestDecoder;
+import io.netty.handler.codec.http.HttpResponseEncoder;
+import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 import io.netty.util.ResourceLeakDetector;
 import io.netty.util.internal.logging.InternalLoggerFactory;
 import io.netty.util.internal.logging.Log4JLoggerFactory;
 import org.apache.log4j.Logger;
+import org.jboss.netty.handler.codec.http.HttpChunkAggregator;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.util.Set;
 
 
@@ -105,6 +117,26 @@ public class NetworkManager {
                         new StatusResponse(Comet.getStats(), Comet.getBuild()));
             }));
 
+            final ServerBootstrap sb = new ServerBootstrap();
+            sb.group(new NioEventLoopGroup(), new NioEventLoopGroup())
+                    .channel(NioServerSocketChannel.class)
+                    .localAddress(new InetSocketAddress(30002))
+                    .childHandler(new ChannelInitializer<SocketChannel>() {
+                        @Override
+                        public void initChannel(final SocketChannel ch) throws Exception {
+                            ch.pipeline().addLast(
+                                    new HttpRequestDecoder(),
+                                    new HttpObjectAggregator(65536),
+                                    new HttpResponseEncoder(),
+                                    new WebSocketServerProtocolHandler("/comet"), new WsMessageHandler());
+
+                        }
+                    });
+
+            sb.bind();
+
+//            WebSocketServer.getInstance().initialize();
+
             final InetAddress address = InetAddress.getLocalHost();
 //            final InetAddress address = Address.getByName("master.cometproject.com");
 
@@ -148,10 +180,6 @@ public class NetworkManager {
                 sessionFactory);
 
         gameServer.start();
-    }
-
-    private void bind(ServerBootstrap bootstrap, String ip, int port) {
-
     }
 
     public SessionManager getSessions() {

@@ -1,5 +1,6 @@
 package com.cometproject.server.network;
 
+import com.cometproject.api.config.CometSettings;
 import com.cometproject.networking.api.sessions.INetSessionFactory;
 import com.cometproject.server.network.clients.ClientHandler;
 import com.cometproject.server.network.sessions.SessionAccessLog;
@@ -39,7 +40,7 @@ public class NetworkChannelInitializer extends ChannelInitializer<SocketChannel>
 
         final Map<String, SessionAccessLog> accessLog = NetworkManager.getInstance().getSessions().getAccessLog();
 
-        if (NetworkManager.getInstance().getSessions().getAccessLog().containsKey(ipAddress)) {
+        if (CometSettings.maxConnectionsBlockSuspicious && NetworkManager.getInstance().getSessions().getAccessLog().containsKey(ipAddress)) {
             final SessionAccessLog sessionAccessLog = accessLog.get(ipAddress);
 
             if (sessionAccessLog.isSuspicious()) {

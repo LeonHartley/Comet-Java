@@ -39,6 +39,8 @@ public class PlayerSettings implements IPlayerSettings {
     private int navigatorWidth;
     private boolean navigatorShowSearches;
 
+    private boolean disableWhisper;
+
     private boolean ignoreEvents;
 
     public PlayerSettings(ResultSet data, boolean isLogin) throws SQLException {
@@ -265,5 +267,13 @@ public class PlayerSettings implements IPlayerSettings {
 
     public void setNavigatorShowSearches(boolean navigatorShowSearches) {
         this.navigatorShowSearches = navigatorShowSearches;
+    }
+
+    public boolean isIgnoreEvents() {
+        return ignoreEvents;
+    }
+
+    public void setIgnoreEvents(boolean ignoreEvents) {
+        this.ignoreEvents = ignoreEvents;
     }
 }

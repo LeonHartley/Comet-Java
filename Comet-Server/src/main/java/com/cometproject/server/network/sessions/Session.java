@@ -13,6 +13,8 @@ import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorI
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.protocol.security.exchange.DiffieHellman;
 import com.cometproject.server.storage.queries.player.PlayerDao;
+import com.corundumstudio.socketio.SocketIOClient;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import org.apache.log4j.Logger;
 
@@ -30,6 +32,8 @@ public class Session implements ISession {
     private String uniqueId = "";
     private Player player;
     private boolean disconnectCalled = false;
+
+    private ChannelHandlerContext wsChannel;
 
     private DiffieHellman diffieHellman;
     private long lastPing = Comet.getTime();
@@ -193,5 +197,13 @@ public class Session implements ISession {
 
     public void setLastPing(long lastPing) {
         this.lastPing = lastPing;
+    }
+
+    public ChannelHandlerContext getWsChannel() {
+        return wsChannel;
+    }
+
+    public void setWsChannel(ChannelHandlerContext wsChannel) {
+        this.wsChannel = wsChannel;
     }
 }

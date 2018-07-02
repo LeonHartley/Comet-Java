@@ -36,6 +36,7 @@ import com.cometproject.server.game.commands.user.settings.DisableCommand;
 import com.cometproject.server.game.commands.user.settings.EnableCommand;
 import com.cometproject.server.game.commands.user.settings.ToggleEventsCommand;
 import com.cometproject.server.game.commands.user.settings.ToggleFriendsCommand;
+import com.cometproject.server.game.commands.user.ws.RoomVideoCommand;
 import com.cometproject.server.game.commands.vip.*;
 import com.cometproject.server.game.permissions.PermissionsManager;
 import com.cometproject.server.logging.LogManager;
@@ -102,7 +103,7 @@ public class CommandManager implements Initialisable {
         }
 
         this.addCommand("itemid", new ItemVirtualIdCommand());
-//        this.addCommand("comet", new CometCommand());
+        this.addCommand("comet", new CometCommand());
     }
 
     /**
@@ -153,6 +154,7 @@ public class CommandManager implements Initialisable {
         this.addCommand(Locale.get("command.togglediagonal.name"), new ToggleDiagonalCommand());
         this.addCommand(Locale.get("command.fastwalk.name"), new FastWalkCommand());
         this.addCommand(Locale.get("command.hidewired.name"), new HideWiredCommand());
+        this.addCommand(Locale.get("command.roomvideo.name"), new RoomVideoCommand());
 
         // Gimmick commands
         this.addCommand(Locale.get("command.slap.name"), new SlapCommand());

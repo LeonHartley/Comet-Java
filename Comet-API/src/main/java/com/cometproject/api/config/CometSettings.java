@@ -86,6 +86,7 @@ public class CometSettings {
     public static int wiredMaxEffects = 10;
     public static int wiredMaxTriggers = 10;
     public static int wiredMaxExecuteStacks = 5;
+    public static boolean maxConnectionsBlockSuspicious = true;
 
     private static final Logger log = Logger.getLogger(CometSettings.class.getName());
 

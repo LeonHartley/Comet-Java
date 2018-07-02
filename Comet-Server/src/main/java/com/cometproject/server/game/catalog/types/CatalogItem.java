@@ -206,7 +206,7 @@ public class CatalogItem implements ICatalogItem {
         } else {
             msg.writeInt(this.isBadgeOnly() ? 1 : this.getItems().size() + 1);
             msg.writeString("b");
-            msg.writeString(this.getBadgeId());
+            msg.writeString(this.getBadgeId().split(",")[0]);
         }
 
         if (!this.isBadgeOnly()) {

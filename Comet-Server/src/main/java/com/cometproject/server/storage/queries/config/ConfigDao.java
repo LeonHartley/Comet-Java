@@ -63,6 +63,7 @@ public class ConfigDao {
                 CometSettings.cameraUploadUrl = config.getString("camera_photo_upload_url");
 
                 CometSettings.maxConnectionsPerIpAddress = config.getInt("max_connections_per_ip");
+                CometSettings.maxConnectionsBlockSuspicious = config.getBoolean("max_connections_block_suspicious");
                 CometSettings.groupChatEnabled = config.getBoolean("group_chat_enabled");
                 CometSettings.logCatalogPurchases = config.getBoolean("log_catalog_purchases");
                 CometSettings.hallOfFameEnabled = config.getBoolean("hall_of_fame_enabled");

@@ -122,7 +122,7 @@ public class PlayerData implements IPlayerData {
     }
 
     public void saveNow() {
-        PlayerDao.updatePlayerData(id, username, motto, figure, credits, vipPoints, gender, favouriteGroup, activityPoints, seasonalPoints, questId, achievementPoints);
+        PlayerDao.updatePlayerData(id, username, motto, figure, credits, vipPoints, gender, favouriteGroup, activityPoints, seasonalPoints, questId, achievementPoints, nameColour);
     }
 
     public void decreaseCredits(int amount) {
@@ -331,6 +331,11 @@ public class PlayerData implements IPlayerData {
 
     public String getNameColour() {
         return this.nameColour;
+    }
+
+    @Override
+    public void setNameColour(String nameColour) {
+        this.nameColour = nameColour;
     }
 
     public int getSeasonalPoints() {

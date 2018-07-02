@@ -451,7 +451,8 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
             return false;
 
         if (!this.getPlayer().getData().getNameColour().equals("000000")) {
-            this.getRoom().getEntities().broadcastMessage(new UserNameChangeMessageComposer(this.getRoom().getId(), this.getId(), String.format("<font colour='#%s'>%s</font>", this.getPlayer().getData().getNameColour(), this.getUsername())));
+            this.sendNameChange();
+
         }
 
         try {
@@ -494,6 +495,26 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
 
         this.unIdle();
         return true;
+    }
+
+    private void sendNameChange() {
+        final StringBuilder username = new StringBuilder();
+        final String format = "<font color='#%s'>%s</font>";
+        final String colour = this.getPlayer().getData().getNameColour();
+
+        if (colour.contains(",")) {
+            final String[] colours = colour.split(",");
+            boolean alternate = true;
+
+            for (char c : this.getUsername().toCharArray()) {
+                username.append(String.format(format, colours[alternate ? 1 : 0], c));
+                alternate = !alternate;
+            }
+        } else {
+            username.append(String.format(format, colour, this.getUsername()));
+        }
+
+        this.getRoom().getEntities().broadcastMessage(new UserNameChangeMessageComposer(this.getRoom().getId(), this.getId(), username.toString()));
     }
 
     public void postChat(String message) {

@@ -22,8 +22,12 @@ public class ListenCommand extends ChatCommand {
             return;
         }
 
-        session.getPlayer().getListeningPlayers().add(client.getPlayer().getId());
-        sendNotif(Locale.get("command.listen.listening").replace("%username%", session.getPlayer().getData().getUsername()), client);
+        if(session.getPlayer().getListeningPlayers().contains(client.getPlayer().getId())) {
+            session.getPlayer().getListeningPlayers().remove(client.getPlayer().getId());
+        } else {
+            session.getPlayer().getListeningPlayers().add(client.getPlayer().getId());
+            sendNotif(Locale.get("command.listen.listening").replace("%username%", session.getPlayer().getData().getUsername()), client);
+        }
     }
 
     @Override

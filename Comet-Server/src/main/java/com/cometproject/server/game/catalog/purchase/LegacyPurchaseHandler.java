@@ -249,9 +249,12 @@ public class LegacyPurchaseHandler implements ICatalogPurchaseHandler {
             }
 
             if (item.isBadgeOnly()) {
-
-                if (item.hasBadge() && !client.getPlayer().getInventory().hasBadge(item.getBadgeId())) {
-                    client.getPlayer().getInventory().addBadge(item.getBadgeId(), true);
+                if(item.getPresetData().equals("name_colour")) {
+                    client.getPlayer().getData().setNameColour(item.getBadgeId());
+                } else {
+                    if (item.hasBadge() && !client.getPlayer().getInventory().hasBadge(item.getBadgeId())) {
+                        client.getPlayer().getInventory().addBadge(item.getBadgeId(), true);
+                    }
                 }
 
                 client.send(new BoughtItemMessageComposer(BoughtItemMessageComposer.PurchaseType.BADGE));

@@ -8,7 +8,7 @@ import com.corundumstudio.socketio.listener.DataListener;
 import java.util.HashMap;
 
 public class AuthListener implements DataListener<AuthenticationRequest> {
-    public static final String EVENT_NAME = "messengerAuthRequest";
+    public static final String EVENT_NAME = "auth";
     private static final String AUTH_OK = "authok";
 
     @Override
