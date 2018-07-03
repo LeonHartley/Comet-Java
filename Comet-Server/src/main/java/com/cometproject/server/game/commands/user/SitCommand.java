@@ -17,29 +17,45 @@ public class SitCommand extends ChatCommand {
 
             int rotation = playerEntity.getBodyRotation();
 
-            switch (rotation) {
-                case 1: {
-                    rotation++;
-                    break;
-                }
-                case 3: {
-                    rotation++;
-                    break;
-                }
-                case 5: {
-                    rotation++;
-                }
-            }
+            rotation = getRotation(rotation);
 
             playerEntity.addStatus(RoomEntityStatus.SIT, String.valueOf(height));
             playerEntity.setBodyRotation(rotation);
             playerEntity.markNeedsUpdate();
 
             isExecuted(client);
+        } else if (playerEntity.hasStatus(RoomEntityStatus.LAY)) {
+            playerEntity.removeStatus(RoomEntityStatus.LAY);
+            double height = 0.5;
+
+            int rotation = playerEntity.getBodyRotation();
+
+            rotation = getRotation(rotation);
+
+            playerEntity.addStatus(RoomEntityStatus.SIT, String.valueOf(height));
+            playerEntity.setBodyRotation(rotation);
+            playerEntity.markNeedsUpdate();
         } else {
             playerEntity.removeStatus(RoomEntityStatus.SIT);
             playerEntity.markNeedsUpdate();
         }
+    }
+
+    public static int getRotation(int rotation) {
+        switch (rotation) {
+            case 1: {
+                rotation++;
+                break;
+            }
+            case 3: {
+                rotation++;
+                break;
+            }
+            case 5: {
+                rotation++;
+            }
+        }
+        return rotation;
     }
 
     @Override
