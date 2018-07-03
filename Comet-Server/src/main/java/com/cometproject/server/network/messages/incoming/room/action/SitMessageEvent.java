@@ -18,19 +18,7 @@ public class SitMessageEvent implements Event {
             }
 
             if (!playerEntity.hasStatus(RoomEntityStatus.SIT)) {
-                double height = 0.5;
-
-                //for (RoomItemFloor roomItemFloor : playerEntity.getRoom().getItems().getItemsOnSquare(playerEntity.getPosition().getX(), playerEntity.getPosition().getY())) {
-                //    height += roomItemFloor.getHeight();
-                //}
-
-                int rotation = playerEntity.getBodyRotation();
-
-                rotation = SitCommand.getRotation(rotation);
-
-                playerEntity.addStatus(RoomEntityStatus.SIT, String.valueOf(height));
-                playerEntity.setBodyRotation(rotation);
-                playerEntity.markNeedsUpdate();
+                playerEntity.sit(0.5, playerEntity.getBodyRotation());
             }
         }
     }

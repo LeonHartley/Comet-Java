@@ -33,5 +33,6 @@ public class MySQLStorageInitializer implements IStorageInitializer {
         storageContext.setRoomItemRepository(new MySQLRoomItemRepository(connectionProvider));
         storageContext.setRoomRepository(new MySQLRoomRepository(new RoomDataFactory(), new RoomModelDataFactory(), connectionProvider));
         storageContext.setRewardRepository(new MySQLRewardRepository(connectionProvider));
+        storageContext.setPhotoRepository(new MySQLPhotoRepository(connectionProvider));
     }
 }

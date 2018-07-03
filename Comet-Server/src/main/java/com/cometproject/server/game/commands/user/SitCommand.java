@@ -6,56 +6,25 @@ import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.network.sessions.Session;
 
+import static com.cometproject.api.game.rooms.entities.RoomEntityStatus.LAY;
+import static com.cometproject.api.game.rooms.entities.RoomEntityStatus.SIT;
 
 public class SitCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
         PlayerEntity playerEntity = client.getPlayer().getEntity();
 
-        if (!playerEntity.hasStatus(RoomEntityStatus.SIT)) {
-            double height = 0.5;
+        if(playerEntity.hasStatus(SIT) && playerEntity.hasStatus(LAY)) {
+            playerEntity.removeStatus(LAY);
+            playerEntity.removeStatus(SIT);
+        }
 
-            int rotation = playerEntity.getBodyRotation();
-
-            rotation = getRotation(rotation);
-
-            playerEntity.addStatus(RoomEntityStatus.SIT, String.valueOf(height));
-            playerEntity.setBodyRotation(rotation);
-            playerEntity.markNeedsUpdate();
-
-            isExecuted(client);
-        } else if (playerEntity.hasStatus(RoomEntityStatus.LAY)) {
-            playerEntity.removeStatus(RoomEntityStatus.LAY);
-            double height = 0.5;
-
-            int rotation = playerEntity.getBodyRotation();
-
-            rotation = getRotation(rotation);
-
-            playerEntity.addStatus(RoomEntityStatus.SIT, String.valueOf(height));
-            playerEntity.setBodyRotation(rotation);
+        if(playerEntity.hasStatus(SIT)) {
+            playerEntity.removeStatus(SIT);
             playerEntity.markNeedsUpdate();
         } else {
-            playerEntity.removeStatus(RoomEntityStatus.SIT);
-            playerEntity.markNeedsUpdate();
+            playerEntity.sit(0.5, playerEntity.getBodyRotation());
         }
-    }
-
-    public static int getRotation(int rotation) {
-        switch (rotation) {
-            case 1: {
-                rotation++;
-                break;
-            }
-            case 3: {
-                rotation++;
-                break;
-            }
-            case 5: {
-                rotation++;
-            }
-        }
-        return rotation;
     }
 
     @Override

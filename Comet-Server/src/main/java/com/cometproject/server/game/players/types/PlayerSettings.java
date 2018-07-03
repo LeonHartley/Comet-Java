@@ -40,7 +40,6 @@ public class PlayerSettings implements IPlayerSettings {
     private boolean navigatorShowSearches;
 
     private boolean disableWhisper;
-
     private boolean ignoreEvents;
 
     public PlayerSettings(ResultSet data, boolean isLogin) throws SQLException {
@@ -91,6 +90,7 @@ public class PlayerSettings implements IPlayerSettings {
             this.navigatorShowSearches = data.getString("playerSettings_navigatorShowSearches").equals("1");
 
             this.ignoreEvents = data.getString("playerSettings_ignoreEvents").equalsIgnoreCase("1");
+            this.ignoreEvents = data.getString("playerSettings_disableWhisper").equalsIgnoreCase("1");
         } else {
             String volumeData = data.getString("volume");
 
@@ -138,6 +138,7 @@ public class PlayerSettings implements IPlayerSettings {
             this.navigatorShowSearches = data.getString("navigator_show_searches").equals("1");
 
             this.ignoreEvents = data.getString("ignore_events").equals("1");
+            this.disableWhisper = data.getString("disable_whisper").equals("1");
         }
     }
 
@@ -159,6 +160,7 @@ public class PlayerSettings implements IPlayerSettings {
         this.navigatorWidth = 425;
         this.navigatorHeight = 592;
         this.navigatorShowSearches = false;
+        this.disableWhisper = false;
     }
 
     public IVolumeData getVolumes() {

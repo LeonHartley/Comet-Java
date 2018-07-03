@@ -133,7 +133,7 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
 
     @Override
     public void moveTo(int x, int y) {
-        if(this.isWarped()) {
+        if (this.isWarped()) {
             return;
         }
 
@@ -224,6 +224,32 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
         // UnIdle the user and set the path (if the path has nodes it will mean the user is walking)
         this.unIdle();
         this.setWalkingPath(path);
+    }
+
+    public void sit(double height, int rotation) {
+        this.removeStatus(RoomEntityStatus.LAY);
+
+        this.addStatus(RoomEntityStatus.SIT, String.valueOf(height).replace(",", "."));
+        this.setHeadRotation(getSitRotation(rotation));
+        this.setBodyRotation(getSitRotation(rotation));
+        this.markNeedsUpdate();
+    }
+
+    private int getSitRotation(int rotation) {
+        switch (rotation) {
+            case 1: {
+                rotation++;
+                break;
+            }
+            case 3: {
+                rotation++;
+                break;
+            }
+            case 5: {
+                rotation++;
+            }
+        }
+        return rotation;
     }
 
     public void lookTo(int x, int y, boolean body) {

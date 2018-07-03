@@ -51,6 +51,7 @@ import com.cometproject.server.network.messages.outgoing.room.queue.RoomQueueSta
 import com.cometproject.server.network.messages.outgoing.room.settings.RoomRatingMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.PetInventoryMessageComposer;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.storage.queries.pets.RoomPetDao;
 import com.cometproject.server.utilities.attributes.Attributable;
 import org.apache.log4j.Logger;
@@ -514,7 +515,13 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
             username.append(String.format(format, colour, this.getUsername()));
         }
 
-        this.getRoom().getEntities().broadcastMessage(new UserNameChangeMessageComposer(this.getRoom().getId(), this.getId(), username.toString()));
+        final MessageComposer composer = new UserNameChangeMessageComposer(this.getRoom().getId(), this.getId(), username.toString());
+
+        for (PlayerEntity playerEntity : this.getRoom().getEntities().getPlayerEntities()) {
+            if (!playerEntity.getPlayer().getSettings().isUseOldChat()) {
+                playerEntity.getPlayer().getSession().send(composer);
+            }
+        }
     }
 
     public void postChat(String message) {

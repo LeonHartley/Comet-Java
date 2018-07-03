@@ -22,10 +22,12 @@ public class PurchasePhotoMessageEvent implements Event {
     @Override
     public void handle(Session client, MessageEvent msg) throws Exception {
         final String code = client.getPlayer().getLastPhoto();
+        final long time = System.currentTimeMillis();
+        final String photoUrl = CometSettings.cameraPhotoUrl.replace("%photoId%", code);
 
-        final String itemExtraData = "{\"t\":" + System.currentTimeMillis() + ",\"u\":\"" + code + "\",\"n\":\"" +
+        final String itemExtraData = "{\"t\":" + time + ",\"u\":\"" + code + "\",\"n\":\"" +
                 client.getPlayer().getData().getUsername() + "\",\"m\":\"\",\"s\":" + client.getPlayer().getId() + ",\"w\":\"" +
-                CometSettings.cameraPhotoUrl.replace("%photoId%", code) + "\"}";
+                photoUrl + "\"}";
 
         final Data<Long> itemIdData = Data.createEmpty();
         StorageContext.getCurrentContext().getRoomItemRepository().createItem(client.getPlayer().getId(), CometSettings.cameraPhotoItemId, itemExtraData, itemIdData::set);
@@ -41,5 +43,6 @@ public class PurchasePhotoMessageEvent implements Event {
         client.send(new PurchasedPhotoMessageComposer());
 
         client.getPlayer().getAchievements().progressAchievement(AchievementType.CAMERA_PHOTO, 1);
+        StorageContext.getCurrentContext().getPhotoRepository().savePhoto(client.getPlayer().getId(), client.getPlayer().getEntity().getRoom().getId(), photoUrl, (int) time/1000);
     }
 }

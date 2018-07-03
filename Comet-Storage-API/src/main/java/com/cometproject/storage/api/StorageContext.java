@@ -13,6 +13,7 @@ public final class StorageContext {
     private IRoomRepository roomRepository;
     private IInventoryRepository inventoryRepository;
     private IRewardRepository rewardRepository;
+    private IPhotoRepository photoRepository;
 
     public IGroupRepository getGroupRepository() {
         return groupRepository;
@@ -76,5 +77,13 @@ public final class StorageContext {
 
     public void setRewardRepository(IRewardRepository rewardRepository) {
         this.rewardRepository = rewardRepository;
+    }
+
+    public IPhotoRepository getPhotoRepository() {
+        return photoRepository;
+    }
+
+    public void setPhotoRepository(IPhotoRepository photoRepository) {
+        this.photoRepository = photoRepository;
     }
 }

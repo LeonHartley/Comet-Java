@@ -45,16 +45,10 @@ public class SeatFloorItem extends RoomItemFloor {
     }
 
     public void onEntityStepOn(RoomEntity entity, boolean instantUpdate) {
-        double height = (entity instanceof PetEntity || entity.hasAttribute("transformation")) ? this.getSitHeight() / 2 : this.getSitHeight();
-
-        entity.setBodyRotation(this.getRotation());
-        entity.setHeadRotation(this.getRotation());
-        entity.addStatus(RoomEntityStatus.SIT, String.valueOf(height).replace(',', '.'));
+        entity.sit(getSitHeight(), getRotation());
 
         if (instantUpdate)
             this.getRoom().getEntities().broadcastMessage(new AvatarUpdateMessageComposer(entity));
-        else
-            entity.markNeedsUpdate();
     }
 
     @Override
