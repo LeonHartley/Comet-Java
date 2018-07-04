@@ -6,6 +6,8 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredConditionItem;
 import com.cometproject.server.game.rooms.types.Room;
 
+import java.util.Set;
+
 
 public class WiredConditionFurniHasPlayers extends WiredConditionItem {
 
@@ -20,26 +22,24 @@ public class WiredConditionFurniHasPlayers extends WiredConditionItem {
 
     @Override
     public boolean evaluate(RoomEntity entity, Object data) {
-        int itemsWithUserCount = 0;
-        int itemsWithoutUsersCount = 0;
+        int itemsWithPlayers = 0;
+
 
         for (long itemId : this.getWiredData().getSelectedIds()) {
             RoomItemFloor floorItem = this.getRoom().getItems().getFloorItem(itemId);
 
             if (floorItem != null) {
                 if (floorItem.getEntitiesOnItem().size() != 0) {
-                    itemsWithUserCount++;
-                } else {
-                    itemsWithoutUsersCount++;
+                    System.out.format("%s, %s, %s\n", this.getId(), floorItem.getId(), floorItem.getTile().getEntity().getUsername());
+                    itemsWithPlayers++;
                 }
             }
         }
 
         if (isNegative) {
-            return itemsWithoutUsersCount == this.getWiredData().getSelectedIds().size();
-
+            return itemsWithPlayers == 0;
         } else {
-            return itemsWithUserCount == this.getWiredData().getSelectedIds().size();
+            return itemsWithPlayers == this.getWiredData().getSelectedIds().size();
         }
     }
 }

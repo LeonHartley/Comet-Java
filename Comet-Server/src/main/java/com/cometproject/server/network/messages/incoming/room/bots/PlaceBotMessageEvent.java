@@ -54,7 +54,7 @@ public class PlaceBotMessageEvent implements Event {
         BotEntity botEntity = room.getBots().addBot(bot, x, y, height);
         client.getPlayer().getBots().remove(botId);
 
-        tile.getEntities().add(botEntity);
+        botEntity.addToTile(tile);
 
         room.getEntities().broadcastMessage(new AvatarsMessageComposer(botEntity));
         client.send(new BotInventoryMessageComposer(client.getPlayer().getBots().getBots()));

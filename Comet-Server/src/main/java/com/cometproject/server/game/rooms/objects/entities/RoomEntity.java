@@ -19,6 +19,7 @@ import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.api.game.rooms.models.RoomTileState;
 import com.cometproject.server.network.messages.outgoing.room.avatar.*;
 import com.cometproject.server.utilities.collections.ConcurrentHashSet;
+import com.google.common.collect.Sets;
 
 import java.util.List;
 import java.util.Map;
@@ -55,6 +56,8 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
     private boolean canWalk = true;
     private boolean isIdle = false;
 
+    private final Set<RoomTile> tiles = Sets.newConcurrentHashSet();
+
     private boolean isRoomMuted = false;
 
     private long joinTime;
@@ -69,8 +72,10 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
 
     private boolean fastWalkEnabled = false;
     private boolean isWarped;
+    private RoomTile warpedTile;
     private boolean sendUpdateMessage = true;
     private boolean hasMount = false;
+
     private boolean warping;
 
     public RoomEntity(int identifier, Position startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
@@ -633,8 +638,12 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
     public void teleportToObject(RoomObject roomObject) {
         this.applyEffect(new PlayerEffect(4, 5));
 
-        final Position position = roomObject.getPosition();
+        final RoomTile tile = this.getRoom().getMapping().getTile(this.getPosition());
+        this.warpedTile = tile;
 
+        System.out.println("entities on current tile: " + tile.getEntities().size());
+
+        final Position position = roomObject.getPosition();
         position.setZ(roomObject.getTile().getWalkHeight());
 
         this.cancelWalk();
@@ -651,14 +660,13 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
         this.needsForcedUpdate = true;
 
         this.isWarped = true;
-
         final RoomTile tile = this.getRoom().getMapping().getTile(position);
 
         this.updateAndSetPosition(position);
         this.markNeedsUpdate();
 
         if (tile != null) {
-            tile.getEntities().add(this);
+            this.addToTile(tile);
 
             if (tile.getTopItemInstance() != null) {
                 if (tile.getTopItemInstance() instanceof SeatFloorItem)
@@ -840,5 +848,35 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
 
     public void setWarping(boolean warping) {
         this.warping = warping;
+    }
+
+    public RoomTile getWarpedTile() {
+        return warpedTile;
+    }
+
+    public void setWarpedTile(RoomTile warpedTile) {
+        this.warpedTile = warpedTile;
+    }
+
+    public void removeFromTile(RoomTile tile) {
+        tile.getEntities().remove(this);
+        this.tiles.remove(tile);
+    }
+
+    public void addToTile(RoomTile tile) {
+        if(this.tiles.size() != 0) {
+            for(RoomTile oldTile : this.tiles) {
+                oldTile.getEntities().remove(this);
+            }
+
+            this.tiles.clear();
+        }
+
+        tile.getEntities().add(this);
+        this.tiles.add(tile);
+    }
+
+    public Set<RoomTile> getTiles() {
+        return tiles;
     }
 }

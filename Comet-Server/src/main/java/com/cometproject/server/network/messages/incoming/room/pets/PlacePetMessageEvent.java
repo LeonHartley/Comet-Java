@@ -70,7 +70,7 @@ public class PlacePetMessageEvent implements Event {
                 floorItem.onEntityStepOn(petEntity);
             }
 
-            tile.getEntities().add(petEntity);
+            petEntity.addToTile(tile);
 
             client.getPlayer().getPets().removePet(pet.getId());
             client.send(new PetInventoryMessageComposer(client.getPlayer().getPets().getPets()));

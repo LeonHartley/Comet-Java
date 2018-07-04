@@ -296,11 +296,11 @@ public class ProcessComponent implements CometTask {
             final RoomTile newTile = this.getRoom().getMapping().getTile(newPosition.getX(), newPosition.getY());
 
             if (oldTile != null) {
-                oldTile.getEntities().remove(entity);
+                entity.removeFromTile(oldTile);
             }
 
             if (newTile != null) {
-                newTile.getEntities().add(entity);
+                entity.addToTile(newTile);
             }
 
             entity.updateAndSetPosition(null);
@@ -515,7 +515,7 @@ public class ProcessComponent implements CometTask {
                         }
                     }
 
-                    tile.getEntities().add(entity);
+                    entity.addToTile(tile);
                 } else {
                     if (entity.getWalkingPath() != null) {
                         entity.getWalkingPath().clear();

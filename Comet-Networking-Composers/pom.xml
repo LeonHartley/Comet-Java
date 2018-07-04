@@ -6,25 +6,25 @@
 
     <groupId>Comet</groupId>
     <artifactId>Comet-Networking-Composers</artifactId>
-    <version>2.9.6-TEST1</version>
+    <version>2.9.7-TEST1</version>
 
 
     <parent>
         <groupId>Comet</groupId>
         <artifactId>Comet-Parent</artifactId>
-        <version>2.9.6-TEST1</version>
+        <version>2.9.7-TEST1</version>
     </parent>
 
     <dependencies>
         <dependency>
             <groupId>Comet</groupId>
             <artifactId>Comet-API</artifactId>
-            <version>2.9.6-TEST1</version>
+            <version>2.9.7-TEST1</version>
         </dependency>
         <dependency>
             <groupId>Comet</groupId>
             <artifactId>Comet-Server-Protocol</artifactId>
-            <version>2.9.6-TEST1</version>
+            <version>2.9.7-TEST1</version>
         </dependency>
     </dependencies>
 

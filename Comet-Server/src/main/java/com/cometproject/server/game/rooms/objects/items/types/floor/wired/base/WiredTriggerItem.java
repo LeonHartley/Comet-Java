@@ -120,9 +120,9 @@ public abstract class WiredTriggerItem extends WiredFloorItem {
 
             for (Map.Entry<WiredConditionItem, AtomicBoolean> conditionState : completedConditions.entrySet()) {
                 if (conditionState.getKey() instanceof WiredConditionHasFurniOn && !(conditionState.getKey() instanceof WiredNegativeConditionHasFurniOn)) {
-                    final WiredConditionHasFurniOn conditionHasFurniOn = (WiredConditionHasFurniOn) conditionState.getKey();
+//                    final WiredConditionHasFurniOn conditionHasFurniOn = (WiredConditionHasFurniOn) conditionState.getKey();
 
-                    if (conditionState.getValue().get() && conditionHasFurniOn.getMode() == 1) {
+                    if (conditionState.getValue().get()) {
                         hasSuccessfulOnStack = true;
                     } else {
                         if (!hasSuccessfulOnStack) {

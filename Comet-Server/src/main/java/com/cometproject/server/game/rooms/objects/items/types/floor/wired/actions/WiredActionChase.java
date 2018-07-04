@@ -2,6 +2,7 @@ package com.cometproject.server.game.rooms.objects.items.types.floor.wired.actio
 
 import com.cometproject.api.game.rooms.objects.data.RoomItemData;
 import com.cometproject.api.game.utilities.Position;
+import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Pathfinder;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Square;
@@ -24,17 +25,10 @@ public class WiredActionChase extends WiredActionItem {
     private int targetId = -1;
 
     /**
-     * The default constructor
+     * Wired action to chase room entity
      *
-     * @param id       The ID of the item
-     * @param itemId   The ID of the item definition
-     * @param room     The instance of the room
-     * @param owner    The ID of the owner
-     * @param x        The position of the item on the X axis
-     * @param y        The position of the item on the Y axis
-     * @param z        The position of the item on the z axis
-     * @param rotation The orientation of the item
-     * @param data     The JSON object associated with this item
+     * @param itemData the item data
+     * @param room     the room
      */
     public WiredActionChase(RoomItemData itemData, Room room) {
         super(itemData, room);
@@ -61,6 +55,14 @@ public class WiredActionChase extends WiredActionItem {
 
             PlayerEntity nearestEntity = floorItem.nearestPlayerEntity();
             Position positionFrom = floorItem.getPosition().copy();
+
+            System.out.println("ticking, collision is " + floorItem.getCollision());
+
+            if (floorItem.getCollision() != null && this.isCollided(floorItem.getCollision(), floorItem)) {
+                System.out.println("triggered");
+                WiredTriggerCollision.executeTriggers(nearestEntity, floorItem);
+                continue;
+            }
 
             if (nearestEntity != null) {
                 if (this.isCollided(nearestEntity, floorItem)) {
@@ -97,7 +99,7 @@ public class WiredActionChase extends WiredActionItem {
         }
     }
 
-    public boolean isCollided(PlayerEntity entity, RoomItemFloor floorItem) {
+    public boolean isCollided(RoomEntity entity, RoomItemFloor floorItem) {
         boolean tilesTouching = entity.getPosition().touching(floorItem.getPosition());
 
         if (tilesTouching) {
@@ -127,7 +129,7 @@ public class WiredActionChase extends WiredActionItem {
             this.getRoom().getEntities().broadcastMessage(new SlideObjectBundleMessageComposer(from, to, 0, 0, floorItem.getVirtualId()));
         }
 
-        floorItem.nullifyCollision();
+//        floorItem.nullifyCollision();
 
         for (int collisionDirection : Position.COLLIDE_TILES) {
             final Position collisionPosition = floorItem.getPosition().squareInFront(collisionDirection);

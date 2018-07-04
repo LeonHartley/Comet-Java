@@ -82,7 +82,7 @@ public abstract class BreedingBoxFloorItem extends DefaultFloorItem {
 
         this.breeder.getSession().send(new PetBreedingCompleteMessageComposer(petData.getId(), rarityLevel.getLevelId()));
 
-        this.getTile().getEntities().add(petEntity);
+        petEntity.addToTile(this.getTile());
 
         ((PetAI) this.mother.getAI()).breedComplete();
         ((PetAI) this.father.getAI()).breedComplete();

@@ -295,7 +295,7 @@ public abstract class AbstractRoomProcess implements CometTask {
             final RoomTile newTile = this.getRoom().getMapping().getTile(newPosition.getX(), newPosition.getY());
 
             if (oldTile != null) {
-                oldTile.getEntities().remove(entity);
+                entity.removeFromTile(oldTile);
             }
 
             entity.updateAndSetPosition(null);
@@ -516,7 +516,7 @@ public abstract class AbstractRoomProcess implements CometTask {
                         }
                     }
 
-                    tile.getEntities().add(entity);
+                    entity.addToTile(tile);
                 } else {
                     if (entity.getWalkingPath() != null) {
                         entity.getWalkingPath().clear();

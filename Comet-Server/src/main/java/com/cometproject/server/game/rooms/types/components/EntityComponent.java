@@ -118,7 +118,7 @@ public class EntityComponent {
         final RoomTile tile = this.getRoom().getMapping().getTile(entity.getPosition());
 
         if (tile != null) {
-            tile.getEntities().remove(entity);
+            entity.removeFromTile(tile);
         }
 
         // Handle removing entity specifics
