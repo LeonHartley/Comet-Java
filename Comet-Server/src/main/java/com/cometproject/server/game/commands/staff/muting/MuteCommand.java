@@ -41,13 +41,15 @@ public class MuteCommand extends ChatCommand {
         try {
             if (playerId != -1) {
                 int time = Integer.parseInt(params[1]);
+                final int oneDaySeconds = 86400;
+                final int oneDayMinutes = oneDaySeconds / 60;
 
                 if (time < 0) {
                     sendNotif(Locale.getOrDefault("command.mute.negative", "You can only use positive numbers!"), client);
                     return;
-                } else if (time > 600 && !client.getPlayer().getPermissions().getRank().roomFullControl()) {
+                } else if (time > oneDayMinutes && !client.getPlayer().getPermissions().getRank().roomFullControl()) {
                     sendNotif(Locale.getOrDefault("command.mute.nomore", "You can only mute someone for no more than 600 seconds! The amount got changed to 600 seconds."), client);
-                    time = 600;
+                    time = oneDaySeconds;
                 }
 
                 final int timeMuted = (int) Comet.getTime() + time;

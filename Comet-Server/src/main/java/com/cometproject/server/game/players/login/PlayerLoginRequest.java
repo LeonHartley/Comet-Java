@@ -22,6 +22,7 @@ import com.cometproject.server.network.messages.outgoing.moderation.ModToolMessa
 import com.cometproject.server.network.messages.outgoing.navigator.FavouriteRoomsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.MotdNotificationMessageComposer;
+import com.cometproject.server.network.messages.outgoing.notification.NotificationMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.details.AvailabilityStatusMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.details.PlayerSettingsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.EffectsInventoryMessageComposer;
@@ -32,7 +33,6 @@ import com.cometproject.server.storage.queries.player.PlayerAccessDao;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManager;
-import com.cometproject.storage.mysql.queues.players.objects.PlayerStatusUpdate;
 import org.apache.commons.lang.StringUtils;
 
 import java.time.LocalDate;
@@ -126,9 +126,6 @@ public class PlayerLoginRequest implements CometTask {
 
             client.getLogger().debug(client.getPlayer().getData().getUsername() + " logged in");
 
-//            MySQLStorageQueues.instance().getPlayerStatusQueue().add(player.getId(),
-//                    new PlayerStatusUpdate(player.getId(), true, player.getSession().getIpAddress()));
-
             PlayerDao.updatePlayerStatus(player, true, true);
 
             client.sendQueue(new UniqueIDMessageComposer(client.getUniqueId()))
@@ -149,7 +146,7 @@ public class PlayerLoginRequest implements CometTask {
                 client.sendQueue(new MotdNotificationMessageComposer());
             }
 
-            if(CometSettings.onlineRewardDoubleDays.size() != 0) {
+            if (CometSettings.onlineRewardDoubleDays.size() != 0) {
                 LocalDate date = LocalDate.now();
 
                 if (CometSettings.onlineRewardDoubleDays.contains(date.getDayOfWeek())) {
@@ -158,6 +155,12 @@ public class PlayerLoginRequest implements CometTask {
             }
 
             client.flush();
+
+            if (client.getPlayer().getPermissions().getRank().sendLoginNotif() || player.getSettings().sendLoginNotif()) {
+                NetworkManager.getInstance().getSessions().broadcast(new NotificationMessageComposer("generic",
+                        Locale.getOrDefault("player.online", "%username% is online!")
+                                .replace("%username%", player.getData().getUsername())));
+            }
 
             // Process the achievements
             client.getPlayer().getAchievements().progressAchievement(AchievementType.LOGIN, 1);
@@ -194,10 +197,7 @@ public class PlayerLoginRequest implements CometTask {
 
             if (SessionManager.isLocked) {
                 client.send(new AlertMessageComposer("Hotel's closed, come back later!"));
-
-                CometThreadManager.getInstance().executeSchedule(() -> {
-                    client.disconnect();
-                }, 5, TimeUnit.SECONDS);
+                CometThreadManager.getInstance().executeSchedule(client::disconnect, 5, TimeUnit.SECONDS);
             }
 
             if (client.getPlayer().getData().getTimeMuted() != 0) {

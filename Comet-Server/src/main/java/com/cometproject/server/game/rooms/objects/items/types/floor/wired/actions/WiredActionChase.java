@@ -56,10 +56,7 @@ public class WiredActionChase extends WiredActionItem {
             PlayerEntity nearestEntity = floorItem.nearestPlayerEntity();
             Position positionFrom = floorItem.getPosition().copy();
 
-            System.out.println("ticking, collision is " + floorItem.getCollision());
-
             if (floorItem.getCollision() != null && this.isCollided(floorItem.getCollision(), floorItem)) {
-                System.out.println("triggered");
                 WiredTriggerCollision.executeTriggers(nearestEntity, floorItem);
                 continue;
             }

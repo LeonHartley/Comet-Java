@@ -31,6 +31,8 @@ public class EntityComponent {
     private final Map<Integer, Integer> playerIdToEntity = new ConcurrentHashMap<>();
     private final Map<Integer, Integer> botIdToEntity = new ConcurrentHashMap<>();
     private final Map<Integer, Integer> petIdToEntity = new ConcurrentHashMap<>();
+    private final Map<String, Integer> nameToPlayerEntity = new ConcurrentHashMap<>();
+
     private Room room;
     private AtomicInteger entityIdGenerator = new AtomicInteger();
 
@@ -100,6 +102,7 @@ public class EntityComponent {
         if (entity.getEntityType() == RoomEntityType.PLAYER) {
             PlayerEntity playerEntity = (PlayerEntity) entity;
 
+            this.nameToPlayerEntity.put(entity.getUsername(), entity.getId());
             this.playerIdToEntity.put(playerEntity.getPlayerId(), playerEntity.getId());
         } else if (entity.getEntityType() == RoomEntityType.BOT) {
             BotEntity botEntity = (BotEntity) entity;
@@ -126,6 +129,7 @@ public class EntityComponent {
             PlayerEntity playerEntity = (PlayerEntity) entity;
 
             this.playerIdToEntity.remove(playerEntity.getPlayerId());
+            this.nameToPlayerEntity.remove(playerEntity.getUsername());
         } else if (entity.getEntityType() == RoomEntityType.BOT) {
             BotEntity botEntity = (BotEntity) entity;
 
@@ -205,6 +209,16 @@ public class EntityComponent {
         }
 
         return (PlayerEntity) roomEntity;
+    }
+
+    public PlayerEntity getPlayerEntityByName(final String username) {
+        final Integer playerId = this.nameToPlayerEntity.get(username);
+
+        if (playerId != null) {
+            return this.getEntityByPlayerId(playerId);
+        }
+
+        return null;
     }
 
     public RoomEntity getEntityByName(String name, RoomEntityType type) {

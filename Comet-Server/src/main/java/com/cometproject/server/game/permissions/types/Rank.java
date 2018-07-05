@@ -27,10 +27,12 @@ public class Rank implements PlayerRank {
     private final boolean messengerLogChat;
     private final int messengerMaxFriends;
 
-    private boolean aboutDetailed;
-    private boolean aboutStats;
+    private final boolean aboutDetailed;
+    private final boolean aboutStats;
+    private final boolean loginNotif;
 
-    public Rank(int id, String name, boolean floodBypass, int floodTime, boolean disconnectable, boolean modTool, boolean bannable, boolean roomKickable, boolean roomFullControl, boolean roomMuteBypass, boolean roomFilterBypass, boolean roomIgnorable, boolean roomEnterFull, boolean roomEnterLocked, boolean roomStaffPick, boolean roomSeeWhispers, boolean messengerStaffChat, boolean messengerLogChat, int messengerMaxFriends, boolean aboutDetailed, boolean aboutStats) {
+    public Rank(int id, String name, boolean floodBypass, int floodTime, boolean disconnectable, boolean modTool, boolean bannable, boolean roomKickable, boolean roomFullControl,
+                boolean roomMuteBypass, boolean roomFilterBypass, boolean roomIgnorable, boolean roomEnterFull, boolean roomEnterLocked, boolean roomStaffPick, boolean roomSeeWhispers, boolean messengerStaffChat, boolean messengerLogChat, int messengerMaxFriends, boolean aboutDetailed, boolean aboutStats, boolean loginNotif) {
         this.id = id;
         this.name = name;
         this.floodBypass = floodBypass;
@@ -52,6 +54,7 @@ public class Rank implements PlayerRank {
         this.messengerMaxFriends = messengerMaxFriends;
         this.aboutDetailed = aboutDetailed;
         this.aboutStats = aboutStats;
+        this.loginNotif = loginNotif;
     }
 
     @Override
@@ -156,5 +159,9 @@ public class Rank implements PlayerRank {
 
     public boolean roomSeeWhispers() {
         return this.roomSeeWhispers;
+    }
+
+    public boolean sendLoginNotif() {
+        return loginNotif;
     }
 }

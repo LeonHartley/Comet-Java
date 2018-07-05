@@ -29,10 +29,7 @@ import com.cometproject.server.game.commands.user.group.EjectAllCommand;
 import com.cometproject.server.game.commands.user.muting.MuteBotsCommand;
 import com.cometproject.server.game.commands.user.muting.MutePetsCommand;
 import com.cometproject.server.game.commands.user.room.*;
-import com.cometproject.server.game.commands.user.settings.DisableCommand;
-import com.cometproject.server.game.commands.user.settings.EnableCommand;
-import com.cometproject.server.game.commands.user.settings.ToggleEventsCommand;
-import com.cometproject.server.game.commands.user.settings.ToggleFriendsCommand;
+import com.cometproject.server.game.commands.user.settings.*;
 import com.cometproject.server.game.commands.user.ws.RoomVideoCommand;
 import com.cometproject.server.game.commands.vip.*;
 import com.cometproject.server.game.moderation.ModerationManager;
@@ -154,6 +151,8 @@ public class CommandManager implements Initialisable {
         this.addCommand(Locale.get("command.fastwalk.name"), new FastWalkCommand());
         this.addCommand(Locale.get("command.hidewired.name"), new HideWiredCommand());
         this.addCommand(Locale.get("command.roomvideo.name"), new RoomVideoCommand());
+        this.addCommand(Locale.get("command.disablewhisper.name"), new DisableWhisperCommand());
+        this.addCommand(Locale.get("command.namecolour.name"), new NameColourCommand());
 
         // Gimmick commands
         this.addCommand(Locale.get("command.rob.name"), new RobCommand());
@@ -212,6 +211,7 @@ public class CommandManager implements Initialisable {
         this.addCommand(Locale.get("command.listen.name"), new ListenCommand());
         this.addCommand(Locale.get("command.staffalert.name"), new StaffAlertCommand());
         this.addCommand(Locale.get("command.staffinfo.name"), new StaffInfoCommand());
+        this.addCommand(Locale.get("command.roomnotification.name"), new RoomNotificationCommand());
 
         // New
         this.addCommand(Locale.get("command.advban.name"), new AdvBanCommand());
@@ -313,7 +313,7 @@ public class CommandManager implements Initialisable {
             try {
                 if (LogManager.ENABLED) {
                     LogManager.getInstance().getStore().getLogEntryContainer().put(new CommandLogEntry(client.getPlayer().getEntity().getRoom().getId(), client.getPlayer().getId(), message));
-                    if(client.getPlayer().getData().getRank() >= Integer.parseInt(Locale.getOrDefault("logchat.minrank", "5"))) {
+                    if (client.getPlayer().getData().getRank() >= Integer.parseInt(Locale.getOrDefault("logchat.minrank", "5"))) {
                         for (Session player : ModerationManager.getInstance().getLogChatUsers()) {
                             player.send(new InstantChatMessageComposer(Locale.getOrDefault("logchat.message", "%s executed command: %b at %c in Room: %d; [ID: %f]")
                                     .replace("%s", client.getPlayer().getData().getUsername())
@@ -377,7 +377,7 @@ public class CommandManager implements Initialisable {
 
     private void addCommand(String executor, ChatCommand command) {
         final List<String> keyList = Lists.newArrayList(executor.split(","));
-        for(String key : keyList) {
+        for (String key : keyList) {
             this.commands.put(":" + key, command);
         }
     }

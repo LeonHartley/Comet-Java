@@ -44,13 +44,18 @@ public class WhisperMessageEvent implements Event {
 
         final Room room = client.getPlayer().getEntity().getRoom();
 
-        RoomEntity userTo = room.getEntities().getEntityByName(user, RoomEntityType.PLAYER);
+        PlayerEntity userTo = room.getEntities().getPlayerEntityByName(user);
 
         if (userTo == null || user.equals(client.getPlayer().getData().getUsername()))
             return;
 
-        if (!((PlayerEntity) userTo).getPlayer().getEntity().isVisible())
+        if (!userTo.getPlayer().getEntity().isVisible())
             return;
+
+        if(userTo.getPlayer().getSettings().disableWhisper()) {
+
+            return;
+        }
 
         if (client.getPlayer().getChatMessageColour() != null) {
             message = "@" + client.getPlayer().getChatMessageColour() + "@" + message;
@@ -101,5 +106,6 @@ public class WhisperMessageEvent implements Event {
         }
 
         client.send(new WhisperMessageComposer(playerEntity.getId(), filteredMessage));
+        playerEntity.postChat(message);
     }
 }

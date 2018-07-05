@@ -19,10 +19,10 @@ public class NotificationCommand extends ChatCommand {
             message = this.merge(params);
         }
 
-        globalNotification(image, message);
+        globalNotification(image, message, client);
     }
 
-    protected void globalNotification(String image, String message) {
+    protected void globalNotification(String image, String message, Session client) {
         NetworkManager.getInstance().getSessions().broadcast(new NotificationMessageComposer(image, message));
     }
 

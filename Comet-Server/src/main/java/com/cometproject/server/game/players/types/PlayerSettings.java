@@ -42,6 +42,8 @@ public class PlayerSettings implements IPlayerSettings {
     private boolean disableWhisper;
     private boolean ignoreEvents;
 
+    private boolean sendLoginNotification;
+
     public PlayerSettings(ResultSet data, boolean isLogin) throws SQLException {
         if (isLogin) {
             String volumeData = data.getString("playerSettings_volume");
@@ -90,7 +92,8 @@ public class PlayerSettings implements IPlayerSettings {
             this.navigatorShowSearches = data.getString("playerSettings_navigatorShowSearches").equals("1");
 
             this.ignoreEvents = data.getString("playerSettings_ignoreEvents").equalsIgnoreCase("1");
-            this.ignoreEvents = data.getString("playerSettings_disableWhisper").equalsIgnoreCase("1");
+            this.disableWhisper = data.getString("playerSettings_disableWhisper").equalsIgnoreCase("1");
+            this.sendLoginNotification = data.getString("playerSettings_sendLoginNotif").equalsIgnoreCase("1");
         } else {
             String volumeData = data.getString("volume");
 
@@ -139,6 +142,7 @@ public class PlayerSettings implements IPlayerSettings {
 
             this.ignoreEvents = data.getString("ignore_events").equals("1");
             this.disableWhisper = data.getString("disable_whisper").equals("1");
+            this.sendLoginNotification = data.getString("send_login_notif").equals("1");
         }
     }
 
@@ -277,5 +281,21 @@ public class PlayerSettings implements IPlayerSettings {
 
     public void setIgnoreEvents(boolean ignoreEvents) {
         this.ignoreEvents = ignoreEvents;
+    }
+
+    public boolean disableWhisper() {
+        return disableWhisper;
+    }
+
+    public void setDisableWhisper(boolean disableWhisper) {
+        this.disableWhisper = disableWhisper;
+    }
+
+    public boolean sendLoginNotif() {
+        return sendLoginNotification;
+    }
+
+    public void setSendLoginNotification(boolean sendLoginNotification) {
+        this.sendLoginNotification = sendLoginNotification;
     }
 }
