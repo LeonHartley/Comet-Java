@@ -147,6 +147,10 @@ public class PlayerStatistics implements IPlayerStatistics {
         this.bans = bans;
     }
 
+    public void addBan() {
+        this.bans = this.bans + 1;
+    }
+
     @Override
     public int getScratches() {
         return scratches;

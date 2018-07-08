@@ -169,6 +169,7 @@ public class CommandManager implements Initialisable {
         this.addCommand(Locale.get("command.massmotd.name"), new MassMotdCommand());
         this.addCommand(Locale.get("command.hotelalert.name"), new HotelAlertCommand());
         this.addCommand(Locale.get("command.invisible.name"), new InvisibleCommand());
+        this.addCommand(Locale.get("command.superban.name"), new SuperBanCommand());
         this.addCommand(Locale.get("command.ban.name"), new BanCommand());
         this.addCommand(Locale.get("command.unban.name"), new UnBanCommand());
         this.addCommand(Locale.get("command.kick.name"), new KickCommand());

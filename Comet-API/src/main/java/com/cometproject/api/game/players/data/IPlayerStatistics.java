@@ -41,6 +41,8 @@ public interface IPlayerStatistics {
 
     void setBans(int bans);
 
+    void addBan();
+
     void setDailyRespects(int points);
 
     void setScratches(int scratches);

@@ -1,6 +1,5 @@
 package com.cometproject.server.game.commands.staff.banning;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.game.moderation.BanManager;
@@ -9,16 +8,15 @@ import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.sessions.Session;
 
 
-public class BanCommand extends ChatCommand {
+public class SuperBanCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
-        if (params.length < 2) {
+        if (params.length != 1) {
             sendNotif(Locale.getOrDefault("command.params.length", "Oops! You did something wrong!"), client);
             return;
         }
 
         String username = params[0];
-        int length = Integer.parseInt(params[1]);
 
         Session user = NetworkManager.getInstance().getSessions().getByPlayerUsername(username);
 
@@ -36,24 +34,24 @@ public class BanCommand extends ChatCommand {
 
         user.disconnect("banned");
 
-        long expire = Comet.getTime() + (length * 3600);
+        int expire = 2147472000; // Approximately latest timestamp
 
-        BanManager.getInstance().banPlayer(BanType.USER, user.getPlayer().getId() + "", length, expire, params.length > 2 ? this.merge(params, 2) : "", client.getPlayer().getId());
+        BanManager.getInstance().banPlayer(BanType.USER, Integer.toString(user.getPlayer().getId()), expire, expire, "Superban", client.getPlayer().getId());
     }
 
     @Override
     public String getPermission() {
-        return "ban_command";
+        return "superban_command";
     }
 
     @Override
     public String getParameter() {
-        return Locale.getOrDefault("command.parameter.ban", "%username% %time% %reason%");
+        return Locale.getOrDefault("command.parameter.superban", "%username%");
     }
 
     @Override
     public String getDescription() {
-        return Locale.get("command.ban.description");
+        return Locale.get("command.superban.description");
     }
 
     @Override

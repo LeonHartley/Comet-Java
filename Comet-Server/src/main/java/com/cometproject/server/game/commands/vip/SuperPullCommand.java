@@ -80,4 +80,9 @@ public class SuperPullCommand extends ChatCommand {
     public String getDescription() {
         return Locale.get("command.superpull.description");
     }
+
+    @Override
+    public boolean canDisable() {
+        return true;
+    }
 }

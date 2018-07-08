@@ -31,7 +31,7 @@ public class SoftBanCommand extends ChatCommand {
             return;
         }
 
-        client.getPlayer().getStats().setBans(client.getPlayer().getStats().getBans() + 1);
+        client.getPlayer().getStats().addBan();
 
         user.disconnect("banned");
 

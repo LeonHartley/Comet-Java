@@ -55,12 +55,17 @@ public class PointsCommand extends ChatCommand {
             return;
         }
 
+        String currency;
+
         if(diamonds) {
             session.getPlayer().getData().increaseVipPoints(points);
+            currency = "diamonds";
         } else if (seasonal) {
             session.getPlayer().getData().increaseSeasonalPoints(points);
+            currency = "seasonal";
         } else {
             session.getPlayer().getData().increaseActivityPoints(points);
+            currency = "duckets";
         }
 
         session.getPlayer().getData().save();
@@ -68,6 +73,7 @@ public class PointsCommand extends ChatCommand {
         session.send(new AdvancedAlertMessageComposer(
                 Locale.get("command.points.successtitle"),
                 Locale.get("command.points.successmessage").replace("%amount%", String.valueOf(points))
+                        .replace("%type%", Locale.getOrDefault("command.points.currency." + currency, currency))
         ));
 
         session.send(session.getPlayer().composeCurrenciesBalance());
