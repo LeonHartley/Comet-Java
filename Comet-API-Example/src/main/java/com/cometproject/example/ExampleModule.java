@@ -34,7 +34,7 @@ public class ExampleModule extends BaseModule {
 
     public void inventoryCommand(ISession session, String[] args) {
         if (!session.getPlayer().getInventory().itemsLoaded()) {
-            session.getPlayer().getInventory().loadItems();
+            session.getPlayer().getInventory().loadItems(0);
         }
 
         StringBuilder inventoryStr = new StringBuilder("Inventory:\n===================================================\n\n");

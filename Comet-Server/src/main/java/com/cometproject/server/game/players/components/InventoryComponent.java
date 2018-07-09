@@ -39,6 +39,9 @@ public class InventoryComponent extends PlayerComponent implements PlayerInvento
 
     private boolean itemsLoaded = false;
 
+    private boolean isViewingInventory = false;
+    private int viewingInventoryUser = 0;
+
     private int equippedEffect = -1;
     private Set<Integer> effects;
 
@@ -65,15 +68,18 @@ public class InventoryComponent extends PlayerComponent implements PlayerInvento
     }
 
     @Override
-    public void loadItems() {
+    public void loadItems(int userId) {
         this.itemsLoaded = true;
 
         if (this.inventoryItems.size() >= 1) {
             this.inventoryItems.clear();
         }
 
+        this.isViewingInventory = userId != 0;
+        this.viewingInventoryUser = userId;
+
         try {
-            Map<Long, PlayerItem> inventoryItems = InventoryDao.getInventoryByPlayerId(this.getPlayer().getId());
+            Map<Long, PlayerItem> inventoryItems = InventoryDao.getInventoryByPlayerId(userId == 0 ? this.getPlayer().getId() : userId);
 
             for (Map.Entry<Long, PlayerItem> item : inventoryItems.entrySet()) {
                 this.inventoryItems.put(item.getKey(), item.getValue());
@@ -219,6 +225,7 @@ public class InventoryComponent extends PlayerComponent implements PlayerInvento
         PlayerItem item = new InventoryItem(id, itemId, extraData, giftData, limitedEditionItem);
 
         this.inventoryItems.put(id, item);
+
         return item;
     }
 
@@ -318,5 +325,13 @@ public class InventoryComponent extends PlayerComponent implements PlayerInvento
 
     public void setEquippedEffect(int equippedEffect) {
         this.equippedEffect = equippedEffect;
+    }
+
+    public boolean isViewingInventory() {
+        return this.isViewingInventory;
+    }
+
+    public int viewingInventoryUserId() {
+        return this.viewingInventoryUser;
     }
 }

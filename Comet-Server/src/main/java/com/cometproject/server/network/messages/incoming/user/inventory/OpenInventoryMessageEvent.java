@@ -10,7 +10,7 @@ public class OpenInventoryMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) {
         PlayerManager.getInstance().getPlayerLoadExecutionService().submit(() -> {
             if (!client.getPlayer().getInventory().itemsLoaded()) {
-                client.getPlayer().getInventory().loadItems();
+                client.getPlayer().getInventory().loadItems(0);
             }
 
             client.getPlayer().getInventory().send();

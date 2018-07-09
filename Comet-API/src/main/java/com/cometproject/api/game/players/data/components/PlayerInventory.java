@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.Set;
 
 public interface PlayerInventory extends IPlayerComponent {
-    void loadItems();
+    void loadItems(int id);
 
     void loadBadges();
 
@@ -66,4 +66,8 @@ public interface PlayerInventory extends IPlayerComponent {
     void setEquippedEffect(int effectId);
 
     boolean itemsLoaded();
+
+    boolean isViewingInventory();
+
+    int viewingInventoryUserId();
 }

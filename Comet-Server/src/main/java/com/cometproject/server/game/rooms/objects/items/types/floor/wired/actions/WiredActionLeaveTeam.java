@@ -45,12 +45,13 @@ public class WiredActionLeaveTeam extends WiredActionItem {
         PlayerEntity playerEntity = ((PlayerEntity) event.entity);
 
         if (playerEntity.getGameTeam() == null) {
-            return; // entity already in a team!
+            return; // entity not in a team!
         }
 
         this.getRoom().getGame().removeFromTeam(playerEntity);
 
-        if (playerEntity.getCurrentEffect() != null && playerEntity.getCurrentEffect().getEffectId() == playerEntity.getGameTeam().getFreezeEffect()) {
+        if (playerEntity.getCurrentEffect() != null && (playerEntity.getCurrentEffect().getEffectId() == playerEntity.getGameTeam().getFreezeEffect()
+                || playerEntity.getCurrentEffect().getEffectId() == 4 && playerEntity.getCurrentEffect().getDuration() == 5)) {
             playerEntity.applyEffect(null);
 
         }

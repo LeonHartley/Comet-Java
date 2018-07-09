@@ -452,7 +452,7 @@ public class LegacyPurchaseHandler implements ICatalogPurchaseHandler {
 
                 final List<Long> newItems;
                 final Data<List<Long>> idsData = Data.createEmpty();
-                StorageContext.getCurrentContext().getRoomItemRepository().purchaseItems(purchases, idsData::set);
+                StorageContext.getCurrentContext().getRoomItemRepository().purchaseItems(purchases, idsData::set, client.getPlayer().getInventory().viewingInventoryUserId());
 
                 if (!idsData.has()) {
                     throw new Exception("Failed to insert items");

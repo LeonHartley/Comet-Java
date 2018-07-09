@@ -120,12 +120,12 @@ public class MySQLRoomItemRepository extends MySQLRepository implements IRoomIte
     }
 
     @Override
-    public void purchaseItems(List<CatalogPurchase> purchases, Consumer<List<Long>> idConsumer) {
+    public void purchaseItems(List<CatalogPurchase> purchases, Consumer<List<Long>> idConsumer, int viewingUserId) {
         final List<Long> itemIds = Lists.newArrayList();
 
         insertBatch("INSERT into items (`user_id`, `room_id`, `base_item`, `extra_data`, `x`, `y`, `z`, `rot`, `wall_pos`) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);", (stmt) -> {
             for(CatalogPurchase catalogPurchase : purchases) {
-                stmt.setInt(1, catalogPurchase.getPlayerId());
+                stmt.setInt(1, viewingUserId != 0 ? viewingUserId : catalogPurchase.getPlayerId());
                 stmt.setInt(2, 0);
                 stmt.setInt(3, catalogPurchase.getItemBaseId());
                 stmt.setString(4, catalogPurchase.getData());

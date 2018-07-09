@@ -33,7 +33,7 @@ public interface IRoomItemRepository {
 
     void createItem(int playerId, int itemId, String data, Consumer<Long> idConsumer);
 
-    void purchaseItems(List<CatalogPurchase> purchases, Consumer<List<Long>> idConsumer);
+    void purchaseItems(List<CatalogPurchase> purchases, Consumer<List<Long>> idConsumer, int viewingUser);
 
     void saveItemBatch(final Set<IRoomItemData> data);
 
