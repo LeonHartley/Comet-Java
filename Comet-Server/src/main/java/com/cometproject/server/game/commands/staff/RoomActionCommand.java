@@ -24,6 +24,9 @@ import java.util.List;
 
 
 public class RoomActionCommand extends ChatCommand {
+
+    private String logDesc = "";
+
     @Override
     public void execute(Session client, String[] params) {
         if (params.length < 1) {
@@ -137,6 +140,11 @@ public class RoomActionCommand extends ChatCommand {
 
                 break;
         }
+
+        this.logDesc = "El staff %s ha hecho roomaction en la sala '%b' con el parámetro %p"
+                .replace("%s", client.getPlayer().getData().getUsername())
+                .replace("%b", client.getPlayer().getEntity().getRoom().getData().getName())
+                .replace("%p", action);
     }
 
     @Override
@@ -152,5 +160,15 @@ public class RoomActionCommand extends ChatCommand {
     @Override
     public String getDescription() {
         return Locale.get("command.roomaction.description");
+    }
+
+    @Override
+    public String getLoggableDescription(){
+        return this.logDesc;
+    }
+
+    @Override
+    public boolean Loggable(){
+        return true;
     }
 }

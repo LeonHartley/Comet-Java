@@ -35,6 +35,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.condit
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.conditions.positive.custom.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.highscore.HighscoreClassicFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.*;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.custom.*;
 import com.cometproject.server.game.rooms.objects.items.types.wall.MoodlightWallItem;
 import com.cometproject.server.game.rooms.objects.items.types.wall.PostItWallItem;
 import com.cometproject.server.game.rooms.objects.items.types.wall.WheelWallItem;
@@ -103,6 +104,8 @@ public class RoomItemFactory {
             put("wf_act_bot_clothes", WiredActionBotClothes.class);//new
             put("wf_act_bot_follow_avatar", WiredActionBotFollowAvatar.class);//new
             put("wf_act_call_stacks", WiredActionExecuteStacks.class);//new
+            put("wf_xtra_random", WiredActionRandomEffect.class); // new
+
 
             put("wf_trg_says_something", WiredTriggerPlayerSaysKeyword.class);//new
             put("wf_trg_enter_room", WiredTriggerEnterRoom.class);//new
@@ -139,10 +142,10 @@ public class RoomItemFactory {
             put("wf_cnd_time_more_than", WiredConditionTimeMoreThan.class);//new
             put("wf_cnd_time_less_than", WiredConditionTimeLessThan.class);//new
             put("wf_cnd_actor_in_team", WiredConditionPlayerInTeam.class);//new
+            put("wf_cnd_not_in_team", WiredNegativeConditionPlayerInTeam.class);//new
             put("wf_cnd_stuff_is", WiredConditionStuffIs.class);//new
             put("wf_cnd_not_stuff_is", WiredNegativeConditionStuffIs.class);//new
 
-            put("wf_xtra_random", WiredAddonRandomEffect.class);
             put("wf_xtra_unseen", WiredAddonUnseenEffect.class);
 
             put("wf_floor_switch1", WiredAddonFloorSwitch.class);//new
@@ -156,6 +159,10 @@ public class RoomItemFactory {
             put("wf_blob", WiredAddonBlob.class);//new
 
             // Custom Ken's wireds
+            put("wf_trg_afkkkdormeur", WiredTriggerCustomIdle.class); // trigger
+            put("wf_trg_leave_room", WiredTriggerLeavesRoom.class); // trigger
+            put("wf_trg_cls_user1", WiredTriggerUsersCollide.class); // trigger
+
             put("wf_cstm_freeze", WiredCustomFreeze.class); // action
             put("wf_cstm_fswalk", WiredCustomFastWalk.class); // action
             put("wf_cstm_dancee", WiredCustomDance.class); // action
@@ -165,6 +172,8 @@ public class RoomItemFactory {
             put("wf_act_raise_furni", WiredCustomFurniUp.class); // action
             put("wf_act_lower_furni", WiredCustomFurniDown.class); // action
             put("wf_act_usr_clothes", WiredCustomChangeClothes.class); // action
+            put("wf_act_tiles", WiredCustomForceCollision.class); // action
+
             put("wf_cnd_habbo_has_diamonds", WiredConditionCustomHasDiamonds.class); // condition
             put("wf_cnd_not_habbo_has_diamonds", WiredNegativeConditionCustomHasDiamonds.class); // condition
             put("wf_cnd_habbo_has_duckets", WiredConditionCustomHasDuckets.class); // condition
@@ -173,6 +182,9 @@ public class RoomItemFactory {
             put("wf_cnd_habbo_not_danc", WiredNegativeConditionCustomHasDance.class); // condition
             put("wf_cnd_habbo_has_rank", WiredConditionCustomHasRank.class); // condition
             put("wf_cnd_habbo_not_rank", WiredNegativeConditionCustomHasRank.class); // condition
+            put("wf_cnd_actor_is_idley", WiredConditionCustomIsIdle.class); // condition
+            put("wf_cnd_actor_is_idlen", WiredNegativeConditionCustomIsIdle.class); // condition
+
 
             put("highscore_classic", HighscoreClassicFloorItem.class);
 

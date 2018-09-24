@@ -5,23 +5,24 @@ import com.cometproject.api.game.groups.IGroupItemService;
 import com.cometproject.api.game.groups.IGroupService;
 import com.cometproject.api.game.groups.types.IGroup;
 import com.cometproject.api.game.groups.types.IGroupData;
+import com.cometproject.api.game.groups.types.components.IForumComponent;
+import com.cometproject.api.game.groups.types.components.forum.ForumPermission;
 import com.cometproject.api.game.groups.types.components.forum.IForumSettings;
 import com.cometproject.api.game.groups.types.components.forum.IForumThread;
 import com.cometproject.api.game.groups.types.components.membership.GroupAccessLevel;
 import com.cometproject.api.game.groups.types.components.membership.IGroupMember;
 import com.cometproject.game.groups.factories.GroupFactory;
-import com.cometproject.game.groups.types.Group;
+import com.cometproject.game.groups.types.components.ForumComponent;
 import com.cometproject.storage.api.data.Data;
 import com.cometproject.storage.api.repositories.IGroupForumRepository;
 import com.cometproject.storage.api.repositories.IGroupMemberRepository;
 import com.cometproject.storage.api.repositories.IGroupRepository;
+import com.cometproject.storage.mysql.models.factories.GroupForumSettingsFactory;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class GroupService implements IGroupService {
 
@@ -119,12 +120,24 @@ public class GroupService implements IGroupService {
     }
 
     @Override
+    public void createForumSettings(IForumComponent forumComponent) {
+        // Queue to save?
+        this.groupRepository.createForumSettings(forumComponent);
+    }
+
+    @Override
     public void addForum(IGroup group) {
         group.getData().setHasForum(true);
         this.saveGroupData(group.getData());
 
-        // Add forum component to the group.
+        // Add forum component to the group. - me deprimo ken te lo juro
+        Map<Integer, IForumThread> forumThreads = new HashMap<>();
+        List<Integer> pinnedThreads = new ArrayList<>();
 
+        ForumComponent forumComponent = new ForumComponent(GroupForumSettingsFactory.createSettings(group.getData().getId(), ForumPermission.getById(0), ForumPermission.getById(1), ForumPermission.getById(1), ForumPermission.getById(2)), pinnedThreads, forumThreads);
+        group.setForum(forumComponent);
+
+        this.createForumSettings(forumComponent);
     }
 
     @Override

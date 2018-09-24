@@ -8,7 +8,6 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions.WiredActionExecuteStacks;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions.WiredActionKickUser;
-import com.cometproject.server.game.rooms.objects.items.types.floor.wired.addons.WiredAddonRandomEffect;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.addons.WiredAddonUnseenEffect;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.conditions.negative.WiredNegativeConditionHasFurniOn;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.conditions.negative.WiredNegativeConditionTriggererOnFurni;
@@ -64,7 +63,6 @@ public abstract class WiredTriggerItem extends WiredFloorItem {
             int executeStacksCount = 0;
 
             // used by addons
-            boolean useRandomEffect = false;
             WiredAddonUnseenEffect unseenEffectItem = null;
 
             boolean canExecute = true;
@@ -93,8 +91,6 @@ public abstract class WiredTriggerItem extends WiredFloorItem {
                 } else if (floorItem instanceof WiredAddonUnseenEffect && unseenEffectItem == null) {
 
                     unseenEffectItem = ((WiredAddonUnseenEffect) floorItem);
-                } else if (floorItem instanceof WiredAddonRandomEffect) {
-                    useRandomEffect = true;
                 }
             }
 
@@ -163,19 +159,7 @@ public abstract class WiredTriggerItem extends WiredFloorItem {
                 // event that called this wired trigger can do what it needs to do
                 boolean wasSuccess = false;
 
-                if (useRandomEffect) {
-                    int itemIndex = RandomUtil.getRandomInt(0, wiredActions.size() - 1);
-
-                    WiredActionItem actionItem = wiredActions.get(itemIndex);
-
-                    if (actionItem != null) {
-                        if (this.executeEffect(actionItem, entity, data)) {
-                            wasSuccess = true;
-                        }
-                    }
-
-                    return wasSuccess;
-                } else if (unseenEffectItem != null) {
+                if (unseenEffectItem != null) {
                     for (WiredActionItem actionItem : wiredActions) {
                         if (!unseenEffectItem.getSeenEffects().contains(actionItem.getId())) {
                             unseenEffectItem.getSeenEffects().add(actionItem.getId());

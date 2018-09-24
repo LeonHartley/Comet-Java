@@ -6,6 +6,9 @@ import com.cometproject.server.network.sessions.Session;
 import org.apache.commons.lang.StringUtils;
 
 public class RollCommand extends ChatCommand {
+
+    private String logDesc = "";
+
     @Override
     public void execute(Session client, String[] params) {
         if (params.length != 1) return;
@@ -20,6 +23,11 @@ public class RollCommand extends ChatCommand {
         if (number > 6) number = 6;
 
         client.getPlayer().getEntity().setAttribute("diceRoll", number);
+
+        this.logDesc = "El staff %s ha hecho roll en la sala '%b' y ha sacado un %r"
+                .replace("%s", client.getPlayer().getData().getUsername())
+                .replace("%b", client.getPlayer().getEntity().getRoom().getData().getName())
+                .replace("%r", Integer.toString(number));
     }
 
     @Override
@@ -41,4 +49,15 @@ public class RollCommand extends ChatCommand {
     public boolean isHidden() {
         return true;
     }
+
+    @Override
+    public String getLoggableDescription(){
+        return this.logDesc;
+    }
+
+    @Override
+    public boolean Loggable(){
+        return true;
+    }
+
 }

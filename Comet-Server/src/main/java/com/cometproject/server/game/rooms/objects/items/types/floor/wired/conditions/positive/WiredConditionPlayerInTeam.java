@@ -32,6 +32,9 @@ public class WiredConditionPlayerInTeam extends WiredConditionItem {
 
         final int team = this.getWiredData().getParams().get(PARAM_TEAM);
 
-        return playerEntity.getGameTeam() != null && playerEntity.getGameTeam().getTeamId() == team;
+        if (!this.isNegative)
+            return playerEntity.getGameTeam() != null && playerEntity.getGameTeam().getTeamId() == team;
+        else
+            return playerEntity.getGameTeam() == null || playerEntity.getGameTeam().getTeamId() != team;
     }
 }

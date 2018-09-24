@@ -29,13 +29,13 @@ public class AcceptFriendshipMessageEvent implements Event {
             Session friend = NetworkManager.getInstance().getSessions().getByPlayerId(request);
 
             if (friend != null) {
-                friend.getPlayer().getMessenger().addFriend(new MessengerFriend(client.getPlayer().getId()));
+                friend.getPlayer().getMessenger().addFriend(new MessengerFriend(client.getPlayer().getId(), client.getPlayer().getData()));
                 friend.getPlayer().getMessenger().sendStatus(true, friend.getPlayer().getEntity() != null);
             } else {
                 client.getPlayer().getMessenger().sendOffline(request, false, false);
             }
 
-            client.getPlayer().getMessenger().addFriend(new MessengerFriend(request));
+            client.getPlayer().getMessenger().addFriend(new MessengerFriend(request, client.getPlayer().getData()));
             client.getPlayer().getMessenger().sendStatus(true, client.getPlayer().getEntity() != null);
 
             client.getPlayer().getMessenger().removeRequest(request);

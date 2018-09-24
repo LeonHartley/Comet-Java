@@ -76,6 +76,8 @@ public class MessengerComponent extends PlayerComponent implements PlayerMesseng
     @Override
     public void addRequest(int playerId) {
         this.getRequests().add(playerId);
+
+        this.getPlayer().flush();
     }
 
     @Override
@@ -98,6 +100,8 @@ public class MessengerComponent extends PlayerComponent implements PlayerMesseng
 
         MessengerDao.deleteFriendship(this.getPlayer().getId(), userId);
         this.getPlayer().getSession().send(new UpdateFriendStateMessageComposer(-1, userId));
+
+        this.getPlayer().flush();
     }
 
     @Override
@@ -175,11 +179,15 @@ public class MessengerComponent extends PlayerComponent implements PlayerMesseng
     @Override
     public void clearRequests() {
         this.requests.clear();
+
+        this.getPlayer().flush();
     }
 
     @Override
     public void sendOffline(int friend, boolean online, boolean inRoom) {
         this.getPlayer().getSession().send(new UpdateFriendStateMessageComposer(PlayerManager.getInstance().getAvatarByPlayerId(friend, PlayerAvatar.USERNAME_FIGURE_MOTTO), online, inRoom, this.getPlayer().getRelationships().get(friend)));
+
+        this.getPlayer().flush();
     }
 
     @Override
@@ -202,6 +210,8 @@ public class MessengerComponent extends PlayerComponent implements PlayerMesseng
             if (session != null && session.getPlayer().getMessenger().isInitialised())
                 session.send(new UpdateFriendStateMessageComposer(this.getPlayer().getData(), online, inRoom, session.getPlayer().getRelationships().get(this.getPlayer().getId())));
         }
+
+        this.getPlayer().flush();
     }
 
     @Override

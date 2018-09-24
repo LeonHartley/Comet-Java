@@ -10,6 +10,8 @@ import com.cometproject.server.network.sessions.Session;
 
 
 public class RoomKickCommand extends ChatCommand {
+    private String logDesc;
+
     @Override
     public void execute(Session client, String[] params) {
         for (RoomEntity entity : client.getPlayer().getEntity().getRoom().getEntities().getPlayerEntities()) {
@@ -22,6 +24,10 @@ public class RoomKickCommand extends ChatCommand {
                 }
             }
         }
+
+        this.logDesc = "El Staff -c ha dado RoomKick en la sala -d"
+                .replace("-c", client.getPlayer().getData().getUsername())
+                .replace("-d", client.getPlayer().getEntity().getRoom().getData().getName());
     }
 
     @Override
@@ -37,5 +43,15 @@ public class RoomKickCommand extends ChatCommand {
     @Override
     public String getDescription() {
         return Locale.get("command.roomkick.description");
+    }
+
+    @Override
+    public String getLoggableDescription() {
+        return this.logDesc;
+    }
+
+    @Override
+    public boolean Loggable() {
+        return true;
     }
 }

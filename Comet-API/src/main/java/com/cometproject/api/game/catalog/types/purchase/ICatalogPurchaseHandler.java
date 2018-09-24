@@ -17,4 +17,6 @@ public interface ICatalogPurchaseHandler {
     void purchaseBundle(IRoomBundle roomBundle, ISession client);
 
     void purchaseBundle(ICatalogPage page, ISession client);
+
+    int applyDiscount(int cost, int quantity);
 }

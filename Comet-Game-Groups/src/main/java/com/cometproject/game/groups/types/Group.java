@@ -1,6 +1,5 @@
 package com.cometproject.game.groups.types;
 
-import com.cometproject.api.game.GameContext;
 import com.cometproject.api.game.groups.types.IGroup;
 import com.cometproject.api.game.groups.types.IGroupData;
 import com.cometproject.api.game.groups.types.components.IForumComponent;
@@ -46,5 +45,10 @@ public class Group implements IGroup {
     @Override
     public IForumComponent getForum() {
         return this.forumComponent;
+    }
+
+    @Override
+    public void setForum(IForumComponent forumComponent) {
+        this.forumComponent = forumComponent;
     }
 }

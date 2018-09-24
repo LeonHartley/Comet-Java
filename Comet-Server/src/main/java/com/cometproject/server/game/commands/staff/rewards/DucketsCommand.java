@@ -10,6 +10,9 @@ import org.apache.commons.lang.StringUtils;
 
 
 public class DucketsCommand extends ChatCommand {
+
+    private String logDesc = "";
+
     @Override
     public void execute(Session client, String[] params) {
         if (params.length < 2 || !StringUtils.isNumeric(params[1]))
@@ -34,6 +37,11 @@ public class DucketsCommand extends ChatCommand {
 
         session.send(new UpdateActivityPointsMessageComposer(session.getPlayer().getData().getActivityPoints(), duckets));
         session.send(session.getPlayer().composeCurrenciesBalance());
+
+        this.logDesc = "El staff %s ha dado %c duckets al usuario '%u'"
+                .replace("%c", Integer.toString(duckets))
+                .replace("%s", client.getPlayer().getData().getUsername())
+                .replace("%b", username);
     }
 
     @Override
@@ -49,5 +57,15 @@ public class DucketsCommand extends ChatCommand {
     @Override
     public String getDescription() {
         return Locale.get("command.duckets.description");
+    }
+
+    @Override
+    public String getLoggableDescription(){
+        return this.logDesc;
+    }
+
+    @Override
+    public boolean Loggable(){
+        return true;
     }
 }

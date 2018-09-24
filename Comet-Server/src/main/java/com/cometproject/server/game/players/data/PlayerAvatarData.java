@@ -29,10 +29,6 @@ public class PlayerAvatarData implements PlayerAvatar {
         }
     }
 
-    public PlayerAvatarData(int id, String username, String figure, String gender) {
-        this(id, username, figure, gender, "");
-    }
-
     public int getId() {
         return id;
     }

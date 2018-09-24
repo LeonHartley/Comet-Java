@@ -3,6 +3,8 @@ package com.cometproject.server.game.players.types;
 import com.cometproject.api.game.players.data.IPlayerStatistics;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.storage.queries.player.messenger.MessengerDao;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,6 +13,8 @@ import java.sql.SQLException;
 public class PlayerStatistics implements IPlayerStatistics {
     private int playerId;
     private int achievementPoints;
+
+    private Player player;
 
     private int dailyRespects;
     private int respectPoints;
@@ -22,7 +26,7 @@ public class PlayerStatistics implements IPlayerStatistics {
     private int cautions;
     private int bans;
 
-    public PlayerStatistics(ResultSet data, boolean isLogin) throws SQLException {
+    public PlayerStatistics(ResultSet data, boolean isLogin, Player player) throws SQLException {
         if (isLogin) {
             this.playerId = data.getInt("playerId");
             this.achievementPoints = data.getInt("playerStats_achievementPoints");
@@ -44,6 +48,8 @@ public class PlayerStatistics implements IPlayerStatistics {
             this.bans = data.getInt("bans");
             this.scratches = data.getInt("daily_scratches");
         }
+
+        this.player = player;
     }
 
     public PlayerStatistics(int userId) {
@@ -56,10 +62,14 @@ public class PlayerStatistics implements IPlayerStatistics {
         this.abusiveHelpTickets = 0;
         this.cautions = 0;
         this.bans = 0;
+
+        this.player = null;
     }
 
     public void save() {
         PlayerDao.updatePlayerStatistics(this);
+
+        flush();
     }
 
     public void incrementAchievementPoints(int amount) {
@@ -84,10 +94,14 @@ public class PlayerStatistics implements IPlayerStatistics {
 
     public void incrementBans(int amount) {
         this.bans += amount;
+
+        flush();
     }
 
     public void incrementAbusiveHelpTickets(int amount) {
         this.abusiveHelpTickets += amount;
+
+        flush();
     }
 
     public int getPlayerId() {
@@ -121,6 +135,8 @@ public class PlayerStatistics implements IPlayerStatistics {
 
     public void setHelpTickets(int helpTickets) {
         this.helpTickets = helpTickets;
+
+        flush();
     }
 
     public int getAbusiveHelpTickets() {
@@ -129,6 +145,8 @@ public class PlayerStatistics implements IPlayerStatistics {
 
     public void setAbusiveHelpTickets(int abusiveHelpTickets) {
         this.abusiveHelpTickets = abusiveHelpTickets;
+
+        flush();
     }
 
     public int getCautions() {
@@ -137,6 +155,8 @@ public class PlayerStatistics implements IPlayerStatistics {
 
     public void setCautions(int cautions) {
         this.cautions = cautions;
+
+        flush();
     }
 
     public int getBans() {
@@ -145,10 +165,14 @@ public class PlayerStatistics implements IPlayerStatistics {
 
     public void setBans(int bans) {
         this.bans = bans;
+
+        flush();
     }
 
     public void addBan() {
         this.bans = this.bans + 1;
+
+        flush();
     }
 
     @Override
@@ -159,5 +183,31 @@ public class PlayerStatistics implements IPlayerStatistics {
     @Override
     public void setScratches(int scratches) {
         this.scratches = scratches;
+    }
+
+    public JsonElement toJson() {
+        final JsonObject coreObject = new JsonObject();
+
+        coreObject.addProperty("achievementPoints", achievementPoints);
+        coreObject.addProperty("dailyRespects", dailyRespects);
+        coreObject.addProperty("respectPoints", respectPoints);
+        coreObject.addProperty("scratches", scratches);
+        coreObject.addProperty("helpTickets", helpTickets);
+        coreObject.addProperty("abusiveHelpTickets", abusiveHelpTickets);
+        coreObject.addProperty("cautions", cautions);
+        coreObject.addProperty("bans", bans);
+
+        return coreObject;
+    }
+
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void flush() {
+        if (player != null) {
+            this.getPlayer().flush();
+        }
     }
 }

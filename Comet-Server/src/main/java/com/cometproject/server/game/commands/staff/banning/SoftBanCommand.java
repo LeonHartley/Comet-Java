@@ -10,6 +10,9 @@ import com.cometproject.server.network.sessions.Session;
 
 
 public class SoftBanCommand extends ChatCommand {
+
+    private String logDesc = "";
+
     @Override
     public void execute(Session client, String[] params) {
         if (params.length < 1) {
@@ -38,6 +41,11 @@ public class SoftBanCommand extends ChatCommand {
         long expire = Comet.getTime() + (2 * 3600);
 
         BanManager.getInstance().banPlayer(BanType.USER, user.getPlayer().getId() + "", 2, expire, params.length > 1 ? this.merge(params, 1) : "", client.getPlayer().getId());
+
+        this.logDesc = "El staff %s ha hecho softBan< en la sala '%b' al usuario %u"
+                .replace("%s", client.getPlayer().getData().getUsername())
+                .replace("%b", client.getPlayer().getEntity().getRoom().getData().getName())
+                .replace("%u", username);
     }
 
     @Override
@@ -57,6 +65,16 @@ public class SoftBanCommand extends ChatCommand {
 
     @Override
     public boolean bypassFilter() {
+        return true;
+    }
+
+    @Override
+    public String getLoggableDescription(){
+        return this.logDesc;
+    }
+
+    @Override
+    public boolean Loggable(){
         return true;
     }
 }

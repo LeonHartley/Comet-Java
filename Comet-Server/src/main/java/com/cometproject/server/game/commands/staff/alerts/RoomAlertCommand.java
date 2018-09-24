@@ -8,11 +8,18 @@ import com.cometproject.server.network.sessions.Session;
 
 
 public class RoomAlertCommand extends ChatCommand {
+    private String logDesc;
+
     @Override
     public void execute(Session client, String[] params) {
         for (PlayerEntity entity : client.getPlayer().getEntity().getRoom().getEntities().getPlayerEntities()) {
             entity.getPlayer().getSession().send(new AlertMessageComposer(this.merge(params)));
         }
+
+        this.logDesc = "El Staff -c ha mandado una alerta a la sala -d. [-e]"
+                .replace("-c", client.getPlayer().getData().getUsername())
+                .replace("-d", client.getPlayer().getEntity().getRoom().getData().getName())
+                .replace("-e", this.merge(params));
     }
 
     @Override
@@ -28,5 +35,15 @@ public class RoomAlertCommand extends ChatCommand {
     @Override
     public String getDescription() {
         return Locale.get("command.roomalert.description");
+    }
+
+    @Override
+    public String getLoggableDescription() {
+        return this.logDesc;
+    }
+
+    @Override
+    public boolean Loggable() {
+        return true;
     }
 }

@@ -1,20 +1,29 @@
 package com.cometproject.server.game.players.types;
 
 import com.cometproject.api.config.CometSettings;
+import com.cometproject.api.game.bots.IBotData;
+import com.cometproject.api.game.pets.IPetData;
 import com.cometproject.api.game.players.IPlayer;
+import com.cometproject.api.game.players.data.PlayerAvatar;
 import com.cometproject.api.game.players.data.components.PlayerInventory;
+import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
+import com.cometproject.api.game.players.data.components.messenger.IMessengerFriend;
+import com.cometproject.api.game.players.data.components.messenger.RelationshipLevel;
 import com.cometproject.api.game.quests.IQuest;
 import com.cometproject.api.game.quests.QuestType;
 import com.cometproject.api.networking.sessions.ISession;
+import com.cometproject.api.utilities.JsonUtil;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.guides.GuideManager;
 import com.cometproject.server.game.guides.types.HelpRequest;
 import com.cometproject.server.game.guides.types.HelperSession;
+import com.cometproject.server.game.observers.PlayerObserver;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.components.*;
 import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.game.quests.QuestManager;
 import com.cometproject.server.game.rooms.RoomManager;
+import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.types.ChatMessageColour;
@@ -27,29 +36,36 @@ import com.cometproject.server.network.messages.outgoing.user.purse.CurrenciesMe
 import com.cometproject.server.network.messages.outgoing.user.purse.SendCreditsMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.protocol.messages.MessageComposer;
+import com.cometproject.server.storage.cache.CacheManager;
+import com.cometproject.server.storage.cache.objects.items.PlayerItemDataObject;
 import com.cometproject.server.storage.queries.catalog.CatalogDao;
+import com.cometproject.server.storage.queries.permissions.PermissionsDao;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.utilities.collections.ConcurrentHashSet;
 import com.cometproject.storage.api.StorageContext;
 import com.google.common.collect.Sets;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
-public class Player implements IPlayer {
+public class Player extends Observable implements IPlayer {
 
     private final PermissionComponent permissions;
     private final InventoryComponent inventory;
     private final SubscriptionComponent subscription;
     private final MessengerComponent messenger;
-    private final RelationshipComponent relationships;
+    private RelationshipComponent relationships;
     private final InventoryBotComponent bots;
     private final PetComponent pets;
     private final QuestComponent quests;
     private final AchievementComponent achievements;
     private final NavigatorComponent navigator;
     private final WardrobeComponent wardrobe;
+
+    private boolean online;
 
     public boolean cancelPageOpen = false;
     public boolean isDisposed = false;
@@ -119,14 +135,14 @@ public class Player implements IPlayer {
     public Player(ResultSet data, boolean isFallback) throws SQLException {
         this.id = data.getInt("playerId");
 
-        this.data = new PlayerData(data);
+        this.data = new PlayerData(data, this);
 
         if (isFallback) {
             this.settings = PlayerDao.getSettingsById(this.id);
             this.stats = PlayerDao.getStatisticsById(this.id);
         } else {
-            this.settings = new PlayerSettings(data, true);
-            this.stats = new PlayerStatistics(data, true);
+            this.settings = new PlayerSettings(data, true, this);
+            this.stats = new PlayerStatistics(data, true, this);
         }
 
         this.permissions = new PermissionComponent(this);
@@ -146,10 +162,15 @@ public class Player implements IPlayer {
 
         this.entity = null;
         this.lastReward = Comet.getTime();
+
+        this.addObserver(new PlayerObserver());
     }
 
     @Override
     public void dispose() {
+        this.setOnline(false);
+        flush();
+
         if (this.getEntity() != null) {
             try {
                 this.getEntity().leaveRoom(true, false, false);
@@ -181,7 +202,7 @@ public class Player implements IPlayer {
 
         this.session.getLogger().debug(this.getData().getUsername() + " logged out");
 
-        PlayerDao.updatePlayerStatus(this, false, false);
+        PlayerDao.updatePlayerStatus(this, this.isOnline(), false);
 
         this.rooms.clear();
         this.rooms = null;
@@ -212,6 +233,8 @@ public class Player implements IPlayer {
         this.data = null;
 
         this.isDisposed = true;
+
+        CacheManager.getInstance().publishString("online.players", String.valueOf(Comet.getStats().getPlayers()), true, "online.players");
     }
 
     @Override
@@ -232,14 +255,14 @@ public class Player implements IPlayer {
 
     @Override
     public MessageComposer composeCreditBalance() {
-        return new SendCreditsMessageComposer(CometSettings.playerInfiniteBalance ? INFINITE_BALANCE : session.getPlayer().getData().getCredits());
+        return new SendCreditsMessageComposer(CometSettings.playerInfiniteBalance ? INFINITE_BALANCE : Integer.toString(session.getPlayer().getData().getCredits()));
     }
 
     @Override
     public MessageComposer composeCurrenciesBalance() {
         Map<Integer, Integer> currencies = new HashMap<>();
 
-        currencies.put(0, CometSettings.playerInfiniteBalance ? INFINITE_BALANCE : getData().getActivityPoints());
+        currencies.put(0, getData().getActivityPoints());
         currencies.put(105, getData().getVipPoints());
         currencies.put(5, getData().getVipPoints());
         currencies.put(106, getData().getSeasonalPoints());
@@ -296,6 +319,25 @@ public class Player implements IPlayer {
         if (!this.enteredRooms.contains(id) && !this.rooms.contains(id)) {
             this.enteredRooms.add(id);
         }
+
+        if (getSettings().hasPersonalStaff()) {
+            List<Map.Entry<Integer, Integer>> rankPermList = new ArrayList<>(PermissionsDao.getEffects().entrySet());
+            rankPermList.sort(Collections.reverseOrder(Map.Entry.comparingByValue()));
+
+            for (Map.Entry<Integer, Integer> entry : rankPermList) {
+
+                if (this.getPermissions().getRank().getId() < entry.getValue())
+                    continue;
+
+                if (this.getSettings().hasPersonalStaff()) {
+                    this.getEntity().applyEffect(new PlayerEffect(entry.getKey()));
+                } else
+                    this.getEntity().applyEffect(new PlayerEffect(0));
+
+                break;
+            }
+        }
+
     }
 
     @Override
@@ -335,6 +377,8 @@ public class Player implements IPlayer {
     @Override
     public void setRooms(List<Integer> rooms) {
         this.rooms = rooms;
+
+        flush();
     }
 
     @Override
@@ -350,6 +394,8 @@ public class Player implements IPlayer {
     //    @Override
     public void setEntity(PlayerEntity avatar) {
         this.entity = avatar;
+
+        flush();
     }
 
     @Override
@@ -508,6 +554,8 @@ public class Player implements IPlayer {
     @Override
     public void setLastRoomId(int lastRoomId) {
         this.lastRoomId = lastRoomId;
+
+        flush();
     }
 
     @Override
@@ -674,6 +722,8 @@ public class Player implements IPlayer {
 
     public void setInvisible(boolean invisible) {
         this.invisible = invisible;
+
+        flush();
     }
 
     public int getLastTradePlayer() {
@@ -832,5 +882,159 @@ public class Player implements IPlayer {
 
     public void setListeningPlayers(Set<Integer> listeningPlayers) {
         this.listeningPlayers = listeningPlayers;
+    }
+
+    public void flush() {
+        setChanged();
+        notifyObservers();
+    }
+
+    public JsonObject toJson() {
+        final JsonObject coreObject = new JsonObject();
+        final JsonObject playerDataObject = new JsonObject();
+        final JsonObject rankDataObject = new JsonObject();
+        final JsonObject inventoryDataObject = new JsonObject();
+        final JsonArray itemsDataArray = new JsonArray();
+        final JsonArray badgesDataArray = new JsonArray();
+        final JsonObject messengerDataObject = new JsonObject();
+        final JsonArray messengerFriendsDataArray = new JsonArray();
+        final JsonArray messengerRequestsDataArray = new JsonArray();
+        final JsonArray relationshipsDataArray = new JsonArray();
+        final JsonArray botsDataArray = new JsonArray();
+        final JsonArray petsDataArray = new JsonArray();
+        final JsonArray roomsArray = new JsonArray();
+
+        coreObject.addProperty("id", id);
+
+        coreObject.addProperty("isOnline", isOnline());
+
+        playerDataObject.addProperty("username", data.getUsername());
+        playerDataObject.addProperty("motto", data.getMotto());
+        playerDataObject.addProperty("figure", data.getFigure());
+        playerDataObject.addProperty("gender", data.getGender());
+        playerDataObject.addProperty("email", data.getEmail());
+        playerDataObject.addProperty("ip_adress", data.getIpAddress());
+        playerDataObject.addProperty("credits", data.getCredits());
+        playerDataObject.addProperty("vip_points", data.getVipPoints());
+        playerDataObject.addProperty("activity_points", data.getActivityPoints());
+        playerDataObject.addProperty("seasonal_points", data.getSeasonalPoints());
+        playerDataObject.addProperty("favourite_group", data.getFavouriteGroup());
+
+        coreObject.add("data", playerDataObject);
+
+        rankDataObject.addProperty("id", permissions.getRank().getId());
+        rankDataObject.addProperty("name", permissions.getRank().getName());
+
+        coreObject.add("rank", rankDataObject);
+
+        if(inventory.getInventoryItems() != null) {
+            for (PlayerItem playerItem : inventory.getInventoryItems().values()) {
+                itemsDataArray.add(new PlayerItemDataObject(playerItem).toJson());
+            }
+        }
+
+        inventoryDataObject.addProperty("isViewingInventory", inventory.isViewingInventory());
+
+        inventoryDataObject.add("items", itemsDataArray);
+
+        if(inventory.getBadges() != null) {
+            for (Map.Entry<String, Integer> badge : inventory.getBadges().entrySet()) {
+                final JsonObject badgeDataObject = new JsonObject();
+
+                badgeDataObject.addProperty("code", badge.getKey());
+                badgeDataObject.addProperty("slot", badge.getValue());
+
+                badgesDataArray.add(badgeDataObject);
+            }
+        }
+
+        inventoryDataObject.add("badges", badgesDataArray);
+
+        coreObject.add("inventory", inventoryDataObject);
+
+        for (IMessengerFriend friend : messenger.getFriends().values()) {
+            messengerFriendsDataArray.add(friend.toJson());
+        }
+
+        messengerDataObject.add("friends", messengerFriendsDataArray);
+
+        for (PlayerAvatar request : messenger.getRequestAvatars()) {
+            final JsonObject requestDataObject = new JsonObject();
+
+            requestDataObject.addProperty("username", request.getUsername());
+            requestDataObject.addProperty("figure", request.getFigure());
+            requestDataObject.addProperty("motto", request.getMotto());
+            requestDataObject.addProperty("gender", request.getGender());
+
+            messengerRequestsDataArray.add(requestDataObject);
+        }
+
+        messengerDataObject.add("requests", messengerRequestsDataArray);
+
+        coreObject.add("messenger", messengerDataObject);
+
+        for (Map.Entry<Integer, RelationshipLevel> relationshipEntry : relationships.getRelationships().entrySet()) {
+            final JsonObject relationshipDataObject = new JsonObject();
+
+            relationshipDataObject.addProperty("userId", relationshipEntry.getKey());
+            relationshipDataObject.addProperty("level", relationshipEntry.getValue().getLevelId());
+
+            relationshipsDataArray.add(relationshipDataObject);
+        }
+
+        coreObject.add("relationships", relationshipsDataArray);
+
+        if(bots.getBots() != null) {
+            for (IBotData botData : bots.getBots().values()) {
+                botsDataArray.add(botData.toJsonObject());
+            }
+        }
+
+        coreObject.add("bots", botsDataArray);
+
+        if(pets.getPets() != null) {
+            for (IPetData petData : pets.getPets().values()) {
+                petsDataArray.add(petData.toJsonObject());
+            }
+        }
+
+        coreObject.add("pets", petsDataArray);
+
+        coreObject.add("achievements", achievements.toJson());
+
+        coreObject.add("settings", settings.toJson());
+
+        coreObject.add("stats", stats.toJson());
+
+        coreObject.add("room", (getEntity() != null && getEntity().getRoom() != null) ? getEntity().getRoom().getCacheObject().toJson() : null);
+
+        for (Integer roomId : rooms)
+            roomsArray.add(roomId);
+
+        coreObject.add("rooms", roomsArray);
+
+        return coreObject;
+    }
+
+    public String toString() {
+        final JsonObject jsonObject = this.toJson();
+
+        if (jsonObject != null) {
+            return JsonUtil.getInstance().toJson(jsonObject);
+        }
+
+        return JsonUtil.getInstance().toJson(this);
+    }
+
+    public void saveJsonObject() {
+        CacheManager.getInstance().publishString("players", toString(), true, "players." + id);
+    }
+
+    public boolean isOnline() {
+        return this.online;
+    }
+
+    public void setOnline(boolean online) {
+        this.online = online;
     }
 }

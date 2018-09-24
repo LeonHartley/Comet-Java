@@ -1,5 +1,7 @@
 package com.cometproject.api.game.players.data.types;
 
+import com.google.gson.JsonElement;
+
 public interface IWardrobeItem {
     int getSlot();
 
@@ -12,4 +14,6 @@ public interface IWardrobeItem {
     String getFigure();
 
     void setFigure(String figure);
+
+    JsonElement toJson();
 }

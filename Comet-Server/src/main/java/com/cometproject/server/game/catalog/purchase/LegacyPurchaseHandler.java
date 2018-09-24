@@ -208,10 +208,10 @@ public class LegacyPurchaseHandler implements ICatalogPurchaseHandler {
             }
 
             if (item.allowOffer()) {
-                totalCostCredits = amount > 1 ? ((item.getCostCredits() * amount) - ((int) Math.floor((double) amount / 6) * item.getCostCredits())) : item.getCostCredits();
-                totalCostPoints = amount > 1 ? ((item.getCostDiamonds() * amount) - ((int) Math.floor((double) amount / 6) * item.getCostDiamonds())) : item.getCostDiamonds();
-                totalCostActivityPoints = amount > 1 ? ((item.getCostActivityPoints() * amount) - ((int) Math.floor((double) amount / 6) * item.getCostActivityPoints())) : item.getCostActivityPoints();
-                totalCostSeasonal = amount > 1 ? ((item.getCostSeasonal() * amount) - ((int) Math.floor((double) amount / 6) * item.getCostSeasonal())) : item.getCostSeasonal();
+                totalCostCredits = applyDiscount(item.getCostCredits(), amount);
+                totalCostPoints = applyDiscount(item.getCostDiamonds(), amount);
+                totalCostActivityPoints = applyDiscount(item.getCostActivityPoints(), amount);
+                totalCostSeasonal = applyDiscount(item.getCostSeasonal(), amount);
             } else {
                 totalCostCredits = item.getCostCredits();
                 totalCostPoints = item.getCostDiamonds();
@@ -249,7 +249,7 @@ public class LegacyPurchaseHandler implements ICatalogPurchaseHandler {
             }
 
             if (item.isBadgeOnly()) {
-                if(item.getPresetData().equals("name_colour")) {
+                if (item.getPresetData().equals("name_colour")) {
                     client.getPlayer().getData().setNameColour(item.getBadgeId());
                 } else {
                     if (item.hasBadge() && !client.getPlayer().getInventory().hasBadge(item.getBadgeId())) {
@@ -576,5 +576,48 @@ public class LegacyPurchaseHandler implements ICatalogPurchaseHandler {
     public void purchaseBundle(ICatalogPage page, ISession client) {
         RoomBundle roomBundle = RoomBundleManager.getInstance().getBundle(page.getExtraData());
         purchaseBundle(roomBundle, client);
+    }
+
+    @Override
+    public int applyDiscount(int cost, int quantity) {
+        int uCost = cost;
+        cost = cost * quantity;
+
+        if (quantity <= 5) return cost;
+        else if (quantity <= 10) return cost - uCost;
+        else if (quantity <= 11) return cost - uCost * 2;
+        else if (quantity <= 16) return cost - uCost * 3;
+        else if (quantity <= 17) return cost - uCost * 4;
+        else if (quantity <= 22) return cost - uCost * 5;
+        else if (quantity <= 23) return cost - uCost * 6;
+        else if (quantity <= 28) return cost - uCost * 7;
+        else if (quantity <= 29) return cost - uCost * 8;
+        else if (quantity <= 34) return cost - uCost * 9;
+        else if (quantity <= 35) return cost - uCost * 10;
+        else if (quantity <= 39) return cost - uCost * 11;
+        else if (quantity <= 40) return cost - uCost * 12;
+        else if (quantity <= 41) return cost - uCost * 13;
+        else if (quantity <= 46) return cost - uCost * 14;
+        else if (quantity <= 47) return cost - uCost * 15;
+        else if (quantity <= 52) return cost - uCost * 16;
+        else if (quantity <= 53) return cost - uCost * 17;
+        else if (quantity <= 54) return cost - uCost * 18;
+        else if (quantity <= 59) return cost - uCost * 19;
+        else if (quantity <= 64) return cost - uCost * 20;
+        else if (quantity <= 65) return cost - uCost * 21;
+        else if (quantity <= 70) return cost - uCost * 22;
+        else if (quantity <= 71) return cost - uCost * 23;
+        else if (quantity <= 76) return cost - uCost * 24;
+        else if (quantity <= 77) return cost - uCost * 25;
+        else if (quantity <= 78) return cost - uCost * 26;
+        else if (quantity <= 82) return cost - uCost * 27;
+        else if (quantity <= 88) return cost - uCost * 28;
+        else if (quantity <= 89) return cost - uCost * 29;
+        else if (quantity <= 94) return cost - uCost * 30;
+        else if (quantity <= 95) return cost - uCost * 31;
+        else if (quantity <= 98) return cost - uCost * 32;
+        else if (quantity <= 100) return cost - uCost * 33;
+
+        return cost;
     }
 }

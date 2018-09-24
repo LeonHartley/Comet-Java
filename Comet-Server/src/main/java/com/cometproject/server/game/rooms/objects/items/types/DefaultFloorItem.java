@@ -23,8 +23,7 @@ public class DefaultFloorItem extends RoomItemFloor {
             PlayerEntity pEntity = (PlayerEntity) entity;
 
             if (this.getDefinition().requiresRights()) {
-                if (!pEntity.getRoom().getRights().hasRights(pEntity.getPlayerId())
-                        && !pEntity.getPlayer().getPermissions().getRank().roomFullControl()) {
+                if (!pEntity.getRoom().getRights().hasRights(pEntity.getPlayerId()) && !pEntity.getPlayer().getPermissions().getRank().roomFullControl()) {
                     return false;
                 }
             }

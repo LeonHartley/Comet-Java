@@ -7,8 +7,12 @@ import com.cometproject.server.network.sessions.Session;
 
 
 public class UnfreezeCommand extends ChatCommand {
+
+    private String logDesc = "";
+
     @Override
     public void execute(Session client, String[] params) {
+
         if (params.length != 1) {
             sendNotif(Locale.getOrDefault("command.unfreeze.none", "Who do you want to unfreeze?"), client);
             return;
@@ -33,6 +37,10 @@ public class UnfreezeCommand extends ChatCommand {
 
         user.getPlayer().getEntity().setCanWalk(true);
         isExecuted(client);
+
+        this.logDesc = "El staff %s ha hecho unfreeze en la sala '%b'"
+                .replace("%s", client.getPlayer().getData().getUsername())
+                .replace("%b", client.getPlayer().getEntity().getRoom().getData().getName());
     }
 
     @Override
@@ -52,6 +60,16 @@ public class UnfreezeCommand extends ChatCommand {
 
     @Override
     public boolean bypassFilter() {
+        return true;
+    }
+
+    @Override
+    public String getLoggableDescription(){
+        return this.logDesc;
+    }
+
+    @Override
+    public boolean Loggable(){
         return true;
     }
 }

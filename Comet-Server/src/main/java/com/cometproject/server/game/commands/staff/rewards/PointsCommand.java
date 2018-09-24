@@ -10,6 +10,9 @@ import com.cometproject.server.storage.queries.player.PlayerDao;
 
 
 public class PointsCommand extends ChatCommand {
+
+    private String logDesc = "";
+
     @Override
     public void execute(Session client, String[] params) {
         if (params.length < 2)
@@ -77,6 +80,12 @@ public class PointsCommand extends ChatCommand {
         ));
 
         session.send(session.getPlayer().composeCurrenciesBalance());
+
+        this.logDesc = "El staff %s ha dado %c %l al usuario '%u'"
+                .replace("%l", Locale.get("command.points.currency." + currency))
+                .replace("%c", params[1])
+                .replace("%s", client.getPlayer().getData().getUsername())
+                .replace("%u", username);
     }
 
     @Override
@@ -92,5 +101,15 @@ public class PointsCommand extends ChatCommand {
     @Override
     public String getDescription() {
         return Locale.get("command.points.description");
+    }
+
+    @Override
+    public String getLoggableDescription(){
+        return this.logDesc;
+    }
+
+    @Override
+    public boolean Loggable(){
+        return true;
     }
 }

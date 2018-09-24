@@ -2,6 +2,7 @@ package com.cometproject.storage.mysql.repositories;
 
 import com.cometproject.api.game.groups.types.GroupType;
 import com.cometproject.api.game.groups.types.IGroupData;
+import com.cometproject.api.game.groups.types.components.IForumComponent;
 import com.cometproject.storage.api.data.players.PlayerAvatarData;
 import com.cometproject.storage.api.repositories.IGroupRepository;
 import com.cometproject.storage.mysql.MySQLConnectionProvider;
@@ -48,6 +49,13 @@ public class MySQLGroupRepository extends MySQLRepository implements IGroupRepos
         }, groupData.getTitle(), groupData.getDescription(), groupData.getBadge(), groupData.getOwnerId(), groupData.getRoomId(),
                 groupData.getCreatedTimestamp(), groupData.getType().toString().toLowerCase(), groupData.getColourA(),
                 groupData.getColourB(), groupData.canMembersDecorate() ? "1" : "0");
+    }
+
+    @Override
+    public void createForumSettings(IForumComponent forumComponent) {
+        insert("INSERT into group_forum_settings (`group_id`, `read_permission`, `post_permission`, `thread_permission`, `moderate_permission`) " +
+                "VALUES(?,?,?,?,?);", (key) -> {
+        }, forumComponent.getForumSettings().getGroupId(), forumComponent.getForumSettings().getReadPermission().name(), forumComponent.getForumSettings().getPostPermission().name(), forumComponent.getForumSettings().getStartThreadsPermission().name(), forumComponent.getForumSettings().getModeratePermission().name());
     }
 
     @Override

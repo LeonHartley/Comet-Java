@@ -12,6 +12,8 @@ import com.cometproject.server.storage.queries.player.PlayerDao;
 
 public class MuteCommand extends ChatCommand {
 
+    private String logDesc = "";
+
     @Override
     public void execute(Session client, String[] params) {
         if (params.length != 2) {
@@ -29,42 +31,38 @@ public class MuteCommand extends ChatCommand {
             return;
         }
 
-        if (username.equals(client.getPlayer().getData().getUsername())) {
-            return;
-        }
-
-        if (user.getPlayer().getData().getRank() > 2) {
+        if(user.getPlayer().getPermissions().getRank().roomFilterBypass()){
             sendNotif(Locale.getOrDefault("command.mute.unmutable", "You can't mute this player!"), client);
             return;
         }
 
-        try {
-            if (playerId != -1) {
-                int time = Integer.parseInt(params[1]);
-                final int oneDaySeconds = 86400;
-                final int oneDayMinutes = oneDaySeconds / 60;
+        try{
+            int time = Integer.parseInt(params[1]);
 
-                if (time < 0) {
-                    sendNotif(Locale.getOrDefault("command.mute.negative", "You can only use positive numbers!"), client);
-                    return;
-                } else if (time > oneDayMinutes && !client.getPlayer().getPermissions().getRank().roomFullControl()) {
-                    sendNotif(Locale.getOrDefault("command.mute.nomore", "You can only mute someone for no more than 600 seconds! The amount got changed to 600 seconds."), client);
-                    time = oneDaySeconds;
-                }
-
-                final int timeMuted = (int) Comet.getTime() + time;
-
-                PlayerDao.addTimeMute(playerId, timeMuted);
-                user.getPlayer().getData().setTimeMuted(timeMuted);
-
-                user.send(new AdvancedAlertMessageComposer(Locale.getOrDefault("command.mute.muted", "You are muted for violating the rules! Your mute will expire in %timeleft% seconds").replace("%timeleft%", time + "")));
-                isExecuted(client);
+            if(time < 0){
+                sendNotif(Locale.getOrDefault("command.mute.negative", "You can only use positive numbers!"), client);
+                return;
             }
+
+            final int timeMuted = (int) Comet.getTime() + time * 60;
+
+            PlayerDao.addTimeMute(playerId, timeMuted);
+            user.getPlayer().getData().setTimeMuted(timeMuted);
+
+            user.send(new AdvancedAlertMessageComposer(Locale.getOrDefault("command.mute.muted", "You are muted for violating the rules! Your mute will expire in %timeleft% minutes").replace("%timeleft%", time + "")));
+            isExecuted(client);
+
+            this.logDesc = "El staff %s ha muteado a '%u' durante %t minutos"
+                    .replace("%s", client.getPlayer().getData().getUsername())
+                    .replace("%u", NetworkManager.getInstance().getSessions().getByPlayerId(playerId).getPlayer().getData().getUsername())
+                    .replace("%t", Integer.toString(time));
+
+
         } catch (Exception e) {
             sendNotif(Locale.getOrDefault("command.mute.invalid", "Please, use numbers only!"), client);
         }
-    }
 
+    }
 
     @Override
     public String getPermission() {
@@ -83,6 +81,16 @@ public class MuteCommand extends ChatCommand {
 
     @Override
     public boolean bypassFilter() {
+        return true;
+    }
+
+    @Override
+    public String getLoggableDescription(){
+        return this.logDesc;
+    }
+
+    @Override
+    public boolean Loggable(){
         return true;
     }
 }

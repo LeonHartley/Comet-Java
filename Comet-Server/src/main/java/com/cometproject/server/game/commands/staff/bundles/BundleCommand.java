@@ -13,6 +13,9 @@ import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.rooms.BundleDao;
 
 public class BundleCommand extends ChatCommand {
+
+    private String logDesc = "";
+
     @Override
     public void execute(Session client, String[] params) {
         if (params.length < 2) {
@@ -43,6 +46,12 @@ public class BundleCommand extends ChatCommand {
                     CatalogManager.getInstance().loadItemsAndPages();
                     NetworkManager.getInstance().getSessions().broadcast(new CatalogPublishMessageComposer(true));
                 }
+
+                this.logDesc = "El staff %s ha hecho bundle en la sala '%b' con el nombre %n"
+                        .replace("%s", client.getPlayer().getData().getUsername())
+                        .replace("%b", client.getPlayer().getEntity().getRoom().getData().getName())
+                        .replace("%n", alias);
+
                 break;
             }
 
@@ -70,6 +79,16 @@ public class BundleCommand extends ChatCommand {
 
     @Override
     public boolean isAsync() {
+        return true;
+    }
+
+    @Override
+    public String getLoggableDescription(){
+        return this.logDesc;
+    }
+
+    @Override
+    public boolean Loggable(){
         return true;
     }
 }

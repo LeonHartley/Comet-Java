@@ -2,6 +2,7 @@ package com.cometproject.server.game.rooms.objects.items.types.floor.wired.condi
 
 import com.cometproject.api.game.rooms.objects.data.RoomItemData;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.conditions.positive.WiredConditionPlayerHasBadgeEquipped;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.conditions.positive.WiredConditionPlayerInTeam;
 import com.cometproject.server.game.rooms.types.Room;
 
 

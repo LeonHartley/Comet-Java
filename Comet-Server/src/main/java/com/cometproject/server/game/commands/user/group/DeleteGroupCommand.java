@@ -18,6 +18,9 @@ import com.google.common.collect.Lists;
 import java.util.List;
 
 public class DeleteGroupCommand extends ChatCommand {
+    private String logDesc;
+    private String groupName;
+
     @Override
     public void execute(Session client, String[] params) {
         if (client.getPlayer().getId() != client.getPlayer().getEntity().getRoom().getData().getOwnerId() && !client.getPlayer().getPermissions().getRank().roomFullControl()) {
@@ -37,6 +40,7 @@ public class DeleteGroupCommand extends ChatCommand {
 
         if (room.getGroup() != null) {
             IGroup group = room.getGroup();
+            this.groupName = group.getData().getTitle();
 
             for (Integer groupMemberId : group.getMembers().getAll().keySet()) {
                 Session groupMemberSession = NetworkManager.getInstance().getSessions().getByPlayerId(groupMemberId);
@@ -91,6 +95,11 @@ public class DeleteGroupCommand extends ChatCommand {
         } else {
             client.send(new AlertMessageComposer(Locale.getOrDefault("command.deletegroup.nogroup", "This room doesn't have a group to delete!")));
         }
+
+        this.logDesc = "El Staff %s ha eliminado el grupo %b cuya sala es %d"
+                .replace("%s", client.getPlayer().getData().getUsername())
+                .replace("%b", this.groupName)
+                .replace("%d", room.getData().getName());
     }
 
     @Override
@@ -106,5 +115,15 @@ public class DeleteGroupCommand extends ChatCommand {
     @Override
     public String getDescription() {
         return Locale.get("command.deletegroup.description");
+    }
+
+    @Override
+    public String getLoggableDescription() {
+        return this.logDesc;
+    }
+
+    @Override
+    public boolean Loggable() {
+        return true;
     }
 }

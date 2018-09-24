@@ -3,22 +3,31 @@ package com.cometproject.server.game.rooms.objects.items.types.floor.wired.data;
 import com.cometproject.server.utilities.comporators.HighscoreComparator;
 
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ScoreboardItemData {
     private final static HighscoreComparator comparator = new HighscoreComparator();
     private final List<HighscoreEntry> entries;
+    private final Map<String, Integer> points;
     private int scoreType;
     private int clearType;
 
-    public ScoreboardItemData(int scoreType, int clearType, List<HighscoreEntry> entries) {
+    public ScoreboardItemData(int scoreType, int clearType, List<HighscoreEntry> entries, Map<String, Integer> points) {
         this.scoreType = scoreType;
         this.clearType = clearType;
         this.entries = entries;
+
+        this.points = points;
     }
 
     public List<HighscoreEntry> getEntries() {
         return this.entries;
+    }
+
+    public Map<String, Integer> getPoints() {
+        return this.points;
     }
 
     public void addEntry(List<String> users, int score) {
@@ -27,6 +36,15 @@ public class ScoreboardItemData {
 
             Collections.sort(this.entries, comparator);
         }
+    }
+
+    public void addPoint(String identifier, int score) {
+        if (!this.points.containsKey(identifier)) {
+            this.points.put(identifier, score);
+            return;
+        }
+
+        this.points.replace(identifier, this.points.get(identifier) + score);
     }
 
     public int getScoreType() {

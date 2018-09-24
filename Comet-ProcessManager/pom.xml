@@ -7,12 +7,12 @@
     <parent>
         <groupId>Comet</groupId>
         <artifactId>Comet-Parent</artifactId>
-        <version>2.9.7-TEST1</version>
+        <version>2.9.8-TEST1</version>
     </parent>
 
     <groupId>Comet</groupId>
     <artifactId>Comet-ProcessManager</artifactId>
-    <version>2.9.7-TEST1</version>
+    <version>2.9.8-TEST1</version>
 
     <!--<build>-->
         <!--<plugins>-->
@@ -75,7 +75,7 @@
         <dependency>
             <groupId>Comet</groupId>
             <artifactId>Comet-API</artifactId>
-            <version>2.9.7-TEST1</version>
+            <version>2.9.8-TEST1</version>
         </dependency>
 
 

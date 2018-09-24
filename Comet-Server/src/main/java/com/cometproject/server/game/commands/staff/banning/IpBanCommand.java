@@ -14,6 +14,8 @@ import java.util.List;
 
 
 public class IpBanCommand extends ChatCommand {
+    private String logDesc;
+
     @Override
     public void execute(Session client, String[] params) {
         if (params.length < 2) {
@@ -60,6 +62,10 @@ public class IpBanCommand extends ChatCommand {
         }
 
         playerIds.clear();
+
+        this.logDesc = "El Staff -c le ha dado IPBan a -d"
+                .replace("-c", client.getPlayer().getData().getUsername())
+                .replace("-d", username);
     }
 
     @Override
@@ -79,6 +85,16 @@ public class IpBanCommand extends ChatCommand {
 
     @Override
     public boolean bypassFilter() {
+        return true;
+    }
+
+    @Override
+    public String getLoggableDescription() {
+        return this.logDesc;
+    }
+
+    @Override
+    public boolean Loggable() {
         return true;
     }
 

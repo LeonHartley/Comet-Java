@@ -7,6 +7,8 @@ import com.cometproject.server.network.sessions.Session;
 
 
 public class RemoveBadgeCommand extends ChatCommand {
+    private String logDesc;
+
     @Override
     public void execute(Session client, String[] params) {
         if (params.length < 2)
@@ -23,6 +25,11 @@ public class RemoveBadgeCommand extends ChatCommand {
         } else {
             sendNotif(Locale.getOrDefault("command.removebadge.userisoff", "This user is not online, you can only remove badges from online users"), client);
         }
+
+        this.logDesc = "El Staff -c le ha quitado la placa -d a -e"
+                .replace("-c", client.getPlayer().getData().getUsername())
+                .replace("-d", badge)
+                .replace("-e", username);
     }
 
     @Override
@@ -38,5 +45,15 @@ public class RemoveBadgeCommand extends ChatCommand {
     @Override
     public String getDescription() {
         return Locale.get("command.removebadge.description");
+    }
+
+    @Override
+    public String getLoggableDescription() {
+        return this.logDesc;
+    }
+
+    @Override
+    public boolean Loggable() {
+        return true;
     }
 }

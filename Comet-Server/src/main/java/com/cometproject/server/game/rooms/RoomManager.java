@@ -4,15 +4,13 @@ import com.cometproject.api.config.Configuration;
 import com.cometproject.api.game.GameContext;
 import com.cometproject.api.game.players.IPlayer;
 import com.cometproject.api.game.rooms.IRoomData;
-import com.cometproject.api.game.rooms.IRoomService;
+import com.cometproject.api.game.rooms.models.CustomFloorMapData;
 import com.cometproject.api.game.rooms.settings.RoomAccessType;
 import com.cometproject.api.game.rooms.settings.RoomTradeState;
 import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.api.utilities.Initialisable;
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.rooms.filter.WordFilter;
-import com.cometproject.api.game.rooms.models.CustomFloorMapData;
 import com.cometproject.server.game.rooms.models.types.StaticRoomModel;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredUtil;
 import com.cometproject.server.game.rooms.types.Room;
@@ -135,7 +133,7 @@ public class RoomManager implements Initialisable {
 //    }
 
     public Room get(int id) {
-        if (id < 1 || id == 0) return null;
+        if (id < 1) return null;
 
         if (this.getRoomInstances().containsKey(id)) {
             return this.getRoomInstances().get(id);

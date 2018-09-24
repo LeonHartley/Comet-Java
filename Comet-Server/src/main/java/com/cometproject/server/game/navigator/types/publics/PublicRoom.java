@@ -5,12 +5,14 @@ public class PublicRoom {
     private final String caption;
     private final String description;
     private final String imageUrl;
+    private final String category;
 
-    public PublicRoom(int roomId, String caption, String description, String imageUrl) {
+    public PublicRoom(int roomId, String caption, String description, String imageUrl, String category) {
         this.roomId = roomId;
         this.caption = caption;
         this.description = description;
         this.imageUrl = imageUrl;
+        this.category = category;
     }
 
     public int getRoomId() {
@@ -27,5 +29,9 @@ public class PublicRoom {
 
     public String getImageUrl() {
         return imageUrl;
+    }
+
+    public String getCategory() {
+        return category;
     }
 }

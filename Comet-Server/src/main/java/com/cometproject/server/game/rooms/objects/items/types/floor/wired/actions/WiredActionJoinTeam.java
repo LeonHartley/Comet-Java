@@ -32,7 +32,7 @@ public class WiredActionJoinTeam extends WiredActionItem {
 
     @Override
     public void onEventComplete(WiredItemEvent event) {
-        if (event.entity == null || !(event.entity instanceof PlayerEntity)) {
+        if (!(event.entity instanceof PlayerEntity)) {
             return;
         }
 

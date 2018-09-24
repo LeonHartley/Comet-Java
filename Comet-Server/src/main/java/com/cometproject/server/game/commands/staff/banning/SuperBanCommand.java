@@ -9,6 +9,8 @@ import com.cometproject.server.network.sessions.Session;
 
 
 public class SuperBanCommand extends ChatCommand {
+    private String logDesc;
+
     @Override
     public void execute(Session client, String[] params) {
         if (params.length != 1) {
@@ -37,6 +39,10 @@ public class SuperBanCommand extends ChatCommand {
         int expire = 2147472000; // Approximately latest timestamp
 
         BanManager.getInstance().banPlayer(BanType.USER, Integer.toString(user.getPlayer().getId()), expire, expire, "Superban", client.getPlayer().getId());
+
+        this.logDesc = "El Staff -c le ha dado SuperBan a -d"
+                .replace("-c", client.getPlayer().getData().getUsername())
+                .replace("-d", user.getPlayer().getData().getUsername());
     }
 
     @Override
@@ -56,6 +62,16 @@ public class SuperBanCommand extends ChatCommand {
 
     @Override
     public boolean bypassFilter() {
+        return true;
+    }
+
+    @Override
+    public String getLoggableDescription() {
+        return this.logDesc;
+    }
+
+    @Override
+    public boolean Loggable() {
         return true;
     }
 }

@@ -8,6 +8,8 @@ import com.cometproject.api.utilities.JsonUtil;
 import com.cometproject.server.game.players.components.types.settings.PlaylistItem;
 import com.cometproject.server.game.players.components.types.settings.VolumeData;
 import com.cometproject.server.game.players.components.types.settings.WardrobeItem;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
 import java.sql.ResultSet;
@@ -28,6 +30,7 @@ public class PlayerSettings implements IPlayerSettings {
     private boolean allowTrade;
     private boolean allowFollow;
     private boolean allowMimic;
+    private boolean personalstaff;
 
     private int homeRoom;
     private boolean useOldChat;
@@ -42,9 +45,11 @@ public class PlayerSettings implements IPlayerSettings {
     private boolean disableWhisper;
     private boolean ignoreEvents;
 
+    private Player player;
+
     private boolean sendLoginNotification;
 
-    public PlayerSettings(ResultSet data, boolean isLogin) throws SQLException {
+    public PlayerSettings(ResultSet data, boolean isLogin, Player player) throws SQLException {
         if (isLogin) {
             String volumeData = data.getString("playerSettings_volume");
 
@@ -60,6 +65,7 @@ public class PlayerSettings implements IPlayerSettings {
             this.allowTrade = data.getString("playerSettings_allowTrade").equals("1");
             this.allowFollow = data.getString("playerSettings_allowFollow").equals("1");
             this.allowMimic = data.getString("playerSettings_allowMimic").equals("1");
+            this.personalstaff = data.getString("playerSettings_personalstaff").equals("1");
 
             this.homeRoom = data.getInt("playerSettings_homeRoom");
 
@@ -109,6 +115,8 @@ public class PlayerSettings implements IPlayerSettings {
             this.allowTrade = data.getString("allow_trade").equals("1");
             this.allowFollow = data.getString("allow_follow").equals("1");
             this.allowFollow = data.getString("allow_mimic").equals("1");
+            this.personalstaff = data.getString("playerSettings_personalstaff").equals("1");
+
 
             this.homeRoom = data.getInt("home_room");
 
@@ -144,6 +152,8 @@ public class PlayerSettings implements IPlayerSettings {
             this.disableWhisper = data.getString("disable_whisper").equals("1");
             this.sendLoginNotification = data.getString("send_login_notif").equals("1");
         }
+
+        flush();
     }
 
     public PlayerSettings() {
@@ -185,6 +195,16 @@ public class PlayerSettings implements IPlayerSettings {
 
     public void setAllowFriendRequests(boolean allowFriendRequests) {
         this.allowFriendRequests = allowFriendRequests;
+
+        flush();
+    }
+
+    public void setPersonalStaff(boolean b) {
+        this.personalstaff = b;
+    }
+
+    public boolean hasPersonalStaff() {
+        return this.personalstaff;
     }
 
     public boolean getAllowTrade() {
@@ -205,6 +225,8 @@ public class PlayerSettings implements IPlayerSettings {
 
     public void setHomeRoom(int homeRoom) {
         this.homeRoom = homeRoom;
+
+        flush();
     }
 
     public List<IWardrobeItem> getWardrobe() {
@@ -213,6 +235,8 @@ public class PlayerSettings implements IPlayerSettings {
 
     public void setWardrobe(List<IWardrobeItem> wardrobe) {
         this.wardrobe = wardrobe;
+
+        flush();
     }
 
     public List<IPlaylistItem> getPlaylist() {
@@ -225,6 +249,8 @@ public class PlayerSettings implements IPlayerSettings {
 
     public void setUseOldChat(boolean useOldChat) {
         this.useOldChat = useOldChat;
+
+        flush();
     }
 
     public boolean ignoreEvents() {
@@ -233,6 +259,8 @@ public class PlayerSettings implements IPlayerSettings {
 
     public void setIgnoreInvites(boolean ignoreInvites) {
         this.ignoreInvites = ignoreInvites;
+
+        flush();
     }
 
     public int getNavigatorX() {
@@ -289,6 +317,8 @@ public class PlayerSettings implements IPlayerSettings {
 
     public void setDisableWhisper(boolean disableWhisper) {
         this.disableWhisper = disableWhisper;
+
+        flush();
     }
 
     public boolean sendLoginNotif() {
@@ -297,5 +327,42 @@ public class PlayerSettings implements IPlayerSettings {
 
     public void setSendLoginNotification(boolean sendLoginNotification) {
         this.sendLoginNotification = sendLoginNotification;
+    }
+
+    public JsonObject toJson() {
+        final JsonObject coreObject = new JsonObject();
+        final JsonArray wardrobeArray = new JsonArray();
+
+        coreObject.add("volumes", volumes.toJson());
+
+        for(IWardrobeItem wardrobeItem : wardrobe) {
+            wardrobeArray.add(wardrobeItem.toJson());
+        }
+
+        coreObject.add("wardrobe", wardrobeArray);
+
+        coreObject.addProperty("hideOnline", hideOnline);
+        coreObject.addProperty("hideInRoom", hideInRoom);
+        coreObject.addProperty("allowFriendRequests", allowFriendRequests);
+        coreObject.addProperty("allowTrade", allowTrade);
+        coreObject.addProperty("allowFollow", allowFollow);
+        coreObject.addProperty("allowMimic", allowMimic);
+        coreObject.addProperty("homeRoom", homeRoom);
+        coreObject.addProperty("useOldChat", useOldChat);
+        coreObject.addProperty("ignoreInvites", ignoreInvites);
+        coreObject.addProperty("disableWhisper", disableWhisper);
+        coreObject.addProperty("ignoreEvents", ignoreEvents);
+
+        return coreObject;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void flush() {
+        if (player != null) {
+            this.getPlayer().flush();
+        }
     }
 }

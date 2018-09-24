@@ -8,6 +8,7 @@ import com.cometproject.server.storage.queries.navigator.NavigatorDao;
 import com.google.common.collect.Lists;
 import org.apache.log4j.Logger;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -112,8 +113,16 @@ public class NavigatorManager implements Initialisable {
         return this.categories;
     }
 
-    public Map<Integer, PublicRoom> getPublicRooms() {
-        return this.publicRooms;
+    public Map<Integer, PublicRoom> getPublicRooms(String category) {
+        Map<Integer, PublicRoom> pRooms = new LinkedHashMap<>();
+
+        for (PublicRoom publicRoom : this.publicRooms.values()) {
+           if(publicRoom.getCategory().equals(category))
+               pRooms.put(publicRoom.getRoomId(), publicRoom);
+
+        }
+
+        return pRooms;
     }
 
     public Set<Integer> getStaffPicks() {

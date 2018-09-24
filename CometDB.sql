@@ -1,4 +1,4 @@
-﻿/*
+/*
 Navicat MariaDB Data Transfer
 
 Source Server         : MySQL

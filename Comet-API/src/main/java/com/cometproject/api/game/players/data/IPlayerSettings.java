@@ -18,6 +18,10 @@ public interface IPlayerSettings {
 
     void setAllowFriendRequests(boolean allowFriendRequests);
 
+    void setPersonalStaff(boolean b);
+
+    boolean hasPersonalStaff();
+
     boolean getAllowTrade();
     
     boolean getAllowFollow();

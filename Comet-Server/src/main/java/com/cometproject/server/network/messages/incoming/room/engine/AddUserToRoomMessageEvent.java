@@ -96,7 +96,7 @@ public class AddUserToRoomMessageEvent implements Event {
             }
 
             if (av.isIdle()) {
-                client.sendQueue(new IdleStatusMessageComposer(av.getId(), true));
+                client.sendQueue(new IdleStatusMessageComposer((PlayerEntity) av, true));
             }
 
             if (av.getAI() != null) {

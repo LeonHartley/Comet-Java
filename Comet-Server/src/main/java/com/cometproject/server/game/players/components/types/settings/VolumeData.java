@@ -1,6 +1,7 @@
 package com.cometproject.server.game.players.components.types.settings;
 
 import com.cometproject.api.game.players.data.types.IVolumeData;
+import com.google.gson.JsonObject;
 
 public class VolumeData implements IVolumeData {
     private int systemVolume;
@@ -35,5 +36,15 @@ public class VolumeData implements IVolumeData {
 
     public void setTraxVolume(int traxVolume) {
         this.traxVolume = traxVolume;
+    }
+
+    public JsonObject toJson() {
+        final JsonObject coreObect = new JsonObject();
+
+        coreObect.addProperty("systemVolume", systemVolume);
+        coreObect.addProperty("furniVolume", furniVolume);
+        coreObect.addProperty("traxVolume", traxVolume);
+
+        return coreObect;
     }
 }

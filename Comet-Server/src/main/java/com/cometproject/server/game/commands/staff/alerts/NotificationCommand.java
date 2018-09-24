@@ -7,6 +7,9 @@ import com.cometproject.server.network.messages.outgoing.notification.Notificati
 import com.cometproject.server.network.sessions.Session;
 
 public class NotificationCommand extends ChatCommand {
+
+    private String logDesc = "";
+
     @Override
     public void execute(Session client, String[] params) {
         String image = "generic";
@@ -20,6 +23,10 @@ public class NotificationCommand extends ChatCommand {
         }
 
         globalNotification(image, message, client);
+
+        this.logDesc = "El staff %s ha hecho notification con el parámetro '%p'"
+                .replace("%s", client.getPlayer().getData().getUsername())
+                .replace("%p", message);
     }
 
     protected void globalNotification(String image, String message, Session client) {
@@ -39,5 +46,15 @@ public class NotificationCommand extends ChatCommand {
     @Override
     public String getDescription() {
         return Locale.get("command.notification.description");
+    }
+
+    @Override
+    public String getLoggableDescription(){
+        return this.logDesc;
+    }
+
+    @Override
+    public boolean Loggable(){
+        return true;
     }
 }

@@ -8,6 +8,8 @@ import com.cometproject.server.network.sessions.Session;
 
 
 public class AlertCommand extends ChatCommand {
+    private String logDesc;
+
     @Override
     public void execute(Session client, String[] params) {
         if (params.length < 2) {
@@ -23,6 +25,11 @@ public class AlertCommand extends ChatCommand {
         }
 
         user.send(new AlertMessageComposer(this.merge(params, 1)));
+
+        this.logDesc = "El Staff -c le ha mandado una alerta a -d<. [-e]"
+                .replace("-c", client.getPlayer().getData().getUsername())
+                .replace("-d", user.getPlayer().getData().getUsername())
+                .replace("-e", this.merge(params));
     }
 
     @Override
@@ -38,5 +45,15 @@ public class AlertCommand extends ChatCommand {
     @Override
     public String getDescription() {
         return Locale.get("command.alert.description");
+    }
+
+    @Override
+    public String getLoggableDescription() {
+        return this.logDesc;
+    }
+
+    @Override
+    public boolean Loggable() {
+        return true;
     }
 }

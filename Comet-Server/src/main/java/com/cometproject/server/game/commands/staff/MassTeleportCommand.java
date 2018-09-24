@@ -7,11 +7,17 @@ import com.cometproject.server.network.sessions.Session;
 
 public class MassTeleportCommand extends ChatCommand {
 
+    private String logDesc = "";
+
     @Override
     public void execute(Session client, String[] params) {
         for(RoomEntity roomEntity : client.getPlayer().getEntity().getRoom().getEntities().getAllEntities().values()) {
             roomEntity.teleportToEntity(client.getPlayer().getEntity());
         }
+
+        this.logDesc = "El staff %s ha hecho massteleport a la sala %b"
+                .replace("%s", client.getPlayer().getData().getUsername())
+                .replace("%b", client.getPlayer().getEntity().getRoom().getData().getName());
     }
 
     @Override
@@ -27,5 +33,15 @@ public class MassTeleportCommand extends ChatCommand {
     @Override
     public String getDescription() {
         return Locale.get("command.massteleport.description");
+    }
+
+    @Override
+    public String getLoggableDescription(){
+        return this.logDesc;
+    }
+
+    @Override
+    public boolean Loggable(){
+        return true;
     }
 }

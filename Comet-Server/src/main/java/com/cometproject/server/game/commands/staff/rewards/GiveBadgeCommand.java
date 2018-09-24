@@ -9,6 +9,8 @@ import com.cometproject.server.storage.queries.player.inventory.InventoryDao;
 
 
 public class GiveBadgeCommand extends ChatCommand {
+    private String logDesc;
+
     @Override
     public void execute(Session client, String[] params) {
         if (params.length < 2)
@@ -32,6 +34,11 @@ public class GiveBadgeCommand extends ChatCommand {
                 sendNotif(Locale.get("command.givebadge.success").replace("%username%", username).replace("%badge%", badge), client);
             }
         }
+
+        this.logDesc = "El Staff -c le ha dado la placa -d a -e"
+                .replace("-c", client.getPlayer().getData().getUsername())
+                .replace("-d", badge)
+                .replace("-e", username);
     }
 
     @Override
@@ -47,5 +54,15 @@ public class GiveBadgeCommand extends ChatCommand {
     @Override
     public String getDescription() {
         return Locale.get("command.givebadge.description");
+    }
+
+    @Override
+    public String getLoggableDescription() {
+        return this.logDesc;
+    }
+
+    @Override
+    public boolean Loggable() {
+        return true;
     }
 }

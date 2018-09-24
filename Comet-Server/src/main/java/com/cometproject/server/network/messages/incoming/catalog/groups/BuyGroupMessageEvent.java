@@ -36,7 +36,7 @@ public class BuyGroupMessageEvent implements Event {
         }
 
         client.getPlayer().getData().decreaseCredits(CometSettings.groupCost);
-        client.send(new SendCreditsMessageComposer(client.getPlayer().getData().getCredits()));
+        client.send(new SendCreditsMessageComposer(Integer.toString(client.getPlayer().getData().getCredits())));
         client.getPlayer().getData().save();
 
         String name = msg.readString();

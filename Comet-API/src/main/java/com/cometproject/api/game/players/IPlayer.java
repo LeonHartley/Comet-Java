@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Set;
 
 public interface IPlayer {
-    int INFINITE_BALANCE = 999999;
+    String INFINITE_BALANCE = "999999999";
 
     void dispose();
 
@@ -152,4 +152,5 @@ public interface IPlayer {
 
     void setLastRoomCreated(int lastRoomCreated);
 
+    void flush();
 }

@@ -65,6 +65,8 @@ public class QuestComponent extends PlayerComponent implements PlayerQuests {
 
         this.getPlayer().getData().setQuestId(quest.getId());
         this.getPlayer().getData().save();
+
+        this.getPlayer().flush();
     }
 
     @Override
@@ -170,6 +172,9 @@ public class QuestComponent extends PlayerComponent implements PlayerQuests {
 
         this.getPlayer().getSession().send(new QuestCompletedMessageComposer(quest, this.getPlayer()));
         this.getPlayer().getSession().send(new QuestListMessageComposer(QuestManager.getInstance().getQuests(), this.getPlayer(), false));
+
+        this.getPlayer().flush();
+
     }
 
     @Override

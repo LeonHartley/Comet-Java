@@ -10,7 +10,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.data.S
 import com.cometproject.server.game.rooms.types.Room;
 import com.google.common.collect.Lists;
 
-import java.util.List;
+import java.util.*;
 
 public class HighscoreClassicFloorItem extends RoomItemFloor {
 
@@ -27,7 +27,7 @@ public class HighscoreClassicFloorItem extends RoomItemFloor {
             this.itemData = JsonUtil.getInstance().fromJson(data.substring(1), ScoreboardItemData.class);
         } else {
             this.state = false;
-            this.itemData = new ScoreboardItemData(1, 0, Lists.newArrayList());
+            this.itemData = new ScoreboardItemData(1, 0, Lists.newArrayList(), new LinkedHashMap<>());
         }
     }
 
@@ -71,6 +71,13 @@ public class HighscoreClassicFloorItem extends RoomItemFloor {
         this.saveData();
     }
 
+    public void addPoint(String identifier, int score) {
+        this.itemData.addPoint(identifier, score);
+
+        this.sendUpdate();
+        this.saveData();
+    }
+
     public ScoreboardItemData getScoreData() {
         return itemData;
     }
@@ -82,21 +89,25 @@ public class HighscoreClassicFloorItem extends RoomItemFloor {
         msg.writeInt(this.getScoreData().getScoreType());
         msg.writeInt(this.getScoreData().getClearType());
 
-        msg.writeInt(this.getScoreData().getEntries().size() > 50 ? 50 : this.getScoreData().getEntries().size());
+        msg.writeInt(this.getScoreData().getPoints().size() > 50 ? 50 : this.getScoreData().getPoints().size());
 
         int x = 0;
 
-        for (ScoreboardItemData.HighscoreEntry entry : this.getScoreData().getEntries()) {
+        List<Map.Entry<String, Integer>> list = new ArrayList<>(this.getScoreData().getPoints().entrySet());
+
+        list.sort(Collections.reverseOrder(Map.Entry.comparingByValue()));
+
+        for (Map.Entry<String, Integer> entry : list) {
             x++;
 
             if (x > 50) break;
 
-            msg.writeInt(entry.getScore());
-            msg.writeInt(entry.getUsers().size());
+            msg.writeInt(entry.getValue());
+            msg.writeInt(1);
 
-            for (String name : entry.getUsers()) {
-                msg.writeString(name);
-            }
+            //for (String name : entry.getUsers()) {
+            msg.writeString(entry.getKey());
+            //}
         }
     }
 }

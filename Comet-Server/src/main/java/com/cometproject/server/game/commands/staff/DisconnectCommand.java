@@ -7,6 +7,8 @@ import com.cometproject.server.network.sessions.Session;
 
 
 public class DisconnectCommand extends ChatCommand {
+    private String logDesc;
+
     @Override
     public void execute(Session client, String[] params) {
         if (params.length != 1) {
@@ -33,6 +35,10 @@ public class DisconnectCommand extends ChatCommand {
             return;
         }
 
+        this.logDesc = "El Staff -c le ha dado DC a -d"
+                .replace("-c", client.getPlayer().getData().getUsername())
+                .replace("-d", session.getPlayer().getData().getUsername());
+
         session.disconnect();
         isExecuted(client);
     }
@@ -54,6 +60,16 @@ public class DisconnectCommand extends ChatCommand {
 
     @Override
     public boolean bypassFilter() {
+        return true;
+    }
+
+    @Override
+    public String getLoggableDescription() {
+        return this.logDesc;
+    }
+
+    @Override
+    public boolean Loggable() {
         return true;
     }
 }

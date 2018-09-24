@@ -9,6 +9,9 @@ import com.cometproject.server.network.sessions.Session;
 
 
 public class MassEffectCommand extends ChatCommand {
+
+    private String logDesc = "";
+
     @Override
     public void execute(Session client, String[] params) {
         if (params.length != 1) {
@@ -32,6 +35,10 @@ public class MassEffectCommand extends ChatCommand {
         } catch (Exception e) {
             sendNotif(Locale.get("command.masseffect.invalidid"), client);
         }
+
+        this.logDesc = "El staff %s ha hecho <b>massEffect</b> en la sala '%b'"
+                .replace("%s", client.getPlayer().getData().getUsername())
+                .replace("%b", client.getPlayer().getEntity().getRoom().getData().getName());
     }
 
     @Override
@@ -47,5 +54,15 @@ public class MassEffectCommand extends ChatCommand {
     @Override
     public String getDescription() {
         return Locale.get("command.masseffect.description");
+    }
+
+    @Override
+    public String getLoggableDescription(){
+        return this.logDesc;
+    }
+
+    @Override
+    public boolean Loggable(){
+        return true;
     }
 }

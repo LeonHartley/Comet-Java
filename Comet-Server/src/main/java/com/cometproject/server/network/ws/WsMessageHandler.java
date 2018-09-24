@@ -32,7 +32,7 @@ public class WsMessageHandler extends SimpleChannelInboundHandler<TextWebSocketF
     }
 
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame frame) throws Exception {
+    protected void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame frame) {
         String data = frame.text();
         final Request request = JsonUtil.getInstance().fromJson(data, Request.class);
 

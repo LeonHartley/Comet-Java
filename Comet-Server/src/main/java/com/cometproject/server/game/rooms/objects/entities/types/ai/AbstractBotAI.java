@@ -3,6 +3,7 @@ package com.cometproject.server.game.rooms.objects.entities.types.ai;
 import com.cometproject.api.game.bots.BotMode;
 import com.cometproject.api.game.rooms.entities.RoomEntityStatus;
 import com.cometproject.api.game.utilities.Position;
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
@@ -78,6 +79,8 @@ public abstract class AbstractBotAI implements BotAI {
             try {
                 if (((BotEntity) this.getEntity()).getCycleCount() == ((BotEntity) this.getEntity()).getData().getChatDelay() * 2) {
                     String message = ((BotEntity) this.getEntity()).getData().getRandomMessage();
+                    message = message.replace("%roomname%", this.getEntity().getRoom().getData().getName());
+                    message = message.replace("%usersonline%", Integer.toString(Comet.getStats().getPlayers()));
 
                     if (message != null && !message.isEmpty()) {
                         ((BotEntity) this.getEntity()).say(message);

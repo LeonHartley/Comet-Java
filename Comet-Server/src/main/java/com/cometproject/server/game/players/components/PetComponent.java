@@ -31,14 +31,20 @@ public class PetComponent extends PlayerComponent implements PlayerPets {
 
     public void clearPets() {
         this.pets.clear();
+
+        this.getPlayer().flush();
     }
 
     public void addPet(IPetData petData) {
         this.pets.put(petData.getId(), petData);
+
+        this.getPlayer().flush();
     }
 
     public void removePet(int id) {
         this.pets.remove(id);
+
+        this.getPlayer().flush();
     }
 
     @Override

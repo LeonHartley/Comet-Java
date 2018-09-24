@@ -10,6 +10,9 @@ import com.cometproject.server.network.sessions.Session;
 
 
 public class MachineBanCommand extends ChatCommand {
+
+    private String logDesc = "";
+
     @Override
     public void execute(Session client, String[] params) {
         if (params.length < 2) {
@@ -45,6 +48,10 @@ public class MachineBanCommand extends ChatCommand {
         sendNotif("User has been machine ID banned (" + uniqueId + ")", client);
 
         user.disconnect("banned");
+
+        this.logDesc = "El staff %s ha hecho machineban a '%u'"
+                .replace("%s", client.getPlayer().getData().getUsername())
+                .replace("%u", username);
     }
 
     @Override
@@ -64,6 +71,16 @@ public class MachineBanCommand extends ChatCommand {
 
     @Override
     public boolean bypassFilter() {
+        return true;
+    }
+
+    @Override
+    public String getLoggableDescription(){
+        return this.logDesc;
+    }
+
+    @Override
+    public boolean Loggable(){
         return true;
     }
 }

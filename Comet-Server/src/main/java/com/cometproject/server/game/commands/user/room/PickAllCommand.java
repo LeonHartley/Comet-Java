@@ -13,6 +13,8 @@ import java.util.List;
 
 
 public class PickAllCommand extends ChatCommand {
+    private String logDesc = "";
+
     @Override
     public void execute(Session client, String message[]) {
         Room room = client.getPlayer().getEntity().getRoom();
@@ -36,6 +38,11 @@ public class PickAllCommand extends ChatCommand {
         }
 
         itemsToRemove.clear();
+
+        this.logDesc = "El staff %s ha hecho pickall en la sala '%b', cuyo dueño es %c"
+                .replace("%s", client.getPlayer().getData().getUsername())
+                .replace("%b", room.getData().getName())
+                .replace("%c", room.getData().getOwner());
     }
 
     @Override
@@ -51,5 +58,15 @@ public class PickAllCommand extends ChatCommand {
     @Override
     public String getDescription() {
         return Locale.get("command.pickall.description");
+    }
+
+    @Override
+    public String getLoggableDescription() {
+        return this.logDesc;
+    }
+
+    @Override
+    public boolean Loggable() {
+        return true;
     }
 }

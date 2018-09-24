@@ -4,6 +4,7 @@ import com.cometproject.api.game.groups.types.IGroup;
 import com.cometproject.api.game.groups.types.components.membership.IGroupMember;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
+import com.cometproject.server.game.rooms.objects.items.types.wall.PostItWallItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.protocol.headers.Composers;
 import com.cometproject.server.protocol.messages.MessageComposer;
@@ -58,10 +59,11 @@ public class WallItemsMessageComposer extends MessageComposer {
         msg.writeInt(size);
 
         for (RoomItemWall item : room.getItems().getWallItems().values()) {
+            String extradata = (item instanceof PostItWallItem ? item.getItemData().getData().split(" ")[0] : item.getItemData().getData());
             msg.writeString(item.getVirtualId());
             msg.writeInt(item.getDefinition().getSpriteId());
             msg.writeString(item.getWallPosition());
-            msg.writeString(item.getItemData().getData());
+            msg.writeString(extradata);
             msg.writeInt(0);
             msg.writeInt(room.getData().getOwnerId());
             msg.writeInt(0);

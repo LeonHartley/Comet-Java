@@ -1,14 +1,15 @@
 package com.cometproject.server.network.messages.outgoing.user.purse;
 
+import com.cometproject.api.config.CometSettings;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.protocol.headers.Composers;
 import com.cometproject.server.protocol.messages.MessageComposer;
 
 
 public class SendCreditsMessageComposer extends MessageComposer {
-    private final int credits;
+    private final String credits;
 
-    public SendCreditsMessageComposer(final int credits) {
+    public SendCreditsMessageComposer(final String credits) {
         this.credits = credits;
     }
 
@@ -19,6 +20,6 @@ public class SendCreditsMessageComposer extends MessageComposer {
 
     @Override
     public void compose(IComposer msg) {
-        msg.writeString(credits + ".0");
+        msg.writeString((credits + ".0"));
     }
 }

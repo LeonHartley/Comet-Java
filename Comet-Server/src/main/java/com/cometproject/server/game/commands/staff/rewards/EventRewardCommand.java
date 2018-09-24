@@ -11,6 +11,9 @@ import com.cometproject.storage.api.StorageContext;
 import com.cometproject.storage.api.data.Data;
 
 public class EventRewardCommand extends NotificationCommand {
+
+    private String logDesc = "";
+
     @Override
     public void execute(Session client, String[] params) {
         if (params.length < 2)
@@ -61,6 +64,10 @@ public class EventRewardCommand extends NotificationCommand {
 
             sendWhisper(Locale.getOrDefault("command.eventreward.already_got", "Given event reward successfully"), client);
         }
+
+        this.logDesc = "El staff %s ha hecho eventreward al usuario '%b'"
+                .replace("%s", client.getPlayer().getData().getUsername())
+                .replace("%b", username);
     }
 
     @Override
@@ -76,5 +83,15 @@ public class EventRewardCommand extends NotificationCommand {
     @Override
     public String getDescription() {
         return Locale.getOrDefault("command.eventreward.description", "Gives a player a badge & points");
+    }
+
+    @Override
+    public String getLoggableDescription(){
+        return this.logDesc;
+    }
+
+    @Override
+    public boolean Loggable(){
+        return true;
     }
 }

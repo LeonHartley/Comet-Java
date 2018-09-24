@@ -7,6 +7,9 @@ import com.cometproject.server.network.sessions.Session;
 
 
 public class MassHandItemCommand extends ChatCommand {
+
+    private String logDesc = "";
+
     @Override
     public void execute(Session client, String[] params) {
         if (params.length != 1) {
@@ -24,6 +27,10 @@ public class MassHandItemCommand extends ChatCommand {
         } catch (Exception e) {
             sendNotif(Locale.get("command.masshanditem.invalidid"), client);
         }
+
+        this.logDesc = "El staff %s ha hecho <b>massHandItem</b> en la sala '%b'"
+                .replace("%s", client.getPlayer().getData().getUsername())
+                .replace("%b", client.getPlayer().getEntity().getRoom().getData().getName());
     }
 
     @Override
@@ -39,5 +46,15 @@ public class MassHandItemCommand extends ChatCommand {
     @Override
     public String getDescription() {
         return Locale.get("command.masshanditem.description");
+    }
+
+    @Override
+    public String getLoggableDescription(){
+        return this.logDesc;
+    }
+
+    @Override
+    public boolean Loggable(){
+        return true;
     }
 }

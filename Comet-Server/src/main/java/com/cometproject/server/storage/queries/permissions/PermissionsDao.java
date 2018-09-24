@@ -53,6 +53,7 @@ public class PermissionsDao {
         Map<Integer, Rank> data = new ConcurrentHashMap<>();
 
         try {
+
             sqlConnection = SqlHelper.getConnection();
             preparedStatement = SqlHelper.prepare("SELECT * FROM server_permissions_ranks", sqlConnection);
             resultSet = preparedStatement.executeQuery();

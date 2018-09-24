@@ -27,6 +27,7 @@ import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.ai.bots.WaiterAI;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerPlayerSaysKeyword;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.custom.WiredTriggerLeavesRoom;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.games.GameTeam;
 import com.cometproject.server.game.rooms.types.components.types.Trade;
@@ -372,6 +373,8 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
             LogManager.getInstance().getStore().getRoomVisitContainer().updateExit(this.visitLogEntry);
         }
 
+        WiredTriggerLeavesRoom.executeTriggers(this);
+
         this.getStatuses().clear();
         this.attributes.clear();
 
@@ -495,6 +498,7 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
         }
 
         this.unIdle();
+
         return true;
     }
 
@@ -608,7 +612,7 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
     public void setIdle() {
         super.setIdle();
 
-        this.getRoom().getEntities().broadcastMessage(new IdleStatusMessageComposer(this.getPlayerId(), true));
+        this.getRoom().getEntities().broadcastMessage(new IdleStatusMessageComposer(this, true));
     }
 
     public int getPlayerId() {

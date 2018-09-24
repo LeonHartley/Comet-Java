@@ -14,59 +14,36 @@ import com.cometproject.api.game.rooms.models.RoomTileState;
 import com.cometproject.server.game.utilities.DistanceCalculator;
 import com.cometproject.server.network.messages.outgoing.room.items.SlideObjectBundleMessageComposer;
 import com.cometproject.server.utilities.Direction;
+import com.cometproject.server.utilities.RandomUtil;
 import com.cometproject.storage.api.StorageContext;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 
 public abstract class RollableFloorItem extends RoomItemFloor {
-    public static final int KICK_POWER = 6;
+    private static int KICK_POWER = 1;
 
     private boolean isRolling = false;
     private RoomEntity kickerEntity;
     private boolean skipNext = false;
-    private boolean wasDribbling = false;
     private int rollStage = -1;
-
-    private boolean skip = false;
-
-    private int animationMode = -1;
 
     public RollableFloorItem(RoomItemData itemData, Room room) {
         super(itemData, room);
     }
 
-    public static void roll(RoomItemFloor item, Position from, Position to, Room room) {
-        final RollableFloorItem rollableFloorItem = (RollableFloorItem) item;
+    private static void roll(RoomItemFloor item, Position from, Position to, Room room) {
 
         final Map<Integer, Double> items = new HashMap<>();
 
         items.put(item.getVirtualId(), item.getPosition().getZ());
         room.getEntities().broadcastMessage(new SlideObjectBundleMessageComposer(from.copy(), to.copy(), item.getVirtualId(), 0, items));
-//        item.sendUpdate();
 
-        /*
-[1503332665217] Incoming: [1092]: [0][0][0][11][4]D[2][1][0][0][2]@[0]
-[1503332665216] Incoming: [3486]: [0][0][0];[13]???|[0][0][13]?[0][0][0][2][0][0][0][0][0][0][3][0][3]0.0[0][6]1.0E-6[0][0][0][0][0][0][0][0][0][2]11????[0][0][0][0][1]???
-
-[1503332665048] Incoming: [1092]: [0][0][0][11][4]D[2][2][0][0][1]@[0]
-[1503332665047] Incoming: [3486]: [0][0][0];[13]???|[0][0][13]?[0][0][0][1][0][0][0][0][0][0][5][0][3]0.0[0][6]1.0E-6[0][0][0][0][0][0][0][0][0][2]33????[0][0][0][0][1]???
-delay: 126ms
-
-[1503332664922] Incoming: [1092]: [0][0][0][11][4]D[2][3][0][0][2]@[0]
-[1503332664921] Incoming: [3486]: [0][0][0];[13]???|[0][0][13]?[0][0][0][2][0][0][0][0][0][0][5][0][3]0.0[0][6]1.0E-6[0][0][0][0][0][0][0][0][0][2]44????[0][0][0][0][1]???
-
-delay: 169ms
-[1503332664821] Incoming: [1092]: [0][0][0][11][4]D[2][4][0][0][3]@[0]
-[1503332664821] [b683bf485154731dea9fc99eab215556]
-[1503332664821] Incoming: [3486]: [0][0][0];[13]???|[0][0][13]?[0][0][0][3][0][0][0][0][0][0][5][0][3]0.0[0][6]1.0E-6[0][0][0][0][0][0][0][0][0][2]55????[0][0][0][0][1]???
-[1503332664771] [28e1d8306d60eba9566ddb95f64f5a36]
-[1503332664771] Incoming: [3731]: [0][0][0]=?[0][0][0][1][0][0][0][0][0][0][0][5][0][0][0][0][3]0.0[0][0][0][5][0][0][0][5][0]/flatctrl 4/mv 4,19,1.0E-6//
-[1503332664356] [e759ffbfd8bdfc8ae7721b1e33c9d49b]*/
     }
 
-    public static Position calculatePosition(int x, int y, int playerRotation) {
+    private static Position calculatePosition(int x, int y, int playerRotation) {
         return Position.calculatePosition(x, y, playerRotation, false, 1);
     }
 
@@ -78,34 +55,25 @@ delay: 169ms
             return;
         }
 
+        boolean isKickingMove = (this.getPosition().getY() == entity.getWalkingGoal().getY() && this.getPosition().getX() == entity.getWalkingGoal().getX()) && entity.getPreviousSteps() == 1;
+
+        KICK_POWER = isKickingMove ? 6 : 1;
+
         if (entity instanceof PlayerEntity && this instanceof BanzaiPuckFloorItem) {
             this.getItemData().setData((((PlayerEntity) entity).getGameTeam().getTeamId() + 1) + "");
             this.sendUpdate();
         }
 
-        boolean isOnBall = entity.getWalkingGoal().getX() == this.getPosition().getX() && entity.getWalkingGoal().getY() == this.getPosition().getY();
-
         this.setRotation(entity.getBodyRotation());
 
-        if (isOnBall && !this.wasDribbling) {
-            if (entity instanceof PlayerEntity) {
-                this.kickerEntity = entity;
-            }
-
-            this.wasDribbling = false;
-            this.rollStage = 0;
-            this.animationMode = 6;
-            this.rollBall(entity.getPosition(), entity.getBodyRotation());
-        } else if (isOnBall) {
-            if (entity.getPreviousSteps() != 2) {
-                this.rollSingle(entity);
-            }
-
-            this.wasDribbling = false;
-        } else {
-            this.rollSingle(entity);
-            this.wasDribbling = true;
+        if (entity instanceof PlayerEntity) {
+            this.kickerEntity = entity;
         }
+
+        this.rollStage = 0;
+
+        this.rollBall(entity.getPosition(), entity.getBodyRotation());
+
     }
 
     @Override
@@ -135,28 +103,14 @@ delay: 169ms
             this.isRolling = false;
             this.rollStage = -1;
             this.skipNext = false;
-            this.wasDribbling = false;
             return;
         }
 
         this.rollStage++;
 
         boolean isStart = this.rollStage == 1;
-        boolean isLast = this.rollStage >= KICK_POWER;
-//
-//        int maxSteps = isStart ? 3 : 2;
-//        int stepsTaken = 1;
-//
-//        Position position = this.getNextPosition();
-//
-//        for (int i = this.rollStage; i < KICK_POWER; i++) {
-//
-//
-//        }
 
         if (isStart) {
-            // the first roll... let's do some magic.
-
             int tiles = 1;
             Position position = this.getNextPosition();
 
@@ -164,7 +118,7 @@ delay: 169ms
                 position = this.getNextPosition(position.getFlag(), position.squareBehind(position.getFlag()));
             }
 
-            int count = isStart ? 2 : 2;
+            int count = 2;
 
             // can we skip some tiles?
             for (int i = 0; i < count && (this.rollStage + i < KICK_POWER); i++) {
@@ -345,7 +299,6 @@ delay: 169ms
         this.getItemData().setData("11");
         this.moveTo(newPosition, entity.getBodyRotation());
         this.isRolling = false;
-        this.wasDribbling = false;
     }
 
     @Override
@@ -367,7 +320,6 @@ delay: 169ms
         this.kickerEntity = null;
         this.skipNext = false;
         this.rollStage = -1;
-        this.wasDribbling = false;
     }
 
     private void moveTo(Position pos, int rotation) {

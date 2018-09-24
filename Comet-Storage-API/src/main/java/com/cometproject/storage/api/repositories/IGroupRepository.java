@@ -1,6 +1,7 @@
 package com.cometproject.storage.api.repositories;
 
 import com.cometproject.api.game.groups.types.IGroupData;
+import com.cometproject.api.game.groups.types.components.IForumComponent;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -17,4 +18,6 @@ public interface IGroupRepository {
     void deleteGroup(int groupId);
 
     void getGroupIdsByPlayerId(int playerId, Consumer<List<Integer>> consumer);
+
+    void createForumSettings(IForumComponent forumComponent);
 }

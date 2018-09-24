@@ -18,12 +18,14 @@ import com.cometproject.server.game.rooms.RoomQueue;
 import com.cometproject.server.game.rooms.models.RoomModel;
 import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
+import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.data.PlayerBotData;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerAtGivenTime;
 import com.cometproject.server.game.rooms.types.components.*;
 import com.cometproject.server.game.rooms.types.mapping.RoomMapping;
+import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.network.messages.outgoing.room.polls.QuickPollMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.polls.QuickPollResultsMessageComposer;
 import com.cometproject.server.storage.cache.CacheManager;
@@ -33,6 +35,7 @@ import com.cometproject.server.storage.cache.objects.items.WallItemDataObject;
 import com.cometproject.server.storage.queries.rooms.RoomDao;
 import com.cometproject.server.utilities.attributes.Attributable;
 import com.cometproject.storage.mysql.models.factories.rooms.RoomModelDataFactory;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import org.apache.log4j.Logger;
 
@@ -213,7 +216,9 @@ public class Room implements Attributable, IRoom {
 
         long currentTime = System.currentTimeMillis();
 
-        if (CacheManager.getInstance().isEnabled()) {
+        boolean isCacheEnabled = CacheManager.getInstance().isEnabled();
+
+        if (isCacheEnabled) {
             CacheManager.getInstance().put("rooms." + this.getId(), this.getCacheObject());
         }
 

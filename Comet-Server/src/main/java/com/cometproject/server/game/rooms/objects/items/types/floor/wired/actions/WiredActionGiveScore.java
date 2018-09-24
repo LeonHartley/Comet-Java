@@ -4,7 +4,10 @@ import com.cometproject.api.game.rooms.objects.data.RoomItemData;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.events.WiredItemEvent;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.highscore.HighscoreClassicFloorItem;
 import com.cometproject.server.game.rooms.types.Room;
+
+import java.util.List;
 
 
 public class WiredActionGiveScore extends WiredActionItem {
@@ -40,11 +43,11 @@ public class WiredActionGiveScore extends WiredActionItem {
 
         PlayerEntity playerEntity = ((PlayerEntity) event.entity);
 
-        if (playerEntity.getGameTeam() == null) {
-            return;
-        }
+        final List<HighscoreClassicFloorItem> scoreboards = getRoom().getItems().getByClass(HighscoreClassicFloorItem.class);
 
-        this.getRoom().getGame().increaseScore(playerEntity.getGameTeam(), this.getScore());
+        for (HighscoreClassicFloorItem scoreboard : scoreboards) {
+            scoreboard.addPoint(playerEntity.getUsername(), 1);
+        }
     }
 
     public int getScore() {

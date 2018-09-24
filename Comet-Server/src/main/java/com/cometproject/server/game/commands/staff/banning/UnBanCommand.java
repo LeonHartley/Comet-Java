@@ -13,6 +13,8 @@ import com.cometproject.server.storage.queries.player.PlayerDao;
 
 
 public class UnBanCommand extends ChatCommand {
+    private String logDesc;
+
     @Override
     public void execute(Session client, String[] params) {
         if (params.length == 0) {
@@ -29,6 +31,10 @@ public class UnBanCommand extends ChatCommand {
         } else {
             sendNotif(Locale.getOrDefault("command.unban.notbanned", "Oops! Maybe this user isn't banned or has machine ban."), client);
         }
+
+        this.logDesc = "El Staff -c ha desbaneado a -d"
+                .replace("-c", client.getPlayer().getData().getUsername())
+                .replace("-d", username);
     }
 
     @Override
@@ -44,5 +50,15 @@ public class UnBanCommand extends ChatCommand {
     @Override
     public String getDescription() {
         return Locale.get("command.unban.description");
+    }
+
+    @Override
+    public String getLoggableDescription() {
+        return this.logDesc;
+    }
+
+    @Override
+    public boolean Loggable() {
+        return true;
     }
 }

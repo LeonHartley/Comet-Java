@@ -12,6 +12,9 @@ import com.cometproject.server.storage.queries.player.PlayerDao;
 
 
 public class UnmuteCommand extends ChatCommand {
+
+    private String logDesc = "";
+
     @Override
     public void execute(Session client, String[] params) {
         if (params.length != 1) {
@@ -27,24 +30,25 @@ public class UnmuteCommand extends ChatCommand {
             return;
         }
 
-        if (playerId != -1) {
-            final int timeMuted = 0;
+        final int timeMuted = 0;
+        session.send(new AdvancedAlertMessageComposer(Locale.getOrDefault("command.unmute.unmuted", "You has been unmuted.")));
 
-            session.send(new AdvancedAlertMessageComposer(Locale.get("command.unmute.unmuted")));
+        if (session.getPlayer().getData().getTimeMuted() > (int) Comet.getTime()) {
+            PlayerDao.addTimeMute(playerId, timeMuted);
+            session.getPlayer().getData().setTimeMuted(timeMuted);
+            isExecuted(client);
+        } else {
+            PlayerEntity entity = session.getPlayer().getEntity();
 
-            if (session.getPlayer().getData().getTimeMuted() > (int) Comet.getTime()) {
-                PlayerDao.addTimeMute(playerId, timeMuted);
-                session.getPlayer().getData().setTimeMuted(timeMuted);
-                isExecuted(client);
-            } else {
-                PlayerEntity entity = session.getPlayer().getEntity();
-
-                if (entity != null && entity.isRoomMuted()) {
-                    entity.setRoomMuted(false);
-                }
-                isExecuted(client);
+            if (entity != null && entity.isRoomMuted()) {
+                entity.setRoomMuted(false);
             }
+            isExecuted(client);
         }
+
+        this.logDesc = "El staff %s ha hecho unmute a '%u'"
+                .replace("%s", client.getPlayer().getData().getUsername())
+                .replace("%u", params[0]);
     }
 
     @Override
@@ -64,6 +68,16 @@ public class UnmuteCommand extends ChatCommand {
 
     @Override
     public boolean bypassFilter() {
+        return true;
+    }
+
+    @Override
+    public String getLoggableDescription(){
+        return this.logDesc;
+    }
+
+    @Override
+    public boolean Loggable(){
         return true;
     }
 }

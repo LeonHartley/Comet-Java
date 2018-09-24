@@ -32,7 +32,7 @@ public class WiredConditionCustomHasRank extends WiredConditionItem {
 
         PlayerEntity playerEntity = (PlayerEntity) entity;
 
-        if (playerEntity.getPlayer().getData().getRank() == rankId) {
+        if (playerEntity.getPlayer().getData().getRank() >= rankId) {
             hasRank = true;
         }
 

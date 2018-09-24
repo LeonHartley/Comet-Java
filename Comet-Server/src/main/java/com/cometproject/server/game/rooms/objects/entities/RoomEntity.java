@@ -1,7 +1,9 @@
 package com.cometproject.server.game.rooms.objects.entities;
 
 import com.cometproject.api.game.rooms.entities.RoomEntityStatus;
+import com.cometproject.api.game.rooms.models.RoomTileState;
 import com.cometproject.api.game.utilities.Position;
+import com.cometproject.server.game.permissions.PermissionsManager;
 import com.cometproject.server.game.rooms.objects.RoomFloorObject;
 import com.cometproject.server.game.rooms.objects.RoomObject;
 import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
@@ -16,14 +18,12 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.SeatFloorIte
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.RoomEntityMovementNode;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
-import com.cometproject.api.game.rooms.models.RoomTileState;
 import com.cometproject.server.network.messages.outgoing.room.avatar.*;
+import com.cometproject.server.storage.queries.permissions.PermissionsDao;
 import com.cometproject.server.utilities.collections.ConcurrentHashSet;
 import com.google.common.collect.Sets;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity {
@@ -437,7 +437,7 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
         if (this.idleTime >= 600) {
             if (!this.isIdle) {
                 this.isIdle = true;
-                this.getRoom().getEntities().broadcastMessage(new IdleStatusMessageComposer(this.getId(), true));
+                this.getRoom().getEntities().broadcastMessage(new IdleStatusMessageComposer((PlayerEntity) this, true));
             }
             return true;
         }
@@ -474,7 +474,7 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
         }
 
         if (sendUpdate) {
-            this.getRoom().getEntities().broadcastMessage(new IdleStatusMessageComposer(this.getId(), false));
+            this.getRoom().getEntities().broadcastMessage(new IdleStatusMessageComposer((PlayerEntity) this, false));
         }
     }
 
@@ -568,7 +568,35 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
 
             this.getRoom().getEntities().broadcastMessage(new ApplyEffectMessageComposer(this.getId(), 0));
         } else {
-            this.getRoom().getEntities().broadcastMessage(new ApplyEffectMessageComposer(this.getId(), effect.getEffectId()));
+
+            PlayerEntity playerEntity = (PlayerEntity) this;
+            int effectId = effect.getEffectId();
+
+            if (playerEntity.getPlayer().getSettings().hasPersonalStaff() && effectId <= 0) {
+
+                List<Map.Entry<Integer, Integer>> rankPermList = new ArrayList<>(PermissionsDao.getEffects().entrySet());
+                rankPermList.sort(Collections.reverseOrder(Map.Entry.comparingByValue()));
+
+                for (Map.Entry<Integer, Integer> entry : rankPermList) {
+
+                    if (playerEntity.getPlayer().getPermissions().getRank().getId() < entry.getValue())
+                        continue;
+
+                    if (playerEntity.getPlayer().getSettings().hasPersonalStaff()) {
+                        playerEntity.getPlayer().getEntity().applyEffect(new PlayerEffect(entry.getKey()));
+                    } else
+                        playerEntity.getPlayer().getEntity().applyEffect(new PlayerEffect(0));
+
+                    break;
+                }
+            } else {
+                final Integer minimumRank = PermissionsManager.getInstance().getEffects().get(effect.getEffectId());
+                if (minimumRank != null && playerEntity.getPlayer().getData().getRank() < minimumRank) {
+                    effectId = 10;
+                }
+                this.getRoom().getEntities().broadcastMessage(new ApplyEffectMessageComposer(this.getId(), effectId));
+            }
+
         }
 
         if (effect != null && effect.expires()) {

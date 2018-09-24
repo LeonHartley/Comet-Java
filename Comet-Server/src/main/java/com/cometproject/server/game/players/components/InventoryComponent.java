@@ -84,6 +84,8 @@ public class InventoryComponent extends PlayerComponent implements PlayerInvento
             for (Map.Entry<Long, PlayerItem> item : inventoryItems.entrySet()) {
                 this.inventoryItems.put(item.getKey(), item.getValue());
             }
+
+            this.getPlayer().flush();
         } catch (Exception e) {
             log.error("Error while loading user inventory", e);
         }
@@ -122,6 +124,8 @@ public class InventoryComponent extends PlayerComponent implements PlayerInvento
             if (sendAlert) {
                 this.getPlayer().getSession().send(new WiredRewardMessageComposer(7));
             }
+
+            this.getPlayer().flush();
 
         }
     }
@@ -175,6 +179,8 @@ public class InventoryComponent extends PlayerComponent implements PlayerInvento
             }
 
             this.getPlayer().getSession().send(new BadgeInventoryMessageComposer(this.badges));
+
+            this.getPlayer().flush();
         }
     }
 
@@ -202,6 +208,8 @@ public class InventoryComponent extends PlayerComponent implements PlayerInvento
                 this.badges.replace(badge.getKey(), 0);
             }
         }
+
+        this.getPlayer().flush();
     }
 
     @Override
@@ -225,6 +233,8 @@ public class InventoryComponent extends PlayerComponent implements PlayerInvento
         PlayerItem item = new InventoryItem(id, itemId, extraData, giftData, limitedEditionItem);
 
         this.inventoryItems.put(id, item);
+
+        this.getPlayer().flush();
 
         return item;
     }
@@ -250,6 +260,8 @@ public class InventoryComponent extends PlayerComponent implements PlayerInvento
     @Override
     public void addItem(PlayerItem item) {
         this.inventoryItems.put(item.getId(), item);
+
+        this.getPlayer().flush();
     }
 
     @Override
@@ -261,6 +273,8 @@ public class InventoryComponent extends PlayerComponent implements PlayerInvento
     public void removeItem(long itemId) {
         this.inventoryItems.remove(itemId);
         this.getPlayer().getSession().send(new RemoveObjectFromInventoryMessageComposer(ItemManager.getInstance().getItemVirtualId(itemId)));
+
+        this.getPlayer().flush();
     }
 
     @Override

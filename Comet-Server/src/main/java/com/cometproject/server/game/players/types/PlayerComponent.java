@@ -16,5 +16,4 @@ public abstract class PlayerComponent implements IPlayerComponent {
     public IPlayer getPlayer() {
         return this.player;
     }
-
 }

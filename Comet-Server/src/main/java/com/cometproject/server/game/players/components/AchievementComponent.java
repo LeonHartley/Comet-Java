@@ -14,6 +14,8 @@ import com.cometproject.server.network.messages.outgoing.user.achievements.Achie
 import com.cometproject.server.network.messages.outgoing.user.achievements.AchievementUnlockedMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.purse.UpdateActivityPointsMessageComposer;
 import com.cometproject.server.storage.queries.achievements.PlayerAchievementDao;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import java.util.Map;
 
@@ -107,6 +109,8 @@ public class AchievementComponent extends PlayerComponent implements PlayerAchie
 
         this.getPlayer().getData().save();
         PlayerAchievementDao.saveProgress(this.getPlayer().getId(), type, progress);
+
+        this.getPlayer().flush();
     }
 
     private void processUnlock(IAchievement currentAchievement, IAchievement targetAchievement, IAchievementGroup achievementGroup, IAchievementProgress progress, int targetLevel, AchievementType type) {
@@ -128,6 +132,8 @@ public class AchievementComponent extends PlayerComponent implements PlayerAchie
         this.getPlayer().getSession().send(new AchievementUnlockedMessageComposer(achievementGroup.getCategory().toString(), achievementGroup.getGroupName(), achievementGroup.getId(), targetAchievement));
 
         this.getPlayer().getInventory().achievementBadge(type.getGroupName(), currentAchievement.getLevel());
+
+        this.getPlayer().flush();
     }
 
     @Override
@@ -143,5 +149,21 @@ public class AchievementComponent extends PlayerComponent implements PlayerAchie
     @Override
     public void dispose() {
         this.progression.clear();
+    }
+
+    public JsonArray toJson() {
+        final JsonArray coreArray = new JsonArray();
+
+        for(Map.Entry<AchievementType, IAchievementProgress> achievementEntry : progression.entrySet()) {
+            final JsonObject achievementObject = new JsonObject();
+
+            achievementObject.addProperty("type", achievementEntry.getKey().getGroupName());
+            achievementObject.addProperty("level", achievementEntry.getValue().getLevel());
+            achievementObject.addProperty("progress", achievementEntry.getValue().getProgress());
+
+            coreArray.add(achievementObject);
+        }
+
+        return coreArray;
     }
 }

@@ -50,9 +50,8 @@ public class RollerFloorItem extends AdvancedFloorItem<RollerFloorItemEvent> {
 
     @Override
     public void onEntityStepOn(RoomEntity entity) {
-        if (this.event.getCurrentTicks() == 3) {
-            skippedEntities.add(entity.getId());
-        }
+        skippedEntities.add(entity.getId());
+
     }
 
     @Override
@@ -61,9 +60,8 @@ public class RollerFloorItem extends AdvancedFloorItem<RollerFloorItemEvent> {
 
     @Override
     public void onItemAddedToStack(RoomItemFloor floorItem) {
-        if (this.event.getCurrentTicks() == 3) {
-            skippedItems.add(floorItem.getVirtualId());
-        }
+        skippedItems.add(floorItem.getVirtualId());
+
     }
 
     @Override

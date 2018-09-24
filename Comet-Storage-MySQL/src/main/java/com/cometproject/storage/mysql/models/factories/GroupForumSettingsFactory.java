@@ -6,8 +6,8 @@ import com.cometproject.storage.mysql.models.GroupForumSettingsData;
 
 public class GroupForumSettingsFactory {
 
-    public IForumSettings createSettings(int groupId, ForumPermission readPermission, ForumPermission postPermission,
-                                         ForumPermission startThreadPermission, ForumPermission moderatePermission) {
+    public static IForumSettings createSettings(int groupId, ForumPermission readPermission, ForumPermission postPermission,
+                                                ForumPermission startThreadPermission, ForumPermission moderatePermission) {
         return new GroupForumSettingsData(groupId, readPermission, postPermission, startThreadPermission, moderatePermission);
     }
 }

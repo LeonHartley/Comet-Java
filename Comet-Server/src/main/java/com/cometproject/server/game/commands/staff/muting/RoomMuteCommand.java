@@ -10,6 +10,9 @@ import com.cometproject.server.network.sessions.Session;
 
 
 public class RoomMuteCommand extends ChatCommand {
+
+    private String logDesc = "";
+
     @Override
     public void execute(Session client, String[] params) {
         if (client.getPlayer().getEntity().getRoom().hasRoomMute()) {
@@ -39,6 +42,11 @@ public class RoomMuteCommand extends ChatCommand {
                 }
             }
         }
+
+        this.logDesc = "El staff %s ha hecho roommute en la sala '%b'"
+                .replace("%s", client.getPlayer().getData().getUsername())
+                .replace("%b", client.getPlayer().getEntity().getRoom().getData().getName());
+
     }
 
     @Override
@@ -54,5 +62,15 @@ public class RoomMuteCommand extends ChatCommand {
     @Override
     public String getDescription() {
         return Locale.get("command.roommute.description");
+    }
+
+    @Override
+    public String getLoggableDescription(){
+        return this.logDesc;
+    }
+
+    @Override
+    public boolean Loggable(){
+        return true;
     }
 }

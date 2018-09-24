@@ -31,6 +31,8 @@ public class RelationshipComponent extends PlayerComponent implements PlayerRela
     @Override
     public void remove(int playerId) {
         this.getRelationships().remove(playerId);
+
+        this.getPlayer().flush();
     }
 
     @Override
@@ -42,5 +44,4 @@ public class RelationshipComponent extends PlayerComponent implements PlayerRela
     public Map<Integer, RelationshipLevel> getRelationships() {
         return this.relationships;
     }
-
 }

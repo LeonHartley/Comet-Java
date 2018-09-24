@@ -10,6 +10,9 @@ import org.apache.commons.lang.StringUtils;
 
 
 public abstract class MassCurrencyCommand extends ChatCommand {
+
+    private String logDesc = "";
+
     @Override
     public void execute(Session client, String[] params) {
         if (params.length < 1 || params[0].isEmpty() || !StringUtils.isNumeric(params[0]))
@@ -27,16 +30,26 @@ public abstract class MassCurrencyCommand extends ChatCommand {
                 } else if (this instanceof MassDucketsCommand) {
                     session.getPlayer().getData().increaseActivityPoints(amount);
                     currencyType = "activity.points";
+                    this.logDesc = "El staff %s ha dado a todo el hotel %n duckets"
+                            .replace("%n", Integer.toString(amount));
+
                 } else if (this instanceof MassPointsCommand) {
                     session.getPlayer().getData().increaseVipPoints(amount);
                     currencyType = "vip.points";
+                    this.logDesc = "El staff %s ha dado a todo el hotel %n diamantes"
+                            .replace("%n", Integer.toString(amount));
+
                 } else if (this instanceof MassSeasonalCommand) {
                     session.getPlayer().getData().increaseSeasonalPoints(amount);
                     currencyType = "seasonal";
+                    this.logDesc = "El staff %s ha dado a todo el hotel %n boolares"
+                            .replace("%n", Integer.toString(amount));
                 }
 
                 if(!currencyType.equals("coins")) {
                     session.send(session.getPlayer().composeCurrenciesBalance());
+                    this.logDesc = "El staff %s ha dado a todo el hotel %n créditos"
+                            .replace("%n", Integer.toString(amount));
                 }
 
                 session.send(new AdvancedAlertMessageComposer(
@@ -55,6 +68,16 @@ public abstract class MassCurrencyCommand extends ChatCommand {
 
     @Override
     public boolean isAsync() {
+        return true;
+    }
+
+    @Override
+    public String getLoggableDescription(){
+        return this.logDesc;
+    }
+
+    @Override
+    public boolean Loggable(){
         return true;
     }
 }

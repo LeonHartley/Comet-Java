@@ -33,7 +33,7 @@ public class NavigatorDao {
 
             while (resultSet.next()) {
                 final int roomId = resultSet.getInt("room_id");
-                data.put(roomId, new PublicRoom(roomId, resultSet.getString("caption"), resultSet.getString("description"), resultSet.getString("image_url")));
+                data.put(roomId, new PublicRoom(roomId, resultSet.getString("caption"), resultSet.getString("description"), resultSet.getString("image_url"), resultSet.getString("category")));
             }
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);

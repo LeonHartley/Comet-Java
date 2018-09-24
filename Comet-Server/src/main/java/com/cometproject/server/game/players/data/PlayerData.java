@@ -1,6 +1,7 @@
 package com.cometproject.server.game.players.data;
 
 import com.cometproject.api.game.players.data.IPlayerData;
+import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.utilities.validator.PlayerFigureValidator;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 
@@ -13,6 +14,8 @@ public class PlayerData implements IPlayerData {
 
     private int id;
     private int rank;
+
+    private Player player;
 
     private String username;
     private String motto;
@@ -49,7 +52,7 @@ public class PlayerData implements IPlayerData {
     private Object tempData = null;
 
     public PlayerData(int id, String username, String motto, String figure, String gender, String email, int rank, int credits, int vipPoints, int activityPoints,
-                      int seasonalPoints, String reg, int lastVisit, boolean vip, int achievementPoints, int regTimestamp, int favouriteGroup, String ipAddress, int questId, int timeMuted, String nameColour) {
+                      int seasonalPoints, String reg, int lastVisit, boolean vip, int achievementPoints, int regTimestamp, int favouriteGroup, String ipAddress, int questId, int timeMuted, String nameColour, Player player) {
         this.id = id;
         this.username = username;
         this.motto = motto;
@@ -77,9 +80,13 @@ public class PlayerData implements IPlayerData {
                 this.figure = DEFAULT_FIGURE;
             }
         }
+
+        this.player = player;
+
+        flush();
     }
 
-    public PlayerData(ResultSet data) throws SQLException {
+    public PlayerData(ResultSet data, Player player) throws SQLException {
         this(data.getInt("playerId"),
                 data.getString("playerData_username"),
                 data.getString("playerData_motto"),
@@ -100,7 +107,7 @@ public class PlayerData implements IPlayerData {
                 data.getString("playerData_lastIp"),
                 data.getInt("playerData_questId"),
                 data.getInt("playerData_timeMuted"),
-                data.getString("playerData_nameColour"));
+                data.getString("playerData_nameColour"), player);
     }
 
     @Override
@@ -117,7 +124,7 @@ public class PlayerData implements IPlayerData {
 //        if(CometSettings.storagePlayerQueueEnabled) {
 //            PlayerDataStorageQueue.getInstance().queueSave(this);
 //        } else {
-            this.saveNow();
+        this.saveNow();
 //        }
     }
 
@@ -127,38 +134,56 @@ public class PlayerData implements IPlayerData {
 
     public void decreaseCredits(int amount) {
         this.credits -= amount;
+
+        flush();
     }
 
     public void increaseCredits(int amount) {
         this.credits += amount;
+
+        flush();
     }
 
     public void decreaseVipPoints(int points) {
         this.vipPoints -= points;
+
+        flush();
     }
 
     public void increaseVipPoints(int points) {
         this.vipPoints += points;
+
+        flush();
     }
 
     public void increaseActivityPoints(int points) {
         this.activityPoints += points;
+
+        flush();
     }
 
     public void decreaseActivityPoints(int points) {
         this.activityPoints -= points;
+
+        flush();
     }
 
     public void increaseSeasonalPoints(int points) {
         this.seasonalPoints += points;
+
+        flush();
     }
 
     public void decreaseSeasonalPoints(int points) {
         this.seasonalPoints -= points;
+
+        flush();
     }
 
     public void increaseAchievementPoints(int points) {
         this.achievementPoints += points;
+
+        flush();
     }
 
     public int getId() {
@@ -179,6 +204,8 @@ public class PlayerData implements IPlayerData {
 
     public void setUsername(String username) {
         this.username = username;
+
+        flush();
     }
 
     public int getAchievementPoints() {
@@ -195,6 +222,8 @@ public class PlayerData implements IPlayerData {
 
     public void setMotto(String motto) {
         this.motto = motto;
+
+        flush();
     }
 
     public String getFigure() {
@@ -203,6 +232,8 @@ public class PlayerData implements IPlayerData {
 
     public void setFigure(String figure) {
         this.figure = figure;
+
+        flush();
     }
 
     public String getGender() {
@@ -211,6 +242,8 @@ public class PlayerData implements IPlayerData {
 
     public void setGender(String gender) {
         this.gender = gender;
+
+        flush();
     }
 
     public int getCredits() {
@@ -219,6 +252,8 @@ public class PlayerData implements IPlayerData {
 
     public void setCredits(int credits) {
         this.credits = credits;
+
+        flush();
     }
 
     public int getVipPoints() {
@@ -247,6 +282,8 @@ public class PlayerData implements IPlayerData {
 
     public void setVip(boolean vip) {
         this.vip = vip;
+
+        flush();
     }
 
     public int getRegTimestamp() {
@@ -311,6 +348,8 @@ public class PlayerData implements IPlayerData {
 
     public void setTimeMuted(int Time) {
         this.timeMuted = Time;
+
+        flush();
     }
 
     public boolean getChangingName() {
@@ -319,6 +358,8 @@ public class PlayerData implements IPlayerData {
 
     public void setChangingName(boolean changingName) {
         this.changingName = changingName;
+
+        flush();
     }
 
     public boolean getFlaggingUser() {
@@ -327,6 +368,8 @@ public class PlayerData implements IPlayerData {
 
     public void setFlaggingUser(boolean flaggingUser) {
         this.flaggingUser = flaggingUser;
+
+        flush();
     }
 
     public String getNameColour() {
@@ -336,6 +379,8 @@ public class PlayerData implements IPlayerData {
     @Override
     public void setNameColour(String nameColour) {
         this.nameColour = nameColour;
+
+        flush();
     }
 
     public int getSeasonalPoints() {
@@ -344,5 +389,17 @@ public class PlayerData implements IPlayerData {
 
     public void setSeasonalPoints(int seasonalPoints) {
         this.seasonalPoints = seasonalPoints;
+
+        flush();
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void flush() {
+        if (getPlayer() != null) {
+            getPlayer().flush();
+        }
     }
 }

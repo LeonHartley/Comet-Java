@@ -21,6 +21,8 @@ public class InventoryBotComponent extends PlayerComponent implements PlayerBots
     @Override
     public void addBot(IBotData bot) {
         this.bots.put(bot.getId(), bot);
+
+        this.getPlayer().flush();
     }
 
     @Override
@@ -35,6 +37,8 @@ public class InventoryBotComponent extends PlayerComponent implements PlayerBots
     @Override
     public void remove(int id) {
         this.bots.remove(id);
+
+        this.getPlayer().flush();
     }
 
     @Override
@@ -50,6 +54,8 @@ public class InventoryBotComponent extends PlayerComponent implements PlayerBots
     @Override
     public void clearBots() {
         this.bots.clear();
+
+        this.getPlayer().flush();
     }
 
     @Override

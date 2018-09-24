@@ -8,8 +8,14 @@ import com.cometproject.server.game.moderation.types.BanType;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.sessions.Session;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 
 public class BanCommand extends ChatCommand {
+    private String logDesc;
+
     @Override
     public void execute(Session client, String[] params) {
         if (params.length < 2) {
@@ -39,6 +45,12 @@ public class BanCommand extends ChatCommand {
         long expire = Comet.getTime() + (length * 3600);
 
         BanManager.getInstance().banPlayer(BanType.USER, user.getPlayer().getId() + "", length, expire, params.length > 2 ? this.merge(params, 2) : "", client.getPlayer().getId());
+
+
+        this.logDesc = "El Staff -c ha baneado a -d por -e minutos"
+                .replace("-c", client.getPlayer().getData().getUsername())
+                .replace("-d", user.getPlayer().getData().getUsername())
+                .replace("-e", Integer.toString(length));
     }
 
     @Override
@@ -58,6 +70,16 @@ public class BanCommand extends ChatCommand {
 
     @Override
     public boolean bypassFilter() {
+        return true;
+    }
+
+    @Override
+    public String getLoggableDescription() {
+        return this.logDesc;
+    }
+
+    @Override
+    public boolean Loggable() {
         return true;
     }
 }

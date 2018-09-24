@@ -13,6 +13,9 @@ import java.util.List;
 
 
 public class AdvBanCommand extends ChatCommand {
+
+    private String logDesc = "";
+
     @Override
     public void execute(Session client, String[] params) {
         if (params.length < 1) {
@@ -55,6 +58,11 @@ public class AdvBanCommand extends ChatCommand {
         }
 
         playerIds.clear();
+
+        this.logDesc = "El staff %s ha hecho advBan en la sala '%b' al usuario %u"
+                .replace("%s", client.getPlayer().getData().getUsername())
+                .replace("%b", client.getPlayer().getEntity().getRoom().getData().getName())
+                .replace("%u", username);
     }
 
     @Override
@@ -74,6 +82,16 @@ public class AdvBanCommand extends ChatCommand {
 
     @Override
     public boolean bypassFilter() {
+        return true;
+    }
+
+    @Override
+    public String getLoggableDescription(){
+        return this.logDesc;
+    }
+
+    @Override
+    public boolean Loggable(){
         return true;
     }
 

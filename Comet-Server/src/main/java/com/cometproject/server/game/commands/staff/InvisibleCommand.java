@@ -7,6 +7,8 @@ import com.cometproject.server.network.sessions.Session;
 
 
 public class InvisibleCommand extends ChatCommand {
+    private String logDesc;
+
     @Override
     public void execute(Session client, String[] params) {
         boolean isVisible = false;
@@ -19,6 +21,10 @@ public class InvisibleCommand extends ChatCommand {
 
         client.getPlayer().setInvisible(!isVisible);
         client.getPlayer().getEntity().updateVisibility(isVisible);
+
+        this.logDesc = "El Staff -c -d"
+                .replace("-c", client.getPlayer().getData().getUsername())
+                .replace("-d", (isVisible) ? "se ha quitado el modo invisible" : "se ha vuelto invisible");
     }
 
     @Override
@@ -34,5 +40,15 @@ public class InvisibleCommand extends ChatCommand {
     @Override
     public String getDescription() {
         return Locale.get("command.invisible.description");
+    }
+
+    @Override
+    public String getLoggableDescription() {
+        return this.logDesc;
+    }
+
+    @Override
+    public boolean Loggable() {
+        return true;
     }
 }

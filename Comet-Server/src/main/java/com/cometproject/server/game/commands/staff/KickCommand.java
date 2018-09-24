@@ -7,6 +7,8 @@ import com.cometproject.server.network.sessions.Session;
 
 
 public class KickCommand extends ChatCommand {
+    private String logDesc;
+
     @Override
     public void execute(Session client, String[] params) {
         if (params.length < 1) {
@@ -38,6 +40,10 @@ public class KickCommand extends ChatCommand {
 
         user.getPlayer().getEntity().kick();
         isExecuted(client);
+
+        this.logDesc = "El Staff -c ha kickeado al usuario -d"
+                .replace("-c", client.getPlayer().getData().getUsername())
+                .replace("-d", user.getPlayer().getData().getUsername());
     }
 
     @Override
@@ -53,5 +59,15 @@ public class KickCommand extends ChatCommand {
     @Override
     public String getDescription() {
         return Locale.get("command.kick.description");
+    }
+
+    @Override
+    public String getLoggableDescription() {
+        return this.logDesc;
+    }
+
+    @Override
+    public boolean Loggable() {
+        return true;
     }
 }

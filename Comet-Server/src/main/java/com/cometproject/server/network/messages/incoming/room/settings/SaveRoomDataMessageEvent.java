@@ -11,6 +11,7 @@ import com.cometproject.server.game.navigator.NavigatorManager;
 import com.cometproject.server.game.navigator.types.Category;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.filter.FilterResult;
+import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.RoomWriter;
 import com.cometproject.server.network.messages.incoming.Event;
@@ -179,6 +180,10 @@ public class SaveRoomDataMessageEvent implements Event {
 //            room.getEntities().broadcastMessage(new RoomDataMessageComposer(room, true, room.getRights().hasRights(client.getPlayer().getId()) || client.getPlayer().getPermissions().getRank().roomFullControl()));
             room.getEntities().broadcastMessage(new SettingsUpdatedMessageComposer(data.getId()));
             room.getEntities().broadcastMessage(new RoomInfoUpdatedMessageComposer(data.getId()));
+
+            for(PlayerEntity playerEntity : room.getEntities().getPlayerEntities()) {
+                playerEntity.getPlayer().flush();
+            }
         } catch (Exception e) {
             RoomManager.log.error("Error while saving room data", e);
         }

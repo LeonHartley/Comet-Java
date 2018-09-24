@@ -49,13 +49,13 @@ public class TalkMessageEvent implements Event {
             }
         }
 
-        if(bubble != 0) {
+        if (bubble != 0) {
             final Integer bubbleMinRank = PermissionsManager.getInstance().getChatBubbles().get(bubble);
 
-            if(bubbleMinRank == null) {
+            if (bubbleMinRank == null) {
                 bubble = 0;
             } else {
-                if(client.getPlayer().getData().getRank() < bubbleMinRank) {
+                if (client.getPlayer().getData().getRank() < bubbleMinRank) {
                     bubble = 0;
                 }
             }
@@ -90,14 +90,15 @@ public class TalkMessageEvent implements Event {
         }
 
         if (playerEntity.onChat(filteredMessage)) {
-            if(message.startsWith("@")) {
+
+            if (message.startsWith("@")) {
                 String finalName;
                 String[] splittedName = message.replace("@", "").split(" ");
                 finalName = splittedName[0];
 
                 Session player = NetworkManager.getInstance().getSessions().getByPlayerUsername(finalName);
 
-                if(player != null) {
+                if (player != null) {
                     Map<String, String> notificationParams = Maps.newHashMap();
 
                     notificationParams.put("message", Locale.getOrDefault("mention.message", "The user %s has mentioned you in a room (%b), click here to go to the room.")
@@ -132,9 +133,11 @@ public class TalkMessageEvent implements Event {
             } else {
                 client.getPlayer().getEntity().getRoom().getEntities().broadcastChatMessage(new TalkMessageComposer(client.getPlayer().getEntity().getId(), filteredMessage, RoomManager.getInstance().getEmotions().getEmotion(filteredMessage), bubble), client.getPlayer().getEntity());
             }
+
+            playerEntity.postChat(filteredMessage);
         }
 
-        playerEntity.postChat(filteredMessage);
+
     }
 
     public static String filterMessage(String message) {
@@ -142,6 +145,6 @@ public class TalkMessageEvent implements Event {
             message = message.replace("You can type here to talk!", "");
         }
 
-        return message.replace((char) 13 + "", "");
+        return message.replace((char) 13 + "", "").replace("<", "&lt;").replace("&#10º;", "");
     }
 }

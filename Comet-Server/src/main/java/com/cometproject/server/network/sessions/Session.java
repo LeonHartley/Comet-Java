@@ -12,6 +12,7 @@ import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdat
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorItemMessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.protocol.security.exchange.DiffieHellman;
+import com.cometproject.server.storage.cache.CachableObject;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.corundumstudio.socketio.SocketIOClient;
 import io.netty.channel.ChannelHandler;

@@ -9,7 +9,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -26,7 +25,7 @@ public class MessengerDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("SELECT m.user_two_id, p.username, p.figure, p.motto FROM messenger_friendships m LEFT JOIN players p ON p.id = m.user_two_id WHERE user_one_id = ?;", sqlConnection);
+            preparedStatement = SqlHelper.prepare("SELECT m.user_two_id, p.username, p.figure, p.motto, p.gender FROM messenger_friendships m LEFT JOIN players p ON p.id = m.user_two_id WHERE user_one_id = ?;", sqlConnection);
             preparedStatement.setInt(1, playerId);
 
             resultSet = preparedStatement.executeQuery();

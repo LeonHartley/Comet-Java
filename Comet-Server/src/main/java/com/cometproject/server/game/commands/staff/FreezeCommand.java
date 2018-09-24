@@ -7,6 +7,9 @@ import com.cometproject.server.network.sessions.Session;
 
 
 public class FreezeCommand extends ChatCommand {
+
+    private String logDesc = "";
+
     @Override
     public void execute(Session client, String[] params) {
         if (params.length != 1) {
@@ -33,6 +36,10 @@ public class FreezeCommand extends ChatCommand {
 
         user.getPlayer().getEntity().setCanWalk(false);
         isExecuted(client);
+
+        this.logDesc = "El staff %s ha hecho freeze en la sala '%b'"
+                .replace("%s", client.getPlayer().getData().getUsername())
+                .replace("%b", client.getPlayer().getEntity().getRoom().getData().getName());
     }
 
     @Override
@@ -52,6 +59,16 @@ public class FreezeCommand extends ChatCommand {
 
     @Override
     public boolean bypassFilter() {
+        return true;
+    }
+
+    @Override
+    public String getLoggableDescription(){
+        return this.logDesc;
+    }
+
+    @Override
+    public boolean Loggable(){
         return true;
     }
 }

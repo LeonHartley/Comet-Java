@@ -47,6 +47,7 @@ public class ReloadCommand extends ChatCommand {
                                 "- catalog\n" +
                                 "- navigator\n" +
                                 "- permissions\n" +
+                                "- rooms\n" +
                                 "- catalog\n" +
                                 "- news\n" +
                                 "- config\n" +
@@ -92,6 +93,7 @@ public class ReloadCommand extends ChatCommand {
                 PermissionsManager.getInstance().loadPerks();
                 PermissionsManager.getInstance().loadCommands();
                 PermissionsManager.getInstance().loadOverrideCommands();
+                PermissionsManager.getInstance().getEffects();
 
                 sendNotif(Locale.get("command.reload.permissions"), client);
                 break;
@@ -186,23 +188,6 @@ public class ReloadCommand extends ChatCommand {
 
                 sendNotif(Locale.get("command.reload.polls"), client);
                 break;
-
-            case "room": {
-                final Room room = client.getPlayer().getEntity().getRoom();
-
-                final RoomReloadListener reloadListener = new RoomReloadListener(room, (players, newRoom) -> {
-                    for (Player player : players) {
-                        if (player.getEntity() == null) {
-                            player.getSession().send(new AlertMessageComposer(Locale.getOrDefault("command.reload.roomReloaded", "The room was reloaded by a member of staff!")));
-                            player.getSession().send(new RoomForwardMessageComposer(newRoom.getId()));
-                        }
-                    }
-                });
-
-                RoomManager.getInstance().addReloadListener(client.getPlayer().getEntity().getRoom().getId(), reloadListener);
-                room.reload();
-                break;
-            }
             case "bundles": {
                 RoomBundleManager.getInstance().initialize();
 

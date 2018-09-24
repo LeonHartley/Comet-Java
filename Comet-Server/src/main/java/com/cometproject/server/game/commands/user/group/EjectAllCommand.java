@@ -16,6 +16,8 @@ import com.google.common.collect.Lists;
 import java.util.List;
 
 public class EjectAllCommand extends ChatCommand {
+    private String logDesc = "";
+
     @Override
     public void execute(Session client, String[] params) {
         Room room = client.getPlayer().getEntity().getRoom();
@@ -88,6 +90,11 @@ public class EjectAllCommand extends ChatCommand {
                 floorItemsOwnedByPlayer.clear();
             }
         }
+
+        this.logDesc = "El usuario %s ha hecho ejectall en la sala '%b', cuyo dueño es %c"
+                .replace("%s", client.getPlayer().getData().getUsername())
+                .replace("%b", room.getData().getName())
+                .replace("%c", room.getData().getOwner());
     }
 
     @Override
@@ -103,5 +110,15 @@ public class EjectAllCommand extends ChatCommand {
     @Override
     public String getDescription() {
         return Locale.getOrDefault("command.ejectall.description", "Removes all items you own in the room");
+    }
+
+    @Override
+    public String getLoggableDescription() {
+        return this.logDesc;
+    }
+
+    @Override
+    public boolean Loggable() {
+        return true;
     }
 }

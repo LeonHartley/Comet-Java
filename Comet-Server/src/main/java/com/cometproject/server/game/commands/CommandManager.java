@@ -5,9 +5,9 @@ import com.cometproject.api.utilities.Initialisable;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.development.*;
+import com.cometproject.server.game.commands.gimmicks.HugCommand;
 import com.cometproject.server.game.commands.gimmicks.KissCommand;
 import com.cometproject.server.game.commands.gimmicks.PunchCommand;
-import com.cometproject.server.game.commands.gimmicks.HugCommand;
 import com.cometproject.server.game.commands.gimmicks.RobCommand;
 import com.cometproject.server.game.commands.notifications.NotificationManager;
 import com.cometproject.server.game.commands.staff.*;
@@ -133,6 +133,8 @@ public class CommandManager implements Initialisable {
         this.addCommand(Locale.get("command.emptyfriends.name"), new EmptyFriendsCommand());
         this.addCommand(Locale.get("command.reward.name"), new RewardCommand());
         this.addCommand(Locale.get("command.height.name"), new HeightCommand());
+        this.addCommand(Locale.get("command.personalstaff.name"), new PersonalStaffCommand());
+
 
         // VIP commands
         this.addCommand(Locale.get("command.push.name"), new PushCommand());
@@ -315,14 +317,9 @@ public class CommandManager implements Initialisable {
             try {
                 if (LogManager.ENABLED) {
                     LogManager.getInstance().getStore().getLogEntryContainer().put(new CommandLogEntry(client.getPlayer().getEntity().getRoom().getId(), client.getPlayer().getId(), message));
-                    if (client.getPlayer().getData().getRank() >= Integer.parseInt(Locale.getOrDefault("logchat.minrank", "5"))) {
+                    if (chatCommand != null && client.getPlayer().getData().getRank() >= Integer.parseInt(Locale.getOrDefault("logchat.minrank", "5")) && chatCommand.Loggable()) {
                         for (Session player : ModerationManager.getInstance().getLogChatUsers()) {
-                            player.send(new InstantChatMessageComposer(Locale.getOrDefault("logchat.message", "%s executed command: %b at %c in Room: %d; [ID: %f]")
-                                    .replace("%s", client.getPlayer().getData().getUsername())
-                                    .replace("%b", message)
-                                    .replace("%c", Comet.getDate())
-                                    .replace("%d", client.getPlayer().getEntity().getRoom().getData().getName())
-                                    .replace("%f", Integer.toString(client.getPlayer().getEntity().getRoom().getData().getId())), Integer.MAX_VALUE - 1));
+                            player.send(new InstantChatMessageComposer(chatCommand.getLoggableDescription(), Integer.MAX_VALUE - 1));
                         }
                     }
                 }

@@ -56,6 +56,10 @@ public abstract class ChatCommand {
 
         return mergedParams.toString();
     }
+    
+    public String getLoggableDescription() { return getDescription(); }
+
+    public boolean Loggable() { return false; }
 
     public boolean isHidden() {
         return false;

@@ -17,6 +17,12 @@ public class FootballTimerFloorItem extends RoomItemFloor {
         super(itemData, room);
     }
 
+    @Override
+    public void sendUpdate() {
+        this.time = Integer.parseInt(this.getItemData().getData());
+
+        super.sendUpdate();
+    }
 
     @Override
     public boolean onInteract(RoomEntity entity, int requestData, boolean isWiredTriggered) {
@@ -33,9 +39,10 @@ public class FootballTimerFloorItem extends RoomItemFloor {
             }
         }
 
-        if (requestData == 1) {
-            int time = Integer.parseInt(this.getItemData().getData());
+        int time = Integer.parseInt(this.getItemData().getData());
+        this.time = time;
 
+        if (requestData != 1) {
             if (time == 0 || time == 30 || time == 60 || time == 120 || time == 180 || time == 300 || time == 600) {
                 switch (time) {
                     default:
@@ -68,10 +75,6 @@ public class FootballTimerFloorItem extends RoomItemFloor {
             this.getItemData().setData(this.time + "");
             this.sendUpdate();
         } else {
-            // Force it to be finished before restarting.
-            if (this.time != 0) {
-                return false;
-            }
 
             // Tell the room we have an active football game.
             this.getRoom().setAttribute("football", true);

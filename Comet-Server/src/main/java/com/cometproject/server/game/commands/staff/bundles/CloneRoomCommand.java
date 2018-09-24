@@ -20,6 +20,9 @@ import com.google.common.collect.Sets;
 import java.util.Set;
 
 public class CloneRoomCommand extends ChatCommand {
+
+    private String logDesc = "";
+
     @Override
     public void execute(Session client, String[] params) {
         final RoomBundle bundle = RoomBundle.create(client.getPlayer().getEntity().getRoom(), "");
@@ -44,6 +47,11 @@ public class CloneRoomCommand extends ChatCommand {
             client.send(new BoughtItemMessageComposer(BoughtItemMessageComposer.PurchaseType.BADGE));
 
             client.getPlayer().setLastRoomCreated((int) Comet.getTime());
+
+            this.logDesc = "El staff %s ha hecho cloneroom en la sala '%b'"
+                    .replace("%s", client.getPlayer().getData().getUsername())
+                    .replace("%b", client.getPlayer().getEntity().getRoom().getData().getName());
+
         } catch (Exception e) {
             client.send(new MotdNotificationMessageComposer("Invalid room bundle data, please contact an administrator."));
             client.send(new BoughtItemMessageComposer(BoughtItemMessageComposer.PurchaseType.BADGE));
@@ -67,6 +75,16 @@ public class CloneRoomCommand extends ChatCommand {
 
     @Override
     public boolean isAsync() {
+        return true;
+    }
+
+    @Override
+    public String getLoggableDescription(){
+        return this.logDesc;
+    }
+
+    @Override
+    public boolean Loggable(){
         return true;
     }
 }

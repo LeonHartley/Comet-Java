@@ -29,6 +29,7 @@ import com.cometproject.server.network.messages.outgoing.user.inventory.EffectsI
 import com.cometproject.server.network.messages.outgoing.user.permissions.FuserightsMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.network.sessions.SessionManager;
+import com.cometproject.server.storage.cache.CacheManager;
 import com.cometproject.server.storage.queries.player.PlayerAccessDao;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.tasks.CometTask;
@@ -126,7 +127,9 @@ public class PlayerLoginRequest implements CometTask {
 
             client.getLogger().debug(client.getPlayer().getData().getUsername() + " logged in");
 
-            PlayerDao.updatePlayerStatus(player, true, true);
+            player.setOnline(true);
+
+            PlayerDao.updatePlayerStatus(player, player.isOnline(), true);
 
             client.sendQueue(new UniqueIDMessageComposer(client.getUniqueId()))
                     .sendQueue(new AuthenticationOKMessageComposer()).
@@ -208,6 +211,12 @@ public class PlayerLoginRequest implements CometTask {
 
             player.setSsoTicket(this.ticket);
             PlayerManager.getInstance().getSsoTicketToPlayerId().put(this.ticket, player.getId());
+
+
+            // Cache
+            player.saveJsonObject();
+
+            CacheManager.getInstance().publishString("online.players", String.valueOf(Comet.getStats().getPlayers()), true, "online.players");
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -2,10 +2,9 @@ package com.cometproject.api.game.groups;
 
 import com.cometproject.api.game.groups.types.IGroup;
 import com.cometproject.api.game.groups.types.IGroupData;
+import com.cometproject.api.game.groups.types.components.IForumComponent;
 import com.cometproject.api.game.groups.types.components.forum.IForumSettings;
 import com.cometproject.api.game.groups.types.components.membership.IGroupMember;
-
-import javax.validation.GroupDefinitionException;
 
 public interface IGroupService {
 
@@ -14,6 +13,8 @@ public interface IGroupService {
     IGroup getGroup(int groupId);
 
     void saveGroupData(IGroupData groupData);
+
+    void createForumSettings(IForumComponent forumComponent);
 
     void addForum(IGroup group);
 

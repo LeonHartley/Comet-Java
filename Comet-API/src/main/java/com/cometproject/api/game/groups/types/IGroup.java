@@ -2,7 +2,6 @@ package com.cometproject.api.game.groups.types;
 
 import com.cometproject.api.game.groups.types.components.IForumComponent;
 import com.cometproject.api.game.groups.types.components.IMembershipComponent;
-import com.cometproject.api.networking.messages.IMessageComposer;
 
 public interface IGroup {
     int getId();
@@ -12,6 +11,8 @@ public interface IGroup {
     IMembershipComponent getMembers();
 
     IForumComponent getForum();
+
+    void setForum(IForumComponent forumComponent);
 
     void dispose();
 }

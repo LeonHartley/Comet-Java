@@ -9,6 +9,9 @@ import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.network.sessions.Session;
 
 public class MassFreezeCommand extends ChatCommand {
+
+    private String logDesc = "";
+
     @Override
     public void execute(Session client, String[] params) {
         for (RoomEntity roomEntity : client.getPlayer().getEntity().getRoom().getEntities().getAllEntities().values()) {
@@ -33,6 +36,9 @@ public class MassFreezeCommand extends ChatCommand {
                 }
             }
         }
+
+        this.logDesc = "El staff %s ha hecho <b>massfreeze</b>"
+                .replace("%s", client.getPlayer().getData().getUsername());
     }
 
     @Override
@@ -48,5 +54,15 @@ public class MassFreezeCommand extends ChatCommand {
     @Override
     public String getDescription() {
         return Locale.get("command.massfreeze.description");
+    }
+
+    @Override
+    public String getLoggableDescription(){
+        return this.logDesc;
+    }
+
+    @Override
+    public boolean Loggable(){
+        return true;
     }
 }

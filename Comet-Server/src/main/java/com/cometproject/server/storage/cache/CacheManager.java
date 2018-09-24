@@ -3,6 +3,11 @@ package com.cometproject.server.storage.cache;
 import com.cometproject.api.config.Configuration;
 import com.cometproject.api.utilities.Initialisable;
 import com.cometproject.api.utilities.JsonUtil;
+import com.cometproject.server.storage.cache.subscribers.GoToRoomSubscriber;
+import com.cometproject.server.storage.cache.subscribers.ISubscriber;
+import com.cometproject.server.storage.cache.subscribers.RefreshDataSubscriber;
+import com.cometproject.server.tasks.CometThreadManager;
+import com.cometproject.server.utilities.TimeSpan;
 import org.apache.log4j.Logger;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -12,18 +17,20 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class CacheManager implements Initialisable {
+public class CacheManager extends CachableObject implements Initialisable {
     private static CacheManager cacheManager;
     private final Logger log = Logger.getLogger(CacheManager.class.getName());
     private final String keyPrefix;
-    private final String connectionString;
+    private final String host;
+    private final int port;
     private boolean enabled;
     private JedisPool jedis;
 
-    public CacheManager() {
+    private CacheManager() {
         this.enabled = Boolean.parseBoolean((String) Configuration.currentConfig().getOrDefault("comet.cache.enabled", "false"));
         this.keyPrefix = (String) Configuration.currentConfig().getOrDefault("comet.cache.prefix", "comet");
-        this.connectionString = (String) Configuration.currentConfig().getOrDefault("comet.cache.connection.url", "");
+        this.host = (String) Configuration.currentConfig().getOrDefault("comet.cache.connection.host", "");
+        this.port = Integer.parseInt((String) Configuration.currentConfig().getOrDefault("comet.cache.connection.port", ""));
     }
 
     public static CacheManager getInstance() {
@@ -38,7 +45,7 @@ public class CacheManager implements Initialisable {
         if (!this.enabled)
             return;
 
-        if (this.connectionString.isEmpty()) {
+        if (this.host.isEmpty()) {
             log.error("Invalid redis connection string");
 
             this.enabled = false;
@@ -60,7 +67,13 @@ public class CacheManager implements Initialisable {
             return;
         }
 
+        this.doSubscriptions(new ISubscriber[]{
+                new RefreshDataSubscriber(),
+                new GoToRoomSubscriber()
+        });
+
         log.info("Redis caching is enabled");
+
     }
 
     private boolean initializeConfig() {
@@ -90,12 +103,22 @@ public class CacheManager implements Initialisable {
             // Wait 100ms before we fall back to MySQL.
             poolConfig.setMaxWaitMillis(100);
 
-            this.jedis = new JedisPool(this.connectionString);
+            this.jedis = new JedisPool(poolConfig, this.host, this.port, 3000);
 
             return true;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    private void doSubscriptions(ISubscriber[] subscribers) {
+        for (ISubscriber subscriber : subscribers) {
+            subscriber.setJedis(this.jedis);
+
+            CometThreadManager.getInstance().executeOnce(subscriber::subscribe);
+
+            log.info("Subscriber " + subscriber.getClass().getSimpleName() + " initialized");
         }
     }
 
@@ -112,12 +135,37 @@ public class CacheManager implements Initialisable {
                 final String objectData = object.toString();
 
                 jedis.set(this.getKey(key), objectData);
+
+                log.info("Data put to redis: " + object.getClass().getSimpleName() + " in " + new TimeSpan(startTime, System.currentTimeMillis()).toMilliseconds() + "ms");
             } catch (Exception e) {
                 throw e;
             }
         } catch (Exception e) {
             log.error("Error while setting object in Redis with key: " + key + ", type: " +
                     object.getClass().getSimpleName(), e);
+        }
+    }
+
+    public void publishString(final String key, final String value, boolean setter, String setterKey) {
+        if (this.jedis == null) {
+            return;
+        }
+
+        try {
+            try (final Jedis jedis = this.jedis.getResource()) {
+                final long startTime = System.currentTimeMillis();
+
+                jedis.publish(this.getKey(key), value);
+
+                if (setter && setterKey != null)
+                    jedis.set(this.getKey(setterKey), value);
+
+                log.info("Data published to redis channel: " + key + " in " + new TimeSpan(startTime, System.currentTimeMillis()).toMilliseconds() + "ms");
+            } catch (Exception e) {
+                throw e;
+            }
+        } catch (Exception e) {
+            log.error("Error while setting string with key: " + key, e);
         }
     }
 
@@ -128,7 +176,11 @@ public class CacheManager implements Initialisable {
 
         try {
             try (final Jedis jedis = this.jedis.getResource()) {
+                final long startTime = System.currentTimeMillis();
+
                 jedis.set(this.getKey(key), value);
+
+                log.info("Data put to redis with key: " + key + " in " + new TimeSpan(startTime, System.currentTimeMillis()).toMilliseconds() + "ms");
             } catch (Exception e) {
                 throw e;
             }

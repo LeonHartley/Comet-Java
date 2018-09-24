@@ -8,8 +8,12 @@ import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 
 public class ViewInventoryCommand extends ChatCommand {
+
+    private String logDesc = "";
+
     @Override
     public void execute(Session client, String[] params) {
+
         boolean error = false;
 
         if (params.length != 1) {
@@ -44,6 +48,10 @@ public class ViewInventoryCommand extends ChatCommand {
                 sendNotif(Locale.getOrDefault("command.viewinventory.error", "Error!, maybe the user you searched for does not exist!"), client);
             }
         }
+
+        this.logDesc = "El staff %s ha hecho viewinventory al usuario '%b'"
+                .replace("%s", client.getPlayer().getData().getUsername())
+                .replace("%b", username);
     }
 
     @Override
@@ -63,6 +71,16 @@ public class ViewInventoryCommand extends ChatCommand {
 
     @Override
     public boolean isAsync() {
+        return true;
+    }
+
+    @Override
+    public String getLoggableDescription(){
+        return this.logDesc;
+    }
+
+    @Override
+    public boolean Loggable(){
         return true;
     }
 }

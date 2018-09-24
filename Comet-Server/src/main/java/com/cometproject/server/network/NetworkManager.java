@@ -19,7 +19,6 @@ import com.cometproject.server.network.messages.MessageHandler;
 import com.cometproject.server.network.monitor.MonitorClient;
 import com.cometproject.server.network.sessions.SessionManager;
 import com.cometproject.server.network.sessions.net.NetSessionFactory;
-import com.cometproject.server.network.websocket.WebSocketServer;
 import com.cometproject.server.network.ws.WsMessageHandler;
 import com.cometproject.server.protocol.security.exchange.RSA;
 import com.google.common.collect.Sets;
@@ -38,7 +37,6 @@ import io.netty.util.ResourceLeakDetector;
 import io.netty.util.internal.logging.InternalLoggerFactory;
 import io.netty.util.internal.logging.Log4JLoggerFactory;
 import org.apache.log4j.Logger;
-import org.jboss.netty.handler.codec.http.HttpChunkAggregator;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -123,7 +121,7 @@ public class NetworkManager {
                     .localAddress(new InetSocketAddress(30002))
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
-                        public void initChannel(final SocketChannel ch) throws Exception {
+                        public void initChannel(final SocketChannel ch) {
                             ch.pipeline().addLast(
                                     new HttpRequestDecoder(),
                                     new HttpObjectAggregator(65536),

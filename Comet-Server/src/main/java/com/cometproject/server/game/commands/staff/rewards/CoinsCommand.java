@@ -10,15 +10,19 @@ import com.cometproject.server.storage.queries.player.PlayerDao;
 
 
 public class CoinsCommand extends ChatCommand {
+    private String logDesc;
+
     @Override
     public void execute(Session client, String[] params) {
         if (params.length < 2)
             return;
 
         String username = params[0];
+        String credits_ = params[1];
+
 
         try {
-            int credits = Integer.parseInt(params[1]);
+            int credits = Integer.parseInt(credits_);
             Session player = NetworkManager.getInstance().getSessions().getByPlayerUsername(username);
 
             if (player == null) {
@@ -39,6 +43,11 @@ public class CoinsCommand extends ChatCommand {
         } catch (Exception e) {
             client.send(new AdvancedAlertMessageComposer(Locale.get("command.coins.errortitle"), Locale.get("command.coins.formaterror")));
         }
+
+        this.logDesc = "El Staff -c le ha dado -e créditos a -d"
+                .replace("-c", client.getPlayer().getData().getUsername())
+                .replace("-e", credits_)
+                .replace("-d", username);
     }
 
     @Override
@@ -54,5 +63,15 @@ public class CoinsCommand extends ChatCommand {
     @Override
     public String getDescription() {
         return Locale.get("command.coins.description");
+    }
+
+    @Override
+    public String getLoggableDescription() {
+        return this.logDesc;
+    }
+
+    @Override
+    public boolean Loggable() {
+        return true;
     }
 }

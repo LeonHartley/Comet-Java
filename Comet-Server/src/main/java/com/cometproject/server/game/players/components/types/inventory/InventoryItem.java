@@ -8,6 +8,8 @@ import com.cometproject.api.game.rooms.objects.data.LimitedEditionItemData;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.api.utilities.JsonUtil;
 import com.cometproject.server.game.items.ItemManager;
+import com.cometproject.server.storage.cache.CachableObject;
+import com.google.gson.JsonObject;
 import org.apache.commons.lang.StringUtils;
 
 import java.sql.ResultSet;
@@ -301,4 +303,5 @@ public class InventoryItem implements PlayerItem {
     public int getVirtualId() {
         return ItemManager.getInstance().getItemVirtualId(this.getId());
     }
+
 }

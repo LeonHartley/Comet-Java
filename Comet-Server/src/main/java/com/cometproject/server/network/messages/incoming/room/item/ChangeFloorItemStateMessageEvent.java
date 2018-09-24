@@ -46,9 +46,9 @@ public class ChangeFloorItemStateMessageEvent implements Event {
 
         client.getPlayer().getQuests().progressQuest(QuestType.EXPLORE_FIND_ITEM, item.getDefinition().getSpriteId());
 
-        if (item.onInteract(client.getPlayer().getEntity(), msg.readInt(), false)) {
-            WiredTriggerStateChanged.executeTriggers(client.getPlayer().getEntity(), item);
+        WiredTriggerStateChanged.executeTriggers(client.getPlayer().getEntity(), item);
 
+        if (item.onInteract(client.getPlayer().getEntity(), msg.readInt(), false)) {
             List<Position> tilesToUpdate = new ArrayList<>();
             tilesToUpdate.add(new Position(item.getPosition().getX(), item.getPosition().getY(), 0d));
 
