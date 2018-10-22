@@ -17,10 +17,7 @@ import com.cometproject.server.game.rooms.objects.items.RoomItem;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
-import com.cometproject.server.game.rooms.objects.items.types.floor.DiceFloorItem;
-import com.cometproject.server.game.rooms.objects.items.types.floor.GiftFloorItem;
-import com.cometproject.server.game.rooms.objects.items.types.floor.MagicStackFloorItem;
-import com.cometproject.server.game.rooms.objects.items.types.floor.SoundMachineFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.wall.MoodlightWallItem;
 import com.cometproject.server.game.rooms.types.Room;
@@ -49,6 +46,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 
 public class ItemsComponent {
+
+    private static final int MAX_FOOTBALLS = 15;
 
     private final Logger log;
     private final Map<Long, RoomItemFloor> floorItems = new ConcurrentHashMap<>();
@@ -578,6 +577,14 @@ public class ItemsComponent {
     private boolean verifyItemTilePosition(FurnitureDefinition item, RoomItemFloor floorItem, RoomTile tile, int rotation) {
         if (!tile.canPlaceItemHere()) {
             return false;
+        }
+
+        if(floorItem instanceof RollableFloorItem && this.itemClassIndex.containsKey(RollableFloorItem.class)) {
+            final int count = this.itemClassIndex.get(RollableFloorItem.class).size();
+
+            if(count >= MAX_FOOTBALLS) {
+                return false;
+            }
         }
 
         if (!tile.canStack() && tile.getTopItem() != 0 && (floorItem == null || tile.getTopItem() != floorItem.getId())) {
