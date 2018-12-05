@@ -91,7 +91,7 @@ public class EventRewardCommand extends NotificationCommand {
     }
 
     @Override
-    public boolean Loggable(){
+    public boolean isLoggable(){
         return true;
     }
 }

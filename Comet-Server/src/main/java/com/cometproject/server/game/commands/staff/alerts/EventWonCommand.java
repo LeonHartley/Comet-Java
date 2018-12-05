@@ -43,7 +43,7 @@ public class EventWonCommand extends NotificationCommand {
     }
 
     @Override
-    public boolean Loggable(){
+    public boolean isLoggable(){
         return true;
     }
 }

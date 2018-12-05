@@ -317,7 +317,7 @@ public class CommandManager implements Initialisable {
             try {
                 if (LogManager.ENABLED) {
                     LogManager.getInstance().getStore().getLogEntryContainer().put(new CommandLogEntry(client.getPlayer().getEntity().getRoom().getId(), client.getPlayer().getId(), message));
-                    if (chatCommand != null && client.getPlayer().getData().getRank() >= Integer.parseInt(Locale.getOrDefault("logchat.minrank", "5")) && chatCommand.Loggable()) {
+                    if (chatCommand != null && client.getPlayer().getData().getRank() >= Integer.parseInt(Locale.getOrDefault("logchat.minrank", "5")) && chatCommand.isLoggable()) {
                         for (Session player : ModerationManager.getInstance().getLogChatUsers()) {
                             player.send(new InstantChatMessageComposer(chatCommand.getLoggableDescription(), Integer.MAX_VALUE - 1));
                         }

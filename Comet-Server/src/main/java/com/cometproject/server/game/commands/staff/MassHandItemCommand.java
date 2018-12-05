@@ -54,7 +54,7 @@ public class MassHandItemCommand extends ChatCommand {
     }
 
     @Override
-    public boolean Loggable(){
+    public boolean isLoggable(){
         return true;
     }
 }

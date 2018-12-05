@@ -59,7 +59,7 @@ public abstract class ChatCommand {
     
     public String getLoggableDescription() { return getDescription(); }
 
-    public boolean Loggable() { return false; }
+    public boolean isLoggable() { return false; }
 
     public boolean isHidden() {
         return false;

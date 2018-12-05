@@ -47,7 +47,7 @@ public class HotelAlertLinkCommand extends ChatCommand {
     }
 
     @Override
-    public boolean Loggable(){
+    public boolean isLoggable(){
         return true;
     }
 }

@@ -42,7 +42,7 @@ public class RoomNotificationCommand extends NotificationCommand {
     }
 
     @Override
-    public boolean Loggable(){
+    public boolean isLoggable(){
         return true;
     }
 
