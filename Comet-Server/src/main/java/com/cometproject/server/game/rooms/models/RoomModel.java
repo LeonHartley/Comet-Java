@@ -1,10 +1,9 @@
 package com.cometproject.server.game.rooms.models;
 
-import com.cometproject.api.game.rooms.models.IRoomModel;
 import com.cometproject.api.game.rooms.models.InvalidModelException;
 import com.cometproject.api.game.rooms.models.RoomTileState;
 import com.cometproject.api.utilities.ModelUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 
 public abstract class RoomModel {
@@ -78,7 +77,7 @@ public abstract class RoomModel {
                 throw e;
             }
 
-            Logger.getLogger(RoomModel.class.getName()).error("Failed to parse heightmap for model: " + this.name, e);
+            LogManager.getLogger(RoomModel.class.getName()).error("Failed to parse heightmap for model: {}. {}", this.name, e);
         }
 
         if (maxTileHeight >= 29) {

@@ -19,7 +19,7 @@ public class RobCommand extends ChatCommand {
         String object;
 
         String robbedPlayer = params[0];
-        if(RandomUtil.getRandomInt(0, 100) <= 50) {
+        if (RandomUtil.getRandomInt(0, 100) <= 50) {
             object = Locale.getOrDefault("command.rob.success", "%s robbed %b")
                     .replace("%s", client.getPlayer().getData().getUsername())
                     .replace("%b", robbedPlayer);

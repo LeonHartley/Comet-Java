@@ -8,15 +8,14 @@ import com.cometproject.storage.mysql.data.results.ResultSetReader;
 import com.cometproject.storage.mysql.data.transactions.MySQLTransaction;
 import com.cometproject.storage.mysql.data.transactions.Transaction;
 import com.cometproject.storage.mysql.data.transactions.TransactionConsumer;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.validation.UnexpectedTypeException;
 import java.sql.*;
-import java.util.Arrays;
-import java.util.function.Consumer;
 
 public abstract class MySQLRepository {
-    protected final Logger log = Logger.getLogger(MySQLRepository.class);
+    protected final Logger log = LogManager.getLogger(MySQLRepository.class);
 
     private final MySQLConnectionProvider connectionProvider;
 

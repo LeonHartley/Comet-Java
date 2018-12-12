@@ -14,7 +14,7 @@ import com.cometproject.server.network.sessions.Session;
 public class UnloadCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
-        if(!client.getPlayer().getPermissions().getRank().roomFullControl() && client.getPlayer().getEntity().getRoom().getData().getOwnerId() != client.getPlayer().getId())
+        if (!client.getPlayer().getPermissions().getRank().roomFullControl() && client.getPlayer().getEntity().getRoom().getData().getOwnerId() != client.getPlayer().getId())
             return;
 
         final Room room = client.getPlayer().getEntity().getRoom();

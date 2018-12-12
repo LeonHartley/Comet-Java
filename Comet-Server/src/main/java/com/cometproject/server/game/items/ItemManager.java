@@ -9,7 +9,8 @@ import com.cometproject.server.storage.queries.items.MusicDao;
 import com.cometproject.server.storage.queries.items.TeleporterDao;
 import com.cometproject.storage.api.StorageContext;
 import com.cometproject.storage.api.data.Data;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +21,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ItemManager implements IFurnitureService {
     private static ItemManager itemManagerInstance;
 
-    private Logger log = Logger.getLogger(ItemManager.class.getName());
+    private Logger log = LogManager.getLogger(ItemManager.class.getName());
 
     private Map<Integer, FurnitureDefinition> itemDefinitions;
 
@@ -93,7 +94,7 @@ public class ItemManager implements IFurnitureService {
             }
         }
 
-        log.info("Loaded " + this.getItemDefinitions().size() + " item definitions");
+        log.info("Loaded {} item definitions", this.getItemDefinitions().size());
     }
 
     @Override
@@ -103,7 +104,7 @@ public class ItemManager implements IFurnitureService {
         }
 
         MusicDao.getMusicData(this.musicData);
-        log.info("Loaded " + this.musicData.size() + " songs");
+        log.info("Loaded {} songs", this.musicData.size());
     }
 
     @Override

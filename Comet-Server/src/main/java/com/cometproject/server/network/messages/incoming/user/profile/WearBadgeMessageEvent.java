@@ -1,17 +1,13 @@
 package com.cometproject.server.network.messages.incoming.user.profile;
 
 import com.cometproject.api.game.quests.QuestType;
-import com.cometproject.api.utilities.Pair;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.user.profile.UserBadgesMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.storage.queries.player.inventory.InventoryDao;
-import com.cometproject.storage.mysql.queues.players.objects.PlayerBadgeUpdate;
-import com.google.common.collect.Sets;
 
 import java.util.Map;
-import java.util.Set;
 
 
 public class WearBadgeMessageEvent implements Event {

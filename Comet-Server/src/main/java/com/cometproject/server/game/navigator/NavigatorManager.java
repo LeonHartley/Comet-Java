@@ -6,17 +6,17 @@ import com.cometproject.server.game.navigator.types.categories.NavigatorCategory
 import com.cometproject.server.game.navigator.types.publics.PublicRoom;
 import com.cometproject.server.storage.queries.navigator.NavigatorDao;
 import com.google.common.collect.Lists;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-
 public class NavigatorManager implements Initialisable {
     private static NavigatorManager navigatorManagerInstance;
-    private final Logger log = Logger.getLogger(NavigatorManager.class.getName());
+    private final Logger log = LogManager.getLogger(NavigatorManager.class.getName());
     private Map<Integer, Category> categories;
     private List<Category> userCategories;
     private Map<Integer, PublicRoom> publicRooms;
@@ -53,7 +53,7 @@ public class NavigatorManager implements Initialisable {
             log.error("Error while loading public rooms", e);
         }
 
-        log.info("Loaded " + this.publicRooms.size() + " featured rooms");
+        log.info("Loaded {} featured rooms", this.publicRooms.size());
     }
 
     public void loadStaffPicks() {
@@ -68,7 +68,7 @@ public class NavigatorManager implements Initialisable {
             log.error("Error while loading staff picked rooms", e);
         }
 
-        log.info("Loaded " + this.publicRooms.size() + " staff picks");
+        log.info("Loaded {} staff picks", this.publicRooms.size());
     }
 
     public void loadCategories() {
@@ -94,7 +94,7 @@ public class NavigatorManager implements Initialisable {
             log.error("Error while loading navigator categories", e);
         }
 
-        log.info("Loaded " + (this.getCategories() == null ? 0 : this.getCategories().size()) + " room categories");
+        log.info("Loaded {} room categories", this.getCategories() == null ? 0 : this.getCategories().size());
     }
 
     public Category getCategory(int id) {
@@ -117,8 +117,8 @@ public class NavigatorManager implements Initialisable {
         Map<Integer, PublicRoom> pRooms = new LinkedHashMap<>();
 
         for (PublicRoom publicRoom : this.publicRooms.values()) {
-           if(publicRoom.getCategory().equals(category))
-               pRooms.put(publicRoom.getRoomId(), publicRoom);
+            if (publicRoom.getCategory().equals(category))
+                pRooms.put(publicRoom.getRoomId(), publicRoom);
 
         }
 

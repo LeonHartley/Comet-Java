@@ -24,7 +24,7 @@ import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdat
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManager;
 import com.cometproject.server.utilities.TimeSpan;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +58,7 @@ public abstract class AbstractRoomProcess implements CometTask {
     public AbstractRoomProcess(Room room, long delay) {
         this.room = room;
         this.delay = delay;
-        this.log = Logger.getLogger("Room Process [" + room.getData().getName() + ", #" + room.getId() + "]");
+        this.log = org.apache.logging.log4j.LogManager.getLogger("Room Process [" + room.getData().getName() + ", #" + room.getId() + "]");
 
         this.adaptiveProcessTimes = CometSettings.adaptiveEntityProcessDelay;
     }

@@ -12,12 +12,10 @@ import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdat
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorItemMessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.protocol.security.exchange.DiffieHellman;
-import com.cometproject.server.storage.cache.CachableObject;
 import com.cometproject.server.storage.queries.player.PlayerDao;
-import com.corundumstudio.socketio.SocketIOClient;
-import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.net.InetSocketAddress;
 import java.util.UUID;
@@ -27,7 +25,7 @@ public class Session implements ISession {
     public static int CLIENT_VERSION = 0;
     private final ChannelHandlerContext channel;
     private final UUID uuid = UUID.randomUUID();
-    private Logger logger = Logger.getLogger("Session");
+    private Logger logger = LogManager.getLogger(Session.class);
     private SessionEventHandler eventHandler;
     private boolean isClone = false;
     private String uniqueId = "";
@@ -127,11 +125,11 @@ public class Session implements ISession {
         }
 
         if (msg.getId() == 0) {
-            logger.debug("Unknown header ID for message: " + msg.getClass().getSimpleName());
+            logger.debug("Unknown header ID for message: {}", msg.getClass().getSimpleName());
         }
 
         if (!(msg instanceof AvatarUpdateMessageComposer) && !(msg instanceof UpdateFloorItemMessageComposer))
-            logger.debug("Sent message: " + msg.getClass().getSimpleName() + " / " + msg.getId());
+            logger.debug("Sent message: {}/{}", msg.getClass().getSimpleName(), msg.getId());
 
         if (!queue) {
             this.channel.writeAndFlush(msg, channel.voidPromise());
@@ -160,7 +158,7 @@ public class Session implements ISession {
 
         String username = player.getData().getUsername();
 
-        this.logger = Logger.getLogger("[" + username + "][" + player.getId() + "]");
+        this.logger = LogManager.getLogger("[" + username + "][" + player.getId() + "]");
         this.player = player;
 
         int channelId = this.channel.attr(SessionManager.CHANNEL_ID_ATTR).get();

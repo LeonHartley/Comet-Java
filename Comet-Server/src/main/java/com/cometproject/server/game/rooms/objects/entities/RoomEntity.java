@@ -892,8 +892,8 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
     }
 
     public void addToTile(RoomTile tile) {
-        if(this.tiles.size() != 0) {
-            for(RoomTile oldTile : this.tiles) {
+        if (this.tiles.size() != 0) {
+            for (RoomTile oldTile : this.tiles) {
                 oldTile.getEntities().remove(this);
             }
 

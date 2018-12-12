@@ -6,14 +6,15 @@ import com.cometproject.api.utilities.Initialisable;
 import com.cometproject.server.game.landing.types.PromoArticle;
 import com.cometproject.server.storage.queries.landing.LandingDao;
 import com.cometproject.server.tasks.CometThreadManager;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 
 public class LandingManager implements Initialisable {
-    private static final Logger log = Logger.getLogger(LandingManager.class.getName());
+    private static final Logger log = LogManager.getLogger(LandingManager.class.getName());
     private static LandingManager landingManagerInstance;
     private Map<Integer, PromoArticle> articles;
 

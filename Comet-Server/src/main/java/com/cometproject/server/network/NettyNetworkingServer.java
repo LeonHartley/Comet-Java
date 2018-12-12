@@ -4,12 +4,13 @@ import com.cometproject.networking.api.INetworkingServer;
 import com.cometproject.networking.api.config.NetworkingServerConfig;
 import com.cometproject.networking.api.sessions.INetSessionFactory;
 import io.netty.bootstrap.ServerBootstrap;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.net.InetSocketAddress;
 
 public class NettyNetworkingServer implements INetworkingServer {
-    private static final Logger log = Logger.getLogger(NettyNetworkingServer.class);
+    private static final Logger log = LogManager.getLogger(NettyNetworkingServer.class);
 
     private final NetworkingServerConfig serverConfig;
     private final INetSessionFactory sessionFactory;
@@ -27,13 +28,13 @@ public class NettyNetworkingServer implements INetworkingServer {
             try {
                 this.serverBootstrap.bind(new InetSocketAddress(this.serverConfig.getHost(), port)).addListener(objectFuture -> {
                     if (!objectFuture.isSuccess()) {
-                        log.error("Failed to start sockets on " + this.serverConfig.getHost() + ", port: " + port);
+                        log.error("Failed to start sockets on {}:{}", this.serverConfig.getHost(), port);
                     }
                 });
 
-                log.info("CometServer listening on port: " + port);
+                log.info("CometServer listening on {}:{} ", this.serverConfig.getHost(), port);
             } catch (Exception e) {
-                log.error("Failed to start sockets on " + this.serverConfig.getHost() + ", port: " + port, e);
+                log.error("Failed to start sockets on {}:{}, {}", this.serverConfig.getHost(), port, e);
             }
         }
     }

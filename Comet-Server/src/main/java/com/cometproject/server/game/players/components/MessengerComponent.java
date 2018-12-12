@@ -19,7 +19,7 @@ import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.player.messenger.MessengerDao;
 import com.cometproject.server.storage.queries.player.messenger.MessengerSearchDao;
 import com.google.common.collect.Lists;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import java.util.List;
 import java.util.Map;
@@ -37,7 +37,7 @@ public class MessengerComponent extends PlayerComponent implements PlayerMesseng
         try {
             this.friends = MessengerDao.getFriendsByPlayerId(player.getId());
         } catch (Exception e) {
-            Logger.getLogger(MessengerComponent.class.getName()).error("Error while loading messenger friends", e);
+            LogManager.getLogger(MessengerComponent.class.getName()).error("Error while loading messenger friends", e);
         }
     }
 
@@ -82,7 +82,7 @@ public class MessengerComponent extends PlayerComponent implements PlayerMesseng
 
     @Override
     public void addFriend(IMessengerFriend friend) {
-        if(this.getFriends().containsKey(friend.getUserId())) {
+        if (this.getFriends().containsKey(friend.getUserId())) {
             return;
         }
 

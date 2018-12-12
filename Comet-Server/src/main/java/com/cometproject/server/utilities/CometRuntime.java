@@ -3,13 +3,14 @@ package com.cometproject.server.utilities;
 import com.sun.jna.Library;
 import com.sun.jna.Native;
 import com.sun.jna.platform.win32.Kernel32;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 public class CometRuntime {
     public static final String operatingSystem = System.getProperty("os.name");
     public static final String operatingSystemArchitecture = System.getProperty("os.arch");
-    private static final Logger log = Logger.getLogger(CometRuntime.class.getName());
+    private static final Logger log = LogManager.getLogger(CometRuntime.class.getName());
     public static int processId = 0;
 
     static {

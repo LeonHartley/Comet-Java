@@ -3,7 +3,8 @@ package com.cometproject.server.game.items.types;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManager;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.concurrent.TimeUnit;
 public class LowPriorityItemProcessor implements CometTask {
     private static final int processTime = 25;
     private static LowPriorityItemProcessor instance;
-    private final Logger log = Logger.getLogger(LowPriorityItemProcessor.class);
+    private final Logger log = LogManager.getLogger(LowPriorityItemProcessor.class);
     private List<RoomItemFloor> itemsToProcess;
 
     public LowPriorityItemProcessor() {

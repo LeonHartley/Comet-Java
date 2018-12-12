@@ -40,7 +40,7 @@ import com.cometproject.server.modules.ModuleManager;
 import com.cometproject.server.network.messages.outgoing.messenger.InstantChatMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import com.google.common.collect.Lists;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.List;
@@ -51,7 +51,7 @@ import java.util.concurrent.Executors;
 
 public class CommandManager implements Initialisable {
     private static CommandManager commandManagerInstance;
-    private static Logger log = Logger.getLogger(CommandManager.class.getName());
+    private static Logger log = org.apache.logging.log4j.LogManager.getLogger(CommandManager.class.getName());
 
     private NotificationManager notifications;
     private Map<String, ChatCommand> commands;
@@ -77,7 +77,7 @@ public class CommandManager implements Initialisable {
         this.commands = new HashMap<>();
 
         this.reloadAllCommands();
-        log.info("Loaded " + commands.size() + " chat commands");
+        log.info("Loaded {} chat commands", this.commands.size());
 
         this.notifications = new NotificationManager();
         log.info("CommandManager initialized");

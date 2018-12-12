@@ -39,7 +39,8 @@ import com.cometproject.storage.api.data.Data;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -61,7 +62,7 @@ public class ItemsComponent {
 
     public ItemsComponent(Room room) {
         this.room = room;
-        this.log = Logger.getLogger("Room Items Component [" + room.getData().getName() + "]");
+        this.log = LogManager.getLogger("Room Items Component [" + room.getData().getName() + "]");
 
         if (room.getCachedData() != null) {
             for (FloorItemDataObject floorItemDataObject : room.getCachedData().getFloorItems()) {
@@ -579,10 +580,10 @@ public class ItemsComponent {
             return false;
         }
 
-        if(floorItem instanceof RollableFloorItem && this.itemClassIndex.containsKey(RollableFloorItem.class)) {
+        if (floorItem instanceof RollableFloorItem && this.itemClassIndex.containsKey(RollableFloorItem.class)) {
             final int count = this.itemClassIndex.get(RollableFloorItem.class).size();
 
-            if(count >= MAX_FOOTBALLS) {
+            if (count >= MAX_FOOTBALLS) {
                 return false;
             }
         }

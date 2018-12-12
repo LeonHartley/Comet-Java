@@ -42,7 +42,8 @@ public class WiredCustomFurniUp extends WiredActionItem {
 
         try {
             newZ = Integer.parseInt(this.getWiredData().getText());
-        } catch (NumberFormatException ignored){}
+        } catch (NumberFormatException ignored) {
+        }
 
         for (long itemId : this.getWiredData().getSelectedIds()) {
             final RoomItemFloor floorItem = this.getRoom().getItems().getFloorItem(itemId);
@@ -50,7 +51,7 @@ public class WiredCustomFurniUp extends WiredActionItem {
             if (floorItem == null)
                 continue;
 
-            if(!this.isUp && floorItem.getPosition().getZ() - newZ < 0)
+            if (!this.isUp && floorItem.getPosition().getZ() - newZ < 0)
                 continue;
 
             Position newPos = new Position(floorItem.getPosition().getX(), floorItem.getPosition().getY(), this.isUp ? floorItem.getPosition().getZ() + newZ : floorItem.getPosition().getZ() - newZ);

@@ -75,12 +75,12 @@ public class MachineBanCommand extends ChatCommand {
     }
 
     @Override
-    public String getLoggableDescription(){
+    public String getLoggableDescription() {
         return this.logDesc;
     }
 
     @Override
-    public boolean isLoggable(){
+    public boolean isLoggable() {
         return true;
     }
 }

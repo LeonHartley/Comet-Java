@@ -4,7 +4,6 @@ import com.cometproject.api.game.GameContext;
 import com.cometproject.api.game.rooms.IRoomData;
 import com.cometproject.server.composers.catalog.groups.GroupElementsMessageComposer;
 import com.cometproject.server.composers.catalog.groups.GroupPartsMessageComposer;
-import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.protocol.messages.MessageEvent;

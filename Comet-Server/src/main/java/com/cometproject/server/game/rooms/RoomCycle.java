@@ -5,7 +5,8 @@ import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManager;
 import com.cometproject.server.utilities.TimeSpan;
 import com.google.common.collect.Lists;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 import java.util.concurrent.ScheduledFuture;
@@ -15,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 public class RoomCycle implements CometTask {
     private final static int PERIOD = 500;
     private final static int FLAG = 2000;
-    private Logger log = Logger.getLogger(RoomCycle.class.getName());
+    private Logger log = LogManager.getLogger(RoomCycle.class.getName());
     private ScheduledFuture myFuture;
 
     public RoomCycle() {

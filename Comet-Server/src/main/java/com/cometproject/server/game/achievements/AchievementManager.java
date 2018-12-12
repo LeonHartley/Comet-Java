@@ -4,13 +4,14 @@ import com.cometproject.api.game.achievements.IAchievementsService;
 import com.cometproject.api.game.achievements.types.AchievementType;
 import com.cometproject.api.game.achievements.types.IAchievementGroup;
 import com.cometproject.server.storage.queries.achievements.AchievementDao;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class AchievementManager implements IAchievementsService {
-    private static final Logger log = Logger.getLogger(AchievementManager.class.getName());
+    private static final Logger log = LogManager.getLogger(AchievementManager.class.getName());
     private static AchievementManager achievementManager;
     private final Map<AchievementType, IAchievementGroup> achievementGroups;
 
@@ -47,7 +48,7 @@ public class AchievementManager implements IAchievementsService {
 
         final int achievementCount = AchievementDao.getAchievements(this.achievementGroups);
 
-        log.info("Loaded " + achievementCount + " achievements (" + this.achievementGroups.size() + " groups)");
+        log.info("Loaded {} achievements ({} groups)", achievementCount, this.achievementGroups.size());
 
     }
 

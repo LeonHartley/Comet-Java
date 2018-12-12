@@ -52,7 +52,7 @@ public class WiredActionGiveReward extends WiredActionItem {
 
     private static boolean isAlert = false;
 
-    
+
     private final int ownerRank;
     // increments and will be reset when the room is unloaded.
 
@@ -127,7 +127,7 @@ public class WiredActionGiveReward extends WiredActionItem {
 
         boolean receivedReward = false;
 
-        if(canReceiveReward) {
+        if (canReceiveReward) {
             for (Reward reward : this.rewards) {
                 switch (howOften) {
                     case ONCE:
@@ -184,7 +184,7 @@ public class WiredActionGiveReward extends WiredActionItem {
                 }
                 boolean probabilityBool;
 
-                if(unique) {
+                if (unique) {
                     probabilityBool = true;
                 } else probabilityBool = RandomUtil.getRandomInt(1, 100) <= reward.probability;
 
@@ -204,7 +204,7 @@ public class WiredActionGiveReward extends WiredActionItem {
                             int value = 0;
 
                             try {
-                                if(amount != ALERT) {
+                                if (amount != ALERT) {
                                     value = Integer.parseInt(itemData[1]);
                                 }
                             } catch (Exception ignored) {
@@ -299,7 +299,6 @@ public class WiredActionGiveReward extends WiredActionItem {
         receivedReward = true;
 
 
-
         if (error == RewardError.ONE_DAY || error == RewardError.ONE_HOUR || error == RewardError.UNLUCKY || error == RewardError.ALREADY_GIVEN || error == RewardError.OUT_OF_STOCK) {
             playerEntity.getPlayer().getSession().send(new WiredRewardMessageComposer(error.getInteger()));
             return;
@@ -308,7 +307,7 @@ public class WiredActionGiveReward extends WiredActionItem {
         if (!receivedReward) {
             playerEntity.getPlayer().getSession().send(new WiredRewardMessageComposer(4));
         } else {
-            if(!isAlert) {
+            if (!isAlert) {
                 playerEntity.getPlayer().getSession().send(new WiredRewardMessageComposer(6));
             }
         }

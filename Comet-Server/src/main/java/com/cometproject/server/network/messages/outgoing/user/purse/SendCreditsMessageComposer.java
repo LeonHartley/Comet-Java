@@ -1,6 +1,5 @@
 package com.cometproject.server.network.messages.outgoing.user.purse;
 
-import com.cometproject.api.config.CometSettings;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.protocol.headers.Composers;
 import com.cometproject.server.protocol.messages.MessageComposer;

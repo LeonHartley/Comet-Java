@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.objects.entities.pathfinding.types;
 
+import com.cometproject.api.game.rooms.models.RoomTileState;
 import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.objects.RoomObject;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
@@ -11,7 +12,6 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.groups.Group
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions.WiredActionChase;
 import com.cometproject.server.game.rooms.types.mapping.RoomEntityMovementNode;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
-import com.cometproject.api.game.rooms.models.RoomTileState;
 
 public class ItemPathfinder extends Pathfinder {
     private static ItemPathfinder pathfinderInstance;

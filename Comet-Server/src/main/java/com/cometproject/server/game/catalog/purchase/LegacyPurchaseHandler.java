@@ -11,6 +11,7 @@ import com.cometproject.api.game.catalog.types.ICatalogBundledItem;
 import com.cometproject.api.game.catalog.types.ICatalogItem;
 import com.cometproject.api.game.catalog.types.ICatalogPage;
 import com.cometproject.api.game.catalog.types.bundles.IRoomBundle;
+import com.cometproject.api.game.catalog.types.bundles.RoomBundleItem;
 import com.cometproject.api.game.catalog.types.purchase.CatalogPurchase;
 import com.cometproject.api.game.catalog.types.purchase.ICatalogPurchaseHandler;
 import com.cometproject.api.game.furniture.types.FurnitureDefinition;
@@ -37,7 +38,6 @@ import com.cometproject.server.game.pets.data.StaticPetProperties;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.bundles.RoomBundleManager;
 import com.cometproject.server.game.rooms.bundles.types.RoomBundle;
-import com.cometproject.api.game.catalog.types.bundles.RoomBundleItem;
 import com.cometproject.server.game.rooms.objects.entities.types.data.PlayerBotData;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.outgoing.notification.*;
@@ -60,7 +60,8 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.joda.time.DateTime;
 
 import java.util.*;
@@ -69,7 +70,7 @@ import java.util.concurrent.Executors;
 
 
 public class LegacyPurchaseHandler implements ICatalogPurchaseHandler {
-    private final Logger log = Logger.getLogger(LegacyPurchaseHandler.class.getName());
+    private final Logger log = LogManager.getLogger(LegacyPurchaseHandler.class.getName());
     private ExecutorService executorService;
 
     public LegacyPurchaseHandler() {

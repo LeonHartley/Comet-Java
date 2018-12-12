@@ -4,12 +4,13 @@ import com.cometproject.api.game.quests.IQuest;
 import com.cometproject.api.game.quests.IQuestService;
 import com.cometproject.api.utilities.Initialisable;
 import com.cometproject.server.storage.queries.quests.QuestsDao;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Map;
 
 public class QuestManager implements Initialisable, IQuestService {
-    private static final Logger log = Logger.getLogger(QuestManager.class.getName());
+    private static final Logger log = LogManager.getLogger(QuestManager.class.getName());
 
     private static QuestManager questManagerInstance;
 
@@ -39,7 +40,7 @@ public class QuestManager implements Initialisable, IQuestService {
         }
 
         this.quests = QuestsDao.getAllQuests();
-        log.info("Loaded " + this.quests.size() + " quests");
+        log.info("Loaded {} quests", this.quests.size());
         log.info("QuestManager initialized");
     }
 

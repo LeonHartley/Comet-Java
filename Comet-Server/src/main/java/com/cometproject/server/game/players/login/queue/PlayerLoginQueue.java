@@ -1,7 +1,8 @@
 package com.cometproject.server.game.players.login.queue;
 
 import com.cometproject.server.tasks.CometTask;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayDeque;
 
@@ -10,7 +11,7 @@ public class PlayerLoginQueue implements CometTask {
     private final int MAX_QUEUE_SIZE = 1000;
     private final ArrayDeque<PlayerLoginQueueEntry> queue = new ArrayDeque<>();
 
-    private Logger log = Logger.getLogger(PlayerLoginQueue.class.getName());
+    private Logger log = LogManager.getLogger(PlayerLoginQueue.class.getName());
 
     @Override
     public void run() {

@@ -25,7 +25,8 @@ import com.cometproject.server.storage.cache.CacheManager;
 import com.cometproject.server.storage.cache.objects.RoomDataObject;
 import com.cometproject.server.storage.queries.rooms.RoomDao;
 import com.cometproject.server.tasks.CometThreadManager;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,10 +36,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-
 public class RoomManager implements Initialisable {
 
-    public static final Logger log = Logger.getLogger(RoomManager.class.getName());
+    public static final Logger log = LogManager.getLogger(RoomManager.class.getName());
     public static final int LRU_MAX_ENTRIES = Integer.parseInt(Configuration.currentConfig().getProperty("comet.game.rooms.data.max"));
     public static final int LRU_MAX_LOWER_WATERMARK = Integer.parseInt(Configuration.currentConfig().getProperty("comet.game.rooms.data.lowerWatermark"));
     private static RoomManager roomManagerInstance;
@@ -95,7 +95,8 @@ public class RoomManager implements Initialisable {
             return roomThread;
         });
 
-        this.roomDataInstances = new LastReferenceCache<Integer, IRoomData>(43200*1000, 10000, (key, val) -> {}, CometThreadManager.getInstance().getCoreExecutor());
+        this.roomDataInstances = new LastReferenceCache<>(43200 * 1000, 10000, (key, val) -> {
+        }, CometThreadManager.getInstance().getCoreExecutor());
 
         log.info("RoomManager initialized");
     }
@@ -104,7 +105,7 @@ public class RoomManager implements Initialisable {
         RoomDao.deleteExpiredRoomPromotions();
         RoomDao.getActivePromotions(this.roomPromotions);
 
-        log.info("Loaded " + this.getRoomPromotions().size() + " room promotions");
+        log.info("Loaded {} room promotions", this.getRoomPromotions().size());
     }
 
     public void initializeRoom(Session initializer, int roomId, String password) {

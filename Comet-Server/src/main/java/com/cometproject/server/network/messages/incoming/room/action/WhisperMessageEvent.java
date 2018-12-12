@@ -50,7 +50,7 @@ public class WhisperMessageEvent implements Event {
         if (!userTo.getPlayer().getEntity().isVisible())
             return;
 
-        if(userTo.getPlayer().getSettings().disableWhisper() && !(client.getPlayer().getData().getRank() > Integer.parseInt(Locale.getOrDefault("whisper.minrank.force", "5")))) {
+        if (userTo.getPlayer().getSettings().disableWhisper() && !(client.getPlayer().getData().getRank() > Integer.parseInt(Locale.getOrDefault("whisper.minrank.force", "5")))) {
             client.send(new WhisperMessageComposer(client.getPlayer().getId(), Locale.getOrDefault("whisper.disabled", "Oops!, the user who you're trying to whisper has whispers disabled!")));
             return;
         }

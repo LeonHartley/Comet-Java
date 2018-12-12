@@ -1,6 +1,5 @@
 package com.cometproject.server.game.commands.user;
 
-import com.cometproject.api.game.rooms.entities.RoomEntityStatus;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
@@ -14,12 +13,12 @@ public class SitCommand extends ChatCommand {
     public void execute(Session client, String[] params) {
         PlayerEntity playerEntity = client.getPlayer().getEntity();
 
-        if(playerEntity.hasStatus(SIT) && playerEntity.hasStatus(LAY)) {
+        if (playerEntity.hasStatus(SIT) && playerEntity.hasStatus(LAY)) {
             playerEntity.removeStatus(LAY);
             playerEntity.removeStatus(SIT);
         }
 
-        if(playerEntity.hasStatus(SIT)) {
+        if (playerEntity.hasStatus(SIT)) {
             playerEntity.removeStatus(SIT);
             playerEntity.markNeedsUpdate();
         } else {

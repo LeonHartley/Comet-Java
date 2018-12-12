@@ -11,7 +11,7 @@ import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateIn
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.storage.api.StorageContext;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import java.util.Map;
 
@@ -63,7 +63,7 @@ public class ApplyDecorationMessageEvent implements Event {
                 GameContext.getCurrent().getRoomService().saveRoomData(room.getData());
                 room.getEntities().broadcastMessage(new RoomPropertyMessageComposer(type, data));
             } catch (Exception e) {
-                Logger.getLogger(ApplyDecorationMessageEvent.class.getName()).error("Error while saving room data", e);
+                LogManager.getLogger(ApplyDecorationMessageEvent.class.getName()).error("Error while saving room data", e);
             }
         }
     }

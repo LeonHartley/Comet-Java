@@ -8,7 +8,8 @@ import com.cometproject.server.game.pets.races.PetBreedLevel;
 import com.cometproject.server.game.pets.races.PetRace;
 import com.cometproject.server.storage.queries.pets.PetDao;
 import com.google.common.collect.Maps;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class PetManager implements Initialisable {
     private static PetManager petManagerInstance;
     private final Map<Integer, IPetData> pendingPetDataSaves = Maps.newConcurrentMap();
-    private Logger log = Logger.getLogger(PetManager.class.getName());
+    private Logger log = LogManager.getLogger(PetManager.class.getName());
     private List<PetRace> petRaces;
     private Map<Integer, PetSpeech> petMessages;
     private Map<String, String> transformablePets;
@@ -58,7 +59,7 @@ public class PetManager implements Initialisable {
         try {
             this.petRaces = PetDao.getRaces();
 
-            log.info("Loaded " + this.petRaces.size() + " pet races");
+            log.info("Loaded {} pet races", this.petRaces.size());
         } catch (Exception e) {
             log.error("Error while loading pet races", e);
         }
@@ -72,7 +73,7 @@ public class PetManager implements Initialisable {
         try {
             this.petBreedPallets = PetDao.getPetBreedPallets();
 
-            log.info("Loaded " + this.petBreedPallets.size() + " pet breed pallet sets");
+            log.info("Loaded {} pet breed pallet sets", this.petBreedPallets.size());
         } catch (Exception e) {
             log.error("Error while loading pet breed pallets", e);
         }
@@ -87,7 +88,7 @@ public class PetManager implements Initialisable {
             AtomicInteger petSpeechCount = new AtomicInteger(0);
             this.petMessages = PetDao.getMessages(petSpeechCount);
 
-            log.info("Loaded " + this.petMessages.size() + " pet message sets and " + petSpeechCount.get() + " total messages");
+            log.info("Loaded {} pet message sets and {} total messages", this.petMessages.size(), petSpeechCount.get());
         } catch (Exception e) {
             log.error("Error while loading pet messages");
         }
@@ -101,7 +102,7 @@ public class PetManager implements Initialisable {
         try {
             this.transformablePets = PetDao.getTransformablePets();
 
-            log.info("Loaded " + this.transformablePets.size() + " transformable pets");
+            log.info("Loaded {} transformable pets", this.transformablePets.size());
         } catch (Exception e) {
             log.error("Error while loading transformable pets");
         }

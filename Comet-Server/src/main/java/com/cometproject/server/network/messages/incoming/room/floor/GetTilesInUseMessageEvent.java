@@ -1,7 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.floor;
 
 import com.cometproject.api.game.rooms.models.IRoomModel;
-import com.cometproject.server.game.rooms.models.RoomModel;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.room.floor.FloorPlanDoorMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.floor.TilesInUseMessageComposer;

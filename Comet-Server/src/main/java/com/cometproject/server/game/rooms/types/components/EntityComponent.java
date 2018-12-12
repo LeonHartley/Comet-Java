@@ -15,15 +15,19 @@ import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.network.messages.outgoing.room.settings.RoomRatingMessageComposer;
 import com.cometproject.server.protocol.messages.MessageComposer;
 import com.google.common.collect.Lists;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class EntityComponent {
-    private static Logger log = Logger.getLogger(EntityComponent.class.getName());
+    private static Logger log = LogManager.getLogger(EntityComponent.class.getName());
     private final Map<Integer, RoomEntity> entities = new ConcurrentHashMap<>();
     private final Map<Integer, Integer> playerIdToEntity = new ConcurrentHashMap<>();
     private final Map<Integer, Integer> botIdToEntity = new ConcurrentHashMap<>();

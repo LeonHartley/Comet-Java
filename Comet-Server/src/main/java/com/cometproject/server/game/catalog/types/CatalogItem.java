@@ -191,7 +191,7 @@ public class CatalogItem implements ICatalogItem {
         } else if (this.getCostActivityPoints() > 0) {
             msg.writeInt(this.getCostActivityPoints());
             msg.writeInt(0);
-        } else if(this.getCostSeasonal() > 0) {
+        } else if (this.getCostSeasonal() > 0) {
             msg.writeInt(this.getCostSeasonal());
             msg.writeInt(106);
         } else {

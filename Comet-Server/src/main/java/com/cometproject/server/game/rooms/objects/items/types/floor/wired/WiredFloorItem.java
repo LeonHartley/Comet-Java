@@ -209,6 +209,7 @@ public abstract class WiredFloorItem extends AdvancedFloorItem<WiredItemEvent> i
 
     /**
      * If Wired uses Delay
+     *
      * @return boolean
      */
     public boolean usesDelay() {
@@ -217,6 +218,7 @@ public abstract class WiredFloorItem extends AdvancedFloorItem<WiredItemEvent> i
 
     /**
      * Custom Furni selection
+     *
      * @return
      */
     public int getFurniSelection() {

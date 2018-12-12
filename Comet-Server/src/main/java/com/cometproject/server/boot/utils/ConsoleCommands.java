@@ -11,7 +11,8 @@ import com.cometproject.server.game.permissions.PermissionsManager;
 import com.cometproject.server.modules.ModuleManager;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.storage.SqlHelper;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -20,30 +21,28 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class ConsoleCommands {
-    private static final Logger log = Logger.getLogger("Console Command Handler");
+    private static final Logger log = LogManager.getLogger(ConsoleCommands.class);
 
     public static void init() {
         // Console commands
-        final Thread cmdThr = new Thread() {
-            public void run() {
-                while (Comet.isRunning) {
-                    if (!Comet.isRunning) {
-                        break;
-                    }
+        final Thread cmdThr = new Thread(() -> {
+            while (Comet.isRunning) {
+                if (!Comet.isRunning) {
+                    break;
+                }
 
-                    try {
-                        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-                        String input = br.readLine();
+                try {
+                    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+                    String input = br.readLine();
 
-                        if (input != null) {
-                            handleCommand(input);
-                        }
-                    } catch (Exception e) {
-                        log.error("Error while parsing console command");
+                    if (input != null) {
+                        handleCommand(input);
                     }
+                } catch (Exception e) {
+                    log.error("Error while parsing console command");
                 }
             }
-        };
+        });
 
         cmdThr.start();
     }

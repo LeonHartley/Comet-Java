@@ -1,7 +1,6 @@
 package com.cometproject.server.game.rooms.types.components;
 
 import com.cometproject.api.game.rooms.objects.IRoomItemData;
-import com.cometproject.api.game.rooms.objects.data.RoomItemData;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.rooms.objects.entities.WiredTriggerExecutor;
 import com.cometproject.server.game.rooms.objects.items.RoomItem;
@@ -10,18 +9,16 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
 import com.cometproject.server.game.rooms.objects.items.types.floor.RollerFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerPeriodically;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManager;
 import com.cometproject.server.utilities.TimeSpan;
 import com.cometproject.storage.api.StorageContext;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Queues;
 import com.google.common.collect.Sets;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ScheduledFuture;
@@ -44,7 +41,7 @@ public class ItemProcessComponent implements CometTask {
     public ItemProcessComponent(Room room) {
         this.room = room;
 
-        log = Logger.getLogger("Item Process [" + room.getData().getName() + "]");
+        log = LogManager.getLogger("Item Process [" + room.getData().getName() + "]");
     }
 
     public void start() {
@@ -70,7 +67,7 @@ public class ItemProcessComponent implements CometTask {
 
         final Set<IRoomItemData> items = Sets.newHashSet();
 
-        while((roomItem = this.saveQueue.poll()) != null) {
+        while ((roomItem = this.saveQueue.poll()) != null) {
             items.add(roomItem.getItemData());
         }
 

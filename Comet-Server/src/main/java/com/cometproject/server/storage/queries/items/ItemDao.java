@@ -4,7 +4,6 @@ import com.cometproject.api.game.furniture.types.CrackableReward;
 import com.cometproject.api.game.furniture.types.CrackableRewardType;
 import com.cometproject.api.game.furniture.types.CrackableType;
 import com.cometproject.api.game.furniture.types.FurnitureDefinition;
-import com.cometproject.api.game.catalog.types.purchase.CatalogPurchase;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.storage.SqlHelper;
@@ -13,9 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 

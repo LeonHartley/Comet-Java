@@ -12,7 +12,8 @@ import com.cometproject.networking.api.messages.IMessageHandler;
 import com.cometproject.networking.api.sessions.INetSession;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Map;
 import java.util.Set;
@@ -20,7 +21,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.function.BiConsumer;
 
 public class FastFoodMessageHandler implements IMessageHandler {
-    private static final Logger log = Logger.getLogger(FastFoodMessageHandler.class);
+    private static final Logger log = LogManager.getLogger(FastFoodMessageHandler.class);
 
     private final MySQLFastFoodRepository fastFoodRepository;
     private final IPlayerService playerService;

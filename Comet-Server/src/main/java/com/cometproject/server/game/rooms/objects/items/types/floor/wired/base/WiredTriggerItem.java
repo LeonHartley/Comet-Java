@@ -17,9 +17,9 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.trigge
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.items.wired.dialog.WiredTriggerMessageComposer;
 import com.cometproject.server.protocol.messages.MessageComposer;
-import com.cometproject.server.utilities.RandomUtil;
 import com.google.common.collect.Lists;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.List;
@@ -28,7 +28,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 
 public abstract class WiredTriggerItem extends WiredFloorItem {
-    private static Logger log = Logger.getLogger(WiredTriggerItem.class.getName());
+    private static Logger log = LogManager.getLogger(WiredTriggerItem.class.getName());
 
     public WiredTriggerItem(RoomItemData itemData, Room room) {
         super(itemData, room);

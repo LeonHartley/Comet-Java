@@ -15,7 +15,8 @@ import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;
 import com.google.common.io.Resources;
 import io.coerce.commons.io.FileUtil;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.Constructor;
 import java.net.URL;
@@ -25,7 +26,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ModuleManager implements Initialisable {
-    private static final Logger log = Logger.getLogger(ModuleManager.class.getName());
+    private static final Logger log = LogManager.getLogger(ModuleManager.class.getName());
     private static ModuleManager moduleManagerInstance;
     private EventHandler eventHandler;
     private CometGameService gameService;

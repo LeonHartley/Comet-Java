@@ -8,10 +8,10 @@ import com.cometproject.server.storage.queries.catalog.CatalogDao;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.commons.collections4.map.ListOrderedMap;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.*;
-
 
 public class CatalogManager implements ICatalogService {
     private static CatalogManager catalogManagerInstance;
@@ -55,7 +55,7 @@ public class CatalogManager implements ICatalogService {
     /**
      * The logger for the catalog manager
      */
-    private Logger log = Logger.getLogger(CatalogManager.class.getName());
+    private Logger log = LogManager.getLogger(CatalogManager.class.getName());
 
     /**
      * Parent pages
@@ -126,15 +126,18 @@ public class CatalogManager implements ICatalogService {
             log.error("Error while loading catalog pages/items", e);
         }
 
-        for (ICatalogPage page : this.pages.values()) {
-            for (Integer item : page.getItems().keySet()) {
-                this.catalogItemIdToPageId.put(item, page.getId());
-            }
-        }
+        this.pages.values().forEach(page -> page.getItems().keySet().forEach(item -> {
+            this.catalogItemIdToPageId.put(item, page.getId());
+        }));
+//        for (ICatalogPage page : this.pages.values()) {
+//            for (Integer item : page.getItems().keySet()) {
+//                this.catalogItemIdToPageId.put(item, page.getId());
+//            }
+//        }
 
         this.sortCatalogChildren();
 
-        log.info("Loaded " + this.getPages().size() + " catalog pages and " + this.items.size() + " catalog items");
+        log.info("Loaded {} catalog pages and {} catalog items", this.getPages().size(), this.items.size());
     }
 
     @Override
@@ -148,7 +151,7 @@ public class CatalogManager implements ICatalogService {
         }
 
         CatalogDao.loadGiftBoxes(this.giftBoxesOld, this.giftBoxesNew);
-        log.info("Loaded " + (this.giftBoxesNew.size() + this.giftBoxesOld.size()) + " gift wrappings");
+        log.info("Loaded {} gift wrappings", this.giftBoxesNew.size() + this.giftBoxesOld.size());
     }
 
     @Override
@@ -158,7 +161,7 @@ public class CatalogManager implements ICatalogService {
         }
 
         CatalogDao.getClothing(this.clothingItems);
-        log.info("Loaded " + clothingItems.size() + " clothing items");
+        log.info("Loaded {} clothing items", this.clothingItems.size());
     }
 
     /**
@@ -187,8 +190,8 @@ public class CatalogManager implements ICatalogService {
             if (catalogPage.getParentId() != -1) {
                 final ICatalogPage parentPage = this.getPage(catalogPage.getParentId());
 
-                if(parentPage == null) {
-                    log.warn("Page " + catalogPage.getId() + " with invalid parent id: " + catalogPage.getParentId());
+                if (parentPage == null) {
+                    log.warn("Page {} with invalid parent id: {}", catalogPage.getId(), catalogPage.getParentId());
                 } else {
                     parentPage.getChildren().add(catalogPage);
                 }

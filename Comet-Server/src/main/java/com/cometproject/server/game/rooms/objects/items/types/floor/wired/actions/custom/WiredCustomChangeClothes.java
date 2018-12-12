@@ -48,7 +48,7 @@ public class WiredCustomChangeClothes extends WiredActionItem {
             if (!(floorItem instanceof MannequinFloorItem))
                 return;
 
-            MannequinFloorItem mannequinFloorItem = (MannequinFloorItem)floorItem;
+            MannequinFloorItem mannequinFloorItem = (MannequinFloorItem) floorItem;
 
             StringBuilder newFigure = new StringBuilder();
 

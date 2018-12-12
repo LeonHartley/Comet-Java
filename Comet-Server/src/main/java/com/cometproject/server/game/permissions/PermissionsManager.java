@@ -6,16 +6,15 @@ import com.cometproject.server.game.permissions.types.OverrideCommandPermission;
 import com.cometproject.server.game.permissions.types.Perk;
 import com.cometproject.server.game.permissions.types.Rank;
 import com.cometproject.server.storage.queries.permissions.PermissionsDao;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-
 public class PermissionsManager implements Initialisable {
     private static PermissionsManager permissionsManagerInstance;
-    private static Logger log = Logger.getLogger(PermissionsManager.class.getName());
+    private static Logger log = LogManager.getLogger(PermissionsManager.class.getName());
     private Map<Integer, Perk> perks;
     private Map<Integer, Rank> ranks;
     private Map<String, CommandPermission> commands;

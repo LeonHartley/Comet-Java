@@ -27,13 +27,13 @@ public class ShoutMessageEvent implements Event {
 
         if (message.length() < 1) return;
 
-        if(bubble != 0) {
+        if (bubble != 0) {
             final Integer bubbleMinRank = PermissionsManager.getInstance().getChatBubbles().get(bubble);
 
-            if(bubbleMinRank == null) {
+            if (bubbleMinRank == null) {
                 bubble = 0;
             } else {
-                if(client.getPlayer().getData().getRank() < bubbleMinRank) {
+                if (client.getPlayer().getData().getRank() < bubbleMinRank) {
                     bubble = 0;
                 }
             }

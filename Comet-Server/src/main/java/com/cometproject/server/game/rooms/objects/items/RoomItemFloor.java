@@ -15,7 +15,6 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.SoundMachine
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorItemMessageComposer;
 import com.cometproject.server.utilities.attributes.Collidable;
-import com.cometproject.storage.api.StorageContext;
 import com.google.common.collect.Lists;
 
 import java.util.List;

@@ -3,7 +3,6 @@ package com.cometproject.server.network.messages.outgoing.moderation;
 import com.cometproject.api.game.GameContext;
 import com.cometproject.api.game.rooms.IRoomData;
 import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.logging.entries.RoomVisitLogEntry;
 import com.cometproject.server.protocol.headers.Composers;
 import com.cometproject.server.protocol.messages.MessageComposer;

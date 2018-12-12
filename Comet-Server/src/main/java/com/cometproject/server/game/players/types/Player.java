@@ -927,7 +927,7 @@ public class Player extends Observable implements IPlayer {
 
         coreObject.add("rank", rankDataObject);
 
-        if(inventory.getInventoryItems() != null) {
+        if (inventory.getInventoryItems() != null) {
             for (PlayerItem playerItem : inventory.getInventoryItems().values()) {
                 itemsDataArray.add(new PlayerItemDataObject(playerItem).toJson());
             }
@@ -937,7 +937,7 @@ public class Player extends Observable implements IPlayer {
 
         inventoryDataObject.add("items", itemsDataArray);
 
-        if(inventory.getBadges() != null) {
+        if (inventory.getBadges() != null) {
             for (Map.Entry<String, Integer> badge : inventory.getBadges().entrySet()) {
                 final JsonObject badgeDataObject = new JsonObject();
 
@@ -984,7 +984,7 @@ public class Player extends Observable implements IPlayer {
 
         coreObject.add("relationships", relationshipsDataArray);
 
-        if(bots.getBots() != null) {
+        if (bots.getBots() != null) {
             for (IBotData botData : bots.getBots().values()) {
                 botsDataArray.add(botData.toJsonObject());
             }
@@ -992,7 +992,7 @@ public class Player extends Observable implements IPlayer {
 
         coreObject.add("bots", botsDataArray);
 
-        if(pets.getPets() != null) {
+        if (pets.getPets() != null) {
             for (IPetData petData : pets.getPets().values()) {
                 petsDataArray.add(petData.toJsonObject());
             }

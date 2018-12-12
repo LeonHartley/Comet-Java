@@ -24,7 +24,8 @@ import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdat
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManager;
 import com.cometproject.server.utilities.TimeSpan;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +56,7 @@ public class ProcessComponent implements CometTask {
 
     public ProcessComponent(Room room) {
         this.room = room;
-        this.log = Logger.getLogger("Room Process [" + room.getData().getName() + ", #" + room.getId() + "]");
+        this.log = LogManager.getLogger("Room Process [" + room.getData().getName() + ", #" + room.getId() + "]");
 
         this.adaptiveProcessTimes = CometSettings.adaptiveEntityProcessDelay;
     }

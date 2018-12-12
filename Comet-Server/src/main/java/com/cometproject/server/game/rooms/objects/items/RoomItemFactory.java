@@ -35,12 +35,15 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.condit
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.conditions.positive.custom.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.highscore.HighscoreClassicFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.*;
-import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.custom.*;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.custom.WiredTriggerCustomIdle;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.custom.WiredTriggerLeavesRoom;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.custom.WiredTriggerUsersCollide;
 import com.cometproject.server.game.rooms.objects.items.types.wall.MoodlightWallItem;
 import com.cometproject.server.game.rooms.objects.items.types.wall.PostItWallItem;
 import com.cometproject.server.game.rooms.objects.items.types.wall.WheelWallItem;
 import com.cometproject.server.game.rooms.types.Room;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
@@ -53,7 +56,7 @@ public class RoomItemFactory {
     public static final String TELEPORT_PAD = "teleport_pad";
     private static final int processMs = 500;
     private static final String GIFT_DATA = "GIFT::##";
-    private static final Logger log = Logger.getLogger(RoomItemFactory.class.getName());
+    private static final Logger log = LogManager.getLogger(RoomItemFactory.class.getName());
 
     private static final Map<String, Class<? extends RoomItemFloor>> itemDefinitionMap;
     private static final Map<String, Constructor<? extends RoomItemFloor>> itemConstructorCache;
@@ -321,7 +324,7 @@ public class RoomItemFactory {
             return null;
         }
 
-        RoomItemWall wallItem = null;   
+        RoomItemWall wallItem = null;
 
         switch (def.getInteraction()) {
             case "habbowheel": {

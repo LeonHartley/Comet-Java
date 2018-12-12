@@ -60,7 +60,7 @@ public class ScratchPetMessageEvent implements Event {
             return;
         }
 
-        if(client.getPlayer().getStats().getScratches() == 0) {
+        if (client.getPlayer().getStats().getScratches() == 0) {
             return;
         }
 

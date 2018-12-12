@@ -13,7 +13,6 @@ import com.cometproject.server.network.messages.outgoing.notification.Notificati
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.protocol.messages.MessageEvent;
-import com.cometproject.server.storage.queries.items.ItemDao;
 import com.cometproject.storage.api.StorageContext;
 import com.cometproject.storage.api.data.Data;
 import com.google.common.collect.Sets;
@@ -43,6 +42,6 @@ public class PurchasePhotoMessageEvent implements Event {
         client.send(new PurchasedPhotoMessageComposer());
 
         client.getPlayer().getAchievements().progressAchievement(AchievementType.CAMERA_PHOTO, 1);
-        StorageContext.getCurrentContext().getPhotoRepository().savePhoto(client.getPlayer().getId(), client.getPlayer().getEntity().getRoom().getId(), photoUrl, (int) time/1000);
+        StorageContext.getCurrentContext().getPhotoRepository().savePhoto(client.getPlayer().getId(), client.getPlayer().getEntity().getRoom().getId(), photoUrl, (int) time / 1000);
     }
 }

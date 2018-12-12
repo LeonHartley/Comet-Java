@@ -6,7 +6,8 @@ import com.cometproject.api.game.groups.IGroupService;
 import com.cometproject.api.game.players.IPlayerService;
 import com.cometproject.api.game.rooms.IRoomService;
 import com.cometproject.api.game.rooms.models.IRoomModelService;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class GameContext {
     private static GameContext gameContext;
@@ -18,14 +19,14 @@ public class GameContext {
     private IRoomService roomService;
     private IRoomModelService roomModelService;
 
-    private final Logger logger = Logger.getLogger(GameContext.class);
+    private final Logger logger = LogManager.getLogger(GameContext.class);
 
     public ICatalogService getCatalogService() {
         return catalogService;
     }
 
     public void setCatalogService(ICatalogService catalogService) {
-        logger.info("CatalogService initialised, " + catalogService.getClass().getName());
+        logger.info("CatalogService initialised, {}", catalogService.getClass().getName());
 
         this.catalogService = catalogService;
     }
@@ -45,7 +46,7 @@ public class GameContext {
     }
 
     public void setGroupService(IGroupService groupService) {
-        logger.info("GroupService initialised, " + groupService.getClass().getName());
+        logger.info("GroupService initialised, {}", groupService.getClass().getName());
 
         this.groupService = groupService;
     }

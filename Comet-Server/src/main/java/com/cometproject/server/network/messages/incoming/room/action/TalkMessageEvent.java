@@ -19,9 +19,7 @@ import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessage
 import com.cometproject.server.network.messages.outgoing.room.avatar.WhisperMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.protocol.messages.MessageEvent;
-import com.cometproject.server.storage.queries.permissions.PermissionsDao;
 import com.google.common.collect.Maps;
-import com.google.common.primitives.Ints;
 
 import java.util.Map;
 

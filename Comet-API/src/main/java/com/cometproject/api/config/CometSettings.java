@@ -3,7 +3,8 @@ package com.cometproject.api.config;
 import com.cometproject.api.game.rooms.filter.FilterMode;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.time.DayOfWeek;
 import java.util.Map;
@@ -88,7 +89,7 @@ public class CometSettings {
     public static int wiredMaxExecuteStacks = 5;
     public static boolean maxConnectionsBlockSuspicious = true;
 
-    private static final Logger log = Logger.getLogger(CometSettings.class.getName());
+    private static final Logger log = LogManager.getLogger(CometSettings.class.getName());
 
     /**
      * Enable & set the Message Of The Day text

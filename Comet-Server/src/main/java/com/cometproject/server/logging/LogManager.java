@@ -2,13 +2,13 @@ package com.cometproject.server.logging;
 
 import com.cometproject.api.config.Configuration;
 import com.cometproject.api.utilities.Initialisable;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 
 public class LogManager implements Initialisable {
     public static final boolean ENABLED = Configuration.currentConfig().get("comet.game.logging.enabled").equals("true");
     private static LogManager logManagerInstance;
-    private Logger log = Logger.getLogger(LogManager.class.getName());
+    private Logger log = org.apache.logging.log4j.LogManager.getLogger(LogManager.class.getName());
     private LogStore store;
 
     public LogManager() {

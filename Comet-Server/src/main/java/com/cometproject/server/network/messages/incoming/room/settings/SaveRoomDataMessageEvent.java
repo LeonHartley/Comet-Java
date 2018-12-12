@@ -137,7 +137,7 @@ public class SaveRoomDataMessageEvent implements Event {
 
             if (filterResult.isBlocked() || filterResultDesc.isBlocked()) {
                 client.send(new AdvancedAlertMessageComposer(Locale.get("game.message.blocked").replace("%s", filterResult.getMessage())));
-                if(filterResult.isBlocked()) {
+                if (filterResult.isBlocked()) {
                     filterResult.sendLogToStaffs(client, "<SaveRoomData>");
                 } else if (filterResultDesc.isBlocked()) {
                     filterResultDesc.sendLogToStaffs(client, "<SaveRoomData>");
@@ -181,7 +181,7 @@ public class SaveRoomDataMessageEvent implements Event {
             room.getEntities().broadcastMessage(new SettingsUpdatedMessageComposer(data.getId()));
             room.getEntities().broadcastMessage(new RoomInfoUpdatedMessageComposer(data.getId()));
 
-            for(PlayerEntity playerEntity : room.getEntities().getPlayerEntities()) {
+            for (PlayerEntity playerEntity : room.getEntities().getPlayerEntities()) {
                 playerEntity.getPlayer().flush();
             }
         } catch (Exception e) {

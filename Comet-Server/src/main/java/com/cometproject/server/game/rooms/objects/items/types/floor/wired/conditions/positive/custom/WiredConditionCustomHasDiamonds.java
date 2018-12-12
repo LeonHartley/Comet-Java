@@ -1,6 +1,5 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.conditions.positive.custom;
 
-import com.cometproject.api.game.groups.types.IGroup;
 import com.cometproject.api.game.rooms.objects.data.RoomItemData;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;

@@ -1,8 +1,8 @@
 package com.cometproject.server.game.rooms.types.mapping;
 
 import com.cometproject.api.game.rooms.models.IRoomModel;
+import com.cometproject.api.game.rooms.models.RoomTileState;
 import com.cometproject.api.game.utilities.Position;
-import com.cometproject.server.game.rooms.models.RoomModel;
 import com.cometproject.server.game.rooms.objects.RoomFloorObject;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
@@ -10,7 +10,6 @@ import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.types.floor.OneWayGateFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.pet.breeding.BreedingBoxFloorItem;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.api.game.rooms.models.RoomTileState;
 import com.cometproject.server.utilities.RandomUtil;
 import com.google.common.collect.Lists;
 
@@ -403,7 +402,8 @@ public class RoomMapping {
             for (int x = 0; x < this.tiles[y].length; x++) {
 //                if (this.tiles[y][x].getItems().size() != 0) {
 //                    builder.append("O");
-                /*} else */if (this.tiles[y][x].getEntities().size() != 0) {
+                /*} else */
+                if (this.tiles[y][x].getEntities().size() != 0) {
                     builder.append("E");
                 } else {
                     builder.append("[]");

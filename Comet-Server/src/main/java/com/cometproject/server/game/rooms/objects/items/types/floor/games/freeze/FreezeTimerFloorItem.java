@@ -1,16 +1,11 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.games.freeze;
 
 import com.cometproject.api.game.rooms.objects.data.RoomItemData;
-import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
-import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
-import com.cometproject.server.game.rooms.objects.items.types.floor.football.FootballScoreFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.games.AbstractGameTimerFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredUtil;
-import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerGameEnds;
-import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerGameStarts;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.games.GameType;
 

@@ -1,6 +1,7 @@
 package com.cometproject.api.config;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
@@ -13,7 +14,7 @@ public class Configuration extends Properties {
     /**
      * The configuration logger
      */
-    private static Logger log = Logger.getLogger(Configuration.class.getName());
+    private static Logger log = LogManager.getLogger(Configuration.class.getName());
 
     private static Configuration configuration;
 

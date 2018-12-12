@@ -46,7 +46,7 @@ public abstract class MassCurrencyCommand extends ChatCommand {
                             .replace("%n", Integer.toString(amount));
                 }
 
-                if(!currencyType.equals("coins")) {
+                if (!currencyType.equals("coins")) {
                     session.send(session.getPlayer().composeCurrenciesBalance());
                     this.logDesc = "El staff %s ha dado a todo el hotel %n créditos"
                             .replace("%n", Integer.toString(amount));
@@ -72,12 +72,12 @@ public abstract class MassCurrencyCommand extends ChatCommand {
     }
 
     @Override
-    public String getLoggableDescription(){
+    public String getLoggableDescription() {
         return this.logDesc;
     }
 
     @Override
-    public boolean isLoggable(){
+    public boolean isLoggable() {
         return true;
     }
 }

@@ -4,10 +4,11 @@ import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.tasks.CometTask;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class MessageEventTask implements CometTask {
-    private static final Logger log = Logger.getLogger(MessageEventTask.class.getName());
+    private static final Logger log = LogManager.getLogger(MessageEventTask.class.getName());
 
     private Event messageEvent;
     private Session session;

@@ -7,7 +7,8 @@ import com.cometproject.server.network.websocket.listeners.MessageListener;
 import com.cometproject.server.network.websocket.listeners.types.AuthenticationRequest;
 import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketIOServer;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class WebSocketServer implements Initialisable {
     private static WebSocketServer instance;
@@ -19,7 +20,7 @@ public class WebSocketServer implements Initialisable {
     /**
      * Logging
      */
-    private final Logger log = Logger.getLogger(WebSocketServer.class.getName());
+    private final Logger log = LogManager.getLogger(WebSocketServer.class.getName());
     /**
      * The SocketIO server instance
      */

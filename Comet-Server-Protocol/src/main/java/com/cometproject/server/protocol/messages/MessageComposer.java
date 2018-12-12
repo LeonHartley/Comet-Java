@@ -3,10 +3,11 @@ package com.cometproject.server.protocol.messages;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.api.networking.messages.IMessageComposer;
 import io.netty.buffer.ByteBuf;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public abstract class MessageComposer implements IMessageComposer {
-    private static final Logger log = Logger.getLogger(MessageComposer.class);
+    private static final Logger log = LogManager.getLogger(MessageComposer.class);
 
     public MessageComposer() {
     }

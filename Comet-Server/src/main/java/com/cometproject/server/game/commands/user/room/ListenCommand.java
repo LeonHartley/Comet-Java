@@ -22,7 +22,7 @@ public class ListenCommand extends ChatCommand {
             return;
         }
 
-        if(session.getPlayer().getListeningPlayers().contains(client.getPlayer().getId())) {
+        if (session.getPlayer().getListeningPlayers().contains(client.getPlayer().getId())) {
             session.getPlayer().getListeningPlayers().remove(client.getPlayer().getId());
         } else {
             session.getPlayer().getListeningPlayers().add(client.getPlayer().getId());

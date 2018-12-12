@@ -335,7 +335,7 @@ public class PlayerSettings implements IPlayerSettings {
 
         coreObject.add("volumes", volumes.toJson());
 
-        for(IWardrobeItem wardrobeItem : wardrobe) {
+        for (IWardrobeItem wardrobeItem : wardrobe) {
             wardrobeArray.add(wardrobeItem.toJson());
         }
 

@@ -154,7 +154,7 @@ public class AchievementComponent extends PlayerComponent implements PlayerAchie
     public JsonArray toJson() {
         final JsonArray coreArray = new JsonArray();
 
-        for(Map.Entry<AchievementType, IAchievementProgress> achievementEntry : progression.entrySet()) {
+        for (Map.Entry<AchievementType, IAchievementProgress> achievementEntry : progression.entrySet()) {
             final JsonObject achievementObject = new JsonObject();
 
             achievementObject.addProperty("type", achievementEntry.getKey().getGroupName());

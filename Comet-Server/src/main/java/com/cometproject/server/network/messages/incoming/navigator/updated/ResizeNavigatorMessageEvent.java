@@ -1,6 +1,5 @@
 package com.cometproject.server.network.messages.incoming.navigator.updated;
 
-import com.cometproject.server.game.navigator.types.categories.NavigatorViewMode;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.protocol.messages.MessageEvent;

@@ -29,8 +29,8 @@ public class PointsCommand extends ChatCommand {
             return;
         }
 
-        if(params.length > 2) {
-            if(params[2].equals("seasonal")) {
+        if (params.length > 2) {
+            if (params[2].equals("seasonal")) {
                 diamonds = false;
                 seasonal = true;
             } else if (params[2].equals("duckets")) {
@@ -46,7 +46,7 @@ public class PointsCommand extends ChatCommand {
 
             if (playerData == null) return;
 
-            if(diamonds) {
+            if (diamonds) {
                 playerData.increaseVipPoints(points);
             } else if (seasonal) {
                 playerData.increaseSeasonalPoints(points);
@@ -60,7 +60,7 @@ public class PointsCommand extends ChatCommand {
 
         String currency;
 
-        if(diamonds) {
+        if (diamonds) {
             session.getPlayer().getData().increaseVipPoints(points);
             currency = "diamonds";
         } else if (seasonal) {
@@ -104,12 +104,12 @@ public class PointsCommand extends ChatCommand {
     }
 
     @Override
-    public String getLoggableDescription(){
+    public String getLoggableDescription() {
         return this.logDesc;
     }
 
     @Override
-    public boolean isLoggable(){
+    public boolean isLoggable() {
         return true;
     }
 }

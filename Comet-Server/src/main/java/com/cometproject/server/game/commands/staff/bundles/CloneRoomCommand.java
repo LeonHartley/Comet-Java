@@ -1,5 +1,6 @@
 package com.cometproject.server.game.commands.staff.bundles;
 
+import com.cometproject.api.game.catalog.types.bundles.RoomBundleItem;
 import com.cometproject.api.game.rooms.objects.IRoomItemData;
 import com.cometproject.api.game.rooms.objects.data.RoomItemData;
 import com.cometproject.api.game.utilities.Position;
@@ -9,7 +10,6 @@ import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.bundles.types.RoomBundle;
-import com.cometproject.api.game.catalog.types.bundles.RoomBundleItem;
 import com.cometproject.server.network.messages.outgoing.notification.MotdNotificationMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomForwardMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.settings.EnforceRoomCategoryMessageComposer;
@@ -79,12 +79,12 @@ public class CloneRoomCommand extends ChatCommand {
     }
 
     @Override
-    public String getLoggableDescription(){
+    public String getLoggableDescription() {
         return this.logDesc;
     }
 
     @Override
-    public boolean isLoggable(){
+    public boolean isLoggable() {
         return true;
     }
 }

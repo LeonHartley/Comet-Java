@@ -98,10 +98,10 @@ public class ConfigDao {
                 final String doubleDays = config.getString("online_reward_double_days");
                 CometSettings.onlineRewardDoubleDays.clear();
 
-                if(doubleDays.length() > 1) {
+                if (doubleDays.length() > 1) {
                     final String[] days = doubleDays.split(",");
 
-                    for(String day : days) {
+                    for (String day : days) {
                         CometSettings.onlineRewardDoubleDays.add(DayOfWeek.valueOf(day.toUpperCase()));
                     }
                 }

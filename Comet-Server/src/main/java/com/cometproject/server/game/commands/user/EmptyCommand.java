@@ -26,7 +26,7 @@ public class EmptyCommand extends ChatCommand {
             } else {
                 client.getPlayer().getInventory().getInventoryItems().clear();
 
-                if(client.getPlayer().getInventory().isViewingInventory()) {
+                if (client.getPlayer().getInventory().isViewingInventory()) {
                     InventoryDao.clearInventory(client.getPlayer().getInventory().viewingInventoryUserId());
                 } else {
                     InventoryDao.clearInventory(client.getPlayer().getId());

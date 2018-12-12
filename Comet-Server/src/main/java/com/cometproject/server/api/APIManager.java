@@ -7,7 +7,8 @@ import com.cometproject.server.api.routes.PlayerRoutes;
 import com.cometproject.server.api.routes.RoomRoutes;
 import com.cometproject.server.api.routes.SystemRoutes;
 import com.cometproject.server.api.transformers.JsonTransformer;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import spark.Spark;
 
 
@@ -15,7 +16,7 @@ public class APIManager implements Initialisable {
     /**
      * Logger
      */
-    private static final Logger log = Logger.getLogger(APIManager.class.getName());
+    private static final Logger log = LogManager.getLogger(APIManager.class.getName());
     /**
      * Create an array of config properties that are required before enabling the API
      * If none of these properties exist, the API will be automatically disabled

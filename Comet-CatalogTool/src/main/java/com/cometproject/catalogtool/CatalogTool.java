@@ -24,7 +24,7 @@ public class CatalogTool {
         Configuration.setConfiguration(new Configuration("./config/comet.properties"));
 
         try {
-            PropertyConfigurator.configure(new FileInputStream("./config/log4j.properties"));
+            PropertyConfigurator.configure(new FileInputStream("log4j.properties"));
         } catch (Exception e) {
             log.error("Error while loading log4j configuration", e);
             return;

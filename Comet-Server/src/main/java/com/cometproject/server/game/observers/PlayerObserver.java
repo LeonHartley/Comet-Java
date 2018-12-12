@@ -8,11 +8,10 @@ import java.util.Observer;
 public class PlayerObserver implements Observer {
 
     @Override
-    public void update(Observable observable, Object arg)
-    {
+    public void update(Observable observable, Object arg) {
         Player player = (Player) observable;
 
-        if(player == null)
+        if (player == null)
             return;
 
         player.saveJsonObject();

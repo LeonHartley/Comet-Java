@@ -3,7 +3,8 @@ package com.cometproject.server.storage;
 import com.cometproject.api.messaging.performance.QueryRequest;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.storage.mysql.MySQLConnectionProvider;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,7 +19,7 @@ public class SqlHelper {
     public static boolean queryLogEnabled = false;
     public static Map<Integer, QueryLog> queryLog = new ConcurrentHashMap<>();
     private static MySQLConnectionProvider connectionProvider;
-    private static Logger log = Logger.getLogger(SqlHelper.class.getName());
+    private static Logger log = LogManager.getLogger(SqlHelper.class.getName());
     private static Map<String, AtomicInteger> queryCounters = new ConcurrentHashMap<>();
 
     public static void init(MySQLConnectionProvider connectionProvider) {

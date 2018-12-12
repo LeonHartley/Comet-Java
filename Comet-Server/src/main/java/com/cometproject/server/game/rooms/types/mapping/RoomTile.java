@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.types.mapping;
 
+import com.cometproject.api.game.rooms.models.RoomTileState;
 import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.objects.RoomObject;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
@@ -13,7 +14,6 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.games.freeze
 import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupGateFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.pet.breeding.BreedingBoxFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.snowboarding.SnowboardJumpFloorItem;
-import com.cometproject.api.game.rooms.models.RoomTileState;
 import com.cometproject.server.utilities.collections.ConcurrentHashSet;
 import com.google.common.collect.Lists;
 
@@ -292,7 +292,7 @@ public class RoomTile {
             if (roomItemFloor instanceof SnowboardJumpFloorItem) {
                 height += 1.0;
             } else {
-                if(roomItemFloor instanceof SeatFloorItem)
+                if (roomItemFloor instanceof SeatFloorItem)
                     height -= roomItemFloor.getDefinition().getHeight();
             }
         }

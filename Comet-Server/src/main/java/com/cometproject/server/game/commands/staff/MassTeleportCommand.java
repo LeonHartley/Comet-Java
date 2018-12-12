@@ -11,7 +11,7 @@ public class MassTeleportCommand extends ChatCommand {
 
     @Override
     public void execute(Session client, String[] params) {
-        for(RoomEntity roomEntity : client.getPlayer().getEntity().getRoom().getEntities().getAllEntities().values()) {
+        for (RoomEntity roomEntity : client.getPlayer().getEntity().getRoom().getEntities().getAllEntities().values()) {
             roomEntity.teleportToEntity(client.getPlayer().getEntity());
         }
 
@@ -36,12 +36,12 @@ public class MassTeleportCommand extends ChatCommand {
     }
 
     @Override
-    public String getLoggableDescription(){
+    public String getLoggableDescription() {
         return this.logDesc;
     }
 
     @Override
-    public boolean isLoggable(){
+    public boolean isLoggable() {
         return true;
     }
 }

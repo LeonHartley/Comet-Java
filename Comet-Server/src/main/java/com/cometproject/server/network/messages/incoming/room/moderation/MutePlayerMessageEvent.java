@@ -1,7 +1,5 @@
 package com.cometproject.server.network.messages.incoming.room.moderation;
 
-import com.cometproject.api.game.rooms.settings.RoomMuteState;
-import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.protocol.messages.MessageEvent;

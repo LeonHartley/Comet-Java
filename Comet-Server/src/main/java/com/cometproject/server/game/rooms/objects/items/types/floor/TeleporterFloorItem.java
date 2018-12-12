@@ -20,6 +20,7 @@ public class TeleporterFloorItem extends AdvancedFloorItem<TeleporterFloorItem.T
     private boolean inUse = false;
 
     private long pairId = -1;
+
     public TeleporterFloorItem(RoomItemData itemData, Room room) {
         super(itemData, room);
 

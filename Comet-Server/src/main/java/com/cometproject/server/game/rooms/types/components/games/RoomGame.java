@@ -6,7 +6,8 @@ import com.cometproject.server.game.rooms.types.components.GameComponent;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManager;
 import com.cometproject.server.utilities.RandomUtil;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Collections;
 import java.util.List;
@@ -27,7 +28,7 @@ public abstract class RoomGame implements CometTask {
 
     public RoomGame(Room room, GameType gameType) {
         this.type = gameType;
-        this.log = Logger.getLogger("RoomGame [" + room.getData().getName() + "][" + room.getData().getId() + "][" + this.type + "]");
+        this.log = LogManager.getLogger("RoomGame [" + room.getData().getName() + "][" + room.getData().getId() + "][" + this.type + "]");
         this.room = room;
     }
 

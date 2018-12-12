@@ -6,11 +6,11 @@ import com.cometproject.server.logging.LogManager;
 import com.cometproject.server.logging.database.queries.LogQueries;
 import com.cometproject.server.storage.StorageManager;
 import com.cometproject.server.storage.queries.system.StatisticsDao;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 
 public class ShutdownProcess {
-    private static final Logger log = Logger.getLogger(ShutdownProcess.class.getName());
+    private static final Logger log = org.apache.logging.log4j.LogManager.getLogger(ShutdownProcess.class.getName());
 
     public static void init() {
         Runtime.getRuntime().addShutdownHook(new Thread() {

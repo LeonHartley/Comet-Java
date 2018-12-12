@@ -6,8 +6,6 @@ import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
 
-import java.util.Arrays;
-
 
 public class FootballGateFloorItem extends RoomItemFloor {
     public FootballGateFloorItem(RoomItemData roomItemData, Room room) {

@@ -114,7 +114,8 @@ import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.protocol.headers.Events;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.google.common.collect.Maps;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Map;
 import java.util.UUID;
@@ -123,7 +124,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ForkJoinPool;
 
 public final class MessageHandler {
-    public static Logger log = Logger.getLogger(MessageHandler.class.getName());
+    public static Logger log = LogManager.getLogger(MessageHandler.class.getName());
 
     private final Map<Short, Event> messages = Maps.newConcurrentMap();
     private final Map<Short, IMessageEventHandler> eventHandlers = Maps.newConcurrentMap();

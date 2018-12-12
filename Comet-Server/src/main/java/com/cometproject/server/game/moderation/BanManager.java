@@ -7,7 +7,8 @@ import com.cometproject.server.game.moderation.types.BanType;
 import com.cometproject.server.storage.queries.moderation.BanDao;
 import com.corundumstudio.socketio.misc.ConcurrentHashSet;
 import com.google.common.collect.Lists;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 import java.util.Map;
@@ -16,7 +17,7 @@ import java.util.Set;
 
 public class BanManager implements Initialisable {
     public static BanManager banManagerInstance;
-    Logger log = Logger.getLogger(BanManager.class.getName());
+    Logger log = LogManager.getLogger(BanManager.class.getName());
     private Map<String, Ban> bans;
     private Set<Integer> mutedPlayers;
 
@@ -45,7 +46,7 @@ public class BanManager implements Initialisable {
 
         try {
             this.bans = BanDao.getActiveBans();
-            log.info("Loaded " + this.bans.size() + " bans");
+            log.info("Loaded {} bans", this.bans.size());
         } catch (Exception e) {
             log.error("Error while loading bans", e);
         }
@@ -91,7 +92,7 @@ public class BanManager implements Initialisable {
     }
 
     public boolean unBan(String data) {
-        if(!data.equals("0")) {
+        if (!data.equals("0")) {
             if (this.bans.containsKey(data)) {
                 this.bans.remove(data);
                 removeBan(data);

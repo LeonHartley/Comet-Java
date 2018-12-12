@@ -4,7 +4,8 @@ import com.cometproject.api.config.Configuration;
 import com.cometproject.storage.mysql.MySQLConnectionProvider;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,7 +13,7 @@ import java.sql.ResultSet;
 
 public class HikariConnectionProvider extends MySQLConnectionProvider {
 
-    private final Logger log = Logger.getLogger(HikariConnectionProvider.class);
+    private final Logger log = LogManager.getLogger(HikariConnectionProvider.class);
 
     private HikariDataSource hikariDataSource;
     private boolean isConnectionFailed = true;

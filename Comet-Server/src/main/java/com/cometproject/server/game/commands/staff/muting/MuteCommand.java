@@ -31,15 +31,15 @@ public class MuteCommand extends ChatCommand {
             return;
         }
 
-        if(user.getPlayer().getPermissions().getRank().roomFilterBypass()){
+        if (user.getPlayer().getPermissions().getRank().roomFilterBypass()) {
             sendNotif(Locale.getOrDefault("command.mute.unmutable", "You can't mute this player!"), client);
             return;
         }
 
-        try{
+        try {
             int time = Integer.parseInt(params[1]);
 
-            if(time < 0){
+            if (time < 0) {
                 sendNotif(Locale.getOrDefault("command.mute.negative", "You can only use positive numbers!"), client);
                 return;
             }
@@ -85,12 +85,12 @@ public class MuteCommand extends ChatCommand {
     }
 
     @Override
-    public String getLoggableDescription(){
+    public String getLoggableDescription() {
         return this.logDesc;
     }
 
     @Override
-    public boolean isLoggable(){
+    public boolean isLoggable() {
         return true;
     }
 }

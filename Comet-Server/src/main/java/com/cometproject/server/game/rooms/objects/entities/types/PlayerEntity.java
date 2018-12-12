@@ -35,7 +35,6 @@ import com.cometproject.server.logging.LogManager;
 import com.cometproject.server.logging.entries.RoomVisitLogEntry;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.incoming.room.engine.InitializeRoomMessageEvent;
-import com.cometproject.server.network.messages.outgoing.messenger.InstantChatMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.access.DoorbellRequestComposer;
 import com.cometproject.server.network.messages.outgoing.room.access.RoomReadyMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.alerts.CantConnectMessageComposer;
@@ -55,7 +54,7 @@ import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.storage.queries.pets.RoomPetDao;
 import com.cometproject.server.utilities.attributes.Attributable;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.HashMap;
@@ -63,7 +62,7 @@ import java.util.Map;
 
 
 public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attributable, PlayerRoomEntity {
-    private static final Logger log = Logger.getLogger(PlayerEntity.class.getName());
+    private static final Logger log = org.apache.logging.log4j.LogManager.getLogger(PlayerEntity.class.getName());
     private Player player;
     private PlayerData playerData;
 

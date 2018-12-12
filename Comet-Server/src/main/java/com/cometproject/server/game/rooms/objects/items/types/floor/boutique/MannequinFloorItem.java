@@ -7,8 +7,6 @@ import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
 
-import java.util.Arrays;
-
 
 public class MannequinFloorItem extends RoomItemFloor {
     private String name = "New Mannequin";

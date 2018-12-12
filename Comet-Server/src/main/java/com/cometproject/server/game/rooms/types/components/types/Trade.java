@@ -126,7 +126,7 @@ public class Trade {
      * @param item The chosen item
      */
     public void addItem(int user, PlayerItem item, boolean update) {
-        if(this.user1Accepted || this.user2Accepted) {
+        if (this.user1Accepted || this.user2Accepted) {
             return;
         }
 
@@ -175,7 +175,7 @@ public class Trade {
      * @param item The chosen item
      */
     public void removeItem(int user, PlayerItem item) {
-        if(this.user1Accepted || this.user2Accepted) {
+        if (this.user1Accepted || this.user2Accepted) {
             return;
         }
 

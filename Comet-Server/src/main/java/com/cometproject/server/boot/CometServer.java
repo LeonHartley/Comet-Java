@@ -27,18 +27,17 @@ import com.cometproject.server.game.utilities.validator.PlayerFigureValidator;
 import com.cometproject.server.logging.LogManager;
 import com.cometproject.server.modules.ModuleManager;
 import com.cometproject.server.network.NetworkManager;
-import com.cometproject.server.network.messages.incoming.room.action.TalkMessageEvent;
 import com.cometproject.server.storage.StorageManager;
 import com.cometproject.server.storage.queries.config.ConfigDao;
 import com.cometproject.server.tasks.CometThreadManager;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Map;
 
 
 public class CometServer {
     public static final String CLIENT_VERSION = "PRODUCTION-201709192204-203982672";
-    private final Logger log = Logger.getLogger(CometServer.class.getName());
+    private final Logger log = org.apache.logging.log4j.LogManager.getLogger(CometServer.class.getName());
 
     public CometServer(Map<String, String> overridenConfig) {
         Configuration.setConfiguration(new Configuration("./config/comet.properties"));

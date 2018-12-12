@@ -9,7 +9,9 @@ import com.cometproject.server.game.rooms.types.Room;
 
 public class WiredConditionPlayerHasBadgeEquipped extends WiredConditionItem {
 
-    public WiredConditionPlayerHasBadgeEquipped(RoomItemData itemData, Room room) {        super(itemData, room);    }
+    public WiredConditionPlayerHasBadgeEquipped(RoomItemData itemData, Room room) {
+        super(itemData, room);
+    }
 
     @Override
     public int getInterface() {

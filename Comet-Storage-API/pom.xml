@@ -21,11 +21,6 @@
             <artifactId>Comet-API</artifactId>
             <version>2.11.1-TEST1</version>
         </dependency>
-        <dependency>
-            <groupId>Comet</groupId>
-            <artifactId>Comet-API</artifactId>
-            <version>2.11.1-TEST1</version>
-        </dependency>
     </dependencies>
 
 

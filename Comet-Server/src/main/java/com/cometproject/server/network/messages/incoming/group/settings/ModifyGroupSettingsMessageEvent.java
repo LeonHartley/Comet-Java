@@ -40,7 +40,7 @@ public class ModifyGroupSettingsMessageEvent implements Event {
         // 0 = members, 1 = admins only.
         group.getData().setCanMembersDecorate(rightsType == 0);
 
-        if(group.getForum() != null) {
+        if (group.getForum() != null) {
             GameContext.getCurrent().getGroupService().saveForumSettings(group.getForum().getForumSettings());
         }
 

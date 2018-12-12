@@ -8,14 +8,15 @@ import com.google.gson.JsonObject;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 public class MonitorMessageLibrary {
     public static boolean isInitialized = false;
     public static String request;
     public static ChannelHandlerContext ctx;
-    private static Logger log = Logger.getLogger(MonitorMessageLibrary.class.getName());
+    private static Logger log = LogManager.getLogger(MonitorMessageLibrary.class.getName());
     private static Gson gsonInstance = new Gson();
 
     // Hello message

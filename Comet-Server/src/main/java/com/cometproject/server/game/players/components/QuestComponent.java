@@ -12,12 +12,13 @@ import com.cometproject.server.network.messages.outgoing.quests.QuestListMessage
 import com.cometproject.server.network.messages.outgoing.quests.QuestStartedMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.purse.UpdateActivityPointsMessageComposer;
 import com.cometproject.server.storage.queries.quests.PlayerQuestsDao;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Map;
 
 public class QuestComponent extends PlayerComponent implements PlayerQuests {
-    private static final Logger log = Logger.getLogger(QuestComponent.class.getName());
+    private static final Logger log = LogManager.getLogger(QuestComponent.class.getName());
 
     private Map<Integer, Integer> questProgression;
 

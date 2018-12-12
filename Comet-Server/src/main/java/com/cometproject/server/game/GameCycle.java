@@ -14,7 +14,8 @@ import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.storage.queries.system.StatisticsDao;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManager;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.time.LocalDate;
 import java.util.Calendar;
@@ -27,7 +28,7 @@ public class GameCycle implements CometTask, Initialisable {
 
     private static GameCycle gameThreadInstance;
 
-    private static Logger log = Logger.getLogger(GameCycle.class.getName());
+    private static Logger log = LogManager.getLogger(GameCycle.class.getName());
 
     private ScheduledFuture gameFuture;
 
@@ -128,7 +129,7 @@ public class GameCycle implements CometTask, Initialisable {
                     final boolean needsDiamondsReward = (Comet.getTime() - client.getPlayer().getLastDiamondReward()) >= (60 * CometSettings.onlineRewardDiamondsInterval);
 
                     if (needsReward || needsDiamondsReward) {
-                        if(needsReward) {
+                        if (needsReward) {
                             if (CometSettings.onlineRewardCredits > 0) {
                                 client.getPlayer().getData().increaseCredits(CometSettings.onlineRewardCredits * (doubleRewards ? 2 : 1));
                             }
@@ -138,8 +139,8 @@ public class GameCycle implements CometTask, Initialisable {
                             }
                         }
 
-                        if(needsDiamondsReward) {
-                            if(CometSettings.onlineRewardDiamonds > 0) {
+                        if (needsDiamondsReward) {
+                            if (CometSettings.onlineRewardDiamonds > 0) {
                                 client.getPlayer().getData().increaseVipPoints(CometSettings.onlineRewardDiamonds * (doubleRewards ? 2 : 1));
                             }
 

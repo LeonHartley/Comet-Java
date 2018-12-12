@@ -23,7 +23,8 @@ import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.storage.queries.player.inventory.InventoryDao;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.List;
@@ -45,7 +46,7 @@ public class InventoryComponent extends PlayerComponent implements PlayerInvento
     private int equippedEffect = -1;
     private Set<Integer> effects;
 
-    private Logger log = Logger.getLogger(InventoryComponent.class.getName());
+    private Logger log = LogManager.getLogger(InventoryComponent.class.getName());
 
     public InventoryComponent(Player player) {
         super(player);

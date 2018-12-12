@@ -7,7 +7,8 @@ import com.cometproject.api.events.EventHandler;
 import com.cometproject.api.networking.sessions.ISession;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 import java.util.Map;
@@ -17,7 +18,7 @@ import java.util.function.BiConsumer;
 
 public class EventHandlerService implements EventHandler {
     private final ExecutorService asyncEventExecutor;
-    private final Logger log = Logger.getLogger(EventHandlerService.class);
+    private final Logger log = LogManager.getLogger(EventHandlerService.class);
 
     private final Map<Class<?>, List<Event>> listeners;
 

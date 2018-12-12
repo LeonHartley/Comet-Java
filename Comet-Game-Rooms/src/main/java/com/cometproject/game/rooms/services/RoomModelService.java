@@ -1,15 +1,15 @@
 package com.cometproject.game.rooms.services;
 
 import com.cometproject.api.game.rooms.models.*;
-import com.cometproject.game.rooms.models.RoomModel;
 import com.cometproject.storage.api.repositories.IRoomRepository;
 import com.google.common.collect.Maps;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Map;
 
 public class RoomModelService implements IRoomModelService {
-    private static final Logger log = Logger.getLogger(RoomModelService.class);
+    private static final Logger log = LogManager.getLogger(RoomModelService.class);
 
     private final IRoomRepository roomRepository;
     private final IRoomModelFactory roomModelFactory;

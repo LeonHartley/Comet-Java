@@ -5,14 +5,15 @@ import com.cometproject.server.game.polls.types.Poll;
 import com.cometproject.server.game.polls.types.PollQuestion;
 import com.cometproject.server.game.polls.types.questions.MultipleChoiceQuestion;
 import com.cometproject.server.storage.queries.polls.PollDao;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class PollManager implements Initialisable {
     private static PollManager pollManagerInstance;
-    private static Logger log = Logger.getLogger(PollManager.class.getName());
+    private static Logger log = LogManager.getLogger(PollManager.class.getName());
     private final Map<Integer, Integer> roomIdToPollId;
     private Map<Integer, Poll> polls;
 
@@ -54,7 +55,7 @@ public class PollManager implements Initialisable {
             }
         }
 
-        log.info("Loaded " + this.getPolls().size() + " poll(s)");
+        log.info("Loaded {} poll(s)", this.getPolls().size());
     }
 
     public boolean roomHasPoll(int roomId) {

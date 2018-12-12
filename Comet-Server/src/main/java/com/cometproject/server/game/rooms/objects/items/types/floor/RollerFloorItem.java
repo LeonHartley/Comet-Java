@@ -11,7 +11,6 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.trigge
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.items.SlideObjectBundleMessageComposer;
 import com.cometproject.server.utilities.collections.ConcurrentHashSet;
-import com.cometproject.storage.api.StorageContext;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
