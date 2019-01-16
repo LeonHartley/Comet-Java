@@ -1,9 +1,9 @@
 {
     "dbHost": "127.0.0.1",
     "dbUsername": "root",
-    "dbPassword": "",
+    "dbPassword": "password",
     "dbDatabase": "cometsrv",
-    "dbPoolSize": 1,
+    "dbPoolSize": 2,
 
     "siteUrl": "http://localhost:8080",
     "assetsUrl": "http://localhost/comet/website/",

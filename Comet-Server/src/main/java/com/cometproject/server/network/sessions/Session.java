@@ -3,6 +3,7 @@ package com.cometproject.server.network.sessions;
 import com.cometproject.api.config.CometSettings;
 import com.cometproject.api.networking.messages.IMessageComposer;
 import com.cometproject.api.networking.sessions.ISession;
+import com.cometproject.api.utilities.JsonUtil;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.moderation.ModerationManager;
 import com.cometproject.server.game.players.PlayerManager;
@@ -10,6 +11,7 @@ import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.network.messages.outgoing.notification.LogoutMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorItemMessageComposer;
+import com.cometproject.server.network.ws.messages.WsMessage;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.protocol.security.exchange.DiffieHellman;
 import com.cometproject.server.storage.cache.CachableObject;
@@ -17,6 +19,7 @@ import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.corundumstudio.socketio.SocketIOClient;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import org.apache.log4j.Logger;
 
 import java.net.InetSocketAddress;
@@ -119,6 +122,15 @@ public class Session implements ISession {
 
     public Session send(IMessageComposer msg) {
         return this.send(msg, false);
+    }
+
+    public boolean sendWs(WsMessage message) {
+        if (this.wsChannel != null) {
+            this.wsChannel.writeAndFlush(new TextWebSocketFrame(JsonUtil.getInstance().toJson(message)));
+            return true;
+        }
+
+        return false;
     }
 
     public Session send(IMessageComposer msg, boolean queue) {

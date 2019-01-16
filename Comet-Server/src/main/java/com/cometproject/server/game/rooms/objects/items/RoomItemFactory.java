@@ -81,6 +81,7 @@ public class RoomItemFactory {
             put("soundmachine", SoundMachineFloorItem.class);
             put("privatechat", PrivateChatFloorItem.class);
             put("badge_display", BadgeDisplayFloorItem.class);
+            put("piano", PianoFloorItem.class);
 
             put("wf_act_flee", WiredActionFlee.class);
             put("wf_act_match_to_sshot", WiredActionMatchToSnapshot.class);//new

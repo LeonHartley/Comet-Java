@@ -2,6 +2,7 @@ package com.cometproject.server.game.rooms.objects.items.types;
 
 import com.cometproject.api.game.quests.QuestType;
 import com.cometproject.api.game.rooms.objects.data.RoomItemData;
+import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
@@ -34,7 +35,12 @@ public class DefaultFloorItem extends RoomItemFloor {
         }
 
         this.toggleInteract(true);
+
         this.sendUpdate();
+
+        if (entity instanceof PlayerEntity) {
+            this.onToggled((PlayerEntity) entity);
+        }
 
         this.saveData();
         return true;
@@ -48,5 +54,9 @@ public class DefaultFloorItem extends RoomItemFloor {
             } catch (Exception ignored) {
             }
         }
+    }
+
+    protected void onToggled(PlayerEntity playerEntity) {
+        // can be overridden to execute code after player rights has been validated & item successfully toggled.
     }
 }

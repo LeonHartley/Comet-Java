@@ -13,7 +13,9 @@ import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.types.RoomMessageType;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.network.messages.outgoing.room.settings.RoomRatingMessageComposer;
+import com.cometproject.server.network.ws.messages.WsMessage;
 import com.cometproject.server.protocol.messages.MessageComposer;
+import com.cometproject.server.utilities.collections.ConcurrentHashSet;
 import com.google.common.collect.Lists;
 import org.apache.log4j.Logger;
 
@@ -29,6 +31,8 @@ public class EntityComponent {
     private final Map<Integer, Integer> botIdToEntity = new ConcurrentHashMap<>();
     private final Map<Integer, Integer> petIdToEntity = new ConcurrentHashMap<>();
     private final Map<String, Integer> nameToPlayerEntity = new ConcurrentHashMap<>();
+
+    private final Set<PlayerEntity> playerEntities = new ConcurrentHashSet<>();
 
     private Room room;
     private AtomicInteger entityIdGenerator = new AtomicInteger();
@@ -101,6 +105,7 @@ public class EntityComponent {
 
             this.nameToPlayerEntity.put(entity.getUsername(), ((PlayerEntity) entity).getPlayerId());
             this.playerIdToEntity.put(playerEntity.getPlayerId(), playerEntity.getId());
+            this.playerEntities.add(playerEntity);
         } else if (entity.getEntityType() == RoomEntityType.BOT) {
             BotEntity botEntity = (BotEntity) entity;
 
@@ -127,6 +132,7 @@ public class EntityComponent {
 
             this.playerIdToEntity.remove(playerEntity.getPlayerId());
             this.nameToPlayerEntity.remove(playerEntity.getUsername());
+            this.playerEntities.remove(playerEntity);
         } else if (entity.getEntityType() == RoomEntityType.BOT) {
             BotEntity botEntity = (BotEntity) entity;
 
@@ -144,44 +150,44 @@ public class EntityComponent {
         broadcastMessage(msg, usersWithRightsOnly, RoomMessageType.GENERIC_COMPOSER);
     }
 
-    public void broadcastMessage(MessageComposer msg, boolean usersWithRightsOnly, RoomMessageType type) {
-        if (msg == null) return;
-
-        for (RoomEntity entity : this.entities.values()) {
-            if (entity.getEntityType() == RoomEntityType.PLAYER) {
-                PlayerEntity playerEntity = (PlayerEntity) entity;
-
-                if (playerEntity.getPlayer() == null)
-                    continue;
-
-                if (usersWithRightsOnly && !this.room.getRights().hasRights(playerEntity.getPlayerId()) && !playerEntity.getPlayer().getPermissions().getRank().roomFullControl()) {
-                    continue;
-                }
-
-                if (type == RoomMessageType.BOT_CHAT && playerEntity.getPlayer().botsMuted()) {
-                    continue;
-                }
-
-                if (type == RoomMessageType.PET_CHAT && playerEntity.getPlayer().petsMuted()) {
-                    continue;
-                }
-
-                playerEntity.getPlayer().getSession().send(msg);
+    public void broadcastWs(WsMessage message) {
+        for (PlayerEntity playerEntity : this.playerEntities) {
+            if(playerEntity.getPlayer() != null && playerEntity.getPlayer().getSession() != null) {
+                playerEntity.getPlayer().getSession().sendWs(message);
             }
         }
     }
 
-    public void broadcastChatMessage(MessageComposer msg, PlayerEntity sender) {
-        for (RoomEntity entity : this.entities.values()) {
-            if (entity.getEntityType() == RoomEntityType.PLAYER) {
-                PlayerEntity playerEntity = (PlayerEntity) entity;
+    public void broadcastMessage(MessageComposer msg, boolean usersWithRightsOnly, RoomMessageType type) {
+        if (msg == null) return;
 
-                if (playerEntity.getPlayer() == null)
-                    continue;
+        for (PlayerEntity playerEntity : this.playerEntities) {
+            if (playerEntity.getPlayer() == null)
+                continue;
 
-                if (!playerEntity.getPlayer().ignores(sender.getPlayerId()))
-                    playerEntity.getPlayer().getSession().send(msg);
+            if (usersWithRightsOnly && !this.room.getRights().hasRights(playerEntity.getPlayerId()) && !playerEntity.getPlayer().getPermissions().getRank().roomFullControl()) {
+                continue;
             }
+
+            if (type == RoomMessageType.BOT_CHAT && playerEntity.getPlayer().botsMuted()) {
+                continue;
+            }
+
+            if (type == RoomMessageType.PET_CHAT && playerEntity.getPlayer().petsMuted()) {
+                continue;
+            }
+
+            playerEntity.getPlayer().getSession().send(msg);
+        }
+    }
+
+    public void broadcastChatMessage(MessageComposer msg, PlayerEntity sender) {
+        for (PlayerEntity playerEntity : this.playerEntities) {
+            if (playerEntity.getPlayer() == null)
+                continue;
+
+            if (!playerEntity.getPlayer().ignores(sender.getPlayerId()))
+                playerEntity.getPlayer().getSession().send(msg);
         }
     }
 

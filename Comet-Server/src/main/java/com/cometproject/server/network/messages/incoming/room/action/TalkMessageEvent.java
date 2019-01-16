@@ -18,6 +18,7 @@ import com.cometproject.server.network.messages.outgoing.room.avatar.MutedMessag
 import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.WhisperMessageComposer;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.network.ws.messages.PlayerMentionMessage;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.storage.queries.permissions.PermissionsDao;
 import com.google.common.collect.Maps;
@@ -99,15 +100,23 @@ public class TalkMessageEvent implements Event {
                 Session player = NetworkManager.getInstance().getSessions().getByPlayerUsername(finalName);
 
                 if (player != null) {
-                    Map<String, String> notificationParams = Maps.newHashMap();
+                    if (player.getWsChannel() != null) {
+                        player.sendWs(new PlayerMentionMessage(playerEntity.getUsername(), playerEntity.getRoom().getId()));
+                    } else {
+                        Map<String, String> notificationParams = Maps.newHashMap();
 
-                    notificationParams.put("message", Locale.getOrDefault("mention.message", "The user %s has mentioned you in a room (%b), click here to go to the room.")
-                            .replace("%s", client.getPlayer().getData().getUsername())
-                            .replace("%b", message));
-                    notificationParams.put("image", "${image.library.url}notifications/twitter.png");
-                    notificationParams.put("linkUrl", "event:navigator/goto/" + client.getPlayer().getEntity().getRoom().getData().getId());
+                        notificationParams.put("message", Locale.getOrDefault("mention.message", "The user %s has mentioned you in a room (%b), click here to go to the room.")
+                                .replace("%s", client.getPlayer().getData().getUsername())
+                                .replace("%b", message));
+                        notificationParams.put("image", "${image.library.url}notifications/twitter.png");
+                        notificationParams.put("linkUrl", "event:navigator/goto/" + client.getPlayer().getEntity().getRoom().getData().getId());
 
-                    player.send(new NotificationMessageComposer("furni_placement_error", notificationParams));
+                        player.send(new NotificationMessageComposer("furni_placement_error", notificationParams));
+                    }
+
+//                    final String name = String.format("@%s", finalName);
+//                    filteredMessage = filteredMessage.replace(String.format("@%s", finalName), String.format("<font color='#0040aa'>%s</font>", name));
+
                     client.send(new WhisperMessageComposer(client.getPlayer().getData().getId(), Locale.getOrDefault("mention.success", "You've mention %s successfully")
                             .replace("%s", finalName), 34));
                 } else {
