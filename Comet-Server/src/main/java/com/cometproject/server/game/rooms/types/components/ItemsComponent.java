@@ -60,9 +60,12 @@ public class ItemsComponent {
     private long moodlightId;
 
     public ItemsComponent(Room room) {
-        this.room = room;
         this.log = Logger.getLogger("Room Items Component [" + room.getData().getName() + "]");
+        this.room = room;
+        this.loadItems();
+    }
 
+    private void loadItems() {
         if (room.getCachedData() != null) {
             for (FloorItemDataObject floorItemDataObject : room.getCachedData().getFloorItems()) {
                 final RoomItemData data = new RoomItemData(floorItemDataObject.getId(),
@@ -109,6 +112,10 @@ public class ItemsComponent {
             }
         }
 
+        this.indexItems();
+    }
+
+    private void indexItems() {
         for (RoomItemFloor floorItem : this.floorItems.values()) {
             if (floorItem instanceof SoundMachineFloorItem) {
                 soundMachineId = floorItem.getId();

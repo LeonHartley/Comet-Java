@@ -124,7 +124,7 @@ public class Session implements ISession {
         return this.send(msg, false);
     }
 
-    public boolean sendWs(WsMessage message) {
+    public <T> boolean sendWs(T message) {
         if (this.wsChannel != null) {
             this.wsChannel.writeAndFlush(new TextWebSocketFrame(JsonUtil.getInstance().toJson(message)));
             return true;

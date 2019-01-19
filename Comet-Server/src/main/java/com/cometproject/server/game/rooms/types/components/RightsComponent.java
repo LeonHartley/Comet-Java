@@ -49,23 +49,13 @@ public class RightsComponent {
         return this.hasRights(playerId, true);
     }
 
-    public boolean hasRights(int playerId, boolean includeGroupCheck) {
-        final IGroup group = this.getRoom().getGroup();
-
-        if (group != null && group.getData() != null && group.getMembers() != null && group.getMembers().getAll() != null) {
-            if (group.getData().canMembersDecorate() && group.getMembers().getAll().containsKey(playerId)) {
-                return true;
-            }
-
-            if (group.getMembers().getAdministrators().contains(playerId)) {
-                return true;
-            }
-        }
+    public boolean hasRights(int playerId, boolean checkGroup) {
+        if (checkGroup && checkGroupRights(playerId)) return true;
 
         return this.room.getData().getOwnerId() == playerId || this.rights.contains(playerId);
     }
 
-    public boolean canPlaceFurniture(final int playerId) {
+    private boolean checkGroupRights(int playerId) {
         final IGroup group = this.getRoom().getGroup();
 
         if (group != null && group.getData() != null && group.getMembers() != null && group.getMembers().getAll() != null) {
@@ -73,10 +63,13 @@ public class RightsComponent {
                 return true;
             }
 
-            if (group.getMembers().getAdministrators().contains(playerId)) {
-                return true;
-            }
+            return group.getMembers().getAdministrators().contains(playerId);
         }
+        return false;
+    }
+
+    public boolean canPlaceFurniture(final int playerId) {
+        if (checkGroupRights(playerId)) return true;
 
         if (this.hasRights(playerId, false) && CometSettings.playerRightsItemPlacement) {
             return true;

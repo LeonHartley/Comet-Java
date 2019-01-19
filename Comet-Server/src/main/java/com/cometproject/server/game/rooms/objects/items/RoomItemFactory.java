@@ -322,7 +322,7 @@ public class RoomItemFactory {
             return null;
         }
 
-        RoomItemWall wallItem = null;   
+        RoomItemWall wallItem = null;
 
         switch (def.getInteraction()) {
             case "habbowheel": {
