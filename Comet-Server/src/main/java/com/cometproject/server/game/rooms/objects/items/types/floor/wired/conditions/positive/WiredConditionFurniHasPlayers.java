@@ -30,7 +30,7 @@ public class WiredConditionFurniHasPlayers extends WiredConditionItem {
 
             if (floorItem != null) {
                 if (floorItem.getEntitiesOnItem().size() != 0) {
-                    System.out.format("%s, %s, %s\n", this.getId(), floorItem.getId(), floorItem.getTile().getEntity().getUsername());
+                   // System.out.format("%s, %s, %s\n", this.getId(), floorItem.getId(), floorItem.getTile().getEntity().getUsername());
                     itemsWithPlayers++;
                 }
             }
