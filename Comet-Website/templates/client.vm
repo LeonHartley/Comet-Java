@@ -1,58 +1,149 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN'
+        'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta http-equiv='content-type' content='text/html; charset=utf-8'>
     <title>$siteSettings.hotelName:</title>
-    <link rel="stylesheet" href="$config.assetsUrl/client/css/client.css" type="text/css">
-    <script type="text/javascript" src="$config.assetsUrl/client/js/escape.js"></script>
-    <script type="text/javascript" src="$config.assetsUrl/client/js/swfobject.js"></script>
+    <link rel='stylesheet' href='$config.assetsUrl/client/css/client.css' type='text/css'>
+    <link rel='stylesheet' href='http://localhost/comet/ws/css/webclient.css' type='text/css'>
+    <script type='text/javascript' src='$config.assetsUrl/client/js/escape.js'></script>
+    <script type='text/javascript' src='$config.assetsUrl/client/js/swfobject.js'></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="http://localhost/comet/ws/comet.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+    <script src='http://localhost/comet/ws/js/webclientdom.js'></script>
+    <script src='http://localhost/comet/ws/js/htmlelements.js'></script>
+    <script src='http://localhost/comet/ws/js/comet.js'></script> <!--todo: consolidate the 3 files -->
 
-    <script type="text/javascript">
-        wsConnect("ws://localhost:30002/comet", "$loginTicket");
-
-        var BaseUrl = "$siteSettings.gameClientBase";
-        var flashvars =
-        {
-            "client.starting" : "Please wait. Habbo is loading...",
-            "client.allow.cross.domain" : "1",
-            "client.notify.cross.domain" : "1",
-            "client.hotel_view.show_on_startup" : "1",
-            "site.url" : "$config.siteUrl",
-            "url.prefix" : "$config.siteUrl",
-            "client.reload.url" : "$config.siteUrl/client",
-            "client.fatal.error.url" : "$config.siteUrl/client/error",
-            "client.connection.failed.url" : "$config.siteUrl/cient/connection",
-            "connection.info.host" : "$siteSettings.gameHost",
-            "connection.info.port" : "$siteSettings.gamePort",
-            "external.variables.txt" : "$siteSettings.gameClientVariables",
-            "external.texts.txt" : "$siteSettings.gameClientTexts",
-            "productdata.load.url" : "$siteSettings.gameClientProductData",
-            "furnidata.load.url" : "$siteSettings.gameClientFurniData",
-            "hotelview.banner.url" : "$siteSettings.gameClientBanner",
-            "use.sso.ticket" : "1",
-            "sso.ticket" : "$loginTicket",
-            "comet.camera.uploadLink" : "$config.siteUrl/camera/upload/$loginTicket",
-            "processlog.enabled" : "0",
-            "flash.client.url" : BaseUrl,
-            "flash.client.origin" : "popup",
-        };
-        var params =
-        {
-            "base" : BaseUrl,
-            "allowScriptAccess" : "always",
-            "menu" : "false"
+    <script type='text/javascript'>
+        const Habbo = {
+            baseUrl: '$siteSettings.gameClientBase'
         };
 
-        swfobject.embedSWF("$siteSettings.gameClientSwf", "client", "100%", "100%", "10.0.0", "$siteSettings.gameClientBase/ExpressInstall.swf", flashvars, params, null);
+        var flashvars = {
+            'client.starting': 'Please wait. Habbo is loading...',
+            'client.allow.cross.domain': '1',
+            'client.notify.cross.domain': '1',
+            'client.hotel_view.show_on_startup': '1',
+            'site.url': '$config.siteUrl',
+            'url.prefix': '$config.siteUrl',
+            'client.reload.url': '$config.siteUrl/client',
+            'client.fatal.error.url': '$config.siteUrl/client/error',
+            'client.connection.failed.url': '$config.siteUrl/cient/connection',
+            'connection.info.host': '$siteSettings.gameHost',
+            'connection.info.port': '$siteSettings.gamePort',
+            'external.variables.txt': '$siteSettings.gameClientVariables',
+            'external.texts.txt': '$siteSettings.gameClientTexts',
+            'productdata.load.url': '$siteSettings.gameClientProductData',
+            'furnidata.load.url': '$siteSettings.gameClientFurniData',
+            'hotelview.banner.url': '$siteSettings.gameClientBanner',
+            'use.sso.ticket': '1',
+            'sso.ticket': '$loginTicket',
+            'comet.camera.uploadLink': '$config.siteUrl/camera/upload/$loginTicket',
+            'processlog.enabled': '1',
+            'flash.client.url': Habbo.baseUrl,
+            'flash.client.origin': 'popup',
+        };
+
+        var params = {
+            base: Habbo.baseUrl,
+            allowScriptAccess: 'always',
+            menu: false
+        };
+
+        window.FlashExternalInterface = {};
+
+        window.FlashExternalInterface.logLoginStep = (step) => {
+            if (step == 'client.init.auth.ok') {
+                wsConnect({url: 'ws://localhost:30002/comet', ssoTicket: '$loginTicket'});
+            }
+        }
+
+        swfobject.embedSWF('$siteSettings.gameClientSwf', 'client', '100%', '100%', '10.0.0', '$siteSettings.gameClientBase/ExpressInstall.swf', flashvars, params, null);
     </script>
 </head>
 <body>
-<div id="comet"></div>
-<div id="client"></div>
+<div id='comet'></div>
+<div id='web-client'>
+    <div class='hotel-alerts'>
+    </div>
+    <div class='mute-alerts'>
+    </div>
+    <div class='client-box' id='playable-piano-container' tabindex='0'>
+        <div class='header drag-parent'>
+            Piano
+            <div class='close-button'></div>
+        </div>
+        <div class='body'>
+            <div class='note-audio'>
+            </div>
+            <div class='piano-keys'>
+                <div class='key' data-key='a49'></div>
+                <div class='key black' data-key='b49'></div>
+                <div class='key' data-key='a50'></div>
+                <div class='key black' data-key='b50'></div>
+                <div class='key' data-key='a51'></div>
+                <div class='key' data-key='a52'></div>
+                <div class='key black' data-key='b52'></div>
+                <div class='key' data-key='a53'></div>
+                <div class='key black' data-key='b53'></div>
+                <div class='key' data-key='a54'></div>
+                <div class='key black' data-key='b54'></div>
+                <div class='key' data-key='a55'></div>
+                <div class='key' data-key='a56'></div>
+                <div class='key black' data-key='b56'></div>
+                <div class='key' data-key='a57'></div>
+                <div class='key black' data-key='b57'></div>
+                <div class='key' data-key='a48'></div>
+                <div class='key' data-key='a81'></div>
+                <div class='key black' data-key='b81'></div>
+                <div class='key' data-key='a87'></div>
+                <div class='key black' data-key='b87'></div>
+                <div class='key' data-key='a69'></div>
+                <div class='key black' data-key='b69'></div>
+                <div class='key' data-key='a82'></div>
+                <div class='key' data-key='a84'></div>
+                <div class='key black' data-key='b84'></div>
+                <div class='key' data-key='a89'></div>
+                <div class='key black' data-key='b89'></div>
+                <div class='key' data-key='a85'></div>
+                <div class='key' data-key='a73'></div>
+                <div class='key black' data-key='b73'></div>
+                <div class='key' data-key='a79'></div>
+                <div class='key black' data-key='b79'></div>
+                <div class='key' data-key='a80'></div>
+                <div class='key black' data-key='b80'></div>
+                <div class='key' data-key='a65'></div>
+                <div class='key' data-key='a83'></div>
+                <div class='key black' data-key='b83'></div>
+                <div class='key' data-key='a68'></div>
+                <div class='key black' data-key='b68'></div>
+                <div class='key' data-key='a70'></div>
+                <div class='key' data-key='a71'></div>
+                <div class='key black' data-key='b71'></div>
+                <div class='key' data-key='a72'></div>
+                <div class='key black' data-key='b72'></div>
+                <div class='key' data-key='a74'></div>
+                <div class='key black' data-key='b74'></div>
+                <div class='key' data-key='a75'></div>
+                <div class='key' data-key='a76'></div>
+                <div class='key black' data-key='b76'></div>
+                <div class='key' data-key='a90'></div>
+                <div class='key black' data-key='b90'></div>
+                <div class='key' data-key='a88'></div>
+                <div class='key' data-key='a67'></div>
+                <div class='key black' data-key='b67'></div>
+                <div class='key' data-key='a86'></div>
+                <div class='key black' data-key='b86'></div>
+                <div class='key' data-key='a66'></div>
+                <div class='key black' data-key='b66'></div>
+                <div class='key' data-key='a78'></div>
+                <div class='key' data-key='a77'></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id='client'></div>
 
 </body>
 </html>
