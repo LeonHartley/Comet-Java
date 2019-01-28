@@ -8,6 +8,7 @@ import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.network.ws.messages.alerts.MutedMessage;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 
 
@@ -31,7 +32,12 @@ public class UnmuteCommand extends ChatCommand {
         }
 
         final int timeMuted = 0;
-        session.send(new AdvancedAlertMessageComposer(Locale.getOrDefault("command.unmute.unmuted", "You has been unmuted.")));
+
+        if(session.getWsChannel() != null) {
+            session.sendWs(new MutedMessage(MutedMessage.MuteType.MODERATOR_MUTE, false, null));
+        } else {
+            session.send(new AdvancedAlertMessageComposer(Locale.getOrDefault("command.unmute.unmuted", "You has been unmuted.")));
+        }
 
         if (session.getPlayer().getData().getTimeMuted() > (int) Comet.getTime()) {
             PlayerDao.addTimeMute(playerId, timeMuted);
@@ -46,7 +52,7 @@ public class UnmuteCommand extends ChatCommand {
             isExecuted(client);
         }
 
-        this.logDesc = "El staff %s ha hecho unmute a '%u'"
+        this.logDesc = "%s unmuted '%u'"
                 .replace("%s", client.getPlayer().getData().getUsername())
                 .replace("%u", params[0]);
     }

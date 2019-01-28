@@ -1,12 +1,11 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
 import com.cometproject.api.game.rooms.objects.data.RoomItemData;
-import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.types.DefaultFloorItem;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.network.ws.messages.ClosePianoMessage;
-import com.cometproject.server.network.ws.messages.OpenPianoMessage;
+import com.cometproject.server.network.ws.messages.piano.ClosePianoMessage;
+import com.cometproject.server.network.ws.messages.piano.OpenPianoMessage;
 
 public class PianoFloorItem extends DefaultFloorItem {
     public PianoFloorItem(RoomItemData itemData, Room room) {

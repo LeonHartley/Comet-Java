@@ -3,9 +3,11 @@ package com.cometproject.server.game.rooms.types.components;
 import com.cometproject.api.config.CometSettings;
 import com.cometproject.api.game.groups.types.IGroup;
 import com.cometproject.server.boot.Comet;
+import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.types.RoomBan;
 import com.cometproject.server.game.rooms.types.components.types.RoomMute;
+import com.cometproject.server.network.ws.messages.alerts.MutedMessage;
 import com.cometproject.server.storage.queries.rooms.RightsDao;
 
 import java.util.ArrayList;
@@ -96,6 +98,13 @@ public class RightsComponent {
     }
 
     public void addMute(int playerId, int minutes) {
+        final PlayerEntity playerEntity = this.getRoom().getEntities().getEntityByPlayerId(playerId);
+        if (playerEntity != null) {
+            if (playerEntity.getPlayer().getSession().getWsChannel() != null) {
+                playerEntity.getPlayer().getSession().sendWs(new MutedMessage(MutedMessage.MuteType.USER_MUTE, true, null));
+            }
+        }
+
         this.mutedPlayers.put(playerId, new RoomMute(playerId, (minutes * 60) * 2));
     }
 
@@ -134,6 +143,14 @@ public class RightsComponent {
 
         for (RoomMute mute : this.mutedPlayers.values()) {
             if (mute.getTicksLeft() <= 0) {
+                final PlayerEntity entity = this.getRoom().getEntities().getEntityByPlayerId(mute.getPlayerId());
+
+                if (entity != null) {
+                    if (entity.getPlayer().getSession().getWsChannel() != null) {
+                        entity.getPlayer().getSession().sendWs(new MutedMessage(MutedMessage.MuteType.USER_MUTE, false, null));
+                    }
+                }
+
                 mutesToRemove.add(mute);
             }
 

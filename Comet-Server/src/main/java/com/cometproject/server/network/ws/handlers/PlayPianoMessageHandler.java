@@ -1,9 +1,8 @@
 package com.cometproject.server.network.ws.handlers;
 
-import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.sessions.Session;
-import com.cometproject.server.network.ws.messages.PlayPianoMessage;
+import com.cometproject.server.network.ws.messages.piano.PlayPianoMessage;
 import io.netty.channel.ChannelHandlerContext;
 
 public class PlayPianoMessageHandler extends AbstractWsHandler<PlayPianoMessage> {

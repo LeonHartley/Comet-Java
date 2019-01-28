@@ -43,13 +43,6 @@ public class TalkMessageEvent implements Event {
             return;
         }
 
-        if (client.getPlayer().getData().getTimeMuted() != 0) {
-            if (client.getPlayer().getData().getTimeMuted() > (int) Comet.getTime()) {
-                client.getPlayer().getSession().send(new MutedMessageComposer(timeMutedExpire));
-                return;
-            }
-        }
-
         if (bubble != 0) {
             final Integer bubbleMinRank = PermissionsManager.getInstance().getChatBubbles().get(bubble);
 
@@ -71,10 +64,6 @@ public class TalkMessageEvent implements Event {
         }
 
         String filteredMessage = filterMessage(message);
-
-        if (filteredMessage == null) {
-            return;
-        }
 
         if (!client.getPlayer().getPermissions().getRank().roomFilterBypass()) {
             FilterResult filterResult = RoomManager.getInstance().getFilter().filter(filteredMessage);

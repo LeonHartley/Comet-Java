@@ -7,5 +7,6 @@ public enum WsMessageType {
     PIANO_CLOSE,
     EVENT_ALERT,
     HOTEL_ALERT,
-    PLAYER_MENTION
+    PLAYER_MENTION,
+    MUTED
 }

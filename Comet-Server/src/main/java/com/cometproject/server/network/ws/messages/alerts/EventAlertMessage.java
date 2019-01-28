@@ -1,4 +1,7 @@
-package com.cometproject.server.network.ws.messages;
+package com.cometproject.server.network.ws.messages.alerts;
+
+import com.cometproject.server.network.ws.messages.WsMessage;
+import com.cometproject.server.network.ws.messages.WsMessageType;
 
 public class EventAlertMessage extends WsMessage {
     private final String eventName;

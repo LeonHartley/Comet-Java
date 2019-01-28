@@ -52,6 +52,7 @@ import com.cometproject.server.network.messages.outgoing.room.queue.RoomQueueSta
 import com.cometproject.server.network.messages.outgoing.room.settings.RoomRatingMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.PetInventoryMessageComposer;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.network.ws.messages.alerts.MutedMessage;
 import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.storage.queries.pets.RoomPetDao;
 import com.cometproject.server.utilities.attributes.Attributable;
@@ -473,12 +474,19 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
             return false;
         }
 
-        if (this.isRoomMuted() && !this.getPlayer().getPermissions().getRank().roomMuteBypass() && this.getRoom().getData().getOwnerId() != this.getPlayerId()) {
-            return false;
-        }
+        final boolean roomMute = this.isRoomMuted() && this.getRoom().getData().getOwnerId() != this.getPlayerId();
+        final boolean playerMute = this.getRoom().getRights().hasMute(this.getPlayerId()) && this.getRoom().getData().getOwnerId() != this.getPlayerId();
+        final boolean moderatorMute = this.getPlayer().getData().getTimeMuted() > Comet.getTime();
 
-        if ((this.getRoom().getRights().hasMute(this.getPlayerId()) || BanManager.getInstance().isMuted(this.getPlayerId())) && !this.getPlayer().getPermissions().getRank().roomMuteBypass()) {
-            this.getPlayer().getSession().send(new MutedMessageComposer(this.getRoom().getRights().getMuteTime(this.getPlayerId())));
+        if ((roomMute || playerMute || moderatorMute) && !this.getPlayer().getPermissions().getRank().roomMuteBypass()) {
+            final Session session = this.getPlayer().getSession();
+
+            if (session.getWsChannel() == null) {
+                session.send(new MutedMessageComposer(this.getRoom().getRights().getMuteTime(this.getPlayerId())));
+            } else {
+                final MutedMessage.MuteType type = roomMute ? MutedMessage.MuteType.ROOM_MUTE : moderatorMute ? MutedMessage.MuteType.MODERATOR_MUTE : MutedMessage.MuteType.USER_MUTE;
+                session.sendWs(new MutedMessage(type, true, null));
+            }
 
             return false;
         }

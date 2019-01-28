@@ -18,7 +18,6 @@ public class BanManager implements Initialisable {
     public static BanManager banManagerInstance;
     Logger log = Logger.getLogger(BanManager.class.getName());
     private Map<String, Ban> bans;
-    private Set<Integer> mutedPlayers;
 
     public BanManager() {
 
@@ -33,8 +32,6 @@ public class BanManager implements Initialisable {
 
     @Override
     public void initialize() {
-        this.mutedPlayers = new ConcurrentHashSet<>();
-
         loadBans();
         log.info("BanManager initialized");
     }
@@ -91,7 +88,7 @@ public class BanManager implements Initialisable {
     }
 
     public boolean unBan(String data) {
-        if(!data.equals("0")) {
+        if (!data.equals("0")) {
             if (this.bans.containsKey(data)) {
                 this.bans.remove(data);
                 removeBan(data);
@@ -108,17 +105,5 @@ public class BanManager implements Initialisable {
 
     public Ban get(String data) {
         return this.bans.get(data);
-    }
-
-    public boolean isMuted(int playerId) {
-        return this.mutedPlayers.contains(playerId);
-    }
-
-    public void mute(int playerId) {
-        this.mutedPlayers.add(playerId);
-    }
-
-    public void unmute(int playerId) {
-        this.mutedPlayers.remove(playerId);
     }
 }

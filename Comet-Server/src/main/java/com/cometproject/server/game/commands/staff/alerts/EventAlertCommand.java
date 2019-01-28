@@ -9,7 +9,7 @@ import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.sessions.Session;
-import com.cometproject.server.network.ws.messages.EventAlertMessage;
+import com.cometproject.server.network.ws.messages.alerts.EventAlertMessage;
 
 
 public class EventAlertCommand extends ChatCommand {
