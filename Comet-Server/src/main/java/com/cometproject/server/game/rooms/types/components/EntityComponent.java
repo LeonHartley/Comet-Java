@@ -91,7 +91,7 @@ public class EntityComponent {
         if (player.isTeleporting()) {
             RoomItemFloor flItem = this.room.getItems().getFloorItem(player.getTeleportId());
 
-            if (flItem != null && (flItem instanceof TeleporterFloorItem)) {
+            if ((flItem instanceof TeleporterFloorItem)) {
                 ((TeleporterFloorItem) flItem).handleIncomingEntity(entity, null);
             }
         }

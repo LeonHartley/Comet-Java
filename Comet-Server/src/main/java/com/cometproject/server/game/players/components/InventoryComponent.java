@@ -18,6 +18,8 @@ import com.cometproject.server.network.messages.outgoing.room.items.wired.WiredR
 import com.cometproject.server.network.messages.outgoing.user.inventory.BadgeInventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.InventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.RemoveObjectFromInventoryMessageComposer;
+import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.network.ws.messages.alerts.NewBadgeMessage;
 import com.cometproject.server.storage.queries.achievements.PlayerAchievementDao;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.storage.queries.player.inventory.InventoryDao;
@@ -106,8 +108,12 @@ public class InventoryComponent extends PlayerComponent implements PlayerInvento
         this.addBadge(code, insert, true);
     }
 
-    @Override
     public void addBadge(String code, boolean insert, boolean sendAlert) {
+        this.addBadge(code, insert, sendAlert, false);
+    }
+
+    @Override
+    public void addBadge(String code, boolean insert, boolean sendAlert, boolean isAchievement) {
         if (!badges.containsKey(code)) {
             if (insert) {
                 InventoryDao.addBadge(code, this.getPlayer().getId());
@@ -121,12 +127,16 @@ public class InventoryComponent extends PlayerComponent implements PlayerInvento
                         put(4, Lists.newArrayList(1));
                     }}));
 
-            if (sendAlert) {
-                this.getPlayer().getSession().send(new WiredRewardMessageComposer(7));
+            if (sendAlert || isAchievement) {
+                final Session session = (Session) this.getPlayer().getSession();
+                if (session.getWsChannel() != null) {
+                    session.sendWs(new NewBadgeMessage(code));
+                } else if (!isAchievement) {
+                    this.getPlayer().getSession().send(new WiredRewardMessageComposer(7));
+                }
             }
 
             this.getPlayer().flush();
-
         }
     }
 
@@ -198,7 +208,7 @@ public class InventoryComponent extends PlayerComponent implements PlayerInvento
             isUpdated = true;
         }
 
-        this.addBadge(newBadge, !isUpdated, false);
+        this.addBadge(newBadge, !isUpdated, false, true);
     }
 
     @Override

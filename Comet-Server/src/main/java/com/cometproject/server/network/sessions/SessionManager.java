@@ -8,6 +8,7 @@ import com.cometproject.api.networking.sessions.SessionManagerAccessor;
 import com.cometproject.api.utilities.JsonUtil;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.players.PlayerManager;
+import com.cometproject.server.network.ws.messages.WsMessage;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
@@ -135,6 +136,14 @@ public final class SessionManager implements ISessionManager, ISessionService {
 //        for (Session client : sessions.values()) {
 //            client.getChannel().write(msg);
 //        }
+    }
+
+    public void broadcastWs(WsMessage message) {
+        for (ISession client : sessions.values()) {
+            if(((Session) client).getWsChannel() != null) {
+                ((Session)client).sendWs(message);
+            }
+        }
     }
 
     public ChannelGroup getChannelGroup() {

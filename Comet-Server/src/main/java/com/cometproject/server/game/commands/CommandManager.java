@@ -215,6 +215,7 @@ public class CommandManager implements Initialisable {
         this.addCommand(Locale.get("command.staffalert.name"), new StaffAlertCommand());
         this.addCommand(Locale.get("command.staffinfo.name"), new StaffInfoCommand());
         this.addCommand(Locale.get("command.roomnotification.name"), new RoomNotificationCommand());
+        this.addCommand(Locale.get("command.hotelvideo.name"), new HotelVideoCommand());
 
         // New
         this.addCommand(Locale.get("command.advban.name"), new AdvBanCommand());

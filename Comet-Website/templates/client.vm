@@ -55,7 +55,11 @@
 
         window.FlashExternalInterface.logLoginStep = (step) => {
             if (step == 'client.init.auth.ok') {
-                wsConnect({url: 'ws://localhost:30002/comet', ssoTicket: '$loginTicket'});
+                wsConnect({
+                    url: 'ws://localhost:30002/comet',
+                    ssoTicket: '$loginTicket',
+                    badgeUrl: 'http://localhost/comet/swf/c_images/album1584'
+                });
             }
         }
 
@@ -65,6 +69,8 @@
 <body>
 <div id='comet'></div>
 <div id='web-client'>
+    <div class="video-alerts"></div>
+    <div class="room-alerts"></div>
     <div class='hotel-alerts'>
     </div>
     <div class='mute-alerts'>

@@ -8,5 +8,8 @@ public enum WsMessageType {
     EVENT_ALERT,
     HOTEL_ALERT,
     PLAYER_MENTION,
-    MUTED
+    MUTED,
+    YOUTUBE_VIDEO,
+    ROOM_ALERT,
+    NEW_BADGE
 }

@@ -5,6 +5,8 @@ import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.network.ws.messages.WsMessage;
+import com.cometproject.server.network.ws.messages.alerts.RoomAlertMessage;
 
 
 public class RoomAlertCommand extends ChatCommand {
@@ -12,11 +14,17 @@ public class RoomAlertCommand extends ChatCommand {
 
     @Override
     public void execute(Session client, String[] params) {
-        for (PlayerEntity entity : client.getPlayer().getEntity().getRoom().getEntities().getPlayerEntities()) {
-            entity.getPlayer().getSession().send(new AlertMessageComposer(this.merge(params)));
+        final WsMessage msg = new RoomAlertMessage(this.merge(params), client.getPlayer().getData().getUsername(), client.getPlayer().getData().getFigure());
+
+        for (PlayerEntity playerEntity : client.getPlayer().getEntity().getRoom().getEntities().getPlayerEntities()) {
+            if (playerEntity.getPlayer().getSession().getWsChannel() != null) {
+                playerEntity.getPlayer().getSession().sendWs(msg);
+            } else {
+                playerEntity.getPlayer().getSession().send(new AlertMessageComposer(this.merge(params)));
+            }
         }
 
-        this.logDesc = "El Staff -c ha mandado una alerta a la sala -d. [-e]"
+        this.logDesc = "-c executed roomalert in -d. [-e]"
                 .replace("-c", client.getPlayer().getData().getUsername())
                 .replace("-d", client.getPlayer().getEntity().getRoom().getData().getName())
                 .replace("-e", this.merge(params));

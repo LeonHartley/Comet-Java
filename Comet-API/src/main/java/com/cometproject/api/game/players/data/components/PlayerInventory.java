@@ -23,6 +23,8 @@ public interface PlayerInventory extends IPlayerComponent {
 
     void addBadge(String code, boolean insert, boolean sendAlert);
 
+    void addBadge(String code, boolean insert, boolean sendAlert, boolean isAchievement);
+
     boolean hasBadge(String code);
 
     void removeBadge(String code, boolean delete);
