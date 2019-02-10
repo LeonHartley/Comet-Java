@@ -19,6 +19,7 @@ import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.RoomPromotion;
 import com.cometproject.server.game.rooms.types.RoomReloadListener;
 import com.cometproject.server.game.rooms.types.misc.ChatEmotionsManager;
+import com.cometproject.server.game.rooms.vote.RoomVote;
 import com.cometproject.server.network.messages.outgoing.room.events.RoomPromotionMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.cache.CacheManager;
@@ -58,6 +59,8 @@ public class RoomManager implements Initialisable {
     private ExecutorService executorService;
 
     private Map<Integer, RoomReloadListener> reloadListeners;
+
+    private RoomVote roomVote;
 
     public RoomManager() {
 
@@ -400,5 +403,13 @@ public class RoomManager implements Initialisable {
 
     public Map<Integer, RoomPromotion> getRoomPromotions() {
         return roomPromotions;
+    }
+
+    public RoomVote getRoomVote() {
+        return roomVote;
+    }
+
+    public void setRoomVote(RoomVote roomVote) {
+        this.roomVote = roomVote;
     }
 }

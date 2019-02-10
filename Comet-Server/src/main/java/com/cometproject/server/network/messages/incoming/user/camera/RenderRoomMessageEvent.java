@@ -17,14 +17,15 @@ public class RenderRoomMessageEvent implements Event {
         final int length = msg.readInt();
         final byte[] payload = msg.readBytes(length);
 
-        final String response = ApiClient.getInstance().savePhoto(payload, UUID.randomUUID().toString());
+        final String id = UUID.randomUUID().toString();
+        final String response = ApiClient.getInstance().savePhoto(payload, id);
 
         if (response.isEmpty()) {
             // Failed, send feedback to client
             return;
         }
 
-        client.getPlayer().setLastPhoto(response);
-        client.send(new PhotoPreviewMessageComposer(response));
+        client.getPlayer().setLastPhoto(id);
+        client.send(new PhotoPreviewMessageComposer(id));
     }
 }

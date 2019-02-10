@@ -11,4 +11,7 @@ public enum WsRequestType {
 
     @SerializedName("OPEN_ROOM")
     OPEN_ROOM,
+
+    @SerializedName("ROOM_VOTE")
+    ROOM_VOTE,
 }

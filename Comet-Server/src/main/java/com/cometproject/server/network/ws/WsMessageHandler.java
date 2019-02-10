@@ -1,10 +1,7 @@
 package com.cometproject.server.network.ws;
 
 import com.cometproject.api.utilities.JsonUtil;
-import com.cometproject.server.network.ws.handlers.AuthMessageHandler;
-import com.cometproject.server.network.ws.handlers.OpenRoomMessageHandler;
-import com.cometproject.server.network.ws.handlers.PlayPianoMessageHandler;
-import com.cometproject.server.network.ws.handlers.WsHandler;
+import com.cometproject.server.network.ws.handlers.*;
 import com.cometproject.server.network.ws.request.WsRequest;
 import com.cometproject.server.network.ws.request.WsRequestType;
 import io.netty.channel.ChannelHandlerContext;
@@ -22,6 +19,7 @@ public class WsMessageHandler extends SimpleChannelInboundHandler<TextWebSocketF
         put(WsRequestType.AUTH, new AuthMessageHandler());
         put(WsRequestType.PIANO_PLAY_NOTE, new PlayPianoMessageHandler());
         put(WsRequestType.OPEN_ROOM, new OpenRoomMessageHandler());
+        put(WsRequestType.ROOM_VOTE, new RoomVoteMessageHandler());
     }};
 
     @Override

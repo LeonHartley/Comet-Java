@@ -20,7 +20,7 @@ public class CameraRoute {
                 String location = "./camera-images/" + imageName + ".png";
 //todo: put this in config
                 if (StringUtils.isNumeric(imageName)) {
-                    location = "C:\\Websites\\Libbo\\cdn\\swf\\c_images\\navigator-thumbnail\\" + imageName + ".png";
+                    location = "C:\\inetpub\\wwwroot\\comet\\swf\\c_images\\navigator-thumbnail\\" + imageName + ".png";
                 }
 
                 final FileOutputStream outputStream = new FileOutputStream(location);

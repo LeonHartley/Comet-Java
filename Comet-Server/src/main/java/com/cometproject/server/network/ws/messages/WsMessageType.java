@@ -11,5 +11,8 @@ public enum WsMessageType {
     MUTED,
     YOUTUBE_VIDEO,
     ROOM_ALERT,
-    NEW_BADGE
+    NEW_BADGE,
+    ROOM_VOTE,
+    ROOM_VOTE_COUNT,
+    ROOM_VOTE_ENDED,
 }
