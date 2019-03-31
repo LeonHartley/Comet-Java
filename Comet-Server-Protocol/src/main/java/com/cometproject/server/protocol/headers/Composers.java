@@ -8,6 +8,7 @@ import java.util.Map;
 
 
 public class Composers {
+    public static final short OpenLinkMessageComposer = 2669;
     public static final short WiredRewardMessageComposer = 2960;//753
     public static final short HeightMapMessageComposer = 1010;//3546
     public static final short CallForHelpPendingCallsMessageComposer = 2804;//771

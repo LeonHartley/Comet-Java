@@ -14,5 +14,5 @@ public enum WsMessageType {
     NEW_BADGE,
     ROOM_VOTE,
     ROOM_VOTE_COUNT,
-    ROOM_VOTE_ENDED,
+    ROOM_VOTE_ENDED
 }

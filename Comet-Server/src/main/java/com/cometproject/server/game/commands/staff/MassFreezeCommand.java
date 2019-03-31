@@ -37,7 +37,7 @@ public class MassFreezeCommand extends ChatCommand {
             }
         }
 
-        this.logDesc = "El staff %s ha hecho <b>massfreeze</b>"
+        this.logDesc = "%s executed massfreeze"
                 .replace("%s", client.getPlayer().getData().getUsername());
     }
 

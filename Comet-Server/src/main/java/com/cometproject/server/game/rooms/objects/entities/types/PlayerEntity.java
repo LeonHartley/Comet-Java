@@ -90,6 +90,10 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
     private int lastMessageCounter = 0;
     private String lastMessage = "";
 
+    private boolean isAway = false;
+    private long lastAwayReminder = 0;
+    private long awayTime = 0;
+
     public PlayerEntity(Player player, int identifier, Position startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
         super(identifier, startPosition, startBodyRotation, startHeadRotation, roomInstance);
 
@@ -510,6 +514,17 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
         return true;
     }
 
+    @Override
+    public void unIdle() {
+        if (this.isAway) {
+            this.isAway = false;
+            this.lastAwayReminder = 0;
+            this.awayTime = 0;
+        }
+
+        super.unIdle();
+    }
+
     private void sendNameChange() {
         final StringBuilder username = new StringBuilder();
         final String format = "<font color='#%s'>%s</font>";
@@ -670,7 +685,7 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
         msg.writeInt(this.getPosition().getY());
         msg.writeDouble(this.getPosition().getZ());
 
-        msg.writeInt(this.getBodyRotation()); // 2 = user 4 = bot
+        msg.writeInt(this.getBodyRotation());
         msg.writeInt(1); // 1 = user 2 = pet 3 = bot
 
         msg.writeString(this.getGender().toLowerCase());
@@ -790,5 +805,29 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
 
     public void setBuilderFillFloor(boolean builderFillFloor) {
         this.builderFillFloor = builderFillFloor;
+    }
+
+    public boolean isAway() {
+        return this.isAway;
+    }
+
+    public void setAway() {
+        this.awayTime = System.currentTimeMillis();
+        this.lastAwayReminder = this.awayTime / 1000;
+        this.isAway = true;
+
+        this.setIdle();
+    }
+
+    public long getLastAwayReminder() {
+        return this.lastAwayReminder;
+    }
+
+    public void setLastAwayReminder(long lastAwayReminder) {
+        this.lastAwayReminder = lastAwayReminder;
+    }
+
+    public long getAwayTime() {
+        return awayTime;
     }
 }

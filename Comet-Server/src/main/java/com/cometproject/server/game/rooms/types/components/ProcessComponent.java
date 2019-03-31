@@ -4,6 +4,7 @@ import com.cometproject.api.config.CometSettings;
 import com.cometproject.api.game.quests.QuestType;
 import com.cometproject.api.game.rooms.entities.RoomEntityStatus;
 import com.cometproject.api.game.utilities.Position;
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityType;
 import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
@@ -20,12 +21,15 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.trigge
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.RoomEntityMovementNode;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
+import com.cometproject.server.game.rooms.types.misc.ChatEmotion;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessageComposer;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManager;
 import com.cometproject.server.utilities.TimeSpan;
 import org.apache.log4j.Logger;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -365,12 +369,23 @@ public class ProcessComponent implements CometTask {
 
         if (!isRetry) {
             if (isPlayer) {
-                // Handle flood
-                if (((PlayerEntity) entity).getPlayer().getRoomFloodTime() >= 0.5) {
-                    ((PlayerEntity) entity).getPlayer().setRoomFloodTime(((PlayerEntity) entity).getPlayer().getRoomFloodTime() - 0.5);
+                final PlayerEntity playerEntity = (PlayerEntity) entity;
 
-                    if (((PlayerEntity) entity).getPlayer().getRoomFloodTime() < 0) {
-                        ((PlayerEntity) entity).getPlayer().setRoomFloodTime(0);
+                // Handle flood
+                if (playerEntity.getPlayer().getRoomFloodTime() >= 0.5) {
+                    playerEntity.getPlayer().setRoomFloodTime(playerEntity.getPlayer().getRoomFloodTime() - 0.5);
+
+                    if (playerEntity.getPlayer().getRoomFloodTime() < 0) {
+                        playerEntity.getPlayer().setRoomFloodTime(0);
+                    }
+                }
+
+                if (playerEntity.isAway()) {
+                    final long currentTime = Comet.getTime();
+
+                    if ((currentTime - playerEntity.getLastAwayReminder()) >= 60) {
+                        this.getRoom().getEntities().broadcastChatMessage(new TalkMessageComposer(playerEntity.getId(), String.format("I've been away for %s", TimeSpan.millisecondsToDate(playerEntity.getAwayTime())), ChatEmotion.NONE, 0), playerEntity);
+                        playerEntity.setLastAwayReminder(currentTime);
                     }
                 }
             }
@@ -387,8 +402,10 @@ public class ProcessComponent implements CometTask {
             }
 
             if (entity instanceof PlayerEntity && entity.isIdleAndIncrement() && entity.isVisible()) {
+                final PlayerEntity playerEntity = (PlayerEntity) entity;
+
                 if (entity.getIdleTime() >= 60 * CometSettings.roomIdleMinutes * 2) {
-                    if (this.getRoom().getData().getOwnerId() != ((PlayerEntity) entity).getPlayerId() && !((PlayerEntity) entity).getPlayer().getPermissions().getRank().roomFullControl())
+                    if (this.getRoom().getData().getOwnerId() != playerEntity.getPlayerId() && !playerEntity.getPlayer().getPermissions().getRank().roomFullControl())
                         return true;
                 }
             }

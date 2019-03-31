@@ -36,7 +36,7 @@ public class MassEffectCommand extends ChatCommand {
             sendNotif(Locale.get("command.masseffect.invalidid"), client);
         }
 
-        this.logDesc = "El staff %s ha hecho <b>massEffect</b> en la sala '%b'"
+        this.logDesc = "%s execuited masseffect'%b'"
                 .replace("%s", client.getPlayer().getData().getUsername())
                 .replace("%b", client.getPlayer().getEntity().getRoom().getData().getName());
     }

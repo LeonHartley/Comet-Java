@@ -20,6 +20,7 @@ public class WsMessageHandler extends SimpleChannelInboundHandler<TextWebSocketF
         put(WsRequestType.PIANO_PLAY_NOTE, new PlayPianoMessageHandler());
         put(WsRequestType.OPEN_ROOM, new OpenRoomMessageHandler());
         put(WsRequestType.ROOM_VOTE, new RoomVoteMessageHandler());
+        put(WsRequestType.OPEN_LINK, new OpenLinkMessageHandler());
     }};
 
     @Override

@@ -7,13 +7,13 @@ import com.cometproject.server.protocol.messages.MessageComposer;
 
 
 public class TalkMessageComposer extends MessageComposer {
-    private final int playerId;
+    private final int entityId;
     private final String message;
     private final ChatEmotion emoticon;
     private final int colour;
 
-    public TalkMessageComposer(final int playerId, final String message, final ChatEmotion emoticion, final int colour) {
-        this.playerId = playerId;
+    public TalkMessageComposer(final int entityId, final String message, final ChatEmotion emoticion, final int colour) {
+        this.entityId = entityId;
         this.message = message;
         this.emoticon = emoticion;
         this.colour = colour;
@@ -26,7 +26,7 @@ public class TalkMessageComposer extends MessageComposer {
 
     @Override
     public void compose(IComposer msg) {
-        msg.writeInt(playerId);
+        msg.writeInt(entityId);
         msg.writeString(message);
         msg.writeInt(emoticon.getEmotionId());
         msg.writeInt(colour);

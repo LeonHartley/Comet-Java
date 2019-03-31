@@ -134,7 +134,15 @@ public class GroupService implements IGroupService {
         Map<Integer, IForumThread> forumThreads = new HashMap<>();
         List<Integer> pinnedThreads = new ArrayList<>();
 
-        ForumComponent forumComponent = new ForumComponent(GroupForumSettingsFactory.createSettings(group.getData().getId(), ForumPermission.getById(0), ForumPermission.getById(1), ForumPermission.getById(1), ForumPermission.getById(2)), pinnedThreads, forumThreads);
+        ForumComponent forumComponent = new ForumComponent(
+                GroupForumSettingsFactory.createSettings(
+                        group.getData().getId(),
+                        ForumPermission.getById(0),
+                        ForumPermission.getById(1),
+                        ForumPermission.getById(1),
+                        ForumPermission.getById(2)),
+                pinnedThreads, forumThreads);
+
         group.setForum(forumComponent);
 
         this.createForumSettings(forumComponent);

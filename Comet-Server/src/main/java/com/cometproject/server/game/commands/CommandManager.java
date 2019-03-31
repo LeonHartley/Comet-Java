@@ -134,7 +134,7 @@ public class CommandManager implements Initialisable {
         this.addCommand(Locale.get("command.reward.name"), new RewardCommand());
         this.addCommand(Locale.get("command.height.name"), new HeightCommand());
         this.addCommand(Locale.get("command.personalstaff.name"), new PersonalStaffCommand());
-
+        this.addCommand(Locale.get("command.brb.name"), new BrbCommand());
 
         // VIP commands
         this.addCommand(Locale.get("command.push.name"), new PushCommand());
