@@ -358,5 +358,8 @@ public class EntityComponent {
         this.playerIdToEntity.clear();
         this.botIdToEntity.clear();
         this.petIdToEntity.clear();
+        this.playerEntities.clear();
+        this.intelligentEntities.clear();
+        this.nameToPlayerEntity.clear();
     }
 }
