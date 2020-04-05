@@ -11,7 +11,6 @@ import java.util.Map;
 
 
 public class PetComponent extends PlayerComponent implements PlayerPets {
-    private Player player;
     private Map<Integer, IPetData> pets;
 
     public PetComponent(IPlayer player) {
@@ -47,15 +46,9 @@ public class PetComponent extends PlayerComponent implements PlayerPets {
         this.getPlayer().flush();
     }
 
-    @Override
-    public Player getPlayer() {
-        return this.player;
-    }
-
     public void dispose() {
         this.pets.clear();
         this.pets = null;
-        this.player = null;
     }
 
     @Override

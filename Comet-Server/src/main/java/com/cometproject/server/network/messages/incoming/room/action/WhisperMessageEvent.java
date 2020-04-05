@@ -99,7 +99,7 @@ public class WhisperMessageEvent implements Event {
 
             for (PlayerEntity entity : playerEntity.getRoom().getEntities().getWhisperSeers()) {
                 if (entity.getPlayer().getId() != client.getPlayer().getId() && !user.equals(entity.getUsername()))
-                    entity.getPlayer().getSession().send(new WhisperMessageComposer(playerEntity.getId(), Locale.getOrDefault("game.whispering", "Whisper to %username%: %message%")));
+                    entity.getPlayer().getSession().send(new WhisperMessageComposer(playerEntity.getId(), Locale.getOrDefault("game.whispering", "Whisper to %username%: %message%").replace("%username%", user).replace("%message%", filteredMessage)));
             }
         }
 

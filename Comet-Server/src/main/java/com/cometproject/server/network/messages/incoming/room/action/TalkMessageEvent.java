@@ -131,8 +131,6 @@ public class TalkMessageEvent implements Event {
 
             playerEntity.postChat(filteredMessage);
         }
-
-
     }
 
     public static String filterMessage(String message) {
@@ -140,6 +138,6 @@ public class TalkMessageEvent implements Event {
             message = message.replace("You can type here to talk!", "");
         }
 
-        return message.replace((char) 13 + "", "").replace("<", "&lt;").replace("&#10º;", "");
+        return message.replace((char) 13 + "", "").replace("&#10º;", "");
     }
 }
