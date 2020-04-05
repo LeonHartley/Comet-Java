@@ -17,11 +17,15 @@ import com.cometproject.server.network.ws.messages.WsMessage;
 import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.utilities.collections.ConcurrentHashSet;
 import com.google.common.collect.Lists;
+import org.apache.commons.collections4.ListUtils;
+import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.collections4.SetUtils;
 import org.apache.log4j.Logger;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 
 public class EntityComponent {
@@ -33,6 +37,7 @@ public class EntityComponent {
     private final Map<String, Integer> nameToPlayerEntity = new ConcurrentHashMap<>();
 
     private final Set<PlayerEntity> playerEntities = new ConcurrentHashSet<>();
+    private final Set<RoomEntity> intelligentEntities = new ConcurrentHashSet<>();
 
     private Room room;
     private AtomicInteger entityIdGenerator = new AtomicInteger();
@@ -116,6 +121,10 @@ public class EntityComponent {
             this.petIdToEntity.put(petEntity.getData().getId(), petEntity.getId());
         }
 
+        if (entity.getAI() != null) {
+            this.intelligentEntities.add(entity);
+        }
+
         this.entities.put(entity.getId(), entity);
     }
 
@@ -143,6 +152,10 @@ public class EntityComponent {
             this.petIdToEntity.remove(petEntity.getData().getId());
         }
 
+        if (entity.getAI() != null) {
+            this.intelligentEntities.remove(entity);
+        }
+
         this.entities.remove(entity.getId());
     }
 
@@ -152,7 +165,7 @@ public class EntityComponent {
 
     public void broadcastWs(WsMessage message) {
         for (PlayerEntity playerEntity : this.playerEntities) {
-            if(playerEntity.getPlayer() != null && playerEntity.getPlayer().getSession() != null) {
+            if (playerEntity.getPlayer() != null && playerEntity.getPlayer().getSession() != null) {
                 playerEntity.getPlayer().getSession().sendWs(message);
             }
         }
@@ -267,43 +280,15 @@ public class EntityComponent {
     }
 
     public List<BotEntity> getBotEntities() {
-        List<BotEntity> entities = new ArrayList<>();
-
-        for (RoomEntity entity : this.entities.values()) {
-            if (entity.getEntityType() == RoomEntityType.BOT) {
-                entities.add((BotEntity) entity);
-            }
-        }
-
-        return entities;
+        return this.botIdToEntity.values().stream().map(id -> (BotEntity) this.entities.get(id)).collect(Collectors.toList());
     }
 
     public List<PetEntity> getPetEntities() {
-        List<PetEntity> entities = new ArrayList<>();
-
-        for (RoomEntity entity : this.entities.values()) {
-            if (entity.getEntityType() == RoomEntityType.PET) {
-                entities.add((PetEntity) entity);
-            }
-        }
-
-        return entities;
+        return this.petIdToEntity.values().stream().map(id -> (PetEntity) this.entities.get(id)).collect(Collectors.toList());
     }
 
     public List<PlayerEntity> getPlayerEntities() {
-        List<PlayerEntity> entities = new ArrayList<>();
-
-        if (this.entities.size() < 1) {
-            return entities;
-        }
-
-        for (RoomEntity entity : this.entities.values()) {
-            if (entity.getEntityType() == RoomEntityType.PLAYER) {
-                entities.add((PlayerEntity) entity);
-            }
-        }
-
-        return entities;
+        return new ArrayList<>(this.playerEntities);
     }
 
     public List<PlayerEntity> getWhisperSeers() {
@@ -344,23 +329,7 @@ public class EntityComponent {
     }
 
     public int playerCount() {
-        List<Integer> countedEntities = Lists.newArrayList();
-
-        try {
-            for (RoomEntity entity : this.entities.values()) {
-                if (entity instanceof PlayerEntity && entity.isVisible()) {
-                    if (!countedEntities.contains(((PlayerEntity) entity).getPlayerId())) {
-                        countedEntities.add(((PlayerEntity) entity).getPlayerId());
-                    }
-                }
-            }
-
-            return countedEntities.size();
-        } catch (Exception e) {
-            return 0;
-        } finally {
-            countedEntities.clear();
-        }
+        return (int) this.playerEntities.stream().filter(RoomEntity::isVisible).count();
     }
 
     public int realPlayerCount() {
@@ -369,6 +338,10 @@ public class EntityComponent {
 
     public Map<Integer, RoomEntity> getAllEntities() {
         return this.entities;
+    }
+
+    public Set<RoomEntity> getIntelligentEntities() {
+        return this.intelligentEntities;
     }
 
     public Room getRoom() {

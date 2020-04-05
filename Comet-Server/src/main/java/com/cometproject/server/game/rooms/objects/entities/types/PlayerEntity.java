@@ -495,16 +495,6 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
             return false;
         }
 
-//        for (PetEntity entity : this.getRoom().getEntities().getPetEntities()) {
-//            if (message.split(" ").length > 0) {
-//                if (entity.getDatav().getName().toLowerCase().equals(message.split(" ")[0].toLowerCase())) {
-//                    if (entity.getAI().onTalk(this, message)) {
-//                        return false;
-//                    }
-//                }
-//            }
-//        }
-
         if (this.getRoom().getEntities().playerCount() > 1) {
             this.getPlayer().getQuests().progressQuest(QuestType.SOCIAL_CHAT);
         }
@@ -571,15 +561,16 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
             }
         }
 
-        for (Map.Entry<Integer, RoomEntity> entity : this.getRoom().getEntities().getAllEntities().entrySet()) {
-            if (entity.getValue().getAI() != null)
-                entity.getValue().getAI().onTalk(this, message);
+        for (RoomEntity entity : this.getRoom().getEntities().getIntelligentEntities()) {
+            if (entity.getAI() != null) {
+                entity.getAI().onTalk(this, message);
+            }
         }
-
-        for (RoomEntity roomEntity : this.getRoom().getEntities().getAllEntities().values()) {
-            if (roomEntity.getId() != this.getId() && !roomEntity.isIdle())
-                roomEntity.lookTo(this.getPosition().getX(), this.getPosition().getY(), false);
-
+//
+//        for (RoomEntity roomEntity : this.getRoom().getEntities().getAllEntities().values()) {
+//            if (roomEntity.getId() != this.getId() && !roomEntity.isIdle())
+//                roomEntity.lookTo(this.getPosition().getX(), this.getPosition().getY(), false);
+//
 //            final int rotation = Position.calculateRotation(roomEntity.getPosition().getX(), roomEntity.getPosition().getY(), this.getPosition().getX(), this.getPosition().getY(),false);
 //            final int rotationDifference = this.getBodyRotation() - rotation;
 //
@@ -589,7 +580,7 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
 //                roomEntity.setHeadRotation(rotation);
 //                roomEntity.markNeedsUpdate();
 //            }
-        }
+//        }
 
         if (!this.getPlayer().getData().getNameColour().equals("000000")) {
             this.getRoom().getEntities().broadcastMessage(new UserNameChangeMessageComposer(this.getRoom().getId(), this.getId(), this.getUsername()));

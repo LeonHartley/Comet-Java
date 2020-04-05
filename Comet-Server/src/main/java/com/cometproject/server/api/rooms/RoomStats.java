@@ -37,7 +37,7 @@ public class RoomStats {
      */
     public RoomStats(Room room) {
         this.data = room.getData();
-        this.players = room.getEntities().playerCount();
+        this.players = room.getEntities().realPlayerCount();
         this.bots = room.getEntities().getBotEntities().size();
         this.pets = room.getEntities().getPetEntities().size();
 

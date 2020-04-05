@@ -63,16 +63,13 @@ public abstract class RoomObject implements IRoomObject, Positionable {
      * @return The closest player entity | null if one couldn't be found
      */
     public PlayerEntity nearestPlayerEntity() {
-        PositionComparator positionComporator = new PositionComparator(this);
-
+        PositionComparator positionComparator = new PositionComparator(this);
         List<PlayerEntity> nearestEntities = this.getRoom().getEntities().getPlayerEntities();
 
-        Collections.sort(nearestEntities, positionComporator);
+        nearestEntities.sort(positionComparator);
 
         for (PlayerEntity playerEntity : nearestEntities) {
-//            if (playerEntity.getTile().isReachable(this)) {
             return playerEntity;
-//            }
         }
 
         return null;
@@ -89,6 +86,10 @@ public abstract class RoomObject implements IRoomObject, Positionable {
 
         List<BotEntity> bots = new ArrayList<>();
         List<BotEntity> nearestEntities = this.getRoom().getEntities().getBotEntities();
+
+        if (nearestEntities.isEmpty()) {
+            return null;
+        }
 
         if (type == null) {
             bots.addAll(nearestEntities);
