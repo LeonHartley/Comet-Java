@@ -8,13 +8,15 @@ public class PlayerAvatarData implements PlayerAvatar {
     private String figure;
     private String motto;
     private String gender;
+    private int regTimestamp;
 
-    public PlayerAvatarData(int id, String username, String figure, String motto, String gender) {
+    public PlayerAvatarData(int id, String username, String figure, String motto, String gender, int regTimestamp) {
         this.id = id;
         this.username = username;
         this.figure = figure;
         this.motto = motto;
         this.gender = gender;
+        this.regTimestamp = regTimestamp;
     }
 
     @Override
@@ -60,5 +62,15 @@ public class PlayerAvatarData implements PlayerAvatar {
     @Override
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    @Override
+    public int getRegTimestamp() {
+        return this.regTimestamp;
+    }
+
+    @Override
+    public void setRegTimestamp(int regTimestamp) {
+        this.regTimestamp = regTimestamp;
     }
 }

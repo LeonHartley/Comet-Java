@@ -28,6 +28,7 @@ import com.cometproject.server.game.rooms.types.mapping.RoomMapping;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.network.messages.outgoing.room.polls.QuickPollMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.polls.QuickPollResultsMessageComposer;
+import com.cometproject.server.network.ws.messages.YouTubeVideoMessage;
 import com.cometproject.server.storage.cache.CacheManager;
 import com.cometproject.server.storage.cache.objects.RoomDataObject;
 import com.cometproject.server.storage.cache.objects.items.FloorItemDataObject;
@@ -75,6 +76,7 @@ public class Room implements Attributable, IRoom {
     private int idleTicks = 0;
     private boolean isReloading = false;
     private boolean forcedUnload = false;
+    private YouTubeVideoMessage roomVideo = null;
 
     public Room(IRoomData data) {
         this.data = data;
@@ -431,5 +433,13 @@ public class Room implements Attributable, IRoom {
 
     public FilterComponent getFilter() {
         return filter;
+    }
+
+    public YouTubeVideoMessage getRoomVideo() {
+        return roomVideo;
+    }
+
+    public void setRoomVideo(YouTubeVideoMessage roomVideo) {
+        this.roomVideo = roomVideo;
     }
 }

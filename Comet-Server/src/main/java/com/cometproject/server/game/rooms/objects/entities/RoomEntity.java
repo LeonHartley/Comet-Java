@@ -568,35 +568,37 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
 
             this.getRoom().getEntities().broadcastMessage(new ApplyEffectMessageComposer(this.getId(), 0));
         } else {
-
-            PlayerEntity playerEntity = (PlayerEntity) this;
             int effectId = effect.getEffectId();
 
-            if (playerEntity.getPlayer().getSettings().hasPersonalStaff() && effectId <= 0) {
+            if (this instanceof PlayerEntity) {
+                PlayerEntity playerEntity = (PlayerEntity) this;
+                if (playerEntity.getPlayer().getSettings().hasPersonalStaff() && effectId <= 0) {
 
-                List<Map.Entry<Integer, Integer>> rankPermList = new ArrayList<>(PermissionsDao.getEffects().entrySet());
-                rankPermList.sort(Collections.reverseOrder(Map.Entry.comparingByValue()));
+                    List<Map.Entry<Integer, Integer>> rankPermList = new ArrayList<>(PermissionsDao.getEffects().entrySet());
+                    rankPermList.sort(Collections.reverseOrder(Map.Entry.comparingByValue()));
 
-                for (Map.Entry<Integer, Integer> entry : rankPermList) {
+                    for (Map.Entry<Integer, Integer> entry : rankPermList) {
 
-                    if (playerEntity.getPlayer().getPermissions().getRank().getId() < entry.getValue())
-                        continue;
+                        if (playerEntity.getPlayer().getPermissions().getRank().getId() < entry.getValue())
+                            continue;
 
-                    if (playerEntity.getPlayer().getSettings().hasPersonalStaff()) {
-                        playerEntity.getPlayer().getEntity().applyEffect(new PlayerEffect(entry.getKey()));
-                    } else
-                        playerEntity.getPlayer().getEntity().applyEffect(new PlayerEffect(0));
+                        if (playerEntity.getPlayer().getSettings().hasPersonalStaff()) {
+                            playerEntity.getPlayer().getEntity().applyEffect(new PlayerEffect(entry.getKey()));
+                        } else
+                            playerEntity.getPlayer().getEntity().applyEffect(new PlayerEffect(0));
 
-                    break;
+                        break;
+                    }
+                } else {
+                    final Integer minimumRank = PermissionsManager.getInstance().getEffects().get(effect.getEffectId());
+                    if (minimumRank != null && playerEntity.getPlayer().getData().getRank() < minimumRank) {
+                        effectId = 10;
+                    }
+                    this.getRoom().getEntities().broadcastMessage(new ApplyEffectMessageComposer(this.getId(), effectId));
                 }
             } else {
-                final Integer minimumRank = PermissionsManager.getInstance().getEffects().get(effect.getEffectId());
-                if (minimumRank != null && playerEntity.getPlayer().getData().getRank() < minimumRank) {
-                    effectId = 10;
-                }
                 this.getRoom().getEntities().broadcastMessage(new ApplyEffectMessageComposer(this.getId(), effectId));
             }
-
         }
 
         if (effect != null && effect.expires()) {

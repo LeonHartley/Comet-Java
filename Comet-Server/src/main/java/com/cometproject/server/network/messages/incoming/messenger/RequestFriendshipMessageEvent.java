@@ -25,6 +25,10 @@ public class RequestFriendshipMessageEvent implements Event {
             int userId = PlayerDao.getIdByUsername(username);
 
             if(userId != 0) {
+                if (MessengerDao.getRequestCount(client.getPlayer().getId(), userId) > 0) {
+                    return;
+                }
+
                 MessengerDao.createRequest(client.getPlayer().getId(), userId);
             }
 
@@ -36,7 +40,7 @@ public class RequestFriendshipMessageEvent implements Event {
             return;
         }
 
-        if (request.getPlayer().getMessenger().hasRequestFrom(client.getPlayer().getId()))
+        if (request.getPlayer().getMessenger().hasRequestFrom(client.getPlayer().getId()) || client.getPlayer().getMessenger().hasRequestFrom(request.getPlayer().getId()))
             return;
 
         request.getPlayer().getMessenger().addRequest(client.getPlayer().getId());

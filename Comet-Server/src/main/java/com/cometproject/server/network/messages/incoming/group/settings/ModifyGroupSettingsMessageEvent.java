@@ -5,6 +5,7 @@ import com.cometproject.api.game.groups.types.GroupType;
 import com.cometproject.api.game.groups.types.IGroup;
 import com.cometproject.api.game.groups.types.components.membership.IGroupMember;
 import com.cometproject.api.game.rooms.entities.RoomEntityStatus;
+import com.cometproject.server.composers.group.GroupDataMessageComposer;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.Room;

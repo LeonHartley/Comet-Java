@@ -166,13 +166,13 @@ public class PlayerDao {
 
             switch (mode) {
                 case PlayerAvatar.USERNAME_FIGURE:
-                    query = "SELECT username, figure, gender, motto FROM players WHERE id = ?";
+                    query = "SELECT username, figure, gender, motto, reg_timestamp FROM players WHERE id = ?";
                     break;
 
 
                 default:
                 case PlayerAvatar.USERNAME_FIGURE_MOTTO:
-                    query = "SELECT username, figure, gender, motto FROM players WHERE id = ?";
+                    query = "SELECT username, figure, gender, motto, reg_timestamp FROM players WHERE id = ?";
                     break;
             }
 
@@ -183,7 +183,7 @@ public class PlayerDao {
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                final PlayerAvatar playerAvatar = new PlayerAvatarData(id, resultSet.getString("username"), resultSet.getString("figure"), resultSet.getString("gender"), resultSet.getString("motto"));
+                final PlayerAvatar playerAvatar = new PlayerAvatarData(id, resultSet.getString("username"), resultSet.getString("figure"), resultSet.getString("gender"), resultSet.getString("motto"), resultSet.getInt("reg_timestamp"));
 
                 if (mode == PlayerAvatar.USERNAME_FIGURE_MOTTO) {
                     playerAvatar.setMotto(resultSet.getString("motto"));

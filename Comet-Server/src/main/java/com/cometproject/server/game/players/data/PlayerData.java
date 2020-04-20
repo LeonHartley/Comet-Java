@@ -44,6 +44,7 @@ public class PlayerData implements IPlayerData {
 
     private int timeMuted;
     private String nameColour;
+    private boolean nameColourChanged;
 
     private boolean changingName = false;
 
@@ -121,11 +122,7 @@ public class PlayerData implements IPlayerData {
     }
 
     public void save() {
-//        if(CometSettings.storagePlayerQueueEnabled) {
-//            PlayerDataStorageQueue.getInstance().queueSave(this);
-//        } else {
         this.saveNow();
-//        }
     }
 
     public void saveNow() {
@@ -379,6 +376,7 @@ public class PlayerData implements IPlayerData {
     @Override
     public void setNameColour(String nameColour) {
         this.nameColour = nameColour;
+        this.nameColourChanged = true;
 
         flush();
     }
@@ -401,5 +399,13 @@ public class PlayerData implements IPlayerData {
         if (getPlayer() != null) {
             getPlayer().flush();
         }
+    }
+
+    public boolean nameColourChanged() {
+        return this.nameColourChanged;
+    }
+
+    public void setNameColourChanged(boolean changed) {
+        this.nameColourChanged = changed;
     }
 }

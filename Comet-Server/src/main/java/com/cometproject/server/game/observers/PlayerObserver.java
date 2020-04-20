@@ -14,8 +14,6 @@ public class PlayerObserver implements Observer {
 
         if(player == null)
             return;
-
-        player.saveJsonObject();
     }
 
 }

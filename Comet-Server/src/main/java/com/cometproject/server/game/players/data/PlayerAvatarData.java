@@ -10,15 +10,17 @@ public class PlayerAvatarData implements PlayerAvatar {
     private String figure;
     private String gender;
     private String motto;
+    private int regTimestamp;
 
     private Object tempData = null;
 
-    public PlayerAvatarData(int id, String username, String figure, String gender, String motto) {
+    public PlayerAvatarData(int id, String username, String figure, String gender, String motto, int regTimestamp) {
         this.id = id;
         this.username = username;
         this.figure = figure;
         this.gender = gender;
         this.motto = motto;
+        this.regTimestamp = regTimestamp;
 
         if (figure == null) {
             return;
@@ -79,4 +81,13 @@ public class PlayerAvatarData implements PlayerAvatar {
         return this.tempData;
     }
 
+    @Override
+    public int getRegTimestamp() {
+        return regTimestamp;
+    }
+
+    @Override
+    public void setRegTimestamp(int regTimestamp) {
+        this.regTimestamp = regTimestamp;
+    }
 }

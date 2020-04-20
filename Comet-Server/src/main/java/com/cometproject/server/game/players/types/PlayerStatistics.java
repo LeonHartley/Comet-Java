@@ -183,6 +183,8 @@ public class PlayerStatistics implements IPlayerStatistics {
     @Override
     public void setScratches(int scratches) {
         this.scratches = scratches;
+
+        this.save();
     }
 
     public JsonElement toJson() {

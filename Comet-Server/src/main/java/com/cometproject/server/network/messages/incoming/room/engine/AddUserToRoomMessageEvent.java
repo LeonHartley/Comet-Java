@@ -114,6 +114,10 @@ public class AddUserToRoomMessageEvent implements Event {
         client.sendQueue(new FloorItemsMessageComposer(room));
         client.sendQueue(new WallItemsMessageComposer(room));
 
+        if (room.getRoomVideo() != null) {
+            client.sendWs(room.getRoomVideo());
+        }
+
         WiredTriggerEnterRoom.executeTriggers(client.getPlayer().getEntity());
 
         if (PollManager.getInstance().roomHasPoll(room.getId())) {

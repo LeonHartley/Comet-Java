@@ -1,6 +1,5 @@
 package com.cometproject.server.network.ws.handlers;
 
-import com.cometproject.api.utilities.JsonUtil;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.sessions.Session;
@@ -8,10 +7,6 @@ import com.cometproject.server.network.ws.messages.AuthOKMessage;
 import com.cometproject.server.network.ws.messages.AuthRequest;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
-import io.netty.handler.codec.http.websocketx.WebSocketFrame;
-
-import java.util.HashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class AuthMessageHandler extends AbstractWsHandler<AuthRequest> {
     public AuthMessageHandler() {
@@ -29,7 +24,11 @@ public class AuthMessageHandler extends AbstractWsHandler<AuthRequest> {
                 session.setWsChannel(ctx);
 
                 session.sendWs(new AuthOKMessage());
+            } else {
+                ctx.writeAndFlush(new TextWebSocketFrame("{\"message\": \"session couldn't be found\"}"));
             }
+        } else {
+            ctx.writeAndFlush(new TextWebSocketFrame("{\"message\": \"player couldn't be found\"}"));
         }
     }
 }

@@ -2,6 +2,8 @@ package com.cometproject.server.network.messages.incoming.group.settings;
 
 import com.cometproject.api.game.GameContext;
 import com.cometproject.api.game.groups.types.IGroup;
+import com.cometproject.server.composers.group.GroupBadgesMessageComposer;
+import com.cometproject.server.composers.group.GroupInformationMessageComposer;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupFloorItem;
 import com.cometproject.server.game.rooms.types.Room;
@@ -52,6 +54,7 @@ public class ModifyGroupBadgeMessageEvent implements Event {
         if (client.getPlayer().getEntity() != null && client.getPlayer().getEntity().getRoom() != null) {
             Room room = client.getPlayer().getEntity().getRoom();
 
+            room.getEntities().broadcastMessage(new GroupBadgesMessageComposer(groupId, group.getData().getBadge()));
             room.getEntities().broadcastMessage(new RoomDataMessageComposer(room));
 
             for (RoomItemFloor roomItemFloor : room.getItems().getByInteraction("group_item")) {
@@ -62,6 +65,11 @@ public class ModifyGroupBadgeMessageEvent implements Event {
             }
 
         }
+
+
+        client.send(new GroupInformationMessageComposer(group, GameContext.getCurrent().getRoomService().getRoomData(group.getData().getRoomId()), false,
+                client.getPlayer().getId() == group.getData().getOwnerId(), group.getMembers().getAdministrators().contains(client.getPlayer().getId()),
+                group.getMembers().getAll().containsKey(client.getPlayer().getId()) ? 1 : group.getMembers().getMembershipRequests().contains(client.getPlayer().getId()) ? 2 : 0));
 
 //        client.send(new ManageGroupMessageComposer(group));
     }

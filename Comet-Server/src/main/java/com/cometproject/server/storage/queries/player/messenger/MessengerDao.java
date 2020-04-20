@@ -207,6 +207,36 @@ public class MessengerDao {
         }
     }
 
+    public static int getRequestCount(int userId, int userTwoId) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("SELECT COUNT(1) FROM messenger_requests WHERE user_one_id = ? AND user_two_id = ? OR user_one_id = ? AND user_two_id = ?", sqlConnection);
+            preparedStatement.setInt(1, userId);
+            preparedStatement.setInt(2, userTwoId);
+            preparedStatement.setInt(3, userTwoId);
+            preparedStatement.setInt(4, userId);
+
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                return resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(resultSet);
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+
+        return 0;
+    }
+
     public static int getFriendCount(int userId) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;

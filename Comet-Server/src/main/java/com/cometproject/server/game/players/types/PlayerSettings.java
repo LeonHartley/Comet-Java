@@ -115,7 +115,7 @@ public class PlayerSettings implements IPlayerSettings {
             this.allowTrade = data.getString("allow_trade").equals("1");
             this.allowFollow = data.getString("allow_follow").equals("1");
             this.allowFollow = data.getString("allow_mimic").equals("1");
-            this.personalstaff = data.getString("playerSettings_personalstaff").equals("1");
+            this.personalstaff = data.getString("personalstaff").equals("1");
 
 
             this.homeRoom = data.getInt("home_room");

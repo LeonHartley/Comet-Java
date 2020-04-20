@@ -212,10 +212,6 @@ public class PlayerLoginRequest implements CometTask {
             player.setSsoTicket(this.ticket);
             PlayerManager.getInstance().getSsoTicketToPlayerId().put(this.ticket, player.getId());
 
-
-            // Cache
-            player.saveJsonObject();
-
             CacheManager.getInstance().publishString("online.players", String.valueOf(Comet.getStats().getPlayers()), true, "online.players");
         } catch (Exception e) {
             e.printStackTrace();

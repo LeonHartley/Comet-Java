@@ -22,9 +22,10 @@ public class RoomVideoCommand extends ChatCommand {
         final String videoId = params[0];
         final String message = this.merge(params, 1);
         final PlayerAvatar avatar = client.getPlayer().getData();
+        final YouTubeVideoMessage msg = new YouTubeVideoMessage(videoId, message, avatar.getUsername(), avatar.getFigure());
 
-        client.getPlayer().getEntity().getRoom().getEntities().broadcastWs(
-                new YouTubeVideoMessage(videoId, message, avatar.getUsername(), avatar.getFigure()));
+        client.getPlayer().getEntity().getRoom().setRoomVideo(msg);
+        client.getPlayer().getEntity().getRoom().getEntities().broadcastWs(msg);
     }
 
     @Override

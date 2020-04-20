@@ -74,40 +74,6 @@ public class RoomWriter {
 
         int specialsType = 0;
 
-        // Group - Promotion - AllowPets - PublicRoom - Thumbnail - Value
-        //   0         0            0           1           0         0
-        //   0         0            0           1           1         1
-        //   1         0            0           1           0         2
-        //   1         0            0           1           1         3
-        //   0         1            0           1           0         4
-        //   0         1            0           1           1         5
-        //   1         1            0           1           0         6
-        //   1         1            0           1           1         7
-        //   0         0            0           0           0         8
-        //   0         0            0           0           1         9
-        //   1         0            0           0           0         10
-        //   1         0            0           0           1         11
-        //   0         1            0           0           0         12
-        //   0         1            0           0           1         13
-        //   1         1            0           0           0         14
-        //   1         1            0           0           1         15
-        //   0         0            1           1           0         16
-        //   0         0            1           1           1         17
-        //   1         0            1           1           0         18
-        //   1         0            1           1           1         19
-        //   0         1            1           1           0         20
-        //   0         1            1           1           1         21
-        //   1         1            1           1           0         22
-        //   1         1            1           1           1         23
-        //   0         0            1           0           0         24
-        //   0         0            1           0           1         25
-        //   1         0            1           0           0         26
-        //   1         0            1           0           1         27
-        //   0         1            1           0           0         28
-        //   0         1            1           0           1         29
-        //   1         1            1           0           0         30
-        //   1         1            1           0           1         31
-
         if (group != null)
             specialsType += 2;
 
@@ -121,14 +87,15 @@ public class RoomWriter {
         PublicRoom publicRoom = NavigatorManager.getInstance().getPublicRoom(roomData.getId());
         final boolean thumbnail = roomData.getThumbnail() != null && !roomData.getThumbnail().isEmpty();
 
-        if (publicRoom == null)
+        if (publicRoom != null)
+            specialsType += 1;
+        else
             specialsType += 8;
 
         msg.writeInt(specialsType + (thumbnail ? 1 : 0));
 
         if (publicRoom != null) {
             msg.writeString(publicRoom.getImageUrl());
-
         } else {
             if (roomData.getThumbnail() != null && !roomData.getThumbnail().isEmpty()) {
                 msg.writeString(roomData.getThumbnail());

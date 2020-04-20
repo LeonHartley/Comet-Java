@@ -459,11 +459,6 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
         if (message.isEmpty() || message.length() > 100)
             return false;
 
-        if (!this.getPlayer().getData().getNameColour().equals("000000")) {
-            this.sendNameChange();
-
-        }
-
         try {
             if (this.getPlayer() != null && this.getPlayer().getSession() != null) {
                 if (CommandManager.getInstance().isCommand(message)) {
@@ -476,6 +471,11 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
         } catch (Exception e) {
             log.error("Error while executing command", e);
             return false;
+        }
+
+
+        if (this.getPlayer() != null && !this.getPlayer().getData().getNameColour().equals("000000")) {
+            this.sendNameChange();
         }
 
         final boolean roomMute = this.isRoomMuted() && this.getRoom().getData().getOwnerId() != this.getPlayerId();
@@ -582,7 +582,11 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
 //            }
 //        }
 
-        if (!this.getPlayer().getData().getNameColour().equals("000000")) {
+        if (!this.getPlayer().getData().getNameColour().equals("000000") || this.getPlayer().getData().nameColourChanged()) {
+            if (this.getPlayer().getData().nameColourChanged()) {
+                this.getPlayer().getData().setNameColourChanged(false);
+            }
+
             this.getRoom().getEntities().broadcastMessage(new UserNameChangeMessageComposer(this.getRoom().getId(), this.getId(), this.getUsername()));
         }
     }

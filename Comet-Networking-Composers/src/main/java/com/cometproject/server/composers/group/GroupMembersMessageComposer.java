@@ -67,6 +67,8 @@ public class GroupMembersMessageComposer extends MessageComposer {
                 } else {
                     final IGroupMember member = (IGroupMember) groupMember.tempData();
 
+                    dateJoined = member.getDateJoined();
+
                     if (member.getAccessLevel().isAdmin()) {
                         msg.writeInt(group.getOwnerId() == groupMember.getId() ? 0 : 1);
                     } else {

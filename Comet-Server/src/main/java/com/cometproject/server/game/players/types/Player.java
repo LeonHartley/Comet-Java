@@ -233,8 +233,6 @@ public class Player extends Observable implements IPlayer {
         this.data = null;
 
         this.isDisposed = true;
-
-        CacheManager.getInstance().publishString("online.players", String.valueOf(Comet.getStats().getPlayers()), true, "online.players");
     }
 
     @Override
@@ -260,6 +258,10 @@ public class Player extends Observable implements IPlayer {
 
     @Override
     public MessageComposer composeCurrenciesBalance() {
+        if (getData() == null) {
+            return null;
+        }
+
         Map<Integer, Integer> currencies = new HashMap<>();
 
         currencies.put(0, getData().getActivityPoints());
@@ -885,149 +887,12 @@ public class Player extends Observable implements IPlayer {
     }
 
     public void flush() {
-        setChanged();
-        notifyObservers();
-    }
-
-    public JsonObject toJson() {
-        final JsonObject coreObject = new JsonObject();
-        final JsonObject playerDataObject = new JsonObject();
-        final JsonObject rankDataObject = new JsonObject();
-        final JsonObject inventoryDataObject = new JsonObject();
-        final JsonArray itemsDataArray = new JsonArray();
-        final JsonArray badgesDataArray = new JsonArray();
-        final JsonObject messengerDataObject = new JsonObject();
-        final JsonArray messengerFriendsDataArray = new JsonArray();
-        final JsonArray messengerRequestsDataArray = new JsonArray();
-        final JsonArray relationshipsDataArray = new JsonArray();
-        final JsonArray botsDataArray = new JsonArray();
-        final JsonArray petsDataArray = new JsonArray();
-        final JsonArray roomsArray = new JsonArray();
-
-        coreObject.addProperty("id", id);
-
-        coreObject.addProperty("isOnline", isOnline());
-
-        playerDataObject.addProperty("username", data.getUsername());
-        playerDataObject.addProperty("motto", data.getMotto());
-        playerDataObject.addProperty("figure", data.getFigure());
-        playerDataObject.addProperty("gender", data.getGender());
-        playerDataObject.addProperty("email", data.getEmail());
-        playerDataObject.addProperty("ip_adress", data.getIpAddress());
-        playerDataObject.addProperty("credits", data.getCredits());
-        playerDataObject.addProperty("vip_points", data.getVipPoints());
-        playerDataObject.addProperty("activity_points", data.getActivityPoints());
-        playerDataObject.addProperty("seasonal_points", data.getSeasonalPoints());
-        playerDataObject.addProperty("favourite_group", data.getFavouriteGroup());
-
-        coreObject.add("data", playerDataObject);
-
-        rankDataObject.addProperty("id", permissions.getRank().getId());
-        rankDataObject.addProperty("name", permissions.getRank().getName());
-
-        coreObject.add("rank", rankDataObject);
-
-        if(inventory.getInventoryItems() != null) {
-            for (PlayerItem playerItem : inventory.getInventoryItems().values()) {
-                itemsDataArray.add(new PlayerItemDataObject(playerItem).toJson());
-            }
-        }
-
-        inventoryDataObject.addProperty("isViewingInventory", inventory.isViewingInventory());
-
-        inventoryDataObject.add("items", itemsDataArray);
-
-        if(inventory.getBadges() != null) {
-            for (Map.Entry<String, Integer> badge : inventory.getBadges().entrySet()) {
-                final JsonObject badgeDataObject = new JsonObject();
-
-                badgeDataObject.addProperty("code", badge.getKey());
-                badgeDataObject.addProperty("slot", badge.getValue());
-
-                badgesDataArray.add(badgeDataObject);
-            }
-        }
-
-        inventoryDataObject.add("badges", badgesDataArray);
-
-        coreObject.add("inventory", inventoryDataObject);
-
-        for (IMessengerFriend friend : messenger.getFriends().values()) {
-            messengerFriendsDataArray.add(friend.toJson());
-        }
-
-        messengerDataObject.add("friends", messengerFriendsDataArray);
-
-        for (PlayerAvatar request : messenger.getRequestAvatars()) {
-            final JsonObject requestDataObject = new JsonObject();
-
-            requestDataObject.addProperty("username", request.getUsername());
-            requestDataObject.addProperty("figure", request.getFigure());
-            requestDataObject.addProperty("motto", request.getMotto());
-            requestDataObject.addProperty("gender", request.getGender());
-
-            messengerRequestsDataArray.add(requestDataObject);
-        }
-
-        messengerDataObject.add("requests", messengerRequestsDataArray);
-
-        coreObject.add("messenger", messengerDataObject);
-
-        for (Map.Entry<Integer, RelationshipLevel> relationshipEntry : relationships.getRelationships().entrySet()) {
-            final JsonObject relationshipDataObject = new JsonObject();
-
-            relationshipDataObject.addProperty("userId", relationshipEntry.getKey());
-            relationshipDataObject.addProperty("level", relationshipEntry.getValue().getLevelId());
-
-            relationshipsDataArray.add(relationshipDataObject);
-        }
-
-        coreObject.add("relationships", relationshipsDataArray);
-
-        if(bots.getBots() != null) {
-            for (IBotData botData : bots.getBots().values()) {
-                botsDataArray.add(botData.toJsonObject());
-            }
-        }
-
-        coreObject.add("bots", botsDataArray);
-
-        if(pets.getPets() != null) {
-            for (IPetData petData : pets.getPets().values()) {
-                petsDataArray.add(petData.toJsonObject());
-            }
-        }
-
-        coreObject.add("pets", petsDataArray);
-
-        coreObject.add("achievements", achievements.toJson());
-
-        coreObject.add("settings", settings.toJson());
-
-        coreObject.add("stats", stats.toJson());
-
-        coreObject.add("room", (getEntity() != null && getEntity().getRoom() != null) ? getEntity().getRoom().getCacheObject().toJson() : null);
-
-        for (Integer roomId : rooms)
-            roomsArray.add(roomId);
-
-        coreObject.add("rooms", roomsArray);
-
-        return coreObject;
+//        setChanged();
+//        notifyObservers();
     }
 
     public String toString() {
-        final JsonObject jsonObject = this.toJson();
-
-        if (jsonObject != null) {
-            return JsonUtil.getInstance().toJson(jsonObject);
-        }
-
         return JsonUtil.getInstance().toJson(this);
-    }
-
-    public void saveJsonObject() {
-        CacheManager.getInstance().publishString("players", toString(), true, "players." + id);
     }
 
     public boolean isOnline() {

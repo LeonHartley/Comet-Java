@@ -13,6 +13,8 @@
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
     <script src='http://localhost/comet/ws/js/webclientdom.js'></script>
     <script src='http://localhost/comet/ws/js/htmlelements.js'></script>
+    <script src='http://localhost/comet/ws/js/cometlib.js'></script> <!--todo: consolidate the 3 files -->
+    <script src='http://localhost/comet/ws/js/clientui.js'></script> <!--todo: consolidate the 3 files -->
     <script src='http://localhost/comet/ws/js/comet.js'></script> <!--todo: consolidate the 3 files -->
 
     <script type='text/javascript'>

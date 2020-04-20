@@ -19,7 +19,7 @@ public class MessengerFriend implements IMessengerFriend {
 
     public MessengerFriend(ResultSet data) throws SQLException {
         this.userId = data.getInt("user_two_id");
-        this.playerAvatar = new PlayerAvatarData(this.userId, data.getString("username"), data.getString("figure"), data.getString("gender"), data.getString("motto"));
+        this.playerAvatar = new PlayerAvatarData(this.userId, data.getString("username"), data.getString("figure"), data.getString("gender"), data.getString("motto"), 0);
     }
 
     public MessengerFriend(int userId, PlayerAvatar playerAvatar) {

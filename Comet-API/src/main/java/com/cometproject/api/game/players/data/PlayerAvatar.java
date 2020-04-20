@@ -22,6 +22,10 @@ public interface PlayerAvatar {
 
     void setGender(String gender);
 
+    int getRegTimestamp();
+
+    void setRegTimestamp(int regTimestamp);
+
     default void tempData(final Object tempData) {
     }
 
