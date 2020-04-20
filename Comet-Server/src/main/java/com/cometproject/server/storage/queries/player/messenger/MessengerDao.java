@@ -215,7 +215,7 @@ public class MessengerDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("SELECT COUNT(1) FROM messenger_requests WHERE user_one_id = ? AND user_two_id = ? OR user_one_id = ? AND user_two_id = ?", sqlConnection);
+            preparedStatement = SqlHelper.prepare("SELECT COUNT(1) FROM messenger_requests WHERE (user_one_id = ? AND user_two_id = ?) OR (user_one_id = ? AND user_two_id = ?)", sqlConnection);
             preparedStatement.setInt(1, userId);
             preparedStatement.setInt(2, userTwoId);
             preparedStatement.setInt(3, userTwoId);
