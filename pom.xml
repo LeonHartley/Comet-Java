@@ -9,7 +9,7 @@
 
     <packaging>pom</packaging>
 
-    <version>2.11.4-TEST2</version>
+    <version>2.11.4-TEST3</version>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -20,6 +20,15 @@
     <url>http://www.comet.im</url>
     <description>Comet Server developed by the Comet Team</description>
 
+
+    <!--
+    INSERT INTO `comet`.`permission_commands` (`command_id`, `minimum_rank`, `vip_only`) VALUES ('eventvote_command', '6', '0');
+    INSERT INTO `comet`.`permission_commands` (`command_id`, `minimum_rank`, `vip_only`) VALUES ('roomvideo_command', '2', '0');
+
+    INSERT INTO `comet`.`server_locale` (`key`, `value`) VALUES ('command.eventvote.name', 'eventvote');
+    INSERT INTO `comet`.`server_locale` (`key`, `value`) VALUES ('command.roomvideo.name', 'roomvideo');
+
+    -->
     <modules>
         <module>Comet-API</module>
         <module>Comet-API-Example</module>

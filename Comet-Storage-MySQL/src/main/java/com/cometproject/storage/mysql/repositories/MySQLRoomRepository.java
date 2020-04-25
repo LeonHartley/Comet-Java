@@ -110,8 +110,7 @@ public class MySQLRoomRepository extends MySQLRepository implements IRoomReposit
                         "group_id = ?, " +
                         "required_badge = ?, " +
                         "thumbnail = ?, " +
-                        "hide_wired = ?, " +
-                        "disabled_commands = ? " +
+                        "hide_wired = ? " +
                         "WHERE id = ?;",
                 data.getName(),
                 data.getDescription(),
@@ -145,7 +144,6 @@ public class MySQLRoomRepository extends MySQLRepository implements IRoomReposit
                 data.getRequiredBadge(),
                 data.getThumbnail(),
                 data.isWiredHidden() ? "1" : "0",
-                "0",
                 data.getId());
 
     }
