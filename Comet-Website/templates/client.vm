@@ -58,7 +58,7 @@
         window.FlashExternalInterface.logLoginStep = (step) => {
             if (step == 'client.init.auth.ok') {
                 wsConnect({
-                    url: 'ws://localhost:30002/comet',
+                    url: 'wss://localhost:30002/comet',
                     ssoTicket: '$loginTicket',
                     badgeUrl: 'http://localhost/comet/swf/c_images/album1584'
                 });

@@ -136,6 +136,8 @@ public class GameCycle implements CometTask, Initialisable {
                             if (CometSettings.onlineRewardDuckets > 0) {
                                 client.getPlayer().getData().increaseActivityPoints(CometSettings.onlineRewardDuckets * (doubleRewards ? 2 : 1));
                             }
+
+                            client.getPlayer().setLastReward(Comet.getTime());
                         }
 
                         if(needsDiamondsReward) {
@@ -148,8 +150,6 @@ public class GameCycle implements CometTask, Initialisable {
 
                         client.getPlayer().sendBalance();
                         client.getPlayer().getData().save();
-
-                        client.getPlayer().setLastReward(Comet.getTime());
                     }
                 } catch (Exception e) {
                     log.error("Error while cycling rewards", e);

@@ -110,8 +110,8 @@ public class MySQLRoomRepository extends MySQLRepository implements IRoomReposit
                         "group_id = ?, " +
                         "required_badge = ?, " +
                         "thumbnail = ?, " +
-                        "hide_wired = ? " +
-                        "disabled_commands = ?, " +
+                        "hide_wired = ?, " +
+                        "disabled_commands = ? " +
                         "WHERE id = ?;",
                 data.getName(),
                 data.getDescription(),
