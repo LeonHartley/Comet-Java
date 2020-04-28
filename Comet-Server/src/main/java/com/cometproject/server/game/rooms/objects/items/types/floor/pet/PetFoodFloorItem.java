@@ -79,6 +79,10 @@ public class PetFoodFloorItem extends RoomItemFloor {
 
     @Override
     public void onEntityStepOff(RoomEntity entity) {
+        if (!(entity instanceof PetEntity)) {
+            return;
+        }
+
         if (entity == this.pet) {
             this.pet = null;
         }
