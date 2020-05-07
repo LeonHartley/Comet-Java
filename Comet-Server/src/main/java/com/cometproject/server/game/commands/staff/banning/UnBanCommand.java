@@ -32,7 +32,7 @@ public class UnBanCommand extends ChatCommand {
             sendNotif(Locale.getOrDefault("command.unban.notbanned", "Oops! Maybe this user isn't banned or has machine ban."), client);
         }
 
-        this.logDesc = "El Staff -c ha desbaneado a -d"
+        this.logDesc = "-c has unbanned -d"
                 .replace("-c", client.getPlayer().getData().getUsername())
                 .replace("-d", username);
     }

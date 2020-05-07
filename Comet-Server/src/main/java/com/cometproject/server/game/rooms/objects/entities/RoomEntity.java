@@ -673,7 +673,8 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
 
         //System.out.println("entities on current tile: " + tile.getEntities().size());
 
-        final Position position = roomObject.getPosition();
+        final Position position = roomObject.getPosition().copy();
+
         position.setZ(roomObject.getTile().getWalkHeight());
 
         this.cancelWalk();
