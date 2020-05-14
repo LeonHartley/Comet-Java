@@ -21,7 +21,7 @@ public class ThumbnailMessageEvent implements Event {
         final Room room = client.getPlayer().getEntity().getRoom();
         final IRoomData roomData = room.getData();
 
-        if(!room.getRights().hasRights(client.getPlayer().getId(), true) || client.getPlayer().getPermissions().getRank().roomFullControl()) {
+        if(!room.getRights().hasRights(client.getPlayer().getId(), true) && !client.getPlayer().getPermissions().getRank().roomFullControl()) {
             return;
         }
 
