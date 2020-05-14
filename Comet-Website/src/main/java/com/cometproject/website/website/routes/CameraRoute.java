@@ -18,9 +18,9 @@ public class CameraRoute {
             // Create the image file.
             try {
                 String location = "./camera-images/" + imageName + ".png";
-//todo: put this in config
+
                 if (StringUtils.isNumeric(imageName)) {
-                    location = "C:\\inetpub\\wwwroot\\comet\\swf\\c_images\\navigator-thumbnail\\" + imageName + ".png";
+                    // TODO: check if we got permission to write this...
                 }
 
                 final FileOutputStream outputStream = new FileOutputStream(location);

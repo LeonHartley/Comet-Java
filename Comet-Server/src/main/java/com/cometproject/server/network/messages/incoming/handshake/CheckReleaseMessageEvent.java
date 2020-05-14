@@ -11,7 +11,7 @@ public class CheckReleaseMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) {
         final String release = msg.readString();
 
-        if (!release.equals(CometServer.CLIENT_VERSION)) {
+        if (!release.equals(CometServer.CLIENT_VERSION) && !release.startsWith("DEVELOPMENT")) {
             client.getLogger().warn("Client connected with incorrect client version (" + release + ") and was disposed");
             client.disconnect();
             return;

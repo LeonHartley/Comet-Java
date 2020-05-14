@@ -201,6 +201,8 @@ public class RollerFloorItem extends AdvancedFloorItem<RollerFloorItemEvent> {
                         height -= this.getPosition().getZ();
                         height += iq.getPosition().getZ();
                     }
+
+                    break;
                 }
             }
 
@@ -215,6 +217,7 @@ public class RollerFloorItem extends AdvancedFloorItem<RollerFloorItemEvent> {
                 for (RoomItemFloor iq : itemsNextSquare) {
                     if (iq.getPosition().getZ() >= nextRoller.getPosition().getY()) {
                         itemsAboveRoller = true;
+                        break;
                     }
                 }
 

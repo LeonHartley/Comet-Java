@@ -145,10 +145,6 @@ public abstract class WiredTriggerItem extends WiredFloorItem {
                 }
             }
 
-            if (hasSuccessfulOnFurni || hasSuccessfulOnStack) {
-                canExecute = true;
-            }
-
             // tell the trigger that the item can execute, but hasn't executed just yet!
             // (just incase you wanna cancel the event that triggered this or do something else... who knows?!?!)
             this.preActionTrigger(entity, data);

@@ -274,11 +274,6 @@ public class Player extends Observable implements IPlayer {
 
     @Override
     public void loadRoom(int id, String password) {
-        if (!this.usernameConfirmed) {
-            session.send(new HotelViewMessageComposer());
-            return;
-        }
-
         if (entity != null && entity.getRoom() != null) {
             entity.leaveRoom(true, false, false);
             setEntity(null);

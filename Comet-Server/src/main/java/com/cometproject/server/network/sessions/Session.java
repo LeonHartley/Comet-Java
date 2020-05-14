@@ -117,7 +117,7 @@ public class Session implements ISession {
     }
 
     public Session sendQueue(final IMessageComposer msg) {
-        return this.send(msg, true);
+        return this.send(msg, false);
     }
 
     public Session send(IMessageComposer msg) {
