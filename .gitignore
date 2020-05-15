@@ -101,4 +101,4 @@ run.bat
 *.versionsBackup
 *.iml
 
-C
+velocity.log

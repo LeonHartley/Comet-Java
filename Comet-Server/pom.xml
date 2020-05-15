@@ -8,12 +8,12 @@
 
     <packaging>jar</packaging>
 
-    <version>2.11.5-TEST2</version>
+    <version>2.11.6</version>
 
     <parent>
         <groupId>Comet</groupId>
         <artifactId>Comet-Parent</artifactId>
-        <version>2.11.5-TEST2</version>
+        <version>2.11.6</version>
     </parent>
 
     <build>
@@ -200,7 +200,7 @@
         <dependency>
             <groupId>Comet</groupId>
             <artifactId>Comet-API</artifactId>
-            <version>2.11.5-TEST2</version>
+            <version>2.11.6</version>
         </dependency>
 
         <dependency>
@@ -380,7 +380,7 @@
         <dependency>
             <groupId>Comet</groupId>
             <artifactId>Comet-Server-Protocol</artifactId>
-            <version>2.11.5-TEST2</version>
+            <version>2.11.6</version>
         </dependency>
 
         <dependency>
@@ -390,24 +390,6 @@
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
-
-        <dependency>
-            <groupId>Coerce</groupId>
-            <artifactId>Coerce-API</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>Coerce</groupId>
-            <artifactId>Coerce-Messaging-Client</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>Coerce</groupId>
-            <artifactId>Coerce-Commons</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
         <dependency>
             <groupId>com.ning</groupId>
             <artifactId>async-http-client</artifactId>
@@ -416,17 +398,17 @@
         <dependency>
             <groupId>Comet</groupId>
             <artifactId>Comet-Networking-Composers</artifactId>
-            <version>2.11.5-TEST2</version>
+            <version>2.11.6</version>
         </dependency>
         <dependency>
             <groupId>Comet</groupId>
             <artifactId>Comet-Storage-MySQL</artifactId>
-            <version>2.11.5-TEST2</version>
+            <version>2.11.6</version>
         </dependency>
         <dependency>
             <groupId>Comet</groupId>
             <artifactId>Comet-Common</artifactId>
-            <version>2.11.5-TEST2</version>
+            <version>2.11.6</version>
         </dependency>
         <dependency>
             <groupId>antlr</groupId>
@@ -441,27 +423,28 @@
         <dependency>
             <groupId>Comet</groupId>
             <artifactId>Comet-Networking-API</artifactId>
-            <version>2.11.5-TEST2</version>
+            <version>2.11.6</version>
         </dependency>
         <dependency>
             <groupId>Comet</groupId>
             <artifactId>Comet-Game-Groups</artifactId>
-            <version>2.11.5-TEST2</version>
+            <version>2.11.6</version>
         </dependency>
         <dependency>
             <groupId>Comet</groupId>
             <artifactId>Comet-GameCenter-FastFood</artifactId>
-            <version>2.11.5-TEST2</version>
+            <version>2.11.6</version>
         </dependency>
         <dependency>
             <groupId>Comet</groupId>
             <artifactId>Comet-Game-Rooms</artifactId>
-            <version>2.11.5-TEST2</version>
+            <version>2.11.6</version>
         </dependency>
+
         <dependency>
             <groupId>Comet</groupId>
             <artifactId>Comet-API</artifactId>
-            <version>2.11.5-TEST2</version>
+            <version>2.11.6</version>
         </dependency>
         <dependency>
             <groupId>org.java-websocket</groupId>

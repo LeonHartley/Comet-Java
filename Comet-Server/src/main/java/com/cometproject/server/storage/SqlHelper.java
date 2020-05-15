@@ -1,7 +1,5 @@
 package com.cometproject.server.storage;
 
-import com.cometproject.api.messaging.performance.QueryRequest;
-import com.cometproject.server.network.NetworkManager;
 import com.cometproject.storage.mysql.MySQLConnectionProvider;
 import org.apache.log4j.Logger;
 
@@ -70,10 +68,6 @@ public class SqlHelper {
             if (queryLogEnabled && queryLog.containsKey(statement.hashCode())) {
                 final QueryLog log = queryLog.get(statement.hashCode());
                 final long timeTaken = (System.currentTimeMillis() - log.startTime);
-
-                if (NetworkManager.getInstance().getMessagingClient() != null) {
-                    NetworkManager.getInstance().getMessagingClient().sendMessage("com.cometproject:manager", new QueryRequest(log.query, timeTaken));
-                }
 
                 System.out.println("[QUERY] " + log.query + " took " + timeTaken + "ms");
 

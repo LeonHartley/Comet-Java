@@ -9,7 +9,7 @@
 
     <packaging>pom</packaging>
 
-    <version>2.11.5-TEST2</version>
+    <version>2.11.6</version>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -34,13 +34,8 @@
         <module>Comet-API-Example</module>
         <module>Comet-Server-Protocol</module>
         <module>Comet-Server</module>
-        <module>Comet-Launcher</module>
-        <module>Comet-Manager</module>
-        <module>Comet-ProcessManager</module>
-        <module>Comet-StressTest</module>
-        <module>Comet-WebApp</module>
+
         <module>Comet-Website</module>
-        <module>Comet-CatalogTool</module>
 
         <module>Comet-Common</module>
 
@@ -51,7 +46,6 @@
         <module>Comet-Game-Rooms</module>
 
         <module>Comet-GameCenter-FastFood</module>
-        <module>Comet-GameCenter-SnowStorm</module>
 
         <module>Comet-Storage-API</module>
         <module>Comet-Storage-MySQL</module>

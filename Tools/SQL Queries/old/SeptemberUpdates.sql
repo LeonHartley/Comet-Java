@@ -1,3 +1,0 @@
-ALTER TABLE `rooms`
-	ADD COLUMN `type` ENUM('PUBLIC','PRIVATE') NULL DEFAULT 'PRIVATE' AFTER `id`,
-	ADD INDEX `type` (`type`);
