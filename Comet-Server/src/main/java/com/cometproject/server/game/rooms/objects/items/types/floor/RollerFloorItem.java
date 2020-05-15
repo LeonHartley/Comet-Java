@@ -215,7 +215,7 @@ public class RollerFloorItem extends AdvancedFloorItem<RollerFloorItemEvent> {
                 boolean itemsAboveRoller = false;
 
                 for (RoomItemFloor iq : itemsNextSquare) {
-                    if (iq.getPosition().getZ() >= nextRoller.getPosition().getY()) {
+                    if (iq != nextRoller && iq.getPosition().getZ() >= nextRoller.getPosition().getZ()) {
                         itemsAboveRoller = true;
                         break;
                     }
