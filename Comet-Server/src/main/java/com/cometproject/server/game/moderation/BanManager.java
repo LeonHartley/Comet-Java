@@ -5,13 +5,11 @@ import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.moderation.types.Ban;
 import com.cometproject.server.game.moderation.types.BanType;
 import com.cometproject.server.storage.queries.moderation.BanDao;
-import com.corundumstudio.socketio.misc.ConcurrentHashSet;
 import com.google.common.collect.Lists;
 import org.apache.log4j.Logger;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 
 public class BanManager implements Initialisable {
