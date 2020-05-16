@@ -52,7 +52,7 @@ public class WiredActionMatchToSnapshot extends WiredActionItem {
             WiredItemSnapshot itemSnapshot = this.getWiredData().getSnapshots().get(itemId);
             if (itemSnapshot == null) continue;
 
-            if (matchState && !(floorItem instanceof DiceFloorItem || floorItem instanceof HighscoreClassicFloorItem)) {
+            if (matchState && !(floorItem instanceof HighscoreClassicFloorItem || (floorItem instanceof DiceFloorItem && !itemSnapshot.getExtraData().equals("0")))) {
                 floorItem.getItemData().setData(itemSnapshot.getExtraData());
             }
 
