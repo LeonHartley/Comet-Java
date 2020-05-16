@@ -8,6 +8,7 @@ import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.AffectedTile;
+import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.types.DefaultFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.AdjustableHeightFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.MagicStackFloorItem;
@@ -15,7 +16,6 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.SoundMachine
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorItemMessageComposer;
 import com.cometproject.server.utilities.attributes.Collidable;
-import com.cometproject.storage.api.StorageContext;
 import com.google.common.collect.Lists;
 
 import java.util.List;
@@ -77,6 +77,21 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable, IFlo
         }
 
         return this.itemDefinition;
+    }
+
+    public boolean interactionBlocked(RoomEntity entity, boolean isWiredTrigger) {
+        if (!isWiredTrigger) {
+            if (!(entity instanceof PlayerEntity)) {
+                return true;
+            }
+
+            PlayerEntity playerEntity = (PlayerEntity) entity;
+
+            return !this.getRoom().getRights().hasRights(playerEntity.getPlayerId())
+                    && !playerEntity.getPlayer().getPermissions().getRank().roomFullControl();
+        }
+
+        return false;
     }
 
     public void onItemAddedToStack(RoomItemFloor floorItem) {

@@ -2,8 +2,8 @@ package com.cometproject.server.composers.group.forums;
 
 import com.cometproject.api.game.groups.types.components.forum.IForumThreadReply;
 import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
+import com.cometproject.server.protocol.messages.MessageComposer;
 
 public class GroupForumUpdateReplyMessageComposer extends MessageComposer {
 

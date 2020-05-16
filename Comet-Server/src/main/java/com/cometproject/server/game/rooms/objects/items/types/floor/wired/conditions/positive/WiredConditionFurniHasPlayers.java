@@ -6,8 +6,6 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredConditionItem;
 import com.cometproject.server.game.rooms.types.Room;
 
-import java.util.Set;
-
 
 public class WiredConditionFurniHasPlayers extends WiredConditionItem {
 

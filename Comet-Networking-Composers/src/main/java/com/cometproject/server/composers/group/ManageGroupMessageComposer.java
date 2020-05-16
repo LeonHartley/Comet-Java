@@ -2,8 +2,8 @@ package com.cometproject.server.composers.group;
 
 import com.cometproject.api.game.groups.types.IGroup;
 import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
+import com.cometproject.server.protocol.messages.MessageComposer;
 import org.apache.commons.lang.StringUtils;
 
 

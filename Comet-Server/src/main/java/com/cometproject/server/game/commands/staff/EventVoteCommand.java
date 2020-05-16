@@ -7,7 +7,6 @@ import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.vote.RoomVote;
 import com.cometproject.server.network.NetworkManager;
-import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.MotdNotificationMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.network.ws.messages.room.RoomVoteEndedMessage;

@@ -1,7 +1,5 @@
 package com.cometproject.api.game.groups.types.components.forum;
 
-import com.cometproject.api.game.groups.types.components.forum.ForumPermission;
-
 public interface IForumSettings {
     int getGroupId();
 

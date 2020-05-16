@@ -1,6 +1,5 @@
 package com.cometproject.storage.mysql;
 
-import com.cometproject.api.game.GameContext;
 import com.cometproject.game.items.inventory.InventoryItemFactory;
 import com.cometproject.storage.api.IStorageInitializer;
 import com.cometproject.storage.api.StorageContext;

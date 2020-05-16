@@ -5,7 +5,6 @@ import com.cometproject.api.game.catalog.types.purchase.ICatalogPurchaseHandler;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public interface ICatalogService {
     Map<Integer, ICatalogOffer> getCatalogOffers();

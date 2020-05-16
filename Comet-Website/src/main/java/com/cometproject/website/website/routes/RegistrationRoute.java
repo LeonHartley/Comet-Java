@@ -1,6 +1,5 @@
 package com.cometproject.website.website.routes;
 
-import com.cometproject.website.api.ApiClient;
 import com.cometproject.website.config.Configuration;
 import com.cometproject.website.players.Player;
 import com.cometproject.website.settings.SiteSettings;

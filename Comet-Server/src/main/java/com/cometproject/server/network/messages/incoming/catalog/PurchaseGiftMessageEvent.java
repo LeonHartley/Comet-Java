@@ -1,6 +1,8 @@
 package com.cometproject.server.network.messages.incoming.catalog;
 
+import com.cometproject.api.game.catalog.types.ICatalogItem;
 import com.cometproject.api.game.catalog.types.ICatalogOffer;
+import com.cometproject.api.game.catalog.types.ICatalogPage;
 import com.cometproject.api.game.furniture.types.GiftData;
 import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.network.messages.incoming.Event;
@@ -39,8 +41,17 @@ public class PurchaseGiftMessageEvent implements Event {
             return;
         }
 
-        GiftData data = new GiftData(pageId, itemId, client.getPlayer().getId(), sendingUser, message, spriteId, wrappingPaper, decorationType, showUsername, extraData);
+        final ICatalogPage catalogPage = CatalogManager.getInstance().getPage(pageId);
+        if (catalogPage == null) {
+            return;
+        }
 
+        final ICatalogItem catalogItem = catalogPage.getItems().get(itemId);
+        if (catalogItem == null) {
+            return;
+        }
+
+        GiftData data = new GiftData(catalogItem.getItems().get(0).getItemId(), client.getPlayer().getId(), sendingUser, message, spriteId, wrappingPaper, decorationType, showUsername, extraData);
         CatalogManager.getInstance().getPurchaseHandler().purchaseItem(client, pageId, itemId, extraData, 1, data);
     }
 }

@@ -3,10 +3,8 @@ package com.cometproject.storage.mysql.repositories;
 import com.cometproject.storage.api.data.rewards.RewardData;
 import com.cometproject.storage.api.repositories.IRewardRepository;
 import com.cometproject.storage.mysql.MySQLConnectionProvider;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 

@@ -8,10 +8,6 @@ import com.cometproject.server.game.moderation.types.BanType;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.sessions.Session;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-
 
 public class BanCommand extends ChatCommand {
     private String logDesc;

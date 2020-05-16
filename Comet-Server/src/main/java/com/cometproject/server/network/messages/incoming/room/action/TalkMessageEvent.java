@@ -1,7 +1,5 @@
 package com.cometproject.server.network.messages.incoming.room.action;
 
-import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.permissions.PermissionsManager;
 import com.cometproject.server.game.rooms.RoomManager;
@@ -19,7 +17,6 @@ import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessage
 import com.cometproject.server.network.messages.outgoing.room.avatar.WhisperMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.network.ws.messages.PlayerMentionMessage;
-import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.google.common.collect.Maps;
 

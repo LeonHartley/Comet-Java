@@ -1,12 +1,12 @@
 package com.cometproject.server.composers.catalog;
 
+import com.cometproject.api.game.catalog.ICatalogService;
 import com.cometproject.api.game.catalog.types.CatalogPageType;
 import com.cometproject.api.game.catalog.types.ICatalogFrontPageEntry;
 import com.cometproject.api.game.catalog.types.ICatalogItem;
 import com.cometproject.api.game.catalog.types.ICatalogPage;
 import com.cometproject.api.game.players.IPlayer;
 import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.api.game.catalog.ICatalogService;
 import com.cometproject.server.protocol.headers.Composers;
 import com.cometproject.server.protocol.messages.MessageComposer;
 import com.google.common.collect.Sets;

@@ -2,7 +2,6 @@ package com.cometproject.website.website.routes;
 
 import com.cometproject.website.api.FbApiClient;
 import com.cometproject.website.config.Configuration;
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import spark.Request;
 import spark.Response;

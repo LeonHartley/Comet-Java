@@ -1,8 +1,8 @@
 package com.cometproject.server.composers.help.guides;
 
 import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
+import com.cometproject.server.protocol.messages.MessageComposer;
 
 public class GuideSessionErrorMessageComposer extends MessageComposer {
     public static final int SOMETHING_WRONG_REQUEST = 0;

@@ -3,7 +3,6 @@ package com.cometproject.website.website.routes.admin;
 
 import com.cometproject.website.api.ApiClient;
 import com.cometproject.website.website.WebsiteManager;
-import org.json.JSONObject;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;

@@ -2,8 +2,8 @@ package com.cometproject.server.composers.help.guides;
 
 import com.cometproject.api.game.moderation.guides.IHelpRequest;
 import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
+import com.cometproject.server.protocol.messages.MessageComposer;
 
 public class GuideSessionAttachedMessageComposer extends MessageComposer {
     private final IHelpRequest helpRequest;

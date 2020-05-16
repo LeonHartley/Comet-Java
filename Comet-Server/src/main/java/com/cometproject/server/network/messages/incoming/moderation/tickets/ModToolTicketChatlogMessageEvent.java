@@ -4,7 +4,6 @@ import com.cometproject.api.game.GameContext;
 import com.cometproject.api.game.rooms.IRoomData;
 import com.cometproject.server.game.moderation.ModerationManager;
 import com.cometproject.server.game.moderation.types.tickets.HelpTicket;
-import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.logging.database.queries.LogQueries;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.moderation.tickets.ModToolTicketChatlogMessageComposer;

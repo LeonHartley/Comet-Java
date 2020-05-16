@@ -1,6 +1,5 @@
 package com.cometproject.website.website.routes.admin;
 
-import com.cometproject.website.storage.dao.StatisticsDao;
 import com.cometproject.website.website.WebsiteManager;
 import spark.ModelAndView;
 import spark.Request;

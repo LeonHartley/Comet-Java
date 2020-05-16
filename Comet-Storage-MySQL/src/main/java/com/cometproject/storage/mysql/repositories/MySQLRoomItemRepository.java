@@ -137,9 +137,7 @@ public class MySQLRoomItemRepository extends MySQLRepository implements IRoomIte
 
                 stmt.addBatch();
             }
-        }, (id) -> {
-            itemIds.add(id.readLong(1));
-        });
+        }, (id) -> itemIds.add(id.readLong(1)));
 
         idConsumer.accept(itemIds);
     }

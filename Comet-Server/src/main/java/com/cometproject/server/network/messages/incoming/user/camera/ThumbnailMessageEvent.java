@@ -10,8 +10,6 @@ import com.cometproject.server.network.messages.outgoing.room.settings.Thumbnail
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.protocol.messages.MessageEvent;
 
-import java.util.UUID;
-
 public class ThumbnailMessageEvent implements Event {
     @Override
     public void handle(Session client, MessageEvent msg) throws Exception {

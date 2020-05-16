@@ -4,7 +4,6 @@ import com.cometproject.gamecenter.fastfood.FastFoodGame;
 import com.cometproject.gamecenter.fastfood.net.FastFoodGameSession;
 import com.cometproject.gamecenter.fastfood.net.composers.DropFoodMessageComposer;
 import com.cometproject.gamecenter.fastfood.net.composers.FoodUpdateMessageComposer;
-import com.cometproject.gamecenter.fastfood.net.composers.UseBigParachuteMessageComposer;
 
 public class FoodPlate {
     private final int objectId;

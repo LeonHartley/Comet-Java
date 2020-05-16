@@ -3,7 +3,6 @@ package com.cometproject.server.game.rooms.objects.items.types.floor.wired.data;
 import com.cometproject.server.utilities.comporators.HighscoreComparator;
 
 import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 

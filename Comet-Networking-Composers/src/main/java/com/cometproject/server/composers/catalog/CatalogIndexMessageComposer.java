@@ -1,11 +1,11 @@
 package com.cometproject.server.composers.catalog;
 
 import com.cometproject.api.game.catalog.ICatalogService;
+import com.cometproject.api.game.catalog.types.ICatalogItem;
 import com.cometproject.api.game.catalog.types.ICatalogPage;
 import com.cometproject.api.game.furniture.IFurnitureService;
 import com.cometproject.api.game.furniture.types.FurnitureDefinition;
 import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.api.game.catalog.types.ICatalogItem;
 import com.cometproject.server.protocol.headers.Composers;
 import com.cometproject.server.protocol.messages.MessageComposer;
 

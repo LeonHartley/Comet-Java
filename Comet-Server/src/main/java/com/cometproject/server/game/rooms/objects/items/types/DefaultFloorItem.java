@@ -2,7 +2,6 @@ package com.cometproject.server.game.rooms.objects.items.types;
 
 import com.cometproject.api.game.quests.QuestType;
 import com.cometproject.api.game.rooms.objects.data.RoomItemData;
-import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;

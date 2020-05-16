@@ -1,7 +1,5 @@
 package com.cometproject.networking.api.config;
 
-import com.cometproject.networking.api.NetworkingContext;
-
 import java.util.Set;
 
 public class NetworkingServerConfig {

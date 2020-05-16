@@ -1,8 +1,8 @@
 package com.cometproject.storage.mysql.queues.players;
 
-import com.cometproject.storage.mysql.queues.players.objects.PlayerStatusUpdate;
 import com.cometproject.storage.mysql.MySQLConnectionProvider;
 import com.cometproject.storage.mysql.MySQLStorageQueue;
+import com.cometproject.storage.mysql.queues.players.objects.PlayerStatusUpdate;
 
 import java.sql.PreparedStatement;
 import java.util.concurrent.ScheduledExecutorService;

@@ -1,8 +1,8 @@
 package com.cometproject.server.composers.catalog;
 
 import com.cometproject.api.game.furniture.IFurnitureService;
-import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
+import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.protocol.headers.Composers;
 import com.cometproject.server.protocol.messages.MessageComposer;
 import com.google.common.collect.Lists;

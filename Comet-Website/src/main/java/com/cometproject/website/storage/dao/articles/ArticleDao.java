@@ -1,8 +1,6 @@
 package com.cometproject.website.storage.dao.articles;
 
 import com.cometproject.website.articles.Article;
-import com.cometproject.website.players.Player;
-import com.cometproject.website.settings.SiteSettings;
 import com.cometproject.website.storage.dao.DaoHelper;
 
 import java.sql.*;

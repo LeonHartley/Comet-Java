@@ -1,6 +1,5 @@
 package com.cometproject.server.game.rooms.models;
 
-import com.cometproject.api.game.rooms.models.IRoomModel;
 import com.cometproject.api.game.rooms.models.InvalidModelException;
 import com.cometproject.api.game.rooms.models.RoomTileState;
 import com.cometproject.api.utilities.ModelUtils;

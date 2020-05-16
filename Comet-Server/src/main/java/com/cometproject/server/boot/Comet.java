@@ -3,7 +3,6 @@ package com.cometproject.server.boot;
 import com.cometproject.api.stats.CometStats;
 import com.cometproject.server.boot.utils.ConsoleCommands;
 import com.cometproject.server.boot.utils.ShutdownProcess;
-import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.utilities.CometRuntime;

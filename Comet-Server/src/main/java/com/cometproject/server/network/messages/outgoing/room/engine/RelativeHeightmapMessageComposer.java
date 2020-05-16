@@ -2,8 +2,6 @@ package com.cometproject.server.network.messages.outgoing.room.engine;
 
 import com.cometproject.api.game.rooms.models.IRoomModel;
 import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.server.game.rooms.models.RoomModel;
-import com.cometproject.api.game.rooms.models.RoomTileState;
 import com.cometproject.server.protocol.headers.Composers;
 import com.cometproject.server.protocol.messages.MessageComposer;
 

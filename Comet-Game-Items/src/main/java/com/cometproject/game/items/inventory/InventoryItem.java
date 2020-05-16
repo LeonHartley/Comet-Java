@@ -7,7 +7,6 @@ import com.cometproject.api.game.players.data.components.inventory.InventoryItem
 import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
 import com.cometproject.api.game.players.data.components.inventory.PlayerItemSnapshot;
 import com.cometproject.api.networking.messages.IComposer;
-import com.google.gson.JsonObject;
 
 public class InventoryItem implements PlayerItem {
 

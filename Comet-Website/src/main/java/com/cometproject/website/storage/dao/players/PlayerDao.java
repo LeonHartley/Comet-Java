@@ -1,6 +1,5 @@
 package com.cometproject.website.storage.dao.players;
 
-import com.cometproject.website.boot.CometWebsite;
 import com.cometproject.website.players.Player;
 import com.cometproject.website.players.PlayerPreferences;
 import com.cometproject.website.players.items.PlayerItem;

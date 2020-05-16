@@ -35,7 +35,9 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.condit
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.conditions.positive.custom.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.highscore.HighscoreClassicFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.*;
-import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.custom.*;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.custom.WiredTriggerCustomIdle;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.custom.WiredTriggerLeavesRoom;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.custom.WiredTriggerUsersCollide;
 import com.cometproject.server.game.rooms.objects.items.types.wall.MoodlightWallItem;
 import com.cometproject.server.game.rooms.objects.items.types.wall.PostItWallItem;
 import com.cometproject.server.game.rooms.objects.items.types.wall.WheelWallItem;
@@ -51,8 +53,12 @@ import java.util.concurrent.ConcurrentHashMap;
 public class RoomItemFactory {
     public static final String STACK_TOOL = "tile_stackmagic";
     public static final String TELEPORT_PAD = "teleport_pad";
+
     private static final int processMs = 500;
-    private static final String GIFT_DATA = "GIFT::##";
+
+    public static final String GIFT_DATA_LEGACY = "GIFT::##";
+    public static final String GIFT_DATA = "GIFTv2::##";
+
     private static final Logger log = Logger.getLogger(RoomItemFactory.class.getName());
 
     private static final Map<String, Class<? extends RoomItemFloor>> itemDefinitionMap;
@@ -278,12 +284,11 @@ public class RoomItemFactory {
             floorItem = new VideoPlayerFloorItem(itemData, room);
         }
 
-        if (itemData.getData().startsWith(GIFT_DATA)) {
+        if (itemData.getData().startsWith(GIFT_DATA) || itemData.getData().startsWith(GIFT_DATA_LEGACY)) {
             try {
                 floorItem = new GiftFloorItem(itemData, room);
             } catch (Exception e) {
                 return null;
-//                floorItem = new DefaultFloorItem(id, baseId, room, ownerId, x, y, height, rot, "");
             }
         } else {
             if (itemDefinitionMap.containsKey(def.getInteraction())) {

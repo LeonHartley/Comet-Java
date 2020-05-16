@@ -11,9 +11,7 @@ import com.cometproject.api.game.groups.types.components.membership.IGroupMember
 import com.cometproject.game.groups.types.Group;
 import com.cometproject.game.groups.types.components.ForumComponent;
 import com.cometproject.game.groups.types.components.MembershipComponent;
-import com.cometproject.storage.api.repositories.IGroupMemberRepository;
 
-import java.lang.reflect.Member;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;

@@ -2,7 +2,6 @@ package com.cometproject.server.game.rooms.objects.items.types.floor.games;
 
 import com.cometproject.api.game.rooms.objects.data.RoomItemData;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
-import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.games.GameType;
@@ -17,18 +16,7 @@ public abstract class AbstractGameTimerFloorItem extends RoomItemFloor {
 
     @Override
     public boolean onInteract(RoomEntity entity, int requestData, boolean isWiredTriggered) {
-        if (!isWiredTriggered) {
-            if (!(entity instanceof PlayerEntity)) {
-                return false;
-            }
-
-            PlayerEntity pEntity = (PlayerEntity) entity;
-
-            if (!pEntity.getRoom().getRights().hasRights(pEntity.getPlayerId())
-                    && !pEntity.getPlayer().getPermissions().getRank().roomFullControl()) {
-                return false;
-            }
-        }
+        if (this.interactionBlocked(entity, isWiredTriggered)) return false;
 
         if (requestData == 2) {
             int time = 0;

@@ -1,73 +1,18 @@
 package com.cometproject.api.game.furniture.types;
 
-public class GiftData implements IGiftData {
-    /**
-     * The page ID of the item
-     */
-    private int pageId;
-
-    /**
-     * The item ID of the item
-     */
-    private int itemId;
-
-    /**
-     * The ID of the player who sent the item
-     */
-    private int senderId;
-
-    /**
-     * The username of the player who will receive the item
-     */
-    private String receiver;
-
-    /**
-     * The message shown in the gift
-     */
-    private String message;
-
-    /**
-     * The ID of the item in furnidata
-     */
-    private int spriteId;
-
-    /**
-     * The wrapping paper
-     */
-    private int wrappingPaper;
-
-    /**
-     * The box decoration type
-     */
-    private int decorationType;
-
-    /**
-     * Do you want to show the username in the gift?
-     */
-    private boolean showUsername;
-
-    /**
-     * The data supplied when purchasing the gift
-     */
+public class GiftData {
+    private final int definitionId;
+    private final int senderId;
+    private final String receiver;
+    private final String message;
+    private final int spriteId;
+    private final int wrappingPaper;
+    private final int decorationType;
+    private final boolean showUsername;
     private String extraData;
 
-    /**
-     * Initialize the gift data
-     *
-     * @param pageId         The page ID of the item
-     * @param itemId         The item ID
-     * @param senderId       The ID of the player who sent the item
-     * @param receiver       The name of the user will recieve the gift
-     * @param message        The message that will appear in the gift
-     * @param spriteId       The ID of the item in furnidata
-     * @param wrappingPaper
-     * @param decorationType
-     * @param showUsername
-     * @param extraData      The data supplied when purchasing the gift
-     */
-    public GiftData(int pageId, int itemId, int senderId, String receiver, String message, int spriteId, int wrappingPaper, int decorationType, boolean showUsername, String extraData) {
-        this.pageId = pageId;
-        this.itemId = itemId;
+    public GiftData(int itemDefinitionId, int senderId, String receiver, String message, int spriteId, int wrappingPaper, int decorationType, boolean showUsername, String extraData) {
+        this.definitionId = itemDefinitionId;
         this.senderId = senderId;
         this.receiver = receiver;
         this.message = message;
@@ -76,27 +21,6 @@ public class GiftData implements IGiftData {
         this.decorationType = decorationType;
         this.showUsername = showUsername;
         this.extraData = extraData;
-    }
-
-    public GiftData() {
-        this.pageId = 0;
-        this.itemId = 0;
-        this.senderId = 0;
-        this.receiver = "";
-        this.message = "";
-        this.spriteId = 0;
-        this.wrappingPaper = 0;
-        this.decorationType = 0;
-        this.showUsername = false;
-        this.extraData = "0";
-    }
-
-    public int getPageId() {
-        return pageId;
-    }
-
-    public int getItemId() {
-        return itemId;
     }
 
     public String getReceiver() {
@@ -119,7 +43,7 @@ public class GiftData implements IGiftData {
         return decorationType;
     }
 
-    public boolean isShowUsername() {
+    public boolean showUsername() {
         return showUsername;
     }
 
@@ -133,5 +57,9 @@ public class GiftData implements IGiftData {
 
     public void setExtraData(String extraData) {
         this.extraData = extraData;
+    }
+
+    public int getDefinitionId() {
+        return definitionId;
     }
 }

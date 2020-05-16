@@ -1,11 +1,9 @@
 package com.cometproject.website.website.routes;
 
-import com.cometproject.website.config.Configuration;
 import com.cometproject.website.players.Player;
 import com.cometproject.website.storage.dao.players.PlayerDao;
 import com.cometproject.website.utilities.PasswordUtil;
 import com.cometproject.website.website.WebsiteManager;
-import org.mindrot.jbcrypt.BCrypt;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;

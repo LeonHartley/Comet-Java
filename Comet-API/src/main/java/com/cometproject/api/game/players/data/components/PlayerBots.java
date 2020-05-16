@@ -1,7 +1,6 @@
 package com.cometproject.api.game.players.data.components;
 
 import com.cometproject.api.game.bots.IBotData;
-import com.cometproject.api.game.players.data.components.bots.IPlayerBot;
 
 import java.util.Map;
 

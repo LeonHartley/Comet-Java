@@ -1,6 +1,5 @@
 package com.cometproject.website.website.routes.admin;
 
-import com.cometproject.website.api.ApiClient;
 import com.cometproject.website.settings.SiteSettings;
 import com.cometproject.website.website.WebsiteManager;
 import spark.ModelAndView;

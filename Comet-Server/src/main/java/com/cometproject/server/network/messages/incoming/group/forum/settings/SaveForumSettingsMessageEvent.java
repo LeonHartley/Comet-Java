@@ -7,7 +7,6 @@ import com.cometproject.api.game.groups.types.components.forum.IForumSettings;
 import com.cometproject.server.composers.group.GroupInformationMessageComposer;
 import com.cometproject.server.composers.group.forums.GroupForumDataMessageComposer;
 import com.cometproject.server.composers.group.forums.GroupForumThreadsMessageComposer;
-import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.notification.NotificationMessageComposer;
 import com.cometproject.server.network.sessions.Session;

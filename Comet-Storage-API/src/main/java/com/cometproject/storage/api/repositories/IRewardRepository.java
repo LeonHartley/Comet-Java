@@ -2,7 +2,6 @@ package com.cometproject.storage.api.repositories;
 
 import com.cometproject.storage.api.data.rewards.RewardData;
 
-import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 

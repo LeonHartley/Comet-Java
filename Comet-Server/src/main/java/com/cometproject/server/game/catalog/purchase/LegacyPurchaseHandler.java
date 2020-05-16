@@ -11,10 +11,11 @@ import com.cometproject.api.game.catalog.types.ICatalogBundledItem;
 import com.cometproject.api.game.catalog.types.ICatalogItem;
 import com.cometproject.api.game.catalog.types.ICatalogPage;
 import com.cometproject.api.game.catalog.types.bundles.IRoomBundle;
+import com.cometproject.api.game.catalog.types.bundles.RoomBundleItem;
 import com.cometproject.api.game.catalog.types.purchase.CatalogPurchase;
 import com.cometproject.api.game.catalog.types.purchase.ICatalogPurchaseHandler;
 import com.cometproject.api.game.furniture.types.FurnitureDefinition;
-import com.cometproject.api.game.furniture.types.IGiftData;
+import com.cometproject.api.game.furniture.types.GiftData;
 import com.cometproject.api.game.furniture.types.IMusicData;
 import com.cometproject.api.game.furniture.types.ItemType;
 import com.cometproject.api.game.groups.types.IGroup;
@@ -37,7 +38,6 @@ import com.cometproject.server.game.pets.data.StaticPetProperties;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.bundles.RoomBundleManager;
 import com.cometproject.server.game.rooms.bundles.types.RoomBundle;
-import com.cometproject.api.game.catalog.types.bundles.RoomBundleItem;
 import com.cometproject.server.game.rooms.objects.entities.types.data.PlayerBotData;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.outgoing.notification.*;
@@ -76,7 +76,7 @@ public class LegacyPurchaseHandler implements ICatalogPurchaseHandler {
     }
 
     @Override
-    public void purchaseItem(ISession client, int pageId, int itemId, String data, int amount, IGiftData giftData) {
+    public void purchaseItem(ISession client, int pageId, int itemId, String data, int amount, GiftData giftData) {
         if (CometSettings.asyncCatalogPurchase) {
             if (this.executorService == null) {
                 this.executorService = Executors.newFixedThreadPool(2);
@@ -99,7 +99,7 @@ public class LegacyPurchaseHandler implements ICatalogPurchaseHandler {
      * @param giftData Gift data (if-any)
      */
     @Override
-    public void handle(ISession client, int pageId, int itemId, String data, int amount, IGiftData giftData) {
+    public void handle(ISession client, int pageId, int itemId, String data, int amount, GiftData giftData) {
         if (client == null || client.getPlayer() == null) return;
 
         // TODO: redo all of this, it sucks so bad ;P, maybe add purchase handlers for each item or some crap
@@ -141,7 +141,7 @@ public class LegacyPurchaseHandler implements ICatalogPurchaseHandler {
                 return;
             }
 
-            if (item == null || page == null || item.getPageId() != page.getId()) {
+            if (item == null || item.getPageId() != page.getId()) {
                 return;
             }
 
@@ -153,7 +153,7 @@ public class LegacyPurchaseHandler implements ICatalogPurchaseHandler {
                         return;
                     }
 
-                    if (itemDefinition != null && !itemDefinition.canGift()) {
+                    if (!itemDefinition.canGift()) {
                         return;
                     }
                 } catch (Exception e) {
@@ -522,7 +522,7 @@ public class LegacyPurchaseHandler implements ICatalogPurchaseHandler {
      * @param newItems List of items to deliver
      */
     @Override
-    public void deliverGift(int playerId, IGiftData giftData, List<Long> newItems, String senderUsername) {
+    public void deliverGift(int playerId, GiftData giftData, List<Long> newItems, String senderUsername) {
         Session client = NetworkManager.getInstance().getSessions().getByPlayerId(playerId);
 
         if (client != null) {

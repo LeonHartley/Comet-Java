@@ -1,7 +1,6 @@
 package com.cometproject.storage.mysql.data.transactions;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 
 public interface Transaction {
     Transaction NULL = null;

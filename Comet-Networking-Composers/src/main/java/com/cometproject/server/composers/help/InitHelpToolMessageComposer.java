@@ -2,8 +2,8 @@ package com.cometproject.server.composers.help;
 
 import com.cometproject.api.game.moderation.IHelpTicket;
 import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
+import com.cometproject.server.protocol.messages.MessageComposer;
 
 
 public class InitHelpToolMessageComposer extends MessageComposer {

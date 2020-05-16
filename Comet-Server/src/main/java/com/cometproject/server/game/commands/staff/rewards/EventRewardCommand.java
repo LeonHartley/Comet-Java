@@ -1,7 +1,6 @@
 package com.cometproject.server.game.commands.staff.rewards;
 
 import com.cometproject.server.config.Locale;
-import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.game.commands.staff.alerts.NotificationCommand;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.network.NetworkManager;

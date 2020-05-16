@@ -1,8 +1,8 @@
 package com.cometproject.server.composers.camera;
 
 import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
+import com.cometproject.server.protocol.messages.MessageComposer;
 
 public class PhotoPricingMessageComposer extends MessageComposer {
     private final int coins;

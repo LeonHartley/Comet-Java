@@ -4,11 +4,11 @@ import com.cometproject.api.game.catalog.types.CatalogPageType;
 import com.cometproject.api.game.catalog.types.ICatalogBundledItem;
 import com.cometproject.api.game.catalog.types.ICatalogItem;
 import com.cometproject.api.game.catalog.types.ICatalogPage;
+import com.cometproject.api.game.catalog.types.bundles.RoomBundleItem;
 import com.cometproject.api.utilities.JsonUtil;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.rooms.bundles.RoomBundleManager;
 import com.cometproject.server.game.rooms.bundles.types.RoomBundle;
-import com.cometproject.api.game.catalog.types.bundles.RoomBundleItem;
 import com.google.common.collect.Lists;
 import com.google.gson.reflect.TypeToken;
 

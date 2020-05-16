@@ -1,10 +1,10 @@
 package com.cometproject.website.utilities;
 
+import org.apache.commons.io.IOUtil;
 import org.apache.log4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.StringWriter;
-import org.apache.commons.io.IOUtil;
 
 public class FileUtils {
     private static Logger log = Logger.getLogger(FileUtils.class.getName());

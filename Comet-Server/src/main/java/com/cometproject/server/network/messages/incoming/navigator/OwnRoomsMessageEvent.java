@@ -2,7 +2,6 @@ package com.cometproject.server.network.messages.incoming.navigator;
 
 import com.cometproject.api.game.GameContext;
 import com.cometproject.api.game.rooms.IRoomData;
-import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.navigator.NavigatorFlatListMessageComposer;
 import com.cometproject.server.network.sessions.Session;

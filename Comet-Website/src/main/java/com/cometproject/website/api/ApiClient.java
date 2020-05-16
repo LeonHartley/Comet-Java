@@ -3,7 +3,6 @@ package com.cometproject.website.api;
 import com.cometproject.website.config.Configuration;
 import com.ning.http.client.AsyncHttpClient;
 import com.ning.http.client.Response;
-import com.ning.http.client.StringPart;
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
 

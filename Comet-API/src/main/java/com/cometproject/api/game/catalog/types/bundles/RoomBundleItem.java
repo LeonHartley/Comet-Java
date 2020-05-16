@@ -1,8 +1,5 @@
 package com.cometproject.api.game.catalog.types.bundles;
 
-import com.cometproject.api.game.rooms.objects.IRoomItemData;
-import com.cometproject.api.game.rooms.objects.data.RoomItemData;
-
 public class RoomBundleItem {
     private int itemId;
 

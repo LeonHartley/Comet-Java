@@ -17,7 +17,6 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.trigge
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.items.wired.dialog.WiredTriggerMessageComposer;
 import com.cometproject.server.protocol.messages.MessageComposer;
-import com.cometproject.server.utilities.RandomUtil;
 import com.google.common.collect.Lists;
 import org.apache.log4j.Logger;
 

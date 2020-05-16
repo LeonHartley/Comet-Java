@@ -1,7 +1,5 @@
 package com.cometproject.server.game.rooms.objects.entities.effects;
 
-import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
-
 public class PlayerEffect {
     private int effectId;
     private int duration;

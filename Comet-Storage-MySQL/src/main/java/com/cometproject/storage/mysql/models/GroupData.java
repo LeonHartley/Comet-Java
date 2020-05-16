@@ -4,9 +4,6 @@ import com.cometproject.api.game.groups.types.GroupType;
 import com.cometproject.api.game.groups.types.IGroupData;
 import com.cometproject.api.game.players.data.PlayerAvatar;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 
 public class GroupData implements IGroupData {
     /**

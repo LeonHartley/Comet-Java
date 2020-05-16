@@ -1,6 +1,5 @@
 package com.cometproject.game.groups.types.components;
 
-import com.cometproject.api.game.groups.types.IGroup;
 import com.cometproject.api.game.groups.types.IGroupData;
 import com.cometproject.api.game.groups.types.components.IForumComponent;
 import com.cometproject.api.game.groups.types.components.forum.IForumSettings;

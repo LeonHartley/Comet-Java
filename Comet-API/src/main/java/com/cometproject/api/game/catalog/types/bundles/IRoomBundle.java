@@ -2,7 +2,6 @@ package com.cometproject.api.game.catalog.types.bundles;
 
 import com.cometproject.api.game.rooms.models.CustomFloorMapData;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public interface IRoomBundle {

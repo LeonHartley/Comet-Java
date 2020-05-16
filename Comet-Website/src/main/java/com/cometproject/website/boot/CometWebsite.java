@@ -1,6 +1,5 @@
 package com.cometproject.website.boot;
 
-import com.cometproject.website.config.Configuration;
 import com.cometproject.website.storage.SqlStorageManager;
 import com.cometproject.website.website.WebsiteManager;
 import org.apache.log4j.Logger;

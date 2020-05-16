@@ -1,15 +1,16 @@
 package com.cometproject.server.game.players.components.types.inventory;
 
 import com.cometproject.api.game.GameContext;
-import com.cometproject.api.game.furniture.types.*;
+import com.cometproject.api.game.furniture.types.FurnitureDefinition;
+import com.cometproject.api.game.furniture.types.GiftData;
+import com.cometproject.api.game.furniture.types.ItemType;
+import com.cometproject.api.game.furniture.types.LimitedEditionItem;
 import com.cometproject.api.game.groups.types.IGroupData;
 import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
 import com.cometproject.api.game.rooms.objects.data.LimitedEditionItemData;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.api.utilities.JsonUtil;
 import com.cometproject.server.game.items.ItemManager;
-import com.cometproject.server.storage.cache.CachableObject;
-import com.google.gson.JsonObject;
 import org.apache.commons.lang.StringUtils;
 
 import java.sql.ResultSet;
@@ -42,7 +43,7 @@ public class InventoryItem implements PlayerItem {
         }
     }
 
-    public InventoryItem(long id, int baseId, String extraData, IGiftData giftData, LimitedEditionItem limitEditionItem) {
+    public InventoryItem(long id, int baseId, String extraData, GiftData giftData, LimitedEditionItem limitEditionItem) {
         this.init(id, baseId, extraData, (GiftData) giftData);
 
         this.limitedEditionItem = limitEditionItem;

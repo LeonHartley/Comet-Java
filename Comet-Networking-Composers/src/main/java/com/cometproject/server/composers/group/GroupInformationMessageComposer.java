@@ -3,8 +3,8 @@ package com.cometproject.server.composers.group;
 import com.cometproject.api.game.groups.types.IGroup;
 import com.cometproject.api.game.rooms.IRoomData;
 import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
+import com.cometproject.server.protocol.messages.MessageComposer;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

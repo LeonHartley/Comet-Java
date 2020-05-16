@@ -2,9 +2,7 @@ package com.cometproject.server.game.rooms.vote;
 
 import com.cometproject.server.utilities.collections.ConcurrentHashSet;
 
-import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class RoomVote {
