@@ -72,7 +72,6 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
 
     private boolean fastWalkEnabled = false;
     private boolean isWarped;
-    private RoomTile warpedTile;
     private boolean sendUpdateMessage = true;
     private boolean hasMount = false;
 
@@ -574,7 +573,7 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
                 PlayerEntity playerEntity = (PlayerEntity) this;
                 if (playerEntity.getPlayer().getSettings().hasPersonalStaff() && effectId <= 0) {
 
-                    List<Map.Entry<Integer, Integer>> rankPermList = new ArrayList<>(PermissionsDao.getEffects().entrySet());
+                    List<Map.Entry<Integer, Integer>> rankPermList = new ArrayList<>(PermissionsManager.getInstance().getEffects().entrySet());
                     rankPermList.sort(Collections.reverseOrder(Map.Entry.comparingByValue()));
 
                     for (Map.Entry<Integer, Integer> entry : rankPermList) {
@@ -669,16 +668,13 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
         this.applyEffect(new PlayerEffect(4, 5));
 
         final RoomTile tile = this.getRoom().getMapping().getTile(this.getPosition());
-        this.warpedTile = tile;
-
-        //System.out.println("entities on current tile: " + tile.getEntities().size());
 
         final Position position = roomObject.getPosition().copy();
 
-        position.setZ(roomObject.getTile().getWalkHeight());
+        position.setZ(tile.getWalkHeight());
 
         this.cancelWalk();
-        this.warp(roomObject.getPosition());
+        this.warp(position);
     }
 
     public void warp(Position position, boolean cancelNextUpdate) {
@@ -871,22 +867,6 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
 
     public boolean sendUpdateMessage() {
         return sendUpdateMessage;
-    }
-
-    public boolean isWarping() {
-        return warping;
-    }
-
-    public void setWarping(boolean warping) {
-        this.warping = warping;
-    }
-
-    public RoomTile getWarpedTile() {
-        return warpedTile;
-    }
-
-    public void setWarpedTile(RoomTile warpedTile) {
-        this.warpedTile = warpedTile;
     }
 
     public void removeFromTile(RoomTile tile) {

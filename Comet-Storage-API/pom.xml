@@ -9,8 +9,6 @@
         <version>2.11.6</version>
     </parent>
 
-    <groupId>Comet</groupId>
-
     <artifactId>Comet-Storage-API</artifactId>
     <version>2.11.6</version>
     <packaging>jar</packaging>
@@ -21,14 +19,5 @@
             <artifactId>Comet-API</artifactId>
             <version>2.11.6</version>
         </dependency>
-        <dependency>
-            <groupId>Comet</groupId>
-            <artifactId>Comet-API</artifactId>
-            <version>2.11.6</version>
-        </dependency>
     </dependencies>
-
-
-
-
 </project>
