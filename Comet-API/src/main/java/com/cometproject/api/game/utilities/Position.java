@@ -141,6 +141,10 @@ public class Position {
         return calculatePosition(this.x, this.y, angle, false, 1);
     }
 
+    public Position squareInFront(Direction direction) {
+        return squareInFront(direction.num);
+    }
+
     public Position squareInFront(int angle, int distance) {
         return calculatePosition(this.x, this.y, angle, false, distance);
     }

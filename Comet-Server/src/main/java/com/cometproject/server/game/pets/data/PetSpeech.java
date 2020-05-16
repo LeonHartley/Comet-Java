@@ -1,6 +1,6 @@
 package com.cometproject.server.game.pets.data;
 
-import com.cometproject.server.utilities.RandomUtil;
+import com.cometproject.api.game.utilities.RandomUtil;
 
 import java.util.HashMap;
 import java.util.List;

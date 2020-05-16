@@ -1,4 +1,4 @@
-package com.cometproject.server.utilities;
+package com.cometproject.api.game.utilities;
 
 import java.util.concurrent.ThreadLocalRandom;
 

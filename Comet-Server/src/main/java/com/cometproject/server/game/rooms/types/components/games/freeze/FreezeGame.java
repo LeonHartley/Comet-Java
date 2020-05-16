@@ -18,8 +18,8 @@ import com.cometproject.server.game.rooms.types.components.games.freeze.types.Fr
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.network.messages.outgoing.room.avatar.ActionMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.freeze.UpdateFreezeLivesMessageComposer;
-import com.cometproject.server.utilities.Direction;
-import com.cometproject.server.utilities.RandomUtil;
+import com.cometproject.api.game.utilities.Direction;
+import com.cometproject.api.game.utilities.RandomUtil;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 

@@ -1,4 +1,4 @@
-package com.cometproject.server.utilities;
+package com.cometproject.api.game.utilities;
 
 public enum Direction {
     North,

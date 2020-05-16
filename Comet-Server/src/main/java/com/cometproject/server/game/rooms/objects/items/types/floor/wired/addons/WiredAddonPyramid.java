@@ -5,7 +5,7 @@ import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.utilities.RandomUtil;
+import com.cometproject.api.game.utilities.RandomUtil;
 
 
 public class WiredAddonPyramid extends RoomItemFloor {

@@ -53,7 +53,7 @@ public class NavigatorManager implements Initialisable {
             log.error("Error while loading public rooms", e);
         }
 
-        log.info("Loaded " + this.publicRooms.size() + " featured rooms");
+        log.info("Loaded " + this.publicRooms.size() + " public rooms");
     }
 
     public void loadStaffPicks() {

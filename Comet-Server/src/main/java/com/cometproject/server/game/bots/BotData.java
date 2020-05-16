@@ -5,7 +5,7 @@ import com.cometproject.api.game.bots.BotType;
 import com.cometproject.api.game.bots.IBotData;
 import com.cometproject.api.utilities.JsonUtil;
 import com.cometproject.server.storage.queries.bots.RoomBotDao;
-import com.cometproject.server.utilities.RandomUtil;
+import com.cometproject.api.game.utilities.RandomUtil;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 

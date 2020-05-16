@@ -13,7 +13,7 @@ import com.cometproject.server.game.rooms.types.mapping.RoomEntityMovementNode;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.game.utilities.DistanceCalculator;
 import com.cometproject.server.network.messages.outgoing.room.items.SlideObjectBundleMessageComposer;
-import com.cometproject.server.utilities.Direction;
+import com.cometproject.api.game.utilities.Direction;
 
 import java.util.HashMap;
 import java.util.Map;

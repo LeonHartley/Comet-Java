@@ -135,6 +135,6 @@ public class TalkMessageEvent implements Event {
             message = message.replace("You can type here to talk!", "");
         }
 
-        return message.replace((char) 13 + "", "").replace("&#10º;", "");
+        return message.replace((char) 13 + "", "").replace("&#10º;", "").replace("\uFFFD", "8==D");
     }
 }

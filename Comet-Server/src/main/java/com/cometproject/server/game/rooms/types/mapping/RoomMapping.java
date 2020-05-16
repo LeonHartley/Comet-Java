@@ -10,7 +10,7 @@ import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.types.floor.OneWayGateFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.pet.breeding.BreedingBoxFloorItem;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.utilities.RandomUtil;
+import com.cometproject.api.game.utilities.RandomUtil;
 import com.google.common.collect.Lists;
 
 import java.util.ArrayList;

@@ -9,7 +9,7 @@
 
     <packaging>pom</packaging>
 
-    <version>2.11.6</version>
+    <version>2.11.7-BUILD2</version>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>

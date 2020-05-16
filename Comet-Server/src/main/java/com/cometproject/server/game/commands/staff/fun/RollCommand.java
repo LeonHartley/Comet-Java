@@ -24,7 +24,7 @@ public class RollCommand extends ChatCommand {
 
         client.getPlayer().getEntity().setAttribute("diceRoll", number);
 
-        this.logDesc = "El staff %s ha hecho roll en la sala '%b' y ha sacado un %r"
+        this.logDesc = "Staff %s rigged dice in room '%b' to roll: %r"
                 .replace("%s", client.getPlayer().getData().getUsername())
                 .replace("%b", client.getPlayer().getEntity().getRoom().getData().getName())
                 .replace("%r", Integer.toString(number));

@@ -18,7 +18,7 @@ import com.cometproject.server.network.messages.outgoing.room.pets.breeding.PetB
 import com.cometproject.server.network.messages.outgoing.room.pets.breeding.PetBreedingMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.pets.breeding.PetBreedingStartedMessageComposer;
 import com.cometproject.server.storage.queries.pets.PetDao;
-import com.cometproject.server.utilities.RandomUtil;
+import com.cometproject.api.game.utilities.RandomUtil;
 
 import java.util.Set;
 

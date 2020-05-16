@@ -9,7 +9,7 @@ import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.types.DefaultFloorItem;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.utilities.RandomUtil;
+import com.cometproject.api.game.utilities.RandomUtil;
 
 public class HorseJumpFloorItem extends DefaultFloorItem {
     private boolean restore = false;

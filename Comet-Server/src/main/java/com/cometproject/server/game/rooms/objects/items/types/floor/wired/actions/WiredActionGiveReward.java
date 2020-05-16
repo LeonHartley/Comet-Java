@@ -22,7 +22,7 @@ import com.cometproject.server.network.messages.outgoing.notification.AlertMessa
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomForwardMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.wired.WiredRewardMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
-import com.cometproject.server.utilities.RandomUtil;
+import com.cometproject.api.game.utilities.RandomUtil;
 import com.cometproject.storage.api.StorageContext;
 import com.cometproject.storage.api.data.Data;
 import com.google.common.collect.Lists;
@@ -52,7 +52,7 @@ public class WiredActionGiveReward extends WiredActionItem {
 
     private static boolean isAlert = false;
 
-    
+
     private final int ownerRank;
     // increments and will be reset when the room is unloaded.
 

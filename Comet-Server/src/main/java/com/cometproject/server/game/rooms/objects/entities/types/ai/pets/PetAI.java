@@ -22,7 +22,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredU
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.game.rooms.types.misc.ChatEmotion;
 import com.cometproject.server.network.messages.outgoing.room.pets.AddExperiencePointsMessageComposer;
-import com.cometproject.server.utilities.RandomUtil;
+import com.cometproject.api.game.utilities.RandomUtil;
 
 import java.util.Arrays;
 import java.util.List;

@@ -1,6 +1,7 @@
 package com.cometproject.server.game.rooms.types.mapping;
 
 import com.cometproject.api.game.rooms.models.RoomTileState;
+import com.cometproject.api.game.utilities.Direction;
 import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.objects.RoomObject;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
@@ -55,6 +56,18 @@ public class RoomTile {
         this.reload();
     }
 
+    public RoomTile[] getAllAdjacentTiles() {
+        RoomTile[] tiles = new RoomTile[Direction.values().length];
+
+        for (int i = 0; i < tiles.length; i++) {
+            RoomTile tile = this.mappingInstance.getTile(this.position.squareInFront(Direction.get(i)));
+
+            tiles[i] = tile;
+        }
+
+        return tiles;
+    }
+
     public List<RoomTile> getAdjacentTiles(Position from) {
         final List<RoomTile> roomTiles = Lists.newArrayList();
 
@@ -70,7 +83,7 @@ public class RoomTile {
             final double distanceFromLeft = left.getPosition().distanceTo(from);
             final double distanceFromRight = right.getPosition().distanceTo(from);
 
-            return distanceFromLeft > distanceFromRight ? 1 : distanceFromLeft == distanceFromRight ? 0 : -1;
+            return Double.compare(distanceFromLeft, distanceFromRight);
         });
 
         return roomTiles;

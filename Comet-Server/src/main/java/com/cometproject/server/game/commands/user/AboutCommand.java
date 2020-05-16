@@ -8,7 +8,9 @@ import com.cometproject.server.game.GameCycle;
 import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.utilities.CometRuntime;
 
+import java.lang.management.ManagementFactory;
 import java.text.NumberFormat;
 
 
@@ -40,7 +42,7 @@ public class AboutCommand extends ChatCommand {
         }
 
         // This will be visible to developers on the manager, no need to display it to the end-user.
-        /*if (client.getPlayer().getPermissions().hasPermission("about_detailed")) {
+        if (client.getPlayer().getPermissions().getRank().aboutDetailed()) {
             about.append("<br><b>Server Info</b><br>");
             about.append("Allocated memory: " + format.format(cometStats.getAllocatedMemory()) + "MB<br>");
             about.append("Used memory: " + format.format(cometStats.getUsedMemory()) + "MB<br>");
@@ -49,19 +51,20 @@ public class AboutCommand extends ChatCommand {
             about.append("OS: " + cometStats.getOperatingSystem() + "<br>");
             about.append("CPU cores:  " + cometStats.getCpuCores() + "<br>");
             about.append("Threads:  " + ManagementFactory.getThreadMXBean().getThreadCount() + "<br>");
-        }*/
+        }
 
         if (aboutStats) {
             about.append("<br><br><b>Hotel Stats</b><br>");
             about.append("Online record: " + GameCycle.getInstance().getOnlineRecord() + "<br>");
-            about.append("Record since last reboot: " + GameCycle.getInstance().getCurrentOnlineRecord() + "<br><br>");
+            about.append("Record since last reboot: " + GameCycle.getInstance().getCurrentOnlineRecord() + "<br>");
         }
 
+        about.append("<br><b>Comet Server (PRIVATE-2020)</b><br>Official Comet Server, a private server made with | in the UK.");
 
         client.send(new AdvancedAlertMessageComposer(
                 "Comet Server - " + Comet.getBuild(),
                 about.toString(),
-                "www.cometproject.com", "https://www.cometproject.com", CometSettings.aboutImg
+                "www.cometsrv.com", "https://www.cometsrv.com", CometSettings.aboutImg
         ));
     }
 

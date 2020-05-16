@@ -155,6 +155,7 @@ public class CommandManager implements Initialisable {
         this.addCommand(Locale.get("command.roomvideo.name"), new RoomVideoCommand());
         this.addCommand(Locale.get("command.disablewhisper.name"), new DisableWhisperCommand());
         this.addCommand(Locale.get("command.namecolour.name"), new NameColourCommand());
+        this.addCommand(Locale.get("command.dice.name"), new DiceCommand());
 
         // Gimmick commands
         this.addCommand(Locale.get("command.rob.name"), new RobCommand());

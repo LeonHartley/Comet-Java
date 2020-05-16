@@ -5,7 +5,7 @@ import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.GameComponent;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManager;
-import com.cometproject.server.utilities.RandomUtil;
+import com.cometproject.api.game.utilities.RandomUtil;
 import org.apache.log4j.Logger;
 
 import java.util.Collections;

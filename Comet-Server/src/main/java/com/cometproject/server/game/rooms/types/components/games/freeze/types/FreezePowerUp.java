@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms.types.components.games.freeze.types;
 
-import com.cometproject.server.utilities.RandomUtil;
+import com.cometproject.api.game.utilities.RandomUtil;
 
 public enum FreezePowerUp {
     None,

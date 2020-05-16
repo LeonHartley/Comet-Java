@@ -9,7 +9,7 @@ import com.cometproject.server.game.rooms.objects.entities.types.ai.AbstractBotA
 import com.cometproject.server.game.rooms.types.misc.ChatEmotion;
 import com.cometproject.server.network.messages.outgoing.room.avatar.DanceMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessageComposer;
-import com.cometproject.server.utilities.RandomUtil;
+import com.cometproject.api.game.utilities.RandomUtil;
 
 import java.util.HashMap;
 import java.util.Map;

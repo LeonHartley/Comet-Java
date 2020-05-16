@@ -240,10 +240,7 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
 
     private int getSitRotation(int rotation) {
         switch (rotation) {
-            case 1: {
-                rotation++;
-                break;
-            }
+            case 1:
             case 3: {
                 rotation++;
                 break;
@@ -295,10 +292,6 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
     @Override
     public void markPositionIsSet() {
         this.positionToSet = null;
-    }
-
-    public boolean hasPositionToSet() {
-        return (this.positionToSet != null);
     }
 
     @Override
@@ -874,8 +867,8 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
     }
 
     public void addToTile(RoomTile tile) {
-        if(this.tiles.size() != 0) {
-            for(RoomTile oldTile : this.tiles) {
+        if (this.tiles.size() != 0) {
+            for (RoomTile oldTile : this.tiles) {
                 oldTile.getEntities().remove(this);
             }
 

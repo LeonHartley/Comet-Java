@@ -10,7 +10,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.RollableFloo
 import com.cometproject.server.game.rooms.objects.items.types.state.FloorItemEvent;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorItemMessageComposer;
-import com.cometproject.server.utilities.RandomUtil;
+import com.cometproject.api.game.utilities.RandomUtil;
 
 import java.util.HashSet;
 import java.util.Set;
