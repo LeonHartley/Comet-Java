@@ -531,7 +531,7 @@ public class LegacyPurchaseHandler implements ICatalogPurchaseHandler {
             if (client.getPlayer() != null) {
                 if (client.getPlayer().getInventory() != null) {
                     for (long newItem : newItems) {
-                        unseenItems.add(client.getPlayer().getInventory().add(newItem, ItemManager.getInstance().getBySpriteId(giftData.getSpriteId()).getId(), "GIFT::##" + JsonUtil.getInstance().toJson(giftData), giftData, null));
+                        unseenItems.add(client.getPlayer().getInventory().add(newItem, ItemManager.getInstance().getBySpriteId(giftData.getSpriteId()).getId(), GiftData.EXTRA_DATA_HEADER + JsonUtil.getInstance().toJson(giftData), giftData, null));
                     }
                 }
 
