@@ -5,8 +5,6 @@ import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.api.networking.sessions.ISessionManager;
 import com.cometproject.api.networking.sessions.ISessionService;
 import com.cometproject.api.networking.sessions.SessionManagerAccessor;
-import com.cometproject.api.utilities.JsonUtil;
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.network.ws.messages.WsMessage;
 import io.netty.channel.ChannelHandlerContext;
@@ -15,7 +13,8 @@ import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.util.AttributeKey;
 import io.netty.util.concurrent.GlobalEventExecutor;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -62,22 +61,6 @@ public final class SessionManager implements ISessionManager, ISessionService {
         return false;
     }
 
-    public boolean disconnectByPlayerId(int id) {
-        if (PlayerManager.getInstance().getSessionIdByPlayerId(id) == -1) {
-            return false;
-        }
-
-        int sessionId = PlayerManager.getInstance().getSessionIdByPlayerId(id);
-        Session session = (Session) sessions.get(sessionId);
-
-        if (session != null) {
-            session.disconnect();
-            return true;
-        }
-
-        return false;
-    }
-
     public Session getByPlayerId(int id) {
         if (PlayerManager.getInstance().getSessionIdByPlayerId(id) != -1) {
             int sessionId = PlayerManager.getInstance().getSessionIdByPlayerId(id);
@@ -86,23 +69,6 @@ public final class SessionManager implements ISessionManager, ISessionService {
         }
 
         return null;
-    }
-
-    public Set<ISession> getByPlayerPermission(String permission) {
-        // TODO: Optimize this
-        Set<ISession> sessions = new HashSet<>();
-
-//        int rank = PermissionsManager.getInstance().getPermissions().get(permission).getRank();
-//
-//        for (Map.Entry<Integer, ISession> session : this.sessions.entrySet()) {
-//            if (session.getValue().getPlayer() != null) {
-//                if (((Session) session.getValue()).getPlayer().getData().getRank() >= rank) {
-//                    sessions.add(session.getValue());
-//                }
-//            }
-//        }
-
-        return sessions;
     }
 
     public Session getByPlayerUsername(String username) {
@@ -132,16 +98,21 @@ public final class SessionManager implements ISessionManager, ISessionService {
 
     public void broadcast(IMessageComposer msg) {
         this.getChannelGroup().writeAndFlush(msg);
-//
-//        for (Session client : sessions.values()) {
-//            client.getChannel().write(msg);
-//        }
+    }
+
+    @Override
+    public void broadcastTo(Set<Integer> players, IMessageComposer messageComposer, int sender) {
+        players.stream().filter(id -> id != sender).map(this::getByPlayerId).forEach(session -> {
+            if (session != null) {
+                session.send(messageComposer);
+            }
+        });
     }
 
     public void broadcastWs(WsMessage message) {
         for (ISession client : sessions.values()) {
-            if(((Session) client).getWsChannel() != null) {
-                ((Session)client).sendWs(message);
+            if (((Session) client).getWsChannel() != null) {
+                ((Session) client).sendWs(message);
             }
         }
     }
@@ -155,30 +126,6 @@ public final class SessionManager implements ISessionManager, ISessionService {
             if (session.getPlayer() != null && session.getPlayer().getPermissions() != null && session.getPlayer().getPermissions().getRank().modTool()) {
                 session.send(messageComposer);
             }
-        }
-    }
-
-    @Override
-    public void parseCommand(String[] message, ChannelHandlerContext ctx) {
-        String password = message[0];
-
-        if (password.equals("cometServer")) {
-            String command = message[1];
-
-            switch (command) {
-                default: {
-                    ctx.channel().writeAndFlush("response||You're connected!");
-                    break;
-                }
-
-                case "stats": {
-                    ctx.channel().writeAndFlush("response||" + JsonUtil.getInstance().toJson(Comet.getStats()));
-                    break;
-                }
-
-            }
-        } else {
-            ctx.disconnect();
         }
     }
 

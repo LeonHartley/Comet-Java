@@ -9,10 +9,7 @@ import com.cometproject.api.networking.messages.IMessageComposer;
 import com.cometproject.api.networking.sessions.ISessionService;
 import com.google.common.collect.Lists;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Consumer;
 
 public class MembershipComponent implements IMembershipComponent {
@@ -44,11 +41,7 @@ public class MembershipComponent implements IMembershipComponent {
 
     @Override
     public void broadcastMessage(ISessionService sessionService, IMessageComposer messageComposer, int sender) {
-        // Not implemented yet, might be revisited when module api for messenger is fleshed out, this won't be needed
-    }
-
-    public void getAvatars(int type) {
-
+        sessionService.broadcastTo(this.groupMembers.keySet(), messageComposer, sender);
     }
 
     @Override

@@ -1,17 +1,13 @@
 package com.cometproject.api.networking.sessions;
 
 import com.cometproject.api.networking.messages.IMessageComposer;
-import io.netty.channel.ChannelHandlerContext;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
 public interface ISessionService {
-    boolean disconnectByPlayerId(int id);
-
     ISession getByPlayerId(int id);
-
-    Set<ISession> getByPlayerPermission(String permission);
 
     ISession getByPlayerUsername(String username);
 
@@ -21,7 +17,7 @@ public interface ISessionService {
 
     void broadcast(IMessageComposer msg);
 
-    void broadcastToModerators(IMessageComposer messageComposer);
+    void broadcastTo(Set<Integer> players, IMessageComposer messageComposer, int sender);
 
-    void parseCommand(String[] message, ChannelHandlerContext ctx);
+    void broadcastToModerators(IMessageComposer messageComposer);
 }

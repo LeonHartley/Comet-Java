@@ -29,15 +29,6 @@ public class XMLPolicyDecoder extends ByteToMessageDecoder {
                             + "<allow-access-from domain=\"*\" to-ports=\"*\" />\r\n"
                             + "</cross-domain-policy>\0"
             ).addListener(ChannelFutureListener.CLOSE);
-        } else if (delimiter == 0x3f) {
-            try {
-                String messageStr = in.toString(CharsetUtil.UTF_8);
-                String[] message = messageStr.substring(1).split("\\|\\|");
-
-                SessionManagerAccessor.getInstance().getSessionManager().parseCommand(message, ctx);
-            } catch (Exception e) {
-
-            }
         } else {
             ctx.channel().pipeline().remove(this);
 

@@ -433,7 +433,6 @@ public class ItemsComponent {
 
         if (toInventory) {
             StorageContext.getCurrentContext().getRoomItemRepository().removeItemFromRoom(item.getId(), item.getItemData().getOwnerId(), item.getItemData().getData());
-
             Session session = client;
 
             if (item.getItemData().getOwnerId() != client.getPlayer().getId()) {
@@ -586,10 +585,10 @@ public class ItemsComponent {
             return false;
         }
 
-        if(floorItem instanceof RollableFloorItem && this.itemClassIndex.containsKey(RollableFloorItem.class)) {
+        if (floorItem instanceof RollableFloorItem && this.itemClassIndex.containsKey(RollableFloorItem.class)) {
             final int count = this.itemClassIndex.get(RollableFloorItem.class).size();
 
-            if(count >= MAX_FOOTBALLS) {
+            if (count >= MAX_FOOTBALLS) {
                 return false;
             }
         }

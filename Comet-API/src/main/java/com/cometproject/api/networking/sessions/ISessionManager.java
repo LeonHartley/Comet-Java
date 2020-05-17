@@ -7,11 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 public interface ISessionManager {
-    boolean disconnectByPlayerId(int id);
-
     ISession getByPlayerId(int id);
-
-    Set<ISession> getByPlayerPermission(String permission);
 
     ISession getByPlayerUsername(String username);
 
@@ -22,6 +18,4 @@ public interface ISessionManager {
     void broadcast(IMessageComposer msg);
 
     void broadcastToModerators(IMessageComposer messageComposer);
-
-    void parseCommand(String[] message, ChannelHandlerContext ctx);
 }
