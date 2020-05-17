@@ -877,7 +877,7 @@ public class Player extends Observable implements IPlayer {
     }
 
     public String toString() {
-        return JsonUtil.getInstance().toJson(this);
+        return String.format("id=%d, username=%s", this.id, this.data.getUsername());
     }
 
     public boolean isOnline() {

@@ -1,6 +1,8 @@
 package com.cometproject.api.game.furniture.types;
 
 public class GiftData {
+    public static final String EXTRA_DATA_HEADER = "GIFTv2::##";
+
     private final int definitionId;
     private final int senderId;
     private final String receiver;

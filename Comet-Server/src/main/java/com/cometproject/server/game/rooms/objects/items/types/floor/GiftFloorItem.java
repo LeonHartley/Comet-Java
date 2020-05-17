@@ -41,8 +41,8 @@ public class GiftFloorItem extends RoomItemFloor {
 
     private GiftData loadGiftData(String extraData) throws Exception {
         // Convert old gift data (catalogPageId, catalogItemId) to new gift data (itemDefinitionId)
-        if (extraData.startsWith(RoomItemFactory.GIFT_DATA_LEGACY)) {
-            final LegacyGiftData legacyGiftData = JsonUtil.getInstance().fromJson(extraData.split(RoomItemFactory.GIFT_DATA_LEGACY)[1], LegacyGiftData.class);
+        if (extraData.startsWith(LegacyGiftData.EXTRA_DATA_HEADER)) {
+            final LegacyGiftData legacyGiftData = JsonUtil.getInstance().fromJson(extraData.split(LegacyGiftData.EXTRA_DATA_HEADER)[1], LegacyGiftData.class);
             final ICatalogItem catalogItem = CatalogManager.getInstance().getCatalogItem(legacyGiftData.getItemId());
 
             if (catalogItem == null) {
@@ -50,13 +50,13 @@ public class GiftFloorItem extends RoomItemFloor {
             }
 
             GiftData newGiftData = legacyGiftData.upgrade(catalogItem.getItems().get(0).getItemId());
-            this.getItemData().setData(String.format("%s%s", RoomItemFactory.GIFT_DATA, JsonUtil.getInstance().toJson(newGiftData)));
+            this.getItemData().setData(String.format("%s%s", GiftData.EXTRA_DATA_HEADER, JsonUtil.getInstance().toJson(newGiftData)));
 
             this.saveData();
             return newGiftData;
         }
 
-        return JsonUtil.getInstance().fromJson(extraData.split(RoomItemFactory.GIFT_DATA)[1], GiftData.class);
+        return JsonUtil.getInstance().fromJson(extraData.split(GiftData.EXTRA_DATA_HEADER)[1], GiftData.class);
     }
 
     @Override

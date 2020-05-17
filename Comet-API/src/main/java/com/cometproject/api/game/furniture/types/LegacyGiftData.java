@@ -1,6 +1,8 @@
 package com.cometproject.api.game.furniture.types;
 
 public class LegacyGiftData extends GiftData {
+    public static final String EXTRA_DATA_HEADER = "GIFT::##";
+
     private final int itemId;
     private final int pageId;
 

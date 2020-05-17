@@ -1,10 +1,7 @@
 package com.cometproject.server.game.players.components.types.inventory;
 
 import com.cometproject.api.game.GameContext;
-import com.cometproject.api.game.furniture.types.FurnitureDefinition;
-import com.cometproject.api.game.furniture.types.GiftData;
-import com.cometproject.api.game.furniture.types.ItemType;
-import com.cometproject.api.game.furniture.types.LimitedEditionItem;
+import com.cometproject.api.game.furniture.types.*;
 import com.cometproject.api.game.groups.types.IGroupData;
 import com.cometproject.api.game.players.data.components.inventory.PlayerItem;
 import com.cometproject.api.game.rooms.objects.data.LimitedEditionItemData;
@@ -31,8 +28,10 @@ public class InventoryItem implements PlayerItem {
         this.extraData = data.getString("extra_data");
 
         try {
-            if (this.getDefinition().getInteraction().equals("gift")) {
-                this.giftData = JsonUtil.getInstance().fromJson(this.extraData.split("GIFT::##")[1], GiftData.class);
+            if (this.extraData.startsWith(GiftData.EXTRA_DATA_HEADER)) {
+                this.giftData = JsonUtil.getInstance().fromJson(this.extraData.split(GiftData.EXTRA_DATA_HEADER)[1], GiftData.class);
+            } else if (this.extraData.startsWith(LegacyGiftData.EXTRA_DATA_HEADER)) {
+                this.giftData = JsonUtil.getInstance().fromJson(this.extraData.split(LegacyGiftData.EXTRA_DATA_HEADER)[1], LegacyGiftData.class);
             }
         } catch (Exception e) {
             this.giftData = null;
@@ -44,7 +43,7 @@ public class InventoryItem implements PlayerItem {
     }
 
     public InventoryItem(long id, int baseId, String extraData, GiftData giftData, LimitedEditionItem limitEditionItem) {
-        this.init(id, baseId, extraData, (GiftData) giftData);
+        this.init(id, baseId, extraData, giftData);
 
         this.limitedEditionItem = limitEditionItem;
     }

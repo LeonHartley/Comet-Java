@@ -1,6 +1,8 @@
 package com.cometproject.server.game.rooms.objects.items;
 
 import com.cometproject.api.game.furniture.types.FurnitureDefinition;
+import com.cometproject.api.game.furniture.types.GiftData;
+import com.cometproject.api.game.furniture.types.LegacyGiftData;
 import com.cometproject.api.game.rooms.objects.data.LimitedEditionItemData;
 import com.cometproject.api.game.rooms.objects.data.RoomItemData;
 import com.cometproject.server.game.rooms.objects.items.types.DefaultFloorItem;
@@ -55,9 +57,6 @@ public class RoomItemFactory {
     public static final String TELEPORT_PAD = "teleport_pad";
 
     private static final int processMs = 500;
-
-    public static final String GIFT_DATA_LEGACY = "GIFT::##";
-    public static final String GIFT_DATA = "GIFTv2::##";
 
     private static final Logger log = Logger.getLogger(RoomItemFactory.class.getName());
 
@@ -284,7 +283,7 @@ public class RoomItemFactory {
             floorItem = new VideoPlayerFloorItem(itemData, room);
         }
 
-        if (itemData.getData().startsWith(GIFT_DATA) || itemData.getData().startsWith(GIFT_DATA_LEGACY)) {
+        if (itemData.getData().startsWith(GiftData.EXTRA_DATA_HEADER) || itemData.getData().startsWith(LegacyGiftData.EXTRA_DATA_HEADER)) {
             try {
                 floorItem = new GiftFloorItem(itemData, room);
             } catch (Exception e) {

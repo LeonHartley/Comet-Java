@@ -2,6 +2,7 @@ package com.cometproject.game.items.inventory.items;
 
 import com.cometproject.api.game.furniture.types.FurnitureDefinition;
 import com.cometproject.api.game.furniture.types.GiftData;
+import com.cometproject.api.game.furniture.types.LegacyGiftData;
 import com.cometproject.api.game.players.data.components.inventory.InventoryItemData;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.api.utilities.JsonUtil;
@@ -20,8 +21,10 @@ public class GiftInventoryItem extends InventoryItem {
     private GiftData getGiftData(String data) {
 
         try {
-            if (this.getDefinition().getInteraction().equals("gift")) {
-                return JsonUtil.getInstance().fromJson(data.split("GIFT::##")[1], GiftData.class);
+            if (data.startsWith(GiftData.EXTRA_DATA_HEADER)) {
+                return JsonUtil.getInstance().fromJson(data.split(GiftData.EXTRA_DATA_HEADER)[1], GiftData.class);
+            } else if (data.startsWith(LegacyGiftData.EXTRA_DATA_HEADER)) {
+                return JsonUtil.getInstance().fromJson(data.split(LegacyGiftData.EXTRA_DATA_HEADER)[1], LegacyGiftData.class);
             }
 
             return null;
