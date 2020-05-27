@@ -1,6 +1,7 @@
 package com.cometproject.server.network.messages.incoming.group;
 
 import com.cometproject.api.game.GameContext;
+import com.cometproject.api.game.groups.types.GroupMemberAvatar;
 import com.cometproject.api.game.groups.types.IGroup;
 import com.cometproject.api.game.groups.types.components.membership.IGroupMember;
 import com.cometproject.api.game.players.data.PlayerAvatar;
@@ -30,64 +31,37 @@ public class GroupMembersMessageEvent implements Event {
         if (group == null)
             return;
 
-        final List<PlayerAvatar> playerAvatars = Lists.newArrayList();
 
+        List<GroupMemberAvatar> avatars;
         switch (requestType) {
             default: {
-                for (IGroupMember groupMember : group.getMembers().getMembersAsList()) {
-                    addPlayerAvatar(groupMember.getPlayerId(), playerAvatars, (playerAvatar -> {
-                        playerAvatar.tempData(groupMember);
-                    }));
-                }
+                avatars = group.getMembers().getMemberAvatars();
             }
             break;
             case 1: {
-                for (Integer adminId : group.getMembers().getAdministrators()) {
-                    addPlayerAvatar(adminId, playerAvatars);
-                }
-
+                avatars = group.getMembers().getAdminAvatars();
             }
             break;
 
             case 2: {
-                for (Integer requestPlayerId : group.getMembers().getMembershipRequests()) {
-                    addPlayerAvatar(requestPlayerId, playerAvatars);
-                }
+                avatars = group.getMembers().getRequestAvatars();
             }
             break;
 
         }
 
-        final Set<PlayerAvatar> playersToRemove = Sets.newHashSet();
+        final Set<GroupMemberAvatar> playersToRemove = Sets.newHashSet();
 
         if (!searchQuery.isEmpty()) {
-            for (PlayerAvatar playerAvatar : playerAvatars) {
-                if (!playerAvatar.getUsername().toLowerCase().startsWith(searchQuery.toLowerCase())) {
+            for (GroupMemberAvatar playerAvatar : avatars) {
+                if (!playerAvatar.getPlayerAvatar().getUsername().toLowerCase().startsWith(searchQuery.toLowerCase())) {
                     playersToRemove.add(playerAvatar);
                 }
             }
         }
 
-        playerAvatars.removeAll(playersToRemove);
+        avatars.removeAll(playersToRemove);
 
-        client.send(new GroupMembersMessageComposer(group.getData(), page, playerAvatars, requestType, searchQuery, group.getMembers().getAdministrators().contains(client.getPlayer().getId())));
-    }
-
-    private void addPlayerAvatar(final int playerId, final List<PlayerAvatar> playerAvatars, Consumer<PlayerAvatar> avatarConsumer) {
-
-        final PlayerAvatar playerAvatar = PlayerManager.getInstance().getAvatarByPlayerId(playerId, PlayerAvatar.USERNAME_FIGURE);
-
-        if (playerAvatar != null) {
-            if (avatarConsumer != null) {
-                avatarConsumer.accept(playerAvatar);
-            }
-
-            playerAvatars.add(playerAvatar);
-        }
-
-    }
-
-    private void addPlayerAvatar(final int playerId, final List<PlayerAvatar> playerAvatars) {
-        addPlayerAvatar(playerId, playerAvatars, null);
+        client.send(new GroupMembersMessageComposer(group.getData(), page, avatars, requestType, searchQuery, group.getMembers().getAdministrators().contains(client.getPlayer().getId())));
     }
 }

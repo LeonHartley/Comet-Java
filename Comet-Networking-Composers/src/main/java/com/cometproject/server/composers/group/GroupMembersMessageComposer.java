@@ -1,5 +1,6 @@
 package com.cometproject.server.composers.group;
 
+import com.cometproject.api.game.groups.types.GroupMemberAvatar;
 import com.cometproject.api.game.groups.types.IGroupData;
 import com.cometproject.api.game.groups.types.components.membership.IGroupMember;
 import com.cometproject.api.game.players.data.PlayerAvatar;
@@ -16,12 +17,12 @@ public class GroupMembersMessageComposer extends MessageComposer {
 
     private final IGroupData group;
     private final int page;
-    private final List<PlayerAvatar> groupMembers;
+    private final List<GroupMemberAvatar> groupMembers;
     private final int requestType;
     private final String searchQuery;
     private final boolean isAdmin;
 
-    public GroupMembersMessageComposer(final IGroupData group, final int page, final List<PlayerAvatar> groupMembers,
+    public GroupMembersMessageComposer(final IGroupData group, final int page, final List<GroupMemberAvatar> groupMembers,
                                        final int requestType, final String searchQuery, final boolean isAdmin) {
         this.group = group;
         this.page = page;
@@ -48,26 +49,26 @@ public class GroupMembersMessageComposer extends MessageComposer {
         if (groupMembers.size() == 0) {
             msg.writeInt(0);
         } else {
-            List<List<PlayerAvatar>> paginatedMembers = paginateMembers(groupMembers, MEMBERS_PER_PAGE);
+            List<List<GroupMemberAvatar>> paginatedMembers = paginateMembers(groupMembers, MEMBERS_PER_PAGE);
 
             msg.writeInt(paginatedMembers.get(page).size());
 
             int dateJoined = 0;
 
-            for (PlayerAvatar groupMember : paginatedMembers.get(page)) {
-                if (groupMember.tempData() == null) {
+            for (GroupMemberAvatar groupMember : paginatedMembers.get(page)) {
+                if (groupMember.getGroupMember() == null) {
                     if (requestType == 1) {
-                        msg.writeInt(groupMember.getId() == group.getOwnerId() ? 0 : 1);
+                        msg.writeInt(groupMember.getPlayerAvatar().getId() == group.getOwnerId() ? 0 : 1);
                     } else {
                         msg.writeInt(3);
                     }
                 } else {
-                    final IGroupMember member = (IGroupMember) groupMember.tempData();
+                    final IGroupMember member = groupMember.getGroupMember();
 
                     dateJoined = member.getDateJoined();
 
                     if (member.getAccessLevel().isAdmin()) {
-                        msg.writeInt(group.getOwnerId() == groupMember.getId() ? 0 : 1);
+                        msg.writeInt(group.getOwnerId() == groupMember.getPlayerAvatar().getId() ? 0 : 1);
                     } else {
                         if(requestType == 2) {
                             msg.writeInt(3);
@@ -77,11 +78,11 @@ public class GroupMembersMessageComposer extends MessageComposer {
                     }
                 }
 
-                msg.writeInt(groupMember.getId());
-                msg.writeString(groupMember.getUsername());
-                msg.writeString(groupMember.getFigure());
+                msg.writeInt(groupMember.getPlayerAvatar().getId());
+                msg.writeString(groupMember.getPlayerAvatar().getUsername());
+                msg.writeString(groupMember.getPlayerAvatar().getFigure());
 
-                msg.writeString(groupMember.tempData() != null ? GroupInformationMessageComposer.getDate(dateJoined) : "");
+                msg.writeString(groupMember.getPlayerAvatar() != null ? GroupInformationMessageComposer.getDate(dateJoined) : "");
             }
 
         }
@@ -94,8 +95,8 @@ public class GroupMembersMessageComposer extends MessageComposer {
         msg.writeString(searchQuery);
     }
 
-    private List<List<PlayerAvatar>> paginateMembers(List<PlayerAvatar> originalList, int chunkSize) {
-        List<List<PlayerAvatar>> listOfChunks = new ArrayList<>();
+    private List<List<GroupMemberAvatar>> paginateMembers(List<GroupMemberAvatar> originalList, int chunkSize) {
+        List<List<GroupMemberAvatar>> listOfChunks = new ArrayList<>();
 
         for (int i = 0; i < originalList.size() / chunkSize; i++) {
             listOfChunks.add(originalList.subList(i * chunkSize, i * chunkSize + chunkSize));

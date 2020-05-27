@@ -1,6 +1,7 @@
 package com.cometproject.server.network.messages.incoming.group;
 
 import com.cometproject.api.game.GameContext;
+import com.cometproject.api.game.groups.types.GroupMemberAvatar;
 import com.cometproject.api.game.groups.types.IGroup;
 import com.cometproject.api.game.players.data.PlayerAvatar;
 import com.cometproject.server.composers.group.GroupMembersMessageComposer;
@@ -31,7 +32,7 @@ public class DeclineMembershipMessageEvent implements Event {
         GameContext.getCurrent().getGroupService().removeRequest(group, playerId);
 
         client.send(new GroupMembersMessageComposer(group.getData(), 0,
-                new ArrayList<PlayerAvatar>(), 2, "",
+                new ArrayList<>(), 2, "",
                 true));
     }
 }

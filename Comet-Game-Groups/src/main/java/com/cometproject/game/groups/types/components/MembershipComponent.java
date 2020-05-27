@@ -2,6 +2,7 @@ package com.cometproject.game.groups.types.components;
 
 import com.cometproject.api.game.GameContext;
 import com.cometproject.api.game.groups.IGroupService;
+import com.cometproject.api.game.groups.types.GroupMemberAvatar;
 import com.cometproject.api.game.groups.types.components.IMembershipComponent;
 import com.cometproject.api.game.groups.types.components.membership.IGroupMember;
 import com.cometproject.api.game.players.data.PlayerAvatar;
@@ -69,26 +70,26 @@ public class MembershipComponent implements IMembershipComponent {
         return this.membershipRequests;
     }
 
-    private List<PlayerAvatar> getMembers(int type) {
-        final List<PlayerAvatar> playerAvatars = Lists.newArrayList();
+    private List<GroupMemberAvatar> getMembers(int type) {
+        final List<GroupMemberAvatar> playerAvatars = Lists.newArrayList();
 
         switch (type) {
             default: {
                 for(IGroupMember groupMember : this.getMembersAsList()) {
-                    addPlayerAvatar(groupMember.getPlayerId(), playerAvatars, (playerAvatar -> {
-                        playerAvatar.tempData(groupMember);
-                    }));
+                    addPlayerAvatar(groupMember.getPlayerId(), playerAvatars, false, groupMember);
                 }
             } break;
             case 1: {
-
                 for(Integer adminId : this.getAdministrators()) {
-                    addPlayerAvatar(adminId, playerAvatars);
+                    final IGroupMember member = this.getAll().get(adminId);
+                    if (member != null) {
+                        addPlayerAvatar(adminId, playerAvatars, false, member);
+                    }
                 }
             } break;
             case 2: {
-                for(Integer requestPlayerId : this.getMembershipRequests()) {
-                    addPlayerAvatar(requestPlayerId, playerAvatars);
+                for(Integer request : this.getMembershipRequests()) {
+                    addPlayerAvatar(request, playerAvatars, true, null);
                 }
             } break;
 
@@ -98,34 +99,33 @@ public class MembershipComponent implements IMembershipComponent {
     }
 
     @Override
-    public List<PlayerAvatar> getMemberAvatars() {
+    public List<GroupMemberAvatar> getMemberAvatars() {
         return this.getMembers(0);
     }
 
     @Override
-    public List<PlayerAvatar> getAdminAvatars() {
+    public List<GroupMemberAvatar> getAdminAvatars() {
         return this.getMembers(1);
     }
 
     @Override
-    public List<PlayerAvatar> getRequestAvatars() {
-        return this.getMembers(2);
-    }
+    public List<GroupMemberAvatar> getRequestAvatars() {
+        final List<GroupMemberAvatar> avatars = Lists.newArrayList();
 
-    private void addPlayerAvatar(final int playerId, final List<PlayerAvatar> playerAvatars, Consumer<PlayerAvatar> avatarConsumer) {
-        final PlayerAvatar playerAvatar = GameContext.getCurrent().getPlayerService().getAvatarByPlayerId(playerId, PlayerAvatar.USERNAME_FIGURE);
-
-        if(playerAvatar != null) {
-            if(avatarConsumer != null) {
-                avatarConsumer.accept(playerAvatar);
+        for(Integer requestPlayerId : this.getMembershipRequests()) {
+            final PlayerAvatar playerAvatar = GameContext.getCurrent().getPlayerService().getAvatarByPlayerId(requestPlayerId, PlayerAvatar.USERNAME_FIGURE);
+            if (playerAvatar != null) {
+                avatars.add(new GroupMemberAvatar(playerAvatar, true, null));
             }
-
-            playerAvatars.add(playerAvatar);
         }
 
+        return avatars;
     }
 
-    private void addPlayerAvatar(final int playerId, final List<PlayerAvatar> playerAvatars) {
-        addPlayerAvatar(playerId, playerAvatars, null);
+    private void addPlayerAvatar(final int playerId, final List<GroupMemberAvatar> playerAvatars, boolean isRequest, IGroupMember member) {
+        final PlayerAvatar playerAvatar = GameContext.getCurrent().getPlayerService().getAvatarByPlayerId(playerId, PlayerAvatar.USERNAME_FIGURE);
+        if (playerAvatar != null) {
+            playerAvatars.add(new GroupMemberAvatar(playerAvatar, isRequest, member));
+        }
     }
 }
