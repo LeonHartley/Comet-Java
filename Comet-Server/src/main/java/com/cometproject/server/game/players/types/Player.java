@@ -152,7 +152,8 @@ public class Player extends Observable implements IPlayer {
 
         this.entity = null;
         this.lastReward = Comet.getTime();
-
+        this.lastDiamondReward = Comet.getTime();
+        
         this.addObserver(new PlayerObserver());
     }
 

@@ -89,107 +89,106 @@ public class RoomItemFactory {
             put("piano", PianoFloorItem.class);
 
             put("wf_act_flee", WiredActionFlee.class);
-            put("wf_act_match_to_sshot", WiredActionMatchToSnapshot.class);//new
-            put("wf_act_teleport_to", WiredActionTeleportPlayer.class);//new
-            put("wf_act_show_message", WiredActionShowMessage.class);//new
-            put("wf_act_toggle_state", WiredActionToggleState.class);//new
-            put("wf_act_give_reward", WiredActionGiveReward.class);//new
-            put("wf_act_move_rotate", WiredActionMoveRotate.class);//new
-            put("wf_act_chase", WiredActionChase.class);//new
-            put("wf_act_kick_user", WiredActionKickUser.class);//new
-            put("wf_act_reset_timers", WiredActionResetTimers.class);//new
-            put("wf_act_join_team", WiredActionJoinTeam.class);//new
-            put("wf_act_leave_team", WiredActionLeaveTeam.class);//new
-            put("wf_act_give_score", WiredActionGiveScore.class);//new
-            put("wf_act_bot_talk", WiredActionBotTalk.class);//new
-            put("wf_act_bot_give_handitem", WiredActionBotGiveHandItem.class);//new
-            put("wf_act_bot_move", WiredActionBotMove.class);//new
-            put("wf_act_comet", WiredActionComet.class);//new
-            put("wf_act_move_to_dir", WiredActionMoveToDirection.class);//new
-            put("wf_act_bot_talk_to_avatar", WiredActionBotTalkToAvatar.class);//new
-            put("wf_act_bot_clothes", WiredActionBotClothes.class);//new
-            put("wf_act_bot_follow_avatar", WiredActionBotFollowAvatar.class);//new
-            put("wf_act_call_stacks", WiredActionExecuteStacks.class);//new
-            put("wf_xtra_random", WiredActionRandomEffect.class); // new
+            put("wf_act_match_to_sshot", WiredActionMatchToSnapshot.class);
+            put("wf_act_teleport_to", WiredActionTeleportPlayer.class);
+            put("wf_act_show_message", WiredActionShowMessage.class);
+            put("wf_act_toggle_state", WiredActionToggleState.class);
+            put("wf_act_give_reward", WiredActionGiveReward.class);
+            put("wf_act_move_rotate", WiredActionMoveRotate.class);
+            put("wf_act_chase", WiredActionChase.class);
+            put("wf_act_kick_user", WiredActionKickUser.class);
+            put("wf_act_reset_timers", WiredActionResetTimers.class);
+            put("wf_act_join_team", WiredActionJoinTeam.class);
+            put("wf_act_leave_team", WiredActionLeaveTeam.class);
+            put("wf_act_give_score", WiredActionGiveScore.class);
+            put("wf_act_bot_talk", WiredActionBotTalk.class);
+            put("wf_act_bot_give_handitem", WiredActionBotGiveHandItem.class);
+            put("wf_act_bot_move", WiredActionBotMove.class);
+            put("wf_act_comet", WiredActionComet.class);
+            put("wf_act_move_to_dir", WiredActionMoveToDirection.class);
+            put("wf_act_bot_talk_to_avatar", WiredActionBotTalkToAvatar.class);
+            put("wf_act_bot_clothes", WiredActionBotClothes.class);
+            put("wf_act_bot_follow_avatar", WiredActionBotFollowAvatar.class);
+            put("wf_act_call_stacks", WiredActionExecuteStacks.class);
+            put("wf_xtra_random", WiredActionRandomEffect.class);
 
 
-            put("wf_trg_says_something", WiredTriggerPlayerSaysKeyword.class);//new
-            put("wf_trg_enter_room", WiredTriggerEnterRoom.class);//new
-            put("wf_trg_periodically", WiredTriggerPeriodically.class);//new
-            put("wf_trg_walks_off_furni", WiredTriggerWalksOffFurni.class);//new
-            put("wf_trg_walks_on_furni", WiredTriggerWalksOnFurni.class);//new
-            put("wf_trg_state_changed", WiredTriggerStateChanged.class);//new
-            put("wf_trg_game_starts", WiredTriggerGameStarts.class);//new
-            put("wf_trg_game_ends", WiredTriggerGameEnds.class);//new
-            put("wf_trg_collision", WiredTriggerCollision.class);//new
-            put("wf_trg_period_long", WiredTriggerPeriodicallyLong.class);//new
-            put("wf_trg_at_given_time", WiredTriggerAtGivenTime.class);//new
-            put("wf_trg_at_given_time_long", WiredTriggerAtGivenTimeLong.class);//new
-            put("wf_trg_score_achieved", WiredTriggerScoreAchieved.class);//new
-            put("wf_trg_bot_reached_avtr", WiredTriggerBotReachedAvatar.class);//new
+            put("wf_trg_says_something", WiredTriggerPlayerSaysKeyword.class);
+            put("wf_trg_enter_room", WiredTriggerEnterRoom.class);
+            put("wf_trg_periodically", WiredTriggerPeriodically.class);
+            put("wf_trg_walks_off_furni", WiredTriggerWalksOffFurni.class);
+            put("wf_trg_walks_on_furni", WiredTriggerWalksOnFurni.class);
+            put("wf_trg_state_changed", WiredTriggerStateChanged.class);
+            put("wf_trg_game_starts", WiredTriggerGameStarts.class);
+            put("wf_trg_game_ends", WiredTriggerGameEnds.class);
+            put("wf_trg_collision", WiredTriggerCollision.class);
+            put("wf_trg_period_long", WiredTriggerPeriodicallyLong.class);
+            put("wf_trg_at_given_time", WiredTriggerAtGivenTime.class);
+            put("wf_trg_at_given_time_long", WiredTriggerAtGivenTimeLong.class);
+            put("wf_trg_score_achieved", WiredTriggerScoreAchieved.class);
+            put("wf_trg_bot_reached_avtr", WiredTriggerBotReachedAvatar.class);
 
-            put("wf_cnd_trggrer_on_frn", WiredConditionTriggererOnFurni.class);//new
-            put("wf_cnd_not_trggrer_on", WiredNegativeConditionTriggererOnFurni.class);//new
-            put("wf_cnd_actor_in_group", WiredConditionPlayerInGroup.class);//new
-            put("wf_cnd_not_in_group", WiredNegativeConditionPlayerInGroup.class);//new
-            put("wf_cnd_furnis_hv_avtrs", WiredConditionFurniHasPlayers.class);//new
-            put("wf_cnd_not_hv_avtrs", WiredNegativeConditionFurniHasPlayers.class);//new
-            put("wf_cnd_wearing_badge", WiredConditionPlayerHasBadgeEquipped.class);//new
-            put("wf_cnd_not_wearing_badge", WiredNegativeConditionPlayerHasBadgeEquipped.class);//new
-            put("wf_cnd_wearing_effect", WiredConditionPlayerWearingEffect.class);//new
-            put("wf_cnd_not_wearing_effect", WiredNegativeConditionPlayerWearingEffect.class);//new
-            put("wf_cnd_has_furni_on", WiredConditionHasFurniOn.class);//new
-            put("wf_cnd_not_furni_on", WiredNegativeConditionHasFurniOn.class);//new
-            put("wf_cnd_user_count_in", WiredConditionPlayerCountInRoom.class);//new
-            put("wf_cnd_not_user_count", WiredConditionPlayerCountInRoom.class);//new
-            put("wf_cnd_match_snapshot", WiredConditionMatchSnapshot.class);//new
-            put("wf_cnd_not_match_snap", WiredNegativeConditionMatchSnapshot.class);//new
-            put("wf_cnd_has_handitem", WiredConditionHasHandItem.class);//new
-            put("wf_cnd_time_more_than", WiredConditionTimeMoreThan.class);//new
-            put("wf_cnd_time_less_than", WiredConditionTimeLessThan.class);//new
-            put("wf_cnd_actor_in_team", WiredConditionPlayerInTeam.class);//new
-            put("wf_cnd_not_in_team", WiredNegativeConditionPlayerInTeam.class);//new
-            put("wf_cnd_stuff_is", WiredConditionStuffIs.class);//new
-            put("wf_cnd_not_stuff_is", WiredNegativeConditionStuffIs.class);//new
+            put("wf_cnd_trggrer_on_frn", WiredConditionTriggererOnFurni.class);
+            put("wf_cnd_not_trggrer_on", WiredNegativeConditionTriggererOnFurni.class);
+            put("wf_cnd_actor_in_group", WiredConditionPlayerInGroup.class);
+            put("wf_cnd_not_in_group", WiredNegativeConditionPlayerInGroup.class);
+            put("wf_cnd_furnis_hv_avtrs", WiredConditionFurniHasPlayers.class);
+            put("wf_cnd_not_hv_avtrs", WiredNegativeConditionFurniHasPlayers.class);
+            put("wf_cnd_wearing_badge", WiredConditionPlayerHasBadgeEquipped.class);
+            put("wf_cnd_not_wearing_badge", WiredNegativeConditionPlayerHasBadgeEquipped.class);
+            put("wf_cnd_wearing_effect", WiredConditionPlayerWearingEffect.class);
+            put("wf_cnd_not_wearing_effect", WiredNegativeConditionPlayerWearingEffect.class);
+            put("wf_cnd_has_furni_on", WiredConditionHasFurniOn.class);
+            put("wf_cnd_not_furni_on", WiredNegativeConditionHasFurniOn.class);
+            put("wf_cnd_user_count_in", WiredConditionPlayerCountInRoom.class);
+            put("wf_cnd_not_user_count", WiredConditionPlayerCountInRoom.class);
+            put("wf_cnd_match_snapshot", WiredConditionMatchSnapshot.class);
+            put("wf_cnd_not_match_snap", WiredNegativeConditionMatchSnapshot.class);
+            put("wf_cnd_has_handitem", WiredConditionHasHandItem.class);
+            put("wf_cnd_time_more_than", WiredConditionTimeMoreThan.class);
+            put("wf_cnd_time_less_than", WiredConditionTimeLessThan.class);
+            put("wf_cnd_actor_in_team", WiredConditionPlayerInTeam.class);
+            put("wf_cnd_not_in_team", WiredNegativeConditionPlayerInTeam.class);
+            put("wf_cnd_stuff_is", WiredConditionStuffIs.class);
+            put("wf_cnd_not_stuff_is", WiredNegativeConditionStuffIs.class);
 
             put("wf_xtra_unseen", WiredAddonUnseenEffect.class);
 
-            put("wf_floor_switch1", WiredAddonFloorSwitch.class);//new
-            put("wf_floor_switch2", WiredAddonFloorSwitch.class);//new
-            put("wf_colorwheel", WiredAddonColourWheel.class);//new
-            put("wf_pressureplate", WiredAddonPressurePlate.class);//new
-            put("wf_arrowplate", WiredAddonPressurePlate.class);//new
-            put("wf_ringplate", WiredAddonPressurePlate.class);//new
-            put("wf_pyramid", WiredAddonPyramid.class);//new
-            put("wf_visual_timer", WiredAddonVisualTimer.class);//new
-            put("wf_blob", WiredAddonBlob.class);//new
+            put("wf_floor_switch1", WiredAddonFloorSwitch.class);
+            put("wf_floor_switch2", WiredAddonFloorSwitch.class);
+            put("wf_colorwheel", WiredAddonColourWheel.class);
+            put("wf_pressureplate", WiredAddonPressurePlate.class);
+            put("wf_arrowplate", WiredAddonPressurePlate.class);
+            put("wf_ringplate", WiredAddonPressurePlate.class);
+            put("wf_pyramid", WiredAddonPyramid.class);
+            put("wf_visual_timer", WiredAddonVisualTimer.class);
+            put("wf_blob", WiredAddonBlob.class);
 
-            // Custom Ken's wireds
-            put("wf_trg_afkkkdormeur", WiredTriggerCustomIdle.class); // trigger
-            put("wf_trg_leave_room", WiredTriggerLeavesRoom.class); // trigger
-            put("wf_trg_cls_user1", WiredTriggerUsersCollide.class); // trigger
+            put("wf_trg_afkkkdormeur", WiredTriggerCustomIdle.class);
+            put("wf_trg_leave_room", WiredTriggerLeavesRoom.class);
+            put("wf_trg_cls_user1", WiredTriggerUsersCollide.class);
 
-            put("wf_cstm_freeze", WiredCustomFreeze.class); // action
-            put("wf_cstm_fswalk", WiredCustomFastWalk.class); // action
-            put("wf_cstm_dancee", WiredCustomDance.class); // action
-            put("wf_cstm_enable", WiredCustomEnable.class); // action
-            put("wf_cstm_hnitem", WiredCustomHanditem.class); // action
-            put("wf_act_forwa", WiredCustomForwardRoom.class); // action
-            put("wf_act_raise_furni", WiredCustomFurniUp.class); // action
-            put("wf_act_lower_furni", WiredCustomFurniDown.class); // action
-            put("wf_act_usr_clothes", WiredCustomChangeClothes.class); // action
-            put("wf_act_tiles", WiredCustomForceCollision.class); // action
+            put("wf_cstm_freeze", WiredCustomFreeze.class);
+            put("wf_cstm_fswalk", WiredCustomFastWalk.class);
+            put("wf_cstm_dancee", WiredCustomDance.class);
+            put("wf_cstm_enable", WiredCustomEnable.class);
+            put("wf_cstm_hnitem", WiredCustomHanditem.class);
+            put("wf_act_forwa", WiredCustomForwardRoom.class);
+            put("wf_act_raise_furni", WiredCustomFurniUp.class);
+            put("wf_act_lower_furni", WiredCustomFurniDown.class);
+            put("wf_act_usr_clothes", WiredCustomChangeClothes.class);
+            put("wf_act_tiles", WiredCustomForceCollision.class);
 
-            put("wf_cnd_habbo_has_diamonds", WiredConditionCustomHasDiamonds.class); // condition
-            put("wf_cnd_not_habbo_has_diamonds", WiredNegativeConditionCustomHasDiamonds.class); // condition
-            put("wf_cnd_habbo_has_duckets", WiredConditionCustomHasDuckets.class); // condition
-            put("wf_cnd_not_habbo_has_duckets", WiredNegativeConditionCustomHasDuckets.class); // condition
-            put("wf_cnd_habbo_has_diamondz", WiredConditionCustomHasDance.class); // condition
-            put("wf_cnd_habbo_not_danc", WiredNegativeConditionCustomHasDance.class); // condition
-            put("wf_cnd_habbo_has_rank", WiredConditionCustomHasRank.class); // condition
-            put("wf_cnd_habbo_not_rank", WiredNegativeConditionCustomHasRank.class); // condition
-            put("wf_cnd_actor_is_idley", WiredConditionCustomIsIdle.class); // condition
-            put("wf_cnd_actor_is_idlen", WiredNegativeConditionCustomIsIdle.class); // condition
+            put("wf_cnd_habbo_has_diamonds", WiredConditionCustomHasDiamonds.class);
+            put("wf_cnd_not_habbo_has_diamonds", WiredNegativeConditionCustomHasDiamonds.class);
+            put("wf_cnd_habbo_has_duckets", WiredConditionCustomHasDuckets.class);
+            put("wf_cnd_not_habbo_has_duckets", WiredNegativeConditionCustomHasDuckets.class);
+            put("wf_cnd_habbo_has_diamondz", WiredConditionCustomHasDance.class);
+            put("wf_cnd_habbo_not_danc", WiredNegativeConditionCustomHasDance.class);
+            put("wf_cnd_habbo_has_rank", WiredConditionCustomHasRank.class);
+            put("wf_cnd_habbo_not_rank", WiredNegativeConditionCustomHasRank.class);
+            put("wf_cnd_actor_is_idley", WiredConditionCustomIsIdle.class);
+            put("wf_cnd_actor_is_idlen", WiredNegativeConditionCustomIsIdle.class);
 
 
             put("highscore_classic", HighscoreClassicFloorItem.class);

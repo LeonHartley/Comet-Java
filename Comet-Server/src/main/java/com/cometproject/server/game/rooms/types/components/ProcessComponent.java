@@ -362,6 +362,8 @@ public class ProcessComponent implements CometTask {
     private boolean processEntity(RoomEntity entity, boolean isRetry) {
         boolean isPlayer = entity instanceof PlayerEntity;
 
+        entity.freezeTick();
+
         if (isPlayer && ((PlayerEntity) entity).getPlayer() == null || entity.getRoom() == null) {
             return true; // adds it to the to remove list automatically..
         }

@@ -9,6 +9,7 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
 import com.cometproject.server.game.rooms.objects.items.types.floor.RollerFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerPeriodically;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManager;
 import com.cometproject.server.utilities.TimeSpan;
@@ -104,24 +105,24 @@ public class ItemProcessComponent implements CometTask {
 
         if (this.getRoom().getEntities().realPlayerCount() == 0) return;
 
-        final Set<String> positionsWithPeriodicTrigger = new HashSet<>();
+        final Set<RoomTile> positionsWithPeriodicTrigger = new HashSet<>();
 
         for (RoomItemFloor item : this.getRoom().getItems().getFloorItems().values()) {
             try {
                 if (item != null && item.requiresTick() || item instanceof RollerFloorItem) {
                     if (item instanceof WiredTriggerPeriodically) {
-                        final String posStr = item.getPosition().getX() + "_" + item.getPosition().getY();
-
-                        if (positionsWithPeriodicTrigger.contains(posStr)) {
+                        if (positionsWithPeriodicTrigger.contains(item.getTile())) {
                             continue;
                         } else {
-                            positionsWithPeriodicTrigger.add(posStr);
+                            positionsWithPeriodicTrigger.add(item.getTile());
                         }
                     }
 
                     if (item.isStateSwitched()) {
                         item.restoreState();
                     }
+
+                    Comet.getServer().getLogger().debug(item.getId() + " tick");
 
                     item.tick();
                 }
@@ -150,11 +151,6 @@ public class ItemProcessComponent implements CometTask {
     @Override
     public void run() {
         this.processTick();
-    }
-
-    public void queueAction(WiredTriggerExecutor action) {
-        // TODO: monitor this
-        CometThreadManager.getInstance().executeOnce(action);
     }
 
     public void saveItem(RoomItem roomItem) {

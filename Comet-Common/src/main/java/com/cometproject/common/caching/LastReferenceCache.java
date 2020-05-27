@@ -48,7 +48,13 @@ public class LastReferenceCache<TKey, TObj> implements Cache<TKey, TObj> {
 
     @Override
     public TObj get(TKey tKey) {
-        return this.cache.get(tKey).getObject();
+        CacheEntry<TObj> obj = this.cache.get(tKey);
+
+        if (obj == null) {
+            return null;
+        }
+
+        return obj.getObject();
     }
 
     @Override

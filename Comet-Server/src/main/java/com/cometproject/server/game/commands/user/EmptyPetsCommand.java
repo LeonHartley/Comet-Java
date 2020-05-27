@@ -26,10 +26,6 @@ public class EmptyPetsCommand extends ChatCommand {
 
                 client.send(new PetInventoryMessageComposer(client.getPlayer().getPets().getPets()));
 
-                PlayerBotDao.deleteBots(client.getPlayer().getId());
-                client.getPlayer().getBots().clearBots();
-                client.send(new BotInventoryMessageComposer());
-
                 sendNotif(Locale.getOrDefault("command.emptypets.emptied", "Your pets inventory was cleared."), client);
             }
 

@@ -7,14 +7,14 @@ public class LegacyGiftData extends GiftData {
     private final int pageId;
 
     public LegacyGiftData(int pageId, int itemId, int senderId, String receiver, String message, int spriteId, int wrappingPaper, int decorationType, boolean showUsername, String extraData) {
-        super(0, senderId, receiver, message, spriteId, wrappingPaper, decorationType, showUsername, extraData);
+        super(0, senderId, null, receiver, message, spriteId, wrappingPaper, decorationType, showUsername, extraData);
 
         this.itemId = itemId;
         this.pageId = pageId;
     }
 
     public GiftData upgrade(int itemDefinitionId) {
-        return new GiftData(itemDefinitionId, this.getSenderId(), this.getReceiver(), this.getMessage(), this.getSpriteId(), this.getWrappingPaper(),  this.getDecorationType(), this.showUsername(), this.getExtraData());
+        return new GiftData(itemDefinitionId, this.getSenderId(), null, this.getReceiver(), this.getMessage(), this.getSpriteId(), this.getWrappingPaper(),  this.getDecorationType(), this.showUsername(), this.getExtraData());
     }
 
     public int getItemId() {

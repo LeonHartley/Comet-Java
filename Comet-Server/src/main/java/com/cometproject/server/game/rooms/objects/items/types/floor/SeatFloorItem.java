@@ -2,6 +2,7 @@ package com.cometproject.server.game.rooms.objects.items.types.floor;
 
 import com.cometproject.api.game.rooms.entities.RoomEntityStatus;
 import com.cometproject.api.game.rooms.objects.data.RoomItemData;
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
@@ -32,6 +33,9 @@ public class SeatFloorItem extends RoomItemFloor {
     }
 
     public void onEntityStepOn(RoomEntity entity, boolean instantUpdate) {
+        if (entity.hasStatus(RoomEntityStatus.SIT)) return;
+
+        Comet.getServer().getLogger().debug("onEntityStepOn");
         entity.sit(getSitHeight(), getRotation());
 
         if (instantUpdate)
@@ -45,6 +49,8 @@ public class SeatFloorItem extends RoomItemFloor {
 
     @Override
     public void onEntityStepOff(RoomEntity entity) {
+
+        Comet.getServer().getLogger().debug("onEntityStepOff");
         if (entity.hasStatus(RoomEntityStatus.SIT)) {
             entity.removeStatus(RoomEntityStatus.SIT);
         }

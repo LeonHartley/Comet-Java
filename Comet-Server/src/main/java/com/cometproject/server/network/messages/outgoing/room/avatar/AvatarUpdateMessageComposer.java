@@ -103,6 +103,7 @@ public class AvatarUpdateMessageComposer extends MessageComposer {
             statusString.append("/");
 
             this.statusString = statusString.toString();
+            System.out.println(this.statusString);
         }
 
         public int getId() {

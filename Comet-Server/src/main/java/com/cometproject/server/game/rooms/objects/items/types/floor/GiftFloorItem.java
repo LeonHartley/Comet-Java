@@ -32,7 +32,7 @@ public class GiftFloorItem extends RoomItemFloor {
             throw new Exception("some sad fucker used an exploit, bye bye gift.");
         }
 
-        if (this.giftData.showUsername()) {
+        if (this.giftData.showUsername() && giftData.getSenderId() != 0) {
             playerAvatar = PlayerManager.getInstance().getAvatarByPlayerId(giftData.getSenderId(), PlayerAvatar.USERNAME_FIGURE);
         } else {
             playerAvatar = null;
@@ -88,6 +88,8 @@ public class GiftFloorItem extends RoomItemFloor {
         if (giftData.showUsername() && this.playerAvatar != null) {
             data.put("PURCHASER_NAME", this.playerAvatar.getUsername());
             data.put("PURCHASER_FIGURE", this.playerAvatar.getFigure());
+        } else if (giftData.showUsername() && this.giftData.getSenderName() != null) {
+            data.put("PURCHASER_NAME", this.giftData.getSenderName());
         }
 
         return data;

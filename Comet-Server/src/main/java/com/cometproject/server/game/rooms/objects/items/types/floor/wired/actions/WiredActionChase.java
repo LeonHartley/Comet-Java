@@ -75,8 +75,8 @@ public class WiredActionChase extends WiredActionItem {
                 List<Square> tilesToEntity = new ArrayList<>();
 
                 for (int direction : Position.COLLIDE_TILES) {
-                    if (tilesToEntity.size() == 0) {
-                        tilesToEntity = ItemPathfinder.getInstance().makePath(floorItem, nearestEntity.getPosition().squareInFront(direction), Pathfinder.DISABLE_DIAGONAL, false);
+                    tilesToEntity = ItemPathfinder.getInstance().makePath(floorItem, nearestEntity.getPosition().squareInFront(direction), Pathfinder.DISABLE_DIAGONAL, false);
+                    if (tilesToEntity != null && tilesToEntity.size() != 0) {
                         break;
                     }
                 }

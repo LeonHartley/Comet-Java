@@ -21,11 +21,6 @@ public class EmptyBotsCommand extends ChatCommand {
             if (!params[0].equals(yes)) {
                 sendAlert(Locale.getOrDefault("command.emptybots.confirm", "<b>Warning!</b>\rAre you sure you want to delete all of your bots?\r\rIf you are sure type  <b>:" + Locale.get("command.emptypets.name") + " yes</b>"), client);
             } else {
-                PetDao.deletePets(client.getPlayer().getId());
-                client.getPlayer().getPets().clearPets();
-
-                client.send(new PetInventoryMessageComposer(client.getPlayer().getPets().getPets()));
-
                 PlayerBotDao.deleteBots(client.getPlayer().getId());
                 client.getPlayer().getBots().clearBots();
                 client.send(new BotInventoryMessageComposer());

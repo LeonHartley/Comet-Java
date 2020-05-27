@@ -11,10 +11,10 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.TimeUnit;
 
 public class LowPriorityItemProcessor implements CometTask {
-    private static final int processTime = 25;
+    private static final int processTime = 250;
     private static LowPriorityItemProcessor instance;
     private final Logger log = Logger.getLogger(LowPriorityItemProcessor.class);
-    private List<RoomItemFloor> itemsToProcess;
+    private final List<RoomItemFloor> itemsToProcess;
 
     public LowPriorityItemProcessor() {
         this.itemsToProcess = new CopyOnWriteArrayList<>();

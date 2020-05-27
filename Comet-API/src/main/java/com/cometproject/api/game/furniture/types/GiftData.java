@@ -5,6 +5,7 @@ public class GiftData {
 
     private final int definitionId;
     private final int senderId;
+    private final String senderName;
     private final String receiver;
     private final String message;
     private final int spriteId;
@@ -13,9 +14,10 @@ public class GiftData {
     private final boolean showUsername;
     private String extraData;
 
-    public GiftData(int itemDefinitionId, int senderId, String receiver, String message, int spriteId, int wrappingPaper, int decorationType, boolean showUsername, String extraData) {
+    public GiftData(int itemDefinitionId, int senderId, String senderName, String receiver, String message, int spriteId, int wrappingPaper, int decorationType, boolean showUsername, String extraData) {
         this.definitionId = itemDefinitionId;
         this.senderId = senderId;
+        this.senderName = senderName;
         this.receiver = receiver;
         this.message = message;
         this.spriteId = spriteId;
@@ -63,5 +65,9 @@ public class GiftData {
 
     public int getDefinitionId() {
         return definitionId;
+    }
+
+    public String getSenderName() {
+        return senderName;
     }
 }

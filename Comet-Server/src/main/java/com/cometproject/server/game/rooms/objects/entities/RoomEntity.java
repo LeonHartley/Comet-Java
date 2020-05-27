@@ -54,6 +54,7 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
     private boolean walkCancelled = false;
     private boolean canWalk = true;
     private boolean isIdle = false;
+    private int freezeTimer = 0;
 
     private final Set<RoomTile> tiles = Sets.newConcurrentHashSet();
 
@@ -321,6 +322,10 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
 
     @Override
     public void setProcessingPath(List<Square> path) {
+        if (this.processingPath != null) {
+            this.processingPath.clear();
+        }
+
         this.processingPath = path;
     }
 
@@ -665,7 +670,7 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
 
         position.setZ(tile.getWalkHeight());
 
-        this.cancelWalk();
+//        this.cancelWalk();
         this.warp(position);
     }
 
@@ -677,7 +682,6 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
         }
 
         this.needsForcedUpdate = true;
-
         this.isWarped = true;
         final RoomTile tile = this.getRoom().getMapping().getTile(position);
 
@@ -773,6 +777,22 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
     @Override
     public void kick() {
         this.leaveRoom(false, true, true);
+    }
+
+    public void freezeFor(int ticks) {
+        this.canWalk = false;
+        this.freezeTimer = ticks;
+    }
+
+    public void freezeTick() {
+        if (!this.canWalk) {
+            this.freezeTimer--;
+
+            if (this.freezeTimer <= 0) {
+                this.canWalk = true;
+                this.freezeTimer = 0;
+            }
+        }
     }
 
     public boolean canWalk() {
@@ -881,5 +901,9 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
 
     public Set<RoomTile> getTiles() {
         return tiles;
+    }
+
+    public boolean isWarping() {
+        return this.warping;
     }
 }

@@ -8,6 +8,8 @@ import com.cometproject.server.game.rooms.types.Room;
 
 
 public class HaloTileFloorItem extends RoomItemFloor {
+    private int phase = 0;
+
     public HaloTileFloorItem(RoomItemData roomItemData, Room room) {
         super(roomItemData, room);
 
@@ -16,6 +18,8 @@ public class HaloTileFloorItem extends RoomItemFloor {
 
     @Override
     public void onEntityStepOn(RoomEntity entity) {
+        if (this.getItemData().getData().equals("1")) return;
+
         this.getItemData().setData("1");
         this.sendUpdate();
     }
@@ -23,12 +27,15 @@ public class HaloTileFloorItem extends RoomItemFloor {
     @Override
     public void onEntityStepOff(RoomEntity entity) {
         if (this.ticksTimer < 1) {
+            this.phase = 2;
             this.setTicks(RoomItemFactory.getProcessTime(0.5));
         }
     }
 
     @Override
     public void onTickComplete() {
+        if (this.getItemData().getData().equals("0")) return;
+
         this.getItemData().setData("0");
         this.sendUpdate();
     }

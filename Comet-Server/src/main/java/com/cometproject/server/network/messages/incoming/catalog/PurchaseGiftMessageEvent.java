@@ -51,7 +51,7 @@ public class PurchaseGiftMessageEvent implements Event {
             return;
         }
 
-        GiftData data = new GiftData(catalogItem.getItems().get(0).getItemId(), client.getPlayer().getId(), sendingUser, message, spriteId, wrappingPaper, decorationType, showUsername, extraData);
+        GiftData data = new GiftData(catalogItem.getItems().get(0).getItemId(), client.getPlayer().getId(), null, sendingUser, message, spriteId, wrappingPaper, decorationType, showUsername, extraData);
         CatalogManager.getInstance().getPurchaseHandler().purchaseItem(client, pageId, itemId, extraData, 1, data);
     }
 }

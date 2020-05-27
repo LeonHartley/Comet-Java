@@ -1,6 +1,7 @@
 package com.cometproject.server.game.rooms.objects.items.types;
 
 import com.cometproject.api.game.rooms.objects.data.RoomItemData;
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.state.FloorItemEvent;
 import com.cometproject.server.game.rooms.types.Room;
@@ -21,9 +22,13 @@ public abstract class AdvancedFloorItem<T extends FloorItemEvent> extends RoomIt
         final Set<T> finishedEvents = new HashSet<T>();
 
         for (T itemEvent : itemEvents) {
+            Comet.getServer().getLogger().debug(this.getId() + " incrementing tick");
+
             itemEvent.incrementTicks();
 
             if (itemEvent.isFinished()) {
+                Comet.getServer().getLogger().debug(this.getId() + " event finished");
+
                 finishedEvents.add(itemEvent);
             }
         }
@@ -34,6 +39,8 @@ public abstract class AdvancedFloorItem<T extends FloorItemEvent> extends RoomIt
             finishedEvent.onCompletion(this);
 
             if (finishedEvent.isInteractiveEvent()) {
+                Comet.getServer().getLogger().debug(this.getId() + " calling onComplete");
+
                 this.onEventComplete(finishedEvent);
             }
         }
