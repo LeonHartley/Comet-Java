@@ -115,17 +115,17 @@ public class PlayerRoutes {
 
         int playerId = Integer.parseInt(req.params("id"));
 
-//        if (!PlayerManager.getInstance().isOnline(playerId)) {
-//            result.put("error", "Player is not online");
-//            return result;
-//        }
+        if (!PlayerManager.getInstance().isOnline(playerId)) {
+            result.put("error", "Player is not online");
+            return result;
+        }
 
-//        Session session = NetworkManager.getInstance().getSessions().getByPlayerId(playerId);
-//
-//        if (session == null) {
-//            result.put("error", "Unable to find the player's session");
-//            return result;
-//        }
+        Session session = NetworkManager.getInstance().getSessions().getByPlayerId(playerId);
+
+        if (session == null) {
+            result.put("error", "Unable to find the player's session");
+            return result;
+        }
 
         String title = req.queryParams("title");
 
@@ -135,7 +135,7 @@ public class PlayerRoutes {
         String alert = req.queryParams("message");
 
         if (alert != null) {
-//            session.send(new AdvancedAlertMessageComposer(title, alert));
+            session.send(new AdvancedAlertMessageComposer(title, alert));
         }
 
         result.put("success", true);
