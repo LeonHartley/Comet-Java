@@ -56,6 +56,9 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
     private boolean isIdle = false;
     private int freezeTimer = 0;
 
+    private int teleportTicks = 0;
+    private Position teleportGoal = null;
+
     private final Set<RoomTile> tiles = Sets.newConcurrentHashSet();
 
     private boolean isRoomMuted = false;
@@ -670,8 +673,9 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
 
         position.setZ(tile.getWalkHeight());
 
-//        this.cancelWalk();
-        this.warp(position);
+        // TODO: we should be able to chain these ;)
+        this.teleportTicks = 3;
+        this.teleportGoal = position;
     }
 
     public void warp(Position position, boolean cancelNextUpdate) {
@@ -905,5 +909,34 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
 
     public boolean isWarping() {
         return this.warping;
+    }
+
+    public int getTeleportTicks() {
+        return teleportTicks;
+    }
+
+    public void setTeleportTicks(int teleportTicks) {
+        this.teleportTicks = teleportTicks;
+    }
+
+    public Position getTeleportGoal() {
+        return teleportGoal;
+    }
+
+    public void setTeleportGoal(Position teleportGoal) {
+        this.teleportGoal = teleportGoal;
+    }
+
+    public void teleportTick() {
+        if (this.teleportTicks == 0) {
+            this.setProcessingPath(null);
+            this.setWalkingPath(null);
+            this.updateAndSetPosition(this.teleportGoal);
+            this.markNeedsUpdate();
+
+            this.teleportGoal = null;
+        } else {
+            this.teleportTicks--;
+        }
     }
 }

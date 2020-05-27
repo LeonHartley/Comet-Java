@@ -26,6 +26,7 @@ public class RollerFloorItem extends AdvancedFloorItem<RollerFloorItemEvent> {
     private boolean hasRollScheduled = false;
     private long lastTick = 0;
     private boolean cycleCancelled = false;
+    private Set<Integer> previouslySkipped = Sets.newConcurrentHashSet();
     private Set<Integer> skippedEntities = Sets.newConcurrentHashSet();
     private Set<Integer> skippedItems = Sets.newConcurrentHashSet();
     private Set<RoomEntity> movedEntities = new ConcurrentHashSet<>();
@@ -51,8 +52,12 @@ public class RollerFloorItem extends AdvancedFloorItem<RollerFloorItemEvent> {
 
     @Override
     public void onEntityStepOn(RoomEntity entity) {
-        if (event.getCurrentTicks() >= this.getTickCount() - 1 && entity.getPositionToSet() != null) {
-            skippedEntities.add(entity.getId());
+        if (event.getCurrentTicks() >= this.getTickCount() - 1 && (entity.isWalking())) {
+            if (skippedEntities.contains(entity.getId())) {
+                skippedEntities.remove(entity.getId());
+            } else {
+                skippedEntities.add(entity.getId());
+            }
         }
     }
 
@@ -140,7 +145,6 @@ public class RollerFloorItem extends AdvancedFloorItem<RollerFloorItemEvent> {
             entity.updateAndSetPosition(new Position(sqInfront.getX(), sqInfront.getY(), toHeight));
             entity.markNeedsUpdate(true);
 
-            entity.freezeFor(2);
             this.onEntityStepOff(entity);
             movedEntities.add(entity);
         }

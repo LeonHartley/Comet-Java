@@ -156,7 +156,7 @@ public class ProcessComponent implements CometTask {
         if (this.adaptiveProcessTimes) {
             CometThreadManager.getInstance().executeSchedule(this, 250, TimeUnit.MILLISECONDS);
         } else {
-            this.processFuture = CometThreadManager.getInstance().executePeriodic(this, 450, 250, TimeUnit.MILLISECONDS);
+            this.processFuture = CometThreadManager.getInstance().executePeriodic(this, 0, 250, TimeUnit.MILLISECONDS);
         }
 
         this.active = true;
@@ -426,6 +426,10 @@ public class ProcessComponent implements CometTask {
             // Clear the walking path now we have a goal set
             entity.getWalkingPath().clear();
             entity.setWalkingPath(null);
+        }
+
+        if (entity.getTeleportGoal() != null) {
+            entity.teleportTick();
         }
 
         if (entity.isWalking()) {

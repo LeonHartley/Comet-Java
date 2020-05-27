@@ -56,7 +56,7 @@ public class ItemProcessComponent implements CometTask {
 
         this.active = true;
 
-        this.future = CometThreadManager.getInstance().executePeriodic(this, 0, INTERVAL, TimeUnit.MILLISECONDS);
+        this.future = CometThreadManager.getInstance().executePeriodic(this, 500, INTERVAL, TimeUnit.MILLISECONDS);
         this.saveFuture = CometThreadManager.getInstance().executePeriodic(this::saveQueueTick, 1000, 1000, TimeUnit.MILLISECONDS);
 
         log.debug("Processing started");
