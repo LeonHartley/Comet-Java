@@ -665,16 +665,20 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
     }
 
     public void teleportToObject(RoomObject roomObject) {
+        final RoomTile tile = this.getRoom().getMapping().getTile(this.getPosition());
+        final Position position = roomObject.getPosition().copy();
+
+        if (this.teleportGoal != null && this.teleportGoal.getX() == position.getX() && this.teleportGoal.getY() == position.getY()) {
+            return;
+        }
+
         this.applyEffect(new PlayerEffect(4, 5));
 
-        final RoomTile tile = this.getRoom().getMapping().getTile(this.getPosition());
-
-        final Position position = roomObject.getPosition().copy();
 
         position.setZ(tile.getWalkHeight());
 
         // TODO: we should be able to chain these ;)
-        this.teleportTicks = 3;
+        this.teleportTicks = 2;
         this.teleportGoal = position;
     }
 

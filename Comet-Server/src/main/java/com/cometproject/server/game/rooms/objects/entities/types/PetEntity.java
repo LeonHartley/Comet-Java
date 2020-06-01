@@ -111,15 +111,24 @@ public class PetEntity extends RoomEntity {
     @Override
     public void compose(IComposer msg) {
         msg.writeInt(this.data.getId());
-        msg.writeString(this.data.getName());
+        msg.writeString(this.data.getName().substring(0, 16));
         msg.writeString("PET_MOTTO");
 
-        String composer = data.getLook().toLowerCase() + " ";
+        StringBuilder composer = new StringBuilder(data.getLook().toLowerCase() + " ");
 
-        if (this.getData().getTypeId() == 15) {
-            composer += new StringBuilder().append(this.getData().isSaddled() ? "3" : "2").append(" 2 ").append(this.getData().getHair()).append(" ").append(this.getData().getHairDye()).append(" 3 ").append(this.getData().getHair()).append(" ").append(this.getData().getHairDye()).append(this.getData().isSaddled() ? "0 4 9 0" : "").toString();
+        if (this.getData().getTypeId() == 15 /*is horse*/) {
+            composer.append(this.getData().isSaddled() ? "3" : "2")
+                    .append(" 2 ")
+                    .append(this.getData().getHair())
+                    .append(" ")
+                    .append(this.getData().getHairDye())
+                    .append(" 3 ")
+                    .append(this.getData().getHair())
+                    .append(" ")
+                    .append(this.getData().getHairDye())
+                    .append(this.getData().isSaddled() ? "0 4 9 0" : "");
         } else {
-            composer += "2 2 -1 0 3 -1 0";
+            composer.append("2 2 -1 0 3 -1 0");
         }
 
         msg.writeString(composer);

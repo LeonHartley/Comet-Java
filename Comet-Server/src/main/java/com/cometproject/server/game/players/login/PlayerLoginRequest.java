@@ -20,6 +20,7 @@ import com.cometproject.server.network.messages.outgoing.handshake.UniqueIDMessa
 import com.cometproject.server.network.messages.outgoing.moderation.CfhTopicsInitMessageComposer;
 import com.cometproject.server.network.messages.outgoing.moderation.ModToolMessageComposer;
 import com.cometproject.server.network.messages.outgoing.navigator.FavouriteRoomsMessageComposer;
+import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.MotdNotificationMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.NotificationMessageComposer;
@@ -146,7 +147,7 @@ public class PlayerLoginRequest implements CometTask {
             }
 
             if (CometSettings.motdEnabled) {
-                client.sendQueue(new MotdNotificationMessageComposer());
+                client.sendQueue(new AdvancedAlertMessageComposer(CometSettings.hotelName, CometSettings.motdMessage.replace("%username%", player.getData().getUsername()).replace("%hotelName%", CometSettings.hotelName), "motd_image"));
             }
 
             if (CometSettings.onlineRewardDoubleDays.size() != 0) {

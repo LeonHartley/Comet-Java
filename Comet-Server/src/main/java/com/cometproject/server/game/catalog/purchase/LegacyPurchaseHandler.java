@@ -33,6 +33,7 @@ import com.cometproject.server.composers.catalog.UnseenItemsMessageComposer;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.items.ItemManager;
+import com.cometproject.server.game.pets.PetManager;
 import com.cometproject.server.game.pets.data.PetData;
 import com.cometproject.server.game.pets.data.StaticPetProperties;
 import com.cometproject.server.game.rooms.RoomManager;
@@ -299,17 +300,26 @@ public class LegacyPurchaseHandler implements ICatalogPurchaseHandler {
                     amount = amount * 2;
                     isTeleport = true;
                 } else if (item.getDisplayName().startsWith("a0 pet")) {
-                    String petRace = item.getDisplayName().replace("a0 pet", "");
-                    String[] petData = data.split("\n"); // [0:name, 1:race, 2:colour]
+                    final String petRace = item.getDisplayName().replace("a0 pet", "");
+                    final String[] petData = data.split("\n"); // [0:name, 1:race, 2:colour]
 
                     if (petData.length != 3) {
                         throw new Exception("Invalid pet data length: " + petData.length);
                     }
 
-                    int petId = PetDao.createPet(client.getPlayer().getId(), petData[0], Integer.parseInt(petRace), Integer.parseInt(petData[1]), petData[2]);
+                    final String petName = petData[0];
+                    if (PetManager.getInstance().validatePetName(petName) > 0) {
+                        // client wouldn't let them do this since there is pre-validation
+                        // if they send an invalid name at this point, it's obviously via packet injection,
+                        // in which case they can, politely, fuck right off. :)
+                        client.disconnect();
+                        throw new Exception("Invalid pet name");
+                    }
+
+                    int petId = PetDao.createPet(client.getPlayer().getId(), petName, Integer.parseInt(petRace), Integer.parseInt(petData[1]), petData[2]);
 
                     client.getPlayer().getAchievements().progressAchievement(AchievementType.PET_LOVER, 1);
-                    client.getPlayer().getPets().addPet(new PetData(petId, petData[0], 0, StaticPetProperties.DEFAULT_LEVEL, StaticPetProperties.DEFAULT_HAPPINESS, StaticPetProperties.DEFAULT_EXPERIENCE, StaticPetProperties.DEFAULT_ENERGY, StaticPetProperties.DEFAULT_HUNGER, client.getPlayer().getId(), client.getPlayer().getData().getUsername(), petData[2], Integer.parseInt(petData[1]), Integer.parseInt(petRace)));
+                    client.getPlayer().getPets().addPet(new PetData(petId, petName, 0, StaticPetProperties.DEFAULT_LEVEL, StaticPetProperties.DEFAULT_HAPPINESS, StaticPetProperties.DEFAULT_EXPERIENCE, StaticPetProperties.DEFAULT_ENERGY, StaticPetProperties.DEFAULT_HUNGER, client.getPlayer().getId(), client.getPlayer().getData().getUsername(), petData[2], Integer.parseInt(petData[1]), Integer.parseInt(petRace)));
                     client.send(new PetInventoryMessageComposer(client.getPlayer().getPets().getPets()));
 
                     client.send(new UnseenItemsMessageComposer(new HashMap<Integer, List<Integer>>() {{
