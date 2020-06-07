@@ -84,6 +84,13 @@ public class Composer implements ByteBufHolder, IComposer {
     }
 
     public void writeString(Object obj) {
+        if (obj instanceof String) {
+            if (((String) obj).length() == 0) {
+                this.writeShort(0);
+                return;
+            }
+        }
+
         try {
             String string = "";
 
@@ -97,6 +104,11 @@ public class Composer implements ByteBufHolder, IComposer {
         } catch (Exception e) {
             exceptionCaught(e);
         }
+    }
+
+    @Override
+    public void writeEmptyString() {
+        this.writeShort(0);
     }
 
     public void writeDouble(double d) {

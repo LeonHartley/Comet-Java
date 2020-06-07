@@ -9,6 +9,8 @@ public interface IComposer {
 
     void writeString(Object obj);
 
+    void writeEmptyString();
+
     void writeDouble(double d);
 
     void writeInt(int i);

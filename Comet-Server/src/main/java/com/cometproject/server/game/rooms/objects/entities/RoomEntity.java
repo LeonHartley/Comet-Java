@@ -907,28 +907,8 @@ public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity
         this.tiles.add(tile);
     }
 
-    public Set<RoomTile> getTiles() {
-        return tiles;
-    }
-
-    public boolean isWarping() {
-        return this.warping;
-    }
-
-    public int getTeleportTicks() {
-        return teleportTicks;
-    }
-
-    public void setTeleportTicks(int teleportTicks) {
-        this.teleportTicks = teleportTicks;
-    }
-
     public Position getTeleportGoal() {
         return teleportGoal;
-    }
-
-    public void setTeleportGoal(Position teleportGoal) {
-        this.teleportGoal = teleportGoal;
     }
 
     public void teleportTick() {

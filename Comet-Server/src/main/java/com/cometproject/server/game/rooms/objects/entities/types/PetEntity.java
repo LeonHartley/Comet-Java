@@ -111,8 +111,8 @@ public class PetEntity extends RoomEntity {
     @Override
     public void compose(IComposer msg) {
         msg.writeInt(this.data.getId());
-        msg.writeString(this.data.getName().substring(0, 16));
-        msg.writeString("PET_MOTTO");
+        msg.writeString(this.data.getName());
+        msg.writeEmptyString();
 
         StringBuilder composer = new StringBuilder(data.getLook().toLowerCase() + " ");
 
@@ -151,7 +151,7 @@ public class PetEntity extends RoomEntity {
 
         msg.writeInt(0);
         msg.writeInt(0);
-        msg.writeString("");
+        msg.writeEmptyString();
     }
 
     public IPetData getData() {
