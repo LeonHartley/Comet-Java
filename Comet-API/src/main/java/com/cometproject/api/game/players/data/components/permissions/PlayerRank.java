@@ -40,4 +40,6 @@ public interface PlayerRank {
     boolean aboutDetailed();
 
     boolean aboutStats();
+
+    String namePrefix();
 }

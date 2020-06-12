@@ -33,11 +33,12 @@ public class RoomWriter {
         msg.writeInt(0);
         msg.writeInt(room.getCategoryId());
 
-        msg.writeInt(room.getTags().length);
-
-        for (String tag : room.getTags()) {
-            msg.writeString(tag);
-        }
+        msg.writeInt(0);
+//        msg.writeInt(room.getTags().length);
+//
+//        for (String tag : room.getTags()) {
+//            msg.writeString(tag);
+//        }
 
         RoomPromotion promotion = RoomManager.getInstance().getRoomPromotions().get(room.getId());
         IGroupData group = GameContext.getCurrent().getGroupService().getData(room.getGroupId());

@@ -31,9 +31,15 @@ public class Rank implements PlayerRank {
     private final boolean aboutStats;
     private final boolean loginNotif;
 
-    public Rank(int id, String name, boolean floodBypass, int floodTime, boolean disconnectable, boolean modTool, boolean bannable, boolean roomKickable, boolean roomFullControl,
-                boolean roomMuteBypass, boolean roomFilterBypass, boolean roomIgnorable, boolean roomEnterFull, boolean roomEnterLocked, boolean roomStaffPick, boolean roomSeeWhispers, boolean messengerStaffChat, boolean messengerLogChat, int messengerMaxFriends, boolean aboutDetailed, boolean aboutStats, boolean loginNotif) {
+    private final String namePrefix;
+
+    public Rank(int id, String name, boolean floodBypass, int floodTime, boolean disconnectable, boolean modTool,
+                boolean bannable, boolean roomKickable, boolean roomFullControl,  boolean roomMuteBypass, boolean roomFilterBypass,
+                boolean roomIgnorable, boolean roomEnterFull, boolean roomEnterLocked, boolean roomStaffPick, boolean roomSeeWhispers,
+                boolean messengerStaffChat, boolean messengerLogChat, int messengerMaxFriends, boolean aboutDetailed,
+                boolean aboutStats, boolean loginNotif, String namePrefix) {
         this.id = id;
+        this.namePrefix = namePrefix;
         this.name = name;
         this.floodBypass = floodBypass;
         this.floodTime = floodTime;
@@ -163,5 +169,10 @@ public class Rank implements PlayerRank {
 
     public boolean sendLoginNotif() {
         return loginNotif;
+    }
+
+    @Override
+    public String namePrefix() {
+        return namePrefix;
     }
 }

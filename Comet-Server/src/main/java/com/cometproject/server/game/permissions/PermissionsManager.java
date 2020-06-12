@@ -75,7 +75,7 @@ public class PermissionsManager implements Initialisable {
             }
 
             this.ranks = PermissionsDao.getRankPermissions();
-            this.ranks.put(255, new Rank(255, "Comet", true, 0, false, true, false, false, true, true, true, false, true, true, true, true, true, true, 10000, true, true, false));
+            this.ranks.put(255, new Rank(255, "Comet", true, 0, false, true, false, false, true, true, true, false, true, true, true, true, true, true, 10000, true, true, false, "[Comet]"));
         } catch (Exception e) {
             log.error("Error while loading rank permissions", e);
             return;

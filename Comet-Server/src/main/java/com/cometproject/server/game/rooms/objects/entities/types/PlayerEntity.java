@@ -16,6 +16,7 @@ import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.CommandManager;
 import com.cometproject.server.game.commands.vip.TransformCommand;
+import com.cometproject.server.game.permissions.types.Rank;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.game.players.types.Player;
@@ -54,6 +55,7 @@ import com.cometproject.server.network.ws.messages.alerts.MutedMessage;
 import com.cometproject.server.protocol.messages.MessageComposer;
 import com.cometproject.server.storage.queries.pets.RoomPetDao;
 import com.cometproject.server.utilities.attributes.Attributable;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -472,7 +474,7 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
         }
 
 
-        if (this.getPlayer() != null && !this.getPlayer().getData().getNameColour().equals("000000")) {
+        if (!this.getPlayer().getData().getNameColour().equals("000000") || this.getPlayer().getPermissions().getRank().namePrefix() != null) {
             this.sendNameChange();
         }
 
@@ -515,19 +517,25 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
 
     private void sendNameChange() {
         final StringBuilder username = new StringBuilder();
-        final String format = "<font color='#%s'>%s</font>";
+        final String format = "%s <font color='#%s'>%s</font>";
         final String colour = this.getPlayer().getData().getNameColour();
+
+        String prefix = "";
+        final Rank rank = this.getPlayer().getPermissions().getRank();
+        if (rank != null && rank.namePrefix() != null) {
+            prefix = rank.namePrefix();
+        }
 
         if (colour.contains(",")) {
             final String[] colours = colour.split(",");
             boolean alternate = true;
 
             for (char c : this.getUsername().toCharArray()) {
-                username.append(String.format(format, colours[alternate ? 1 : 0], c));
+                username.append(String.format(format, prefix, colours[alternate ? 1 : 0], c));
                 alternate = !alternate;
             }
         } else {
-            username.append(String.format(format, colour, this.getUsername()));
+            username.append(String.format(format, prefix, colour, this.getUsername()));
         }
 
         final MessageComposer composer = new UserNameChangeMessageComposer(this.getRoom().getId(), this.getId(), username.toString());

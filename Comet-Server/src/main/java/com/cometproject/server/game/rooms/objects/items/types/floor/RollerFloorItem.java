@@ -52,7 +52,7 @@ public class RollerFloorItem extends AdvancedFloorItem<RollerFloorItemEvent> {
 
     @Override
     public void onEntityStepOn(RoomEntity entity) {
-        if (event.getCurrentTicks() >= this.getTickCount() - 1 && (entity.isWalking())) {
+        if (event.getCurrentTicks() >= this.getTickCount() - 1) {
             if (skippedEntities.contains(entity.getId())) {
                 skippedEntities.remove(entity.getId());
             } else {
