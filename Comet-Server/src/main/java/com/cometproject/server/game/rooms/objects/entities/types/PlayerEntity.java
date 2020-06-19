@@ -517,13 +517,13 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
 
     private void sendNameChange() {
         final StringBuilder username = new StringBuilder();
-        final String format = "%s <font color='#%s'>%s</font>";
+        final String format = "%s<font color='#%s'>%s</font>";
         final String colour = this.getPlayer().getData().getNameColour();
 
         String prefix = "";
         final Rank rank = this.getPlayer().getPermissions().getRank();
         if (rank != null && rank.namePrefix() != null) {
-            prefix = rank.namePrefix();
+            prefix = String.format("%s ", rank.namePrefix());
         }
 
         if (colour.contains(",")) {
@@ -588,7 +588,9 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
 //            }
 //        }
 
-        if (!this.getPlayer().getData().getNameColour().equals("000000") || this.getPlayer().getData().nameColourChanged()) {
+        if (!this.getPlayer().getData().getNameColour().equals("000000") ||
+                this.getPlayer().getData().nameColourChanged() ||
+                this.getPlayer().getPermissions().getRank().namePrefix() != null) {
             if (this.getPlayer().getData().nameColourChanged()) {
                 this.getPlayer().getData().setNameColourChanged(false);
             }

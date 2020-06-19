@@ -158,7 +158,7 @@ public class BotEntity extends RoomEntity {
         msg.writeInt(this.getPosition().getX());
         msg.writeInt(this.getPosition().getY());
         msg.writeDouble(this.getPosition().getZ());
-        msg.writeInt(0);
+        msg.writeInt(this.getBodyRotation());
         msg.writeInt(4);
 
         msg.writeString(this.getGender().toLowerCase());

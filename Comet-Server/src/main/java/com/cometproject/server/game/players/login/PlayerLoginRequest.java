@@ -191,7 +191,7 @@ public class PlayerLoginRequest implements CometTask {
                 player.getData().save();
             }
 
-            if (!Comet.isDebugging) {
+            if (!Comet.isDebugging && !ticket.startsWith("COMET-")) {
                 PlayerDao.nullifyAuthTicket(player.getData().getId());
             }
 
