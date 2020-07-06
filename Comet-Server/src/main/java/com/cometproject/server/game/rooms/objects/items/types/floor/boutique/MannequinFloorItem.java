@@ -1,11 +1,15 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.boutique;
 
+import com.cometproject.api.game.rooms.objects.data.ItemData;
+import com.cometproject.api.game.rooms.objects.data.MapItemData;
 import com.cometproject.api.game.rooms.objects.data.RoomItemData;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
+
+import java.util.HashMap;
 
 
 public class MannequinFloorItem extends RoomItemFloor {
@@ -36,18 +40,14 @@ public class MannequinFloorItem extends RoomItemFloor {
             this.figure = finalFigure.substring(0, finalFigure.length() - 1);
         }
     }
-
-    public void composeItemData(IComposer msg) {
-        msg.writeInt(0);
-        msg.writeInt(1);
-        msg.writeInt(3);
-
-        msg.writeString("GENDER");
-        msg.writeString(this.getGender());
-        msg.writeString("FIGURE");
-        msg.writeString(this.getFigure());
-        msg.writeString("OUTFIT_NAME");
-        msg.writeString(this.getName());
+    
+    @Override
+    public ItemData createItemData() {
+        return new MapItemData(new HashMap<String, String>() {{
+            put("GENDER", getGender());
+            put("FIGURE", getFigure());
+            put("OUTFIT_NAME", getName());
+        }});
     }
 
     @Override

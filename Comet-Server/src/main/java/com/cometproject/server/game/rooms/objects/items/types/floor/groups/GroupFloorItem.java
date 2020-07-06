@@ -3,13 +3,16 @@ package com.cometproject.server.game.rooms.objects.items.types.floor.groups;
 import com.cometproject.api.game.GameContext;
 import com.cometproject.api.game.groups.types.IGroupData;
 import com.cometproject.api.game.rooms.entities.RoomEntityStatus;
+import com.cometproject.api.game.rooms.objects.data.ItemData;
 import com.cometproject.api.game.rooms.objects.data.RoomItemData;
+import com.cometproject.api.game.rooms.objects.data.StringArrayItemData;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 
 
@@ -27,26 +30,22 @@ public class GroupFloorItem extends RoomItemFloor {
             this.groupId = Integer.parseInt(data);
     }
 
+
     @Override
-    public void composeItemData(IComposer msg) {
+    public ItemData createItemData() {
         final IGroupData groupData = GameContext.getCurrent().getGroupService().getData(this.groupId);
 
-        msg.writeInt(0);
         if (groupData == null) {
-            msg.writeInt(2);
-            msg.writeInt(0);
+            return new StringArrayItemData(new String[]{});
         } else {
-            msg.writeInt(2);
-            msg.writeInt(5);
-            msg.writeString(this instanceof GroupGateFloorItem ? ((GroupGateFloorItem) this).isOpen ? "1" : "0" : "0");
-            msg.writeString(this.getItemData().getData());
-            msg.writeString(groupData.getBadge());
+            final String itemState = this instanceof GroupGateFloorItem ? ((GroupGateFloorItem) this).isOpen ? "1" : "0" : "0";
+            final String firstColour = GameContext.getCurrent().getGroupService().getItemService().getSymbolColours().get(groupData.getColourA()) != null ? GameContext.getCurrent().getGroupService().getItemService().getSymbolColours().get(groupData.getColourA()).getFirstValue() : "ffffff";
+            final String secondColour = GameContext.getCurrent().getGroupService().getItemService().getBackgroundColours().get(groupData.getColourB()) != null ? GameContext.getCurrent().getGroupService().getItemService().getBackgroundColours().get(groupData.getColourB()).getFirstValue() : "ffffff";
 
-            String colourA = GameContext.getCurrent().getGroupService().getItemService().getSymbolColours().get(groupData.getColourA()) != null ? GameContext.getCurrent().getGroupService().getItemService().getSymbolColours().get(groupData.getColourA()).getFirstValue() : "ffffff";
-            String colourB = GameContext.getCurrent().getGroupService().getItemService().getBackgroundColours().get(groupData.getColourB()) != null ? GameContext.getCurrent().getGroupService().getItemService().getBackgroundColours().get(groupData.getColourB()).getFirstValue() : "ffffff";
-
-            msg.writeString(colourA);
-            msg.writeString(colourB);
+            return new StringArrayItemData(new String[]{
+                    itemState, this.getItemData().getData(), groupData.getBadge(),
+                    firstColour, secondColour
+            });
         }
     }
 

@@ -13,6 +13,7 @@ public class RoomItemState {
     private final int direction;
     private final String z;
     private final String sizeZ;
+    private final int extra;
     private final ItemData data;
     private final int expiryTime;
     private final int usagePolicy;
@@ -21,7 +22,7 @@ public class RoomItemState {
     private final LimitedEditionItem limitedEditionItem;
 
     public RoomItemState(int id, int definitionId, int x, int y, int direction, String z, String sizeZ,
-                         ItemData data, int expiryTime, int usagePolicy, int ownerId, String ownerName,
+                         int extra, ItemData data, int expiryTime, int usagePolicy, int ownerId, String ownerName,
                          LimitedEditionItem limitedEditionItem) {
         this.id = id;
         this.definitionId = definitionId;
@@ -30,6 +31,7 @@ public class RoomItemState {
         this.direction = direction;
         this.z = z;
         this.sizeZ = sizeZ;
+        this.extra = extra;
         this.data = data;
         this.expiryTime = expiryTime;
         this.usagePolicy = usagePolicy;
@@ -88,5 +90,9 @@ public class RoomItemState {
 
     public int getExpiryTime() {
         return expiryTime;
+    }
+
+    public int getExtra() {
+        return extra;
     }
 }

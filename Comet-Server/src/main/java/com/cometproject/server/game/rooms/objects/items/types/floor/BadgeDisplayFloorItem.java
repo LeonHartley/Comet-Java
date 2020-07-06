@@ -1,7 +1,10 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
+import com.cometproject.api.game.rooms.objects.data.ItemData;
 import com.cometproject.api.game.rooms.objects.data.RoomItemData;
+import com.cometproject.api.game.rooms.objects.data.StringArrayItemData;
 import com.cometproject.api.networking.messages.IComposer;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.items.types.DefaultFloorItem;
 import com.cometproject.server.game.rooms.types.Room;
 
@@ -12,11 +15,12 @@ public class BadgeDisplayFloorItem extends DefaultFloorItem {
     }
 
     @Override
-    public void composeItemData(IComposer msg) {
-        msg.writeInt(0);
-        msg.writeInt(2);
-        msg.writeInt(4);
+    public boolean onInteract(RoomEntity entity, int requestData, boolean isWiredTrigger) {
+        return super.onInteract(entity, requestData, isWiredTrigger);
+    }
 
+    @Override
+    public ItemData createItemData() {
         String badge;
         String name = "";
         String date = "";
@@ -31,9 +35,7 @@ public class BadgeDisplayFloorItem extends DefaultFloorItem {
             badge = this.getItemData().getData();
         }
 
-        msg.writeString("0");
-        msg.writeString(badge);
-        msg.writeString(name); // creator
-        msg.writeString(date); // date
+        return new StringArrayItemData(new String[] { "0", badge, name, date });
     }
+
 }

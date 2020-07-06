@@ -2,6 +2,9 @@ package com.cometproject.server.game.rooms.objects.items;
 
 import com.cometproject.api.game.furniture.types.FurnitureDefinition;
 import com.cometproject.api.game.rooms.objects.IRoomItemData;
+import com.cometproject.api.game.rooms.objects.RoomItemState;
+import com.cometproject.api.game.rooms.objects.data.ItemData;
+import com.cometproject.api.game.rooms.objects.data.LegacyItemData;
 import com.cometproject.api.game.rooms.objects.data.LimitedEditionItemData;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.items.types.LowPriorityItemProcessor;
@@ -140,11 +143,12 @@ public abstract class RoomItem extends BigRoomFloorObject implements Attributabl
         // Override this
     }
 
-    public void composeItemData(IComposer msg) {
-        msg.writeInt(1);
-        msg.writeInt(0);
+    public int getItemExtra() {
+        return 0; /* used by the SWF, overridden for gift wrapping*/
+    }
 
-        msg.writeString((this instanceof FootballGateFloorItem) ? "" :
+    public ItemData createItemData() {
+        return new LegacyItemData((this instanceof FootballGateFloorItem) ? "" :
                 (this instanceof WiredFloorItem) ? ((WiredFloorItem) this).getState() ? "1" : "0" :
                         (this instanceof SoundMachineFloorItem) ? ((SoundMachineFloorItem) this).getState() ? "1" : "0" :
                                 this.getItemData().getData());

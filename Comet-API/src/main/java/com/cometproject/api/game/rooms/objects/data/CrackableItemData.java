@@ -3,7 +3,7 @@ package com.cometproject.api.game.rooms.objects.data;
 import com.cometproject.api.networking.messages.IComposer;
 
 public class CrackableItemData extends ItemData {
-    private final int state;
+    private final String state;
     private final int hits;
     private final int target;
 

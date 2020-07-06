@@ -5,6 +5,8 @@ import com.cometproject.api.game.catalog.types.ICatalogPage;
 import com.cometproject.api.game.furniture.types.GiftData;
 import com.cometproject.api.game.furniture.types.LegacyGiftData;
 import com.cometproject.api.game.players.data.PlayerAvatar;
+import com.cometproject.api.game.rooms.objects.data.ItemData;
+import com.cometproject.api.game.rooms.objects.data.MapItemData;
 import com.cometproject.api.game.rooms.objects.data.RoomItemData;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.api.utilities.JsonUtil;
@@ -60,21 +62,12 @@ public class GiftFloorItem extends RoomItemFloor {
     }
 
     @Override
-    public void composeItemData(IComposer msg) {
-        final GiftData giftData = this.getGiftData();
-        final HashMap<String, String> itemData = this.getData();
-
-        msg.writeInt(giftData.getWrappingPaper() * 1000 + giftData.getDecorationType());
-        msg.writeInt(1);
-        msg.writeInt(itemData.size());
-
-        itemData.forEach((key, value) -> {
-            msg.writeString(key);
-            msg.writeString(value);
-        });
+    public int getItemExtra() {
+        return giftData.getWrappingPaper() * 1000 + giftData.getDecorationType();
     }
 
-    private HashMap<String, String> getData() {
+    @Override
+    public ItemData createItemData() {
         final GiftData giftData = this.getGiftData();
         final boolean isGiftOpen = this.isOpened;
 
@@ -92,7 +85,7 @@ public class GiftFloorItem extends RoomItemFloor {
             data.put("PURCHASER_NAME", this.giftData.getSenderName());
         }
 
-        return data;
+        return new MapItemData(data);
     }
 
     @Override

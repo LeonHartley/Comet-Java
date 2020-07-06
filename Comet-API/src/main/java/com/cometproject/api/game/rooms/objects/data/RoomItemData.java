@@ -9,13 +9,10 @@ public class RoomItemData implements IRoomItemData {
     private final int itemId;
     private final int ownerId;
     private final String ownerName;
-
     private String data;
-
     private int rotation;
     private Position floorPosition;
     private String wallPosition;
-
     private final LimitedEditionItem limitedEdition;
 
     public RoomItemData(long id, int itemId, int ownerId, String ownerName, Position position, int rotation, String data, String wallPosition, LimitedEditionItem limitedEditionItem) {
@@ -24,12 +21,9 @@ public class RoomItemData implements IRoomItemData {
         this.ownerId = ownerId;
         this.ownerName = ownerName;
         this.data = data;
-
         this.rotation = rotation;
         this.floorPosition = position;
-
         this.wallPosition = wallPosition;
-
         this.limitedEdition = limitedEditionItem;
     }
 

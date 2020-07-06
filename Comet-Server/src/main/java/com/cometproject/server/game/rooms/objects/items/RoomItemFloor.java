@@ -2,6 +2,7 @@ package com.cometproject.server.game.rooms.objects.items;
 
 import com.cometproject.api.game.furniture.types.FurnitureDefinition;
 import com.cometproject.api.game.rooms.objects.IFloorItem;
+import com.cometproject.api.game.rooms.objects.RoomItemState;
 import com.cometproject.api.game.rooms.objects.data.ItemData;
 import com.cometproject.api.game.rooms.objects.data.RoomItemData;
 import com.cometproject.api.game.utilities.Position;
@@ -33,45 +34,27 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable, IFlo
         super(itemData, room);
     }
 
-    public abstract com
+    public RoomItemState captureState(boolean isNew) {
+        final int usagePolicy = !(this instanceof DefaultFloorItem) && !(this instanceof SoundMachineFloorItem) ? 1 : 0;
+        final String z = this instanceof MagicStackFloorItem ?
+                this.getItemData().getData() : String.valueOf(this.getPosition().getZ());
+        final String walkHeight = String.valueOf(this instanceof AdjustableHeightFloorItem ?
+                this.getOverrideHeight() : this.getDefinition().getHeight());
 
-    public void serialize(IComposer msg, boolean isNew) {
-        msg.writeInt(this.getVirtualId());
-        msg.writeInt(this.getDefinition().getSpriteId());
-        msg.writeInt(this.getPosition().getX());
-        msg.writeInt(this.getPosition().getY());
-        msg.writeInt(this.getRotation());
-
-        msg.writeString(this instanceof MagicStackFloorItem ? this.getItemData().getData() : this.getPosition().getZ());
-
-        final double walkHeight = this instanceof AdjustableHeightFloorItem ? this.getOverrideHeight() : this.getDefinition().getHeight();
-        msg.writeString(walkHeight);
-
-        if (this.getLimitedEditionItemData() != null) {
-            msg.writeInt(0);
-            msg.writeString("");
-            msg.writeBoolean(true);
-            msg.writeBoolean(false);
-            msg.writeString(this.getItemData().getData());
-
-            msg.writeInt(this.getLimitedEditionItemData().getLimitedRare());
-            msg.writeInt(this.getLimitedEditionItemData().getLimitedRareTotal());
-        } else {
-            this.composeItemData(msg);
-        }
-
-        msg.writeInt(-1);
-        //msg.writeInt(!this.getDefinition().getInteraction().equals("default") ? 1 : 0);
-        msg.writeInt(!(this instanceof DefaultFloorItem) && !(this instanceof SoundMachineFloorItem) ? 1 : 0);
-        msg.writeInt(this.getItemData().getOwnerId());
-
-        if (isNew)
-            msg.writeString(this.getItemData().getOwnerName());
-    }
-
-    @Override
-    public void serialize(IComposer msg) {
-        this.serialize(msg, false);
+        return new RoomItemState(
+                this.getVirtualId(),
+                this.getDefinition().getId(),
+                this.getPosition().getX(),
+                this.getPosition().getY(),
+                this.getRotation(),
+                z,
+                walkHeight,
+                this.getItemExtra(),
+                this.createItemData(),
+                -1,
+                usagePolicy,
+                this.getItemData().getOwnerId(),
+                isNew ? this.getItemData().getOwnerName() : null, this.getLimitedEditionItemData());
     }
 
     public FurnitureDefinition getDefinition() {
@@ -133,23 +116,11 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable, IFlo
     public void save() {
         this.getItemData().setData(this.getDataObject());
         this.getRoom().getItemProcess().saveItem(this);
-//        StorageContext.getCurrentContext().getRoomItemRepository().saveItem(this.getItemData());
     }
 
     @Override
     public void saveData() {
-        //kek
         this.save();
-//        /*if (CometSettings.storageItemQueueEnabled) {
-//            ItemStorageQueue.getInstance().queueSaveData(this);
-//        } else {
-//            RoomItemData.saveData(this.getId(), this.getDataObject());
-//        }*/
-//
-//        this.getItemData().setData(this.getDataObject());
-//        StorageContext.getCurrentContext().getRoomItemRepository().saveData(this.getId(), this.getDataObject());
-
-//        MySQLStorageQueues.instance().getItemDataUpdateQueue().add(this.getId(), this.getDataObject());
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
+import com.cometproject.api.game.rooms.objects.data.IntArrayItemData;
+import com.cometproject.api.game.rooms.objects.data.ItemData;
 import com.cometproject.api.game.rooms.objects.data.RoomItemData;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
@@ -15,28 +17,21 @@ public class BackgroundTonerFloorItem extends RoomItemFloor {
     }
 
     @Override
-    public void composeItemData(IComposer msg) {
-        BackgroundTonerData data = BackgroundTonerData.get(this.getItemData().getData());
+    public ItemData createItemData() {
+        final BackgroundTonerData data = BackgroundTonerData.get(this.getItemData().getData());
+        final boolean enabled = (data != null);
 
-        boolean enabled = (data != null);
-
-        msg.writeInt(0);
-        msg.writeInt(5);
-        msg.writeInt(4);
-        msg.writeInt(enabled ? 1 : 0);
-
-        if (enabled) {
-            msg.writeInt(data.getHue());
-            msg.writeInt(data.getSaturation());
-            msg.writeInt(data.getLightness());
-        } else {
+        if (!enabled) {
             this.getItemData().setData("0;#;0;#;0");
             this.saveData();
-
-            msg.writeInt(0);
-            msg.writeInt(0);
-            msg.writeInt(0);
         }
+
+        return new IntArrayItemData(new int[] {
+                enabled ? 1 : 0,
+                enabled ? data.getHue() : 0,
+                enabled ? data.getLightness() : 0,
+                enabled ? data.getSaturation() : 0,
+        });
     }
 
     @Override

@@ -2,6 +2,8 @@ package com.cometproject.server.game.rooms.objects.items.types.floor;
 
 import com.cometproject.api.game.furniture.types.CrackableReward;
 import com.cometproject.api.game.furniture.types.FurnitureDefinition;
+import com.cometproject.api.game.rooms.objects.data.CrackableItemData;
+import com.cometproject.api.game.rooms.objects.data.ItemData;
 import com.cometproject.api.game.rooms.objects.data.RoomItemData;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.items.ItemManager;
@@ -85,22 +87,14 @@ public class CrackableFloorItem extends RoomItemFloor {
     }
 
     @Override
-    public void composeItemData(IComposer msg) {
-        msg.writeInt(0);
-        msg.writeInt(7);
-
+    public ItemData createItemData() {
         int state = Integer.parseInt(this.getItemData().getData());
         final CrackableReward crackableReward = ItemManager.getInstance().getCrackableRewards().get(this.getItemData().getItemId());
 
-        if (crackableReward != null) {
-            msg.writeString(this.calculateState(crackableReward.getHitRequirement(), state));
-            msg.writeInt(state);//state
-            msg.writeInt(crackableReward.getHitRequirement());//max
-        } else {
-            msg.writeString(this.calculateState(20, state));
-            msg.writeInt(state);//state
-            msg.writeInt(20);//max
-        }
+        return new CrackableItemData(crackableReward != null ?
+                        this.calculateState(crackableReward.getHitRequirement(), state) :
+                        this.calculateState(20, state),
+                state, crackableReward != null ? crackableReward.getHitRequirement() : 20);
     }
 
     private int calculateState(int maxHits, int currentHits) {

@@ -1,6 +1,8 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
+import com.cometproject.api.game.rooms.objects.data.ItemData;
 import com.cometproject.api.game.rooms.objects.data.RoomItemData;
+import com.cometproject.api.game.rooms.objects.data.StringArrayItemData;
 import com.cometproject.api.game.utilities.Position;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
@@ -20,16 +22,10 @@ public class LoveLockFloorItem extends RoomItemFloor {
     }
 
     @Override
-    public void composeItemData(IComposer msg) {
-        final String[] loveLockData = this.getItemData().getData().split(String.valueOf((char) 5));
-        msg.writeInt(0);
-        msg.writeInt(2);
+    public ItemData createItemData() {
+        final String[] data = this.getItemData().getData().split(String.valueOf((char) 5));
 
-        msg.writeInt(loveLockData.length);
-
-        for (int i = 0; i < loveLockData.length; i++) {
-            msg.writeString(loveLockData[i]);
-        }
+        return new StringArrayItemData(data);
     }
 
     @Override
