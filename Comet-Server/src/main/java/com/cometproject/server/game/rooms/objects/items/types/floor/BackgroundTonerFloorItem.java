@@ -29,8 +29,8 @@ public class BackgroundTonerFloorItem extends RoomItemFloor {
         return new IntArrayItemData(new int[] {
                 enabled ? 1 : 0,
                 enabled ? data.getHue() : 0,
-                enabled ? data.getLightness() : 0,
                 enabled ? data.getSaturation() : 0,
+                enabled ? data.getLightness() : 0,
         });
     }
 
