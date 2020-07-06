@@ -1,13 +1,14 @@
 package com.cometproject.server.network.messages.outgoing.room.items;
 
 import com.cometproject.api.networking.messages.IComposer;
+import com.cometproject.server.game.rooms.objects.items.RoomItem;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.protocol.headers.Composers;
 import com.cometproject.server.protocol.messages.MessageComposer;
 
 
 public class UpdateFloorItemMessageComposer extends MessageComposer {
-    private final RoomItemFloor item;
+    private final RoomItem item;
 
     public UpdateFloorItemMessageComposer(RoomItemFloor item) {
         this.item = item;

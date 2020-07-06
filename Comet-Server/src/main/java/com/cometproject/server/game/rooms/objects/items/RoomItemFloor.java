@@ -2,6 +2,7 @@ package com.cometproject.server.game.rooms.objects.items;
 
 import com.cometproject.api.game.furniture.types.FurnitureDefinition;
 import com.cometproject.api.game.rooms.objects.IFloorItem;
+import com.cometproject.api.game.rooms.objects.data.ItemData;
 import com.cometproject.api.game.rooms.objects.data.RoomItemData;
 import com.cometproject.api.game.utilities.Position;
 import com.cometproject.api.networking.messages.IComposer;
@@ -31,6 +32,8 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable, IFlo
     public RoomItemFloor(RoomItemData itemData, Room room) {
         super(itemData, room);
     }
+
+    public abstract com
 
     public void serialize(IComposer msg, boolean isNew) {
         msg.writeInt(this.getVirtualId());
