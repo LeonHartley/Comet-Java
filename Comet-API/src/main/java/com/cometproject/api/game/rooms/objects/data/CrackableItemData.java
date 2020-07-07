@@ -7,7 +7,7 @@ public class CrackableItemData extends ItemData {
     private final int hits;
     private final int target;
 
-    public CrackableItemData(int state, int hits, int target) {
+    public CrackableItemData(String state, int hits, int target) {
         this.state = state;
         this.hits = hits;
         this.target = target;
@@ -16,7 +16,7 @@ public class CrackableItemData extends ItemData {
     @Override
     public void compose(IComposer composer) {
         composer.writeInt(7);
-        composer.writeInt(state);
+        composer.writeString(state);
         composer.writeInt(hits);
         composer.writeInt(target);
     }

@@ -1,5 +1,7 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.highscore;
 
+import com.cometproject.api.game.rooms.objects.data.HighscoreItemData;
+import com.cometproject.api.game.rooms.objects.data.ItemData;
 import com.cometproject.api.game.rooms.objects.data.RoomItemData;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.api.utilities.JsonUtil;
@@ -70,6 +72,16 @@ public class HighscoreClassicFloorItem extends RoomItemFloor {
         return itemData;
     }
 
+    @Override
+    public ItemData createItemData() {
+        final ScoreboardItemData scoreboardItemData = this.getScoreData();
+        List<Map.Entry<String, Integer>> entries = new ArrayList<>(this.getScoreData().getPoints().entrySet());
+
+        list.sort(Collections.reverseOrder(Map.Entry.comparingByValue()));
+
+        return new HighscoreItemData(state ? "1" : "0", scoreboardItemData.getScoreType(), scoreboardItemData.getClearType());
+    }
+
     public void composeHighscoreData(IComposer msg) {
         msg.writeInt(6);
 
@@ -80,10 +92,6 @@ public class HighscoreClassicFloorItem extends RoomItemFloor {
         msg.writeInt(this.getScoreData().getPoints().size() > 50 ? 50 : this.getScoreData().getPoints().size());
 
         int x = 0;
-
-        List<Map.Entry<String, Integer>> list = new ArrayList<>(this.getScoreData().getPoints().entrySet());
-
-        list.sort(Collections.reverseOrder(Map.Entry.comparingByValue()));
 
         for (Map.Entry<String, Integer> entry : list) {
             x++;

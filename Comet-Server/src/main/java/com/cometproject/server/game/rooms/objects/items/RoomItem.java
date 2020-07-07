@@ -194,8 +194,6 @@ public abstract class RoomItem extends BigRoomFloorObject implements Attributabl
         this.attributes.remove(attributeKey);
     }
 
-    public abstract void serialize(IComposer msg);
-
     public abstract FurnitureDefinition getDefinition();
 
     public abstract void sendUpdate();
