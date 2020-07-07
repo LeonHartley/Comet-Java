@@ -36,6 +36,9 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.condit
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.conditions.positive.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.conditions.positive.custom.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.highscore.HighscoreClassicFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.highscore.HighscoreFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.highscore.HighscoreMostWinsFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.highscore.HighscorePerTeamFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.custom.WiredTriggerCustomIdle;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.custom.WiredTriggerLeavesRoom;
@@ -192,6 +195,8 @@ public class RoomItemFactory {
 
 
             put("highscore_classic", HighscoreClassicFloorItem.class);
+            put("highscore_perteam", HighscorePerTeamFloorItem.class);
+            put("highscore_mostwins", HighscoreMostWinsFloorItem.class);
 
             put("pressureplate_seat", PressurePlateSeatFloorItem.class);
 

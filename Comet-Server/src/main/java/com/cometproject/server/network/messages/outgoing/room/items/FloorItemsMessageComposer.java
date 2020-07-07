@@ -3,6 +3,9 @@ package com.cometproject.server.network.messages.outgoing.room.items;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.addons.WiredAddonPressurePlate;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.addons.WiredAddonRandomEffect;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.addons.WiredAddonUnseenEffect;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.protocol.headers.Composers;
 import com.cometproject.server.protocol.messages.MessageComposer;
@@ -64,7 +67,7 @@ public class FloorItemsMessageComposer extends MessageComposer {
                 List<RoomItemFloor> items = Lists.newArrayList();
 
                 for (RoomItemFloor item : room.getItems().getFloorItems().values()) {
-                    if (!(item instanceof WiredFloorItem)) {
+                    if (!(item instanceof WiredFloorItem) && !(item instanceof WiredAddonRandomEffect) && !(item instanceof WiredAddonUnseenEffect)) {
                         items.add(item);
                     }
                 }

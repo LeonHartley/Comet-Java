@@ -15,6 +15,6 @@ public class CanCreateRoomMessageComposer extends MessageComposer {
     @Override
     public void compose(IComposer msg) {
         msg.writeInt(0);
-        msg.writeInt(150);
+        msg.writeInt(300);
     }
 }

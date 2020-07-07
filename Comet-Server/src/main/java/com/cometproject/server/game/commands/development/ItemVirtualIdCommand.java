@@ -2,6 +2,7 @@ package com.cometproject.server.game.commands.development;
 
 import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.game.items.ItemManager;
+import com.cometproject.server.game.rooms.objects.items.RoomItem;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 
@@ -15,8 +16,9 @@ public class ItemVirtualIdCommand extends ChatCommand {
 
         try {
             final int virtualId = Integer.parseInt(params[0]);
+            final RoomItem roomItem = client.getPlayer().getEntity().getRoom().getItems().getFloorItem(virtualId);
 
-            client.send(new AlertMessageComposer("Virtual ID: " + virtualId + "\nReal ID: " + ItemManager.getInstance().getItemIdByVirtualId(virtualId)));
+            client.send(new AlertMessageComposer("Virtual ID: " + virtualId + "\nReal ID: " + ItemManager.getInstance().getItemIdByVirtualId(virtualId) + (roomItem != null ? "\nBase ID: " + roomItem.getDefinition().getId() : "")));
         } catch (Exception e) {
 
         }

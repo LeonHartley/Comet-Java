@@ -29,6 +29,5 @@ public class WiredConditionHasHandItem extends WiredConditionItem {
         int handItem = this.getWiredData().getParams().get(PARAM_HANDITEM);
 
         return entity.getHandItem() == handItem;
-
     }
 }

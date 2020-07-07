@@ -33,6 +33,8 @@ public class GameComponent {
     private Map<GameTeam, Set<AbstractGameGateFloorItem>> gates;
     private Set<PlayerEntity> players;
 
+    private boolean shootEnabled = true;
+
     public GameComponent(Room room) {
         this.teams = new HashMap<GameTeam, List<Integer>>() {{
             put(GameTeam.BLUE, Lists.newArrayList());
@@ -206,5 +208,13 @@ public class GameComponent {
 
     public AtomicInteger getBlobCounter() {
         return blobCounter;
+    }
+
+    public boolean shootEnabled() {
+        return shootEnabled;
+    }
+
+    public void setShootEnabled(boolean shootEnabled) {
+        this.shootEnabled = shootEnabled;
     }
 }

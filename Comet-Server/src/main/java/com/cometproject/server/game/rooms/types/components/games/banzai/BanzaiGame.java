@@ -7,7 +7,6 @@ import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.games.banzai.BanzaiTileFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.games.banzai.BanzaiTimerFloorItem;
-import com.cometproject.server.game.rooms.objects.items.types.floor.wired.highscore.HighscoreClassicFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerGameEnds;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerGameStarts;
 import com.cometproject.server.game.rooms.types.Room;
@@ -88,22 +87,22 @@ public class BanzaiGame extends RoomGame {
             }
         }
 
-        final List<HighscoreClassicFloorItem> scoreboards = this.room.getItems().getByClass(HighscoreClassicFloorItem.class);
-
-        if (scoreboards.size() != 0) {
-            List<Integer> winningPlayers = this.room.getGame().getTeams().get(this.winningTeam());
-            List<String> winningPlayerUsernames = Lists.newArrayList();
-
-            for (int playerId : winningPlayers) {
-                winningPlayerUsernames.add(this.room.getEntities().getEntityByPlayerId(playerId).getUsername());
-            }
-
-            if (winningPlayerUsernames.size() != 0) {
-                for (HighscoreClassicFloorItem scoreboard : scoreboards) {
-                    scoreboard.addEntry(winningPlayerUsernames, this.getScore(this.winningTeam()));
-                }
-            }
-        }
+//        final List<HighscoreClassicFloorItem> scoreboards = this.room.getItems().getByClass(HighscoreClassicFloorItem.class);
+//
+//        if (scoreboards.size() != 0) {
+//            List<Integer> winningPlayers = this.room.getGame().getTeams().get(this.winningTeam());
+//            List<String> winningPlayerUsernames = Lists.newArrayList();
+//
+//            for (int playerId : winningPlayers) {
+//                winningPlayerUsernames.add(this.room.getEntities().getEntityByPlayerId(playerId).getUsername());
+//            }
+//
+//            if (winningPlayerUsernames.size() != 0) {
+//                for (HighscoreClassicFloorItem scoreboard : scoreboards) {
+//                    scoreboard.addEntry(winningPlayerUsernames, this.getScore(this.winningTeam()));
+//                }
+//            }
+//        }
 
         for (RoomEntity entity : this.room.getEntities().getAllEntities().values()) {
             if (entity.getEntityType().equals(RoomEntityType.PLAYER)) {
@@ -142,22 +141,6 @@ public class BanzaiGame extends RoomGame {
     public void removeTile() {
         this.banzaiTileCount -= 1;
         this.startBanzaiTileCount -= 1;
-    }
-
-    public int getScore(GameTeam team) {
-        return this.getGameComponent().getScore(team);
-    }
-
-    public GameTeam winningTeam() {
-        Map.Entry<GameTeam, Integer> winningTeam = null;
-
-        for (Map.Entry<GameTeam, Integer> score : this.getGameComponent().getScores().entrySet()) {
-            if (winningTeam == null || winningTeam.getValue() < score.getValue()) {
-                winningTeam = score;
-            }
-        }
-
-        return winningTeam != null ? winningTeam.getKey() : GameTeam.NONE;
     }
 
     public void decreaseTileCount() {

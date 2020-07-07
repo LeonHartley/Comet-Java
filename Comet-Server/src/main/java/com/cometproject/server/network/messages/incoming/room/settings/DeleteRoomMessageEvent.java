@@ -84,6 +84,7 @@ public class DeleteRoomMessageEvent implements Event {
 
         client.getLogger().info("Room deleted: " + room.getId() + " by " + client.getPlayer().getId() + " / " + client.getPlayer().getData().getUsername());
         RoomDao.deleteRoom(room.getId());
+        RoomManager.getInstance().roomDeleted(room.getId());
 
         client.getPlayer().getRooms().remove((Integer) roomId);
 

@@ -402,7 +402,8 @@ public class RoomMapping {
             for (int x = 0; x < this.tiles[y].length; x++) {
 //                if (this.tiles[y][x].getItems().size() != 0) {
 //                    builder.append("O");
-                /*} else */if (this.tiles[y][x].getEntities().size() != 0) {
+                /*} else */
+                if (this.tiles[y][x].getEntities().size() != 0) {
                     builder.append("E");
                 } else {
                     builder.append("[]");

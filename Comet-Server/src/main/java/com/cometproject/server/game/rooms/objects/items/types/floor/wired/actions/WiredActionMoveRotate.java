@@ -2,11 +2,15 @@ package com.cometproject.server.game.rooms.objects.items.types.floor.wired.actio
 
 import com.cometproject.api.game.rooms.objects.data.RoomItemData;
 import com.cometproject.api.game.utilities.Position;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
+import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.DiceFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.events.WiredItemEvent;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerCollision;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.network.messages.outgoing.room.items.SlideObjectBundleMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorItemMessageComposer;
 
@@ -16,21 +20,9 @@ import java.util.Random;
 public class WiredActionMoveRotate extends WiredActionItem {
     private static final int PARAM_MOVEMENT = 0;
     private static final int PARAM_ROTATION = 1;
+
     private final Random random = new Random();
 
-    /**
-     * The default constructor
-     *
-     * @param id       The ID of the item
-     * @param itemId   The ID of the item definition
-     * @param room     The instance of the room
-     * @param owner    The ID of the owner
-     * @param x        The position of the item on the X axis
-     * @param y        The position of the item on the Y axis
-     * @param z        The position of the item on the z axis
-     * @param rotation The orientation of the item
-     * @param data     The JSON object associated with this item
-     */
     public WiredActionMoveRotate(RoomItemData itemData, Room room) {
         super(itemData, room);
     }
@@ -64,6 +56,19 @@ public class WiredActionMoveRotate extends WiredActionItem {
                 final Position newPosition = this.handleMovement(currentPosition.copy(), movement);
                 final int newRotation = this.handleRotation(floorItem.getRotation(), rotation);
                 final boolean rotationChanged = newRotation != floorItem.getRotation();
+
+                for (int collisionDirection : Position.COLLIDE_TILES) {
+                    final Position collisionPosition = floorItem.getPosition().squareInFront(collisionDirection);
+                    final RoomTile collisionTile = this.getRoom().getMapping().getTile(collisionPosition);
+
+                    if (collisionTile != null) {
+                        final RoomEntity entity = collisionTile.getEntity();
+
+                        if (entity != null) {
+                            WiredTriggerCollision.executeTriggers(entity, floorItem);
+                        }
+                    }
+                }
 
                 if (this.getRoom().getItems().moveFloorItem(floorItem.getId(), newPosition, newRotation, true)) {
                     if (!rotationChanged)

@@ -30,7 +30,14 @@ public class PermissionsDao {
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                data.put(resultSet.getInt("id"), new Perk(resultSet));
+                final int id = resultSet.getInt("id");
+                final String title = resultSet.getString("title");
+                final String dataStr = resultSet.getString("data");
+                final int rank = resultSet.getInt("min_rank");
+                final boolean overrideRank = resultSet.getString("override_rank").equals("1");
+                final boolean overrideDefault = resultSet.getString("override_default").equals("1");
+
+                data.put(resultSet.getInt("id"), new Perk(id, title, dataStr, rank, overrideRank, overrideDefault));
             }
 
         } catch (SQLException e) {
@@ -104,12 +111,18 @@ public class PermissionsDao {
 
         try {
             sqlConnection = SqlHelper.getConnection();
-            preparedStatement = SqlHelper.prepare("SELECT `command_id`, `minimum_rank`, `vip_only` FROM permission_commands", sqlConnection);
+            preparedStatement = SqlHelper.prepare("SELECT `command_id`, `minimum_rank`, `vip_only`, `rights_only` FROM permission_commands", sqlConnection);
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
                 try {
-                    data.putIfAbsent(resultSet.getString("command_id"), new CommandPermission(resultSet));
+                    final String commandId = resultSet.getString("command_id");
+                    final int minimumRank = resultSet.getInt("minimum_rank");
+                    final boolean vipOnly = resultSet.getString("vip_only").equals("1");
+                    final boolean rightsOnly = resultSet.getString("rights_only").equals("1");
+
+                    data.putIfAbsent(resultSet.getString("command_id"),
+                            new CommandPermission(commandId, minimumRank, vipOnly, rightsOnly));
                 } catch (Exception ignored) {
 
                 }
@@ -140,7 +153,10 @@ public class PermissionsDao {
 
             while (resultSet.next()) {
                 try {
-                    data.putIfAbsent(resultSet.getString("command_id"), new OverrideCommandPermission(resultSet));
+                    final String commandId = resultSet.getString("command_id");
+                    final int playerId = resultSet.getInt("player_id");
+                    final boolean enabled = resultSet.getString("enabled").equals("1");
+                    data.putIfAbsent(resultSet.getString("command_id"), new OverrideCommandPermission(commandId, playerId, enabled));
                 } catch (Exception ignored) {
 
                 }

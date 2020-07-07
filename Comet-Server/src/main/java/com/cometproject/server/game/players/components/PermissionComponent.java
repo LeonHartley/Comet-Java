@@ -39,13 +39,21 @@ public class PermissionComponent implements PlayerPermissions {
             CommandPermission permission = PermissionsManager.getInstance().getCommands().get(key);
 
             if (permission.getMinimumRank() <= this.getPlayer().getData().getRank()) {
-                return !permission.isVipOnly() || player.getData().isVip();
-            }
-        } else if (key.equals("debug") && Comet.isDebugging) {
-            return true;
-        } else return key.equals("dev");
+                boolean hasCommand = !permission.vipOnly() || player.getData().isVip();
 
-        return false;
+                if (!permission.rightsOnly()) {
+                    return hasCommand;
+                }
+
+                if (hasCommand) {
+                    if (player.getEntity().getRoom().getRights().hasRights(this.getPlayer().getId())) {
+                        return true;
+                    }
+                }
+            }
+        }
+        
+        return key.equals("debug") && Comet.isDebugging || key.equals("dev");
     }
 
     @Override

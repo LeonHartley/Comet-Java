@@ -5,14 +5,16 @@ import java.sql.SQLException;
 
 
 public class CommandPermission {
-    private String commandId;
-    private int minimumRank;
-    private boolean vipOnly;
+    private final String commandId;
+    private final int minimumRank;
+    private final boolean vipOnly;
+    private final boolean rightsOnly;
 
-    public CommandPermission(ResultSet data) throws SQLException {
-        this.commandId = data.getString("command_id");
-        this.minimumRank = data.getInt("minimum_rank");
-        this.vipOnly = data.getString("vip_only").equals("1");
+    public CommandPermission(String commandId, int minimumRank, boolean vipOnly, boolean rightsOnly) {
+        this.commandId = commandId;
+        this.minimumRank = minimumRank;
+        this.vipOnly = vipOnly;
+        this.rightsOnly = rightsOnly;
     }
 
     public String getCommandId() {
@@ -23,7 +25,11 @@ public class CommandPermission {
         return minimumRank;
     }
 
-    public boolean isVipOnly() {
+    public boolean vipOnly() {
         return vipOnly;
+    }
+
+    public boolean rightsOnly() {
+        return rightsOnly;
     }
 }

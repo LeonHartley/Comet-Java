@@ -20,7 +20,7 @@ public class CreateRoomMessageEvent implements Event {
         int maxVisitors = msg.readInt();
         int tradeState = msg.readInt();
 
-        if (client.getPlayer().getRooms().size() >= 100) {
+        if (client.getPlayer().getRooms().size() >= 500) {
             return;
         }
 

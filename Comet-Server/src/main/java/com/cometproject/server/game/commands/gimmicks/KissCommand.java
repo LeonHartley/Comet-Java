@@ -34,7 +34,7 @@ public class KissCommand extends ChatCommand {
             return;
         }
 
-        if (kissedSession.getPlayer().getData().getUsername() == client.getPlayer().getData().getUsername()) {
+        if (kissedSession.getPlayer().getData().getUsername().equals(client.getPlayer().getData().getUsername())) {
             sendNotif(Locale.getOrDefault("command.kiss.himself", "You can't kiss yourself!"), client);
             return;
         }
@@ -49,7 +49,6 @@ public class KissCommand extends ChatCommand {
             client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new ActionMessageComposer(client.getPlayer().getEntity().getId(), 2));
         } else {
             client.getPlayer().getSession().send(new WhisperMessageComposer(client.getPlayer().getEntity().getId(), Locale.getOrDefault("command.notaround", "Oops! %playername% is not near, walk to this player.").replace("%playername%", kissedSession.getPlayer().getData().getUsername()), 34));
-            return;
         }
     }
 

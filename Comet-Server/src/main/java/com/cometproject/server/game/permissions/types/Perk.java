@@ -5,20 +5,20 @@ import java.sql.SQLException;
 
 
 public class Perk {
-    private int id;
-    private String title;
-    private String data;
-    private int rank;
-    private boolean overrideRank;
-    private boolean overrideDefault;
+    private final int id;
+    private final String title;
+    private final String data;
+    private final int rank;
+    private final boolean overrideRank;
+    private final boolean overrideDefault;
 
-    public Perk(ResultSet result) throws SQLException {
-        this.id = result.getInt("id");
-        this.title = result.getString("title");
-        this.data = result.getString("data");
-        this.rank = result.getInt("min_rank");
-        this.overrideRank = result.getString("override_rank").equals("1");
-        this.overrideDefault = result.getString("override_default").equals("1");
+    public Perk(int id, String title, String data, int rank, boolean overrideRank, boolean overrideDefault) {
+        this.id = id;
+        this.title = title;
+        this.data = data;
+        this.rank = rank;
+        this.overrideRank = overrideRank;
+        this.overrideDefault = overrideDefault;
     }
 
     public int getId() {

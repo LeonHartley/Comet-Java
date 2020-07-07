@@ -155,7 +155,6 @@ public class ItemProcessComponent implements CometTask {
 
     public void saveItem(RoomItem roomItem) {
         this.saveQueue.remove(roomItem);
-
         this.saveQueue.add(roomItem);
     }
 

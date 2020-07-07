@@ -25,6 +25,8 @@ public abstract class AbstractGameTimerFloorItem extends RoomItemFloor {
                 time = Integer.parseInt(this.getItemData().getData());
             }
 
+//            time = 10;
+
             if (time == 0 || time == 30 || time == 60 || time == 120 || time == 180 || time == 300 || time == 600) {
                 switch (time) {
                     default:
