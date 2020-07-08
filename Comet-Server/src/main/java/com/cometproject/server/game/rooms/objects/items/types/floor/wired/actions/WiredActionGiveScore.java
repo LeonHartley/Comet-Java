@@ -5,8 +5,12 @@ import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.events.WiredItemEvent;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.highscore.HighscoreClassicFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.highscore.HighscoreFloorItem;
 import com.cometproject.server.game.rooms.types.Room;
+import com.google.common.collect.Lists;
+import org.apache.commons.collections4.ListUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -43,10 +47,11 @@ public class WiredActionGiveScore extends WiredActionItem {
 
         PlayerEntity playerEntity = ((PlayerEntity) event.entity);
 
-        final List<HighscoreClassicFloorItem> scoreboards = getRoom().getItems().getByClass(HighscoreClassicFloorItem.class);
+        final List<HighscoreFloorItem> scoreboards = getRoom().getItems().getByClass(HighscoreFloorItem.class);
 
-        for (HighscoreClassicFloorItem scoreboard : scoreboards) {
-            scoreboard.(playerEntity.getUsername(), this.getScore());
+        for (HighscoreFloorItem scoreboard : scoreboards) {
+            // TODO: Do this properly
+            scoreboard.onTeamWins(Lists.newArrayList(playerEntity.getUsername()), this.getScore());
         }
     }
 
