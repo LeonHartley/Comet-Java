@@ -1,13 +1,10 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.data;
 
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.game.rooms.objects.items.types.floor.wired.highscore.HighscoreFloorItem;
 import com.cometproject.server.utilities.comporators.HighscoreComparator;
 import com.google.common.collect.Lists;
 
 import java.text.Collator;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -16,13 +13,13 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class ScoreboardItemData {
     private final static HighscoreComparator comparator = new HighscoreComparator();
 
-    private long lastClear;
     private final Map<String, HighscoreEntry> entries;
-    private int currentMinScore;
+    private long lastClearTimestamp;
     private List<HighscoreEntry> currentSortedScores;
+    private int currentLowestScore;
 
     public ScoreboardItemData(long lastClear, CopyOnWriteArrayList<HighscoreEntry> entries) {
-        this.lastClear = lastClear;
+        this.lastClearTimestamp = lastClear;
         this.entries = new ConcurrentHashMap<>();
 
         loadEntries(entries);
@@ -50,43 +47,56 @@ public class ScoreboardItemData {
         final List<HighscoreEntry> sortedTopScores = allEntries.subList(0, lastEntryIndex);
         final HighscoreEntry lowestScore = sortedTopScores.get(lastEntryIndex);
 
-        this.currentMinScore = lowestScore.getScore();
+        this.currentLowestScore = lowestScore.getScore();
         this.currentSortedScores = sortedTopScores;
         return sortedTopScores;
     }
 
     public void addEntry(HighscoreEntry entry) {
-        final HighscoreEntry existingEntry = getEntryByTeam(entry.getUsers());
+        final String teamKey = createTeamKey(entry.getUsers());
+        final HighscoreEntry existingEntry = getEntryByKey(teamKey);
         if (existingEntry != null) {
             if (existingEntry.score < entry.score) {
                 existingEntry.score = entry.score;
             }
         } else {
-            this.entries.put(entry, entry);
+            this.entries.put(teamKey, entry);
         }
 
-        if (this.currentSortedScores != null && this.currentMinScore < entry.score) {
+        if (this.currentSortedScores != null && this.currentLowestScore < entry.score) {
             this.currentSortedScores = null;
         }
     }
 
+    private HighscoreEntry getEntryByKey(String teamKey) {
+        return this.entries.get(teamKey);
+    }
+
     private String createTeamKey(List<String> users) {
-        users.sort(Collator.getInstance());
+        final List<String> sortedUsers = Lists.newArrayList(users);
+        sortedUsers.sort(Collator.getInstance());
+
         return String.join(",", users);
     }
 
     public HighscoreEntry getEntryByTeam(final List<String> users) {
-        users.sort(Collator.getInstance());
-
-        return this.entries.get(teamKey);
+        return this.getEntryByKey(createTeamKey(users));
     }
 
-    public long getLastClear() {
-        return lastClear;
+    public void clear() {
+        this.entries.clear();
+
+        if (this.currentSortedScores != null) {
+            this.currentSortedScores.clear();
+            this.currentSortedScores = null;
+        }
+
+        this.currentLowestScore = 0;
+        this.lastClearTimestamp = Comet.getTime();
     }
 
-    public void setLastClear(long lastClear) {
-        this.lastClear = lastClear;
+    public long getLastClearTimestamp() {
+        return lastClearTimestamp;
     }
 
     public class HighscoreEntry {
@@ -116,10 +126,6 @@ public class ScoreboardItemData {
 
         public void setScore(int score) {
             this.score = score;
-        }
-
-        public String getTeamKey() {
-
         }
     }
 }

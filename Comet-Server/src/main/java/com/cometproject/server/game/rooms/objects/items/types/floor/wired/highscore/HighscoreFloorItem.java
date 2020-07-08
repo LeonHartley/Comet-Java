@@ -47,21 +47,21 @@ public abstract class HighscoreFloorItem extends RoomItemFloor {
         final Calendar currentCalendar = Calendar.getInstance();
         currentCalendar.setTime(currentDate);
 
-        final Date date = new Date(this.itemData.getLastClear());
+        final Date date = new Date(this.itemData.getLastClearTimestamp());
         final Calendar clearedCalendar = Calendar.getInstance();
         clearedCalendar.setTime(date);
 
         switch (this.clearType) {
             case DAILY:
                 if (currentCalendar.get(Calendar.DAY_OF_MONTH) != clearedCalendar.get(Calendar.DAY_OF_MONTH)) {
-                    this.getScoreData().getEntries().clear();
+                    this.getScoreData().clear();
                     cleared = true;
                 }
                 break;
 
             case WEEKLY:
                 if (currentCalendar.get(Calendar.WEEK_OF_YEAR) != currentCalendar.get(Calendar.WEEK_OF_YEAR)) {
-                    this.getScoreData().getEntries().clear();
+                    this.getScoreData().clear();
                     cleared = true;
                 }
                 break;
@@ -72,7 +72,6 @@ public abstract class HighscoreFloorItem extends RoomItemFloor {
         }
 
         if (cleared) {
-            this.getScoreData().setLastClear(Comet.getTime());
             this.saveData();
         }
     }
