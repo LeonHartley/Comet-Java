@@ -2,6 +2,7 @@ package com.cometproject.server.storage.queries.player;
 
 import com.cometproject.api.game.players.data.PlayerAvatar;
 import com.cometproject.api.game.players.data.components.navigator.ISavedSearch;
+import com.cometproject.api.game.players.data.types.MentionType;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.components.types.navigator.SavedSearch;
@@ -1199,4 +1200,23 @@ public class PlayerDao {
         }
     }
 
+    public static void saveMentionType(int playerId, MentionType mentionType) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("UPDATE player_settings SET mention_type = ? WHERE player_id = ?", sqlConnection);
+            preparedStatement.setString(1, mentionType.toString());
+            preparedStatement.setInt(2, playerId);
+
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+    }
 }

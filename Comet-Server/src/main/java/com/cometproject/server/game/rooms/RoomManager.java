@@ -26,12 +26,10 @@ import com.cometproject.server.storage.cache.CacheManager;
 import com.cometproject.server.storage.cache.objects.RoomDataObject;
 import com.cometproject.server.storage.queries.rooms.RoomDao;
 import com.cometproject.server.tasks.CometThreadManager;
+import com.google.common.collect.Sets;
 import org.apache.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -40,13 +38,12 @@ import java.util.concurrent.Executors;
 public class RoomManager implements Initialisable {
 
     public static final Logger log = Logger.getLogger(RoomManager.class.getName());
-    public static final int LRU_MAX_ENTRIES = Integer.parseInt(Configuration.currentConfig().getProperty("comet.game.rooms.data.max"));
-    public static final int LRU_MAX_LOWER_WATERMARK = Integer.parseInt(Configuration.currentConfig().getProperty("comet.game.rooms.data.lowerWatermark"));
     private static RoomManager roomManagerInstance;
     private Cache<Integer, IRoomData> roomDataInstances;
 
     private Map<Integer, Room> loadedRoomInstances;
     private Map<Integer, Room> unloadingRoomInstances;
+    private final Set<Integer> deletedRooms = Sets.newConcurrentHashSet();
 
     private Map<Integer, RoomPromotion> roomPromotions;
 
@@ -98,7 +95,8 @@ public class RoomManager implements Initialisable {
             return roomThread;
         });
 
-        this.roomDataInstances = new LastReferenceCache<Integer, IRoomData>(43200*1000, 10000, (key, val) -> {}, CometThreadManager.getInstance().getCoreExecutor());
+        this.roomDataInstances = new LastReferenceCache<>(43200 * 1000, 10000, (key, val) -> {
+        }, CometThreadManager.getInstance().getCoreExecutor());
 
         log.info("RoomManager initialized");
     }
@@ -159,6 +157,13 @@ public class RoomManager implements Initialisable {
             return;
         }
         room.getItems().onLoaded();
+    }
+
+    public void roomDeleted(int roomId) {
+        this.removeData(roomId);
+        this.forceUnload(roomId);
+
+        this.deletedRooms.add(roomId);
     }
 
     public void unloadIdleRooms() {

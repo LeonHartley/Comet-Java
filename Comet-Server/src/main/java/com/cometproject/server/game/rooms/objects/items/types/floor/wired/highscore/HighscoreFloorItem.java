@@ -143,7 +143,7 @@ public abstract class HighscoreFloorItem extends RoomItemFloor {
         msg.writeInt(this.getScoreType());
         msg.writeInt(this.getClearType().getClearTypeId());
 
-        msg.writeInt(this.getScoreData().getEntries().size() > 50 ? 50 : this.getScoreData().getEntries().size());
+        msg.writeInt(Math.min(this.getScoreData().getEntries().size(), 50));
 
         int x = 0;
 

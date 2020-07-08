@@ -14,11 +14,6 @@ import com.cometproject.server.game.rooms.types.components.games.GameTeam;
 import com.cometproject.server.game.rooms.types.components.games.GameType;
 import com.cometproject.server.game.rooms.types.components.games.RoomGame;
 import com.cometproject.server.network.messages.outgoing.room.avatar.ActionMessageComposer;
-import com.google.common.collect.Lists;
-
-import java.util.List;
-import java.util.Map;
-
 
 public class BanzaiGame extends RoomGame {
     private int startBanzaiTileCount = 0;
@@ -86,23 +81,6 @@ public class BanzaiGame extends RoomGame {
                 }
             }
         }
-
-//        final List<HighscoreClassicFloorItem> scoreboards = this.room.getItems().getByClass(HighscoreClassicFloorItem.class);
-//
-//        if (scoreboards.size() != 0) {
-//            List<Integer> winningPlayers = this.room.getGame().getTeams().get(this.winningTeam());
-//            List<String> winningPlayerUsernames = Lists.newArrayList();
-//
-//            for (int playerId : winningPlayers) {
-//                winningPlayerUsernames.add(this.room.getEntities().getEntityByPlayerId(playerId).getUsername());
-//            }
-//
-//            if (winningPlayerUsernames.size() != 0) {
-//                for (HighscoreClassicFloorItem scoreboard : scoreboards) {
-//                    scoreboard.addEntry(winningPlayerUsernames, this.getScore(this.winningTeam()));
-//                }
-//            }
-//        }
 
         for (RoomEntity entity : this.room.getEntities().getAllEntities().values()) {
             if (entity.getEntityType().equals(RoomEntityType.PLAYER)) {

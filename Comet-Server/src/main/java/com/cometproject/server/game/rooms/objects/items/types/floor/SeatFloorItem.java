@@ -38,7 +38,7 @@ public class SeatFloorItem extends RoomItemFloor {
         Comet.getServer().getLogger().debug("onEntityStepOn");
         entity.sit(getSitHeight(), getRotation());
 
-        if (instantUpdate || entity.isRolling())
+        if (instantUpdate)
             this.getRoom().getEntities().broadcastMessage(new AvatarUpdateMessageComposer(entity));
     }
 

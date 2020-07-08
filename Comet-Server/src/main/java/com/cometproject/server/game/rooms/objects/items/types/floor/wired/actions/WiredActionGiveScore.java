@@ -46,7 +46,7 @@ public class WiredActionGiveScore extends WiredActionItem {
         final List<HighscoreClassicFloorItem> scoreboards = getRoom().getItems().getByClass(HighscoreClassicFloorItem.class);
 
         for (HighscoreClassicFloorItem scoreboard : scoreboards) {
-            scoreboard.addPoint(playerEntity.getUsername(), this.getScore());
+            scoreboard.(playerEntity.getUsername(), this.getScore());
         }
     }
 
