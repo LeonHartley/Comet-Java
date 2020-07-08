@@ -112,15 +112,8 @@ public abstract class HighscoreFloorItem extends RoomItemFloor {
     public abstract void onTeamWins(List<String> users, int score);
 
     void addEntry(List<String> users, int score) {
-        this.itemData.addEntry(users, score);
+        this.itemData.addEntry(new ScoreboardItemData.HighscoreEntry(users, score));
 
-        this.getScoreData().sortScores();
-        this.sendUpdate();
-        this.saveData();
-    }
-
-    void updateEntry(ScoreboardItemData.HighscoreEntry entry) {
-        this.getScoreData().sortScores();
         this.sendUpdate();
         this.saveData();
     }
@@ -142,15 +135,10 @@ public abstract class HighscoreFloorItem extends RoomItemFloor {
         msg.writeInt(this.getScoreType());
         msg.writeInt(this.getClearType().getClearTypeId());
 
-        msg.writeInt(Math.min(this.getScoreData().getEntries().size(), 50));
+        final List<ScoreboardItemData.HighscoreEntry> highscores = this.getScoreData().getTopScores(50);
+        msg.writeInt(highscores.size());
 
-        int x = 0;
-
-        for (ScoreboardItemData.HighscoreEntry entry : this.getScoreData().getEntries()) {
-            x++;
-
-            if (x > 50) break;
-
+        for (ScoreboardItemData.HighscoreEntry entry : highscores) {
             msg.writeInt(entry.getScore());
             msg.writeInt(entry.getUsers().size());
 

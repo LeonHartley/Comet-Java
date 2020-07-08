@@ -99,7 +99,7 @@ public class ScoreboardItemData {
         return lastClearTimestamp;
     }
 
-    public class HighscoreEntry {
+    public static class HighscoreEntry {
         private List<String> users;
         private int score;
 

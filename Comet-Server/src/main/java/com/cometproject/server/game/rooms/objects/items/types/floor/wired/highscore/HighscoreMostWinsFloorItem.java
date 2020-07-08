@@ -13,14 +13,7 @@ public class HighscoreMostWinsFloorItem extends HighscoreFloorItem {
 
     @Override
     public void onTeamWins(List<String> usernames, int score) {
-        final ScoreboardItemData.HighscoreEntry entry = this.getScoreData().getEntryByTeam(usernames);
-
-        if (entry != null) {
-            entry.incrementScore();
-            this.updateEntry(entry);
-        } else {
-            this.addEntry(usernames, 1);
-        }
+        this.addEntry(usernames, score);
     }
 
     @Override
