@@ -57,25 +57,25 @@ public class CometThreadManager implements Initialisable {
         });
     }
 
-    public Future executeOnce(CometTask task) {
-        return this.coreExecutor.submit(task);
+    public void executeOnce(CometTask task) {
+        this.coreExecutor.submit(task);
     }
 
-    public ScheduledFuture executePeriodic(CometTask task, long initialDelay, long period, TimeUnit unit) {
+    public ScheduledFuture<?> executePeriodic(CometTask task, long initialDelay, long period, TimeUnit unit) {
         if (task instanceof ProcessComponent || task instanceof ItemProcessComponent) {
-            // Handle room processing in a different pool, this should help against
             return this.roomProcessingExecutor.scheduleAtFixedRate(task, initialDelay, period, unit);
         }
 
         return this.coreExecutor.scheduleAtFixedRate(task, initialDelay, period, unit);
     }
 
-    public ScheduledFuture executeSchedule(CometTask task, long delay, TimeUnit unit) {
+    public void executeSchedule(CometTask task, long delay, TimeUnit unit) {
         if (task instanceof ProcessComponent) {
-            return this.roomProcessingExecutor.schedule(task, delay, unit);
+            this.roomProcessingExecutor.schedule(task, delay, unit);
+            return;
         }
 
-        return this.coreExecutor.schedule(task, delay, unit);
+        this.coreExecutor.schedule(task, delay, unit);
     }
 
     public ScheduledExecutorService getCoreExecutor() {

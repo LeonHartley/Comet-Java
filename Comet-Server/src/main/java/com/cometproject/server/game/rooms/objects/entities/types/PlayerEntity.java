@@ -30,6 +30,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.trigge
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.custom.WiredTriggerLeavesRoom;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.games.GameTeam;
+import com.cometproject.server.game.rooms.types.components.games.GameType;
 import com.cometproject.server.game.rooms.types.components.types.Trade;
 import com.cometproject.server.logging.LogManager;
 import com.cometproject.server.logging.entries.RoomVisitLogEntry;
@@ -77,6 +78,7 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
     private boolean isKicked = false;
 
     private GameTeam gameTeam = GameTeam.NONE;
+    private GameType gameType = null;
     private int kickWalkStage = 0;
 
     private boolean isQueueing = false;
@@ -762,12 +764,18 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
         return gameTeam;
     }
 
-    public void setGameTeam(GameTeam gameTeam) {
+    public void setGameTeam(GameTeam gameTeam, GameType gameType) {
         if (gameTeam == null) {
             this.gameTeam = GameTeam.NONE;
         } else {
             this.gameTeam = gameTeam;
         }
+
+        this.gameType = gameType;
+    }
+
+    public GameType getGameType() {
+        return this.gameType;
     }
 
     public boolean isKicked() {

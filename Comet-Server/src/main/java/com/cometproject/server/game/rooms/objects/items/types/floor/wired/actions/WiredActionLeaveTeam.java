@@ -56,6 +56,6 @@ public class WiredActionLeaveTeam extends WiredActionItem {
 
         }
 
-        playerEntity.setGameTeam(GameTeam.NONE);
+        playerEntity.setGameTeam(GameTeam.NONE, null);
     }
 }

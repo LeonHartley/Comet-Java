@@ -113,8 +113,9 @@ public class RoomItemFactory {
             put("wf_act_bot_clothes", WiredActionBotClothes.class);
             put("wf_act_bot_follow_avatar", WiredActionBotFollowAvatar.class);
             put("wf_act_call_stacks", WiredActionExecuteStacks.class);
+            put("wf_act_bot_teleport", WiredActionBotTeleport.class);
+            put("wf_act_give_score_tm", WiredActionGiveTeamScore.class);
             put("wf_xtra_random", WiredActionRandomEffect.class);
-
 
             put("wf_trg_says_something", WiredTriggerPlayerSaysKeyword.class);
             put("wf_trg_enter_room", WiredTriggerEnterRoom.class);
@@ -144,7 +145,7 @@ public class RoomItemFactory {
             put("wf_cnd_has_furni_on", WiredConditionHasFurniOn.class);
             put("wf_cnd_not_furni_on", WiredNegativeConditionHasFurniOn.class);
             put("wf_cnd_user_count_in", WiredConditionPlayerCountInRoom.class);
-            put("wf_cnd_not_user_count", WiredConditionPlayerCountInRoom.class);
+            put("wf_cnd_not_user_count", WiredNegativeConditionPlayerCountInRoom.class);
             put("wf_cnd_match_snapshot", WiredConditionMatchSnapshot.class);
             put("wf_cnd_not_match_snap", WiredNegativeConditionMatchSnapshot.class);
             put("wf_cnd_has_handitem", WiredConditionHasHandItem.class);

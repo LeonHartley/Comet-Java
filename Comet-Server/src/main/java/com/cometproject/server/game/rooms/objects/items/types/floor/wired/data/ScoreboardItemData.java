@@ -45,7 +45,11 @@ public class ScoreboardItemData {
 
         final int lastEntryIndex = Math.min(entries.size(), maxEntries);
         final List<HighscoreEntry> sortedTopScores = allEntries.subList(0, lastEntryIndex);
-        final HighscoreEntry lowestScore = sortedTopScores.get(lastEntryIndex);
+        if (sortedTopScores.size() == 0) {
+            return Lists.newArrayList();
+        }
+
+        final HighscoreEntry lowestScore = sortedTopScores.get(lastEntryIndex - 1);
 
         this.currentLowestScore = lowestScore.getScore();
         this.currentSortedScores = sortedTopScores;
@@ -53,13 +57,21 @@ public class ScoreboardItemData {
     }
 
     public void addEntry(HighscoreEntry entry, boolean updateExisting) {
+        addEntry(entry, updateExisting, false);
+    }
+
+    public void addEntry(HighscoreEntry entry, boolean updateExisting, boolean increaseExisting) {
         final String teamKey = createTeamKey(entry.getUsers());
 
         if (updateExisting) {
             final HighscoreEntry existingEntry = getEntryByKey(teamKey);
             if (existingEntry != null) {
-                if (existingEntry.score < entry.score) {
-                    existingEntry.score = entry.score;
+                if (!increaseExisting) {
+                    if (existingEntry.score < entry.score) {
+                        existingEntry.score = entry.score;
+                    }
+                } else {
+                    existingEntry.score = existingEntry.score + entry.score;
                 }
             } else {
                 this.entries.put(teamKey, entry);

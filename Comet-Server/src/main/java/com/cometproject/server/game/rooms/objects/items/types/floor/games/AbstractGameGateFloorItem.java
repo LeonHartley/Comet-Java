@@ -21,6 +21,15 @@ public abstract class AbstractGameGateFloorItem extends DefaultFloorItem {
     }
 
     @Override
+    public boolean onInteract(RoomEntity entity, int requestData, boolean isWiredTrigger) {
+        return super.onInteract(entity, requestData, isWiredTrigger);
+    }
+
+    public void onPlaced() {
+        this.onLoad();
+    }
+
+    @Override
     public void onUnload() {
         this.getRoom().getGame().getGates().get(this.getTeam()).remove(this);
     }
@@ -52,10 +61,10 @@ public abstract class AbstractGameGateFloorItem extends DefaultFloorItem {
         if (!isLeaveTeam) {
             this.getRoom().getGame().joinTeam(this.getTeam(), playerEntity);
 
-            playerEntity.setGameTeam(this.getTeam());
+            playerEntity.setGameTeam(this.getTeam(), this.gameType());
             playerEntity.applyTeamEffect(new PlayerEffect(this.getTeam().getEffect(this.gameType()), 0));
         } else {
-            playerEntity.setGameTeam(GameTeam.NONE);
+            playerEntity.setGameTeam(GameTeam.NONE, null);
             playerEntity.applyTeamEffect(null);
         }
 

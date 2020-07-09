@@ -3,8 +3,12 @@ package com.cometproject.server.game.rooms.types.components.games;
 import com.cometproject.api.game.utilities.RandomUtil;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.addons.WiredAddonBlob;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.highscore.HighscoreFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerGameEnds;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerGameStarts;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.GameComponent;
+import com.cometproject.server.game.rooms.types.components.games.banzai.BanzaiGame;
+import com.cometproject.server.game.rooms.types.components.games.freeze.FreezeGame;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManager;
 import com.google.common.collect.Lists;
@@ -17,21 +21,26 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 
-public abstract class RoomGame implements CometTask {
+public class RoomGame implements CometTask {
+    private final Room room;
+    private final Logger log;
+
     protected int timer;
     protected int gameLength;
     protected boolean active = false;
     protected boolean finished = false;
-    protected Room room;
-    private GameType type;
-    private ScheduledFuture future;
 
-    private Logger log;
+    private ScheduledFuture<?> future;
+    private final RoomGameLogic[] logicHandlers;
 
-    public RoomGame(Room room, GameType gameType) {
-        this.type = gameType;
-        this.log = Logger.getLogger("RoomGame [" + room.getData().getName() + "][" + room.getData().getId() + "][" + this.type + "]");
+    public RoomGame(Room room) {
+        this.log = Logger.getLogger("RoomGame [" + room.getData().getName() + "][" + room.getData().getId() + "]");
         this.room = room;
+
+        this.logicHandlers = new RoomGameLogic[]{
+                new BanzaiGame(),
+                new FreezeGame(),
+        };
     }
 
     @Override
@@ -92,6 +101,14 @@ public abstract class RoomGame implements CometTask {
         }
     }
 
+    public BanzaiGame getBanzaiGame() {
+        return (BanzaiGame) this.logicHandlers[0];
+    }
+
+    public FreezeGame getFreezeGame() {
+        return (FreezeGame) this.logicHandlers[1];
+    }
+
     public void startTimer(int amount) {
         if (this.active && this.future != null) {
             this.future.cancel(false);
@@ -105,11 +122,15 @@ public abstract class RoomGame implements CometTask {
         log.debug("Game active for " + amount + " seconds");
     }
 
-    protected GameComponent getGameComponent() {
+    public GameComponent getGameComponent() {
         return this.room.getGame();
     }
 
-    public abstract void tick();
+    public void tick() {
+        for (RoomGameLogic logicHandler : this.logicHandlers) {
+            logicHandler.tick(this);
+        }
+    }
 
     public void gameEnds() {
         final List<HighscoreFloorItem> scoreboards = this.room.getItems().getByClass(HighscoreFloorItem.class);
@@ -151,12 +172,20 @@ public abstract class RoomGame implements CometTask {
         return winningTeam != null ? winningTeam.getKey() : GameTeam.NONE;
     }
 
-    public abstract void onGameEnds();
+    public void onGameStarts() {
+        for (RoomGameLogic logicHandler : this.logicHandlers) {
+            logicHandler.onGameStarts(this);
+        }
 
-    public abstract void onGameStarts();
+        WiredTriggerGameStarts.executeTriggers(this.getRoom());
+    }
 
-    public GameType getType() {
-        return this.type;
+    public void onGameEnds() {
+        for (RoomGameLogic logicHandler : this.logicHandlers) {
+            logicHandler.onGameEnds(this);
+        }
+
+        WiredTriggerGameEnds.executeTriggers(this.room);
     }
 
     public Logger getLog() {
@@ -165,5 +194,37 @@ public abstract class RoomGame implements CometTask {
 
     public boolean isActive() {
         return active;
+    }
+
+    public int getTimer() {
+        return timer;
+    }
+
+    public void setTimer(int timer) {
+        this.timer = timer;
+    }
+
+    public int getGameLength() {
+        return gameLength;
+    }
+
+    public void setGameLength(int gameLength) {
+        this.gameLength = gameLength;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public boolean isFinished() {
+        return finished;
+    }
+
+    public void setFinished(boolean finished) {
+        this.finished = finished;
+    }
+
+    public Room getRoom() {
+        return room;
     }
 }

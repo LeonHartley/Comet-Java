@@ -13,7 +13,7 @@ public class HighscoreMostWinsFloorItem extends HighscoreFloorItem {
 
     @Override
     public void onTeamWins(List<String> usernames, int score) {
-        this.addEntry(usernames, score, true);
+        this.addEntry(usernames, 1, true, true);
     }
 
     @Override

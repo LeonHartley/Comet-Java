@@ -75,7 +75,7 @@ public class GameComponent {
             }
 
             for (HighscorePerTeamFloorItem scoreboard : this.getRoom().getItems().getByClass(HighscorePerTeamFloorItem.class)) {
-                scoreboard.onTeamWins(players, score);
+                scoreboard.onScoreIncrease(players, score);
             }
         } else if (team != GameTeam.NONE) {
             this.increaseScore(team, score);
@@ -104,12 +104,8 @@ public class GameComponent {
         this.instance = null;
     }
 
-    public void createNew(GameType game) {
-        if (game == GameType.BANZAI) {
-            this.instance = new BanzaiGame(this.room);
-        } else if (game == GameType.FREEZE) {
-            this.instance = new FreezeGame(this.room);
-        }
+    public void createNew() {
+        this.instance = new RoomGame(this.getRoom());
     }
 
     public void joinTeam(GameTeam team, PlayerEntity entity) {

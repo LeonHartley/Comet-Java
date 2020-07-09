@@ -22,7 +22,6 @@ public abstract class MessageComposer implements IMessageComposer {
         try {
             this.compose(composer);
         } catch (Exception e) {
-            log.error("Error composing message " + this.getId() + " / " + this.getClass().getSimpleName(), e);
             throw e;
         } finally {
             this.dispose();

@@ -70,7 +70,7 @@ public abstract class AbstractGameTimerFloorItem extends RoomItemFloor {
             if (gameLength == 0) return true;
 
             if (this.getRoom().getGame().getInstance() == null) {
-                this.getRoom().getGame().createNew(this.getGameType());
+                this.getRoom().getGame().createNew();
                 this.getRoom().getGame().getInstance().startTimer(gameLength);
             }
         }
@@ -90,6 +90,4 @@ public abstract class AbstractGameTimerFloorItem extends RoomItemFloor {
     public String getDataObject() {
         return this.lastTime != null && !this.lastTime.isEmpty() ? this.lastTime : this.getItemData().getData();
     }
-
-    public abstract GameType getGameType();
 }

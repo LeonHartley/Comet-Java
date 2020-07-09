@@ -11,9 +11,4 @@ public class BanzaiTimerFloorItem extends AbstractGameTimerFloorItem {
     public BanzaiTimerFloorItem(RoomItemData itemData, Room room) {
         super(itemData, room);
     }
-
-    @Override
-    public GameType getGameType() {
-        return GameType.BANZAI;
-    }
 }

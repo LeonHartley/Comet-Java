@@ -7,6 +7,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.W
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.events.WiredItemEvent;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.games.GameTeam;
+import com.cometproject.server.game.rooms.types.components.games.GameType;
 
 
 public class WiredActionJoinTeam extends WiredActionItem {
@@ -47,7 +48,7 @@ public class WiredActionJoinTeam extends WiredActionItem {
         if (this.getTeam() == GameTeam.NONE)
             return;
 
-        playerEntity.setGameTeam(gameTeam);
+        playerEntity.setGameTeam(gameTeam, GameType.OTHER);
         this.getRoom().getGame().joinTeam(gameTeam, playerEntity);
 
         playerEntity.applyEffect(new PlayerEffect(gameTeam.getFreezeEffect(), false));

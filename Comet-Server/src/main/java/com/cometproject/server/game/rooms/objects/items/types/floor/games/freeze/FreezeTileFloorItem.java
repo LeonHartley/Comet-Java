@@ -6,6 +6,7 @@ import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.games.GameTeam;
+import com.cometproject.server.game.rooms.types.components.games.GameType;
 import com.cometproject.server.game.rooms.types.components.games.RoomGame;
 import com.cometproject.server.game.rooms.types.components.games.freeze.FreezeGame;
 import com.cometproject.server.game.rooms.types.components.games.freeze.types.FreezePlayer;
@@ -38,18 +39,18 @@ public class FreezeTileFloorItem extends RoomItemFloor {
 
         final RoomGame game = this.getRoom().getGame().getInstance();
 
-        if (this.getRoom().getGame().getInstance() == null || !(game instanceof FreezeGame)) {
+        if (game == null) {
             return false;
         }
 
         final PlayerEntity playerEntity = (PlayerEntity) entity;
-        final FreezeGame freezeGame = (FreezeGame) game;
+        final FreezeGame freezeGame = game.getFreezeGame();
 
-        if (playerEntity.getGameTeam() == null || playerEntity.getGameTeam() == GameTeam.NONE) {
+        if (playerEntity.getGameTeam() == GameTeam.NONE || playerEntity.getGameType() != GameType.FREEZE) {
             return false;
         }
 
-        final FreezePlayer freezePlayer = freezeGame.freezePlayer(playerEntity.getPlayerId());
+        final FreezePlayer freezePlayer = freezeGame.getPlayer(playerEntity.getPlayerId());
 
         if (freezePlayer.getBalls() < 1) {
             return false;

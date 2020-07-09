@@ -8,6 +8,8 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.games.GameTeam;
+import com.cometproject.server.game.rooms.types.components.games.GameType;
+import com.cometproject.server.game.rooms.types.components.games.RoomGame;
 import com.cometproject.server.game.rooms.types.components.games.banzai.BanzaiGame;
 
 import java.util.LinkedList;
@@ -24,6 +26,99 @@ public class BanzaiTileFloorItem extends RoomItemFloor {
         super(roomItemData, room);
 
         this.getItemData().setData("0");
+    }
+
+    @Override
+    public void onPickup() {
+        final RoomGame gameInstance = this.getRoom().getGame().getInstance();
+        if (gameInstance == null) {
+            return;
+        }
+
+        gameInstance.getBanzaiGame().removeTile();
+    }
+
+    @Override
+    public void onPlaced() {
+        final RoomGame gameInstance = this.getRoom().getGame().getInstance();
+        if (gameInstance == null) {
+            return;
+        }
+
+        gameInstance.getBanzaiGame().addTile();
+    }
+
+    @Override
+    public void onEntityPostStepOn(RoomEntity entity) {
+        final RoomGame gameInstance = this.getRoom().getGame().getInstance();
+        if (gameInstance == null || !(entity instanceof PlayerEntity)) {
+            return;
+        }
+
+        final PlayerEntity playerEntity = (PlayerEntity) entity;
+        if (playerEntity.getGameTeam() == GameTeam.NONE || playerEntity.getGameType() != GameType.BANZAI) {
+            return;
+        }
+
+
+        if (this.points == 3) {
+            // It's locked, what you doing?!?
+            return;
+        }
+
+        if (((PlayerEntity) entity).getGameTeam() == this.gameTeam) {
+            this.points++;
+        } else {
+            this.gameTeam = ((PlayerEntity) entity).getGameTeam();
+            this.points = 1;
+        }
+
+        if (this.points == 3) {
+            ((PlayerEntity) entity).getPlayer().getAchievements().progressAchievement(AchievementType.BB_TILES_LOCKED, 1);
+            gameInstance.getBanzaiGame().increaseScore(gameInstance, gameTeam, 1);
+            gameInstance.getBanzaiGame().decreaseTileCount();
+
+            final List<BanzaiTileFloorItem> rectangle = buildBanzaiRectangle(this, this.getPosition().getX(), this.getPosition().getY(), 0, 0, -1, 4, gameTeam);
+
+            if (rectangle != null) {
+                for (RoomItemFloor floorItem : this.getRoom().getItems().getByClass(BanzaiTileFloorItem.class)) {
+                    BanzaiTileFloorItem tileItem = ((BanzaiTileFloorItem) floorItem);
+                    if (tileItem.getPoints() == 3) continue;
+
+                    final boolean[] borderCheck = new boolean[4];
+
+                    for (BanzaiTileFloorItem rectangleItem : rectangle) {
+                        if (rectangleItem.getPosition().getY() == floorItem.getPosition().getY()) {
+                            if (rectangleItem.getPosition().getX() > floorItem.getPosition().getX()) {
+                                borderCheck[0] = true;
+                            } else {
+                                borderCheck[1] = true;
+                            }
+                        } else if (rectangleItem.getPosition().getX() == floorItem.getPosition().getX()) {
+                            if (rectangleItem.getPosition().getY() > floorItem.getPosition().getY()) {
+                                borderCheck[2] = true;
+                            } else {
+                                borderCheck[3] = true;
+                            }
+                        }
+                    }
+
+                    if (borderCheck[0] && borderCheck[1] && borderCheck[2] && borderCheck[3]) {
+                        if (tileItem.getId() != this.getId()) {
+                            tileItem.setPoints(3);
+                            tileItem.setTeam(this.gameTeam);
+
+                            ((PlayerEntity) entity).getPlayer().getAchievements().progressAchievement(AchievementType.BB_TILES_LOCKED, 1);
+                            gameInstance.getBanzaiGame().increaseScore(gameInstance, gameTeam, 1);
+                            gameInstance.getBanzaiGame().decreaseTileCount();
+                            tileItem.updateTileData();
+                        }
+                    }
+                }
+            }
+        }
+
+        this.updateTileData();
     }
 
     private static List<BanzaiTileFloorItem> buildBanzaiRectangle(final BanzaiTileFloorItem triggerItem, final int x, final int y,
@@ -100,90 +195,6 @@ public class BanzaiTileFloorItem extends RoomItemFloor {
         }
 
         return null;
-    }
-
-    @Override
-    public void onPickup() {
-        if (!(this.getRoom().getGame().getInstance() instanceof BanzaiGame)) {
-            return;
-        }
-
-        ((BanzaiGame) this.getRoom().getGame().getInstance()).removeTile();
-    }
-
-    @Override
-    public void onPlaced() {
-        if (!(this.getRoom().getGame().getInstance() instanceof BanzaiGame)) {
-            return;
-        }
-
-        ((BanzaiGame) this.getRoom().getGame().getInstance()).addTile();
-    }
-
-    @Override
-    public void onEntityPostStepOn(RoomEntity entity) {
-        if (!(entity instanceof PlayerEntity) || ((PlayerEntity) entity).getGameTeam() == GameTeam.NONE || !(this.getRoom().getGame().getInstance() instanceof BanzaiGame)) {
-            return;
-        }
-
-        if (this.points == 3) {
-            // It's locked, what you doing?!?
-            return;
-        }
-
-        if (((PlayerEntity) entity).getGameTeam() == this.gameTeam) {
-            this.points++;
-        } else {
-            this.gameTeam = ((PlayerEntity) entity).getGameTeam();
-            this.points = 1;
-        }
-
-        if (this.points == 3) {
-            ((PlayerEntity) entity).getPlayer().getAchievements().progressAchievement(AchievementType.BB_TILES_LOCKED, 1);
-            ((BanzaiGame) this.getRoom().getGame().getInstance()).increaseScore(gameTeam, 1);
-            ((BanzaiGame) this.getRoom().getGame().getInstance()).decreaseTileCount();
-
-            final List<BanzaiTileFloorItem> rectangle = buildBanzaiRectangle(this, this.getPosition().getX(), this.getPosition().getY(), 0, 0, -1, 4, gameTeam);
-
-            if (rectangle != null) {
-                for (RoomItemFloor floorItem : this.getRoom().getItems().getByClass(BanzaiTileFloorItem.class)) {
-                    BanzaiTileFloorItem tileItem = ((BanzaiTileFloorItem) floorItem);
-                    if (tileItem.getPoints() == 3) continue;
-
-                    final boolean[] borderCheck = new boolean[4];
-
-                    for (BanzaiTileFloorItem rectangleItem : rectangle) {
-                        if (rectangleItem.getPosition().getY() == floorItem.getPosition().getY()) {
-                            if (rectangleItem.getPosition().getX() > floorItem.getPosition().getX()) {
-                                borderCheck[0] = true;
-                            } else {
-                                borderCheck[1] = true;
-                            }
-                        } else if (rectangleItem.getPosition().getX() == floorItem.getPosition().getX()) {
-                            if (rectangleItem.getPosition().getY() > floorItem.getPosition().getY()) {
-                                borderCheck[2] = true;
-                            } else {
-                                borderCheck[3] = true;
-                            }
-                        }
-                    }
-
-                    if (borderCheck[0] && borderCheck[1] && borderCheck[2] && borderCheck[3]) {
-                        if (tileItem.getId() != this.getId()) {
-                            tileItem.setPoints(3);
-                            tileItem.setTeam(this.gameTeam);
-
-                            ((PlayerEntity) entity).getPlayer().getAchievements().progressAchievement(AchievementType.BB_TILES_LOCKED, 1);
-                            ((BanzaiGame) this.getRoom().getGame().getInstance()).increaseScore(gameTeam, 1);
-                            ((BanzaiGame) this.getRoom().getGame().getInstance()).decreaseTileCount();
-                            tileItem.updateTileData();
-                        }
-                    }
-                }
-            }
-        }
-
-        this.updateTileData();
     }
 
     @Override

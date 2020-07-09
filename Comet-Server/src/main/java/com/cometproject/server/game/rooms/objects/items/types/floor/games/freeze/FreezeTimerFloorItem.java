@@ -9,9 +9,4 @@ public class FreezeTimerFloorItem extends AbstractGameTimerFloorItem {
     public FreezeTimerFloorItem(RoomItemData itemData, Room room) {
         super(itemData, room);
     }
-
-    @Override
-    public GameType getGameType() {
-        return GameType.FREEZE;
-    }
 }

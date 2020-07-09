@@ -10,10 +10,9 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.games.freeze
 import com.cometproject.server.game.rooms.objects.items.types.floor.games.freeze.FreezeExitFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.games.freeze.FreezeTileFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.games.freeze.FreezeTimerFloorItem;
-import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.games.GameTeam;
-import com.cometproject.server.game.rooms.types.components.games.GameType;
 import com.cometproject.server.game.rooms.types.components.games.RoomGame;
+import com.cometproject.server.game.rooms.types.components.games.RoomGameLogic;
 import com.cometproject.server.game.rooms.types.components.games.freeze.types.FreezeBall;
 import com.cometproject.server.game.rooms.types.components.games.freeze.types.FreezePlayer;
 import com.cometproject.server.game.rooms.types.components.games.freeze.types.FreezePowerUp;
@@ -28,22 +27,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class FreezeGame extends RoomGame {
-
+public class FreezeGame extends RoomGameLogic {
     private static final Direction[] EXPLODE_NORMAL = new Direction[]{null, Direction.North, Direction.East, Direction.South, Direction.West};
     private static final Direction[] EXPLODE_DIAGONAL = new Direction[]{null, Direction.NorthEast, Direction.SouthEast, Direction.SouthWest, Direction.NorthWest};
     private static final Direction[] EXPLODE_MEGA = new Direction[]{null, Direction.North, Direction.NorthEast, Direction.East, Direction.SouthEast, Direction.South, Direction.SouthWest, Direction.West, Direction.NorthWest};
-    private final Map<Integer, FreezePlayer> players = Maps.newConcurrentMap();
-    private final Set<FreezeBall> activeBalls = Sets.newConcurrentHashSet();
+    private final Map<Integer, FreezePlayer> players;
+    private final Set<FreezeBall> activeBalls;
 
-    public FreezeGame(Room room) {
-        super(room, GameType.FREEZE);
+    public FreezeGame() {
+        this.players = Maps.newConcurrentMap();
+        this.activeBalls = Sets.newConcurrentHashSet();
     }
 
     @Override
-    public void tick() {
-        for (RoomItemFloor item : room.getItems().getByClass(FreezeTimerFloorItem.class)) {
-            item.getItemData().setData((gameLength - timer) + "");
+    public void tick(RoomGame roomGame) {
+        for (RoomItemFloor item : roomGame.getRoom().getItems().getByClass(FreezeTimerFloorItem.class)) {
+            item.getItemData().setData((roomGame.getGameLength() - roomGame.getTimer()) + "");
             item.sendUpdate();
         }
 
@@ -106,12 +105,12 @@ public class FreezeGame extends RoomGame {
 
                                 if (this.players.containsKey(playerEntity.getPlayerId())) {
                                     // we lost 10 points!
-                                    this.getGameComponent().decreaseScore(playerEntity.getGameTeam(), 10);
+                                    roomGame.getGameComponent().decreaseScore(playerEntity.getGameTeam(), 10);
 
-                                    final FreezePlayer freezePlayer = this.freezePlayer(playerEntity.getPlayerId());
+                                    final FreezePlayer freezePlayer = this.getPlayer(playerEntity.getPlayerId());
 
                                     if (freezePlayer.getLives() <= 0) {
-                                        this.playerLost(freezePlayer);
+                                        this.playerLost(roomGame, freezePlayer);
                                         continue;
                                     }
 
@@ -148,39 +147,39 @@ public class FreezeGame extends RoomGame {
         }
     }
 
-    private void playerLost(FreezePlayer freezePlayer) {
-        final FreezeExitFloorItem exitItem = this.getExitTile();
+    private void playerLost(RoomGame roomGame, FreezePlayer freezePlayer) {
+        final FreezeExitFloorItem exitItem = this.getExitTile(roomGame);
         freezePlayer.getEntity().teleportToItem(exitItem);
 
         this.players.remove(freezePlayer.getEntity().getPlayerId());
 
-        this.getGameComponent().getPlayers().remove(freezePlayer.getEntity());
-        this.getGameComponent().removeFromTeam(freezePlayer.getEntity());
+        roomGame.getGameComponent().getPlayers().remove(freezePlayer.getEntity());
+        roomGame.getGameComponent().removeFromTeam(freezePlayer.getEntity());
 
         int teams = 0;
 
-        for (GameTeam team : this.getGameComponent().getTeams().keySet()) {
-            if (this.getGameComponent().getTeams().get(team).size() > 0) {
+        for (GameTeam team : roomGame.getGameComponent().getTeams().keySet()) {
+            if (roomGame.getGameComponent().getTeams().get(team).size() > 0) {
                 teams++;
             }
         }
 
         if (teams == 1) {
-            this.gameComplete();
+            this.gameComplete(roomGame);
         }
     }
 
-    private void gameComplete() {
-        this.onGameEnds();
+    private void gameComplete(RoomGame roomGame) {
+        this.onGameEnds(roomGame);
 
-        final GameTeam winningTeam = this.getBestTeam();
+        final GameTeam winningTeam = this.getBestTeam(roomGame);
 
-        final FreezeExitFloorItem exitItem = this.getExitTile();
+        final FreezeExitFloorItem exitItem = this.getExitTile(roomGame);
 
         if (winningTeam != null) {
             for (FreezePlayer freezePlayer : this.players.values()) {
                 if (freezePlayer.getEntity().getGameTeam() == winningTeam) {
-                    this.room.getEntities().broadcastMessage(new ActionMessageComposer(freezePlayer.getEntity().getId(), 1)); // wave o/
+                    roomGame.getRoom().getEntities().broadcastMessage(new ActionMessageComposer(freezePlayer.getEntity().getId(), 1)); // wave o/
                 }
             }
         }
@@ -190,21 +189,21 @@ public class FreezeGame extends RoomGame {
         }
     }
 
-    private GameTeam getBestTeam() {
+    private GameTeam getBestTeam(RoomGame roomGame) {
         GameTeam best = null;
 
-        for (Map.Entry<GameTeam, List<Integer>> team : this.getGameComponent().getTeams().entrySet()) {
-            if (team.getValue().size() > 0 && this.getGameComponent().getScore(team.getKey()) > 0 &&
-                    (best == null || this.getGameComponent().getScore(team.getKey()) > this.getGameComponent().getScore(best))) {
+        for (Map.Entry<GameTeam, List<Integer>> team : roomGame.getGameComponent().getTeams().entrySet()) {
+            if (team.getValue().size() > 0 && roomGame.getGameComponent().getScore(team.getKey()) > 0 &&
+                    (best == null || roomGame.getGameComponent().getScore(team.getKey()) > roomGame.getGameComponent().getScore(best))) {
                 best = team.getKey();
             }
         }
 
         // Detect draws
         if (best != null) {
-            for (Map.Entry<GameTeam, List<Integer>> team : this.getGameComponent().getTeams().entrySet()) {
-                if (team.getValue().size() > 0 && this.getGameComponent().getScore(team.getKey()) > 0 &&
-                        this.getGameComponent().getScore(team.getKey()) == this.getGameComponent().getScore(best)) {
+            for (Map.Entry<GameTeam, List<Integer>> team : roomGame.getGameComponent().getTeams().entrySet()) {
+                if (team.getValue().size() > 0 && roomGame.getGameComponent().getScore(team.getKey()) > 0 &&
+                        roomGame.getGameComponent().getScore(team.getKey()) == roomGame.getGameComponent().getScore(best)) {
                     return null;
                 }
             }
@@ -240,59 +239,59 @@ public class FreezeGame extends RoomGame {
     }
 
     @Override
-    public void onGameStarts() {
+    public void onGameStarts(RoomGame roomGame) {
         this.activeBalls.clear();
 
         // Everyone starts with 40 points & 3 lives.
-        for (PlayerEntity playerEntity : this.room.getGame().getPlayers()) {
+        for (PlayerEntity playerEntity : roomGame.getRoom().getGame().getPlayers()) {
             this.players.put(playerEntity.getPlayerId(), new FreezePlayer(playerEntity));
 
-            this.getGameComponent().increaseScore(playerEntity.getGameTeam(), 40);
+            roomGame.getGameComponent().increaseScore(playerEntity.getGameTeam(), 40);
             playerEntity.getRoom().getEntities().broadcastMessage(new UpdateFreezeLivesMessageComposer(playerEntity.getId(), 3));
         }
 
-        for (FreezeBlockFloorItem blockItem : this.room.getItems().getByClass(FreezeBlockFloorItem.class)) {
+        for (FreezeBlockFloorItem blockItem : roomGame.getRoom().getItems().getByClass(FreezeBlockFloorItem.class)) {
             blockItem.reset();
         }
 
-        for (FreezeExitFloorItem exitItem : this.room.getItems().getByClass(FreezeExitFloorItem.class)) {
+        for (FreezeExitFloorItem exitItem : roomGame.getRoom().getItems().getByClass(FreezeExitFloorItem.class)) {
             exitItem.getItemData().setData("1");
             exitItem.sendUpdate();
         }
     }
 
-    public FreezePlayer freezePlayer(final int playerId) {
+    public FreezePlayer getPlayer(final int playerId) {
         return this.players.get(playerId);
     }
 
     @Override
-    public void onGameEnds() {
-        for (FreezeBlockFloorItem blockItem : this.room.getItems().getByClass(FreezeBlockFloorItem.class)) {
+    public void onGameEnds(RoomGame roomGame) {
+        for (FreezeBlockFloorItem blockItem : roomGame.getRoom().getItems().getByClass(FreezeBlockFloorItem.class)) {
             blockItem.getItemData().setData("0");
             blockItem.sendUpdate();
         }
 
-        for (FreezeExitFloorItem exitItem : this.room.getItems().getByClass(FreezeExitFloorItem.class)) {
+        for (FreezeExitFloorItem exitItem : roomGame.getRoom().getItems().getByClass(FreezeExitFloorItem.class)) {
             exitItem.getItemData().setData("0");
             exitItem.sendUpdate();
         }
 
-        for (FreezeTimerFloorItem timer : this.room.getItems().getByClass(FreezeTimerFloorItem.class)) {
+        for (FreezeTimerFloorItem timer : roomGame.getRoom().getItems().getByClass(FreezeTimerFloorItem.class)) {
             timer.getItemData().setData("0");
             timer.sendUpdate();
         }
 
-        for (PlayerEntity playerEntity : this.getGameComponent().getPlayers()) {
+        for (PlayerEntity playerEntity : roomGame.getGameComponent().getPlayers()) {
             playerEntity.setCanWalk(true);
         }
 
         // reset all scores to 0
         this.activeBalls.clear();
-        this.getGameComponent().resetScores(true);
+        roomGame.getGameComponent().resetScores(true);
     }
 
-    private FreezeExitFloorItem getExitTile() {
-        for (FreezeExitFloorItem exitItem : this.room.getItems().getByClass(FreezeExitFloorItem.class)) {
+    private FreezeExitFloorItem getExitTile(RoomGame roomGame) {
+        for (FreezeExitFloorItem exitItem : roomGame.getRoom().getItems().getByClass(FreezeExitFloorItem.class)) {
             return exitItem;
         }
 

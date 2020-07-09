@@ -5,6 +5,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.W
 import com.cometproject.server.game.rooms.types.Room;
 
 public class WiredActionGiveTeamScore extends WiredActionItem  {
+
     public WiredActionGiveTeamScore(RoomItemData itemData, Room room) {
         super(itemData, room);
     }
@@ -16,6 +17,6 @@ public class WiredActionGiveTeamScore extends WiredActionItem  {
 
     @Override
     public int getInterface() {
-        return 0;
+        return 14;
     }
 }

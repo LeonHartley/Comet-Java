@@ -16,6 +16,10 @@ public class HighscorePerTeamFloorItem extends HighscoreFloorItem {
         this.addEntry(usernames, score, true);
     }
 
+    public void onScoreIncrease(List<String> usernames, int score) {
+        this.addEntry(usernames, score, true, true);
+    }
+
     @Override
     public int getScoreType() {
         return 0;
