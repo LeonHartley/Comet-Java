@@ -76,7 +76,6 @@ public abstract class AbstractGameGateFloorItem extends DefaultFloorItem {
 
             if (playerEntity.getGameTeam() == this.getTeam()) {
                 this.getRoom().getGame().removeFromTeam(playerEntity);
-                this.updateTeamCount();
             }
         }
     }
