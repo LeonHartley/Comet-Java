@@ -47,6 +47,15 @@ public class RollerFloorItem extends AdvancedFloorItem<RollerFloorItemEvent> {
     @Override
     public void onPlaced() {
         event.setTotalTicks(this.getTickCount());
+
+        for (RollerFloorItem rollerItem : this.getRoom().getItems().getByClass(this.getClass())) {
+            final RollerFloorItemEvent rollerFloorItemEvent = rollerItem.getNextEvent();
+            if (rollerFloorItemEvent != null && rollerItem != this) {
+                event.setTicks(rollerFloorItemEvent.getCurrentTicks());
+                break;
+            }
+        }
+
         this.queueEvent(event);
     }
 

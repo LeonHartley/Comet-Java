@@ -39,7 +39,7 @@ public class BanzaiGame extends RoomGame {
             if (entity.getEntityType().equals(RoomEntityType.PLAYER)) {
                 PlayerEntity playerEntity = (PlayerEntity) entity;
 
-                if (this.getGameComponent().getTeam(playerEntity.getPlayerId()) != GameTeam.NONE) {
+                if (playerEntity.getGameTeam() != GameTeam.NONE) {
                     if (playerEntity.getBanzaiPlayerAchievement() >= 60) {
                         playerEntity.getPlayer().getAchievements().progressAchievement(AchievementType.BB_PLAYER, 1);
                         playerEntity.setBanzaiPlayerAchievement(0);
@@ -86,7 +86,7 @@ public class BanzaiGame extends RoomGame {
             if (entity.getEntityType().equals(RoomEntityType.PLAYER)) {
                 PlayerEntity playerEntity = (PlayerEntity) entity;
 
-                if (this.getGameComponent().getTeam(playerEntity.getPlayerId()).equals(winningTeam) && winningTeam != GameTeam.NONE) {
+                if (playerEntity.getGameTeam().equals(winningTeam) && winningTeam != GameTeam.NONE) {
                     playerEntity.getPlayer().getAchievements().progressAchievement(AchievementType.BB_WINNER, 1);
                     this.room.getEntities().broadcastMessage(new ActionMessageComposer(playerEntity.getId(), 1)); // wave o/
                 }

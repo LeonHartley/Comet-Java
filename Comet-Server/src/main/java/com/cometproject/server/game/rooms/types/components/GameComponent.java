@@ -4,6 +4,8 @@ import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.football.FootballScoreFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.games.AbstractGameGateFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.games.AbstractGameTimerFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.highscore.HighscorePerTeamFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerScoreAchieved;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.games.GameTeam;
@@ -16,22 +18,20 @@ import com.cometproject.server.utilities.collections.ConcurrentHashSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class GameComponent {
     private final AtomicInteger blobCounter = new AtomicInteger(0);
-    private Room room;
+    private final Room room;
     private RoomGame instance;
-    private Map<GameTeam, List<Integer>> teams;
+    private final Map<GameTeam, List<Integer>> teams;
     private Map<GameTeam, Integer> scores;
-    private Map<GameTeam, Set<AbstractGameGateFloorItem>> gates;
-    private Set<PlayerEntity> players;
+    private final Map<GameTeam, Set<AbstractGameGateFloorItem>> gates;
+    private final Set<PlayerEntity> players;
+    private final Set<AbstractGameTimerFloorItem> gameTimers;
 
     private boolean shootEnabled = true;
 
@@ -51,9 +51,35 @@ public class GameComponent {
         }};
 
         this.players = new ConcurrentHashSet<>();
+        this.gameTimers = new ConcurrentHashSet<>();
 
         this.resetScores();
         this.room = room;
+    }
+
+    public void increaseScore(PlayerEntity playerEntity, int score) {
+        final GameTeam team = playerEntity.getGameTeam();
+
+        if (this.gameTimers.size() == 0) {
+            // legacy highscore support, allow usage without a timer
+            final List<String> players = new ArrayList<>();
+            if (team == GameTeam.NONE) {
+                players.add(playerEntity.getUsername());
+            } else {
+                for (int playerId : this.teams.get(team)) {
+                    final PlayerEntity teamPlayer = this.getRoom().getEntities().getEntityByPlayerId(playerId);
+                    if (teamPlayer != null) {
+                        players.add(teamPlayer.getUsername());
+                    }
+                }
+            }
+
+            for (HighscorePerTeamFloorItem scoreboard : this.getRoom().getItems().getByClass(HighscorePerTeamFloorItem.class)) {
+                scoreboard.onTeamWins(players, score);
+            }
+        } else if (team != GameTeam.NONE) {
+            this.increaseScore(team, score);
+        }
     }
 
     public void dispose() {
@@ -86,10 +112,6 @@ public class GameComponent {
         }
     }
 
-    public boolean isTeamed(int id) {
-        return this.getTeam(id) != GameTeam.NONE;
-    }
-
     public void joinTeam(GameTeam team, PlayerEntity entity) {
         this.teams.get(team).add(entity.getPlayerId());
         this.players.add(entity);
@@ -109,16 +131,6 @@ public class GameComponent {
         this.players.remove(entity);
 
         entity.getPlayer().getSession().send(new YouArePlayingGameMessageComposer(false));
-    }
-
-    public GameTeam getTeam(int userId) {
-        for (Map.Entry<GameTeam, List<Integer>> entry : this.getTeams().entrySet()) {
-            if (entry.getValue().contains(userId)) {
-                return entry.getKey();
-            }
-        }
-
-        return GameTeam.NONE;
     }
 
     public void decreaseScore(GameTeam team, int amount) {

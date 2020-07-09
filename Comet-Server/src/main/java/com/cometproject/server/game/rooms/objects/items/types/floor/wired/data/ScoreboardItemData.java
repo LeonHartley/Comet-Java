@@ -27,7 +27,7 @@ public class ScoreboardItemData {
 
     private void loadEntries(List<HighscoreEntry> entries) {
         for (HighscoreEntry entry : entries) {
-            addEntry(entry);
+            addEntry(entry, true);
         }
     }
 
@@ -52,12 +52,17 @@ public class ScoreboardItemData {
         return sortedTopScores;
     }
 
-    public void addEntry(HighscoreEntry entry) {
+    public void addEntry(HighscoreEntry entry, boolean updateExisting) {
         final String teamKey = createTeamKey(entry.getUsers());
-        final HighscoreEntry existingEntry = getEntryByKey(teamKey);
-        if (existingEntry != null) {
-            if (existingEntry.score < entry.score) {
-                existingEntry.score = entry.score;
+
+        if (updateExisting) {
+            final HighscoreEntry existingEntry = getEntryByKey(teamKey);
+            if (existingEntry != null) {
+                if (existingEntry.score < entry.score) {
+                    existingEntry.score = entry.score;
+                }
+            } else {
+                this.entries.put(teamKey, entry);
             }
         } else {
             this.entries.put(teamKey, entry);

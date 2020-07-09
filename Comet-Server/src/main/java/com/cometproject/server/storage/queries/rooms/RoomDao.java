@@ -173,7 +173,7 @@ public class RoomDao {
                 query = SqlHelper.escapeWildcards(query);
 
                 preparedStatement = SqlHelper.prepare("SELECT * FROM rooms WHERE name LIKE ? ORDER BY id DESC, name ASC LIMIT 50;", sqlConnection);
-                preparedStatement.setString(1, query);
+                preparedStatement.setString(1, "%" + query + "%");
             }
 
             resultSet = preparedStatement.executeQuery();

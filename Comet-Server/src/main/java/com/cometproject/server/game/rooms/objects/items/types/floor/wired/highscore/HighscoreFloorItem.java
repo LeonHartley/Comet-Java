@@ -111,8 +111,8 @@ public abstract class HighscoreFloorItem extends RoomItemFloor {
 
     public abstract void onTeamWins(List<String> users, int score);
 
-    void addEntry(List<String> users, int score) {
-        this.itemData.addEntry(new ScoreboardItemData.HighscoreEntry(users, score));
+    void addEntry(List<String> users, int score, boolean updateExisting) {
+        this.itemData.addEntry(new ScoreboardItemData.HighscoreEntry(users, score), updateExisting);
 
         this.sendUpdate();
         this.saveData();

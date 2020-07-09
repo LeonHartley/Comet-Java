@@ -25,6 +25,10 @@ public abstract class FloorItemEvent {
         this.totalTicks = ticks;
     }
 
+    public void setTicks(int ticks) {
+        this.ticks.set(ticks);
+    }
+
     public void incrementTicks() {
         this.ticks.incrementAndGet();
     }

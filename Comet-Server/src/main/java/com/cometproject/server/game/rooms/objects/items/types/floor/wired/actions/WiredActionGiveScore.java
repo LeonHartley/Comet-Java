@@ -46,13 +46,7 @@ public class WiredActionGiveScore extends WiredActionItem {
         }
 
         PlayerEntity playerEntity = ((PlayerEntity) event.entity);
-
-        final List<HighscoreFloorItem> scoreboards = getRoom().getItems().getByClass(HighscoreFloorItem.class);
-
-        for (HighscoreFloorItem scoreboard : scoreboards) {
-            // TODO: Do this properly
-            scoreboard.onTeamWins(Lists.newArrayList(playerEntity.getUsername()), this.getScore());
-        }
+        this.getRoom().getGame().increaseScore(playerEntity, this.getScore());
     }
 
     public int getScore() {

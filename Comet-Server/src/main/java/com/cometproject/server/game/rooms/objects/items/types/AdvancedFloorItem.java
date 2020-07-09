@@ -48,6 +48,14 @@ public abstract class AdvancedFloorItem<T extends FloorItemEvent> extends RoomIt
         finishedEvents.clear();
     }
 
+    public T getNextEvent() {
+        if (this.itemEvents.size() == 0) {
+            return null;
+        }
+
+        return this.itemEvents.iterator().next();
+    }
+
     public void queueEvent(final T floorItemEvent) {
         if (this.getMaxEvents() <= this.itemEvents.size()) {
             return;
