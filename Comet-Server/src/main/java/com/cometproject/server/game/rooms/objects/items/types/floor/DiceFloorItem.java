@@ -1,10 +1,12 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
 import com.cometproject.api.game.rooms.objects.data.RoomItemData;
+import com.cometproject.api.game.utilities.Position;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 
 import java.util.Random;
 
@@ -19,11 +21,18 @@ public class DiceFloorItem extends RoomItemFloor {
 
     @Override
     public boolean onInteract(RoomEntity entity, int requestData, boolean isWiredTrigger) {
-        if (!isWiredTrigger) {
-            if (!this.getPosition().touching(entity.getPosition())) {
-                entity.moveTo(this.getPosition().squareInFront(this.getRotation()).getX(), this.getPosition().squareBehind(this.getRotation()).getY());
-                return false;
+
+        if (!isWiredTrigger && !entity.getPosition().touching(this.getPosition())) {
+            Position posInFront = this.getPosition().squareInFront(this.getRotation());
+            entity.moveTo(posInFront.getX(), posInFront.getY());
+
+            RoomTile tile = this.getRoom().getMapping().getTile(posInFront.getX(), posInFront.getY());
+
+            if (tile != null) {
+                tile.scheduleEvent(entity.getId(), (e) -> onInteract(e, requestData, false));
             }
+
+            return false;
         }
 
         if (this.isInUse) {

@@ -66,6 +66,7 @@ public class RoomMapping {
         }
     }
 
+
     public void tick() {
         // clear out the entity grid
         for (int x = 0; x < tiles.length; x++) {

@@ -1,8 +1,15 @@
 package com.cometproject.server.game.commands.user.room;
 
+import com.cometproject.api.game.rooms.models.RoomTileState;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
+import com.cometproject.server.game.rooms.types.mapping.RoomMapping;
+import com.cometproject.server.game.rooms.types.mapping.RoomTile;
+import com.cometproject.server.network.messages.outgoing.room.engine.UpdateStackMapMessageComposer;
 import com.cometproject.server.network.sessions.Session;
+import com.google.common.collect.Lists;
+
+import java.util.List;
 
 public class HeightCommand extends ChatCommand {
     @Override
@@ -22,6 +29,18 @@ public class HeightCommand extends ChatCommand {
 
         client.getPlayer().setItemPlacementHeight(height);
         sendNotif(Locale.get("command.height.set").replace("%height%", "" + height), client);
+
+        final RoomMapping roomMapping = client.getPlayer().getEntity().getRoom().getMapping();
+        for (int x = 0; x < roomMapping.getModel().getSizeX(); x++) {
+            for (int y = 0; y < roomMapping.getModel().getSizeY(); y++) {
+                final RoomTile roomTile = roomMapping.getTile(x, y);
+                if (roomTile != null && roomTile.getState() != RoomTileState.INVALID) {
+                    client.sendQueue(new UpdateStackMapMessageComposer(roomTile, height));
+                }
+            }
+        }
+
+        client.flush();
     }
 
     @Override

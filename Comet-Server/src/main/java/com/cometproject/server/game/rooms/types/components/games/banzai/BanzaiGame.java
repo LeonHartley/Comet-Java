@@ -4,8 +4,8 @@ import com.cometproject.api.game.achievements.types.AchievementType;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.games.banzai.BanzaiTileFloorItem;
-import com.cometproject.server.game.rooms.objects.items.types.floor.games.banzai.BanzaiTimerFloorItem;
 import com.cometproject.server.game.rooms.types.components.games.GameTeam;
+import com.cometproject.server.game.rooms.types.components.games.GameType;
 import com.cometproject.server.game.rooms.types.components.games.RoomGame;
 import com.cometproject.server.game.rooms.types.components.games.RoomGameLogic;
 import com.cometproject.server.network.messages.outgoing.room.avatar.ActionMessageComposer;
@@ -21,15 +21,8 @@ public class BanzaiGame extends RoomGameLogic {
             game.setTimer(game.getGameLength());
         }
 
-        // TODO: this should be generic for all timers
-        for (RoomItemFloor item : game.getRoom().getItems().getByClass(BanzaiTimerFloorItem.class)) {
-            item.getItemData().setData((game.getGameLength() - game.getTimer()) + "");
-            item.sendUpdate();
-        }
-
         for (PlayerEntity playerEntity : game.getRoom().getEntities().getPlayerEntities()) {
-            if (playerEntity.getGameTeam() != GameTeam.NONE) {
-                // TODO: which type of game they're playing, only achv if they entered a banzai gate.
+            if (playerEntity.getGameTeam() != GameTeam.NONE && playerEntity.getGameType() == GameType.BANZAI) {
                 if (playerEntity.getBanzaiPlayerAchievement() >= 60) {
                     playerEntity.getPlayer().getAchievements().progressAchievement(AchievementType.BB_PLAYER, 1);
                     playerEntity.setBanzaiPlayerAchievement(0);

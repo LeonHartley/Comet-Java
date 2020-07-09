@@ -7,10 +7,10 @@ import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.games.GameType;
 import org.apache.commons.lang.StringUtils;
 
-public abstract class AbstractGameTimerFloorItem extends RoomItemFloor {
+public abstract class GameTimerFloorItem extends RoomItemFloor {
     private String lastTime;
 
-    public AbstractGameTimerFloorItem(RoomItemData itemData, Room room) {
+    public GameTimerFloorItem(RoomItemData itemData, Room room) {
         super(itemData, room);
     }
 

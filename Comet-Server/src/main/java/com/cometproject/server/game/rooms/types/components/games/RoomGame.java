@@ -1,6 +1,8 @@
 package com.cometproject.server.game.rooms.types.components.games;
 
 import com.cometproject.api.game.utilities.RandomUtil;
+import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.objects.items.types.floor.games.GameTimerFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.addons.WiredAddonBlob;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.highscore.HighscoreFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerGameEnds;
@@ -127,6 +129,11 @@ public class RoomGame implements CometTask {
     }
 
     public void tick() {
+        for (RoomItemFloor item : this.getRoom().getItems().getByClass(GameTimerFloorItem.class)) {
+            item.getItemData().setData((this.getGameLength() - this.getTimer()) + "");
+            item.sendUpdate();
+        }
+
         for (RoomGameLogic logicHandler : this.logicHandlers) {
             logicHandler.tick(this);
         }

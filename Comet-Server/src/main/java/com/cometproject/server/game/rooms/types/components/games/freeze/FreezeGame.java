@@ -41,11 +41,6 @@ public class FreezeGame extends RoomGameLogic {
 
     @Override
     public void tick(RoomGame roomGame) {
-        for (RoomItemFloor item : roomGame.getRoom().getItems().getByClass(FreezeTimerFloorItem.class)) {
-            item.getItemData().setData((roomGame.getGameLength() - roomGame.getTimer()) + "");
-            item.sendUpdate();
-        }
-
         for (FreezePlayer freezePlayer : this.players.values()) {
             if (freezePlayer.getFreezeTimer() > 0) {
                 freezePlayer.decrementFreezeTimer();
@@ -274,11 +269,6 @@ public class FreezeGame extends RoomGameLogic {
         for (FreezeExitFloorItem exitItem : roomGame.getRoom().getItems().getByClass(FreezeExitFloorItem.class)) {
             exitItem.getItemData().setData("0");
             exitItem.sendUpdate();
-        }
-
-        for (FreezeTimerFloorItem timer : roomGame.getRoom().getItems().getByClass(FreezeTimerFloorItem.class)) {
-            timer.getItemData().setData("0");
-            timer.sendUpdate();
         }
 
         for (PlayerEntity playerEntity : roomGame.getGameComponent().getPlayers()) {

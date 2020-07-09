@@ -18,7 +18,9 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
 import com.cometproject.server.game.rooms.objects.items.types.floor.*;
+import com.cometproject.server.game.rooms.objects.items.types.floor.games.GameTimerFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.highscore.HighscoreFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.wall.MoodlightWallItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
@@ -62,6 +64,10 @@ public class ItemsComponent {
     public ItemsComponent(Room room) {
         this.log = Logger.getLogger("Room Items Component [" + room.getData().getName() + "]");
         this.room = room;
+
+        this.itemClassIndex.put(HighscoreFloorItem.class, Sets.newConcurrentHashSet());
+        this.itemClassIndex.put(GameTimerFloorItem.class, Sets.newConcurrentHashSet());
+
         this.loadItems();
     }
 
@@ -320,10 +326,6 @@ public class ItemsComponent {
                 RoomItemFloor floorItem = this.getFloorItem(itemId);
 
                 if (floorItem == null || floorItem.getDefinition() == null) continue;
-
-                if (!floorItem.getClass().equals(clazz)) {
-                    continue;
-                }
 
                 T item = ((T) floorItem);
                 items.add(item);
@@ -732,11 +734,20 @@ public class ItemsComponent {
         floorItem.saveData();
     }
 
+
     private void indexItem(RoomItemFloor floorItem) {
         this.itemOwners.put(floorItem.getItemData().getOwnerId(), floorItem.getItemData().getOwnerName());
 
         if (!this.itemClassIndex.containsKey(floorItem.getClass())) {
             itemClassIndex.put(floorItem.getClass(), new HashSet<>());
+        }
+
+        if (floorItem instanceof HighscoreFloorItem) {
+            itemClassIndex.get(HighscoreFloorItem.class).add(floorItem.getId());
+        }
+
+        if (floorItem instanceof GameTimerFloorItem) {
+            itemClassIndex.get(GameTimerFloorItem.class).add(floorItem.getId());
         }
 
         if (!this.itemInteractionIndex.containsKey(floorItem.getDefinition().getInteraction())) {
@@ -746,6 +757,7 @@ public class ItemsComponent {
         this.itemClassIndex.get(floorItem.getClass()).add(floorItem.getId());
         this.itemInteractionIndex.get(floorItem.getDefinition().getInteraction()).add(floorItem.getId());
     }
+
 
     public SoundMachineFloorItem getSoundMachine() {
         if (this.soundMachineId != 0) {

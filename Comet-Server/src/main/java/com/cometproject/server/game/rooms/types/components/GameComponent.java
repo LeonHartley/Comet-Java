@@ -4,15 +4,12 @@ import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.football.FootballScoreFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.games.AbstractGameGateFloorItem;
-import com.cometproject.server.game.rooms.objects.items.types.floor.games.AbstractGameTimerFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.games.GameTimerFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.highscore.HighscorePerTeamFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerScoreAchieved;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.games.GameTeam;
-import com.cometproject.server.game.rooms.types.components.games.GameType;
 import com.cometproject.server.game.rooms.types.components.games.RoomGame;
-import com.cometproject.server.game.rooms.types.components.games.banzai.BanzaiGame;
-import com.cometproject.server.game.rooms.types.components.games.freeze.FreezeGame;
 import com.cometproject.server.network.messages.outgoing.room.permissions.YouArePlayingGameMessageComposer;
 import com.cometproject.server.utilities.collections.ConcurrentHashSet;
 import com.google.common.collect.Lists;
@@ -31,7 +28,7 @@ public class GameComponent {
     private Map<GameTeam, Integer> scores;
     private final Map<GameTeam, Set<AbstractGameGateFloorItem>> gates;
     private final Set<PlayerEntity> players;
-    private final Set<AbstractGameTimerFloorItem> gameTimers;
+    private final Set<GameTimerFloorItem> gameTimers;
 
     private boolean shootEnabled = true;
 
@@ -113,6 +110,13 @@ public class GameComponent {
         this.players.add(entity);
 
         entity.getPlayer().getSession().send(new YouArePlayingGameMessageComposer(true));
+        updateTeamGates(team);
+    }
+
+    private void updateTeamGates(GameTeam team) {
+        for (AbstractGameGateFloorItem gate : this.getRoom().getGame().getGates().get(team)) {
+            gate.updateTeamCount();
+        }
     }
 
     public void removeFromTeam(PlayerEntity entity) {
@@ -127,6 +131,7 @@ public class GameComponent {
         this.players.remove(entity);
 
         entity.getPlayer().getSession().send(new YouArePlayingGameMessageComposer(false));
+        updateTeamGates(entity.getGameTeam());
     }
 
     public void decreaseScore(GameTeam team, int amount) {
