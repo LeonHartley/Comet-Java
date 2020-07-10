@@ -1,4 +1,4 @@
-package com.cometproject.server.game.rooms.objects.items.types.floor.football;
+package com.cometproject.server.game.rooms.objects.items.types.floor.games.football;
 
 import com.cometproject.api.game.rooms.objects.data.RoomItemData;
 import com.cometproject.server.game.rooms.objects.items.types.floor.RollableFloorItem;

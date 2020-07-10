@@ -2,7 +2,7 @@ package com.cometproject.server.game.rooms.types.components;
 
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
-import com.cometproject.server.game.rooms.objects.items.types.floor.football.FootballScoreFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.games.football.FootballScoreFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.games.AbstractGameGateFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.games.GameTimerFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.highscore.HighscorePerTeamFloorItem;

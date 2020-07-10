@@ -1,4 +1,4 @@
-package com.cometproject.server.game.rooms.objects.items.types.floor.football;
+package com.cometproject.server.game.rooms.objects.items.types.floor.games.football;
 
 import com.cometproject.api.game.achievements.types.AchievementType;
 import com.cometproject.api.game.rooms.objects.data.RoomItemData;
@@ -35,7 +35,6 @@ public class FootballGoalFloorItem extends RoomItemFloor {
     @Override
     public void onItemAddedToStack(RoomItemFloor floorItem) {
         if (floorItem instanceof FootballFloorItem) {
-            this.getRoom().getGame().increaseScore(this.gameTeam, 1);
 
             final int playerId = this.getRoom().getData().getOwnerId();
 

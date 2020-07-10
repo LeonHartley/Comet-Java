@@ -9,7 +9,7 @@ import com.cometproject.server.game.rooms.objects.items.types.DefaultFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.DefaultWallItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.boutique.MannequinFloorItem;
-import com.cometproject.server.game.rooms.objects.items.types.floor.football.*;
+import com.cometproject.server.game.rooms.objects.items.types.floor.games.football.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.games.banzai.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.games.freeze.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupFloorItem;
@@ -36,7 +36,6 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.condit
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.conditions.positive.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.conditions.positive.custom.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.highscore.HighscoreClassicFloorItem;
-import com.cometproject.server.game.rooms.objects.items.types.floor.wired.highscore.HighscoreFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.highscore.HighscoreMostWinsFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.highscore.HighscorePerTeamFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.*;
