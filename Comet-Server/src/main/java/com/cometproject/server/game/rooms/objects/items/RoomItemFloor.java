@@ -98,6 +98,10 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable, IFlo
         // override me
     }
 
+    public void onItemAddedToStack(RoomItemFloor floorItem, RoomEntity trigger) {
+
+    }
+
     public void onEntityPreStepOn(RoomEntity entity) {
         // override me
     }

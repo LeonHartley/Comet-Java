@@ -1,6 +1,7 @@
 package com.cometproject.server.game.rooms.types.components;
 
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
+import com.cometproject.server.game.rooms.objects.items.RoomItem;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.games.football.FootballScoreFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.games.AbstractGameGateFloorItem;
@@ -18,6 +19,7 @@ import com.google.common.collect.Sets;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Consumer;
 
 
 public class GameComponent {
@@ -29,7 +31,7 @@ public class GameComponent {
     private final Map<GameTeam, Set<AbstractGameGateFloorItem>> gates;
     private final Set<PlayerEntity> players;
     private final Set<GameTimerFloorItem> gameTimers;
-
+    private final Set<RoomItem> eventConsumingItems;
     private boolean shootEnabled = true;
 
     public GameComponent(Room room) {
@@ -49,6 +51,7 @@ public class GameComponent {
 
         this.players = new ConcurrentHashSet<>();
         this.gameTimers = new ConcurrentHashSet<>();
+        this.eventConsumingItems = new ConcurrentHashSet<>();
 
         this.resetScores();
         this.room = room;
@@ -190,6 +193,14 @@ public class GameComponent {
         WiredTriggerScoreAchieved.executeTriggers(this.getRoom().getGame().getScore(team), team, this.getRoom());
     }
 
+    public void subscribe(RoomItem roomItem) {
+        this.eventConsumingItems.add(roomItem);
+    }
+
+    public void unsubscribe(RoomItem roomItem) {
+        this.eventConsumingItems.remove(roomItem);
+    }
+
     public Map<GameTeam, Set<AbstractGameGateFloorItem>> getGates() {
         return this.gates;
     }
@@ -198,6 +209,9 @@ public class GameComponent {
         return this.scores.get(team);
     }
 
+    public Set<RoomItem> getEventConsumers() {
+        return this.eventConsumingItems;
+    }
 
     public Map<GameTeam, List<Integer>> getTeams() {
         return teams;

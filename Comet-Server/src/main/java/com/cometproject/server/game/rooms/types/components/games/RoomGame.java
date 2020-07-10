@@ -1,6 +1,7 @@
 package com.cometproject.server.game.rooms.types.components.games;
 
 import com.cometproject.api.game.utilities.RandomUtil;
+import com.cometproject.server.game.rooms.objects.items.RoomItem;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.games.GameTimerFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.addons.WiredAddonBlob;
@@ -60,6 +61,10 @@ public class RoomGame implements CometTask {
                 onGameStarts();
             }
 
+            if (!this.isActive()) {
+                return;
+            }
+
             try {
                 if (this.getGameComponent().getBlobCounter().get() < 2) {
                     if (RandomUtil.getRandomBool(0.1)) {
@@ -101,6 +106,14 @@ public class RoomGame implements CometTask {
             this.gameLength = 0;
             this.timer = 0;
         }
+    }
+
+    public void pauseTimer() {
+        this.active = false;
+    }
+
+    public void continueTimer() {
+        this.active = true;
     }
 
     public BanzaiGame getBanzaiGame() {
@@ -180,6 +193,10 @@ public class RoomGame implements CometTask {
     }
 
     public void onGameStarts() {
+        for (RoomItem subscriber : this.getGameComponent().getEventConsumers()) {
+            subscriber.onGameStarts(this);
+        }
+
         for (RoomGameLogic logicHandler : this.logicHandlers) {
             logicHandler.onGameStarts(this);
         }
@@ -193,6 +210,10 @@ public class RoomGame implements CometTask {
         }
 
         WiredTriggerGameEnds.executeTriggers(this.room);
+
+        for (RoomItem subscriber : this.getGameComponent().getEventConsumers()) {
+            subscriber.onGameStarts(this);
+        }
     }
 
     public Logger getLog() {

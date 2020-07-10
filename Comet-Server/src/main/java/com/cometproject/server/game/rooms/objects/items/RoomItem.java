@@ -13,6 +13,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.games.footba
 import com.cometproject.server.game.rooms.objects.items.types.floor.games.banzai.BanzaiTeleporterFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredFloorItem;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.game.rooms.types.components.games.RoomGame;
 import com.cometproject.server.utilities.attributes.Attributable;
 import com.google.common.collect.Sets;
 import org.apache.commons.lang.StringUtils;
@@ -137,6 +138,14 @@ public abstract class RoomItem extends BigRoomFloorObject implements Attributabl
 
     public void onEntityLeaveRoom(RoomEntity entity) {
         // Override this
+    }
+
+    public void onGameStarts(RoomGame roomGame) {
+
+    }
+
+    public void onGameEnds(RoomGame roomGame) {
+
     }
 
     public void composeItemData(IComposer msg) {

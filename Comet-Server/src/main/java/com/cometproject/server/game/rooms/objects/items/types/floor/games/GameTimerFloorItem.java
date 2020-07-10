@@ -18,6 +18,7 @@ public abstract class GameTimerFloorItem extends RoomItemFloor {
     public boolean onInteract(RoomEntity entity, int requestData, boolean isWiredTriggered) {
         if (this.interactionBlocked(entity, isWiredTriggered)) return false;
 
+
         if (requestData == 2) {
             int time = 0;
 
@@ -49,6 +50,12 @@ public abstract class GameTimerFloorItem extends RoomItemFloor {
                         break;
                     case 300:
                         time = 600;
+                        break;
+                    case 600:
+                        time = 1200;
+                        break;
+                    case 1200:
+                        time = 1800;
                         break;
                 }
             } else {

@@ -39,7 +39,7 @@ public class FreezeTileFloorItem extends RoomItemFloor {
 
         final RoomGame game = this.getRoom().getGame().getInstance();
 
-        if (game == null) {
+        if (game == null || !game.isActive()) {
             return false;
         }
 

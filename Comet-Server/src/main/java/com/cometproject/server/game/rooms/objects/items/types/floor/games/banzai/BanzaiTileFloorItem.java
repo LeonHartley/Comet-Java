@@ -51,7 +51,7 @@ public class BanzaiTileFloorItem extends RoomItemFloor {
     @Override
     public void onEntityPostStepOn(RoomEntity entity) {
         final RoomGame gameInstance = this.getRoom().getGame().getInstance();
-        if (gameInstance == null || !(entity instanceof PlayerEntity)) {
+        if (gameInstance == null || !gameInstance.isActive() || !(entity instanceof PlayerEntity)) {
             return;
         }
 
@@ -153,7 +153,7 @@ public class BanzaiTileFloorItem extends RoomItemFloor {
 
             if (i == 0 || i == 2) {
                 nextXStep = (i == 0) ? 1 : -1;
-            } else if (i == 1 || i == 3) {
+            } else {
                 nextYStep = (i == 1) ? 1 : -1;
             }
 
@@ -163,7 +163,7 @@ public class BanzaiTileFloorItem extends RoomItemFloor {
             if (room.getMapping().getTile(nextX, nextY) != null) {
                 RoomItemFloor obj = room.getItems().getFloorItem(room.getMapping().getTile(nextX, nextY).getTopItem());
 
-                if (obj != null && obj instanceof BanzaiTileFloorItem) {
+                if (obj instanceof BanzaiTileFloorItem) {
                     final BanzaiTileFloorItem item = (BanzaiTileFloorItem) obj;
 
                     if (item.getTeam() == team && item.getPoints() == 3) {

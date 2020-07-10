@@ -345,7 +345,7 @@ public abstract class RollableFloorItem extends RoomItemFloor {
 
         // tell all other items on the new square that there's a new item. (good method of updating score...)
         for (RoomItemFloor floorItem : this.getRoom().getItems().getItemsOnSquare(pos.getX(), pos.getY())) {
-            floorItem.onItemAddedToStack(this);
+            floorItem.onItemAddedToStack(this, this.kickerEntity);
         }
 
         this.getPosition().setZ(pos.getZ());
