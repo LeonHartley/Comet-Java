@@ -99,7 +99,7 @@ public class RoomGame implements CometTask {
             blob.hideBlob();
         }
 
-        if (this.active && this.future != null) {
+        if (this.future != null) {
             this.future.cancel(false);
 
             this.active = false;
