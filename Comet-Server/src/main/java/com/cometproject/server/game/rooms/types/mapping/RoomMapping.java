@@ -325,12 +325,6 @@ public class RoomMapping {
 
         if (isAtDoor) return true;
 
-        if (fromHeight > toHeight) {
-            if (fromHeight - toHeight >= 3) {
-                return false;
-            }
-        }
-
         return !(fromHeight < toHeight && (toHeight - fromHeight) > 1.5);
     }
 

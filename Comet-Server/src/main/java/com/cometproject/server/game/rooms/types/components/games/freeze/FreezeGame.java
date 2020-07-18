@@ -11,6 +11,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.games.freeze
 import com.cometproject.server.game.rooms.objects.items.types.floor.games.freeze.FreezeTileFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.games.freeze.FreezeTimerFloorItem;
 import com.cometproject.server.game.rooms.types.components.games.GameTeam;
+import com.cometproject.server.game.rooms.types.components.games.GameType;
 import com.cometproject.server.game.rooms.types.components.games.RoomGame;
 import com.cometproject.server.game.rooms.types.components.games.RoomGameLogic;
 import com.cometproject.server.game.rooms.types.components.games.freeze.types.FreezeBall;
@@ -239,10 +240,12 @@ public class FreezeGame extends RoomGameLogic {
 
         // Everyone starts with 40 points & 3 lives.
         for (PlayerEntity playerEntity : roomGame.getRoom().getGame().getPlayers()) {
-            this.players.put(playerEntity.getPlayerId(), new FreezePlayer(playerEntity));
+            if (playerEntity.getGameType() == GameType.FREEZE) {
+                this.players.put(playerEntity.getPlayerId(), new FreezePlayer(playerEntity));
 
-            roomGame.getGameComponent().increaseScore(playerEntity.getGameTeam(), 40);
-            playerEntity.getRoom().getEntities().broadcastMessage(new UpdateFreezeLivesMessageComposer(playerEntity.getId(), 3));
+                roomGame.getGameComponent().increaseScore(playerEntity, 40);
+                playerEntity.getRoom().getEntities().broadcastMessage(new UpdateFreezeLivesMessageComposer(playerEntity.getId(), 3));
+            }
         }
 
         for (FreezeBlockFloorItem blockItem : roomGame.getRoom().getItems().getByClass(FreezeBlockFloorItem.class)) {

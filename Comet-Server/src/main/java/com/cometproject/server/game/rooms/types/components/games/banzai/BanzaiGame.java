@@ -53,10 +53,11 @@ public class BanzaiGame extends RoomGameLogic {
 
         for (RoomItemFloor item : game.getRoom().getItems().getByClass(BanzaiTileFloorItem.class)) {
             if (item instanceof BanzaiTileFloorItem) {
-                if (((BanzaiTileFloorItem) item).getTeam() == winningTeam && winningTeam != GameTeam.NONE) {
-                    ((BanzaiTileFloorItem) item).flash();
+                final BanzaiTileFloorItem tileItem = (BanzaiTileFloorItem) item;
+                if (tileItem.getTeam() == winningTeam && winningTeam != GameTeam.NONE && tileItem.getPoints() == 3) {
+                    tileItem.flash();
                 } else {
-                    ((BanzaiTileFloorItem) item).onGameEnds();
+                    tileItem.onGameEnds();
                 }
             }
         }
@@ -71,9 +72,9 @@ public class BanzaiGame extends RoomGameLogic {
         game.getGameComponent().resetScores();
     }
 
-    public void increaseScore(RoomGame game, GameTeam team, int amount) {
-        game.getGameComponent().increaseScore(team, amount);
-        this.updateScoreboard(game, team);
+    public void increaseScore(RoomGame game, PlayerEntity player, int amount) {
+        game.getGameComponent().increaseScore(player, amount);
+        this.updateScoreboard(game, player.getGameTeam());
     }
 
     public void updateScoreboard(RoomGame roomGame, GameTeam team) {

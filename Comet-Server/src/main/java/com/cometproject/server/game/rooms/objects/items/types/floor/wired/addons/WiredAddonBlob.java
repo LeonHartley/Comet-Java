@@ -46,7 +46,7 @@ public class WiredAddonBlob extends RoomItemFloor {
         }
 
         // reward the team (check which one it is first!)
-        this.getRoom().getGame().increaseScore(playerEntity.getGameTeam(), 1);
+        this.getRoom().getGame().increaseScore(playerEntity, 1);
         this.hideBlob();
     }
 }

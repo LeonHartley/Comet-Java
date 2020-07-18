@@ -5,6 +5,7 @@ import com.cometproject.server.utilities.comporators.HighscoreComparator;
 import com.google.common.collect.Lists;
 
 import java.text.Collator;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -13,7 +14,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class ScoreboardItemData {
     private final static HighscoreComparator comparator = new HighscoreComparator();
 
-    private final Map<String, HighscoreEntry> entries;
+    private final Map<String, List<HighscoreEntry>> entries;
     private long lastClearTimestamp;
     private List<HighscoreEntry> currentSortedScores;
     private int currentLowestScore;
@@ -22,16 +23,19 @@ public class ScoreboardItemData {
         this.lastClearTimestamp = lastClear;
         this.entries = new ConcurrentHashMap<>();
 
+        this.currentLowestScore = 0;
+        this.currentSortedScores = null;
+
         loadEntries(entries);
     }
 
     private void loadEntries(List<HighscoreEntry> entries) {
         for (HighscoreEntry entry : entries) {
-            addEntry(entry, true);
+            addEntry(entry, false);
         }
     }
 
-    public List<HighscoreEntry> getTopScores(int maxEntries) {
+    public List<HighscoreEntry> getTopScores() {
         if (this.currentSortedScores != null) {
             return this.currentSortedScores;
         }
@@ -40,10 +44,12 @@ public class ScoreboardItemData {
             return Lists.newArrayList();
         }
 
-        final List<HighscoreEntry> allEntries = Lists.newArrayList(this.entries.values());
+        final List<HighscoreEntry> allEntries = this.entries.values().stream()
+                .collect(ArrayList::new, List::addAll, List::addAll);
+
         allEntries.sort(comparator);
 
-        final int lastEntryIndex = Math.min(entries.size(), maxEntries);
+        final int lastEntryIndex = Math.min(allEntries.size(), 50);
         final List<HighscoreEntry> sortedTopScores = allEntries.subList(0, lastEntryIndex);
         if (sortedTopScores.size() == 0) {
             return Lists.newArrayList();
@@ -74,19 +80,27 @@ public class ScoreboardItemData {
                     existingEntry.score = existingEntry.score + entry.score;
                 }
             } else {
-                this.entries.put(teamKey, entry);
+                this.entries.put(teamKey, Lists.newArrayList(entry));
             }
         } else {
-            this.entries.put(teamKey, entry);
+            if (this.entries.containsKey(teamKey)) {
+                this.entries.get(teamKey).add(entry);
+            } else {
+                this.entries.put(teamKey, Lists.newArrayList(entry));
+            }
         }
 
-        if (this.currentSortedScores != null && this.currentLowestScore < entry.score) {
+        if (this.currentSortedScores != null && (this.currentSortedScores.size() < 50 || this.currentLowestScore < entry.score)) {
             this.currentSortedScores = null;
         }
     }
 
     private HighscoreEntry getEntryByKey(String teamKey) {
-        return this.entries.get(teamKey);
+        if (this.entries.containsKey(teamKey)) {
+            return this.entries.get(teamKey).stream().findFirst().orElse(null);
+        }
+
+        return null;
     }
 
     private String createTeamKey(List<String> users) {
@@ -110,6 +124,11 @@ public class ScoreboardItemData {
 
         this.currentLowestScore = 0;
         this.lastClearTimestamp = Comet.getTime();
+    }
+
+    public void reorder() {
+        this.currentSortedScores = null;
+        this.currentLowestScore = 0;
     }
 
     public long getLastClearTimestamp() {

@@ -104,6 +104,7 @@ public class Player extends Observable implements IPlayer {
     private long lastTradeFlood = 0;
     private long lastPhotoTaken = 0;
     private double itemPlacementHeight = -1;
+    private int itemPlacementState = -1;
     private String ssoTicket;
     private Set<Integer> recentPurchases;
 
@@ -860,8 +861,16 @@ public class Player extends Observable implements IPlayer {
         return itemPlacementHeight;
     }
 
+    public int getItemPlacementState() {
+        return itemPlacementState;
+    }
+
     public void setItemPlacementHeight(double itemPlacementHeight) {
         this.itemPlacementHeight = itemPlacementHeight;
+    }
+
+    public void setItemPlacementState(int state) {
+        this.itemPlacementState = state;
     }
 
     public Set<Integer> getListeningPlayers() {

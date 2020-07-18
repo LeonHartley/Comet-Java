@@ -88,6 +88,16 @@ public class PlaceItemMessageEvent implements Event {
                 RoomItemFloor floorItem = client.getPlayer().getEntity().getRoom().getItems().getFloorItem(item.getId());
 
                 if (floorItem != null) {
+                    final int stateCount = floorItem.getDefinition().getInteractionCycleCount();
+                    final int placementState = client.getPlayer().getItemPlacementState();
+                    if (placementState != -1 && stateCount > 0 && client.getPlayer().getItemPlacementState() <= stateCount) {
+                        floorItem.getItemData().setData(placementState);
+
+                        floorItem.getTile().reload();
+                        floorItem.sendUpdate();
+                        floorItem.save();
+                    }
+
                     RoomTile tile = floorItem.getTile();
 
                     if (tile != null) {

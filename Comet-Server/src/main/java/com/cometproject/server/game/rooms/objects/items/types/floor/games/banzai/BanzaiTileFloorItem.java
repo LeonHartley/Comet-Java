@@ -75,7 +75,7 @@ public class BanzaiTileFloorItem extends RoomItemFloor {
 
         if (this.points == 3) {
             ((PlayerEntity) entity).getPlayer().getAchievements().progressAchievement(AchievementType.BB_TILES_LOCKED, 1);
-            gameInstance.getBanzaiGame().increaseScore(gameInstance, gameTeam, 1);
+            gameInstance.getBanzaiGame().increaseScore(gameInstance, (PlayerEntity) entity, 1);
             gameInstance.getBanzaiGame().decreaseTileCount();
 
             final List<BanzaiTileFloorItem> rectangle = buildBanzaiRectangle(this, this.getPosition().getX(), this.getPosition().getY(), 0, 0, -1, 4, gameTeam);
@@ -109,7 +109,7 @@ public class BanzaiTileFloorItem extends RoomItemFloor {
                             tileItem.setTeam(this.gameTeam);
 
                             ((PlayerEntity) entity).getPlayer().getAchievements().progressAchievement(AchievementType.BB_TILES_LOCKED, 1);
-                            gameInstance.getBanzaiGame().increaseScore(gameInstance, gameTeam, 1);
+                            gameInstance.getBanzaiGame().increaseScore(gameInstance, (PlayerEntity) entity, 1);
                             gameInstance.getBanzaiGame().decreaseTileCount();
                             tileItem.updateTileData();
                         }

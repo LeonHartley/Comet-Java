@@ -108,14 +108,6 @@ public class RoomGame implements CometTask {
         }
     }
 
-    public void pauseTimer() {
-        this.active = false;
-    }
-
-    public void continueTimer() {
-        this.active = true;
-    }
-
     public BanzaiGame getBanzaiGame() {
         return (BanzaiGame) this.logicHandlers[0];
     }
@@ -141,14 +133,45 @@ public class RoomGame implements CometTask {
         return this.room.getGame();
     }
 
+    public void onGameStarts() {
+        this.getGameComponent().resetScores(true);
+
+        for (RoomItem subscriber : this.getGameComponent().getEventConsumers()) {
+            subscriber.onGameStarts(this);
+        }
+
+        this.getGameComponent().getGameTimers().clear();
+        for (GameTimerFloorItem item : this.getRoom().getItems().getByClass(GameTimerFloorItem.class)) {
+            this.getGameComponent().getGameTimers().add(item);
+        }
+
+        for (RoomGameLogic logicHandler : this.logicHandlers) {
+            logicHandler.onGameStarts(this);
+        }
+
+        WiredTriggerGameStarts.executeTriggers(this.getRoom());
+    }
+
     public void tick() {
-        for (RoomItemFloor item : this.getRoom().getItems().getByClass(GameTimerFloorItem.class)) {
+        for (GameTimerFloorItem item : this.getGameComponent().getGameTimers()) {
             item.getItemData().setData((this.getGameLength() - this.getTimer()) + "");
             item.sendUpdate();
         }
 
         for (RoomGameLogic logicHandler : this.logicHandlers) {
             logicHandler.tick(this);
+        }
+    }
+
+    public void onGameEnds() {
+        for (RoomGameLogic logicHandler : this.logicHandlers) {
+            logicHandler.onGameEnds(this);
+        }
+
+        WiredTriggerGameEnds.executeTriggers(this.room);
+
+        for (RoomItem subscriber : this.getGameComponent().getEventConsumers()) {
+            subscriber.onGameStarts(this);
         }
     }
 
@@ -190,30 +213,6 @@ public class RoomGame implements CometTask {
         }
 
         return winningTeam != null ? winningTeam.getKey() : GameTeam.NONE;
-    }
-
-    public void onGameStarts() {
-        for (RoomItem subscriber : this.getGameComponent().getEventConsumers()) {
-            subscriber.onGameStarts(this);
-        }
-
-        for (RoomGameLogic logicHandler : this.logicHandlers) {
-            logicHandler.onGameStarts(this);
-        }
-
-        WiredTriggerGameStarts.executeTriggers(this.getRoom());
-    }
-
-    public void onGameEnds() {
-        for (RoomGameLogic logicHandler : this.logicHandlers) {
-            logicHandler.onGameEnds(this);
-        }
-
-        WiredTriggerGameEnds.executeTriggers(this.room);
-
-        for (RoomItem subscriber : this.getGameComponent().getEventConsumers()) {
-            subscriber.onGameStarts(this);
-        }
     }
 
     public Logger getLog() {

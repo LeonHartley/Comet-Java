@@ -29,14 +29,21 @@ public abstract class HighscoreFloorItem extends RoomItemFloor {
 
         this.clearType = ScoreboardClearType.getByFurniType(Integer.parseInt(this.getDefinition().getItemName().split("\\*")[1]));
 
-        if (roomItemData.getData().startsWith("1{") || roomItemData.getData().startsWith("0{")) {
-            this.state = data.startsWith("1");
-            this.itemData = JsonUtil.getInstance().fromJson(data.substring(1), ScoreboardItemData.class);
-        } else {
+        ScoreboardItemData scoreboardItemData = null;
+        try {
+            if (roomItemData.getData().startsWith("1{") || roomItemData.getData().startsWith("0{")) {
+                this.state = data.startsWith("1");
+                scoreboardItemData = JsonUtil.getInstance().fromJson(data.substring(1), ScoreboardItemData.class);
+            } else {
+                this.state = false;
+                scoreboardItemData = new ScoreboardItemData(Comet.getTime(), Lists.newCopyOnWriteArrayList());
+            }
+        } catch (Exception e) {
             this.state = false;
-            this.itemData = new ScoreboardItemData(Comet.getTime(), Lists.newCopyOnWriteArrayList());
+            scoreboardItemData = new ScoreboardItemData(Comet.getTime(), Lists.newCopyOnWriteArrayList());
         }
 
+        this.itemData = scoreboardItemData;
         this.clear(false);
     }
 
@@ -111,13 +118,17 @@ public abstract class HighscoreFloorItem extends RoomItemFloor {
 
     public abstract void onTeamWins(List<String> users, int score);
 
-    void addEntry(List<String> users, int score, boolean updateExisting) {
-        addEntry(users, score, updateExisting, false);
+    void addEntry(List<String> users, int score) {
+        addEntry(users, score, false, false);
     }
 
     void addEntry(List<String> users, int score, boolean updateExisting, boolean increaseExisting) {
         this.itemData.addEntry(new ScoreboardItemData.HighscoreEntry(users, score), updateExisting, increaseExisting);
 
+        this.update();
+    }
+
+    public void update() {
         this.sendUpdate();
         this.saveData();
     }
@@ -139,7 +150,7 @@ public abstract class HighscoreFloorItem extends RoomItemFloor {
         msg.writeInt(this.getScoreType());
         msg.writeInt(this.getClearType().getClearTypeId());
 
-        final List<ScoreboardItemData.HighscoreEntry> highscores = this.getScoreData().getTopScores(50);
+        final List<ScoreboardItemData.HighscoreEntry> highscores = this.getScoreData().getTopScores();
         msg.writeInt(highscores.size());
 
         for (ScoreboardItemData.HighscoreEntry entry : highscores) {

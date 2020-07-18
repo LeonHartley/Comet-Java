@@ -59,26 +59,28 @@ public class GameComponent {
 
     public void increaseScore(PlayerEntity playerEntity, int score) {
         final GameTeam team = playerEntity.getGameTeam();
+        List<String> players = Lists.newArrayList();
 
-        if (this.gameTimers.size() == 0) {
-            // legacy highscore support, allow usage without a timer
-            final List<String> players = new ArrayList<>();
-            if (team == GameTeam.NONE) {
-                players.add(playerEntity.getUsername());
-            } else {
-                for (int playerId : this.teams.get(team)) {
-                    final PlayerEntity teamPlayer = this.getRoom().getEntities().getEntityByPlayerId(playerId);
-                    if (teamPlayer != null) {
-                        players.add(teamPlayer.getUsername());
-                    }
+        if (team == GameTeam.NONE) {
+            players.add(playerEntity.getUsername());
+        } else {
+            for (int playerId : this.teams.get(team)) {
+                final PlayerEntity teamPlayer = this.getRoom().getEntities().getEntityByPlayerId(playerId);
+                if (teamPlayer != null) {
+                    players.add(teamPlayer.getUsername());
                 }
             }
+        }
 
-            for (HighscorePerTeamFloorItem scoreboard : this.getRoom().getItems().getByClass(HighscorePerTeamFloorItem.class)) {
-                scoreboard.onScoreIncrease(players, score);
-            }
-        } else if (team != GameTeam.NONE) {
+        if (team != GameTeam.NONE) {
             this.increaseScore(team, score);
+        }
+
+        for (HighscorePerTeamFloorItem scoreboard : this.getRoom().getItems().getByClass(HighscorePerTeamFloorItem.class)) {
+            final int currentScore = team != GameTeam.NONE ? this.getScore(team) : 0;
+            final boolean hasTimers = this.gameTimers.size() > 0;
+
+            scoreboard.onScoreIncrease(players, score, currentScore, hasTimers);
         }
     }
 
@@ -203,6 +205,10 @@ public class GameComponent {
 
     public Map<GameTeam, Set<AbstractGameGateFloorItem>> getGates() {
         return this.gates;
+    }
+
+    public Set<GameTimerFloorItem> getGameTimers() {
+        return this.gameTimers;
     }
 
     public int getScore(GameTeam team) {
