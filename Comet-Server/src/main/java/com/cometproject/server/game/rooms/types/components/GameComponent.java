@@ -137,6 +137,9 @@ public class GameComponent {
 
         entity.getPlayer().getSession().send(new YouArePlayingGameMessageComposer(false));
         updateTeamGates(entity.getGameTeam());
+
+        entity.applyTeamEffect(null);
+        entity.setGameTeam(GameTeam.NONE, null);
     }
 
     public void decreaseScore(GameTeam team, int amount) {

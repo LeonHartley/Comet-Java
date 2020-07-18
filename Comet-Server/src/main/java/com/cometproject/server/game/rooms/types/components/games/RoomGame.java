@@ -82,7 +82,7 @@ public class RoomGame implements CometTask {
                 log.error("Failed to process game tick", e);
             }
 
-            if (timer >= gameLength) {
+            if (timer >= gameLength || finished) {
                 gameEnds();
                 room.getGame().stop();
                 this.stop();
@@ -171,7 +171,7 @@ public class RoomGame implements CometTask {
         WiredTriggerGameEnds.executeTriggers(this.room);
 
         for (RoomItem subscriber : this.getGameComponent().getEventConsumers()) {
-            subscriber.onGameStarts(this);
+            subscriber.onGameEnds(this);
         }
     }
 
@@ -249,6 +249,7 @@ public class RoomGame implements CometTask {
 
     public void setFinished(boolean finished) {
         this.finished = finished;
+        this.timer = this.gameLength;
     }
 
     public Room getRoom() {

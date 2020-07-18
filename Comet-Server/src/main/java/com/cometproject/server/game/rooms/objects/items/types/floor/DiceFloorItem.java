@@ -24,12 +24,15 @@ public class DiceFloorItem extends RoomItemFloor {
 
         if (!isWiredTrigger && !entity.getPosition().touching(this.getPosition())) {
             Position posInFront = this.getPosition().squareInFront(this.getRotation());
-            entity.moveTo(posInFront.getX(), posInFront.getY());
 
-            RoomTile tile = this.getRoom().getMapping().getTile(posInFront.getX(), posInFront.getY());
+            if (entity.canWalk()) {
+                entity.moveTo(posInFront.getX(), posInFront.getY());
 
-            if (tile != null) {
-                tile.scheduleEvent(entity.getId(), (e) -> onInteract(e, requestData, false));
+                RoomTile tile = this.getRoom().getMapping().getTile(posInFront.getX(), posInFront.getY());
+
+                if (tile != null) {
+                    tile.scheduleEvent(entity.getId(), (e) -> onInteract(e, requestData, false));
+                }
             }
 
             return false;

@@ -11,6 +11,7 @@ import com.cometproject.server.game.rooms.types.components.games.RoomGame;
 import com.cometproject.server.game.rooms.types.components.games.freeze.FreezeGame;
 import com.cometproject.server.game.rooms.types.components.games.freeze.types.FreezePlayer;
 import com.cometproject.server.game.rooms.types.components.games.freeze.types.FreezePowerUp;
+import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 
 public class FreezeBlockFloorItem extends RoomItemFloor {
 
@@ -19,6 +20,23 @@ public class FreezeBlockFloorItem extends RoomItemFloor {
 
     public FreezeBlockFloorItem(RoomItemData itemData, Room room) {
         super(itemData, room);
+    }
+
+
+    @Override
+    public boolean onInteract(RoomEntity entity, int requestData, boolean isWiredTrigger) {
+        if (this.destroyed) {
+            final RoomTile roomTile = this.getTile();
+            if (roomTile.getItems().size() > 1) {
+                for (RoomItemFloor floorItem : roomTile.getItems()) {
+                    if (floorItem instanceof FreezeTileFloorItem) {
+                        return floorItem.onInteract(entity, requestData, isWiredTrigger);
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 
     @Override
@@ -77,6 +95,14 @@ public class FreezeBlockFloorItem extends RoomItemFloor {
 
         this.setPowerUp(FreezePowerUp.getRandom());
         this.getTile().reload();
+    }
+
+    public double getOverrideHeight() {
+        if (this.destroyed) {
+            return 0.01;
+        } else {
+            return -1d;
+        }
     }
 
     private void updateState(FreezePowerUp powerUp, boolean fadeAway) {

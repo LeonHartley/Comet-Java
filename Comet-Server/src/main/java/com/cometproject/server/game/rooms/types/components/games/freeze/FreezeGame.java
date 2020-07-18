@@ -120,7 +120,7 @@ public class FreezeGame extends RoomGameLogic {
                                     entity.applyEffect(new PlayerEffect(12, 10));//5sec
 
                                     entity.cancelWalk();
-                                    entity.setCanWalk(false);
+                                    entity.freezeFor(10);
                                 }
                             }
                         }
@@ -145,6 +145,7 @@ public class FreezeGame extends RoomGameLogic {
 
     private void playerLost(RoomGame roomGame, FreezePlayer freezePlayer) {
         final FreezeExitFloorItem exitItem = this.getExitTile(roomGame);
+        freezePlayer.getEntity().applyEffect(null);
         freezePlayer.getEntity().teleportToItem(exitItem);
 
         this.players.remove(freezePlayer.getEntity().getPlayerId());
@@ -160,7 +161,7 @@ public class FreezeGame extends RoomGameLogic {
             }
         }
 
-        if (teams == 1) {
+        if (teams <= 1) {
             this.gameComplete(roomGame);
         }
     }
@@ -183,6 +184,8 @@ public class FreezeGame extends RoomGameLogic {
         for (FreezePlayer freezePlayer : this.players.values()) {
             freezePlayer.getEntity().teleportToItem(exitItem);
         }
+
+        roomGame.setFinished(true);
     }
 
     private GameTeam getBestTeam(RoomGame roomGame) {
@@ -237,6 +240,7 @@ public class FreezeGame extends RoomGameLogic {
     @Override
     public void onGameStarts(RoomGame roomGame) {
         this.activeBalls.clear();
+        this.players.clear();
 
         // Everyone starts with 40 points & 3 lives.
         for (PlayerEntity playerEntity : roomGame.getRoom().getGame().getPlayers()) {
@@ -268,6 +272,12 @@ public class FreezeGame extends RoomGameLogic {
             blockItem.getItemData().setData("0");
             blockItem.sendUpdate();
         }
+
+        for (FreezeTileFloorItem tileItem : roomGame.getRoom().getItems().getByClass(FreezeTileFloorItem.class)) {
+            tileItem.getItemData().setData("0");
+            tileItem.sendUpdate();
+        }
+
 
         for (FreezeExitFloorItem exitItem : roomGame.getRoom().getItems().getByClass(FreezeExitFloorItem.class)) {
             exitItem.getItemData().setData("0");

@@ -27,8 +27,16 @@ public class WiredActionGiveScore extends WiredActionItem {
             this.getWiredData().getParams().put(PARAM_SCORE, 1);
             this.getWiredData().getParams().put(PARAM_PER_GAME, 1);
         }
+    }
 
+    @Override
+    public void onLoad() {
         this.getRoom().getGame().subscribe(this);
+    }
+
+    @Override
+    public void onPlaced() {
+        this.onLoad();
     }
 
     @Override
@@ -67,7 +75,7 @@ public class WiredActionGiveScore extends WiredActionItem {
     }
 
     @Override
-    public void onGameEnds(RoomGame roomGame) {
+    public void onGameStarts(RoomGame roomGame) {
         this.awardedPlayers.clear();
     }
 

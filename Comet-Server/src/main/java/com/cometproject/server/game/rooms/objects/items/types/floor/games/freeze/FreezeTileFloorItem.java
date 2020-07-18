@@ -34,7 +34,9 @@ public class FreezeTileFloorItem extends RoomItemFloor {
                 return false;
             }
 
-            entity.moveTo(this.getPosition());
+            if (entity.canWalk()) {
+                entity.moveTo(this.getPosition());
+            }
         }
 
         final RoomGame game = this.getRoom().getGame().getInstance();
